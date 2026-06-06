@@ -4,6 +4,6 @@ import net.minecraft.client.MinecraftClient;
 
 public interface IMinecraftInstance {
 
-    MinecraftClient mc = mc;
+    MinecraftClient mc = MinecraftClient.getInstance();
 
 }

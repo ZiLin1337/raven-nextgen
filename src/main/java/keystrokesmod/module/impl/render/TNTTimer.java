@@ -46,7 +46,7 @@ public class TNTTimer extends Module {
         if (!Utils.nullCheck() || trackedTntCount == 0) return;
 
         Vec3d camPos = mc.gameRenderer.getCamera().getPos();
-        TextRenderer fr = mc.textRenderer;
+        TextRenderer fr = MinecraftClient.getInstance().textRenderer;
 
         for (int i = 0; i < trackedTntCount; i++) {
             TntEntity tnt = trackedTnt.get(i);

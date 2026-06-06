@@ -12,7 +12,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import java.util.*;
 
 public class AntiDebuff extends Module {
-    private static final MinecraftClient mc = mc;
+    private static final MinecraftClient mc = MinecraftClient.getInstance();
     private final SliderSetting mode;
     private final ButtonSetting showOverlay, showWarning;
 
@@ -39,9 +39,9 @@ public class AntiDebuff extends Module {
         }
         if (hasDebuff && showWarning.isToggled()) {
             String warning = "DEBUFF ACTIVE!";
-            int x = mc.getWindow().getScaledWidth() / 2 - mc.textRenderer.getWidth(warning) / 2;
+            int x = mc.getWindow().getScaledWidth() / 2 - MinecraftClient.getInstance().textRenderer.getWidth(warning) / 2;
             int y = mc.getWindow().getScaledHeight() / 2 - 20;
-            ctx.drawTextWithShadow(mc.textRenderer, warning, x, y, 0xFFFF0000);
+            ctx.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, warning, x, y, 0xFFFF0000);
         }
     }
 

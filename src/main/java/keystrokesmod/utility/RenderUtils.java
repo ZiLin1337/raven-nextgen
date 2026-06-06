@@ -574,7 +574,7 @@ String s = "";
             }
             s += Utils.round(h, 3);
         }
-        mc.textRenderer.drawString(s, (float)(scaledResolution.getScaledWidth() / 2 - mc.textRenderer.getStringWidth(s) / 2), (float)(scaledResolution.getScaledHeight() / 2 + 15), n, false);
+        MinecraftClient.getInstance().textRenderer.drawString(s, (float)(scaledResolution.getScaledWidth() / 2 - MinecraftClient.getInstance().textRenderer.getStringWidth(s) / 2), (float)(scaledResolution.getScaledHeight() / 2 + 15), n, false);
     }
 
     public static void renderEntity(Entity e, int type, double expand, double shift, int color, boolean damage) {
@@ -776,7 +776,7 @@ String s = "";
     }
 
     public static void renderBlockModel(BlockState blockState, double x, double y, double z, int color) {
-        MinecraftClient mc = mc;
+        MinecraftClient mc = MinecraftClient.getInstance();
         BlockRendererDispatcher dispatcher = mc.getBlockRendererDispatcher();
         IBakedModel model = dispatcher.getModelFromBlockState(blockState, mc.world, new BlockPos(x, y, z));
 

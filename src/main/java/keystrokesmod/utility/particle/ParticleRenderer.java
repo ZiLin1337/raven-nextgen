@@ -13,7 +13,7 @@ import org.lwjgl.opengl.GL11;
  * Renders particles using OpenGL.
  */
 public class ParticleRenderer {
-    private static final MinecraftClient mc = mc;
+    private static final MinecraftClient mc = MinecraftClient.getInstance();
 
     /**
      * Render all particles in the engine.

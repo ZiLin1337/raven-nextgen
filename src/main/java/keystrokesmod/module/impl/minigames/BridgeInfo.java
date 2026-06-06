@@ -115,10 +115,10 @@ public class BridgeInfo extends Module {
                 return;
             }
 
-            mc.textRenderer.drawString(this.enemyText + this.enemyName, (float) hudX, (float) hudY, textRGB, true);
-            mc.textRenderer.drawString(this.distance + this.d1, (float) hudX, (float) (hudY + 11), textRGB, true);
-            mc.textRenderer.drawString(this.enemyDistance + this.d2, (float) hudX, (float) (hudY + 22), textRGB, true);
-            mc.textRenderer.drawString(this.blocks + this.blc, (float) hudX, (float) (hudY + 33), textRGB, true);
+            MinecraftClient.getInstance().textRenderer.drawString(this.enemyText + this.enemyName, (float) hudX, (float) hudY, textRGB, true);
+            MinecraftClient.getInstance().textRenderer.drawString(this.distance + this.d1, (float) hudX, (float) (hudY + 11), textRGB, true);
+            MinecraftClient.getInstance().textRenderer.drawString(this.enemyDistance + this.d2, (float) hudX, (float) (hudY + 22), textRGB, true);
+            MinecraftClient.getInstance().textRenderer.drawString(this.blocks + this.blc, (float) hudX, (float) (hudY + 33), textRGB, true);
         }
 
     }

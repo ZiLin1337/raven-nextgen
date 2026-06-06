@@ -68,7 +68,7 @@ import java.util.concurrent.Executors;
 
 public class ScriptDefaults {
     private static ExecutorService cachedExecutor;
-    private static final MinecraftClient mc = mc;
+    private static final MinecraftClient mc = MinecraftClient.getInstance();
     public static final Bridge bridge = new Bridge();
     private static final LinkedHashMap<String, Module> modulesMap = new LinkedHashMap<>();
 

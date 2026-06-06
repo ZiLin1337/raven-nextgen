@@ -20,7 +20,7 @@ public class ModuleList extends Module {
     }
 
     public void onRenderOverlay(DrawContext context) {
-        TextRenderer tr = mc.textRenderer;
+        TextRenderer tr = MinecraftClient.getInstance().textRenderer;
         java.util.List<Module> enabled = Raven.moduleManager.getModules().stream()
                 .filter(m -> m.isEnabled() && !m.moduleCategory().equals(Module.category.client))
                 .sorted(Comparator.comparing(m -> -tr.getWidth(m.getName()))).toList();

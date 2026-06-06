@@ -6,7 +6,7 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.client.MinecraftClient;
 
 public class FakeChat extends Module {
-    private static final MinecraftClient mc = mc;
+    private static final MinecraftClient mc = MinecraftClient.getInstance();
     private SliderSetting mode;
     private String[] modes = {"Prefix", "Suffix", "Replace"};
     private String fakeMessage;

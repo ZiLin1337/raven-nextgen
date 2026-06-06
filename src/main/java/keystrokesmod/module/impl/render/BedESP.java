@@ -474,7 +474,7 @@ public class BedESP extends Module {
         }
 
         Object renderManager = mc.getEntityRenderDispatcher();
-        TextRenderer fontRenderer = mc.textRenderer;
+        TextRenderer fontRenderer = MinecraftClient.getInstance().textRenderer;
         if (renderManager == null || fontRenderer == null) {
             return;
         }

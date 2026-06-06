@@ -73,7 +73,7 @@ public class FrozenEntitySync {
      */
     public void pumpFrame() {
         if (!active) return;
-        MinecraftClient mc = mc;
+        MinecraftClient mc = MinecraftClient.getInstance();
         if (mc.world == null || mc.player == null) return;
 
         drainLiveQueue();

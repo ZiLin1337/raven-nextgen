@@ -14,7 +14,7 @@ import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.item.ItemStack;
 
 public class PacketHandler {
-    private static final MinecraftClient mc = mc;
+    private static final MinecraftClient mc = MinecraftClient.getInstance();
 
     public static Packet<?> convertCPacket(CPacket cPacket) {
         if (cPacket instanceof C0A) {

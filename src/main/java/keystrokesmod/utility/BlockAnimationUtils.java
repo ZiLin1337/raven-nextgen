@@ -36,7 +36,7 @@ public final class BlockAnimationUtils {
             return false;
         }
 
-        MinecraftClient mc = mc;
+        MinecraftClient mc = MinecraftClient.getInstance();
         return mc.getItemRenderer() != null && ((IMixinItemRenderer) mc.getItemRenderer()).isRenderItemInUse();
     }
 }

@@ -220,18 +220,18 @@ public class FallView extends Module {
 
          scaledResolution = null; // int removed for 1.21.4
         if (showDamageText && damageText != null) {
-            mc.textRenderer.drawStringWithShadow(
+            MinecraftClient.getInstance().textRenderer.drawStringWithShadow(
                     damageText,
-                    scaledResolution.getScaledWidth() / 2 - mc.textRenderer.getStringWidth(damageText) / 2,
+                    scaledResolution.getScaledWidth() / 2 - MinecraftClient.getInstance().textRenderer.getStringWidth(damageText) / 2,
                     scaledResolution.getScaledHeight() / 2 - 15,
                     Color.WHITE.getRGB()
             );
         }
 
         if (showDistanceText && distanceText != null) {
-            mc.textRenderer.drawStringWithShadow(
+            MinecraftClient.getInstance().textRenderer.drawStringWithShadow(
                     distanceText,
-                    scaledResolution.getScaledWidth() / 2 - mc.textRenderer.getStringWidth(distanceText) / 2,
+                    scaledResolution.getScaledWidth() / 2 - MinecraftClient.getInstance().textRenderer.getStringWidth(distanceText) / 2,
                     scaledResolution.getScaledHeight() / 2 + 6,
                     distanceTextColor
             );

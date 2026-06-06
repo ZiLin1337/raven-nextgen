@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 public class MixinGameSettings {
     @Overwrite
     public static boolean isKeyPressed(KeyBinding key) {
-        MinecraftClient mc = mc;
+        MinecraftClient mc = MinecraftClient.getInstance();
         SafeWalk safewalk = ModuleManager.safeWalk;
         if (key == mc.options.sneakKey && safewalk != null && safewalk.isEnabled() && safewalk.sneak.isToggled() && safewalk.isSneaking) {
             return true;

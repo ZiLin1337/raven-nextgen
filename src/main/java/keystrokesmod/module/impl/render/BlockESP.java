@@ -20,7 +20,7 @@ import org.lwjgl.opengl.GL11;
 import java.util.*;
 
 public class BlockESP extends Module {
-    private static final MinecraftClient mc = mc;
+    private static final MinecraftClient mc = MinecraftClient.getInstance();
     private final SliderSetting range, mode;
     private final ButtonSetting showOres, showChests, showSpawners, showOutline, showFill;
     private final SliderSetting colorR, colorG, colorB, colorA;

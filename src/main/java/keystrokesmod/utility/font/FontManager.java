@@ -132,11 +132,11 @@ public final class FontManager {
     }
 
     private static RavenFontRenderer getMinecraftRenderer(float fontSize) {
-        MinecraftClient mc = mc;
-        float vanillaHeight = Math.max(1.0f, mc.textRenderer.fontHeight);
+        MinecraftClient mc = MinecraftClient.getInstance();
+        float vanillaHeight = Math.max(1.0f, MinecraftClient.getInstance().textRenderer.fontHeight);
         float scale = Math.max(0.5f, Math.min(2.0f, fontSize / vanillaHeight));
         String key = MINECRAFT + "#" + quantizeForCacheKey(scale);
-        return getCachedRenderer(key, () -> new MinecraftFontAdapter(mc.textRenderer));
+        return getCachedRenderer(key, () -> new MinecraftFontAdapter(MinecraftClient.getInstance().textRenderer));
     }
 
     public static boolean isMinecraftFont(String family) {

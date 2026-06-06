@@ -27,7 +27,7 @@ public class NetworkPlayer {
     public GameProfile getGameProfile() { return gameProfile; }
 
     public String getFormattedDisplayName() {
-        MinecraftClient mc = mc;
+        MinecraftClient mc = MinecraftClient.getInstance();
         if (mc.player != null && gameProfile.getId().equals(mc.player.getUuid())) {
             return mc.player.getDisplayName().getString();
         }

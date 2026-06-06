@@ -13,7 +13,7 @@ import java.util.UUID;
 import java.util.UUID;
 
 public class LatencyAlerts extends Module {
-    private static final MinecraftClient mc = mc;
+    private static final MinecraftClient mc = MinecraftClient.getInstance();
     private SliderSetting threshold;
     private SliderSetting mode;
     private ButtonSetting chatAlert;

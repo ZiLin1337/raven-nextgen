@@ -6,7 +6,7 @@ import keystrokesmod.command.impl.Toggle;
 import net.minecraft.client.MinecraftClient;
 
 public class KeyStrokeCommand {
-    private static MinecraftClient mc = mc;
+    private static MinecraftClient mc = MinecraftClient.getInstance();
 
     public static void execute(String cmd) {
         if (cmd.startsWith("keystroke")) {

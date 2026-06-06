@@ -47,7 +47,7 @@ public void onRenderWorld(Object e) {
         RenderSystem.disableDepth();
         GL11.glEnable(GL11.GL_BLEND);
         int colorAlpha = Utils.mergeAlpha(-1, Math.max(10, (int) (255 * progress)));
-        mc.textRenderer.drawString(this.progressStr, (float) (-mc.textRenderer.getStringWidth(this.progressStr) / 2), -3.0f, fadeIn.isToggled() ? colorAlpha : -1, true);
+        MinecraftClient.getInstance().textRenderer.drawString(this.progressStr, (float) (-MinecraftClient.getInstance().textRenderer.getStringWidth(this.progressStr) / 2), -3.0f, fadeIn.isToggled() ? colorAlpha : -1, true);
         GL11.glDisable(GL11.GL_BLEND);
         RenderSystem.enableDepth();
         RenderSystem.depthMask(true);

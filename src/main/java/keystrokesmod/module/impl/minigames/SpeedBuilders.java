@@ -235,13 +235,13 @@ public class SpeedBuilders extends Module {
             int padding = 4;
             int maxWidth = 0;
             for (String line : lines) {
-                int lineWidth = mc.textRenderer.getStringWidth(line);
+                int lineWidth = MinecraftClient.getInstance().textRenderer.getStringWidth(line);
                 if (lineWidth > maxWidth) {
                     maxWidth = lineWidth;
                 }
             }
 
-            int lineHeight = mc.textRenderer.FONT_HEIGHT;
+            int lineHeight = MinecraftClient.getInstance().textRenderer.FONT_HEIGHT;
             int lineSpacing = 3;
             int totalHeight = lines.size() * lineHeight + (lines.size() - 1) * lineSpacing + padding * 2;
             int totalWidth = maxWidth + padding * 2;
@@ -255,7 +255,7 @@ public class SpeedBuilders extends Module {
             float textY = y + padding;
 
             for (int i = 0; i < lines.size(); i++) {
-                mc.textRenderer.drawString(lines.get(i), (int) (textX + 5), (int) (textY + i * (lineHeight + lineSpacing)), -1);
+                MinecraftClient.getInstance().textRenderer.drawString(lines.get(i), (int) (textX + 5), (int) (textY + i * (lineHeight + lineSpacing)), -1);
             }
         }
     }

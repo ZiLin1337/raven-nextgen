@@ -5,7 +5,7 @@ import keystrokesmod.module.setting.impl.*;
 import net.minecraft.client.MinecraftClient;
 
 public class FastMine extends Module {
-    private static final MinecraftClient mc = mc;
+    private static final MinecraftClient mc = MinecraftClient.getInstance();
     private SliderSetting speed;
     private SliderSetting mode;
     private ButtonSetting doubleBreak;

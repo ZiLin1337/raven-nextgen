@@ -249,7 +249,7 @@ public class Nametags extends Module {
 
     private void renderNametags(float partialTicks) {
         Object renderManager = mc.getEntityRenderDispatcher();
-        TextRenderer itemTextRenderer = mc.textRenderer;
+        TextRenderer itemTextRenderer = MinecraftClient.getInstance().textRenderer;
         RavenFontRenderer textRenderer = getNametagTextRenderer();
         if (renderManager == null || itemTextRenderer == null || renderStateCount == 0) {
             return;

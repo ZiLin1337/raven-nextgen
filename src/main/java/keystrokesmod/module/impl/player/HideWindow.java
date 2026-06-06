@@ -272,7 +272,7 @@ if (!dragging) {
             String message = "Drag the icon to reposition it.";
             int textX = resolution.getScaledWidth() / 2 - fontRendererObj.getStringWidth(message) / 2;
             int textY = resolution.getScaledHeight() / 2 - 10;
-            RenderUtils.drawColoredString(message, '-', textX, textY, 2L, 0L, true, mc.textRenderer);
+            RenderUtils.drawColoredString(message, '-', textX, textY, 2L, 0L, true, MinecraftClient.getInstance().textRenderer);
 
             try {
                 handleInput();

@@ -110,13 +110,13 @@ public void onRenderWorld(Object renderWorldLastEvent) {
         final int screenWidth = mc.getWindow().getScaledWidth();
         final int screenHeight = mc.getWindow().getScaledHeight();
         final int padding = 8;
-        final int targetStrWithPadding = mc.textRenderer.getStringWidth(string) + padding;
+        final int targetStrWithPadding = MinecraftClient.getInstance().textRenderer.getStringWidth(string) + padding;
         final int x = (screenWidth / 2 - targetStrWithPadding / 2) + posX;
         final int y = (screenHeight / 2 + 15) + posY;
         final int n6 = x - padding;
         final int n7 = y - padding;
         final int n8 = x + targetStrWithPadding;
-        final int n9 = y + (mc.textRenderer.FONT_HEIGHT + 5) - 6 + padding;
+        final int n9 = y + (MinecraftClient.getInstance().textRenderer.FONT_HEIGHT + 5) - 6 + padding;
         final int alpha = (fadeTimer == null) ? 255 : (255 - fadeTimer.getValueInt(0, 255, 1));
         if (alpha > 0) {
             final int maxAlphaOutline = (alpha > 110) ? 110 : alpha;
@@ -179,7 +179,7 @@ public void onRenderWorld(Object renderWorldLastEvent) {
             }
             GL11.glPushMatrix();
             GL11.glEnable(GL11.GL_BLEND);
-            mc.textRenderer.drawString(string, (float) x, (float) y, (new Color(220, 220, 220, 255).getRGB() & 0xFFFFFF) | Utils.clamp(alpha + 15) << 24, true);
+            MinecraftClient.getInstance().textRenderer.drawString(string, (float) x, (float) y, (new Color(220, 220, 220, 255).getRGB() & 0xFFFFFF) | Utils.clamp(alpha + 15) << 24, true);
             GL11.glDisable(GL11.GL_BLEND);
             GL11.glPopMatrix();
         }
@@ -235,9 +235,9 @@ public void onRenderWorld(Object renderWorldLastEvent) {
             if (showStatus.isToggled()) {
                 playerInfo = playerInfo + " " + ((health <= Utils.getTotalHealth(mc.player) / mc.player.getMaxHealth()) ? "§aW" : "§cL");
             }
-            int stringWidth = mc.textRenderer.getStringWidth(playerInfo) + 8;
-            int maX = (scrW / 2 - stringWidth / 2) + miX + mc.textRenderer.getStringWidth(playerInfo) + 8;
-            int maY = (scrH / 2 + 15) +  miY + (mc.textRenderer.FONT_HEIGHT + 5) - 6 + 8;
+            int stringWidth = MinecraftClient.getInstance().textRenderer.getStringWidth(playerInfo) + 8;
+            int maX = (scrW / 2 - stringWidth / 2) + miX + MinecraftClient.getInstance().textRenderer.getStringWidth(playerInfo) + 8;
+            int maY = (scrH / 2 + 15) +  miY + (MinecraftClient.getInstance().textRenderer.FONT_HEIGHT + 5) - 6 + 8;
             this.miX = miX;
             this.miY = miY;
             this.maX = maX;

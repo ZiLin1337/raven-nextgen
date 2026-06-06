@@ -16,7 +16,7 @@ public class WaterMark extends Module {
     }
 
     public void onRenderOverlay(DrawContext context) {
-        TextRenderer tr = mc.textRenderer;
+        TextRenderer tr = MinecraftClient.getInstance().textRenderer;
         String text = "Raven NextGen [1.21.4]";
         context.drawText(tr, text, (int)x.getInput(), (int)y.getInput(), 0xFF00FF00, true);
     }

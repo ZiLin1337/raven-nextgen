@@ -35,7 +35,7 @@ import net.minecraft.util.Hand;
  * Inspired by LiquidBounce's SwordBlock + KillAuraAutoBlock.
  */
 public class Autoblock extends Module {
-    private static final MinecraftClient mc = mc;
+    private static final MinecraftClient mc = MinecraftClient.getInstance();
 
     private final SliderSetting mode;
     private final SliderSetting unblockMode;
