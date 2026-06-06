@@ -1,4 +1,5 @@
 package keystrokesmod;
+import keystrokesmod.module.Module;
 import meteordevelopment.orbit.EventHandler;
 import keystrokesmod.module.Module;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -25,6 +26,7 @@ public class Raven implements ClientModInitializer {
     public static Object scriptManager;
     public static Object currentProfile;
     public static final IEventBus EVENT_BUS = new EventBus();
+    public static IEventBus getEventBus() { return EVENT_BUS; }
     
     @Override
     public void onInitializeClient() {

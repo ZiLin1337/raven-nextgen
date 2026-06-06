@@ -1,4 +1,6 @@
 package keystrokesmod.utility;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.client.network.ClientPlayerEntity;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -103,7 +105,7 @@ public class FrozenEntitySync {
      * and prevRotation == rotation. This prevents the changing renderPartialTicks
      * from shifting the player's rendered position/rotation between frames.
      */
-    private void snapLocalPlayerInterpolation(PlayerEntitySP player) {
+    private void snapLocalPlayerInterpolation(ClientPlayerEntity player) {
         player.lastTickPosX = player.posX;
         player.lastTickPosY = player.posY;
         player.lastTickPosZ = player.posZ;
@@ -136,7 +138,7 @@ public class FrozenEntitySync {
     }
 
     private void tickNonLocalEntities(MinecraftClient mc) {
-        PlayerEntitySP local = mc.player;
+        ClientPlayerEntity local = mc.player;
 
         for (int i = 0; i < mc.world.weatherEffects.size(); i++) {
             Entity entity = mc.world.weatherEffects.get(i);

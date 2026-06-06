@@ -1,4 +1,10 @@
 package keystrokesmod.utility;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.MathHelper;
 
 import com.google.common.base.Predicates;
 import keystrokesmod.event.PreMotionEvent;

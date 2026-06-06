@@ -1,4 +1,5 @@
 package keystrokesmod.utility.profile;
+import keystrokesmod.module.setting.impl.TextSetting;
 
 import keystrokesmod.Raven;
 import keystrokesmod.clickgui.ClickGui;

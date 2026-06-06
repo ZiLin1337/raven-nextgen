@@ -31,7 +31,7 @@ public interface RavenFontRenderer {
         return drawGlyphString(text, x, y, colorProvider, false);
     }
 
-    default int drawStringWithShadow(String text, float x, float y, int color) {
+    default int drawWithShadow(String text, float x, float y, int color) {
         return drawString(text, x, y, color, true);
     }
 
@@ -75,9 +75,9 @@ class MinecraftFontAdapter implements RavenFontRenderer {
     @Override
     public int drawString(String text, float x, float y, int color, boolean shadow) {
         if (shadow) {
-            return textRenderer.drawStringWithShadow(text, x, y, color);
+            return textRenderer.drawWithShadow(text, x, y, color);
         }
-        return textRenderer.draw(text, x, y, color);
+        return textRenderer.drawWithShadow(text, x, y, color);
     }
 
     @Override
@@ -95,9 +95,9 @@ class MinecraftFontAdapter implements RavenFontRenderer {
                     int color = colorProvider.colorForGlyph('\0', segmentStartX,
                         textRenderer.getWidth(currentSegment.toString()), formattingColor);
                     if (shadow) {
-                        textRenderer.drawStringWithShadow(currentSegment.toString(), currentX, y, color);
+                        textRenderer.drawWithShadow(currentSegment.toString(), currentX, y, color);
                     } else {
-                        textRenderer.draw(currentSegment.toString(), currentX, y, color);
+                        textRenderer.drawWithShadow(currentSegment.toString(), currentX, y, color);
                     }
                     currentX += textRenderer.getWidth(currentSegment.toString());
                     currentSegment = new StringBuilder();
@@ -116,9 +116,9 @@ class MinecraftFontAdapter implements RavenFontRenderer {
             int color = colorProvider.colorForGlyph('\0', segmentStartX,
                 textRenderer.getWidth(currentSegment.toString()), formattingColor);
             if (shadow) {
-                textRenderer.drawStringWithShadow(currentSegment.toString(), currentX, y, color);
+                textRenderer.drawWithShadow(currentSegment.toString(), currentX, y, color);
             } else {
-                textRenderer.draw(currentSegment.toString(), currentX, y, color);
+                textRenderer.drawWithShadow(currentSegment.toString(), currentX, y, color);
             }
             currentX += textRenderer.getWidth(currentSegment.toString());
         }

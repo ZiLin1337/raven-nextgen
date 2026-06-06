@@ -1,4 +1,6 @@
 package keystrokesmod.utility;
+import keystrokesmod.event.SendPacketEvent;
+import net.minecraft.network.packet.Packet;
 
 import keystrokesmod.event.ReceivePacketEvent;
 
