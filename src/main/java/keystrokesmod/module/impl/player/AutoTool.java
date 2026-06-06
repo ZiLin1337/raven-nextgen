@@ -4,7 +4,7 @@ import keystrokesmod.event.PrePlayerInteractEvent;
 import keystrokesmod.event.PreSlotScrollEvent;
 import keystrokesmod.event.SlotUpdateEvent;
 
-import keystrokesmod.mixin.interfaces.IMixinItemRenderer;
+// import IMixinItemRenderer removed
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.BlockListSetting;
 import keystrokesmod.module.setting.impl.ButtonSetting;

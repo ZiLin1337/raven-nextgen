@@ -1,6 +1,6 @@
 package keystrokesmod.utility;
 
-import keystrokesmod.mixin.interfaces.IMixinItemRenderer;
+// import IMixinItemRenderer removed
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.inventory.*;

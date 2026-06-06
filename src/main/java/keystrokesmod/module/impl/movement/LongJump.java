@@ -2,7 +2,7 @@ package keystrokesmod.module.impl.movement;
 
 import keystrokesmod.event.PrePlayerInputEvent;
 import keystrokesmod.event.*;
-import keystrokesmod.mixin.interfaces.IMixinItemRenderer;
+// import IMixinItemRenderer removed
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.setting.impl.ButtonSetting;
