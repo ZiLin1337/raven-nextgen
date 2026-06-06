@@ -1182,7 +1182,7 @@ String s = "";
     }
 
     public static net.minecraft.client.gl.Framebuffer createFrameBuffer(net.minecraft.client.gl.Framebuffer framebuffer, boolean depth) {
-        if (needsNewnet.minecraft.client.gl.Framebuffer(framebuffer)) {
+        if (needsNewFramebuffer(framebuffer)) {
             if (framebuffer != null) {
                 framebuffer.deletenet.minecraft.client.gl.Framebuffer();
             }
@@ -1191,11 +1191,11 @@ String s = "";
         return framebuffer;
     }
 
-    public static boolean needsNewnet.minecraft.client.gl.Framebuffer(net.minecraft.client.gl.Framebuffer framebuffer) {
+    public static boolean needsNewFramebuffer(net.minecraft.client.gl.Framebuffer framebuffer) {
         return framebuffer == null || framebuffer.framebufferWidth != mc.displayWidth || framebuffer.framebufferHeight != mc.displayHeight;
     }
 
-    public static void drawnet.minecraft.client.gl.FramebufferFullscreen(net.minecraft.client.gl.Framebuffer framebuffer) {
+    public static void drawFramebufferFullscreen(net.minecraft.client.gl.Framebuffer framebuffer) {
         if (framebuffer == null) return;
 RenderSystem.bindTexture(framebuffer.framebufferTexture);
         GL11.glBegin(GL11.GL_QUADS);

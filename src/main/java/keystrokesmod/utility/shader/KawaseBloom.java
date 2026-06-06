@@ -21,7 +21,7 @@ public class KawaseBloom implements IMinecraftInstance {
 
     private static final List<net.minecraft.client.gl.Framebuffer> framebufferList = new ArrayList<>();
 
-    private static void initnet.minecraft.client.gl.Framebuffers(float iterations) {
+    private static void initFramebuffers(float iterations) {
         for (net.minecraft.client.gl.Framebuffer framebuffer : framebufferList) {
             framebuffer.deletenet.minecraft.client.gl.Framebuffer();
         }
@@ -45,7 +45,7 @@ public class KawaseBloom implements IMinecraftInstance {
 
     public static void renderBlur(int framebufferTexture, int iterations, float offset) {
         if (currentIterations != iterations || (framebuffer.framebufferWidth != mc.displayWidth || framebuffer.framebufferHeight != mc.displayHeight)) {
-            initnet.minecraft.client.gl.Framebuffers(iterations);
+            initFramebuffers(iterations);
             currentIterations = iterations;
         }
 

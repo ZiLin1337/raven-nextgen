@@ -32,7 +32,7 @@ public class PlayerHUD extends Module {
     public static float posX = 5.0f;
     public static float posY = 70.0f;
 
-    public HUD() {
+    public PlayerHUD() {
         super("HUD", Module.category.render);
         this.registerSetting(colorMode = new SliderSetting("Color mode", 0, COLOR_MODES));
         this.registerSetting(hudColor = new ColorSetting("Color", 255, 255, 255));

@@ -67,7 +67,7 @@ public class PlayerESP extends Module {
     private int renderStateCount;
     private int visibleRenderStateCount;
 
-    private net.minecraft.client.gl.Framebuffer outlinenet.minecraft.client.gl.Framebuffer;
+    private net.minecraft.client.gl.Framebuffer outlineFramebuffer;
     private final OutlineShader outlineShader = new OutlineShader();
     private final GlowShader glowShader = new GlowShader();
 
@@ -173,12 +173,12 @@ public void onRenderWorld(RenderWorldLastEvent e) {
 
     private void runOutlinePass(float partialTicks) {
         if (!outlineShader.isValid() || !glowShader.isValid() || visibleRenderStateCount == 0) return;
-        outlinenet.minecraft.client.gl.Framebuffer = RenderUtils.createFrameBuffer(outlinenet.minecraft.client.gl.Framebuffer, false);
-        if (outlinenet.minecraft.client.gl.Framebuffer == null) return;
+        outlineFramebuffer = RenderUtils.createFrameBuffer(outlineFramebuffer, false);
+        if (outlineFramebuffer == null) return;
 
         RenderSystem.pushMatrix();
         RenderSystem.pushAttrib();
-        outlinenet.minecraft.client.gl.Framebuffer.bindnet.minecraft.client.gl.Framebuffer(false);
+        outlineFramebuffer.bindnet.minecraft.client.gl.Framebuffer(false);
         ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(partialTicks, 0);
         boolean shadows = mc.gameSettings.entityShadows;
         mc.gameSettings.entityShadows = false;
@@ -203,9 +203,9 @@ public void onRenderWorld(RenderWorldLastEvent e) {
         mc.entityRenderer.setupOverlayRendering();
         mc.getnet.minecraft.client.gl.Framebuffer().bindnet.minecraft.client.gl.Framebuffer(false);
         outlineShader.use();
-        RenderUtils.drawnet.minecraft.client.gl.FramebufferFullscreen(outlinenet.minecraft.client.gl.Framebuffer);
+        RenderUtils.drawnet.minecraft.client.gl.FramebufferFullscreen(outlineFramebuffer);
         outlineShader.stop();
-        outlinenet.minecraft.client.gl.Framebuffer.framebufferClear();
+        outlineFramebuffer.framebufferClear();
         mc.getnet.minecraft.client.gl.Framebuffer().bindnet.minecraft.client.gl.Framebuffer(false);
         RenderSystem.popAttrib();
         RenderSystem.popMatrix();
