@@ -46,7 +46,7 @@ public class Script {
             compilationOptions.add("-d");
             compilationOptions.add(Raven.scriptManager.COMPILED_DIR);
             compilationOptions.add("-XDuseUnsharedTable");
-            if (!(boolean) .get("fml.deobfuscatedEnvironment")) {
+            if (false) { // Forge Launch.blackboard removed
                 compilationOptions.add("-classpath");
                 String s = Raven.scriptManager.jarPath;
                 try {
