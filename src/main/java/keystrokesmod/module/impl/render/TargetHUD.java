@@ -110,11 +110,12 @@ public void onRenderWorld(RenderWorldLastEvent renderWorldLastEvent) {
         if (showStatus.isToggled()) {
             string = string + " " + ((health <= Utils.getTotalHealth(mc.player) / mc.player.getMaxHealth()) ? "§aW" : "§cL");
         }
-        final  scaledResolution = null; // int removed for 1.21.4
+        final int screenWidth = mc.getWindow().getScaledWidth();
+        final int screenHeight = mc.getWindow().getScaledHeight();
         final int padding = 8;
         final int targetStrWithPadding = mc.textRenderer.getStringWidth(string) + padding;
-        final int x = (scaledResolution.getScaledWidth() / 2 - targetStrWithPadding / 2) + posX;
-        final int y = (scaledResolution.getScaledHeight() / 2 + 15) + posY;
+        final int x = (screenWidth / 2 - targetStrWithPadding / 2) + posX;
+        final int y = (screenHeight / 2 + 15) + posY;
         final int n6 = x - padding;
         final int n7 = y - padding;
         final int n8 = x + targetStrWithPadding;
@@ -221,7 +222,8 @@ public void onRenderWorld(RenderWorldLastEvent renderWorldLastEvent) {
         }
 
         public void drawScreen(int mX, int mY, float pt) {
-             res = null; // int removed for 1.21.4
+            final int scrW = mc.getWindow().getScaledWidth();
+            final int scrH = mc.getWindow().getScaledHeight();
             drawRect(0, 0, this.width, this.height, -1308622848);
             int miX = this.aX;
             int miY = this.aY;
@@ -237,8 +239,8 @@ public void onRenderWorld(RenderWorldLastEvent renderWorldLastEvent) {
                 playerInfo = playerInfo + " " + ((health <= Utils.getTotalHealth(mc.player) / mc.player.getMaxHealth()) ? "§aW" : "§cL");
             }
             int stringWidth = mc.textRenderer.getStringWidth(playerInfo) + 8;
-            int maX = (res.getScaledWidth() / 2 - stringWidth / 2) + miX + mc.textRenderer.getStringWidth(playerInfo) + 8;
-            int maY = (res.getScaledHeight() / 2 + 15) +  miY + (mc.textRenderer.FONT_HEIGHT + 5) - 6 + 8;
+            int maX = (scrW / 2 - stringWidth / 2) + miX + mc.textRenderer.getStringWidth(playerInfo) + 8;
+            int maY = (scrH / 2 + 15) +  miY + (mc.textRenderer.FONT_HEIGHT + 5) - 6 + 8;
             this.miX = miX;
             this.miY = miY;
             this.maX = maX;
@@ -247,7 +249,7 @@ public void onRenderWorld(RenderWorldLastEvent renderWorldLastEvent) {
             posX = miX;
             posY = miY;
             String edit = "Edit the HUD position by dragging.";
-            int x = res.getScaledWidth() / 2 - fontRendererObj.getStringWidth(edit) / 2;
+            int x = scrW / 2 - fontRendererObj.getStringWidth(edit) / 2;
             int y = mc.getWindow().getScaledHeight() / 2 - 20;
             RenderUtils.drawColoredString(edit, '-', x, y, 2L, 0L, true, this.mc.textRenderer);
 

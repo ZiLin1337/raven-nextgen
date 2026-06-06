@@ -120,8 +120,8 @@ public class PotionHUD extends Module {
     }
 
     private void render(boolean editing) {
-         resolution = null; // int removed for 1.21.4
-        syncPositionToResolution(resolution);
+        final int screenWidth = mc.getWindow().getScaledWidth();
+        final int screenHeight = mc.getWindow().getScaledHeight();
 
         RenderState state = buildRenderState(editing);
         if (state.entries.isEmpty()) {
@@ -265,17 +265,17 @@ public class PotionHUD extends Module {
         RenderUtils.drawRect(right - 1.0f, top, right, bottom, EDIT_OUTLINE_COLOR);
     }
 
-    private void adjustAnchorForLayoutChanges( resolution, RenderState state) {
+    private void adjustAnchorForLayoutChanges(int resolution, RenderState state) {
         syncPositionToResolution(resolution);
     }
 
     private void syncPositionToResolution() {
-        syncPositionToResolution(null);
+        syncPositionToResolution(0);
     }
 
-    private void syncPositionToResolution( resolution) {
-        int scaledWidth = Math.max(1, resolution.getScaledWidth());
-        int scaledHeight = Math.max(1, resolution.getScaledHeight());
+    private void syncPositionToResolution(int resolution) {
+        int scaledWidth = Math.max(1, mc.getWindow().getScaledWidth());
+        int scaledHeight = Math.max(1, mc.getWindow().getScaledHeight());
 
         if (Float.isNaN(relativePosX) || Float.isNaN(relativePosY)) {
             if (Float.isNaN(posX) || Float.isNaN(posY)) {
@@ -292,11 +292,11 @@ public class PotionHUD extends Module {
         posY = relativePosY * scaledHeight;
     }
 
-    private void setAbsolutePosition(float absoluteX, float absoluteY,  resolution) {
+    private void setAbsolutePosition(float absoluteX, float absoluteY, int resolution) {
         posX = absoluteX;
         posY = absoluteY;
-        int scaledWidth = Math.max(1, resolution.getScaledWidth());
-        int scaledHeight = Math.max(1, resolution.getScaledHeight());
+        int scaledWidth = Math.max(1, mc.getWindow().getScaledWidth());
+        int scaledHeight = Math.max(1, mc.getWindow().getScaledHeight());
         relativePosX = absoluteX / scaledWidth;
         relativePosY = absoluteY / scaledHeight;
     }
@@ -460,25 +460,26 @@ public class PotionHUD extends Module {
         public void initGui() {
             super.initGui();
             this.buttonList.add(this.resetPosition = new GuiButtonExt(1, this.width - 90, this.height - 25, 85, 20, "Reset position"));
-            syncPositionToResolution(null);
+            syncPositionToResolution(0);
             this.actualX = posX;
             this.actualY = posY;
         }
 
         @Override
         public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-             resolution = null; // int removed for 1.21.4
+             final int scrW = mc.getWindow().getScaledWidth();
+            final int scrH = mc.getWindow().getScaledHeight();
             if (!this.dragging) {
-                syncPositionToResolution(resolution);
+                syncPositionToResolution(0);
                 this.actualX = posX;
                 this.actualY = posY;
             }
 
             drawRect(0, 0, this.width, this.height, -1308622848);
-            setAbsolutePosition(this.actualX, this.actualY, resolution);
+            setAbsolutePosition(this.actualX, this.actualY, 0);
 
             RenderState state = buildRenderState(true);
-            adjustAnchorForLayoutChanges(resolution, state);
+            adjustAnchorForLayoutChanges(0, state);
             Bounds bounds = renderState(state);
             drawBounds(bounds);
 
@@ -490,8 +491,8 @@ public class PotionHUD extends Module {
             this.actualY = posY;
 
             String message = "Edit the HUD position by dragging.";
-            int textX = resolution.getScaledWidth() / 2 - this.fontRendererObj.getStringWidth(message) / 2;
-            int textY = resolution.getScaledHeight() / 2 - 20;
+            int textX = mc.getWindow().getScaledWidth() / 2 - this.fontRendererObj.getStringWidth(message) / 2;
+            int textY = mc.getWindow().getScaledHeight() / 2 - 20;
             RenderUtils.drawColoredString(message, '-', textX, textY, 2L, 0L, true, this.mc.textRenderer);
 
             try {
