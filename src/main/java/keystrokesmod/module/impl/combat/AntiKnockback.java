@@ -11,7 +11,6 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.network.play.server.S27PacketExplosion;
 
-import org.lwjgl.input.Mouse;
 
 public class AntiKnockback extends Module {
     private SliderSetting horizontal;
@@ -74,7 +73,7 @@ public class AntiKnockback extends Module {
                     mc.player.motionZ = ((double) s12PacketEntityVelocity.getMotionZ() / 8000) * horizontal.getInput() / 100.0;
                 }
                 if (boostMultiplier.getInput() != 1) {
-                    if (boostWithLMB.isToggled() && !Mouse.isButtonDown(0)) {
+                    if (boostWithLMB.isToggled() && !GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) {
                         return;
                     }
                     Utils.setSpeed(Utils.getHorizontalSpeed() * boostMultiplier.getInput());

@@ -12,7 +12,6 @@ import keystrokesmod.script.model.SimulatedPlayer;
 import keystrokesmod.utility.BlockUtils;
 import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
@@ -214,7 +213,7 @@ public class BridgeAssist extends Module {
         if (!sneakKeyPressed.isToggled()) {
             e.setSneak(false);
         } else if (sneakingFromModule && isManualSneak() && (placed || !mc.player.onGround)) {
-            KeyBinding.setKeyBindState(mc.gameSettings.keyBindSneak.getKeyCode(), false);
+            InputUtil.setKeyPressed(mc.gameSettings.keyBindSneak.getKeyCode(), false);
             e.setSneak(false);
             forceRelease = true;
         } else if (forceRelease) {
@@ -228,7 +227,7 @@ public class BridgeAssist extends Module {
 
     private void repressSneak(PrePlayerInputEvent e) {
         if (forceRelease && isManualSneak()) {
-            KeyBinding.setKeyBindState(mc.gameSettings.keyBindSneak.getKeyCode(), true);
+            InputUtil.setKeyPressed(mc.gameSettings.keyBindSneak.getKeyCode(), true);
             e.setSneak(true);
         }
         forceRelease = false;

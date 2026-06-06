@@ -52,10 +52,10 @@ public class Saturation extends Module {
             ShaderGroup shader = new ShaderGroup(
                     mc.getTextureManager(),
                     mc.getResourceManager(),
-                    mc.getFramebuffer(),
+                    mc.getnet.minecraft.client.gl.Framebuffer(),
                     SHADER_LOCATION
             );
-            shader.createBindFramebuffers(mc.displayWidth, mc.displayHeight);
+            shader.createBindnet.minecraft.client.gl.Framebuffers(mc.displayWidth, mc.displayHeight);
             ISaturationRenderer ren = getSaturationRenderer();
             if (ren != null) ren.raven$setSaturationShader(shader);
             lastSaturation = (float) saturationSlider.getInput();

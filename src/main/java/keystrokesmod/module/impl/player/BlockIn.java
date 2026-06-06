@@ -18,12 +18,10 @@ import net.minecraft.block.BlockFence;
 import net.minecraft.block.BlockWall;
 import net.minecraft.client.util.math.MatrixStack;
 
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
 
-import org.lwjgl.input.Mouse;
 
 import java.util.*;
 
@@ -177,8 +175,8 @@ public class BlockIn extends Module {
             clearAim();
         }
 
-        KeyBinding.setKeyBindState(mc.gameSettings.keyBindAttack.getKeyCode(), false);
-        KeyBinding.setKeyBindState(mc.gameSettings.keyBindUseItem.getKeyCode(), false);
+        InputUtil.setKeyPressed(mc.gameSettings.keyBindAttack.getKeyCode(), false);
+        InputUtil.setKeyPressed(mc.gameSettings.keyBindUseItem.getKeyCode(), false);
         equipPlannedSlot();
     }
 
@@ -286,8 +284,8 @@ public void onMouse(MouseEvent e) {
         plannedSlot = -1;
 
         if (mc.currentScreen == null) {
-            KeyBinding.setKeyBindState(mc.gameSettings.keyBindAttack.getKeyCode(), Mouse.isButtonDown(0));
-            KeyBinding.setKeyBindState(mc.gameSettings.keyBindUseItem.getKeyCode(), Mouse.isButtonDown(1));
+            InputUtil.setKeyPressed(mc.gameSettings.keyBindAttack.getKeyCode(), GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS);
+            InputUtil.setKeyPressed(mc.gameSettings.keyBindUseItem.getKeyCode(), GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS);
         }
     }
 

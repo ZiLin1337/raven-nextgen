@@ -14,7 +14,6 @@ import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.culling.Frustum;
 
 import net.minecraft.client.resources.model.IBakedModel;
-import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -1178,25 +1177,25 @@ String s = "";
         RenderSystem.disableBlend();
     }
 
-    public static Framebuffer createFrameBuffer(Framebuffer framebuffer) {
+    public static net.minecraft.client.gl.Framebuffer createFrameBuffer(net.minecraft.client.gl.Framebuffer framebuffer) {
         return createFrameBuffer(framebuffer, false);
     }
 
-    public static Framebuffer createFrameBuffer(Framebuffer framebuffer, boolean depth) {
-        if (needsNewFramebuffer(framebuffer)) {
+    public static net.minecraft.client.gl.Framebuffer createFrameBuffer(net.minecraft.client.gl.Framebuffer framebuffer, boolean depth) {
+        if (needsNewnet.minecraft.client.gl.Framebuffer(framebuffer)) {
             if (framebuffer != null) {
-                framebuffer.deleteFramebuffer();
+                framebuffer.deletenet.minecraft.client.gl.Framebuffer();
             }
-            return new Framebuffer(mc.displayWidth, mc.displayHeight, depth);
+            return new net.minecraft.client.gl.Framebuffer(mc.displayWidth, mc.displayHeight, depth);
         }
         return framebuffer;
     }
 
-    public static boolean needsNewFramebuffer(Framebuffer framebuffer) {
+    public static boolean needsNewnet.minecraft.client.gl.Framebuffer(net.minecraft.client.gl.Framebuffer framebuffer) {
         return framebuffer == null || framebuffer.framebufferWidth != mc.displayWidth || framebuffer.framebufferHeight != mc.displayHeight;
     }
 
-    public static void drawFramebufferFullscreen(Framebuffer framebuffer) {
+    public static void drawnet.minecraft.client.gl.FramebufferFullscreen(net.minecraft.client.gl.Framebuffer framebuffer) {
         if (framebuffer == null) return;
 RenderSystem.bindTexture(framebuffer.framebufferTexture);
         GL11.glBegin(GL11.GL_QUADS);

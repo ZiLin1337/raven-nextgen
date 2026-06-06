@@ -19,7 +19,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 
-import org.lwjgl.input.Mouse;
 
 public class AutoTool extends Module {
     private final GroupSetting timingGroup;
@@ -128,7 +127,7 @@ public class AutoTool extends Module {
         }
 
         int currentTick = ++tickCounter;
-        boolean leftMouseDown = Mouse.isButtonDown(0);
+        boolean leftMouseDown = GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS;
         updateLeftMouseState(leftMouseDown, currentTick);
 
         if (!mc.inGameHasFocus || mc.currentScreen != null || mc.player.isDead || !mc.player.capabilities.allowEdit) {

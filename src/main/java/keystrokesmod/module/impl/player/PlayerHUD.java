@@ -12,7 +12,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
 import java.awt.Color;
 
-public class HUD extends Module {
+public class PlayerHUD extends Module {
     private static final MinecraftClient mc = MinecraftClient.getInstance();
     private static final String[] COLOR_MODES = {"Static", "Gradient", "Rainbow"};
     private static final String[] OUTLINE_MODES = {"None", "Full", "Side"};

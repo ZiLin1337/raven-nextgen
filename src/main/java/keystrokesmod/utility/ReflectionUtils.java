@@ -9,7 +9,6 @@ import net.minecraft.client.gui.inventory.GuiFurnace;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.inventory.*;
 
-import org.lwjgl.input.Mouse;
 
 import java.lang.reflect.Field;
 import java.nio.ByteBuffer;

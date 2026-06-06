@@ -19,7 +19,6 @@ import keystrokesmod.utility.shader.OutlineShader;
 
 
 
-import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -68,7 +67,7 @@ public class PlayerESP extends Module {
     private int renderStateCount;
     private int visibleRenderStateCount;
 
-    private Framebuffer outlineFramebuffer;
+    private net.minecraft.client.gl.Framebuffer outlinenet.minecraft.client.gl.Framebuffer;
     private final OutlineShader outlineShader = new OutlineShader();
     private final GlowShader glowShader = new GlowShader();
 
@@ -174,12 +173,12 @@ public void onRenderWorld(RenderWorldLastEvent e) {
 
     private void runOutlinePass(float partialTicks) {
         if (!outlineShader.isValid() || !glowShader.isValid() || visibleRenderStateCount == 0) return;
-        outlineFramebuffer = RenderUtils.createFrameBuffer(outlineFramebuffer, false);
-        if (outlineFramebuffer == null) return;
+        outlinenet.minecraft.client.gl.Framebuffer = RenderUtils.createFrameBuffer(outlinenet.minecraft.client.gl.Framebuffer, false);
+        if (outlinenet.minecraft.client.gl.Framebuffer == null) return;
 
         RenderSystem.pushMatrix();
         RenderSystem.pushAttrib();
-        outlineFramebuffer.bindFramebuffer(false);
+        outlinenet.minecraft.client.gl.Framebuffer.bindnet.minecraft.client.gl.Framebuffer(false);
         ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(partialTicks, 0);
         boolean shadows = mc.gameSettings.entityShadows;
         mc.gameSettings.entityShadows = false;
@@ -202,12 +201,12 @@ public void onRenderWorld(RenderWorldLastEvent e) {
         mc.gameSettings.entityShadows = shadows;
         mc.entityRenderer.disableLightmap();
         mc.entityRenderer.setupOverlayRendering();
-        mc.getFramebuffer().bindFramebuffer(false);
+        mc.getnet.minecraft.client.gl.Framebuffer().bindnet.minecraft.client.gl.Framebuffer(false);
         outlineShader.use();
-        RenderUtils.drawFramebufferFullscreen(outlineFramebuffer);
+        RenderUtils.drawnet.minecraft.client.gl.FramebufferFullscreen(outlinenet.minecraft.client.gl.Framebuffer);
         outlineShader.stop();
-        outlineFramebuffer.framebufferClear();
-        mc.getFramebuffer().bindFramebuffer(false);
+        outlinenet.minecraft.client.gl.Framebuffer.framebufferClear();
+        mc.getnet.minecraft.client.gl.Framebuffer().bindnet.minecraft.client.gl.Framebuffer(false);
         RenderSystem.popAttrib();
         RenderSystem.popMatrix();
     }

@@ -10,13 +10,11 @@ import keystrokesmod.utility.BlockUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BedBlock;
-import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.*;
 import net.minecraft.util.*;
-import org.lwjgl.input.Mouse;
 
 import java.util.List;
 
@@ -80,8 +78,8 @@ public class GhostHand extends Module {
         if (mc == null || mc.world == null || mc.player == null) return false;
         if (mc.getRenderViewEntity() == null) return false;
         if (notSword.isToggled() && Utils.holdingSword()) return false;
-        if (requireLmb.isToggled() && !Mouse.isButtonDown(0)) return false;
-        if (requireRmb.isToggled() && !Mouse.isButtonDown(1)) return false;
+        if (requireLmb.isToggled() && !GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) return false;
+        if (requireRmb.isToggled() && !GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS) return false;
         return heldItemAllowed();
     }
 

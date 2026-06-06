@@ -16,7 +16,6 @@ import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.entity.DataWatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.server.S1CPacketEntityMetadata;
 import net.minecraft.util.math.Box;

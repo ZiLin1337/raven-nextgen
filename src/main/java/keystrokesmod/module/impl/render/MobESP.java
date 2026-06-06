@@ -14,12 +14,10 @@ import keystrokesmod.utility.shader.GlowShader;
 import keystrokesmod.utility.shader.OutlineShader;
 
 
-import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.boss.EntityWither;
-import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.monster.*;
 import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.EntityPlayer;
@@ -57,7 +55,7 @@ public class MobESP extends Module {
     private final List<MobEntry> mobEntries = new ArrayList<>();
     private final Map<EntityLivingBase, Integer> renderAsTwoD = new HashMap<>();
 
-    private Framebuffer outlineFramebuffer;
+    private net.minecraft.client.gl.Framebuffer outlinenet.minecraft.client.gl.Framebuffer;
     private final OutlineShader outlineShader = new OutlineShader();
     private final GlowShader glowShader = new GlowShader();
 
@@ -277,14 +275,14 @@ public class MobESP extends Module {
         if (!anyVisible) {
             return;
         }
-        outlineFramebuffer = RenderUtils.createFrameBuffer(outlineFramebuffer, false);
-        if (outlineFramebuffer == null) {
+        outlinenet.minecraft.client.gl.Framebuffer = RenderUtils.createFrameBuffer(outlinenet.minecraft.client.gl.Framebuffer, false);
+        if (outlinenet.minecraft.client.gl.Framebuffer == null) {
             return;
         }
 
         RenderSystem.pushMatrix();
         RenderSystem.pushAttrib();
-        outlineFramebuffer.bindFramebuffer(false);
+        outlinenet.minecraft.client.gl.Framebuffer.bindnet.minecraft.client.gl.Framebuffer(false);
         ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(partialTicks, 0);
         boolean shadows = mc.gameSettings.entityShadows;
         mc.gameSettings.entityShadows = false;
@@ -311,12 +309,12 @@ public class MobESP extends Module {
         mc.gameSettings.entityShadows = shadows;
         mc.entityRenderer.disableLightmap();
         mc.entityRenderer.setupOverlayRendering();
-        mc.getFramebuffer().bindFramebuffer(false);
+        mc.getnet.minecraft.client.gl.Framebuffer().bindnet.minecraft.client.gl.Framebuffer(false);
         outlineShader.use();
-        RenderUtils.drawFramebufferFullscreen(outlineFramebuffer);
+        RenderUtils.drawnet.minecraft.client.gl.FramebufferFullscreen(outlinenet.minecraft.client.gl.Framebuffer);
         outlineShader.stop();
-        outlineFramebuffer.framebufferClear();
-        mc.getFramebuffer().bindFramebuffer(false);
+        outlinenet.minecraft.client.gl.Framebuffer.framebufferClear();
+        mc.getnet.minecraft.client.gl.Framebuffer().bindnet.minecraft.client.gl.Framebuffer(false);
         RenderSystem.popAttrib();
         RenderSystem.popMatrix();
     }

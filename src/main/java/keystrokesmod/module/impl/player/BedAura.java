@@ -22,13 +22,10 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BedBlock;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.*;
 
-import org.lwjgl.input.Mouse;
 
 import java.util.*;
 
@@ -182,9 +179,9 @@ public class BedAura extends Module {
         }
         int atk = mc.gameSettings.keyBindAttack.getKeyCode();
         int use = mc.gameSettings.keyBindUseItem.getKeyCode();
-        KeyBinding.setKeyBindState(atk, false);
-        KeyBinding.setKeyBindState(use, false);
-        KeyBinding.setKeyBindState(atk, true);
+        InputUtil.setKeyPressed(atk, false);
+        InputUtil.setKeyPressed(use, false);
+        InputUtil.setKeyPressed(atk, true);
     }
 
     public BlockPos getAuraTargetPos() {
@@ -309,8 +306,8 @@ public class BedAura extends Module {
         if (switchBackWhenDone.isToggled() && previousSlot != -1 && Utils.nullCheck()) {
             setSlot(previousSlot);
         }
-        KeyBinding.setKeyBindState(mc.gameSettings.keyBindAttack.getKeyCode(), Mouse.isButtonDown(0));
-        KeyBinding.setKeyBindState(mc.gameSettings.keyBindUseItem.getKeyCode(), Mouse.isButtonDown(1));
+        InputUtil.setKeyPressed(mc.gameSettings.keyBindAttack.getKeyCode(), GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS);
+        InputUtil.setKeyPressed(mc.gameSettings.keyBindUseItem.getKeyCode(), GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS);
         hotbarProgrammaticDepth = 0;
         targetPos = null;
         targetHitVec = null;

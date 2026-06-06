@@ -11,7 +11,6 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.ReflectionUtils;
 import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityFireball;
@@ -152,7 +151,7 @@ public class AntiFireball extends Module {
 
         int key = mc.gameSettings.keyBindAttack.getKeyCode();
         while (nextClickTime <= now) {
-            KeyBinding.setKeyBindState(key, true);
+            InputUtil.setKeyPressed(key, true);
             KeyBinding.onTick(key);
             ReflectionUtils.setButton(0, true);
             nextClickTime += nextDelay();

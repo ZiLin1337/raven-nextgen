@@ -6,7 +6,6 @@ import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.Utils;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
@@ -101,7 +100,7 @@ public class SafeWalk extends Module {
             return;
         }
 
-        KeyBinding.setKeyBindState(mc.gameSettings.keyBindSneak.getKeyCode(), sneakState);
+        InputUtil.setKeyPressed(mc.gameSettings.keyBindSneak.getKeyCode(), sneakState);
         if (sneakState) {
             KeyBinding.onTick(mc.gameSettings.keyBindSneak.getKeyCode());
         }

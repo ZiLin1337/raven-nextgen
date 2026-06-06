@@ -44,7 +44,6 @@ import net.minecraft.util.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -1299,7 +1298,7 @@ public class Utils implements IMinecraftInstance {
 
     public static boolean isClicking() {
         if (ModuleManager.autoClicker != null && ModuleManager.autoClicker.isEnabled()) {
-            return Mouse.isButtonDown(0);
+            return GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS;
         }
         else {
             return MouseHelper.f() > 1 && System.currentTimeMillis() - MouseHelper.LL < 300L;

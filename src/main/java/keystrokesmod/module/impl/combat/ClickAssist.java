@@ -10,7 +10,6 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
-import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 
@@ -128,11 +127,11 @@ public class ClickAssist extends Module {
 
     private void fix(int t) {
         if (t == 0) {
-            if (this.ignNL && !Mouse.isButtonDown(0)) {
+            if (this.ignNL && !GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) {
                 this.bot.mouseRelease(16);
             }
         }
-        else if (t == 1 && this.ignNR && !Mouse.isButtonDown(1)) {
+        else if (t == 1 && this.ignNR && !GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS) {
             this.bot.mouseRelease(4);
         }
     }

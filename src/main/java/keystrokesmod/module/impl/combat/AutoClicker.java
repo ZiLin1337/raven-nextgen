@@ -12,11 +12,9 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 
-import org.lwjgl.input.Mouse;
 
 import net.minecraft.inventory.Slot;
 
@@ -91,7 +89,7 @@ public class AutoClicker extends Module {
             inventoryNextClickTime = 0L;
             return;
         }
-        if (!Mouse.isButtonDown(0)) {
+        if (!GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) {
             inventoryNextClickTime = 0L;
             return;
         }
@@ -140,7 +138,7 @@ public class AutoClicker extends Module {
         if (ModuleManager.killAura != null && ModuleManager.killAura.isEnabled() && KillAura.target != null) return;
 
         int key = mc.gameSettings.keyBindAttack.getKeyCode();
-        if (Mouse.isButtonDown(0)) {
+        if (GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) {
             long now = System.currentTimeMillis();
             if (nextClickTime == 0) {
                 nextClickTime = now + nextDelay();
@@ -160,7 +158,7 @@ public class AutoClicker extends Module {
             if (breakBlocks.isToggled()) {
                 if (!mc.player.capabilities.allowEdit) {
                     if (this.isHoldingBlockBreak) {
-                        KeyBinding.setKeyBindState(key, false);
+                        InputUtil.setKeyPressed(key, false);
                         ReflectionUtils.setButton(0, false);
                         this.isHoldingBlockBreak = false;
                     }
@@ -171,14 +169,14 @@ public class AutoClicker extends Module {
                     Block block = mc.world.getBlockState(pos).getBlock();
                     if (block != Blocks.AIR && !(block instanceof BlockLiquid)) {
                         if (!this.isHoldingBlockBreak) {
-                            KeyBinding.setKeyBindState(key, true);
+                            InputUtil.setKeyPressed(key, true);
                             ReflectionUtils.setButton(0, true);
                             this.isHoldingBlockBreak = true;
                         }
                         return;
                     }
                     if (this.isHoldingBlockBreak) {
-                        KeyBinding.setKeyBindState(key, false);
+                        InputUtil.setKeyPressed(key, false);
                         ReflectionUtils.setButton(0, false);
                         this.isHoldingBlockBreak = false;
                         return;
@@ -196,7 +194,7 @@ public class AutoClicker extends Module {
         } else {
             this.nextClickTime = 0L;
             this.isHoldingBlockBreak = false;
-            KeyBinding.setKeyBindState(key, false);
+            InputUtil.setKeyPressed(key, false);
             ReflectionUtils.setButton(0, false);
         }
     }
