@@ -53,10 +53,7 @@ public class ClickAssist extends Module {
         this.ignNL = false;
         this.ignNR = false;
         this.bot = null;
-    }
-
-    (priority = )
-    public void onMouseUpdate(MouseEvent ev) {
+    }public void onMouseUpdate(MouseEvent ev) {
         if (disableInCreative.isToggled() && mc.player.capabilities.isCreativeMode) {
             return;
         }

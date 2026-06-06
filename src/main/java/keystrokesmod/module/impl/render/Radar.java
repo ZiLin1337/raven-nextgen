@@ -29,7 +29,7 @@ public class Radar extends Module {
 
     @Override
     public void onUpdate() {
-        this.scale = new (mc).getScaleFactor();
+        this.scale = MinecraftClient.getInstance().getWindow().getScaleFactor();
     }
 
     

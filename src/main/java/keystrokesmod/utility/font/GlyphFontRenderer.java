@@ -1,7 +1,7 @@
 package keystrokesmod.utility.font;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.gui.Object /*Object /* ScaledResolution */ removed*/;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
@@ -450,7 +450,7 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
         int uiScale = 1;
 
         try {
-            uiScale = Math.max(1, new ScaledResolution(mc).getScaleFactor());
+            uiScale = Math.max(1, new Object /*Object /* ScaledResolution */ removed*/(mc).getScaleFactor());
         }
         catch (Exception ignored) {
         }

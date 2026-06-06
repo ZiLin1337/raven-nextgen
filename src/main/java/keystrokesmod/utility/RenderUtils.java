@@ -129,7 +129,7 @@ public class RenderUtils implements IMinecraftInstance {
         width *= guiScale;
         height *= guiScale;
 
-        ScaledResolution sr = new ScaledResolution(mc);
+        Object /*Object /* ScaledResolution */ removed*/ sr = new Object /*Object /* ScaledResolution */ removed*/(mc);
         int scale = sr.getScaleFactor();
         double screenH = sr.getScaledHeight();
 
@@ -161,7 +161,7 @@ public class RenderUtils implements IMinecraftInstance {
         width *= guiScale;
         height *= guiScale;
 
-        ScaledResolution sr = new ScaledResolution(mc);
+        Object /*Object /* ScaledResolution */ removed*/ sr = new Object /*Object /* ScaledResolution */ removed*/(mc);
         int scale = sr.getScaleFactor();
         double screenH = sr.getScaledHeight();
         int left = (int) Math.floor(x * scale);
@@ -555,7 +555,7 @@ public class RenderUtils implements IMinecraftInstance {
     }
 
     public static void renderBPS(final boolean b, final boolean b2) {
-        final ScaledResolution scaledResolution = new ScaledResolution(mc);
+        final Object /*Object /* ScaledResolution */ removed*/ scaledResolution = new Object /*Object /* ScaledResolution */ removed*/(mc);
         String s = "";
         int n = -1;
         if (b) {
@@ -1203,7 +1203,7 @@ public class RenderUtils implements IMinecraftInstance {
 
     public static void drawFramebufferFullscreen(Framebuffer framebuffer) {
         if (framebuffer == null) return;
-        ScaledResolution sr = new ScaledResolution(mc);
+        Object /*Object /* ScaledResolution */ removed*/ sr = new Object /*Object /* ScaledResolution */ removed*/(mc);
         RenderSystem.bindTexture(framebuffer.framebufferTexture);
         GL11.glBegin(GL11.GL_QUADS);
         GL11.glTexCoord2d(0.0, 1.0);

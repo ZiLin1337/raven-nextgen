@@ -236,7 +236,7 @@ public class BlockIn extends Module {
             circleProgress = animTargetProgress;
         }
 
-        ScaledResolution sr = new ScaledResolution(mc);
+        Object /*Object /* ScaledResolution */ removed*/ sr = new Object /*Object /* ScaledResolution */ removed*/(mc);
         float cx = sr.getScaledWidth() / 2f - 1f;
         float cy = sr.getScaledHeight() / 2f;
         float radius = 10f;

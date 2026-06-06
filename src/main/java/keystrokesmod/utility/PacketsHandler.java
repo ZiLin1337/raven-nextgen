@@ -12,10 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class PacketsHandler implements IMinecraftInstance {
     public AtomicInteger playerSlot = new AtomicInteger(-1);
     public AtomicInteger serverSlot = new AtomicInteger(-1);
-    private final boolean handleSlots = true;
-
-    (priority = )
-    public void onSendPacket(SendPacketEvent e) {
+    private final boolean handleSlots = true;public void onSendPacket(SendPacketEvent e) {
         if (e.isCanceled()) {
             return;
         }

@@ -2,7 +2,7 @@ package keystrokesmod.utility.shader;
 
 import keystrokesmod.utility.Utils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.gui.Object /*Object /* ScaledResolution */ removed*/;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL20;
 
@@ -423,7 +423,7 @@ public class ShaderUtils {
     }
 
     public static void drawQuads() {
-        ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+        Object /*Object /* ScaledResolution */ removed*/ sr = new Object /*Object /* ScaledResolution */ removed*/(Minecraft.getMinecraft());
         float width = (float) sr.getScaledWidth_double();
         float height = (float) sr.getScaledHeight_double();
         glBegin(GL_QUADS);

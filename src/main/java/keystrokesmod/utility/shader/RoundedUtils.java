@@ -2,7 +2,7 @@ package keystrokesmod.utility.shader;
 
 import keystrokesmod.utility.RenderUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.gui.Object /*Object /* ScaledResolution */ removed*/;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
@@ -123,7 +123,7 @@ public class RoundedUtils {
         RenderUtils.setAlphaLimit(0);
         roundedOutlineShader.init();
 
-        ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+        Object /*Object /* ScaledResolution */ removed*/ sr = new Object /*Object /* ScaledResolution */ removed*/(Minecraft.getMinecraft());
         setupRoundedRectUniforms(x, y, width, height, radius, roundedOutlineShader);
         roundedOutlineShader.setUniformf("outlineThickness", outlineThickness * sr.getScaleFactor());
         roundedOutlineShader.setUniformf("color", color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
@@ -151,7 +151,7 @@ public class RoundedUtils {
     }
 
     private static void setupRoundedRectUniforms(float x, float y, float width, float height, float radius, ShaderUtils roundedTexturedShader) {
-        ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+        Object /*Object /* ScaledResolution */ removed*/ sr = new Object /*Object /* ScaledResolution */ removed*/(Minecraft.getMinecraft());
         roundedTexturedShader.setUniformf("location", x * sr.getScaleFactor(),
                 (Minecraft.getMinecraft().displayHeight - (height * sr.getScaleFactor())) - (y * sr.getScaleFactor()));
         roundedTexturedShader.setUniformf("rectSize", width * sr.getScaleFactor(), height * sr.getScaleFactor());

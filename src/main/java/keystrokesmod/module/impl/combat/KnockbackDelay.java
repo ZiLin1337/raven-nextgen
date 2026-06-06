@@ -63,8 +63,7 @@ public class KnockbackDelay extends Module {
         whitelistedItems.setVisible(onlyWhitelistedItem.isToggled(), this);
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onReceivePacket(ReceivePacketEvent e) {
+    @EventHandlerpublic void onReceivePacket(ReceivePacketEvent e) {
         if (!isEnabled() || e.isCanceled()) return;
 
         // Position sync cancels delay

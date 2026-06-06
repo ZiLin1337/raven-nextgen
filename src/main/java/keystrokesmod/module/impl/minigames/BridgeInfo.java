@@ -215,7 +215,7 @@ public class BridgeInfo extends Module {
             this.maY = maY;
             BridgeInfo.hudX = miX;
             BridgeInfo.hudY = miY;
-            ScaledResolution res = new ScaledResolution(this.mc);
+            Object /*Object /* ScaledResolution */ removed*/ res = new Object /*Object /* ScaledResolution */ removed*/(this.mc);
             int x = res.getScaledWidth() / 2 - 84;
             int y = res.getScaledHeight() / 2 - 20;
             RenderUtils.drawColoredString("Edit the HUD position by dragging.", '-', x, y, 2L, 0L, true, this.mc.textRenderer);

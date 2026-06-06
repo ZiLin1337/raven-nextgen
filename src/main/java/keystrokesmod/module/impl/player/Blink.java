@@ -62,8 +62,7 @@ public class Blink extends Module {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onSendPacket(SendPacketEvent event) {
+    @EventHandlerpublic void onSendPacket(SendPacketEvent event) {
         if (!isEnabled() || !Utils.nullCheck()) return;
         Packet<?> packet = event.getPacket();
         if (delaysOutboundPackets() && packet instanceof PlayerMoveC2SPacket) {

@@ -113,7 +113,7 @@ public class PotionHUD extends Module {
     }
 
     public void setAbsolutePosition(float absoluteX, float absoluteY) {
-        setAbsolutePosition(absoluteX, absoluteY, new (mc));
+        setAbsolutePosition(absoluteX, absoluteY, null /* Object /* ScaledResolution */ removed */);
     }
 
     public void resetPosition() {
@@ -121,7 +121,7 @@ public class PotionHUD extends Module {
     }
 
     private void render(boolean editing) {
-         resolution = new (mc);
+         resolution = null; // Object /* ScaledResolution */ removed for 1.21.4
         syncPositionToResolution(resolution);
 
         RenderState state = buildRenderState(editing);
@@ -271,7 +271,7 @@ public class PotionHUD extends Module {
     }
 
     private void syncPositionToResolution() {
-        syncPositionToResolution(new (mc));
+        syncPositionToResolution(null /* Object /* ScaledResolution */ removed */);
     }
 
     private void syncPositionToResolution( resolution) {
@@ -461,14 +461,14 @@ public class PotionHUD extends Module {
         public void initGui() {
             super.initGui();
             this.buttonList.add(this.resetPosition = new GuiButtonExt(1, this.width - 90, this.height - 25, 85, 20, "Reset position"));
-            syncPositionToResolution(new (this.mc));
+            syncPositionToResolution(null /* Object /* ScaledResolution */ removed */);
             this.actualX = posX;
             this.actualY = posY;
         }
 
         @Override
         public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-             resolution = new (this.mc);
+             resolution = null; // Object /* ScaledResolution */ removed for 1.21.4
             if (!this.dragging) {
                 syncPositionToResolution(resolution);
                 this.actualX = posX;

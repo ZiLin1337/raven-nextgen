@@ -79,10 +79,7 @@ public class AimAssist extends Module {
     @Override
     public void onDisable() {
         miningStartTime = -1;
-    }
-
-    (priority = )
-    public void onClientRotation(ClientRotationEvent e) {
+    }public void onClientRotation(ClientRotationEvent e) {
         if (ModuleManager.bedAura != null && ModuleManager.bedAura.shouldOverrideMouseOver()) {
             return;
         }

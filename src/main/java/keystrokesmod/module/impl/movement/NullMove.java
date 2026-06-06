@@ -27,10 +27,7 @@ public class NullMove extends Module {
         this.prevD = false;
         this.lastForwardSign = 0;
         this.lastStrafeSign = 0;
-    }
-
-    (priority = )
-    public void onPrePlayerInput(PrePlayerInputEvent e) {
+    }public void onPrePlayerInput(PrePlayerInputEvent e) {
         if (!this.isEnabled() || !Utils.nullCheck()) {
             return;
         }

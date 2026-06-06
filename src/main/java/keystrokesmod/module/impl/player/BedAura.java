@@ -135,33 +135,21 @@ public class BedAura extends Module {
             pendingSpawnAnchorCapture = true;
             waitingForRespawn = false;
         }
-    }
-
-    (priority = )
-    public void onPrePlayerInteract(PrePlayerInteractEvent e) {
+    }public void onPrePlayerInteract(PrePlayerInteractEvent e) {
         applyMiningKeyState();
-    }
-
-    (priority = )
-    public void onMouse(MouseEvent e) {
+    }public void onMouse(MouseEvent e) {
         if (!shouldSuppressManualMouse()) {
             return;
         }
         if (e.button == 0 || e.button == 1) {
             e.setCanceled(true);
         }
-    }
-
-    (priority = )
-    public void onPreAttack(PreAttackEvent e) {
+    }public void onPreAttack(PreAttackEvent e) {
         if (!shouldSuppressManualMouse()) {
             return;
         }
         e.setCanceled(true);
-    }
-
-    (priority = )
-    public void onSlotScroll(PreSlotScrollEvent e) {
+    }public void onSlotScroll(PreSlotScrollEvent e) {
         if (!shouldSuppressManualMouse()) {
             return;
         }
@@ -170,10 +158,7 @@ public class BedAura extends Module {
             previousSlot = Math.floorMod(mc.player.inventory.currentItem - slot, InventoryPlayer.getHotbarSize());
         }
         e.setCanceled(true);
-    }
-
-    (priority = )
-    public void onSlotUpdate(SlotUpdateEvent e) {
+    }public void onSlotUpdate(SlotUpdateEvent e) {
         if (!shouldSuppressManualMouse() || hotbarProgrammaticDepth > 0) {
             return;
         }
@@ -257,10 +242,7 @@ public class BedAura extends Module {
         if (renderer instanceof IAccessorEntityRenderer) {
             ((IAccessorEntityRenderer) renderer).setPointedEntity(null);
         }
-    }
-
-    (priority = )
-    public void onClientRotation(ClientRotationEvent e) {
+    }public void onClientRotation(ClientRotationEvent e) {
         if (!isEnabled() || !Utils.nullCheck() || mc.currentScreen != null || !canMineBlocks()) {
             resetMining();
             return;

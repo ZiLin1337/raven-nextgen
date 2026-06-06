@@ -153,7 +153,7 @@ public class HideWindow extends Module {
     }
 
     public void setAbsolutePosition(float absoluteX, float absoluteY) {
-        setAbsolutePosition(absoluteX, absoluteY, new ScaledResolution(mc));
+        setAbsolutePosition(absoluteX, absoluteY, new Object /*Object /* ScaledResolution */ removed*/(mc));
     }
 
     public void resetPosition() {
@@ -187,10 +187,10 @@ public class HideWindow extends Module {
     }
 
     private void syncPosition() {
-        syncPosition(new ScaledResolution(mc));
+        syncPosition(new Object /*Object /* ScaledResolution */ removed*/(mc));
     }
 
-    private void syncPosition(ScaledResolution resolution) {
+    private void syncPosition(Object /*Object /* ScaledResolution */ removed*/ resolution) {
         int w = Math.max(1, resolution.getScaledWidth());
         int h = Math.max(1, resolution.getScaledHeight());
         if (Float.isNaN(relativePosX) || Float.isNaN(relativePosY)) {
@@ -206,7 +206,7 @@ public class HideWindow extends Module {
         posY = relativePosY * h;
     }
 
-    private void setAbsolutePosition(float absoluteX, float absoluteY, ScaledResolution resolution) {
+    private void setAbsolutePosition(float absoluteX, float absoluteY, Object /*Object /* ScaledResolution */ removed*/ resolution) {
         posX = absoluteX;
         posY = absoluteY;
         int w = Math.max(1, resolution.getScaledWidth());
@@ -254,14 +254,14 @@ public class HideWindow extends Module {
         public void initGui() {
             super.initGui();
             buttonList.add(resetBtn = new GuiButtonExt(1, width - 90, height - 25, 85, 20, "Reset position"));
-            syncPosition(new ScaledResolution(mc));
+            syncPosition(new Object /*Object /* ScaledResolution */ removed*/(mc));
             actualX = posX;
             actualY = posY;
         }
 
         @Override
         public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-            ScaledResolution resolution = new ScaledResolution(mc);
+            Object /*Object /* ScaledResolution */ removed*/ resolution = new Object /*Object /* ScaledResolution */ removed*/(mc);
             if (!dragging) {
                 syncPosition(resolution);
                 actualX = posX;

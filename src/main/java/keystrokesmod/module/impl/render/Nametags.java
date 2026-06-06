@@ -153,10 +153,7 @@ public class Nametags extends Module {
         }
 
         updateRenderStates();
-    }
-
-    (priority = )
-    public void onRenderWorldLast(RenderWorldLastEvent event) {
+    }public void onRenderWorldLast(RenderWorldLastEvent event) {
         if (!Utils.nullCheck()) {
             return;
         }

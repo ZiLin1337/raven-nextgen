@@ -582,10 +582,7 @@ public class Displace extends Module {
                 y + verticalOffset - viewerY,
                 z - viewerZ
         );
-    }
-
-    (priority = )
-    public void onPostInput(PostPlayerInputEvent e) {
+    }public void onPostInput(PostPlayerInputEvent e) {
         if (!active) {
             compensateNextTick = false;
             return;
@@ -606,10 +603,7 @@ public class Displace extends Module {
 
         mc.player.movementInput.moveForward = 1;
         compensateNextTick = true;
-    }
-
-    (priority = )
-    public void onSendPacket(SendPacketEvent e) {
+    }public void onSendPacket(SendPacketEvent e) {
         if (!blink.isToggled() || !active || !displaceThisTick || releaseBlinkNextGameTick) {
             return;
         }
@@ -623,10 +617,7 @@ public class Displace extends Module {
         outboundBlink = new LagRequest(EnumLagDirection.ONLY_OUTBOUND, new ModuleBackedTimeout(this));
         Raven.lagHandler.requestLag(outboundBlink);
         releaseBlinkNextGameTick = true;
-    }
-
-    (priority = )
-    public void onClientRotation(ClientRotationEvent e) {
+    }public void onClientRotation(ClientRotationEvent e) {
         if (!Utils.nullCheck()) {
             clearActiveState();
             return;

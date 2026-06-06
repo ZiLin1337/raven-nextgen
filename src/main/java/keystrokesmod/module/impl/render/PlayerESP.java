@@ -165,10 +165,7 @@ public class PlayerESP extends Module {
                 addVisibleRenderState(renderState);
             }
         }
-    }
-
-    (priority = )
-    public void onRenderTwo2D(RenderWorldLastEvent e) {
+    }public void onRenderTwo2D(RenderWorldLastEvent e) {
         if (!Utils.nullCheck() || visibleRenderStateCount == 0) {
             return;
         }
@@ -339,7 +336,7 @@ public class PlayerESP extends Module {
             return;
         }
 
-         scaledResolution = new (mc);
+         scaledResolution = null; // Object /* ScaledResolution */ removed for 1.21.4
         ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(partialTicks, 0);
         projectionContext = RenderUtils.captureProjectionContext(projectionContext, scaledResolution.getScaleFactor());
         mc.entityRenderer.setupOverlayRendering();
