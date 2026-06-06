@@ -10,7 +10,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.HitResult.MovingObjectType;
 
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;

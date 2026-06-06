@@ -4,7 +4,7 @@ import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.DescriptionSetting;
 import keystrokesmod.utility.Utils;
-import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 
 public class AutoWho extends Module {
@@ -73,7 +73,7 @@ public class AutoWho extends Module {
     private void artificial() {
         if (artifical.isToggled()) {
             String online = hideMessage.isToggled() ? "ONLINE: " : "&b&lONLINE: &r";
-            for (NetworkPlayerInfo networkPlayerInfo : Utils.getTablist(true)) {
+            for (PlayerListEntry networkPlayerInfo : Utils.getTablist(true)) {
                 if (removeBots.isToggled() && networkPlayerInfo.getResponseTime() > 1) {
                     continue;
                 }

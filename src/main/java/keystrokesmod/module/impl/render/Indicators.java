@@ -19,7 +19,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.BlockState;
 
-
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
@@ -32,8 +31,6 @@ import net.minecraft.entity.projectile.*;
 import net.minecraft.item.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
-
-
 
 import org.lwjgl.opengl.GL11;
 

@@ -11,9 +11,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 
-
-
-
 import java.awt.*;
 import java.util.Iterator;
 import java.util.Set;

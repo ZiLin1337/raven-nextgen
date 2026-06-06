@@ -1,13 +1,11 @@
 package keystrokesmod.lag.handler;
 
-
 import keystrokesmod.event.ReceivePacketEvent;
 
 import keystrokesmod.lag.api.EnumLagDirection;
 import keystrokesmod.lag.api.LagRequest;
 import keystrokesmod.lag.queue.BiTrackLagNodeQueue;
 import net.minecraft.client.MinecraftClient;
-
 
 import net.minecraft.util.math.Vec3d;
 

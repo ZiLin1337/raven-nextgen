@@ -10,7 +10,6 @@ import net.minecraft.client.gui.Gui;
 
 import net.minecraft.entity.player.PlayerEntity;
 
-
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;

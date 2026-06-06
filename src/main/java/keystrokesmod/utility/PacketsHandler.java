@@ -5,8 +5,6 @@ import keystrokesmod.event.ReceivePacketEvent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerInventory;
 
-
-
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class PacketsHandler implements IMinecraftInstance {

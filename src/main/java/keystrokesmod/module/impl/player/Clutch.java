@@ -24,7 +24,6 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

@@ -5,8 +5,6 @@ import keystrokesmod.module.setting.impl.KeySetting;
 import keystrokesmod.utility.Utils;
 import net.minecraft.entity.Entity;
 
-
-
 public class Holdlook extends Module {
     private final KeySetting rearCamKey;
     private final KeySetting frontCamKey;

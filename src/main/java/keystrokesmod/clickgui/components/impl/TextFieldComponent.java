@@ -1,8 +1,5 @@
 package keystrokesmod.clickgui.components.impl;
 
-
-
-
 public class TextFieldComponent extends AbstractTextInputComponent {
     public final TextSetting textSetting;
 

@@ -1,6 +1,5 @@
 package keystrokesmod.module.impl.render;
 
-
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.impl.player.Freecam;
@@ -10,8 +9,6 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.Utils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
-
-
 
 public class Freelook extends Module {
     public static boolean perspectiveToggled;

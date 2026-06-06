@@ -9,9 +9,7 @@ import keystrokesmod.utility.Utils;
 import keystrokesmod.utility.font.FontManager;
 import keystrokesmod.utility.font.RavenFontRenderer;
 
-
 import net.minecraft.client.render.BufferBuilder;
-
 
 import net.minecraft.entity.DataWatcher;
 import net.minecraft.entity.Entity;
@@ -21,7 +19,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-
 
 import org.lwjgl.opengl.GL11;
 

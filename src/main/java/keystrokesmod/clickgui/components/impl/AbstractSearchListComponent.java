@@ -7,9 +7,9 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Theme;
 import keystrokesmod.utility.Timer;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.render.GlStateManager;
+import net.minecraft.client.render.RenderHelper;
+import net.minecraft.client.render.entity.RenderItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 

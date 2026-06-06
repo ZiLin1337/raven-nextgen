@@ -18,14 +18,13 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 
-import net.minecraft.item.ItemBow;
+import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemEgg;
 import net.minecraft.item.ItemEnderPearl;
-import net.minecraft.item.ItemPotion;
+import net.minecraft.item.PotionItem;
 import net.minecraft.item.ItemSnowball;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
-
 
 import org.lwjgl.opengl.GL11;
 

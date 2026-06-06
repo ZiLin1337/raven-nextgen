@@ -11,12 +11,8 @@ import keystrokesmod.utility.Utils;
 
 import net.minecraft.block.Block;
 
-
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
-
-
-
 
 import java.lang.reflect.Field;
 import java.util.Random;

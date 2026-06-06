@@ -23,16 +23,16 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemAppleGold;
 import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemAxe;
+import net.minecraft.item.AxeItem;
 
 import net.minecraft.item.ItemEgg;
 import net.minecraft.item.ItemEnderPearl;
-import net.minecraft.item.ItemPickaxe;
-import net.minecraft.item.ItemPotion;
+import net.minecraft.item.PickaxeItem;
+import net.minecraft.item.PotionItem;
 import net.minecraft.item.ItemSnowball;
-import net.minecraft.item.ItemSpade;
+import net.minecraft.item.ShovelItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
+import net.minecraft.item.SwordItem;
 
 import net.minecraft.util.DamageSource;
 

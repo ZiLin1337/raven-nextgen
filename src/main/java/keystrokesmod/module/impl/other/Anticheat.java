@@ -16,7 +16,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.event.ClickEvent;
 
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.text.Text;
 import net.minecraft.util.ChatStyle;
 
 import java.util.HashMap;

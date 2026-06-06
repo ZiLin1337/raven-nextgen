@@ -19,7 +19,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.hit.HitResult;
 
-
 public class AutoTool extends Module {
     private final GroupSetting timingGroup;
     private final SliderSetting activationTime;

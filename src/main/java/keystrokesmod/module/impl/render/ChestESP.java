@@ -14,8 +14,6 @@ import net.minecraft.tileentity.TileEntityEnderChest;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
 
-
-
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
@@ -34,7 +32,6 @@ public class ChestESP extends Module {
     private final EnumMap<ChestKind, ChestVisualSettings> chestSettingsByKind = new EnumMap<>(ChestKind.class);
     private final EnumMap<ChestKind, List<BlockPos>> trackedWorldBatches = new EnumMap<>(ChestKind.class);
     private final SliderSetting maxDistance;
-
 
     public ChestESP() {
         super("ChestESP", Module.category.render, 0);

@@ -4,12 +4,12 @@ import keystrokesmod.module.impl.client.Gui;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.font.RavenFontRenderer;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.widget.TextFieldWidget;
 import org.lwjgl.opengl.GL11;
 
 import java.lang.reflect.Field;
 
-public class ClickGuiTextField {
+public class ClickTextFieldWidget {
     private static final float DEFAULT_TEXT_SCALE = 0.5f;
 
     private static final int BACKGROUND_COLOR = 0xFF222222;
@@ -20,53 +20,53 @@ public class ClickGuiTextField {
     private static final int CURSOR_COLOR = 0xFFD0D0D0;
 
     private static final Field LINE_SCROLL_OFFSET_FIELD = ReflectionHelper.findField(
-        GuiTextField.class,
+        TextFieldWidget.class,
         "lineScrollOffset",
         "field_146225_q"
     );
     private static final Field CURSOR_POSITION_FIELD = ReflectionHelper.findField(
-        GuiTextField.class,
+        TextFieldWidget.class,
         "cursorPosition",
         "field_146224_r"
     );
     private static final Field SELECTION_END_FIELD = ReflectionHelper.findField(
-        GuiTextField.class,
+        TextFieldWidget.class,
         "selectionEnd",
         "field_146223_s"
     );
     private static final Field ENABLED_COLOR_FIELD = ReflectionHelper.findField(
-        GuiTextField.class,
+        TextFieldWidget.class,
         "enabledColor",
         "field_146222_t"
     );
     private static final Field DISABLED_COLOR_FIELD = ReflectionHelper.findField(
-        GuiTextField.class,
+        TextFieldWidget.class,
         "disabledColor",
         "field_146221_u"
     );
     private static final Field IS_ENABLED_FIELD = ReflectionHelper.findField(
-        GuiTextField.class,
+        TextFieldWidget.class,
         "isEnabled",
         "field_146226_p"
     );
 
     private static int nextId;
 
-    private final GuiTextField textField;
+    private final TextFieldWidget textField;
     private final String placeholder;
     private final float textScale;
 
     private long lastCursorTick;
     private boolean cursorVisible;
 
-    public ClickGuiTextField(String placeholder, int maxLength) {
+    public ClickTextFieldWidget(String placeholder, int maxLength) {
         this(placeholder, maxLength, DEFAULT_TEXT_SCALE);
     }
 
-    public ClickGuiTextField(String placeholder, int maxLength, float textScale) {
+    public ClickTextFieldWidget(String placeholder, int maxLength, float textScale) {
         this.placeholder = placeholder == null ? "" : placeholder;
         this.textScale = textScale;
-        this.textField = new GuiTextField(
+        this.textField = new TextFieldWidget(
             nextId++,
             MinecraftClient.getInstance().fontRendererObj,
             0,
@@ -232,7 +232,7 @@ public class ClickGuiTextField {
         GL11.glPopMatrix();
     }
 
-    private static int getIntField(GuiTextField textField, Field field, int fallback) {
+    private static int getIntField(TextFieldWidget textField, Field field, int fallback) {
         try {
             return field.getInt(textField);
         } catch (IllegalAccessException ignored) {
@@ -240,7 +240,7 @@ public class ClickGuiTextField {
         }
     }
 
-    private static boolean getBooleanField(GuiTextField textField, Field field, boolean fallback) {
+    private static boolean getBooleanField(TextFieldWidget textField, Field field, boolean fallback) {
         try {
             return field.getBoolean(textField);
         } catch (IllegalAccessException ignored) {

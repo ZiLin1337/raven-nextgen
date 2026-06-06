@@ -4,15 +4,11 @@ import keystrokesmod.clickgui.ClickGui;
 import keystrokesmod.mixin.impl.accessor.IAccessorMinecraftClient;
 import keystrokesmod.module.impl.player.Freecam;
 
-
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 
-import net.minecraft.client.renderer.*;
-
-
-
+import net.minecraft.client.render.*;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -25,7 +21,6 @@ import net.minecraft.util.math.Vec3d;
 import org.lwjgl.BufferUtils;
 
 import org.lwjgl.opengl.GL11;
-
 
 import keystrokesmod.Raven;
 import keystrokesmod.utility.StairsUtils;

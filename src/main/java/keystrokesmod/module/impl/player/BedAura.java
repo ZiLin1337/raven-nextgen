@@ -26,7 +26,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.*;
 
-
 import java.util.*;
 
 public class BedAura extends Module {

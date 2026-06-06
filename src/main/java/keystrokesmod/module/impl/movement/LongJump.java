@@ -13,13 +13,10 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.item.Items;
 import net.minecraft.item.ItemStack;
 
-
 import net.minecraft.network.play.server.*;
 
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
-
-
 
 public class LongJump extends Module {
     private SliderSetting mode;

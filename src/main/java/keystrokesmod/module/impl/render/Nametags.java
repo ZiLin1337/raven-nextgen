@@ -12,22 +12,17 @@ import keystrokesmod.utility.font.FontManager;
 import keystrokesmod.utility.font.RavenFontRenderer;
 import net.minecraft.client.font.TextRenderer;
 
-
 import net.minecraft.client.render.BufferBuilder;
-
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 
 import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemBow;
+import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
-import net.minecraft.item.ItemTool;
-
-
-
+import net.minecraft.item.SwordItem;
+import net.minecraft.item.ToolItem;
 
 import org.lwjgl.opengl.GL11;
 

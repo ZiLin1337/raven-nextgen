@@ -2,11 +2,11 @@ package keystrokesmod.utility;
 
 import keystrokesmod.module.setting.impl.PotionListSetting;
 import net.minecraft.item.Items;
-import net.minecraft.item.ItemPotion;
+import net.minecraft.item.PotionItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 
-import net.minecraft.util.StatCollector;
+import net.minecraft.text.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;

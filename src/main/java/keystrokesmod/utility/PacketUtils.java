@@ -2,7 +2,6 @@ package keystrokesmod.utility;
 
 import keystrokesmod.Raven;
 
-
 import net.minecraft.util.math.BlockPos;
 
 import java.util.Collections;

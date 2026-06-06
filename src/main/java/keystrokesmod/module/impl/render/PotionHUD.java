@@ -13,9 +13,7 @@ import net.minecraft.client.gui.GuiScreen;
 
 import net.minecraft.potion.Potion;
 
-import net.minecraft.util.StatCollector;
-
-
+import net.minecraft.text.Text;
 
 import java.awt.Color;
 import java.io.IOException;

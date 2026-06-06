@@ -9,7 +9,6 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.entity.Entity;
 import net.minecraft.event.HoverEvent;
 
-
 import net.minecraft.util.*;
 
 public class ViewPackets extends Module {

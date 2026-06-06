@@ -2,7 +2,6 @@ package keystrokesmod.module.impl.player;
 
 import keystrokesmod.event.PrePlayerInteractEvent;
 
-
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.BlockListSetting;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -10,7 +9,6 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
 
 import net.minecraft.item.ItemStack;
-
 
 public class AutoSwap extends Module {
     private final ButtonSetting useBlockWhitelist;

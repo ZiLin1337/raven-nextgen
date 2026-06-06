@@ -2,7 +2,7 @@ package keystrokesmod.utility.shader;
 
 import keystrokesmod.utility.RenderUtils;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.render.GlStateManager;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL14;
@@ -56,7 +56,6 @@ public class KawaseBlur {
         for (int i = iterations; i > 1; i--) {
             renderFBO(framebufferList.get(i - 1), framebufferList.get(i).framebufferTexture, kawaseUp, offset);
         }
-
 
         net.minecraft.client.gl.Framebuffer lastBuffer = framebufferList.get(0);
         lastBuffer.framebufferClear();

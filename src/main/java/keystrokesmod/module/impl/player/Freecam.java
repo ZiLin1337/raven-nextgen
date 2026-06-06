@@ -1,6 +1,5 @@
 package keystrokesmod.module.impl.player;
 
-
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
@@ -8,11 +7,7 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 
-
-
 import net.minecraft.util.hit.HitResult;
-
-
 
 import java.awt.*;
 

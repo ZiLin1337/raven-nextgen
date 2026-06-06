@@ -9,8 +9,6 @@ import keystrokesmod.utility.Utils;
 
 import net.minecraft.item.ItemStack;
 
-
-
 public class SafeWalk extends Module {
     private SliderSetting sneakDelay;
     private SliderSetting motion;

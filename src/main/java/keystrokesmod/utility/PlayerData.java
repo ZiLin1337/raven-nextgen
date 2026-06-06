@@ -2,7 +2,6 @@ package keystrokesmod.utility;
 
 import net.minecraft.entity.player.PlayerEntity;
 
-
 public class PlayerData {
     public double speed;
     public int aboveVoidTicks;

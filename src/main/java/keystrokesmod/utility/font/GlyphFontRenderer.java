@@ -1,7 +1,7 @@
 package keystrokesmod.utility.font;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.render.GlStateManager;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 

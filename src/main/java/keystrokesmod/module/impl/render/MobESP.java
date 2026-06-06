@@ -13,7 +13,6 @@ import keystrokesmod.utility.Utils;
 import keystrokesmod.utility.shader.GlowShader;
 import keystrokesmod.utility.shader.OutlineShader;
 
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 // import net.minecraft.entity.boss.EntityDragon;
@@ -23,8 +22,6 @@ import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
-
-
 
 import org.lwjgl.opengl.GL11;
 

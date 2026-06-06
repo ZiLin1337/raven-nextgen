@@ -3,7 +3,7 @@ package keystrokesmod.utility.shader;
 import keystrokesmod.utility.IMinecraftInstance;
 import keystrokesmod.utility.RenderUtils;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.render.GlStateManager;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL14;
@@ -41,7 +41,6 @@ public class KawaseBloom implements IMinecraftInstance {
             framebufferList.add(currentBuffer);
         }
     }
-
 
     public static void renderBlur(int framebufferTexture, int iterations, float offset) {
         if (currentIterations != iterations || (framebuffer.framebufferWidth != mc.displayWidth || framebuffer.framebufferHeight != mc.displayHeight)) {
@@ -84,7 +83,6 @@ public class KawaseBloom implements IMinecraftInstance {
         RenderUtils.bindTexture(framebufferList.get(1).framebufferTexture);
         ShaderUtils.drawQuads();
         kawaseUp.unload();
-
 
         GlStateManager.clearColor(0, 0, 0, 0);
         mc.getnet.minecraft.client.gl.Framebuffer().bindnet.minecraft.client.gl.Framebuffer(false);

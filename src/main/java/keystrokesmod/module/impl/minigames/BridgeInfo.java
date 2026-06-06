@@ -17,8 +17,6 @@ import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 
-
-
 import java.awt.*;
 import java.io.IOException;
 import java.util.Iterator;

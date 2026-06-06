@@ -20,7 +20,6 @@ public class Request {
     public int readTimeout;
     public String content;
 
-
     public Request(String method, String URL) {
         this.headers = new ArrayList<>();
         this.content = "";

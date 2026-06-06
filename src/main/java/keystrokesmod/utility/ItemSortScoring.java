@@ -7,8 +7,8 @@ import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.block.Blocks;
-import net.minecraft.item.ItemBow;
-import net.minecraft.item.ItemHoe;
+import net.minecraft.item.BowItem;
+import net.minecraft.item.HoeItem;
 import net.minecraft.item.ItemStack;
 
 import java.util.Map;

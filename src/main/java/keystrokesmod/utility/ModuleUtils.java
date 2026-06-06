@@ -9,8 +9,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import keystrokesmod.module.ModuleManager;
 
-
-
 import net.minecraft.util.math.BlockPos;
 
 import java.util.Iterator;

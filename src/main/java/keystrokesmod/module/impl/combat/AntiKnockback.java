@@ -11,7 +11,6 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
 import net.minecraft.network.packet.s2c.play.ExplosionS2CPacket;
 
-
 public class AntiKnockback extends Module {
     private SliderSetting horizontal;
     private SliderSetting vertical;

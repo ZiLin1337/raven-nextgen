@@ -12,7 +12,6 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;

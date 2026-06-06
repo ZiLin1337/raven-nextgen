@@ -1,6 +1,5 @@
 package keystrokesmod.module.impl.combat;
 
-
 import keystrokesmod.module.Module;
 import keystrokesmod.module.impl.world.AntiBot;
 import keystrokesmod.module.setting.impl.ButtonSetting;

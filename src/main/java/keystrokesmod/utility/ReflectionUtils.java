@@ -9,7 +9,6 @@ import net.minecraft.client.gui.inventory.GuiFurnace;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.inventory.*;
 
-
 import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
 import java.util.*;

@@ -12,9 +12,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
-
-
-
 import java.util.ArrayList;
 
 public class Tracers extends Module {

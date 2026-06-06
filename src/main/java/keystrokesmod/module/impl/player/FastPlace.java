@@ -1,7 +1,5 @@
 package keystrokesmod.module.impl.player;
 
-
-
 import keystrokesmod.mixin.impl.accessor.IAccessorMinecraftClient;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.BlockListSetting;

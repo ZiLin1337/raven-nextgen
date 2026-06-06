@@ -15,8 +15,6 @@ import net.minecraft.item.Items;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.MathHelper;
 
-
-
 import org.lwjgl.opengl.GL11;
 
 import java.util.HashMap;

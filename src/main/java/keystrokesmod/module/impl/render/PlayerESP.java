@@ -17,16 +17,10 @@ import keystrokesmod.utility.Utils;
 import keystrokesmod.utility.shader.GlowShader;
 import keystrokesmod.utility.shader.OutlineShader;
 
-
-
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
-
-
-
 
 import org.lwjgl.opengl.GL11;
 
@@ -441,7 +435,7 @@ public void onRenderWorld(Object e) {
         GL11.glPopMatrix();
     }
 
-    public void renderSkeleton(PlayerEntity player, ModelBiped modelBiped, int color, float partialTicks) {
+    public void renderSkeleton(PlayerEntity player, PlayerEntityModel modelBiped, int color, float partialTicks) {
         GL11.glPushMatrix();
         GL11.glDisable(GL11.GL_DEPTH_TEST);
 

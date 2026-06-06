@@ -26,7 +26,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.hit.HitResult;
 
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;

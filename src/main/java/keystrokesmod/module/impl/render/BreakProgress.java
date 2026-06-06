@@ -1,6 +1,5 @@
 package keystrokesmod.module.impl.render;
 
-
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -10,8 +9,6 @@ import keystrokesmod.utility.Utils;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.hit.HitResult;
-
-
 
 import org.lwjgl.opengl.GL11;
 

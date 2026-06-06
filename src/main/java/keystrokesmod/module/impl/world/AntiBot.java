@@ -7,7 +7,7 @@ import keystrokesmod.module.impl.player.Freecam;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.Utils;
-import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 
@@ -116,7 +116,7 @@ public class AntiBot extends Module {
 
     private static List<String> getTablist() {
         List<String> tab = new ArrayList<>();
-        for (NetworkPlayerInfo networkPlayerInfo : Utils.getTablist(true)) {
+        for (PlayerListEntry networkPlayerInfo : Utils.getTablist(true)) {
             if (networkPlayerInfo == null) {
                 continue;
             }

@@ -22,7 +22,7 @@ import net.minecraft.block.*;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.client.renderer.ActiveRenderInfo;
+import net.minecraft.client.render.ActiveRenderInfo;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -33,7 +33,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Items;
 import net.minecraft.inventory.ContainerPlayer;
 import net.minecraft.item.*;
-
 
 import net.minecraft.potion.Potion;
 import net.minecraft.scoreboard.Score;
@@ -154,7 +153,7 @@ public class Utils implements IMinecraftInstance {
         sendMessage("&7player: &r" + isPlayer);
         sendMessage("&7dist eye: &d" + round(getDistanceToEye(ent), 2));
         sendMessage("&7min dist: &d" + round(Math.sqrt(raycastDistanceSq(ent, 12.0, false)), 2));
-        IChatComponent displayName = ent.getDisplayName();
+        Text displayName = ent.getDisplayName();
         boolean hasDisplayName = displayName != null;
         if (isPlayer) {
             PlayerEntity p = (PlayerEntity)ent;
@@ -269,7 +268,7 @@ public class Utils implements IMinecraftInstance {
             }
         }
 
-        IChatComponent displayNameComponent = entity.getDisplayName();
+        Text displayNameComponent = entity.getDisplayName();
         if (displayNameComponent == null) {
             return -1;
         }
@@ -528,7 +527,7 @@ public class Utils implements IMinecraftInstance {
 
     public static void sendDebugMessage(String message) {
         if (nullCheck()) {
-            mc.player.addChatMessage(new ChatComponentText("§7[§dR§7]§r " + message));
+            mc.player.addChatMessage(new Text.literal("§7[§dR§7]§r " + message));
         }
     }
 

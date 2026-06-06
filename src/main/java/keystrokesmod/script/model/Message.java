@@ -3,9 +3,9 @@ package keystrokesmod.script.model;
 import keystrokesmod.utility.Utils;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.text.Text;
 import net.minecraft.util.ChatStyle;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,7 @@ public class Message {
 
     public List<Message> getSiblings() {
         List<Message> siblings = new ArrayList<>();
-        for (IChatComponent sibling : this.component.getSiblings()) {
+        for (Text sibling : this.component.getSiblings()) {
             siblings.add(new Message(sibling.getUnformattedTextForChat()));
         }
         return siblings;

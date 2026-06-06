@@ -18,10 +18,8 @@ import net.minecraft.block.BlockFence;
 import net.minecraft.block.BlockWall;
 import net.minecraft.client.util.math.MatrixStack;
 
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
-
 
 import java.util.*;
 

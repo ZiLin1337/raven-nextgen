@@ -16,8 +16,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 
-
-
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;

@@ -8,8 +8,8 @@ import keystrokesmod.utility.PlayerRelationsManager;
 import keystrokesmod.utility.PlayerSkinCache;
 import keystrokesmod.utility.RenderUtils;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.NetworkPlayerInfo;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.network.PlayerListEntry;
+import net.minecraft.client.render.GlStateManager;
 import net.minecraft.util.Identifier;
 
 import org.lwjgl.opengl.GL11;
@@ -94,7 +94,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
         float offsetPx = selectedScrollAnim.getValue();
         int firstRow = (int) (offsetPx / ROW_HEIGHT);
         int end = Math.min(firstRow + MAX_VISIBLE_SELECTED + 1, entries.size());
-        Map<String, NetworkPlayerInfo> playerInfoMap = getPlayerInfoMap();
+        Map<String, PlayerListEntry> playerInfoMap = getPlayerInfoMap();
         for (int i = firstRow; i < end; i++) {
             PlayerRelationsManager.PlayerEntry entry = entries.get(i);
             float rowTop = selectedTop - offsetPx + i * ROW_HEIGHT;
@@ -116,7 +116,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
         return false;
     }
 
-    private void renderPlayerHead(PlayerRelationsManager.PlayerEntry entry, NetworkPlayerInfo playerInfo, float x, float y) {
+    private void renderPlayerHead(PlayerRelationsManager.PlayerEntry entry, PlayerListEntry playerInfo, float x, float y) {
         Identifier skin = PlayerSkinCache.getSkin(entry.getDisplayName(), playerInfo);
         if (skin == null) return;
         boolean depth = GL11.glIsEnabled(GL11.GL_DEPTH_TEST);
@@ -131,10 +131,10 @@ public class PlayerListComponent extends AbstractTextInputComponent {
         } finally { RenderUtils.restoreGuiRenderState(depth, blend, depthMask); }
     }
 
-    private Map<String, NetworkPlayerInfo> getPlayerInfoMap() {
-        Map<String, NetworkPlayerInfo> map = new HashMap<>();
+    private Map<String, PlayerListEntry> getPlayerInfoMap() {
+        Map<String, PlayerListEntry> map = new HashMap<>();
         if (MinecraftClient.getInstance().getNetHandler() == null) return map;
-        for (NetworkPlayerInfo info : MinecraftClient.getInstance().getNetHandler().getPlayerInfoMap()) {
+        for (PlayerListEntry info : MinecraftClient.getInstance().getNetHandler().getPlayerInfoMap()) {
             if (info == null) continue;
             GameProfile profile = info.getGameProfile();
             if (profile == null || profile.getName() == null) continue;

@@ -2,7 +2,7 @@ package keystrokesmod.utility.shader;
 
 import keystrokesmod.utility.RenderUtils;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.render.GlStateManager;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 
@@ -16,7 +16,6 @@ public class RoundedUtils {
     private static final ShaderUtils roundedTexturedShader = new ShaderUtils("roundRectTexture");
     private static final ShaderUtils roundedGradientShader = new ShaderUtils("roundedRectGradient");
     private static final ShaderUtils roundedRectRiseShader = new ShaderUtils("roundedRectRise");
-
 
     public static void drawRound(float x, float y, float width, float height, float radius, Color color) {
         drawRound(x, y, width, height, radius, false, color);
@@ -113,7 +112,6 @@ public class RoundedUtils {
         GlStateManager.disableBlend();
     }
 
-
     public static void drawRoundOutline(float x, float y, float width, float height, float radius, float outlineThickness, Color color, Color outlineColor) {
         RenderUtils.resetColor();
         GlStateManager.enableBlend();
@@ -126,12 +124,10 @@ setupRoundedRectUniforms(x, y, width, height, radius, roundedOutlineShader);
         roundedOutlineShader.setUniformf("color", color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
         roundedOutlineShader.setUniformf("outlineColor", outlineColor.getRed() / 255f, outlineColor.getGreen() / 255f, outlineColor.getBlue() / 255f, outlineColor.getAlpha() / 255f);
 
-
         ShaderUtils.drawQuads(x - (2 + outlineThickness), y - (2 + outlineThickness), width + (4 + outlineThickness * 2), height + (4 + outlineThickness * 2));
         roundedOutlineShader.unload();
         GlStateManager.disableBlend();
     }
-
 
     public static void drawRoundTextured(float x, float y, float width, float height, float radius, float alpha) {
         RenderUtils.resetColor();
