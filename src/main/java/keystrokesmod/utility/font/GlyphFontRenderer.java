@@ -449,7 +449,7 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
         int uiScale = 1;
 
         try {
-            uiScale = Math.max(1, new int(mc).getScaleFactor());
+            uiScale = Math.max(1, MinecraftClient.getInstance().getWindow().getScaleFactor());
         }
         catch (Exception ignored) {
         }

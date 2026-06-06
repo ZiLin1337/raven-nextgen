@@ -18,7 +18,6 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
-import net.minecraftforge.common.MinecraftForge;
 
 import java.util.HashMap;
 import java.util.UUID;

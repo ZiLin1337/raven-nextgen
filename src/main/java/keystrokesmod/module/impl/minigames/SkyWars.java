@@ -18,7 +18,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.Vec3;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 import java.awt.*;
 import java.util.*;

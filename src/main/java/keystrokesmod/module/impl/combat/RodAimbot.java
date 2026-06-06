@@ -10,7 +10,6 @@ import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFishingRod;
-import net.minecraftforge.client.event.MouseEvent;
 
 public class RodAimbot extends Module {
     private SliderSetting fov;

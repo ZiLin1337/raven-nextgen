@@ -11,7 +11,6 @@ import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraftforge.client.event.MouseEvent;
 
 import org.lwjgl.input.Keyboard;
 

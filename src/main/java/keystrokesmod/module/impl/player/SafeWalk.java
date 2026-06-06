@@ -9,7 +9,6 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.event.GuiOpenEvent;
 
 import org.lwjgl.input.Keyboard;
 

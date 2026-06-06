@@ -25,7 +25,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.Box;
-import net.minecraftforge.client.event.RenderPlayerEvent;
 
 
 
@@ -336,7 +335,7 @@ public void onRenderWorld(RenderWorldLastEvent e) {
 
          scaledResolution = null; // int removed for 1.21.4
         ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(partialTicks, 0);
-        projectionContext = RenderUtils.captureProjectionContext(projectionContext, scaledResolution.getScaleFactor());
+        projectionContext = RenderUtils.captureProjectionContext(projectionContext, MinecraftClient.getInstance().getWindow().getScaleFactor());
         mc.entityRenderer.setupOverlayRendering();
 
         int screenWidth = scaledResolution.getScaledWidth();

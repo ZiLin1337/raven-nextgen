@@ -25,7 +25,6 @@ import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraftforge.client.event.MouseEvent;
 
 import org.lwjgl.input.Mouse;
 

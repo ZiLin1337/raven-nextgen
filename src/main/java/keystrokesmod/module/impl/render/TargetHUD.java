@@ -16,7 +16,6 @@ import net.minecraft.client.gui.GuiScreen;
 
 import net.minecraft.entity.EntityLivingBase;
 
-import net.minecraftforge.fml.client.config.GuiButtonExt;
 
 
 
@@ -249,7 +248,7 @@ public void onRenderWorld(RenderWorldLastEvent renderWorldLastEvent) {
             posY = miY;
             String edit = "Edit the HUD position by dragging.";
             int x = res.getScaledWidth() / 2 - fontRendererObj.getStringWidth(edit) / 2;
-            int y = res.getScaledHeight() / 2 - 20;
+            int y = mc.getWindow().getScaledHeight() / 2 - 20;
             RenderUtils.drawColoredString(edit, '-', x, y, 2L, 0L, true, this.mc.textRenderer);
 
             try {

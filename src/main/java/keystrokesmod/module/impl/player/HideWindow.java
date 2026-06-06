@@ -16,9 +16,6 @@ import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.network.play.server.S2EPacketCloseWindow;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.GuiOpenEvent;
-import net.minecraftforge.event.world.WorldEvent;
-import net.minecraftforge.fml.client.config.GuiButtonExt;
 
 import java.io.IOException;
 
@@ -151,7 +148,7 @@ public void onGuiOpen(GuiOpenEvent event) {
     }
 
     public void setAbsolutePosition(float absoluteX, float absoluteY) {
-        setAbsolutePosition(absoluteX, absoluteY, new int(mc));
+        setAbsolutePosition(absoluteX, absoluteY);
     }
 
     public void resetPosition() {
@@ -185,7 +182,7 @@ public void onGuiOpen(GuiOpenEvent event) {
     }
 
     private void syncPosition() {
-        syncPosition(new int(mc));
+        syncPosition();
     }
 
     private void syncPosition(int resolution) {
@@ -252,15 +249,14 @@ public void onGuiOpen(GuiOpenEvent event) {
         public void initGui() {
             super.initGui();
             buttonList.add(resetBtn = new GuiButtonExt(1, width - 90, height - 25, 85, 20, "Reset position"));
-            syncPosition(new int(mc));
+            syncPosition();
             actualX = posX;
             actualY = posY;
         }
 
         @Override
         public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-            int(mc);
-            if (!dragging) {
+if (!dragging) {
                 syncPosition(resolution);
                 actualX = posX;
                 actualY = posY;

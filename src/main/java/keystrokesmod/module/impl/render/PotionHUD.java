@@ -14,7 +14,6 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.StatCollector;
-import net.minecraftforge.fml.client.config.GuiButtonExt;
 
 
 
@@ -113,7 +112,7 @@ public class PotionHUD extends Module {
     }
 
     public void setAbsolutePosition(float absoluteX, float absoluteY) {
-        setAbsolutePosition(absoluteX, absoluteY, null /* int);
+        setAbsolutePosition(absoluteX, absoluteY, null);
     }
 
     public void resetPosition() {
@@ -271,7 +270,7 @@ public class PotionHUD extends Module {
     }
 
     private void syncPositionToResolution() {
-        syncPositionToResolution(null /* int);
+        syncPositionToResolution(null);
     }
 
     private void syncPositionToResolution( resolution) {
@@ -461,7 +460,7 @@ public class PotionHUD extends Module {
         public void initGui() {
             super.initGui();
             this.buttonList.add(this.resetPosition = new GuiButtonExt(1, this.width - 90, this.height - 25, 85, 20, "Reset position"));
-            syncPositionToResolution(null /* int);
+            syncPositionToResolution(null);
             this.actualX = posX;
             this.actualY = posY;
         }

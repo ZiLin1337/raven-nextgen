@@ -27,8 +27,6 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.*;
-import net.minecraftforge.client.event.MouseEvent;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 import org.lwjgl.input.Mouse;
 

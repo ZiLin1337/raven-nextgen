@@ -9,7 +9,6 @@ import keystrokesmod.utility.Utils;
 
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.event.MouseEvent;
 
 import org.lwjgl.input.Mouse;
 

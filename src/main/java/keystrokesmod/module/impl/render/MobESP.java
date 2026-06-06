@@ -383,7 +383,7 @@ public class MobESP extends Module {
          scaledResolution = null; // int removed for 1.21.4
 
         for (Vec3 corner : corners) {
-            Vec3 screenVec = RenderUtils.convertTo2D(scaledResolution.getScaleFactor(), corner.xCoord, corner.yCoord, corner.zCoord);
+            Vec3 screenVec = RenderUtils.convertTo2D(MinecraftClient.getInstance().getWindow().getScaleFactor(), corner.xCoord, corner.yCoord, corner.zCoord);
             if (screenVec != null) {
                 if (screenVec.zCoord >= 1.0003684 || screenVec.zCoord <= 0) {
                     continue;

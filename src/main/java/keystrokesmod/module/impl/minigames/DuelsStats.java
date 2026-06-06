@@ -8,7 +8,6 @@ import keystrokesmod.utility.ProfileUtils;
 import keystrokesmod.utility.NetworkUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 import java.util.ArrayList;
 import java.util.List;

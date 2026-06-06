@@ -9,7 +9,6 @@ import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
-import net.minecraftforge.client.event.MouseEvent;
 
 import org.lwjgl.input.Mouse;
 

@@ -8,9 +8,7 @@ import net.minecraft.client.gui.inventory.GuiDispenser;
 import net.minecraft.client.gui.inventory.GuiFurnace;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.inventory.*;
-import net.minecraftforge.client.event.MouseEvent;
 
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import org.lwjgl.input.Mouse;
 
 import java.lang.reflect.Field;

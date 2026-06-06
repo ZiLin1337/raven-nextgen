@@ -24,7 +24,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
-import net.minecraftforge.client.event.MouseEvent;
 
 import org.lwjgl.input.Mouse;
 

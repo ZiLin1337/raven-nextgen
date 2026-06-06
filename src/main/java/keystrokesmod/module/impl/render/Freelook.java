@@ -10,12 +10,8 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraftforge.client.event.GuiOpenEvent;
 
 
-import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
-import net.minecraftforge.event.world.WorldEvent;
 
 public class Freelook extends Module {
     public static boolean perspectiveToggled;

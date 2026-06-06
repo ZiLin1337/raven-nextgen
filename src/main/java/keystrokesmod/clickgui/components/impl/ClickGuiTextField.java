@@ -5,7 +5,6 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.font.RavenFontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import org.lwjgl.opengl.GL11;
 
 import java.lang.reflect.Field;

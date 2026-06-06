@@ -406,7 +406,7 @@ public class ScriptDefaults {
 
         public static int[] getDisplaySize() {
             Window window = mc.getWindow();
-            return new int[]{window.getScaledWidth(), window.getScaledHeight(), (int)window.getScaleFactor()};
+            return new int[]{window.getScaledWidth(), window.getScaledHeight(), (int)MinecraftClient.getInstance().getWindow().getScaleFactor()};
         }
 
         public static float getServerDirection(PlayerState state) {

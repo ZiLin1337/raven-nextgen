@@ -17,12 +17,8 @@ import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
-import net.minecraftforge.fml.client.config.GuiButtonExt;
 
-import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
-import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 
 import java.awt.*;
 import java.io.IOException;
@@ -215,9 +211,8 @@ public class BridgeInfo extends Module {
             this.maY = maY;
             BridgeInfo.hudX = miX;
             BridgeInfo.hudY = miY;
-            int(this.mc);
-            int x = res.getScaledWidth() / 2 - 84;
-            int y = res.getScaledHeight() / 2 - 20;
+int x = mc.getWindow().getScaledWidth() / 2 - 84;
+            int y = mc.getWindow().getScaledHeight() / 2 - 20;
             RenderUtils.drawColoredString("Edit the HUD position by dragging.", '-', x, y, 2L, 0L, true, this.mc.textRenderer);
 
             try {

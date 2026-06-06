@@ -128,9 +128,7 @@ public class RenderUtils implements IMinecraftInstance {
         y *= guiScale;
         width *= guiScale;
         height *= guiScale;
-
-        int(mc);
-        int scale = sr.getScaleFactor();
+int scale = MinecraftClient.getInstance().getWindow().getScaleFactor();
         double screenH = sr.getScaledHeight();
 
         int left = (int) Math.floor(x * scale);
@@ -160,9 +158,7 @@ public class RenderUtils implements IMinecraftInstance {
         y *= guiScale;
         width *= guiScale;
         height *= guiScale;
-
-        int(mc);
-        int scale = sr.getScaleFactor();
+int scale = MinecraftClient.getInstance().getWindow().getScaleFactor();
         double screenH = sr.getScaledHeight();
         int left = (int) Math.floor(x * scale);
         int right = (int) Math.ceil((x + width) * scale);
@@ -555,8 +551,7 @@ public class RenderUtils implements IMinecraftInstance {
     }
 
     public static void renderBPS(final boolean b, final boolean b2) {
-        final int(mc);
-        String s = "";
+String s = "";
         int n = -1;
         if (b) {
             final double t = Utils.gbps((Freecam.freeEntity == null) ? mc.player : Freecam.freeEntity, 2);
@@ -1203,8 +1198,7 @@ public class RenderUtils implements IMinecraftInstance {
 
     public static void drawFramebufferFullscreen(Framebuffer framebuffer) {
         if (framebuffer == null) return;
-        int(mc);
-        RenderSystem.bindTexture(framebuffer.framebufferTexture);
+RenderSystem.bindTexture(framebuffer.framebufferTexture);
         GL11.glBegin(GL11.GL_QUADS);
         GL11.glTexCoord2d(0.0, 1.0);
         GL11.glVertex2d(0.0, 0.0);

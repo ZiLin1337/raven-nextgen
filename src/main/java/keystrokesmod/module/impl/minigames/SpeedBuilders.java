@@ -19,8 +19,6 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import net.minecraft.util.*;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
-import net.minecraftforge.client.event.MouseEvent;
 
 import java.awt.*;
 import java.util.*;

@@ -28,7 +28,6 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 
-import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 
 import org.lwjgl.input.Mouse;
 

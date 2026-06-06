@@ -422,8 +422,7 @@ public class ShaderUtils {
     }
 
     public static void drawQuads() {
-        int(MinecraftClient.getInstance());
-        float width = (float) sr.getScaledWidth_double();
+float width = (float) sr.getScaledWidth_double();
         float height = (float) sr.getScaledHeight_double();
         glBegin(GL_QUADS);
         glTexCoord2f(0, 1);

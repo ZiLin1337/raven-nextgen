@@ -6,7 +6,6 @@ import keystrokesmod.module.setting.impl.DescriptionSetting;
 import keystrokesmod.utility.Utils;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.scoreboard.ScorePlayerTeam;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 public class AutoWho extends Module {
     private ButtonSetting artifical;

@@ -25,7 +25,6 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 
 
 import org.lwjgl.opengl.GL11;

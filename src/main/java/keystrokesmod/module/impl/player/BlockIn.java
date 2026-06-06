@@ -22,7 +22,6 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
-import net.minecraftforge.client.event.MouseEvent;
 
 import org.lwjgl.input.Mouse;
 
@@ -235,9 +234,7 @@ public class BlockIn extends Module {
         } else {
             circleProgress = animTargetProgress;
         }
-
-        int(mc);
-        float cx = sr.getScaledWidth() / 2f - 1f;
+float cx = sr.getScaledWidth() / 2f - 1f;
         float cy = sr.getScaledHeight() / 2f;
         float radius = 10f;
         float thickness = 3f;

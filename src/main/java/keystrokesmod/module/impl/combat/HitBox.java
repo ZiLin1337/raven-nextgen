@@ -15,7 +15,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
-import net.minecraftforge.client.event.MouseEvent;
 
 import org.lwjgl.opengl.GL11;
 

@@ -25,7 +25,6 @@ import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
-import net.minecraftforge.client.event.RenderLivingEvent;
 
 
 
