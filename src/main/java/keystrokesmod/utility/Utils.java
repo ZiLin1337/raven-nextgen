@@ -8,8 +8,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
 import keystrokesmod.helper.MouseHelper;
-import keystrokesmod.mixin.impl.accessor.IAccessorGuiIngame;
-import keystrokesmod.mixin.impl.accessor.IAccessorItemFood;
 import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
 
 import keystrokesmod.Raven;
@@ -26,7 +24,6 @@ import net.minecraft.block.*;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.client.render.ActiveRenderInfo;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -35,12 +32,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Items;
-import net.minecraft.inventory.ContainerPlayer;
 import net.minecraft.item.*;
 
 import net.minecraft.potion.Potion;
-import net.minecraft.scoreboard.Score;
-import net.minecraft.scoreboard.ScoreObjective;
 
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.*;

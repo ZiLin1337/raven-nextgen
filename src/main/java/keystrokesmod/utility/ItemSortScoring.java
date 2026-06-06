@@ -3,8 +3,6 @@ package keystrokesmod.utility;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.EnumCreatureAttribute;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.BowItem;

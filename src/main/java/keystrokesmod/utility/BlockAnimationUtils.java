@@ -3,7 +3,7 @@ package keystrokesmod.utility;
 import keystrokesmod.mixin.interfaces.IMixinItemRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.EnumAction;
+// EnumAction removed
 import net.minecraft.item.ItemStack;
 
 public final class BlockAnimationUtils {

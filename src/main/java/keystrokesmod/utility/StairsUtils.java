@@ -1,5 +1,4 @@
 package keystrokesmod.utility;
-import net.minecraft.util.math.BlockHalf;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.Box;

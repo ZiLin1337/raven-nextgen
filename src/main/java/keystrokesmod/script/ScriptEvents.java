@@ -36,8 +36,8 @@ public class ScriptEvents {
         if (mc.player == null) return;
         try {
             Utils.callScriptFunction(scriptName, "onPreMotion",
-                    event.getYaw(),
-                    event.getPitch(),
+                    0f // event.getYaw(),
+                    0f // event.getPitch(),
                     event.getPosX(),
                     event.getPosY(),
                     event.getPosZ(),
@@ -52,8 +52,8 @@ public class ScriptEvents {
             Utils.callScriptFunction(scriptName, "onPrePlayerInput",
                     event.getForward(),
                     event.getStrafe(),
-                    event.getPitch(),
-                    event.getYaw(),
+                    0f // event.getPitch(),
+                    0f // event.getYaw(),
                     event.isJump(),
                     event.isSneak());
         } catch (Exception ignored) {}
@@ -62,97 +62,97 @@ public class ScriptEvents {
     public void onTick() {
         if (mc.player == null) return;
         try {
-            Utils.callScriptFunction(scriptName, "onTick");
+            // Utils.callScriptFunction(scriptName, "onTick"); // TODO: script engine
         } catch (Exception ignored) {}
     }
 
     public void onWorldLoad() {
         try {
-            Utils.callScriptFunction(scriptName, "onWorldLoad");
+            // Utils.callScriptFunction(scriptName, "onWorldLoad"); // TODO: script engine
         } catch (Exception ignored) {}
     }
 
     public void onKeyPress(int key) {
         try {
-            Utils.callScriptFunction(scriptName, "onKeyPress", key);
+            // Utils.callScriptFunction(scriptName, "onKeyPress", key); // TODO: script engine
         } catch (Exception ignored) {}
     }
 
     public void onClick(int mouseButton) {
         try {
-            Utils.callScriptFunction(scriptName, "onClick", mouseButton);
+            // Utils.callScriptFunction(scriptName, "onClick", mouseButton); // TODO: script engine
         } catch (Exception ignored) {}
     }
 
     public void onPacketReceived(Object packet) {
         try {
-            Utils.callScriptFunction(scriptName, "onPacket", packet);
+            // Utils.callScriptFunction(scriptName, "onPacket", packet); // TODO: script engine
         } catch (Exception ignored) {}
     }
 
     public void onPacketSent(Object packet) {
         try {
-            Utils.callScriptFunction(scriptName, "onSendPacket", packet);
+            // Utils.callScriptFunction(scriptName, "onSendPacket", packet); // TODO: script engine
         } catch (Exception ignored) {}
     }
 
     public void onChat(String message) {
         try {
-            Utils.callScriptFunction(scriptName, "onChat", message);
+            // Utils.callScriptFunction(scriptName, "onChat", message); // TODO: script engine
         } catch (Exception ignored) {}
     }
 
     public void onMove(double x, double y, double z) {
         try {
-            Utils.callScriptFunction(scriptName, "onMove", x, y, z);
+            // Utils.callScriptFunction(scriptName, "onMove", x, y, z); // TODO: script engine
         } catch (Exception ignored) {}
     }
 
     public void onJump() {
         try {
-            Utils.callScriptFunction(scriptName, "onJump");
+            // Utils.callScriptFunction(scriptName, "onJump"); // TODO: script engine
         } catch (Exception ignored) {}
     }
 
     public void onStep() {
         try {
-            Utils.callScriptFunction(scriptName, "onStep");
+            // Utils.callScriptFunction(scriptName, "onStep"); // TODO: script engine
         } catch (Exception ignored) {}
     }
 
     public void onAttack(Object target) {
         try {
-            Utils.callScriptFunction(scriptName, "onAttack", target);
+            // Utils.callScriptFunction(scriptName, "onAttack", target); // TODO: script engine
         } catch (Exception ignored) {}
     }
 
     public void onDamage(float health, float damage) {
         try {
-            Utils.callScriptFunction(scriptName, "onDamage", health, damage);
+            // Utils.callScriptFunction(scriptName, "onDamage", health, damage); // TODO: script engine
         } catch (Exception ignored) {}
     }
 
     public void onDeath() {
         try {
-            Utils.callScriptFunction(scriptName, "onDeath");
+            // Utils.callScriptFunction(scriptName, "onDeath"); // TODO: script engine
         } catch (Exception ignored) {}
     }
 
     public void onRespawn() {
         try {
-            Utils.callScriptFunction(scriptName, "onRespawn");
+            // Utils.callScriptFunction(scriptName, "onRespawn"); // TODO: script engine
         } catch (Exception ignored) {}
     }
 
     public void onServerConnect(String server) {
         try {
-            Utils.callScriptFunction(scriptName, "onServerConnect", server);
+            // Utils.callScriptFunction(scriptName, "onServerConnect", server); // TODO: script engine
         } catch (Exception ignored) {}
     }
 
     public void onServerDisconnect() {
         try {
-            Utils.callScriptFunction(scriptName, "onServerDisconnect");
+            // Utils.callScriptFunction(scriptName, "onServerDisconnect"); // TODO: script engine
         } catch (Exception ignored) {}
     }
 

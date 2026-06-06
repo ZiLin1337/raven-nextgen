@@ -34,7 +34,7 @@ public abstract class MixinLivingEntityRenderer<T extends LivingEntity> {
     @Unique private LivingEntity nameHider$entity;
     @Unique private LivingEntity damageTint$entity;
 
-    @ModifyVariable(method = "render", at = @At("STORE", ordinal = 0), ordinal = 0)
+    @ModifyVariable(method = "render", at = @At(value = "STORE", ordinal = 0), ordinal = 0)
     private boolean modifyInvisibleFlag(boolean flag, T entity) {
         return flag || (this.renderOutlines && shouldRender() && ModuleManager.playerESP.showInvis.isToggled());
     }
@@ -89,7 +89,7 @@ public abstract class MixinLivingEntityRenderer<T extends LivingEntity> {
         this.nameHider$entity = entity;
     }
 
-    @ModifyVariable(method = "renderLabelIfPresent", at = @At("STORE"), ordinal = 0)
+    @ModifyVariable(method = "renderLabelIfPresent", at = @At(value = "STORE"), ordinal = 0)
     private Text nameHider$hideName(Text text) {
         if (text == null || ModuleManager.nameHider == null || !ModuleManager.nameHider.isEnabled()) {
             return text;
