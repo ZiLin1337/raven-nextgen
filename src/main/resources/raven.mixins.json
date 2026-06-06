@@ -1,0 +1,38 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "keystrokesmod.mixin.impl",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [],
+  "client": [
+    "client.MixinMinecraft",
+    "client.MixinEntityPlayerSP",
+    "client.MixinKeyboardInput",
+    "client.MixinPlayerControllerMP",
+    "client.MixinGameSettings",
+    "client.MixinItemStack",
+    "entity.MixinEntity",
+    "entity.MixinEntityLivingBase",
+    "entity.MixinEntityPlayer",
+    "render.MixinActiveRenderInfo",
+    "render.MixinLivingEntityRenderer",
+    "render.MixinEntityRenderer",
+    "render.MixinInGameHud",
+    "render.MixinFontRenderer",
+    "network.MixinClientConnection",
+    "network.MixinClientPlayNetworkHandler",
+    "world.MixinWorld",
+    "world.MixinBlock",
+    "world.MixinWorldInfo",
+    "render.MixinItemRenderer",
+    "render.MixinRenderGlobal",
+    "accessor.IAccessorEntity",
+    "accessor.IAccessorEntityPlayerSP",
+    "accessor.IAccessorEntityPlayer",
+    "accessor.IAccessorEntityLivingBase",
+    "accessor.IAccessorMinecraft"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

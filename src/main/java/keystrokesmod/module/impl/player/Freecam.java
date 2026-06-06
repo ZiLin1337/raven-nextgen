@@ -1,0 +1,199 @@
+package keystrokesmod.module.impl.player;
+
+import keystrokesmod.event.SendPacketEvent;
+import keystrokesmod.module.Module;
+import keystrokesmod.module.setting.impl.ButtonSetting;
+import keystrokesmod.module.setting.impl.SliderSetting;
+import keystrokesmod.utility.RenderUtils;
+import keystrokesmod.utility.Utils;
+import net.minecraft.client.entity.EntityOtherPlayerMP;
+import net.minecraft.network.play.client.C02PacketUseEntity;
+import net.minecraft.network.play.client.C07PacketPlayerDigging;
+import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraftforge.client.event.MouseEvent;
+
+import org.lwjgl.input.Keyboard;
+
+import java.awt.*;
+
+public class Freecam extends Module {
+    public SliderSetting speed;
+    private ButtonSetting disableOnDamage;
+    private ButtonSetting showArm;
+    private ButtonSetting allowDigging;
+    private ButtonSetting allowInteracting;
+    private ButtonSetting allowPlacing;
+
+    public static EntityOtherPlayerMP freeEntity = null;
+
+    private int[] lcc = new int[]{Integer.MAX_VALUE, 0};
+    private float[] sAng = new float[]{0.0F, 0.0F};
+
+    public Freecam() {
+        super("Freecam", category.player);
+        this.registerSetting(speed = new SliderSetting("Speed", 2.5D, 0.5D, 10.0D, 0.5D));
+        this.registerSetting(disableOnDamage = new ButtonSetting("Disable on damage", true));
+        this.registerSetting(allowDigging = new ButtonSetting("Allow digging", false));
+        this.registerSetting(allowInteracting = new ButtonSetting("Allow interacting", false));
+        this.registerSetting(allowPlacing = new ButtonSetting("Allow placing", false));
+        this.registerSetting(showArm = new ButtonSetting("Show arm", false));
+    }
+
+    @Override
+    public void onEnable() {
+        if (!mc.player.onGround) {
+            this.disable();
+        }
+        else {
+            freeEntity = new EntityOtherPlayerMP(mc.world, mc.player.getGameProfile());
+            freeEntity.copyLocationAndAnglesFrom(mc.player);
+            this.sAng[0] = freeEntity.rotationYawHead = mc.player.rotationYawHead;
+            this.sAng[1] = mc.player.rotationPitch;
+            freeEntity.setVelocity(0.0D, 0.0D, 0.0D);
+            freeEntity.setInvisible(true);
+            mc.world.addEntityToWorld(-8008, freeEntity);
+            mc.setRenderViewEntity(freeEntity);
+        }
+    }
+
+    @Override
+    public void onDisable() {
+        if (freeEntity != null) {
+            mc.setRenderViewEntity(mc.player);
+            mc.player.rotationYaw = mc.player.rotationYawHead = this.sAng[0];
+            mc.player.rotationPitch = this.sAng[1];
+            mc.world.removeEntity(freeEntity);
+            freeEntity = null;
+        }
+
+        this.lcc = new int[]{Integer.MAX_VALUE, 0};
+        int x = mc.player.chunkCoordX;
+        int z = mc.player.chunkCoordZ;
+
+        for (int x2 = -1; x2 <= 1; ++x2) {
+            for (int z2 = -1; z2 <= 1; ++z2) {
+                int a = x + x2;
+                int b = z + z2;
+                mc.world.markBlockRangeForRenderUpdate(a * 16, 0, b * 16, a * 16 + 15, 256, b * 16 + 15);
+            }
+        }
+
+    }
+
+    @Override
+    public void onUpdate() {
+        if (disableOnDamage.isToggled() && mc.player.hurtTime != 0) {
+            this.disable();
+        }
+        else {
+            mc.player.setSprinting(false);
+            mc.player.moveForward = 0.0F;
+            mc.player.moveStrafing = 0.0F;
+            freeEntity.rotationYaw = freeEntity.rotationYawHead = mc.player.rotationYaw;
+            freeEntity.rotationPitch = mc.player.rotationPitch;
+            double s = 0.215D * speed.getInput();
+            double rad;
+            double dx;
+            double dz;
+            if (Keyboard.isKeyDown(mc.gameSettings.keyBindForward.getKeyCode())) {
+                rad = (double) freeEntity.rotationYawHead * 0.017453292519943295D;
+                dx = -1.0D * Math.sin(rad) * s;
+                dz = Math.cos(rad) * s;
+                freeEntity.posX += dx;
+                freeEntity.posZ += dz;
+            }
+
+            if (Keyboard.isKeyDown(mc.gameSettings.keyBindBack.getKeyCode())) {
+                rad = (double) freeEntity.rotationYawHead * 0.017453292519943295D;
+                dx = -1.0D * Math.sin(rad) * s;
+                dz = Math.cos(rad) * s;
+                freeEntity.posX -= dx;
+                freeEntity.posZ -= dz;
+            }
+
+            if (Keyboard.isKeyDown(mc.gameSettings.keyBindLeft.getKeyCode())) {
+                rad = (double) (freeEntity.rotationYawHead - 90.0F) * 0.017453292519943295D;
+                dx = -1.0D * Math.sin(rad) * s;
+                dz = Math.cos(rad) * s;
+                freeEntity.posX += dx;
+                freeEntity.posZ += dz;
+            }
+
+            if (Keyboard.isKeyDown(mc.gameSettings.keyBindRight.getKeyCode())) {
+                rad = (double) (freeEntity.rotationYawHead + 90.0F) * 0.017453292519943295D;
+                dx = -1.0D * Math.sin(rad) * s;
+                dz = Math.cos(rad) * s;
+                freeEntity.posX += dx;
+                freeEntity.posZ += dz;
+            }
+
+            if (Utils.jumpDown()) {
+                freeEntity.posY += 0.93D * s;
+            }
+
+            if (Keyboard.isKeyDown(mc.gameSettings.keyBindSneak.getKeyCode())) {
+                freeEntity.posY -= 0.93D * s;
+            }
+
+            mc.player.setSneaking(false);
+            if (this.lcc[0] != Integer.MAX_VALUE && (this.lcc[0] != freeEntity.chunkCoordX || this.lcc[1] != freeEntity.chunkCoordZ)) {
+                int x = freeEntity.chunkCoordX;
+                int z = freeEntity.chunkCoordZ;
+                mc.world.markBlockRangeForRenderUpdate(x * 16, 0, z * 16, x * 16 + 15, 256, z * 16 + 15);
+            }
+
+            this.lcc[0] = freeEntity.chunkCoordX;
+            this.lcc[1] = freeEntity.chunkCoordZ;
+        }
+    }
+
+    
+    public void onRenderWorld(RenderWorldLastEvent e) {
+        if (!Utils.nullCheck()) {
+            return;
+        }
+        if (!showArm.isToggled()) {
+            mc.player.renderArmPitch = mc.player.prevRenderArmPitch = 700.0F;
+        }
+        RenderUtils.renderEntity(mc.player, 1, 0.0D, 0.0D, Color.green.getRGB(), false);
+        RenderUtils.renderEntity(mc.player, 2, 0.0D, 0.0D, Color.green.getRGB(), false);
+    }
+
+    
+    public void onMouse(MouseEvent e) {
+        if (!Utils.nullCheck()) {
+            return;
+        }
+        if ((e.button == 0 && !allowDigging.isToggled() || e.button == 1 && !allowPlacing.isToggled()) && mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+            e.setCanceled(true);
+        }
+        if (!allowInteracting.isToggled()) {
+            if ((e.button == 1 || e.button == 0) && mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY) {
+                e.setCanceled(true);
+            }
+        }
+    }
+
+    
+    public void onSendPacket(SendPacketEvent e) {
+        if (!Utils.nullCheck()) {
+            return;
+        }
+        if (!allowDigging.isToggled()) {
+            if (e.getPacket() instanceof C07PacketPlayerDigging) {
+                e.setCanceled(true);
+            }
+        }
+        if (!allowPlacing.isToggled()) {
+            if (e.getPacket() instanceof C08PacketPlayerBlockPlacement) {
+                e.setCanceled(true);
+            }
+        }
+        if (!allowInteracting.isToggled()) {
+            if (e.getPacket() instanceof C02PacketUseEntity) {
+                e.setCanceled(true);
+            }
+        }
+    }
+}

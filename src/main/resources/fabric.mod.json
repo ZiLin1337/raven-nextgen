@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "raven-nextgen",
+  "version": "${version}",
+  "name": "Raven NextGen",
+  "description": "High version port of Raven client",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["keystrokesmod.Raven"]
+  },
+  "mixins": [
+    "raven.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
