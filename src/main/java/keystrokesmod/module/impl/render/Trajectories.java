@@ -522,12 +522,12 @@ public class Trajectories extends Module {
 
         if (item == Items.bow && disableUnchargedBow.isToggled() && (!player.isUsingItem() || velocity < 0.1)) return;
 
-        float yaw = (float) Math.toRadians(player.rotationYaw);
-        float pitch = (float) Math.toRadians(player.rotationPitch);
+        float yaw = (float) Math.toRadians(player.getYaw());
+        float pitch = (float) Math.toRadians(player.getPitch());
         double posX = player.lastTickPosX + (player.posX - player.lastTickPosX) * partialTicks - MathHelper.cos(yaw) * 0.16f;
         double posY = player.lastTickPosY + (player.posY - player.lastTickPosY) * partialTicks + player.getEyeHeight() - 0.10;
         double posZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * partialTicks - MathHelper.sin(yaw) * 0.16f;
-        double hiddenRenderDistance = mc.gameSettings.thirdPersonView == 0 ? FIRST_PERSON_RENDER_CLIP_DISTANCE : 0.0D;
+        double hiddenRenderDistance = mc.options.thirdPersonView == 0 ? FIRST_PERSON_RENDER_CLIP_DISTANCE : 0.0D;
 
         double motX = -MathHelper.sin(yaw) * MathHelper.cos(pitch);
         double motY = -MathHelper.sin(pitch);
@@ -541,9 +541,9 @@ public class Trajectories extends Module {
         motZ *= velocity;
 
         if (addPlayerVelocity.isToggled()) {
-            motX += player.motionX;
-            motY += player.onGround ? 0 : player.motionY;
-            motZ += player.motionZ;
+            motX += player.getVelocity().x;
+            motY += player.isOnGround() ? 0 : player.getVelocity().y;
+            motZ += player.getVelocity().z;
         }
 
         double[] mot = new double[]{motX, motY, motZ};

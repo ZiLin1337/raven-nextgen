@@ -46,11 +46,11 @@ public class AutoSwap extends Module {
 
     
     public void onSendPacket(SendPacketEvent e) {
-        if (!Utils.nullCheck() || !(e.getPacket() instanceof C08PacketPlayerBlockPlacement)) {
+        if (!Utils.nullCheck() || !(e.getPacket() instanceof PlayerInteractBlockC2SPacket)) {
             return;
         }
 
-        C08PacketPlayerBlockPlacement packet = (C08PacketPlayerBlockPlacement) e.getPacket();
+        PlayerInteractBlockC2SPacket packet = (PlayerInteractBlockC2SPacket) e.getPacket();
         if (packet.getPlacedBlockDirection() == 255) {
             return;
         }
@@ -72,7 +72,7 @@ public class AutoSwap extends Module {
             return;
         }
 
-        if (!mc.inGameHasFocus || mc.currentScreen != null || !Utils.isBindDown(mc.gameSettings.keyBindUseItem)) {
+        if (!mc.isWindowFocused() || mc.currentScreen != null || !Utils.isBindDown(mc.options.keyBindUseItem)) {
             return;
         }
 
@@ -146,7 +146,7 @@ public class AutoSwap extends Module {
         }
 
         mc.player.inventory.currentItem = slot;
-        ((IAccessorClientPlayerInteractionManager) mc.playerController).callSyncCurrentPlayItem();
+        ((IAccessorClientPlayerInteractionManager) mc.interactionManager).callSyncCurrentPlayItem();
     }
 
     private void resetState() {

@@ -160,7 +160,7 @@ public class Autoblock extends Module {
     }
 
     private void startBlocking(ClientPlayerEntity player) {
-        if (player == null || player.isDead()) return;
+        if (player == null || player.isRemoved()()) return;
 
         // Check if we have a shield in offhand or mainhand
         boolean canBlock = canBlockWithCurrentItems(player);

@@ -121,13 +121,13 @@ public class AimAssist extends Module {
         boolean useBackup = ignoreBehindWalls.isToggled() || ignoreBehindEntities.isToggled();
         float[] rot = RotationHelper.get().getRotationsToTarget(en, speedVal, multipointH, multipointV, randomizationPercent, useBackup, range.getInput(), !ignoreBehindWalls.isToggled(), !ignoreBehindEntities.isToggled());
         if (rot == null) return;
-        mc.player.rotationYaw = rot[0];
-        mc.player.rotationPitch = rot[1];
+        mc.player.getYaw() = rot[0];
+        mc.player.getPitch() = rot[1];
     }
 
     private Entity getEnemy(boolean silentMode) {
         final int fovVal = (int) this.fov.getInput();
-        float viewYaw = mc.player.rotationYaw;
+        float viewYaw = mc.player.getYaw();
         if (silentMode) {
             Float serverYaw = RotationHelper.get().getServerYaw();
             if (serverYaw != null) {
@@ -213,7 +213,7 @@ public class AimAssist extends Module {
     }
 
     private boolean conditionsMet() {
-        if (mc.currentScreen != null || !mc.inGameHasFocus) {
+        if (mc.currentScreen != null || !mc.isWindowFocused()) {
             return false;
         }
         if (weaponOnly.isToggled() && !Utils.holdingWeapon()) {

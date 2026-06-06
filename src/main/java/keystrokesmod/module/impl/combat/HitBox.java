@@ -63,7 +63,7 @@ public class HitBox extends Module {
         else if (playersOnly.isToggled()) {
             return;
         }
-        mc.objectMouseOver = mv;
+        mc.crosshairTarget = mv;
     }
 
     
@@ -85,7 +85,7 @@ public class HitBox extends Module {
         if (mc.getRenderViewEntity() != null && mc.world != null) {
             mc.pointedEntity = null;
             pointedEntity = null;
-            double d0 = mc.playerController.extendedReach() ? 6.0 : (ModuleManager.reach.isEnabled() ? Utils.getRandomValue(Reach.min, Reach.max, Utils.getRandom()) : 3.0);
+            double d0 = mc.interactionManager.extendedReach() ? 6.0 : (ModuleManager.reach.isEnabled() ? Utils.getRandomValue(Reach.min, Reach.max, Utils.getRandom()) : 3.0);
             mv = mc.getRenderViewEntity().rayTrace(d0, partialTicks);
             double d2 = d0;
             Vec3d vec3 = mc.getRenderViewEntity().getPositionEyes(partialTicks);

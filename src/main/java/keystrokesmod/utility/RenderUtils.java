@@ -861,9 +861,9 @@ String s = "";
         double startX = 0.0D;
         double startY = viewEntity.getEyeHeight();
         double startZ = 0.0D;
-        if (viewEntity == mc.player && mc.gameSettings.thirdPersonView == 0) {
-            float yaw = viewEntity.rotationYaw;
-            float pitch = viewEntity.rotationPitch;
+        if (viewEntity == mc.player && mc.options.thirdPersonView == 0) {
+            float yaw = viewEntity.getYaw();
+            float pitch = viewEntity.getPitch();
             double dirX = -Math.sin(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch));
             double dirY = -Math.sin(Math.toRadians(pitch));
             double dirZ = Math.cos(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch));

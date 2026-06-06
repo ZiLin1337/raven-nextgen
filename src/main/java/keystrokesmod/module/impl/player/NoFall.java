@@ -46,15 +46,15 @@ public class NoFall extends Module {
         else if ((double) mc.player.fallDistance >= minFallDistance.getInput()) {
             isFalling = true;
         }
-        double predictedY = mc.player.getY() + mc.player.motionY;
+        double predictedY = mc.player.getY() + mc.player.getVelocity().y;
         double distanceFallen = initialY - predictedY;
-        if (mc.player.motionY >= -1.0) {
+        if (mc.player.getVelocity().y >= -1.0) {
             dynamic = 3.0;
         }
-        if (mc.player.motionY < -1.0) {
+        if (mc.player.getVelocity().y < -1.0) {
             dynamic = 4.0;
         }
-        if (mc.player.motionY < -2.0) {
+        if (mc.player.getVelocity().y < -2.0) {
             dynamic = 5.0;
         }
         if (isFalling && mode.getInput() == 2) {
@@ -65,7 +65,7 @@ public class NoFall extends Module {
             }
         }
         if (isFalling && mode.getInput() == 3) {
-            if (mc.player.ticksExisted % 2 == 0) {
+            if (mc.player.age % 2 == 0) {
                 ((IAccessorMinecraft) mc).getTimer().timerSpeed = (float) Utils.randomizeDouble(0.5, 0.50201);
             }
             else {
@@ -97,7 +97,7 @@ public class NoFall extends Module {
     }
 
     private boolean reset() {
-        if (disableAdventure.isToggled() && mc.playerController.getCurrentGameType().isAdventure()) {
+        if (disableAdventure.isToggled() && mc.interactionManager.getCurrentGameType().isAdventure()) {
             return true;
         }
         if (ignoreVoid.isToggled() && isVoid()) {
@@ -109,22 +109,22 @@ public class NoFall extends Module {
         if (Utils.spectatorCheck()) {
             return true;
         }
-        if (mc.player.onGround) {
+        if (mc.player.isOnGround()) {
             return true;
         }
         if (BlockUtils.getBlock(new BlockPos(mc.player.getX(), mc.player.getY() - 1, mc.player.getZ())) != Blocks.AIR) {
             return true;
         }
-        if (mc.player.motionY > -0.0784) {
+        if (mc.player.getVelocity().y > -0.0784) {
             return true;
         }
-        if (mc.player.capabilities.isCreativeMode) {
+        if (mc.player.getAbilities().isCreativeMode) {
             return true;
         }
         if (isVoid() && mc.player.getY() <= 41) {
             return true;
         }
-        if (mc.player.capabilities.isFlying) {
+        if (mc.player.getAbilities().isFlying) {
             return true;
         }
         return false;

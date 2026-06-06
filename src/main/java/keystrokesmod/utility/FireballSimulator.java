@@ -59,9 +59,9 @@ public final class FireballSimulator {
         double posX = fireball.posX;
         double posY = fireball.posY;
         double posZ = fireball.posZ;
-        double motionX = fireball.motionX;
-        double motionY = fireball.motionY;
-        double motionZ = fireball.motionZ;
+        double motionX = fireball.getVelocity().x;
+        double motionY = fireball.getVelocity().y;
+        double motionZ = fireball.getVelocity().z;
         double accelerationX = fireball.accelerationX;
         double accelerationY = fireball.accelerationY;
         double accelerationZ = fireball.accelerationZ;
@@ -69,7 +69,7 @@ public final class FireballSimulator {
         float height = fireball.height;
         double halfWidth = width * 0.5D;
         LivingEntity shooter = fireball.shootingEntity;
-        int ticksInAir = Math.max(0, fireball.ticksExisted);
+        int ticksInAir = Math.max(0, fireball.age);
         int simulatedTicks = 0;
         Vec3d finalPosition = new Vec3d(posX, posY, posZ);
 

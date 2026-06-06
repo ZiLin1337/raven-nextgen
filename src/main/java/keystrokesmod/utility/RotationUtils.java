@@ -37,7 +37,7 @@ public class RotationUtils implements IMinecraftInstance {
     }
 
     public static void setRenderYaw(float yaw) {
-        mc.player.rotationYawHead = yaw;
+        mc.player.getYaw()Head = yaw;
         if (Settings.rotateBody.isToggled() && Settings.fullBody.isToggled()) {
             mc.player.prevRenderYawOffset = prevRenderYaw;
             mc.player.renderYawOffset = yaw;
@@ -60,13 +60,13 @@ public class RotationUtils implements IMinecraftInstance {
         double z = blockPos.getZ() + 0.45 - mc.player.getZ();
 
         float angleToBlock = (float) (Math.atan2(z, x) * (180 / Math.PI)) - 90.0f;
-        float deltaYaw = MathHelper.wrapAngleTo180_float(angleToBlock - mc.player.rotationYaw);
-        float yaw = mc.player.rotationYaw + deltaYaw;
+        float deltaYaw = MathHelper.wrapAngleTo180_float(angleToBlock - mc.player.getYaw());
+        float yaw = mc.player.getYaw() + deltaYaw;
 
         double distance = MathHelper.sqrt_double(x * x + z * z);
         float angleToBlockPitch = (float) (-(Math.atan2(y, distance) * (180 / Math.PI)));
-        float deltaPitch = MathHelper.wrapAngleTo180_float(angleToBlockPitch - mc.player.rotationPitch);
-        float pitch = mc.player.rotationPitch + deltaPitch;
+        float deltaPitch = MathHelper.wrapAngleTo180_float(angleToBlockPitch - mc.player.getPitch());
+        float pitch = mc.player.getPitch() + deltaPitch;
 
         pitch = clampPitch(pitch);
 
@@ -79,13 +79,13 @@ public class RotationUtils implements IMinecraftInstance {
         double z = posZ + 1.0 - mc.player.getZ();
 
         float angleToBlock = (float) (Math.atan2(z, x) * (180 / Math.PI)) - 90.0f;
-        float deltaYaw = MathHelper.wrapAngleTo180_float(angleToBlock - mc.player.rotationYaw);
-        float yaw = mc.player.rotationYaw + deltaYaw;
+        float deltaYaw = MathHelper.wrapAngleTo180_float(angleToBlock - mc.player.getYaw());
+        float yaw = mc.player.getYaw() + deltaYaw;
 
         double distance = MathHelper.sqrt_double(x * x + z * z);
         float angleToBlockPitch = (float) (-(Math.atan2(y, distance) * (180 / Math.PI)));
-        float deltaPitch = MathHelper.wrapAngleTo180_float(angleToBlockPitch - mc.player.rotationPitch);
-        float pitch = mc.player.rotationPitch + deltaPitch;
+        float deltaPitch = MathHelper.wrapAngleTo180_float(angleToBlockPitch - mc.player.getPitch());
+        float pitch = mc.player.getPitch() + deltaPitch;
 
         pitch = clampPitch(pitch);
 
@@ -98,13 +98,13 @@ public class RotationUtils implements IMinecraftInstance {
         double z = vec3.zCoord + 1.0D - mc.player.getZ();
 
         float angleToBlock = (float) (Math.atan2(z, x) * (180 / Math.PI)) - 90.0f;
-        float deltaYaw = MathHelper.wrapAngleTo180_float(angleToBlock - mc.player.rotationYaw);
-        float yaw = mc.player.rotationYaw + deltaYaw;
+        float deltaYaw = MathHelper.wrapAngleTo180_float(angleToBlock - mc.player.getYaw());
+        float yaw = mc.player.getYaw() + deltaYaw;
 
         double distance = MathHelper.sqrt_double(x * x + z * z);
         float angleToBlockPitch = (float) (-(Math.atan2(y, distance) * (180 / Math.PI)));
-        float deltaPitch = MathHelper.wrapAngleTo180_float(angleToBlockPitch - mc.player.rotationPitch);
-        float pitch = mc.player.rotationPitch + deltaPitch;
+        float deltaPitch = MathHelper.wrapAngleTo180_float(angleToBlockPitch - mc.player.getPitch());
+        float pitch = mc.player.getPitch() + deltaPitch;
 
         pitch = clampPitch(pitch);
 
@@ -131,11 +131,11 @@ public class RotationUtils implements IMinecraftInstance {
         final double dist = MathHelper.sqrt_double(diffX * diffX + diffZ * diffZ);
         final float yaw = (float)(Math.atan2(diffZ, diffX) * 57.295780181884766) - 90.0f;
         final float pitch = (float)(-(Math.atan2(diffY, dist) * 57.295780181884766));
-        return new float[] { mc.player.rotationYaw + MathHelper.wrapAngleTo180_float(yaw - mc.player.rotationYaw), clampPitch(mc.player.rotationPitch + MathHelper.wrapAngleTo180_float(pitch - mc.player.rotationPitch)) };
+        return new float[] { mc.player.getYaw() + MathHelper.wrapAngleTo180_float(yaw - mc.player.getYaw()), clampPitch(mc.player.getPitch() + MathHelper.wrapAngleTo180_float(pitch - mc.player.getPitch())) };
     }
 
     public static double distanceFromYaw(final Entity entity, final boolean b) {
-        return Math.abs(MathHelper.wrapAngleTo180_double(i(entity.posX, entity.posZ) - ((b && PreMotionEvent.setRenderYaw()) ? RotationUtils.renderYaw : mc.player.rotationYaw)));
+        return Math.abs(MathHelper.wrapAngleTo180_double(i(entity.posX, entity.posZ) - ((b && PreMotionEvent.setRenderYaw()) ? RotationUtils.renderYaw : mc.player.getYaw())));
     }
 
     public static float i(final double n, final double n2) {
@@ -230,11 +230,11 @@ public class RotationUtils implements IMinecraftInstance {
         else {
             deltaY = (entity.getEntityBoundingBox().minY + entity.getEntityBoundingBox().maxY) / 2.0 - (mc.player.getY() + mc.player.getEyeHeight());
         }
-        return new float[] { mc.player.rotationYaw + MathHelper.wrapAngleTo180_float((float) (Math.atan2(deltaZ, deltaX) * 57.295780181884766) - 90.0f - mc.player.rotationYaw), clampPitch(mc.player.rotationPitch + MathHelper.wrapAngleTo180_float((float) (-(Math.atan2(deltaY, MathHelper.sqrt_double(deltaX * deltaX + deltaZ * deltaZ)) * 57.295780181884766)) - mc.player.rotationPitch) + 3.0f)};
+        return new float[] { mc.player.getYaw() + MathHelper.wrapAngleTo180_float((float) (Math.atan2(deltaZ, deltaX) * 57.295780181884766) - 90.0f - mc.player.getYaw()), clampPitch(mc.player.getPitch() + MathHelper.wrapAngleTo180_float((float) (-(Math.atan2(deltaY, MathHelper.sqrt_double(deltaX * deltaX + deltaZ * deltaZ)) * 57.295780181884766)) - mc.player.getPitch()) + 3.0f)};
     }
 
     public static float[] getRotationsToPoint(double x, double y, double z) {
-        return getRotationsToPoint(x, y, z, mc.player.rotationYaw, mc.player.rotationPitch);
+        return getRotationsToPoint(x, y, z, mc.player.getYaw(), mc.player.getPitch());
     }
 
     /**
@@ -454,7 +454,7 @@ public class RotationUtils implements IMinecraftInstance {
                 .expand(1.0, 1.0, 1.0);
         List<Entity> entities = mc.world.getEntitiesInAABBexcluding(mc.player, searchBox, Predicates.and(EntitySelectors.NOT_SPECTATING, Entity::canBeCollidedWith));
         for (Entity entity : entities) {
-            if (entity == null || entity == target || entity.isDead) {
+            if (entity == null || entity == target || entity.isRemoved()) {
                 continue;
             }
             float border = entity.getCollisionBorderSize();
@@ -601,7 +601,7 @@ public class RotationUtils implements IMinecraftInstance {
             n5 = (entity.getEntityBoundingBox().minY + entity.getEntityBoundingBox().maxY) / 2.0 - (mc.player.getY() + mc.player.getEyeHeight());
         }
         final double n6 = posZ - mc.player.getZ();
-        return new float[] { applyVanilla(mc.player.rotationYaw + MathHelper.wrapAngleTo180_float((float)(Math.atan2(n6, n4) * 57.295780181884766) - 90.0f - mc.player.rotationYaw)), clampPitch(mc.player.rotationPitch + MathHelper.wrapAngleTo180_float((float)(-(Math.atan2(n5, MathHelper.sqrt_double(n4 * n4 + n6 * n6)) * 57.295780181884766)) - mc.player.rotationPitch) + 3.0f) };
+        return new float[] { applyVanilla(mc.player.getYaw() + MathHelper.wrapAngleTo180_float((float)(Math.atan2(n6, n4) * 57.295780181884766) - 90.0f - mc.player.getYaw())), clampPitch(mc.player.getPitch() + MathHelper.wrapAngleTo180_float((float)(-(Math.atan2(n5, MathHelper.sqrt_double(n4 * n4 + n6 * n6)) * 57.295780181884766)) - mc.player.getPitch()) + 3.0f) };
     }
 
     private static final float FAR_THRESHOLD = 180f;
@@ -668,7 +668,7 @@ public class RotationUtils implements IMinecraftInstance {
         float n5 = targetYaw - yaw;
         final float abs = Math.abs(n5);
         final float n7 = targetPitch - pitch;
-        final float n8 = mc.gameSettings.mouseSensitivity * 0.6f + 0.2f;
+        final float n8 = mc.options.mouseSensitivity * 0.6f + 0.2f;
         final double n9 = n8 * n8 * n8 * 1.2;
         final float n10 = (float) (Math.round((double) n5 / n9) * n9);
         final float n11 = (float) (Math.round((double) n7 / n9) * n9);
@@ -783,12 +783,12 @@ public class RotationUtils implements IMinecraftInstance {
         HitResult hitObject;
         double d0 = range;
         if (rotations == null) {
-            rotations = new float[] { mc.player.rotationYaw, mc.player.rotationPitch };
+            rotations = new float[] { mc.player.getYaw(), mc.player.getPitch() };
         }
         hitObject = rayTraceCustom(d0, rotations[0], rotations[1]);
         double distanceTo = d0;
         Vec3d vec3 = mc.player.getPositionEyes(partialTicks);
-        if (mc.playerController.extendedReach()) {
+        if (mc.interactionManager.extendedReach()) {
             d0 = 6.0;
             distanceTo = 6.0;
         }
@@ -854,8 +854,8 @@ public class RotationUtils implements IMinecraftInstance {
         if (ignoreCollision != null) {
             if (rotations == null) {
                 rotations = new float[]{
-                        mc.player.rotationYaw,
-                        mc.player.rotationPitch
+                        mc.player.getYaw(),
+                        mc.player.getPitch()
                 };
             }
             Vec3d lookVec = RotationUtils.getVectorForRotation(

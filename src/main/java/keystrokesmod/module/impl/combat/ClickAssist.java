@@ -51,7 +51,7 @@ public class ClickAssist extends Module {
         this.ignNR = false;
         this.bot = null;
     }public void onMouseUpdate(MouseEvent ev) {
-        if (disableInCreative.isToggled() && mc.player.capabilities.isCreativeMode) {
+        if (disableInCreative.isToggled() && mc.player.getAbilities().isCreativeMode) {
             return;
         }
         if (ev.button >= 0 && ev.buttonstate && Utils.nullCheck()) {
@@ -68,7 +68,7 @@ public class ClickAssist extends Module {
                         if (weaponOnly.isToggled() && !Utils.holdingWeapon()) {
                             return;
                         }
-                        if (onlyWhileTargeting.isToggled() && (mc.objectMouseOver == null || mc.objectMouseOver.entityHit == null)) {
+                        if (onlyWhileTargeting.isToggled() && (mc.crosshairTarget == null || mc.crosshairTarget.entityHit == null)) {
                             return;
                         }
                         if (chanceLeft.getInput() != 100.0D) {

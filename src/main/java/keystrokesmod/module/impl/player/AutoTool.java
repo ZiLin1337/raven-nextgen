@@ -129,15 +129,15 @@ public class AutoTool extends Module {
         boolean leftMouseDown = GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS;
         updateLeftMouseState(leftMouseDown, currentTick);
 
-        if (!mc.inGameHasFocus || mc.currentScreen != null || mc.player.isDead || !mc.player.capabilities.allowEdit) {
+        if (!mc.isWindowFocused() || mc.currentScreen != null || mc.player.isRemoved() || !mc.player.getAbilities().allowEdit) {
             resetState(true);
             return;
         }
 
         HitResult hoverResult = RotationUtils.rayTraceBlockIfNoEntityInFront(
-            mc.playerController.getBlockReachDistance(),
-            mc.player.rotationYaw,
-            mc.player.rotationPitch
+            mc.interactionManager.getBlockReachDistance(),
+            mc.player.getYaw(),
+            mc.player.getPitch()
         );
         BlockPos hoverPos = hoverResult != null
             && hoverResult.typeOfHit == HitResult.MovingObjectType.BLOCK
@@ -186,7 +186,7 @@ public class AutoTool extends Module {
             return;
         }
 
-        HitResult swapResult = mc.objectMouseOver;
+        HitResult swapResult = mc.crosshairTarget;
         BlockPos swapPos = swapResult != null
             && swapResult.typeOfHit == HitResult.MovingObjectType.BLOCK
             ? swapResult.getBlockPos()
@@ -238,7 +238,7 @@ public class AutoTool extends Module {
     }
 
     private boolean isUseBlocked() {
-        boolean useActive = Utils.isBindDown(mc.gameSettings.keyBindUseItem) || mc.player.isUsingItem();
+        boolean useActive = Utils.isBindDown(mc.options.keyBindUseItem) || mc.player.isUsingItem();
         if (ignoredHeldItemsToggle.isToggled() && ignoredHeldItems.matches(mc.player.getHeldItem())) {
             return true;
         }
@@ -310,6 +310,6 @@ public class AutoTool extends Module {
         }
         mc.player.inventory.currentItem = currentItem;
         hasSwapped = true;
-        ((IAccessorClientPlayerInteractionManager) mc.playerController).callSyncCurrentPlayItem();
+        ((IAccessorClientPlayerInteractionManager) mc.interactionManager).callSyncCurrentPlayItem();
     }
 }

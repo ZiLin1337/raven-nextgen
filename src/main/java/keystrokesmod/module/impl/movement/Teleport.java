@@ -90,7 +90,7 @@ public class Teleport extends Module {
         if (mouseEvent.button != 1 || !mouseEvent.buttonstate || !rightClick.isToggled() || !Utils.nullCheck()) {
             return;
         }
-        HitResult rayCast = RotationUtils.rayCast(150.0, mc.player.rotationYaw, mc.player.rotationPitch, true);
+        HitResult rayCast = RotationUtils.rayCast(150.0, mc.player.getYaw(), mc.player.getPitch(), true);
         if (rayCast == null || rayCast.typeOfHit != HitResult.MovingObjectType.BLOCK) {
             return;
         }
@@ -106,7 +106,7 @@ public class Teleport extends Module {
         if (rightClick.isToggled()) {
             return;
         }
-        HitResult rayCast = RotationUtils.rayCast(150.0, mc.player.rotationYaw, mc.player.rotationPitch, true);
+        HitResult rayCast = RotationUtils.rayCast(150.0, mc.player.getYaw(), mc.player.getPitch(), true);
         if (rayCast == null || rayCast.typeOfHit != HitResult.MovingObjectType.BLOCK) {
             return;
         }

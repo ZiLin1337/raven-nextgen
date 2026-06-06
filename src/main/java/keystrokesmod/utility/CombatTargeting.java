@@ -54,11 +54,11 @@ public final class CombatTargeting implements IMinecraftInstance {
     }
 
     public static PlayerEntity getMouseOverTarget(double maxDistanceSq, boolean ignoreTeammates) {
-        if (mc == null || mc.objectMouseOver == null) {
+        if (mc == null || mc.crosshairTarget == null) {
             return null;
         }
 
-        HitResult objectMouseOver = mc.objectMouseOver;
+        HitResult objectMouseOver = mc.crosshairTarget;
         return asValidPlayer(objectMouseOver.entityHit, maxDistanceSq, ignoreTeammates);
     }
 
@@ -88,7 +88,7 @@ public final class CombatTargeting implements IMinecraftInstance {
     }
 
     public static boolean isTrackablePlayer(PlayerEntity player, boolean ignoreTeammates) {
-        if (!Utils.nullCheck() || player == null || player == mc.player || player.isDead || player.deathTime != 0) {
+        if (!Utils.nullCheck() || player == null || player == mc.player || player.isRemoved() || player.deathTime != 0) {
             return false;
         }
 

@@ -80,7 +80,7 @@ public class TargetHUD extends Module {
             }
             String playerInfo = target.getDisplayName().getString();
             double health = target.getHealth() / target.getMaxHealth();
-            if (target.isDead) {
+            if (target.isRemoved()) {
                 health = 0;
             }
             if (health != lastHealth) {
@@ -226,7 +226,7 @@ public void onRenderWorld(Object renderWorldLastEvent) {
             int miY = this.aY;
             String playerInfo = mc.player.getDisplayName().getString();
             double health = mc.player.getHealth() / mc.player.getMaxHealth();
-            if (mc.player.isDead) {
+            if (mc.player.isRemoved()) {
                 health = 0;
             }
             lastHealth = health;

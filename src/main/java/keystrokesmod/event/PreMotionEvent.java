@@ -13,7 +13,7 @@ public class PreMotionEvent extends Event {
     public PreMotionEvent(double posX, double posY, double posZ, float yaw, float pitch, boolean onGround, boolean isSprinting, boolean isSneaking) {
         this.posX = posX; this.posY = posY; this.posZ = posZ;
         this.yaw = yaw; this.pitch = pitch;
-        this.onGround = onGround; this.isSprinting = isSprinting; this.isSneaking = isSneaking;
+        this.isOnGround() = onGround; this.isSprinting = isSprinting; this.isSneaking = isSneaking;
     }
 
     public double getPosX() { return posX; } public void setPosX(double posX) { this.posX = posX; }
@@ -24,7 +24,7 @@ public class PreMotionEvent extends Event {
     public float getPitch() { return pitch; }
     public void setPitch(float pitch) { this.pitch = pitch; setRotations = true; }
     public void setRotations(float yaw, float pitch) { this.yaw = yaw; this.pitch = pitch; this.setRenderYaw = true; setRotations = true; preMotionYaw = yaw; }
-    public boolean isOnGround() { return onGround; } public void setOnGround(boolean onGround) { this.onGround = onGround; }
+    public boolean isOnGround() { return onGround; } public void setOnGround(boolean onGround) { this.isOnGround() = onGround; }
     public static boolean setRenderYaw() { return setRenderYaw; }
     public static void setRenderYaw(boolean setYaw) { setRenderYaw = setYaw; }
     public boolean isSprinting() { return isSprinting; } public void setSprinting(boolean sprinting) { this.isSprinting = sprinting; }

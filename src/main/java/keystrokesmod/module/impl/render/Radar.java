@@ -38,7 +38,7 @@ public class Radar extends Module {
         if (mc.currentScreen instanceof ClickGui) {
             return;
         }
-        if (mc.currentScreen != null || mc.gameSettings.showDebugInfo) {
+        if (mc.currentScreen != null || mc.options.showDebugInfo) {
             return;
         }
         int x = 5;
@@ -65,7 +65,7 @@ public class Radar extends Module {
                 if (distanceSquared > 360.0) {
                     continue;
                 }
-                double playerAngle = (mc.player.rotationYaw + Math.atan2(player.posX - mc.player.getX(), player.posZ - mc.player.getZ()) * 57.295780181884766) % 360.0;
+                double playerAngle = (mc.player.getYaw() + Math.atan2(player.posX - mc.player.getX(), player.posZ - mc.player.getZ()) * 57.295780181884766) % 360.0;
                 double scaledDistance = distanceSquared / 5.0;
                 double xOffset = scaledDistance * Math.sin(Math.toRadians(playerAngle));
                 double zOffset = scaledDistance * Math.cos(Math.toRadians(playerAngle));

@@ -41,7 +41,7 @@ public void onRenderWorld(Object e) {
         RenderSystem.pushMatrix();
         RenderSystem.translate((float) x, (float) y, (float) z);
         RenderSystem.rotate(-mc.getEntityRenderDispatcher().playerViewY, 0.0f, 1.0f, 0.0f);
-        RenderSystem.rotate((mc.gameSettings.thirdPersonView == 2 ? -1 : 1) * mc.getEntityRenderDispatcher().playerViewX, 1.0f, 0.0f, 0.0f);
+        RenderSystem.rotate((mc.options.thirdPersonView == 2 ? -1 : 1) * mc.getEntityRenderDispatcher().playerViewX, 1.0f, 0.0f, 0.0f);
         RenderSystem.scale(-0.02266667f, -0.02266667f, -0.02266667f);
         RenderSystem.depthMask(false);
         RenderSystem.disableDepth();
@@ -75,7 +75,7 @@ public void onRenderWorld(Object e) {
 
     @Override
     public void onUpdate() {
-        if (mc.player.capabilities.isCreativeMode || !mc.player.capabilities.allowEdit) {
+        if (mc.player.getAbilities().isCreativeMode || !mc.player.getAbilities().allowEdit) {
             this.resetVariables();
             return;
         }
@@ -89,16 +89,16 @@ public void onRenderWorld(Object e) {
                 return;
             }
         }
-        if (!manual.isToggled() || mc.objectMouseOver == null || mc.objectMouseOver.typeOfHit != HitResult.MovingObjectType.BLOCK) {
+        if (!manual.isToggled() || mc.crosshairTarget == null || mc.crosshairTarget.typeOfHit != HitResult.MovingObjectType.BLOCK) {
             this.resetVariables();
             return;
         }
-        this.progress = ((IAccessorClientPlayerInteractionManager) mc.playerController).getCurBlockDamageMP();
+        this.progress = ((IAccessorClientPlayerInteractionManager) mc.interactionManager).getCurBlockDamageMP();
         if (this.progress == 0.0f) {
             this.resetVariables();
             return;
         }
-        this.block = mc.objectMouseOver.getBlockPos();
+        this.block = mc.crosshairTarget.getBlockPos();
         this.setProgress();
     }
 

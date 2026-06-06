@@ -68,7 +68,7 @@ public class AntiFireball extends Module {
     public void onPrePlayerInput(PrePlayerInputEvent e) {
         if (!Utils.nullCheck()) return;
         if (fireball != null && sneakWhileActive.isToggled() && !mc.player.isRiding()
-                && !mc.player.capabilities.isFlying) {
+                && !mc.player.getAbilities().isFlying) {
             e.setSneak(true);
         }
     }
@@ -79,7 +79,7 @@ public class AntiFireball extends Module {
         if (ModuleManager.bedAura != null && ModuleManager.bedAura.shouldOverrideMouseOver()) {
             return;
         }
-        if (onGround.isToggled() && !mc.player.onGround) return;
+        if (onGround.isToggled() && !mc.player.isOnGround()) return;
         if (fireball == null) return;
 
         float baseYaw = e.yaw != null ? e.yaw : RotationUtils.serverRotations[0];
@@ -99,7 +99,7 @@ public class AntiFireball extends Module {
         Vec3d eye = mc.player.getPositionEyes(1.0f);
         float borderSize = fireball.getCollisionBorderSize();
         Box fireballBox = fireball.getEntityBoundingBox().expand(borderSize, borderSize, borderSize);
-        double reach = mc.playerController.getBlockReachDistance();
+        double reach = mc.interactionManager.getBlockReachDistance();
 
         List<PlayerEntity> players = new ArrayList<>();
         for (PlayerEntity player : mc.world.playerEntities) {
@@ -134,10 +134,10 @@ public class AntiFireball extends Module {
     
     public void onPrePlayerInteract(PrePlayerInteractEvent e) {
         if (!Utils.nullCheck() || mc.currentScreen != null) return;
-        if (onGround.isToggled() && !mc.player.onGround) return;
+        if (onGround.isToggled() && !mc.player.isOnGround()) return;
         if (fireball == null) return;
 
-        HitResult mop = mc.objectMouseOver;
+        HitResult mop = mc.crosshairTarget;
         if (mop == null || mop.typeOfHit != HitResult.MovingObjectType.ENTITY || mop.entityHit != fireball) {
             nextClickTime = 0;
             ReflectionUtils.setButton(0, false);
@@ -149,7 +149,7 @@ public class AntiFireball extends Module {
             nextClickTime = now;
         }
 
-        int key = mc.gameSettings.keyBindAttack.getKeyCode();
+        int key = mc.options.keyBindAttack.getKeyCode();
         while (nextClickTime <= now) {
             InputUtil.setKeyPressed(key, true);
             KeyBinding.onTick(key);
@@ -162,7 +162,7 @@ public class AntiFireball extends Module {
         double rangeSq = range.getInput() * range.getInput();
         float fovVal = (float) fov.getInput();
 
-        if (onGround.isToggled() && !mc.player.onGround) return null;
+        if (onGround.isToggled() && !mc.player.isOnGround()) return null;
 
         for (Entity entity : mc.world.loadedEntityList) {
             if (!(entity instanceof FireballEntity)) continue;

@@ -109,9 +109,9 @@ public class FrozenEntitySync {
         player.lastTickPosX = player.posX;
         player.lastTickPosY = player.posY;
         player.lastTickPosZ = player.posZ;
-        player.prevRotationYaw = player.rotationYaw;
-        player.prevRotationPitch = player.rotationPitch;
-        player.prevRotationYawHead = player.rotationYawHead;
+        player.prevRotationYaw = player.getYaw();
+        player.prevRotationPitch = player.getPitch();
+        player.prevRotationYawHead = player.getYaw()Head;
         player.prevRenderYawOffset = player.renderYawOffset;
         player.prevLimbSwingAmount = player.limbSwingAmount;
         player.prevSwingProgress = player.swingProgress;
@@ -143,18 +143,18 @@ public class FrozenEntitySync {
         for (int i = 0; i < mc.world.weatherEffects.size(); i++) {
             Entity entity = mc.world.weatherEffects.get(i);
             try {
-                ++entity.ticksExisted;
+                ++entity.age;
                 entity.onUpdate();
             } catch (Throwable ignored) {}
-            if (entity.isDead) {
+            if (entity.isRemoved()) {
                 mc.world.weatherEffects.remove(i--);
             }
         }
 
         for (Entity entity : mc.world.loadedEntityList) {
-            if (entity == null || entity.isDead || entity == local) continue;
+            if (entity == null || entity.isRemoved() || entity == local) continue;
             if (entity.ridingEntity != null) {
-                if (!entity.ridingEntity.isDead && entity.ridingEntity.riddenByEntity == entity) {
+                if (!entity.ridingEntity.isRemoved() && entity.ridingEntity.riddenByEntity == entity) {
                     continue;
                 }
                 entity.ridingEntity.riddenByEntity = null;
@@ -173,7 +173,7 @@ public class FrozenEntitySync {
             || packet instanceof S10PacketSpawnPainting
             || packet instanceof S11PacketSpawnExperienceOrb
             || packet instanceof S2CPacketSpawnGlobalEntity
-            || packet instanceof S12PacketEntityVelocity
+            || packet instanceof EntityVelocityUpdateS2CPacket
             || packet instanceof S13PacketDestroyEntities
             || packet instanceof S14PacketEntity
             || packet instanceof S18PacketEntityTeleport

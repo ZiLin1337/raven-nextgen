@@ -43,7 +43,7 @@ public class WTap extends Module {
 
     @Override
     public void onUpdate() {
-        if (!Utils.nullCheck() || mc.player == null || mc.player.isDead()) {
+        if (!Utils.nullCheck() || mc.player == null || mc.player.isRemoved()()) {
             pendingResetAtMs = 0L;
             waitingForSprintRestart = false;
             wasSprinting = false;

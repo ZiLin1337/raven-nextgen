@@ -111,20 +111,20 @@ public class AutoClicker extends Module {
 
         Screen gui = (Screen) mc.currentScreen;
         Slot slot = getHoveredSlot(gui);
-        if (slot == null || slot.slotNumber < 0) {
+        if (slot == null || slot.getIndex() < 0) {
             return;
         }
 
-        int windowId = gui.inventorySlots.windowId;
-        int slotId = slot.slotNumber;
-        int mode = net.minecraft.client.gui.GuiScreen.isShiftKeyDown() ? 1 : 0;
+        int windowId = gui.getInventory().windowId;
+        int slotId = slot.getIndex();
+        int mode = net.minecraft.client.gui.screen.Screen.isShiftKeyDown() ? 1 : 0;
 
-        if (mc.playerController == null || mc.player == null) {
+        if (mc.interactionManager == null || mc.player == null) {
             return;
         }
 
         for (int i = 0; i < clicks; i++) {
-            mc.playerController.windowClick(windowId, slotId, 0, mode, mc.player);
+            mc.interactionManager.windowClick(windowId, slotId, 0, mode, mc.player);
         }
     }
 
@@ -133,7 +133,7 @@ public class AutoClicker extends Module {
         if (!Utils.nullCheck()) return;
         if (ModuleManager.killAura != null && ModuleManager.killAura.isEnabled() && KillAura.target != null) return;
 
-        int key = mc.gameSettings.keyBindAttack.getKeyCode();
+        int key = mc.options.keyBindAttack.getKeyCode();
         if (GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) {
             long now = System.currentTimeMillis();
             if (nextClickTime == 0) {
@@ -147,20 +147,20 @@ public class AutoClicker extends Module {
             }
 
             if (notUsingItem.isToggled() && mc.player.isUsingItem()) return;
-            if (disableCreative.isToggled() && mc.player.capabilities.isCreativeMode) return;
-            if (mc.currentScreen != null || !mc.inGameHasFocus) return;
+            if (disableCreative.isToggled() && mc.player.getAbilities().isCreativeMode) return;
+            if (mc.currentScreen != null || !mc.isWindowFocused()) return;
             if (weaponOnly.isToggled() && !Utils.holdingWeapon()) return;
 
             if (breakBlocks.isToggled()) {
-                if (!mc.player.capabilities.allowEdit) {
+                if (!mc.player.getAbilities().allowEdit) {
                     if (this.isHoldingBlockBreak) {
                         InputUtil.setKeyPressed(key, false);
                         ReflectionUtils.setButton(0, false);
                         this.isHoldingBlockBreak = false;
                     }
                 }
-                else if (mc.objectMouseOver != null) {
-                BlockPos pos = mc.objectMouseOver.getBlockPos();
+                else if (mc.crosshairTarget != null) {
+                BlockPos pos = mc.crosshairTarget.getBlockPos();
                 if (pos != null) {
                     Block block = mc.world.getBlockState(pos).getBlock();
                     if (block != Blocks.AIR && !(block instanceof BlockLiquid)) {

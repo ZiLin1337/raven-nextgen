@@ -279,9 +279,9 @@ public class Nametags extends Module {
     private boolean shouldRenderNametag(PlayerEntity player) {
         if (player == null) return false;
         if (player == mc.player) {
-            return showYourself.isToggled() && mc.gameSettings.thirdPersonView != 0;
+            return showYourself.isToggled() && mc.options.thirdPersonView != 0;
         }
-        if (player.isDead || player.deathTime > 0) return false;
+        if (player.isRemoved() || player.deathTime > 0) return false;
         if (!showInvis.isToggled() && player.isInvisible()) return false;
         return !AntiBot.isBot(player);
     }
@@ -338,7 +338,7 @@ public class Nametags extends Module {
 
     private void renderCustomName(NametagRenderState state, float partialTicks, Object renderManager, RavenFontRenderer textRenderer, TextRenderer itemTextRenderer) {
         PlayerEntity entity = state.player;
-        if (entity == null || entity.isDead || entity.deathTime > 0) {
+        if (entity == null || entity.isRemoved() || entity.deathTime > 0) {
             return;
         }
 

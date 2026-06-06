@@ -89,8 +89,8 @@ public class GhostHand extends Module {
 
         Entity viewEntity = mc.getRenderViewEntity();
 
-        double reach = mc.playerController.getBlockReachDistance();
-        if (mc.playerController.extendedReach()) reach = 6.0;
+        double reach = mc.interactionManager.getBlockReachDistance();
+        if (mc.interactionManager.extendedReach()) reach = 6.0;
 
         HitResult blockHit = findPrioritizedBlock(viewEntity, reach, partialTicks);
         if (blockHit == null) return;
@@ -142,7 +142,7 @@ public class GhostHand extends Module {
             if (closest == null || !obstructionAllowed(closest)) return;
         }
 
-        mc.objectMouseOver = blockHit;
+        mc.crosshairTarget = blockHit;
         mc.pointedEntity = null;
 
         EntityRenderer renderer = mc.entityRenderer;

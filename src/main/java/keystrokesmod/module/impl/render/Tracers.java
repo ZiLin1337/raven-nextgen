@@ -34,21 +34,21 @@ public class Tracers extends Module {
 
     @Override
     public void onEnable() {
-        this.viewBobbingEnabled = mc.gameSettings.viewBobbing;
+        this.viewBobbingEnabled = mc.options.viewBobbing;
         if (this.viewBobbingEnabled) {
-            mc.gameSettings.viewBobbing = false;
+            mc.options.viewBobbing = false;
         }
     }
 
     @Override
     public void onDisable() {
-        mc.gameSettings.viewBobbing = this.viewBobbingEnabled;
+        mc.options.viewBobbing = this.viewBobbingEnabled;
     }
 
     @Override
     public void onUpdate() {
-        if (mc.gameSettings.viewBobbing) {
-            mc.gameSettings.viewBobbing = false;
+        if (mc.options.viewBobbing) {
+            mc.options.viewBobbing = false;
         }
     }
 

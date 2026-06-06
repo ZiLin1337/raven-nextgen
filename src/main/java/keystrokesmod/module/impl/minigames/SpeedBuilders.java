@@ -425,11 +425,11 @@ public class SpeedBuilders extends Module {
     }
 
     public HitResult getLookInfo() {
-        HitResult movingObjectPosition = mc.objectMouseOver;
+        HitResult movingObjectPosition = mc.crosshairTarget;
         if (movingObjectPosition == null || movingObjectPosition.typeOfHit != HitResult.MovingObjectType.BLOCK || movingObjectPosition.getBlockPos() == null) {
             return null;
         }
-        return mc.objectMouseOver;
+        return mc.crosshairTarget;
     }
 
     private int getSlot(Block block, int meta) {

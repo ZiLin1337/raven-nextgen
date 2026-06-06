@@ -96,7 +96,7 @@ public void onRenderWorld(Object e) {
                 }
                 Vec3d spawnPosition = new Vec3d(e.entity.posX, e.entity.posY, e.entity.posZ);
                 for (SkyWars.SpawnEggInfo eggInfo : entitySpawnQueue) {
-                    if (eggInfo.spawnPos.distanceTo(spawnPosition) > 3 || Utils.timeBetween(mc.player.ticksExisted, eggInfo.tickSpawned) > 60) { // 3 seconds or not at spawn point then not own mob
+                    if (eggInfo.spawnPos.distanceTo(spawnPosition) > 3 || Utils.timeBetween(mc.player.age, eggInfo.tickSpawned) > 60) { // 3 seconds or not at spawn point then not own mob
                         return;
                     }
                     if (!entitySpawnQueue.remove(eggInfo)) {
@@ -152,8 +152,8 @@ public void onRenderWorld(Object e) {
 
     
     public void onSendPacket(SendPacketEvent e) {
-        if (e.getPacket() instanceof C08PacketPlayerBlockPlacement) {
-            C08PacketPlayerBlockPlacement p = (C08PacketPlayerBlockPlacement) e.getPacket();
+        if (e.getPacket() instanceof PlayerInteractBlockC2SPacket) {
+            PlayerInteractBlockC2SPacket p = (PlayerInteractBlockC2SPacket) e.getPacket();
             if (p.getPlacedBlockDirection() != 255 && p.getStack() != null && p.getStack().getItem() != null) {
                 if (p.getStack().getItem() instanceof ItemMonsterPlacer) {
                     Class<? extends Entity> oclass = EntityList.stringToClassMapping.get(ItemMonsterPlacer.getEntityName(p.getStack()));
@@ -161,7 +161,7 @@ public void onRenderWorld(Object e) {
                         return;
                     }
                     if (oclass.getSimpleName().equals("IronGolemEntity")) {
-                        entitySpawnQueue.add(new SkyWars.SpawnEggInfo(p.getPosition(), mc.player.ticksExisted));
+                        entitySpawnQueue.add(new SkyWars.SpawnEggInfo(p.getPosition(), mc.player.age));
                     }
                 }
             }

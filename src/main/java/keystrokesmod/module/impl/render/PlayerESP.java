@@ -176,8 +176,8 @@ public void onRenderWorld(Object e) {
         RenderSystem.pushAttrib();
         outlineFramebuffer.bindnet.minecraft.client.gl.Framebuffer(false);
         ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(partialTicks, 0);
-        boolean shadows = mc.gameSettings.entityShadows;
-        mc.gameSettings.entityShadows = false;
+        boolean shadows = mc.options.entityShadows;
+        mc.options.entityShadows = false;
         renderingOutlinePass = true;
 
         glowShader.use();
@@ -194,7 +194,7 @@ public void onRenderWorld(Object e) {
         glowShader.stop();
         renderingOutlinePass = false;
 
-        mc.gameSettings.entityShadows = shadows;
+        mc.options.entityShadows = shadows;
         mc.entityRenderer.disableLightmap();
         mc.entityRenderer.setupOverlayRendering();
         mc.getnet.minecraft.client.gl.Framebuffer().bindnet.minecraft.client.gl.Framebuffer(false);
@@ -255,7 +255,7 @@ public void onRenderWorld(Object e) {
     }
 
     private boolean shouldRenderSelf(PlayerEntity selfPlayer) {
-        return selfPlayer == mc.player && renderSelf.isToggled() && (!Settings.hideFirstPersonESP.isToggled() || mc.gameSettings.thirdPersonView > 0);
+        return selfPlayer == mc.player && renderSelf.isToggled() && (!Settings.hideFirstPersonESP.isToggled() || mc.options.thirdPersonView > 0);
     }
 
     private void addRenderState(LivingEntity entity, int staticColor) {
@@ -540,12 +540,12 @@ public void onRenderWorld(Object e) {
 
         GL11.glRotatef(-player.renderYawOffset, 0.0f, -999.0f, 0.0f);
         double headHeight = 0.4;
-        GL11.glRotated(player.rotationYaw, 0.0, -999.0, 0.0);
-        GL11.glRotated(player.rotationPitch, 999.0, 0.0, 0.0);
+        GL11.glRotated(player.getYaw(), 0.0, -999.0, 0.0);
+        GL11.glRotated(player.getPitch(), 999.0, 0.0, 0.0);
         drawLine(0.0, 0.0, 0.0, 0.0, headHeight, 0.0);
         drawLine(0.0, headHeight, 0.0, 0.0, headHeight, 0.25);
-        GL11.glRotated(player.rotationPitch, 999.0, 0.0, 0.0);
-        GL11.glRotated(-player.rotationYaw, 0.0, 999.0, 0.0);
+        GL11.glRotated(player.getPitch(), 999.0, 0.0, 0.0);
+        GL11.glRotated(-player.getYaw(), 0.0, 999.0, 0.0);
 
         if (!wasBlendEnabled) {
             GL11.glDisable(GL11.GL_BLEND);

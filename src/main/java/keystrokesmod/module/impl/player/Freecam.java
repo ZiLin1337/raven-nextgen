@@ -37,14 +37,14 @@ public class Freecam extends Module {
 
     @Override
     public void onEnable() {
-        if (!mc.player.onGround) {
+        if (!mc.player.isOnGround()) {
             this.disable();
         }
         else {
             freeEntity = new OtherClientPlayerEntity(mc.world, mc.player.getGameProfile());
             freeEntity.copyLocationAndAnglesFrom(mc.player);
-            this.sAng[0] = freeEntity.rotationYawHead = mc.player.rotationYawHead;
-            this.sAng[1] = mc.player.rotationPitch;
+            this.sAng[0] = freeEntity.getYaw()Head = mc.player.getYaw()Head;
+            this.sAng[1] = mc.player.getPitch();
             freeEntity.setVelocity(0.0D, 0.0D, 0.0D);
             freeEntity.setInvisible(true);
             mc.world.addEntityToWorld(-8008, freeEntity);
@@ -56,8 +56,8 @@ public class Freecam extends Module {
     public void onDisable() {
         if (freeEntity != null) {
             mc.setRenderViewEntity(mc.player);
-            mc.player.rotationYaw = mc.player.rotationYawHead = this.sAng[0];
-            mc.player.rotationPitch = this.sAng[1];
+            mc.player.getYaw() = mc.player.getYaw()Head = this.sAng[0];
+            mc.player.getPitch() = this.sAng[1];
             mc.world.removeEntity(freeEntity);
             freeEntity = null;
         }
@@ -85,38 +85,38 @@ public class Freecam extends Module {
             mc.player.setSprinting(false);
             mc.player.moveForward = 0.0F;
             mc.player.moveStrafing = 0.0F;
-            freeEntity.rotationYaw = freeEntity.rotationYawHead = mc.player.rotationYaw;
-            freeEntity.rotationPitch = mc.player.rotationPitch;
+            freeEntity.getYaw() = freeEntity.getYaw()Head = mc.player.getYaw();
+            freeEntity.getPitch() = mc.player.getPitch();
             double s = 0.215D * speed.getInput();
             double rad;
             double dx;
             double dz;
-            if (Keyboard.isKeyDown(mc.gameSettings.keyBindForward.getKeyCode())) {
-                rad = (double) freeEntity.rotationYawHead * 0.017453292519943295D;
+            if (Keyboard.isKeyDown(mc.options.keyBindForward.getKeyCode())) {
+                rad = (double) freeEntity.getYaw()Head * 0.017453292519943295D;
                 dx = -1.0D * Math.sin(rad) * s;
                 dz = Math.cos(rad) * s;
                 freeEntity.posX += dx;
                 freeEntity.posZ += dz;
             }
 
-            if (Keyboard.isKeyDown(mc.gameSettings.keyBindBack.getKeyCode())) {
-                rad = (double) freeEntity.rotationYawHead * 0.017453292519943295D;
+            if (Keyboard.isKeyDown(mc.options.keyBindBack.getKeyCode())) {
+                rad = (double) freeEntity.getYaw()Head * 0.017453292519943295D;
                 dx = -1.0D * Math.sin(rad) * s;
                 dz = Math.cos(rad) * s;
                 freeEntity.posX -= dx;
                 freeEntity.posZ -= dz;
             }
 
-            if (Keyboard.isKeyDown(mc.gameSettings.keyBindLeft.getKeyCode())) {
-                rad = (double) (freeEntity.rotationYawHead - 90.0F) * 0.017453292519943295D;
+            if (Keyboard.isKeyDown(mc.options.keyBindLeft.getKeyCode())) {
+                rad = (double) (freeEntity.getYaw()Head - 90.0F) * 0.017453292519943295D;
                 dx = -1.0D * Math.sin(rad) * s;
                 dz = Math.cos(rad) * s;
                 freeEntity.posX += dx;
                 freeEntity.posZ += dz;
             }
 
-            if (Keyboard.isKeyDown(mc.gameSettings.keyBindRight.getKeyCode())) {
-                rad = (double) (freeEntity.rotationYawHead + 90.0F) * 0.017453292519943295D;
+            if (Keyboard.isKeyDown(mc.options.keyBindRight.getKeyCode())) {
+                rad = (double) (freeEntity.getYaw()Head + 90.0F) * 0.017453292519943295D;
                 dx = -1.0D * Math.sin(rad) * s;
                 dz = Math.cos(rad) * s;
                 freeEntity.posX += dx;
@@ -127,7 +127,7 @@ public class Freecam extends Module {
                 freeEntity.posY += 0.93D * s;
             }
 
-            if (Keyboard.isKeyDown(mc.gameSettings.keyBindSneak.getKeyCode())) {
+            if (Keyboard.isKeyDown(mc.options.keyBindSneak.getKeyCode())) {
                 freeEntity.posY -= 0.93D * s;
             }
 
@@ -161,11 +161,11 @@ public class Freecam extends Module {
         if (!Utils.nullCheck()) {
             return;
         }
-        if ((e.button == 0 && !allowDigging.isToggled() || e.button == 1 && !allowPlacing.isToggled()) && mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == HitResult.MovingObjectType.BLOCK) {
+        if ((e.button == 0 && !allowDigging.isToggled() || e.button == 1 && !allowPlacing.isToggled()) && mc.crosshairTarget != null && mc.crosshairTarget.typeOfHit == HitResult.MovingObjectType.BLOCK) {
             e.setCanceled(true);
         }
         if (!allowInteracting.isToggled()) {
-            if ((e.button == 1 || e.button == 0) && mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == HitResult.MovingObjectType.ENTITY) {
+            if ((e.button == 1 || e.button == 0) && mc.crosshairTarget != null && mc.crosshairTarget.typeOfHit == HitResult.MovingObjectType.ENTITY) {
                 e.setCanceled(true);
             }
         }
@@ -182,7 +182,7 @@ public class Freecam extends Module {
             }
         }
         if (!allowPlacing.isToggled()) {
-            if (e.getPacket() instanceof C08PacketPlayerBlockPlacement) {
+            if (e.getPacket() instanceof PlayerInteractBlockC2SPacket) {
                 e.setCanceled(true);
             }
         }

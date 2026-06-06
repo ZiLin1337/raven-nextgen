@@ -69,7 +69,7 @@ public class AntiBot extends Module {
         if (delay.getInput() != -1 && !entities.isEmpty() && entities.containsKey(entityPlayer)) {
             return true;
         }
-        if (entityPlayer.isDead) {
+        if (entityPlayer.isRemoved()) {
             return true;
         }
         if (entityPlayer.getName().isEmpty()) {

@@ -159,7 +159,7 @@ public class Anticheat extends Module {
             alert(entityPlayer, noSlow);
             return;
         }
-        if (scaffold.isToggled() && entityPlayer.isSwingInProgress && entityPlayer.rotationPitch >= 70.0f && entityPlayer.getHeldItem() != null && entityPlayer.getHeldItem().getItem() instanceof ItemBlock && playerData.fastTick >= 20 && entityPlayer.ticksExisted - playerData.lastSneakTick >= 30 && entityPlayer.ticksExisted - playerData.aboveVoidTicks >= 20) {
+        if (scaffold.isToggled() && entityPlayer.isSwingInProgress && entityPlayer.getPitch() >= 70.0f && entityPlayer.getHeldItem() != null && entityPlayer.getHeldItem().getItem() instanceof ItemBlock && playerData.fastTick >= 20 && entityPlayer.age - playerData.lastSneakTick >= 30 && entityPlayer.age - playerData.aboveVoidTicks >= 20) {
             boolean overAir = true;
             BlockPos blockPos = entityPlayer.getPosition().down(2);
             for (int i = 0; i < 4; ++i) {
@@ -174,7 +174,7 @@ public class Anticheat extends Module {
                 return;
             }
         }
-        if (noFall.isToggled() && !entityPlayer.capabilities.isFlying && Utils.timeBetween(System.currentTimeMillis(), lastClientBoundPacket) <= 150) {
+        if (noFall.isToggled() && !entityPlayer.getAbilities().isFlying && Utils.timeBetween(System.currentTimeMillis(), lastClientBoundPacket) <= 150) {
             double serverPosX = entityPlayer.serverPosX / 32;
             double serverPosY = entityPlayer.serverPosY / 32;
             double serverPosZ= entityPlayer.serverPosZ / 32;

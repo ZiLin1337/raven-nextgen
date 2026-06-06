@@ -180,8 +180,8 @@ public class BedAura extends Module {
         if (!miningActive || !isEnabled() || !Utils.nullCheck() || mc.currentScreen != null) {
             return;
         }
-        int atk = mc.gameSettings.keyBindAttack.getKeyCode();
-        int use = mc.gameSettings.keyBindUseItem.getKeyCode();
+        int atk = mc.options.keyBindAttack.getKeyCode();
+        int use = mc.options.keyBindUseItem.getKeyCode();
         InputUtil.setKeyPressed(atk, false);
         InputUtil.setKeyPressed(use, false);
         InputUtil.setKeyPressed(atk, true);
@@ -209,10 +209,10 @@ public class BedAura extends Module {
     }
 
     public float getAuraBreakProgress() {
-        if (!canMineBlocks() || !miningActive || mc.playerController == null) {
+        if (!canMineBlocks() || !miningActive || mc.interactionManager == null) {
             return 0f;
         }
-        IAccessorClientPlayerInteractionManager pc = (IAccessorClientPlayerInteractionManager) mc.playerController;
+        IAccessorClientPlayerInteractionManager pc = (IAccessorClientPlayerInteractionManager) mc.interactionManager;
         BlockPos currentBlock = pc.getCurrentBlock();
         if (targetPos == null || currentBlock == null || !targetPos.equals(currentBlock)) {
             return 0f;
@@ -233,7 +233,7 @@ public class BedAura extends Module {
         }
 
         HitResult mop = new MovingObjectPosition(targetHitVec, targetSide, targetPos);
-        mc.objectMouseOver = mop;
+        mc.crosshairTarget = mop;
         mc.pointedEntity = null;
 
         EntityRenderer renderer = mc.entityRenderer;
@@ -309,8 +309,8 @@ public class BedAura extends Module {
         if (switchBackWhenDone.isToggled() && previousSlot != -1 && Utils.nullCheck()) {
             setSlot(previousSlot);
         }
-        InputUtil.setKeyPressed(mc.gameSettings.keyBindAttack.getKeyCode(), GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS);
-        InputUtil.setKeyPressed(mc.gameSettings.keyBindUseItem.getKeyCode(), GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS);
+        InputUtil.setKeyPressed(mc.options.keyBindAttack.getKeyCode(), GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS);
+        InputUtil.setKeyPressed(mc.options.keyBindUseItem.getKeyCode(), GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS);
         hotbarProgrammaticDepth = 0;
         targetPos = null;
         targetHitVec = null;
@@ -418,7 +418,7 @@ public class BedAura extends Module {
     }
 
     private Choice chooseBestTarget(double reachSq) {
-        IAccessorClientPlayerInteractionManager pc = (IAccessorClientPlayerInteractionManager) mc.playerController;
+        IAccessorClientPlayerInteractionManager pc = (IAccessorClientPlayerInteractionManager) mc.interactionManager;
         float curProg = pc.getCurBlockDamageMP();
         BlockPos breaking = pc.getCurrentBlock();
 
@@ -588,15 +588,15 @@ public class BedAura extends Module {
         try {
             mc.player.inventory.currentItem = slot;
             hasSwapped = true;
-            ((IAccessorClientPlayerInteractionManager) mc.playerController).callSyncCurrentPlayItem();
+            ((IAccessorClientPlayerInteractionManager) mc.interactionManager).callSyncCurrentPlayItem();
         } finally {
             hotbarProgrammaticDepth--;
         }
     }
 
     private boolean canMineBlocks() {
-        return mc.player.capabilities.allowEdit
-                && !mc.player.capabilities.isCreativeMode
+        return mc.player.getAbilities().allowEdit
+                && !mc.player.getAbilities().isCreativeMode
                 && !mc.player.isSpectator();
     }
 

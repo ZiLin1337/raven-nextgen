@@ -88,7 +88,7 @@ public class WoolWars extends Module {
         if (middlePos == null) {
             middlePos = getMiddlePos();
         }
-        else if (!mc.player.capabilities.allowFlying && mc.player.getDistanceSq(middlePos) < rangeSq && isActiveRound() && (!onlyMiddleClick.isToggled() || /* Mouse.isButtonDown */(2))) {
+        else if (!mc.player.getAbilities().allowFlying && mc.player.getDistanceSq(middlePos) < rangeSq && isActiveRound() && (!onlyMiddleClick.isToggled() || /* Mouse.isButtonDown */(2))) {
             if (swapBack == -1) {
                 swapBack = mc.player.inventory.currentItem;
             }
@@ -113,7 +113,7 @@ public class WoolWars extends Module {
                         Utils.switchSlot(blockSlot, true);
                         search:
                         for (int i = 0; i < 360; i += 10) {
-                            float yaw = (float) (mc.player.rotationYaw + i + randomRotationOffset());
+                            float yaw = (float) (mc.player.getYaw() + i + randomRotationOffset());
                             int j = 20;
                             while (j < 90) {
                                 float pitch = RotationUtils.clampPitch((float) (j + randomRotationOffset()));
@@ -160,7 +160,7 @@ public class WoolWars extends Module {
             }
             if (curBlockDamageMP >= 1.0f) {
                 stopBreak(miningPos);
-                mc.playerController.onPlayerDestroyBlock(miningPos, Direction.UP);
+                mc.interactionManager.onPlayerDestroyBlock(miningPos, Direction.UP);
                 miningPos = null;
                 curBlockDamageMP = 0.0f;
                 delay = (int) breakDelay.getInput();
@@ -304,7 +304,7 @@ public class WoolWars extends Module {
         }
         if (placeMop != null) {
             if (placingPitch > 90.0f) {
-                if (mc.playerController.onPlayerRightClick(mc.player, mc.world, mc.player.getHeldItem(), placeMop.getBlockPos(), placeMop.sideHit, placeMop.hitVec)) {
+                if (mc.interactionManager.onPlayerRightClick(mc.player, mc.world, mc.player.getHeldItem(), placeMop.getBlockPos(), placeMop.sideHit, placeMop.hitVec)) {
                     mc.player.swingItem();
                     mc.getItemRenderer().resetEquippedProgress();
                     delay = (int) placeDelay.getInput();

@@ -144,7 +144,7 @@ public class MurderMystery extends Module {
                 int n4 = -331703;
                 for (Entity entity : mc.world.loadedEntityList) {
                     if (entity instanceof EntityItem) {
-                        if (entity.ticksExisted < 3) {
+                        if (entity.age < 3) {
                             continue;
                         }
                         EntityItem entityItem = (EntityItem) entity;

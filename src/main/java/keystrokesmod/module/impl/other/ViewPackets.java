@@ -128,8 +128,8 @@ public class ViewPackets extends Module {
         else if (packet instanceof C0BPacketEntityAction) {
             s = s + "\n&7Action: &b" + ((C0BPacketEntityAction)packet).getAction().name() + "\n&7Aux data: &b" + ((C0BPacketEntityAction)packet).getAuxData();
         }
-        else if (packet instanceof C08PacketPlayerBlockPlacement) {
-            C08PacketPlayerBlockPlacement c08PacketPlayerBlockPlacement = (C08PacketPlayerBlockPlacement)packet;
+        else if (packet instanceof PlayerInteractBlockC2SPacket) {
+            PlayerInteractBlockC2SPacket c08PacketPlayerBlockPlacement = (PlayerInteractBlockC2SPacket)packet;
             String string2 = s + "\n&7Item: &b" + ((c08PacketPlayerBlockPlacement.getStack() == null) ? "null" : c08PacketPlayerBlockPlacement.getStack().getItem().getRegistryName().replace("minecraft:", "")) + "\n&7Direction: &b" + c08PacketPlayerBlockPlacement.getPlacedBlockDirection();
             BlockPos getPosition = c08PacketPlayerBlockPlacement.getPosition();
             s = string2 + "\n&7Position: &b" + getPosition.getX() + "&7, &b" + getPosition.getY() + "&7, &b" + getPosition.getZ() + "\n&7Offset: &b" + round((double)c08PacketPlayerBlockPlacement.getPlacedBlockOffsetX()) + "&7, &b" + round((double)c08PacketPlayerBlockPlacement.getPlacedBlockOffsetY()) + "&7, &b" + round(c08PacketPlayerBlockPlacement.getPlacedBlockOffsetZ());

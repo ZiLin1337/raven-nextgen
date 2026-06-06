@@ -35,10 +35,10 @@ public class NullMove extends Module {
             return;
         }
 
-        boolean w = mc.gameSettings.keyBindForward.isKeyDown();
-        boolean s = mc.gameSettings.keyBindBack.isKeyDown();
-        boolean a = mc.gameSettings.keyBindLeft.isKeyDown();
-        boolean d = mc.gameSettings.keyBindRight.isKeyDown();
+        boolean w = mc.options.keyBindForward.isKeyDown();
+        boolean s = mc.options.keyBindBack.isKeyDown();
+        boolean a = mc.options.keyBindLeft.isKeyDown();
+        boolean d = mc.options.keyBindRight.isKeyDown();
 
         if (w && !this.prevW) {
             this.lastForwardSign = 1;

@@ -597,10 +597,10 @@ public class Indicators extends Module {
         double posX = projectile.posX;
         double posY = projectile.posY;
         double posZ = projectile.posZ;
-        double motionX = projectile.motionX;
-        double motionY = projectile.motionY;
-        double motionZ = projectile.motionZ;
-        int ticksInAir = Math.max(0, projectile.ticksExisted);
+        double motionX = projectile.getVelocity().x;
+        double motionY = projectile.getVelocity().y;
+        double motionZ = projectile.getVelocity().z;
+        int ticksInAir = Math.max(0, projectile.age);
 
         List<Vec3d> points = new ArrayList<>();
         points.add(new Vec3d(posX, posY, posZ));
@@ -810,7 +810,7 @@ public class Indicators extends Module {
         double centerX = startX - direction.xCoord * ARROW_TRAJECTORY_MARKER_BACK_OFFSET;
         double centerY = startY - direction.yCoord * ARROW_TRAJECTORY_MARKER_BACK_OFFSET;
         double centerZ = startZ - direction.zCoord * ARROW_TRAJECTORY_MARKER_BACK_OFFSET;
-        double spinAngle = (projectile.ticksExisted + partialTicks) * ARROW_TRAJECTORY_MARKER_SPIN_SPEED;
+        double spinAngle = (projectile.age + partialTicks) * ARROW_TRAJECTORY_MARKER_SPIN_SPEED;
         double cosine = Math.cos(spinAngle);
         double sine = Math.sin(spinAngle);
         Vec3d rotatedArmAxisA = rotateMarkerAxis(armAxisA, armAxisB, cosine, sine);
@@ -842,7 +842,7 @@ public class Indicators extends Module {
 
     private Vec3d getArrowTrajectoryMarkerDirection(TrajectoryPrediction prediction, Entity projectile,
                                                    double startX, double startY, double startZ) {
-        Vec3d direction = normalizeVec3d(new Vec3d(projectile.motionX, projectile.motionY, projectile.motionZ));
+        Vec3d direction = normalizeVec3d(new Vec3d(projectile.getVelocity().x, projectile.getVelocity().y, projectile.getVelocity().z));
         if (direction != null) {
             return direction;
         }

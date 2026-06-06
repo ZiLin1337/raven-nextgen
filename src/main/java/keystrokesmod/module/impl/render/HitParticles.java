@@ -197,7 +197,7 @@ public class HitParticles extends Module {
     private static LivingEntity getCollisionEntity(ArrowEntity arrow) {
         World world = arrow.worldObj;
         Vec3d pos = new Vec3d(arrow.posX, arrow.posY, arrow.posZ);
-        Vec3d motionEnd = new Vec3d(arrow.posX + arrow.motionX, arrow.posY + arrow.motionY, arrow.posZ + arrow.motionZ);
+        Vec3d motionEnd = new Vec3d(arrow.posX + arrow.getVelocity().x, arrow.posY + arrow.getVelocity().y, arrow.posZ + arrow.getVelocity().z);
         HitResult rayTrace = world.rayTraceBlocks(pos, motionEnd, false, true, false);
         Vec3d traceEnd = motionEnd;
         if (rayTrace != null) {
@@ -207,7 +207,7 @@ public class HitParticles extends Module {
         LivingEntity target = null;
         double closestSq = 0.0;
         Box search = arrow.getEntityBoundingBox()
-                .addCoord(arrow.motionX, arrow.motionY, arrow.motionZ)
+                .addCoord(arrow.getVelocity().x, arrow.getVelocity().y, arrow.getVelocity().z)
                 .expand(1.0, 1.0, 1.0);
         @SuppressWarnings("unchecked")
         List<Entity> entities = world.getEntitiesWithinAABBExcludingEntity(arrow, search);

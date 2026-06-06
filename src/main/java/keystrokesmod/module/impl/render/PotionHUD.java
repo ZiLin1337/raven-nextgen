@@ -78,7 +78,7 @@ public class PotionHUD extends Module {
             return;
         }
 
-        if (mc.currentScreen != null || mc.gameSettings.showDebugInfo) {
+        if (mc.currentScreen != null || mc.options.showDebugInfo) {
             return;
         }
 

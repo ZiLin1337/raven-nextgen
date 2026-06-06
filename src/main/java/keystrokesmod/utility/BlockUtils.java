@@ -120,7 +120,7 @@ public class BlockUtils implements IMinecraftInstance {
             if (mc.player.isInsideOfMaterial(Material.water) && !EnchantmentHelper.getAquaAffinityModifier(mc.player)) {
                 n /= 5.0f;
             }
-            if (!mc.player.onGround && !ignoreGround) {
+            if (!mc.player.isOnGround() && !ignoreGround) {
                 n /= 5.0f;
             }
         }

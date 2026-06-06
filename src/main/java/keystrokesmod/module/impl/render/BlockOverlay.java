@@ -116,7 +116,7 @@ public void onDrawBlockHighlight(DrawBlockHighlightEvent e) {
         boolean showOutline = outlineVisible.isToggled();
         if (!showOverlay && !showOutline) return;
 
-        Direction side = (mode == 2) ? mc.objectMouseOver.sideHit : null;
+        Direction side = (mode == 2) ? mc.crosshairTarget.sideHit : null;
         renderCustomBlockOverlay(pos, side, showOverlay, showOutline);
     }
 
@@ -222,8 +222,8 @@ public void onDrawBlockHighlight(DrawBlockHighlightEvent e) {
     }
 
     private BlockPos getFocusedBlock() {
-        if (mc.objectMouseOver == null || mc.objectMouseOver.typeOfHit != HitResult.MovingObjectType.BLOCK) return null;
-        BlockPos pos = mc.objectMouseOver.getBlockPos();
+        if (mc.crosshairTarget == null || mc.crosshairTarget.typeOfHit != HitResult.MovingObjectType.BLOCK) return null;
+        BlockPos pos = mc.crosshairTarget.getBlockPos();
         if (pos == null) return null;
         Block block = mc.world.getBlockState(pos).getBlock();
         if (block == Blocks.AIR) return null;

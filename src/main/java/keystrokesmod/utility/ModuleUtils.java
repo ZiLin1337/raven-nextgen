@@ -55,19 +55,19 @@ public class ModuleUtils implements IMinecraftInstance {
             isBreaking = true;
         }
 
-        if (e.getPacket() instanceof C08PacketPlayerBlockPlacement && Utils.holdingFireball()) {
-            if (Utils.isBindDown(mc.gameSettings.keyBindUseItem)) {
+        if (e.getPacket() instanceof PlayerInteractBlockC2SPacket && Utils.holdingFireball()) {
+            if (Utils.isBindDown(mc.options.keyBindUseItem)) {
                 fireballTime = System.currentTimeMillis();
                 threwFireball = true;
-                if (mc.player.rotationPitch > 50F) {
+                if (mc.player.getPitch() > 50F) {
                     threwFireballLow = true;
                 }
             }
         }
 
-        if (e.getPacket() instanceof C08PacketPlayerBlockPlacement && Utils.scaffoldDiagonal(false)) {
-            if (((C08PacketPlayerBlockPlacement) e.getPacket()).getPlacedBlockDirection() != 1) {
-                int currentFace = ((C08PacketPlayerBlockPlacement) e.getPacket()).getPlacedBlockDirection();
+        if (e.getPacket() instanceof PlayerInteractBlockC2SPacket && Utils.scaffoldDiagonal(false)) {
+            if (((PlayerInteractBlockC2SPacket) e.getPacket()).getPlacedBlockDirection() != 1) {
+                int currentFace = ((PlayerInteractBlockC2SPacket) e.getPacket()).getPlacedBlockDirection();
 
                 if (currentFace == lastFace) {
                     lastFaceDifference++;
@@ -85,8 +85,8 @@ public class ModuleUtils implements IMinecraftInstance {
         if (!Utils.nullCheck() || e.isCanceled()) {
             return;
         }
-        if (e.getPacket() instanceof S27PacketExplosion) {
-            S27PacketExplosion s27 = (S27PacketExplosion) e.getPacket();
+        if (e.getPacket() instanceof ExplosionS2CPacket) {
+            ExplosionS2CPacket s27 = (ExplosionS2CPacket) e.getPacket();
             if (threwFireball) {
                 if ((mc.player.getPosition().distanceSq(s27.getX(), s27.getY(), s27.getZ()) <= MAX_EXPLOSION_DIST_SQ)) {
                     ModuleManager.velocity.disable = false;
@@ -102,7 +102,7 @@ public class ModuleUtils implements IMinecraftInstance {
         if (!Utils.nullCheck()) {
             return;
         }
-        if (packet instanceof C08PacketPlayerBlockPlacement && Utils.holdingSword() && !BlockUtils.isInteractable(mc.objectMouseOver) && !isBlocked) {
+        if (packet instanceof PlayerInteractBlockC2SPacket && Utils.holdingSword() && !BlockUtils.isInteractable(mc.crosshairTarget) && !isBlocked) {
             isBlocked = true;
         }
         else if (packet instanceof C07PacketPlayerDigging && isBlocked) {
@@ -145,7 +145,7 @@ public class ModuleUtils implements IMinecraftInstance {
         if (!ModuleManager.bHop.hopping) {
             allowFriction = false;
         }
-        else if (!mc.player.onGround) {
+        else if (!mc.player.isOnGround()) {
             allowFriction = true;
         }
 
@@ -198,13 +198,13 @@ public class ModuleUtils implements IMinecraftInstance {
         int simpleY = (int) Math.round((e.posY % 1) * 10000);
 
         lastTickOnGround = thisTickOnGround;
-        thisTickOnGround = mc.player.onGround;
+        thisTickOnGround = mc.player.isOnGround();
 
         lastTickPos1 = thisTickPos1;
         thisTickPos1 = mc.player.getY() % 1 == 0;
 
-        inAirTicks = mc.player.onGround ? 0 : ++inAirTicks;
-        groundTicks = !mc.player.onGround ? 0 : ++groundTicks;
+        inAirTicks = mc.player.isOnGround() ? 0 : ++inAirTicks;
+        groundTicks = !mc.player.isOnGround() ? 0 : ++groundTicks;
         stillTicks = Utils.isMoving() ? 0 : ++stillTicks;
 
         Block blockBelow = BlockUtils.getBlock(new BlockPos(mc.player.getX(), mc.player.getY() - 1, mc.player.getZ()));
@@ -222,13 +222,13 @@ public class ModuleUtils implements IMinecraftInstance {
                     case 2: // 9 tick
                         switch (simpleY) {
                             case 13:
-                                mc.player.motionY = mc.player.motionY - 0.02483;
+                                mc.player.getVelocity().y = mc.player.getVelocity().y - 0.02483;
                                 break;
                             case 2000:
-                                mc.player.motionY = mc.player.motionY - 0.1913;
+                                mc.player.getVelocity().y = mc.player.getVelocity().y - 0.1913;
                                 break;
                             case 7016:
-                                mc.player.motionY = mc.player.motionY + 0.08;
+                                mc.player.getVelocity().y = mc.player.getVelocity().y + 0.08;
                                 break;
                         }
                         if (ModuleUtils.inAirTicks > 6 && Utils.isMoving()) {
@@ -241,10 +241,10 @@ public class ModuleUtils implements IMinecraftInstance {
                     case 3: // 8 tick
                         switch (simpleY) {
                             case 13:
-                                mc.player.motionY = mc.player.motionY - 0.045;//0.02483;
+                                mc.player.getVelocity().y = mc.player.getVelocity().y - 0.045;//0.02483;
                                 break;
                             case 2000:
-                                mc.player.motionY = mc.player.motionY - 0.175;//0.1913;
+                                mc.player.getVelocity().y = mc.player.getVelocity().y - 0.175;//0.1913;
                                 resetLowhop();
                                 break;
                         }
@@ -252,13 +252,13 @@ public class ModuleUtils implements IMinecraftInstance {
                     case 4: // 7 tick
                         switch (simpleY) {
                             case 4200:
-                                mc.player.motionY = 0.39;
+                                mc.player.getVelocity().y = 0.39;
                                 break;
                             case 1138:
-                                mc.player.motionY = mc.player.motionY - 0.13;
+                                mc.player.getVelocity().y = mc.player.getVelocity().y - 0.13;
                                 break;
                             case 2031:
-                                mc.player.motionY = mc.player.motionY - 0.2;
+                                mc.player.getVelocity().y = mc.player.getVelocity().y - 0.2;
                                 resetLowhop();
                                 break;
                         }
@@ -266,7 +266,7 @@ public class ModuleUtils implements IMinecraftInstance {
                 }
             }
         }
-        if (!mc.player.onGround) {
+        if (!mc.player.isOnGround()) {
             lowhopAir = true;
         }
         else if (lowhopAir) {
@@ -275,19 +275,19 @@ public class ModuleUtils implements IMinecraftInstance {
 
         if (ModuleManager.bHop.setRotation) {
             if (KillAura.target == null) {
-                float yaw = mc.player.rotationYaw - 55;
+                float yaw = mc.player.getYaw() - 55;
                 e.setYaw(yaw);
             }
-            if (mc.player.onGround) {
+            if (mc.player.isOnGround()) {
                 ModuleManager.bHop.setRotation = false;
             }
         }
 
-        if (canSlow && !mc.player.onGround) {
+        if (canSlow && !mc.player.isOnGround()) {
             double motionVal = 0.9 - ((double) inAirTicks / 10000) - Utils.randomizeDouble(0.00001, 0.00006);
             if (mc.player.hurtTime == 0 && inAirTicks > 4 && !setSlow) {
-                mc.player.motionX *= motionVal;
-                mc.player.motionZ *= motionVal;
+                mc.player.getVelocity().x *= motionVal;
+                mc.player.getVelocity().z *= motionVal;
                 setSlow = true;
             }
             didSlow = true;
@@ -295,7 +295,7 @@ public class ModuleUtils implements IMinecraftInstance {
         else if (didSlow) {
             canSlow = didSlow = false;
         }
-        if (mc.player.onGround) {
+        if (mc.player.isOnGround()) {
             setSlow = false;
         }
     }
@@ -315,8 +315,8 @@ public void onRenderWorld(Object e) {
             return;
         }
         if (ModuleManager.killAura.rotationMode.getInput() == 0 && KillAura.target != null) {
-            mc.player.prevRenderArmYaw = mc.player.rotationYaw;
-            mc.player.renderArmYaw = mc.player.rotationYaw;
+            mc.player.prevRenderArmYaw = mc.player.getYaw();
+            mc.player.renderArmYaw = mc.player.getYaw();
         }
         // Scaffold fading highlight removed.
     }

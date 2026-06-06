@@ -36,7 +36,7 @@ public class Holdlook extends Module {
         boolean frontDown = frontCamKey.isPressed();
 
         if (rearDown && !rearActive) {
-            savedPerspective = mc.gameSettings.thirdPersonView;
+            savedPerspective = mc.options.thirdPersonView;
             applyThirdPersonView(1);
             rearActive = true;
         } else if (!rearDown && rearActive) {
@@ -46,7 +46,7 @@ public class Holdlook extends Module {
 
         if (frontDown && !frontActive) {
             if (!rearActive) {
-                savedPerspective = mc.gameSettings.thirdPersonView;
+                savedPerspective = mc.options.thirdPersonView;
             }
             applyThirdPersonView(2);
             frontActive = true;
@@ -72,7 +72,7 @@ public class Holdlook extends Module {
             view = 2;
         }
 
-        mc.gameSettings.thirdPersonView = view;
+        mc.options.thirdPersonView = view;
         if (mc.entityRenderer != null) {
             if (view == 0) {
                 mc.entityRenderer.loadEntityShader(mc.getRenderViewEntity());

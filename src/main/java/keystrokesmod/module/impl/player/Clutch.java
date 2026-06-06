@@ -133,8 +133,8 @@ public class Clutch extends Module {
         float basePitch = e.pitch != null ? e.pitch : RotationUtils.serverRotations[1];
 
         if (resetting) {
-            aimYaw = mc.player.rotationYaw;
-            aimPitch = mc.player.rotationPitch;
+            aimYaw = mc.player.getYaw();
+            aimPitch = mc.player.getPitch();
             float[] smoothed = getRotationsSmoothed(baseYaw, basePitch, aimYaw, aimPitch, true);
             if (Math.abs(MathHelper.wrapAngleTo180_float(smoothed[0] - aimYaw)) < 0.5f && Math.abs(smoothed[1] - aimPitch) < 0.5f) {
                 resetting = false;
@@ -179,7 +179,7 @@ public class Clutch extends Module {
 
         placeQueued = false;
         if (placeAtBlock != null && hitSide != null && hitVec != null
-                && mc.playerController.onPlayerRightClick(mc.player, mc.world, mc.player.getHeldItem(), placeAtBlock, hitSide, hitVec)) {
+                && mc.interactionManager.onPlayerRightClick(mc.player, mc.world, mc.player.getHeldItem(), placeAtBlock, hitSide, hitVec)) {
             if (hitSide != Direction.UP) clutchBlocksPlaced++;
             lastPlaced = placeAtBlock;
             mc.player.swingItem();
@@ -193,8 +193,8 @@ public class Clutch extends Module {
     }
 
     private void runPrePlayerInteract() {
-        if (mc.player.onGround) clutchBlocksPlaced = 0;
-        int ticksExisted = mc.player.ticksExisted;
+        if (mc.player.isOnGround()) clutchBlocksPlaced = 0;
+        int ticksExisted = mc.player.age;
 
         updateAutoClutch(ticksExisted);
 
@@ -235,8 +235,8 @@ public class Clutch extends Module {
         if (hasAim && !placing) enablePlacing();
 
         if (placing || resetting || hasAim) {
-            InputUtil.setKeyPressed(mc.gameSettings.keyBindAttack.getKeyCode(), false);
-            InputUtil.setKeyPressed(mc.gameSettings.keyBindUseItem.getKeyCode(), false);
+            InputUtil.setKeyPressed(mc.options.keyBindAttack.getKeyCode(), false);
+            InputUtil.setKeyPressed(mc.options.keyBindUseItem.getKeyCode(), false);
             equipPlannedSlot();
         }
     }
@@ -262,8 +262,8 @@ public class Clutch extends Module {
 
             if (autoClutchLandedGuard) {
                 boolean expired = ticksExisted - autoClutchLandedTick >= 10;
-                boolean jumped = mc.gameSettings.keyBindJump.isKeyDown();
-                boolean airborneUp = !mc.player.onGround && mc.player.motionY > 0;
+                boolean jumped = mc.options.keyBindJump.isKeyDown();
+                boolean airborneUp = !mc.player.isOnGround() && mc.player.getVelocity().y > 0;
                 if (expired || jumped || airborneUp) {
                     autoClutchActive = false;
                     autoClutchChecking = false;
@@ -271,7 +271,7 @@ public class Clutch extends Module {
                 }
             }
 
-            if (autoClutchActive && mc.player.onGround && mc.player.hurtTime < mc.player.maxHurtTime - 2) {
+            if (autoClutchActive && mc.player.isOnGround() && mc.player.hurtTime < mc.player.maxHurtTime - 2) {
                 if (!autoClutchLandedGuard) {
                     autoClutchLandedGuard = true;
                     autoClutchLandedTick = ticksExisted;
@@ -283,7 +283,7 @@ public class Clutch extends Module {
                 }
             }
 
-            if (!autoClutchActive && !autoClutchLandedGuard && mc.player.onGround && mc.player.hurtTime == 0) {
+            if (!autoClutchActive && !autoClutchLandedGuard && mc.player.isOnGround() && mc.player.hurtTime == 0) {
                 autoClutchChecking = false;
                 autoClutchCheckCounter = 0;
             }
@@ -337,8 +337,8 @@ public class Clutch extends Module {
 
     private void restoreInputsAndAutoClicker() {
         if (mc.currentScreen == null) {
-            InputUtil.setKeyPressed(mc.gameSettings.keyBindAttack.getKeyCode(), GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS);
-            InputUtil.setKeyPressed(mc.gameSettings.keyBindUseItem.getKeyCode(), GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS);
+            InputUtil.setKeyPressed(mc.options.keyBindAttack.getKeyCode(), GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS);
+            InputUtil.setKeyPressed(mc.options.keyBindUseItem.getKeyCode(), GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS);
         }
         if (autoClickerWasOn && ModuleManager.autoClicker != null) {
             ModuleManager.autoClicker.enable();
@@ -351,7 +351,7 @@ public class Clutch extends Module {
         PredictionState prediction = PredictionState.fromPlayer();
         for (int t = 0; t < 60; t++) {
             prediction.tick(false);
-            if (prediction.onGround) {
+            if (prediction.isOnGround()) {
                 return false;
             }
             double fall = startY - prediction.posY;
@@ -366,7 +366,7 @@ public class Clutch extends Module {
         PredictionState prediction = PredictionState.fromPlayer();
         for (int t = 0; t < 10; t++) {
             prediction.tick(true);
-            if (!prediction.onGround && prediction.motionY < 0) {
+            if (!prediction.isOnGround() && prediction.getVelocity().y < 0) {
                 return true;
             }
         }
@@ -382,7 +382,7 @@ public class Clutch extends Module {
             PredictionState prediction = PredictionState.fromPlayer();
             for (int t = 0; t < 20; t++) {
                 prediction.tick(false);
-                if (prediction.posY < playerPos.yCoord - 2 || prediction.onGround) break;
+                if (prediction.posY < playerPos.yCoord - 2 || prediction.isOnGround()) break;
             }
             futurePos = prediction.getPos();
         }
@@ -647,11 +647,11 @@ public class Clutch extends Module {
         static PredictionState fromPlayer() {
             PredictionState state = new PredictionState();
             state.box = mc.player.getEntityBoundingBox();
-            state.motionX = mc.player.motionX;
-            state.motionY = mc.player.motionY;
-            state.motionZ = mc.player.motionZ;
+            state.getVelocity().x = mc.player.getVelocity().x;
+            state.getVelocity().y = mc.player.getVelocity().y;
+            state.getVelocity().z = mc.player.getVelocity().z;
             state.posY = mc.player.getY();
-            state.onGround = mc.player.onGround;
+            state.isOnGround() = mc.player.isOnGround();
             return state;
         }
 

@@ -76,17 +76,17 @@ public class FallView extends Module {
         if (mc.currentScreen != null) {
             return;
         }
-        if (!Utils.nullCheck() || mc.player.capabilities.isCreativeMode) {
+        if (!Utils.nullCheck() || mc.player.getAbilities().isCreativeMode) {
             return;
         }
-        if (disableWhileFlying.isToggled() && mc.player.capabilities.allowFlying) {
+        if (disableWhileFlying.isToggled() && mc.player.getAbilities().allowFlying) {
             return;
         }
         if (onlyWhileSneaking.isToggled() && !mc.player.isSneaking()) {
             return;
         }
 
-        boolean onGround = mc.player.onGround;
+        boolean onGround = mc.player.isOnGround();
         if (onGround) {
             fallStartY = -1;
             groundY = -1;

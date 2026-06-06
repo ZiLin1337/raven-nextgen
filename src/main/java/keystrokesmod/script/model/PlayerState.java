@@ -18,7 +18,7 @@ public class PlayerState {
         this.z = e.getPosZ();
         this.yaw = e.getYaw();
         this.pitch = e.getPitch();
-        this.onGround = e.isOnGround();
+        this.isOnGround() = e.isOnGround();
         this.isSprinting = e.isSprinting();
         this.isSneaking = e.isSneaking();
     }
@@ -29,19 +29,19 @@ public class PlayerState {
         this.z = (double) state[2];
         this.yaw = (float) state[3];
         this.pitch = (float) state[4];
-        this.onGround = (boolean) state[5];
+        this.isOnGround() = (boolean) state[5];
         this.isSprinting = (boolean) state[6];
         this.isSneaking = (boolean) state[7];
     }
 
     public Object[] asArray() {
-        return new Object[] { this.x, this.y, this.z, this.yaw, this.pitch, this.onGround, this.isSprinting, this.isSneaking };
+        return new Object[] { this.x, this.y, this.z, this.yaw, this.pitch, this.isOnGround(), this.isSprinting, this.isSneaking };
     }
 
     public boolean equals(PlayerState playerState) {
         if (playerState == null) {
             return false;
         }
-        return this.x == playerState.x && this.y == playerState.y && this.z == playerState.z && this.yaw == playerState.yaw && this.pitch == playerState.pitch && this.onGround == playerState.onGround && this.isSprinting == playerState.isSprinting && this.isSneaking == playerState.isSneaking;
+        return this.x == playerState.x && this.y == playerState.y && this.z == playerState.z && this.yaw == playerState.yaw && this.pitch == playerState.pitch && this.isOnGround() == playerState.isOnGround() && this.isSprinting == playerState.isSprinting && this.isSneaking == playerState.isSneaking;
     }
 }

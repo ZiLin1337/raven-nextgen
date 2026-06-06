@@ -88,7 +88,7 @@ public class HideWindow extends Module {
             }
 
             hiddenGui = gui;
-            mc.player.openContainer = hiddenGui.inventorySlots;
+            mc.player.openContainer = hiddenGui.getInventory();
             event.setCanceled(true);
             return;
         }
@@ -116,7 +116,7 @@ public class HideWindow extends Module {
         if (event.phase != TickEvent.Phase.END) {
             return;
         }
-        if (hiddenGui == null || mc.currentScreen != null || mc.gameSettings.showDebugInfo) {
+        if (hiddenGui == null || mc.currentScreen != null || mc.options.showDebugInfo) {
             return;
         }
         renderIcon(false);
@@ -230,8 +230,8 @@ public class HideWindow extends Module {
     }
 
     private static String getContainerTitle(Screen gui) {
-        if (gui.inventorySlots instanceof GenericContainerScreenHandler) {
-            return ((GenericContainerScreenHandler) gui.inventorySlots)
+        if (gui.getInventory() instanceof GenericContainerScreenHandler) {
+            return ((GenericContainerScreenHandler) gui.getInventory())
                     .getLowerChestInventory()
                     .getDisplayName()
                     .getString();

@@ -50,13 +50,13 @@ public class Fly extends Module {
 
     @Override
     public void onEnable() {
-        this.canFly = mc.player.capabilities.isFlying;
+        this.canFly = mc.player.getAbilities().isFlying;
         this.maxY = mc.player.getPosition().getY();
     }
 
     
     public void onCollision(CollisionEvent e) {
-        if (mode.getInput() != 3 || Utils.isBindDown(mc.gameSettings.keyBindSneak)) {
+        if (mode.getInput() != 3 || Utils.isBindDown(mc.options.keyBindSneak)) {
             this.maxY = mc.player.getPosition().getY();
             return;
         }
@@ -72,39 +72,39 @@ public class Fly extends Module {
         }
         switch ((int) mode.getInput()) {
             case 0:
-                mc.player.motionY = 0.0;
-                mc.player.capabilities.setFlySpeed((float)(0.05000000074505806 * horizontalSpeed.getInput()));
-                mc.player.capabilities.isFlying = true;
+                mc.player.getVelocity().y = 0.0;
+                mc.player.getAbilities().setFlySpeed((float)(0.05000000074505806 * horizontalSpeed.getInput()));
+                mc.player.getAbilities().isFlying = true;
                 break;
             case 1:
-                mc.player.onGround = true;
+                mc.player.isOnGround() = true;
                 if (mc.currentScreen == null) {
                     if (Utils.jumpDown()) {
-                        mc.player.motionY = 0.3 * verticalSpeed.getInput();
+                        mc.player.getVelocity().y = 0.3 * verticalSpeed.getInput();
                     }
                     else if (Utils.jumpDown()) {
-                        mc.player.motionY = -0.3 * verticalSpeed.getInput();
+                        mc.player.getVelocity().y = -0.3 * verticalSpeed.getInput();
                     }
                     else {
-                        mc.player.motionY = 0.0;
+                        mc.player.getVelocity().y = 0.0;
                     }
                 }
                 else {
-                    mc.player.motionY = 0.0;
+                    mc.player.getVelocity().y = 0.0;
                 }
-                mc.player.capabilities.setFlySpeed(0.2f);
-                mc.player.capabilities.isFlying = true;
+                mc.player.getAbilities().setFlySpeed(0.2f);
+                mc.player.getAbilities().isFlying = true;
                 setSpeed(0.85 * horizontalSpeed.getInput());
                 break;
             case 2:
                 double nextDouble = RandomUtils.nextDouble(1.0E-7, 1.2E-7);
-                if (mc.player.ticksExisted % 2 == 0) {
+                if (mc.player.age % 2 == 0) {
                     nextDouble = -nextDouble;
                 }
-                if (!mc.player.onGround) {
+                if (!mc.player.isOnGround()) {
                     mc.player.setPosition(mc.player.getX(), mc.player.getY() + nextDouble, mc.player.getZ());
                 }
-                mc.player.motionY = 0.0;
+                mc.player.getVelocity().y = 0.0;
                 setSpeed(0.4 * horizontalSpeed.getInput());
                 break;
         }
@@ -113,23 +113,23 @@ public class Fly extends Module {
 
     @Override
     public void onDisable() {
-        if (mc.player.capabilities.allowFlying) {
-            mc.player.capabilities.isFlying = this.canFly;
+        if (mc.player.getAbilities().allowFlying) {
+            mc.player.getAbilities().isFlying = this.canFly;
         }
         else {
-            mc.player.capabilities.isFlying = false;
+            mc.player.getAbilities().isFlying = false;
         }
         this.canFly = false;
         switch ((int) mode.getInput()) {
             case 0:
             case 1:
-                mc.player.capabilities.setFlySpeed(0.05F);
+                mc.player.getAbilities().setFlySpeed(0.05F);
                 break;
         }
         if (stopMotion.isToggled()) {
-            mc.player.motionZ = 0;
-            mc.player.motionY = 0;
-            mc.player.motionX = 0;
+            mc.player.getVelocity().z = 0;
+            mc.player.getVelocity().y = 0;
+            mc.player.getVelocity().x = 0;
         }
     }
 
@@ -138,7 +138,7 @@ public class Fly extends Module {
         if (!showBPS.isToggled() || !Utils.nullCheck()) {
             return;
         }
-        if (mc.currentScreen != null || mc.gameSettings.showDebugInfo) {
+        if (mc.currentScreen != null || mc.options.showDebugInfo) {
             return;
         }
         RenderUtils.renderBPS(true, false);
@@ -146,16 +146,16 @@ public class Fly extends Module {
 
     private void setSpeed(double speed) {
         if (speed == 0.0) {
-            mc.player.motionZ = 0;
-            mc.player.motionX = 0;
+            mc.player.getVelocity().z = 0;
+            mc.player.getVelocity().x = 0;
             return;
         }
         double moveForward = mc.player.movementInput.moveForward;
         double moveStrafe = mc.player.movementInput.moveStrafe;
-        float yaw = mc.player.rotationYaw;
+        float yaw = mc.player.getYaw();
         if (moveForward == 0.0 && moveStrafe == 0.0) {
-            mc.player.motionZ = 0;
-            mc.player.motionX = 0;
+            mc.player.getVelocity().z = 0;
+            mc.player.getVelocity().x = 0;
         }
         else {
             if (moveForward != 0.0) {
@@ -176,8 +176,8 @@ public class Fly extends Module {
             double radians = Math.toRadians(yaw + 90.0f);
             double sin = Math.sin(radians);
             double cos = Math.cos(radians);
-            mc.player.motionX = moveForward * speed * cos + moveStrafe * speed * sin;
-            mc.player.motionZ = moveForward * speed * sin - moveStrafe * speed * cos;
+            mc.player.getVelocity().x = moveForward * speed * cos + moveStrafe * speed * sin;
+            mc.player.getVelocity().z = moveForward * speed * sin - moveStrafe * speed * cos;
         }
     }
 }

@@ -53,7 +53,7 @@ public class FastPlace extends Module {
 
     
     public void onRightClickDelayTick(RightClickDelayTickEvent e) {
-        if (!Utils.nullCheck() || !mc.inGameHasFocus) {
+        if (!Utils.nullCheck() || !mc.isWindowFocused()) {
             rightClickStartTime = 0L;
             return;
         }
@@ -88,11 +88,11 @@ public class FastPlace extends Module {
 
     
     public void onSendPacket(SendPacketEvent e) {
-        if (!Utils.nullCheck() || !(e.getPacket() instanceof C08PacketPlayerBlockPlacement)) {
+        if (!Utils.nullCheck() || !(e.getPacket() instanceof PlayerInteractBlockC2SPacket)) {
             return;
         }
 
-        C08PacketPlayerBlockPlacement packet = (C08PacketPlayerBlockPlacement) e.getPacket();
+        PlayerInteractBlockC2SPacket packet = (PlayerInteractBlockC2SPacket) e.getPacket();
         if (packet.getPlacedBlockDirection() != 255) {
             return;
         }
@@ -112,11 +112,11 @@ public class FastPlace extends Module {
     }
 
     private boolean isBlockedHoverBlock() {
-        if (!blockBlacklistToggle.isToggled() || mc.objectMouseOver == null || mc.objectMouseOver.typeOfHit != HitResult.MovingObjectType.BLOCK) {
+        if (!blockBlacklistToggle.isToggled() || mc.crosshairTarget == null || mc.crosshairTarget.typeOfHit != HitResult.MovingObjectType.BLOCK) {
             return false;
         }
 
-        BlockPos hoveredPos = mc.objectMouseOver.getBlockPos();
+        BlockPos hoveredPos = mc.crosshairTarget.getBlockPos();
         if (hoveredPos == null) {
             return false;
         }
@@ -134,7 +134,7 @@ public class FastPlace extends Module {
     }
 
     private boolean isRightClickActive() {
-        return Utils.isBindDown(mc.gameSettings.keyBindUseItem) || mc.player.isUsingItem();
+        return Utils.isBindDown(mc.options.keyBindUseItem) || mc.player.isUsingItem();
     }
 
     private boolean canFastPlace(long now, boolean requireActivationDelay) {
@@ -144,7 +144,7 @@ public class FastPlace extends Module {
                 return false;
             }
         }
-        if (pitchCheck.isToggled() && mc.player.rotationPitch < 70.0f) {
+        if (pitchCheck.isToggled() && mc.player.getPitch() < 70.0f) {
             return false;
         }
         if (ignoredHeldItemsToggle.isToggled() && ignoredHeldItems.matches(mc.player.getHeldItem())) {

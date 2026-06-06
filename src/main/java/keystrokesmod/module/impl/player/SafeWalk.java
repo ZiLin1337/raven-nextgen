@@ -39,9 +39,9 @@ public class SafeWalk extends Module {
 
     @Override
     public void onUpdate() {
-        if (motion.getInput() != 1.0 && mc.player.onGround && Utils.isMoving() && settingsMet()) {
-            mc.player.motionX *= motion.getInput();
-            mc.player.motionZ *= motion.getInput();
+        if (motion.getInput() != 1.0 && mc.player.isOnGround() && Utils.isMoving() && settingsMet()) {
+            mc.player.getVelocity().x *= motion.getInput();
+            mc.player.getVelocity().z *= motion.getInput();
         }
     }
 
@@ -50,7 +50,7 @@ public class SafeWalk extends Module {
         if (!sneak.isToggled() || !Utils.nullCheck()) {
             return;
         }
-        boolean edge = mc.player.onGround && Utils.isEdgeOfBlock();
+        boolean edge = mc.player.isOnGround() && Utils.isEdgeOfBlock();
         if (edge) {
             if (!settingsMet()) {
                 this.setSneakState(false);
@@ -74,7 +74,7 @@ public class SafeWalk extends Module {
                 this.setSneakState(false);
             }
         }
-        if (this.isSneaking && (mc.player.capabilities.isFlying || !settingsMet())) {
+        if (this.isSneaking && (mc.player.getAbilities().isFlying || !settingsMet())) {
             this.setSneakState(false);
         }
     }
@@ -95,23 +95,23 @@ public class SafeWalk extends Module {
             return;
         }
 
-        if (!sneakState && Utils.isBindDown(mc.gameSettings.keyBindSneak)) {
+        if (!sneakState && Utils.isBindDown(mc.options.keyBindSneak)) {
             return;
         }
 
-        InputUtil.setKeyPressed(mc.gameSettings.keyBindSneak.getKeyCode(), sneakState);
+        InputUtil.setKeyPressed(mc.options.keyBindSneak.getKeyCode(), sneakState);
         if (sneakState) {
-            KeyBinding.onTick(mc.gameSettings.keyBindSneak.getKeyCode());
+            KeyBinding.onTick(mc.options.keyBindSneak.getKeyCode());
         }
         this.isSneaking = sneakState;
     }
 
     public static boolean canSafeWalk() {
         if (ModuleManager.safeWalk != null && ModuleManager.safeWalk.isEnabled()) {
-            if (disableOnForward.isToggled() && Keyboard.isKeyDown(mc.gameSettings.keyBindForward.getKeyCode())) {
+            if (disableOnForward.isToggled() && Keyboard.isKeyDown(mc.options.keyBindForward.getKeyCode())) {
                 return false;
             }
-            if (pitchCheck.isToggled() && mc.player.rotationPitch < 70) {
+            if (pitchCheck.isToggled() && mc.player.getPitch() < 70) {
                 return false;
             }
             if (blocksOnly.isToggled()) {
@@ -132,10 +132,10 @@ public class SafeWalk extends Module {
                 return false;
             }
         }
-        if (disableOnForward.isToggled() && Keyboard.isKeyDown(mc.gameSettings.keyBindForward.getKeyCode())) {
+        if (disableOnForward.isToggled() && Keyboard.isKeyDown(mc.options.keyBindForward.getKeyCode())) {
             return false;
         }
-        if (pitchCheck.isToggled() && mc.player.rotationPitch < 70.0f) {
+        if (pitchCheck.isToggled() && mc.player.getPitch() < 70.0f) {
             return false;
         }
         return true;

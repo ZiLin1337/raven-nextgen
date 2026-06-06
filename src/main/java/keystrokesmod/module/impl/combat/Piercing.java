@@ -51,8 +51,8 @@ public class Piercing extends Module {
             return false;
         }
         return ignoreBlocks.isToggled()
-                || mc.objectMouseOver == null
-                || mc.objectMouseOver.typeOfHit != HitResult.MovingObjectType.BLOCK;
+                || mc.crosshairTarget == null
+                || mc.crosshairTarget.typeOfHit != HitResult.MovingObjectType.BLOCK;
     }
 
     public void modifyMouseOverFromGetMouseOver(float partialTicks) {
@@ -66,9 +66,9 @@ public class Piercing extends Module {
             return;
         }
 
-        double reach = mc.playerController.getBlockReachDistance();
+        double reach = mc.interactionManager.getBlockReachDistance();
         final Vec3d eyes = viewEntity.getPositionEyes(partialTicks);
-        if (mc.playerController.extendedReach()) {
+        if (mc.interactionManager.extendedReach()) {
             reach = 6.0;
         }
         final Vec3d look = viewEntity.getLook(partialTicks);
@@ -99,7 +99,7 @@ public class Piercing extends Module {
 
             if (!inside && hit == null) continue;
             double dist = inside ? 0.0 : eyes.distanceTo(hit.hitVec);
-            if (!mc.playerController.extendedReach() && dist > 3.0) continue;
+            if (!mc.interactionManager.extendedReach() && dist > 3.0) continue;
             if (dist > reach) continue;
             if (dist >= bestDist) continue;
             if (this.insideHitboxOnly.isToggled() && dist > 0.10000000149011612) continue;
@@ -149,15 +149,15 @@ public class Piercing extends Module {
             }
         }
 
-        if (best != null && reach > 3.0 && bestDist > 3.0 && !mc.playerController.extendedReach()) {
-            mc.objectMouseOver = new MovingObjectPosition(
+        if (best != null && reach > 3.0 && bestDist > 3.0 && !mc.interactionManager.extendedReach()) {
+            mc.crosshairTarget = new MovingObjectPosition(
                     HitResult.MovingObjectType.MISS, bestHit, null, new BlockPos(bestHit)
             );
             return;
         }
 
         if (best != null) {
-            mc.objectMouseOver = new MovingObjectPosition(best, bestHit);
+            mc.crosshairTarget = new MovingObjectPosition(best, bestHit);
             if (best instanceof LivingEntity || best instanceof ItemFrameEntity) {
                 mc.pointedEntity = best;
             }

@@ -20,7 +20,7 @@ public class ESP extends Module {
     public void onRenderWorld(MatrixStack matrices) {
         if (mc.world == null) return;
         for (PlayerEntity p : mc.world.getPlayers()) {
-            if (p == mc.player || p.isDead()) continue;
+            if (p == mc.player || p.isRemoved()()) continue;
             Box bb = p.getBoundingBox();
             RenderUtils.drawESPBox(matrices, p.getBlockPos(), 255, 255, 255, 100);
         }

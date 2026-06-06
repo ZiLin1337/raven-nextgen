@@ -68,7 +68,7 @@ public class KillAura extends Module {
             LivingEntity living = (LivingEntity) entity;
             
             if (living == mc.player) continue;
-            if (living.isDead()) continue;
+            if (living.isRemoved()()) continue;
             if (living.getHealth() <= 0) continue;
             if (!targetInvis.isToggled() && living.isInvisible()) continue;
             if (living instanceof PlayerEntity) {

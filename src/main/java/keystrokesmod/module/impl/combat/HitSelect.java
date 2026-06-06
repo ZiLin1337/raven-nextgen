@@ -93,7 +93,7 @@ public class HitSelect extends Module {
 
     
     public void onPrePlayerInteract(PrePlayerInteractEvent event) {
-        if (!Utils.nullCheck() || mc.player.isDead || mc.world == null) {
+        if (!Utils.nullCheck() || mc.player.isRemoved() || mc.world == null) {
             resetAllState();
             return;
         }
@@ -149,7 +149,7 @@ public class HitSelect extends Module {
     }
 
     private boolean canProcessClicks() {
-        return Utils.nullCheck() && mc.world != null && mc.player != null && !mc.player.isDead;
+        return Utils.nullCheck() && mc.world != null && mc.player != null && !mc.player.isRemoved();
     }
 
     private ClickType classifyClick(HitResult objectMouseOver) {
@@ -220,7 +220,7 @@ public class HitSelect extends Module {
             }
         }
 
-        if (takingKnockback && mc.player.onGround && !hurtAgain) {
+        if (takingKnockback && mc.player.isOnGround() && !hurtAgain) {
             takingKnockback = false;
         }
 
@@ -296,7 +296,7 @@ public class HitSelect extends Module {
             return false;
         }
 
-        if (mc.player.onGround) {
+        if (mc.player.isOnGround()) {
             return false;
         }
 
@@ -326,7 +326,7 @@ public class HitSelect extends Module {
 
     private boolean canCriticalHit() {
         return mc.player.fallDistance > 0.0F
-                && !mc.player.onGround
+                && !mc.player.isOnGround()
                 && !mc.player.isOnLadder()
                 && !mc.player.isInWater()
                 && !mc.player.isPotionActive(Potion.blindness)
@@ -468,7 +468,7 @@ public class HitSelect extends Module {
         while (iterator.hasNext()) {
             Map.Entry<Integer, TargetState> entry = iterator.next();
             Entity entity = mc.world.getEntityByID(entry.getKey());
-            if (!(entity instanceof PlayerEntity) || entity.isDead || ((PlayerEntity) entity).deathTime != 0) {
+            if (!(entity instanceof PlayerEntity) || entity.isRemoved() || ((PlayerEntity) entity).deathTime != 0) {
                 iterator.remove();
             }
         }

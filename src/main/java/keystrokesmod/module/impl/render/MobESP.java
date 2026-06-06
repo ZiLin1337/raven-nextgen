@@ -281,8 +281,8 @@ public class MobESP extends Module {
         RenderSystem.pushAttrib();
         outlineFramebuffer.bindnet.minecraft.client.gl.Framebuffer(false);
         ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(partialTicks, 0);
-        boolean shadows = mc.gameSettings.entityShadows;
-        mc.gameSettings.entityShadows = false;
+        boolean shadows = mc.options.entityShadows;
+        mc.options.entityShadows = false;
         renderingOutlinePass = true;
 
         glowShader.use();
@@ -303,7 +303,7 @@ public class MobESP extends Module {
         glowShader.stop();
         renderingOutlinePass = false;
 
-        mc.gameSettings.entityShadows = shadows;
+        mc.options.entityShadows = shadows;
         mc.entityRenderer.disableLightmap();
         mc.entityRenderer.setupOverlayRendering();
         mc.getnet.minecraft.client.gl.Framebuffer().bindnet.minecraft.client.gl.Framebuffer(false);

@@ -111,7 +111,7 @@ public class BridgeInfo extends Module {
     
     public void onRenderTick(Object ev) {
         if (ev.phase == Phase.END && Utils.nullCheck() && this.isBridge()) {
-            if (mc.currentScreen != null || mc.gameSettings.showDebugInfo) {
+            if (mc.currentScreen != null || mc.options.showDebugInfo) {
                 return;
             }
 

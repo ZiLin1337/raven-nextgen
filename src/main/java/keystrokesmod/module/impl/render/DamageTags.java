@@ -346,7 +346,7 @@ public class DamageTags extends Module {
         RenderSystem.translate((float) x, (float) y, (float) z);
         GL11.glNormal3f(0.0F, 1.0F, 0.0F);
         RenderSystem.rotate(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-        RenderSystem.rotate(renderManager.playerViewX * (mc.gameSettings.thirdPersonView == 2 ? -1 : 1), 1.0F, 0.0F, 0.0F);
+        RenderSystem.rotate(renderManager.playerViewX * (mc.options.thirdPersonView == 2 ? -1 : 1), 1.0F, 0.0F, 0.0F);
         RenderSystem.scale(-renderScale, -renderScale, renderScale);
 
         RenderSystem.disableLighting();

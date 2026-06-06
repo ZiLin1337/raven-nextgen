@@ -43,8 +43,8 @@ public class AntiKnockback extends Module {
         if (!Utils.nullCheck() || LongJump.stopVelocity || e.isCanceled()) {
             return;
         }
-        if (e.getPacket() instanceof S12PacketEntityVelocity) {
-            if (((S12PacketEntityVelocity) e.getPacket()).getEntityID() == mc.player.getId() && !disable) {
+        if (e.getPacket() instanceof EntityVelocityUpdateS2CPacket) {
+            if (((EntityVelocityUpdateS2CPacket) e.getPacket()).getEntityID() == mc.player.getId() && !disable) {
                 if (!cancelBurning.isToggled() && mc.player.isBurning()) {
                     return;
                 }
@@ -58,18 +58,18 @@ public class AntiKnockback extends Module {
                 if (cancelConditions()) {
                     return;
                 }
-                S12PacketEntityVelocity s12PacketEntityVelocity = (S12PacketEntityVelocity) e.getPacket();
+                EntityVelocityUpdateS2CPacket s12PacketEntityVelocity = (EntityVelocityUpdateS2CPacket) e.getPacket();
                 if (horizontal.getInput() == 0 && vertical.getInput() > 0) {
-                    mc.player.motionY = ((double) s12PacketEntityVelocity.getMotionY() / 8000) * vertical.getInput() / 100.0;
+                    mc.player.getVelocity().y = ((double) s12PacketEntityVelocity.getMotionY() / 8000) * vertical.getInput() / 100.0;
                 }
                 else if (horizontal.getInput() > 0 && vertical.getInput() == 0) {
-                    mc.player.motionX = ((double) s12PacketEntityVelocity.getMotionX() / 8000) * horizontal.getInput() / 100.0;
-                    mc.player.motionZ = ((double) s12PacketEntityVelocity.getMotionZ() / 8000) * horizontal.getInput() / 100.0;
+                    mc.player.getVelocity().x = ((double) s12PacketEntityVelocity.getMotionX() / 8000) * horizontal.getInput() / 100.0;
+                    mc.player.getVelocity().z = ((double) s12PacketEntityVelocity.getMotionZ() / 8000) * horizontal.getInput() / 100.0;
                 }
                 else {
-                    mc.player.motionX = ((double) s12PacketEntityVelocity.getMotionX() / 8000) * horizontal.getInput() / 100.0;
-                    mc.player.motionY = ((double) s12PacketEntityVelocity.getMotionY() / 8000) * vertical.getInput() / 100.0;
-                    mc.player.motionZ = ((double) s12PacketEntityVelocity.getMotionZ() / 8000) * horizontal.getInput() / 100.0;
+                    mc.player.getVelocity().x = ((double) s12PacketEntityVelocity.getMotionX() / 8000) * horizontal.getInput() / 100.0;
+                    mc.player.getVelocity().y = ((double) s12PacketEntityVelocity.getMotionY() / 8000) * vertical.getInput() / 100.0;
+                    mc.player.getVelocity().z = ((double) s12PacketEntityVelocity.getMotionZ() / 8000) * horizontal.getInput() / 100.0;
                 }
                 if (boostMultiplier.getInput() != 1) {
                     if (boostWithLMB.isToggled() && !GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) {
@@ -79,7 +79,7 @@ public class AntiKnockback extends Module {
                 }
             }
         }
-        else if (e.getPacket() instanceof S27PacketExplosion && !disable) {
+        else if (e.getPacket() instanceof ExplosionS2CPacket && !disable) {
             if (disableInLobby.isToggled() && Utils.isLobby()) {
                 return;
             }
@@ -90,18 +90,18 @@ public class AntiKnockback extends Module {
             if (cancelConditions()) {
                 return;
             }
-            S27PacketExplosion s27PacketExplosion = (S27PacketExplosion) e.getPacket();
+            ExplosionS2CPacket s27PacketExplosion = (ExplosionS2CPacket) e.getPacket();
             if (horizontal.getInput() == 0 && vertical.getInput() > 0) {
-                mc.player.motionY += s27PacketExplosion.func_149144_d() * vertical.getInput() / 100.0;
+                mc.player.getVelocity().y += s27PacketExplosion.func_149144_d() * vertical.getInput() / 100.0;
             }
             else if (horizontal.getInput() > 0 && vertical.getInput() == 0) {
-                mc.player.motionX += s27PacketExplosion.func_149149_c() * horizontal.getInput() / 100.0;
-                mc.player.motionZ += s27PacketExplosion.func_149147_e() * horizontal.getInput() / 100.0;
+                mc.player.getVelocity().x += s27PacketExplosion.func_149149_c() * horizontal.getInput() / 100.0;
+                mc.player.getVelocity().z += s27PacketExplosion.func_149147_e() * horizontal.getInput() / 100.0;
             }
             else {
-                mc.player.motionX += s27PacketExplosion.func_149149_c() * horizontal.getInput() / 100.0;
-                mc.player.motionY += s27PacketExplosion.func_149144_d() * vertical.getInput() / 100.0;
-                mc.player.motionZ += s27PacketExplosion.func_149147_e() * horizontal.getInput() / 100.0;
+                mc.player.getVelocity().x += s27PacketExplosion.func_149149_c() * horizontal.getInput() / 100.0;
+                mc.player.getVelocity().y += s27PacketExplosion.func_149144_d() * vertical.getInput() / 100.0;
+                mc.player.getVelocity().z += s27PacketExplosion.func_149147_e() * horizontal.getInput() / 100.0;
             }
         }
     }
@@ -120,7 +120,7 @@ public class AntiKnockback extends Module {
             if (cancelWhileFalling.isToggled() && mc.player.fallDistance > 0) {
                 return true;
             }
-            if (cancelOffGround.isToggled() && !mc.player.onGround) {
+            if (cancelOffGround.isToggled() && !mc.player.isOnGround()) {
                 return true;
             }
         }

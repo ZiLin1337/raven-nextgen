@@ -20,14 +20,14 @@ public class PlayerData {
     public double serverPosZ;
 
     public void update(PlayerEntity entityPlayer) {
-        final int ticksExisted = entityPlayer.ticksExisted;
+        final int ticksExisted = entityPlayer.age;
         this.posX = entityPlayer.posX - entityPlayer.lastTickPosX;
         this.posY = entityPlayer.posY - entityPlayer.lastTickPosY;
         this.posZ = entityPlayer.posZ - entityPlayer.lastTickPosZ;
         this.speed = Math.max(Math.abs(this.posX), Math.abs(this.posZ));
         if (this.speed >= 0.07) {
             ++this.fastTick;
-            this.ticksExisted = ticksExisted;
+            this.age = ticksExisted;
         }
         else {
             this.fastTick = 0;
@@ -50,7 +50,7 @@ public class PlayerData {
         else {
             this.noSlowTicks = 0;
         }
-        if (entityPlayer.rotationPitch >= 70.0f && entityPlayer.getHeldItem() != null && entityPlayer.getHeldItem().getItem() instanceof ItemBlock) {
+        if (entityPlayer.getPitch() >= 70.0f && entityPlayer.getHeldItem() != null && entityPlayer.getHeldItem().getItem() instanceof ItemBlock) {
             if (entityPlayer.swingProgressInt == 1) {
                 if (!this.sneaking && entityPlayer.isSneaking()) {
                     ++this.sneakTicks;

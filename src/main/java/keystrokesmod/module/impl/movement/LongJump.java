@@ -72,7 +72,7 @@ public class LongJump extends Module {
 
         this.registerSetting(manual = new ButtonSetting("Manual", false));
         this.registerSetting(onlyWithVelocity = new ButtonSetting("Only while velocity enabled", false));
-        this.registerSetting(disableKey = new KeySetting("Disable key", Keyboard.KEY_SPACE));
+        this.registerSetting(disableKey = new KeySetting("Disable key", GLFW.GLFW_KEY_SPACE));
 
         this.registerSetting(boostSetting = new SliderSetting("Horizontal boost", 1.7, 0.0, 2.0, 0.05));
         this.registerSetting(verticalMotion = new SliderSetting("Vertical motion", 0, 0.4, 0.9, 0.01));
@@ -83,7 +83,7 @@ public class LongJump extends Module {
         this.registerSetting(hideExplosion = new ButtonSetting("Hide explosion", false));
         this.registerSetting(spoofItem = new ButtonSetting("Spoof item", false));
 
-        this.registerSetting(temporaryFlightKey = new KeySetting("Vertical key", Keyboard.KEY_SPACE));
+        this.registerSetting(temporaryFlightKey = new KeySetting("Vertical key", GLFW.GLFW_KEY_SPACE));
     }
 
     @Override
@@ -211,7 +211,7 @@ public class LongJump extends Module {
             }
         }
 
-        if (mc.player.onGround && boostTicks > 2) {
+        if (mc.player.isOnGround() && boostTicks > 2) {
             disabled();
         }
 
@@ -225,14 +225,14 @@ public class LongJump extends Module {
         if (rotateTick == 1) {
             if ((invertYaw.isToggled() || stopMovement.isToggled()) && !notMoving) {
                 if (!stopMovement.isToggled()) {
-                    yaw = mc.player.rotationYaw - 180f;
+                    yaw = mc.player.getYaw() - 180f;
                     pitch = 90f;
                 } else {
-                    yaw = mc.player.rotationYaw - 180f;
+                    yaw = mc.player.getYaw() - 180f;
                     pitch = 66.3f;//(float) pitchVal.getInput();
                 }
             } else {
-                yaw = mc.player.rotationYaw;
+                yaw = mc.player.getYaw();
                 pitch = 90f;
             }
             e.setRotations(yaw, pitch);
@@ -243,7 +243,7 @@ public class LongJump extends Module {
             if (fireballSlot != -1) {
                 fireballTime = System.currentTimeMillis();
                 if (!manual.isToggled()) {
-                    mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.player.getHeldItem()));
+                    mc.getNetHandler().addToSendQueue(new PlayerInteractBlockC2SPacket(mc.player.getHeldItem()));
                     //((IAccessorMinecraft) mc).callRightClickMouse();
                 }
                 mc.player.swingItem();
@@ -291,8 +291,8 @@ public class LongJump extends Module {
             return;
         }
         Packet packet = e.getPacket();
-        if (packet instanceof S27PacketExplosion) {
-            S27PacketExplosion s27 = (S27PacketExplosion) packet;
+        if (packet instanceof ExplosionS2CPacket) {
+            ExplosionS2CPacket s27 = (ExplosionS2CPacket) packet;
             if (fireballTime == 0 || mc.player.getPosition().distanceSq(s27.getX(), s27.getY(), s27.getZ()) > MAX_EXPLOSION_DIST_SQ) {
                 e.setCanceled(true);
                 //Utils.sendMessage("0 fb time / out of dist");
@@ -403,13 +403,13 @@ public class LongJump extends Module {
             double decay = motionDecay.getInput() / 1000;
             if (boostTicks > 1 && !temporaryFlightKey()) {
                 if (boostTicks > 1 || boostTicks <= (!notMoving ? 32/*horizontal motion ticks*/ : 33/*vertical motion ticks*/)) {
-                    mc.player.motionY = Utils.randomizeDouble(0.0101, 0.01);
+                    mc.player.getVelocity().y = Utils.randomizeDouble(0.0101, 0.01);
                 }
             } else {
                 if (boostTicks >= 1 && boostTicks <= (!notMoving ? 32/*horizontal motion ticks*/ : 33/*vertical motion ticks*/)) {
-                    mc.player.motionY = ver - boostTicks * decay;
+                    mc.player.getVelocity().y = ver - boostTicks * decay;
                 } else if (boostTicks >= (!notMoving ? 32/*horizontal motion ticks*/ : 33/*vertical motion ticks*/) + 3) {
-                    mc.player.motionY = mc.player.motionY + 0.028;
+                    mc.player.getVelocity().y = mc.player.getVelocity().y + 0.028;
                     Utils.sendMessage("?");
                 }
             }

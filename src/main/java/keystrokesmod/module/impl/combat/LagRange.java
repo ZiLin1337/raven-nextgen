@@ -95,7 +95,7 @@ public class LagRange extends Module {
 
     
     public void onPrePlayerInteract(PrePlayerInteractEvent e) {
-        if (!Utils.nullCheck() || mc.player.isDead || mc.world == null) {
+        if (!Utils.nullCheck() || mc.player.isRemoved() || mc.world == null) {
             if (isLagging) flushLag();
             resetState();
             return;
@@ -269,7 +269,7 @@ public class LagRange extends Module {
             return;
         }
         if (!realPositionIndicator.isToggled()) return;
-        if (mc.gameSettings.thirdPersonView == 0 && !showInFirstPerson.isToggled()) return;
+        if (mc.options.thirdPersonView == 0 && !showInFirstPerson.isToggled()) return;
 
         Vec3d delayedPos = Raven.lagHandler.getLastReleasedServerPosition();
         if (delayedPos == null) {

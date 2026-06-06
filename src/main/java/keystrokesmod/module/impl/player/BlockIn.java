@@ -172,12 +172,12 @@ public class BlockIn extends Module {
 
         if (!placing) enablePlacing();
 
-        if (mc.gameSettings.keyBindAttack.isKeyDown() || mc.gameSettings.keyBindUseItem.isKeyDown()) {
+        if (mc.options.keyBindAttack.isKeyDown() || mc.options.keyBindUseItem.isKeyDown()) {
             clearAim();
         }
 
-        InputUtil.setKeyPressed(mc.gameSettings.keyBindAttack.getKeyCode(), false);
-        InputUtil.setKeyPressed(mc.gameSettings.keyBindUseItem.getKeyCode(), false);
+        InputUtil.setKeyPressed(mc.options.keyBindAttack.getKeyCode(), false);
+        InputUtil.setKeyPressed(mc.options.keyBindUseItem.getKeyCode(), false);
         equipPlannedSlot();
     }
 
@@ -188,7 +188,7 @@ public class BlockIn extends Module {
         if (placeQueued) {
             placeQueued = false;
             if (hitAt != null && hitSide != null && placeAt != null) {
-                if (mc.playerController.onPlayerRightClick(
+                if (mc.interactionManager.onPlayerRightClick(
                         mc.player, mc.world, mc.player.getHeldItem(),
                         hitAt, hitSide, placeAt)) {
                     mc.player.swingItem();
@@ -286,8 +286,8 @@ float cx = sr.getScaledWidth() / 2f - 1f;
         plannedSlot = -1;
 
         if (mc.currentScreen == null) {
-            InputUtil.setKeyPressed(mc.gameSettings.keyBindAttack.getKeyCode(), GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS);
-            InputUtil.setKeyPressed(mc.gameSettings.keyBindUseItem.getKeyCode(), GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS);
+            InputUtil.setKeyPressed(mc.options.keyBindAttack.getKeyCode(), GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS);
+            InputUtil.setKeyPressed(mc.options.keyBindUseItem.getKeyCode(), GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS);
         }
     }
 

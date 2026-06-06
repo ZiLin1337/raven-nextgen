@@ -172,10 +172,10 @@ public class Displace extends Module {
     }
 
     private boolean anyMovementKey() {
-        return mc.gameSettings.keyBindForward.isKeyDown()
-                || mc.gameSettings.keyBindBack.isKeyDown()
-                || mc.gameSettings.keyBindLeft.isKeyDown()
-                || mc.gameSettings.keyBindRight.isKeyDown();
+        return mc.options.keyBindForward.isKeyDown()
+                || mc.options.keyBindBack.isKeyDown()
+                || mc.options.keyBindLeft.isKeyDown()
+                || mc.options.keyBindRight.isKeyDown();
     }
 
     private boolean isDynamicAngle() {
@@ -378,7 +378,7 @@ public class Displace extends Module {
     }
 
     private float getFixedDisplaceYaw() {
-        float baseYaw = RotationUtils.serverRotations != null ? RotationUtils.serverRotations[0] : mc.player.rotationYaw;
+        float baseYaw = RotationUtils.serverRotations != null ? RotationUtils.serverRotations[0] : mc.player.getYaw();
         float offset = (float) yawOffset.getInput();
         return displaceLeft ? baseYaw - offset : baseYaw + offset;
     }
@@ -409,7 +409,7 @@ public class Displace extends Module {
 
     private void startArrowFade() {
         long nowMs = System.currentTimeMillis();
-        if (lastRenderedDisplaceYaw != null && lastRenderedTarget != null && !lastRenderedTarget.isDead
+        if (lastRenderedDisplaceYaw != null && lastRenderedTarget != null && !lastRenderedTarget.isRemoved()
                 && nowMs - lastRenderedArrowMs <= ARROW_FADE_MS) {
             fadingDisplaceYaw = lastRenderedDisplaceYaw;
             fadingTarget = lastRenderedTarget;
@@ -430,7 +430,7 @@ public class Displace extends Module {
         while (iterator.hasNext()) {
             Map.Entry<Integer, Integer> entry = iterator.next();
             Entity entity = mc.world.getEntityByID(entry.getKey());
-            if (!(entity instanceof PlayerEntity) || entity.isDead || ((PlayerEntity) entity).deathTime != 0) {
+            if (!(entity instanceof PlayerEntity) || entity.isRemoved() || ((PlayerEntity) entity).deathTime != 0) {
                 iterator.remove();
             }
         }
@@ -478,7 +478,7 @@ public void onGameTick(GameTickEvent e) {
         }
 
         long nowMs = System.currentTimeMillis();
-        boolean activeArrow = active && renderDisplaceYaw != null && renderTarget != null && !renderTarget.isDead;
+        boolean activeArrow = active && renderDisplaceYaw != null && renderTarget != null && !renderTarget.isRemoved();
         Float arrowYaw = renderDisplaceYaw;
         PlayerEntity arrowTarget = renderTarget;
         float alpha = 1.0F;
@@ -486,7 +486,7 @@ public void onGameTick(GameTickEvent e) {
         if (activeArrow) {
             clearFadingArrow();
         } else {
-            if (fadingDisplaceYaw == null || fadingTarget == null || fadingTarget.isDead) {
+            if (fadingDisplaceYaw == null || fadingTarget == null || fadingTarget.isRemoved()) {
                 clearFadingArrow();
                 return;
             }
@@ -637,7 +637,7 @@ public void onGameTick(GameTickEvent e) {
         }
 
         PlayerEntity target = null;
-        boolean attacking = mc.gameSettings.keyBindAttack.isKeyDown()
+        boolean attacking = mc.options.keyBindAttack.isKeyDown()
                 || (ModuleManager.killAura != null && ModuleManager.killAura.isEnabled() && KillAura.target != null);
         if (attacking) {
             target = CombatTargeting.findClosestTarget(9.0, ignoreTeammates.isToggled());
@@ -677,7 +677,7 @@ public void onGameTick(GameTickEvent e) {
         }
 
         if (!displaceThisTick && wasDisplacingLastTick) {
-            int key = mc.gameSettings.keyBindAttack.getKeyCode();
+            int key = mc.options.keyBindAttack.getKeyCode();
             if (key != 0) {
                 KeyBinding.onTick(key);
             }
