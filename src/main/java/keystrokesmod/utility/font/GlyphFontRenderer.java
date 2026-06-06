@@ -1,5 +1,10 @@
 package keystrokesmod.utility.font;
 
+// Stub: GlyphColorProvider was removed
+interface GlyphColorProvider {
+    int getColor(int index, int segmentIndex);
+}
+
 import net.minecraft.client.MinecraftClient;
 import com.mojang.blaze3d.platform.GlStateManager;
 import org.lwjgl.BufferUtils;
