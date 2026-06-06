@@ -108,8 +108,8 @@ public class PlayerESP extends Module {
     }
 
     
-    public void onClientTick( event) {
-        if (event.phase != .Phase.END) {
+    public void onClientTick(Object event) {
+        if (event.phase != TickEvent.Phase.END) {
             return;
         }
 
@@ -134,7 +134,7 @@ public class PlayerESP extends Module {
 
         this.renderSkeleton(e.entityPlayer, e.renderer.getMainModel(), resolveBaseRenderColor(renderState), e.partialRenderTick);
     }
-public void onRenderWorld(Object e) {
+public void onRenderWorld(Object Object e) {
         this.visibleRenderStateCount = 0;
         if (!Utils.nullCheck()) {
             return;

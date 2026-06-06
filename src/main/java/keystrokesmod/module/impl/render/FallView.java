@@ -70,8 +70,8 @@ public class FallView extends Module {
     }
 
     
-    public void onClientTick( ev) {
-        if (ev.phase != .Phase.END) {
+    public void onClientTick(Object ev) {
+        if (ev.phase != TickEvent.Phase.END) {
             return;
         }
 
@@ -213,8 +213,8 @@ public class FallView extends Module {
     }
 
     
-    public void onRenderTick( ev) {
-        if (ev.phase != .Phase.END || mc.currentScreen != null || !Utils.nullCheck()) {
+    public void onRenderTick(Object ev) {
+        if (ev.phase != TickEvent.Phase.END || mc.currentScreen != null || !Utils.nullCheck()) {
             return;
         }
         if (!showDamageText && !showDistanceText) {

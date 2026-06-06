@@ -80,7 +80,7 @@ public class SkyWars extends Module {
     }
 
     
-    public void onChat(Object e) {
+    public void onChat(Object Object e) {
         if (e.type == 2 || !Utils.nullCheck()) {
             return;
         }
@@ -117,7 +117,7 @@ public class SkyWars extends Module {
     }
 
     
-    public void onRenderWorld(Object e) {
+    public void onRenderWorld(Object Object e) {
         if (!Utils.nullCheck() || Utils.getSkyWarsStatus() != 2) {
             return;
         }
@@ -149,7 +149,7 @@ public class SkyWars extends Module {
     }
 
     
-    public void onWorldJoin(Object e) {
+    public void onWorldJoin(Object Object e) {
         if (e.entity == mc.player) {
             clear();
         }

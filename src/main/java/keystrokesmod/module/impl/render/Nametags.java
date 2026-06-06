@@ -141,8 +141,8 @@ public class Nametags extends Module {
     }
 
     
-    public void onClientTick( event) {
-        if (event.phase != .Phase.END) {
+    public void onClientTick(Object event) {
+        if (event.phase != TickEvent.Phase.END) {
             return;
         }
 

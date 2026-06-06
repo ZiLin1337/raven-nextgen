@@ -151,15 +151,15 @@ public class ChestESP extends Module {
     }
 
     
-    public void onClientTick( event) {
-        if (event.phase != .Phase.END) {
+    public void onClientTick(Object event) {
+        if (event.phase != TickEvent.Phase.END) {
             return;
         }
         updateTrackedWorldBatches();
     }
 
     
-    public void onRenderWorld(Object ev) {
+    public void onRenderWorld(Object Object ev) {
         if (!Utils.nullCheck() || trackedWorldBatches.isEmpty()) {
             return;
         }

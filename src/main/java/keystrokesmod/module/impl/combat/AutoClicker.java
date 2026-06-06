@@ -75,7 +75,7 @@ public class AutoClicker extends Module {
     }
 
     
-    public void onRenderTick( e) {
+    public void onRenderTick(Object e) {
         if (e.phase.END) {
             return;
         }

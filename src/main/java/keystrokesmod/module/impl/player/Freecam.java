@@ -148,7 +148,7 @@ public class Freecam extends Module {
     }
 
     
-    public void onRenderWorld(Object e) {
+    public void onRenderWorld(Object Object e) {
         if (!Utils.nullCheck()) {
             return;
         }

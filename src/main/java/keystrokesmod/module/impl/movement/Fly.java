@@ -134,8 +134,8 @@ public class Fly extends Module {
     }
 
     
-    public void onRenderTick( e) {
-        if (!showBPS.isToggled() || e.phase.END || !Utils.nullCheck()) {
+    public void onRenderTick(Object e) {
+        if (!showBPS.isToggled() || !Utils.nullCheck()) {
             return;
         }
         if (mc.currentScreen != null || mc.gameSettings.showDebugInfo) {

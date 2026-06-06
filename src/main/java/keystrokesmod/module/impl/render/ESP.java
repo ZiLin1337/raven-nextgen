@@ -17,7 +17,7 @@ public class ESP extends Module {
         this.registerSetting(mode = new SliderSetting("Mode", 0, new String[]{"Box", "2D", "Mixed"}));
     }
 
-    public void onRenderWorld(MatrixStack matrices) {
+    public void onRenderWorld(Object MatrixStack matrices) {
         if (mc.world == null) return;
         for (PlayerEntity p : mc.world.getPlayers()) {
             if (p == mc.player || p.isDead()) continue;

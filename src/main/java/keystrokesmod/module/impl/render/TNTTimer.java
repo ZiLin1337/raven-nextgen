@@ -42,7 +42,7 @@ public class TNTTimer extends Module {
         updateTrackedTnt();
     }
 
-    public void onRenderWorld(MatrixStack matrices) {
+    public void onRenderWorld(Object MatrixStack matrices) {
         if (!Utils.nullCheck() || trackedTntCount == 0) return;
 
         Vec3d camPos = mc.gameRenderer.getCamera().getPos();

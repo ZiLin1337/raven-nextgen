@@ -32,7 +32,7 @@ public class AntiBot extends Module {
     }
 
     
-    public void onEntityJoin(Object e) {
+    public void onEntityJoin(Object Object e) {
         if ((e.entity instanceof PlayerEntity || Raven.DEBUG) && e.entity != mc.player) {
             if (delay.getInput() != -1 && e.entity instanceof PlayerEntity) {
                 entities.put((PlayerEntity) e.entity, System.currentTimeMillis());

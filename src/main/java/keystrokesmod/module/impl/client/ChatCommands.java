@@ -17,7 +17,7 @@ public class ChatCommands extends Module {
     }
 
     @EventHandler
-    public void onChat(SendChatEvent e) {
+    public void onChat(Object SendChatEvent e) {
         if (mc.player == null) return;
         String msg = e.getMessage();
         if (!msg.startsWith(prefix)) return;

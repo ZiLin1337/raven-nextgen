@@ -123,7 +123,7 @@ public class BridgeInfo extends Module {
     }
 
     
-    public void onChat(Object c) {
+    public void onChat(Object Object c) {
         if (Utils.nullCheck()) {
             String s = Utils.stripColor(c.message.getUnformattedText());
             if (s.startsWith(" ")) {
@@ -144,7 +144,7 @@ public class BridgeInfo extends Module {
     }
 
     
-    public void onWorldJoin(Object e) {
+    public void onWorldJoin(Object Object e) {
         if (e.entity == mc.player) {
             this.reset();
         }

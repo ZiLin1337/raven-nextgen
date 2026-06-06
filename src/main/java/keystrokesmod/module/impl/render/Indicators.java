@@ -199,8 +199,8 @@ public class Indicators extends Module {
     }
 
     
-    public void onClientTick( event) {
-        if (event.phase != .Phase.END || !Utils.nullCheck()) {
+    public void onClientTick(Object event) {
+        if (event.phase != TickEvent.Phase.END || !Utils.nullCheck()) {
             return;
         }
         tickCounter++;
@@ -242,8 +242,8 @@ public class Indicators extends Module {
     }
 
     
-    public void onRenderTick( event) {
-        if (event.phase != .Phase.END) {
+    public void onRenderTick(Object event) {
+        if (event.phase != TickEvent.Phase.END) {
             return;
         }
         if (mc.currentScreen != null || !Utils.nullCheck()) {
@@ -262,7 +262,7 @@ public class Indicators extends Module {
     }
 
     
-    public void onRenderWorld(Object event) {
+    public void onRenderWorld(Object Object event) {
         if (!Utils.nullCheck() || mc.world == null || !hasEnabledWorldTrajectories()) {
             return;
         }

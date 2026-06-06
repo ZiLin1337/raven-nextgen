@@ -22,7 +22,7 @@ public class Holdlook extends Module {
     }
 
     
-    public void onClientTick( e) {
+    public void onClientTick(Object e) {
         if (e.phase.START || !Utils.nullCheck()) return;
 
         if (mc.currentScreen != null) {

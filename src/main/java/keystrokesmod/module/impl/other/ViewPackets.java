@@ -186,9 +186,7 @@ public class ViewPackets extends Module {
     }
 
     
-    public void onTick( e) {
-        if (e.phase.START) {
-            ++tick;
-        }
+    public void onTick(Object e) {
+        ++tick;
     }
 }

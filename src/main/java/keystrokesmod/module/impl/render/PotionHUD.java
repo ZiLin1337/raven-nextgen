@@ -73,8 +73,8 @@ public class PotionHUD extends Module {
     }
 
     
-    public void onRenderTick( event) {
-        if (event.phase != .Phase.END || !Utils.nullCheck()) {
+    public void onRenderTick(Object event) {
+        if (event.phase != TickEvent.Phase.END || !Utils.nullCheck()) {
             return;
         }
 

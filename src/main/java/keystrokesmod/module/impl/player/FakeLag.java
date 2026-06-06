@@ -123,7 +123,7 @@ public class FakeLag extends Module {
     }
 
     
-    public void onTick( e) {
+    public void onTick(Object e) {
         if (e.phase.END) {
             return;
         }

@@ -66,7 +66,7 @@ public class HitBox extends Module {
     }
 
     
-    public void onRenderWorld(Object e) {
+    public void onRenderWorld(Object Object e) {
         if (showHitbox.isToggled() && Utils.nullCheck()) {
             for (Entity en : mc.world.loadedEntityList) {
                 if (en != mc.player && en instanceof LivingEntity && ((LivingEntity) en).deathTime == 0 && !(en instanceof ArmorStandEntity) && !en.isInvisible()) {

@@ -134,7 +134,7 @@ public class Anticheat extends Module {
     }
 
     
-    public void onEntityJoin(Object e) {
+    public void onEntityJoin(Object Object e) {
         if (e.entity == mc.player) {
             players.clear();
             flags.clear();
