@@ -23,6 +23,11 @@ import java.nio.ByteBuffer;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+// Stub: GlyphColorProvider was removed
+interface GlyphColorProvider {
+    int getColor(int index, int segmentIndex);
+}
+
 public final class GlyphFontRenderer implements RavenFontRenderer {
     private static final int FIRST_GLYPH = 0;
     private static final int LAST_GLYPH = 255;
