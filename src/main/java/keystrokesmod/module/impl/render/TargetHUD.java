@@ -59,12 +59,12 @@ public class TargetHUD extends Module {
     }
 
     
-    public void onRenderTick(/* TickEvent */./* RenderTickEvent */ ev) {
+    public void onRenderTick( ev) {
         if (!Utils.nullCheck()) {
             reset();
             return;
         }
-        if (ev.phase == /* TickEvent */.Phase.END) {
+        if (ev.phase == .Phase.END) {
             if (mc.currentScreen != null) {
                 reset();
                 return;
@@ -94,7 +94,7 @@ public class TargetHUD extends Module {
             drawTargetHUD(fadeTimer, playerInfo, health);
         }
     }
-public void onRenderWorld(/* RenderWorldLastEvent */ renderWorldLastEvent) {
+public void onRenderWorld(Object renderWorldLastEvent) {
         if (!renderEsp.isToggled() || !Utils.nullCheck()) {
             return;
         }

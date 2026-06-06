@@ -23,9 +23,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.BufferUtils;
-// import org.lwjgl.opengl.Display;
+
 import org.lwjgl.opengl.GL11;
-// import org.lwjgl.util.glu.GLU;
+
 
 import keystrokesmod.Raven;
 import keystrokesmod.utility.StairsUtils;

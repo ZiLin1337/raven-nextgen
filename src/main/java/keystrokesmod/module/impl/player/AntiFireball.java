@@ -175,7 +175,7 @@ public class AntiFireball extends Module {
     }
 
     
-    public void onEntityJoin(/* EntityJoinWorldEvent */ e) {
+    public void onEntityJoin(Object e) {
         if (!Utils.nullCheck()) return;
         if (e.entity == mc.player) {
             fireballs.clear();

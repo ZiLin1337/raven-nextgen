@@ -9,7 +9,7 @@ import keystrokesmod.utility.Utils;
 
 import net.minecraft.item.ItemStack;
 
-// import org.lwjgl.input.Keyboard;
+
 
 public class SafeWalk extends Module {
     private SliderSetting sneakDelay;

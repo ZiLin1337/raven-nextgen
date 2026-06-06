@@ -206,7 +206,7 @@ public class KillAura extends Module {
     }
 
     
-    public void onWorldJoin(/* EntityJoinWorldEvent */ e) {
+    public void onWorldJoin(Object e) {
         if (e.entity == mc.player) {
             hitMap.clear();
             hostileMobs.clear();

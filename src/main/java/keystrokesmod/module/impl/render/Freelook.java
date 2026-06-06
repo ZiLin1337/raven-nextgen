@@ -45,7 +45,7 @@ public class Freelook extends Module {
     }
 
     
-    public void onRenderTick(/* RenderTickEvent */ e) {
+    public void onRenderTick(Object e) {
         if (e.phase != Phase.END || mc.currentScreen != null || !Utils.nullCheck()) {
             return;
         }

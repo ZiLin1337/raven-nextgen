@@ -61,7 +61,7 @@ public class BedWars extends Module {
         entitySpawnQueue.clear();
         spawnedMobs.clear();
     }
-public void onRenderWorld(/* RenderWorldLastEvent */ e) {
+public void onRenderWorld(Object e) {
         if (Utils.nullCheck() && obsidian.isToggled()) {
             if (this.obsidianPos.isEmpty()) {
                 return;
@@ -86,7 +86,7 @@ public void onRenderWorld(/* RenderWorldLastEvent */ e) {
     }
 
     
-    public void onWorldJoin(/* EntityJoinWorldEvent */ e) {
+    public void onWorldJoin(Object e) {
         if (e.entity == mc.player) {
             armoredPlayer.clear();
             lastHeldMap.clear();

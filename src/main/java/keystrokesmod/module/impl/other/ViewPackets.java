@@ -186,8 +186,8 @@ public class ViewPackets extends Module {
     }
 
     
-    public void onTick(/* TickEvent */./* ClientTickEvent */ e) {
-        if (e.phase == /* TickEvent */.Phase.START) {
+    public void onTick( e) {
+        if (e.phase.START) {
             ++tick;
         }
     }

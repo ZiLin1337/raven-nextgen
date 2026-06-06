@@ -126,8 +126,8 @@ public class HitParticles extends Module {
     }
 
     
-    public void onClientTick(/* TickEvent */./* ClientTickEvent */ event) {
-        if (!isEnabled() || !onRanged.isToggled() || event.phase != /* TickEvent */.Phase.END || !Utils.nullCheck()) {
+    public void onClientTick( event) {
+        if (!isEnabled() || !onRanged.isToggled() || event.phase != .Phase.END || !Utils.nullCheck()) {
             return;
         }
 

@@ -55,16 +55,16 @@ public class Arrows extends Module {
     }
 
     
-    public void onClientTick(/* TickEvent */./* ClientTickEvent */ event) {
-        if (event.phase != /* TickEvent */.Phase.END) {
+    public void onClientTick( event) {
+        if (event.phase != .Phase.END) {
             return;
         }
         updateRenderStates();
     }
 
     
-    public void onRenderTick(/* TickEvent */./* RenderTickEvent */ event) {
-        if (event.phase != /* TickEvent */.Phase.END) {
+    public void onRenderTick( event) {
+        if (event.phase != .Phase.END) {
             return;
         }
         if (mc.currentScreen != null || !Utils.nullCheck()) {

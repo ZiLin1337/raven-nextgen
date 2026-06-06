@@ -111,8 +111,8 @@ public void onGuiOpen(GuiOpenEvent event) {
     }
 
     
-    public void onRenderTick(/* TickEvent */./* RenderTickEvent */ event) {
-        if (event.phase != /* TickEvent */.Phase.END) {
+    public void onRenderTick( event) {
+        if (event.phase != .Phase.END) {
             return;
         }
         if (hiddenGui == null || mc.currentScreen != null || mc.gameSettings.showDebugInfo) {

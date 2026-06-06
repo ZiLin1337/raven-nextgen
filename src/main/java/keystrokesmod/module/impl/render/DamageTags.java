@@ -181,7 +181,7 @@ public class DamageTags extends Module {
     }
 
     
-    public void onRenderWorldLast(/* RenderWorldLastEvent */ e) {
+    public void onRenderWorldLast(Object e) {
         if (!Utils.nullCheck()) {
             return;
         }

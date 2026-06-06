@@ -170,7 +170,7 @@ public class SpeedBuilders extends Module {
     }
 
     
-    public void onRenderWorld(/* RenderWorldLastEvent */ ev) {
+    public void onRenderWorld(Object ev) {
         if (!Utils.nullCheck() || getGameStatus() != 2 || !renderBlocks.isToggled()) {
             return;
         }
@@ -199,8 +199,8 @@ public class SpeedBuilders extends Module {
     }
 
     
-    public void onRenderTick(/* TickEvent */./* RenderTickEvent */ e) {
-        if (e.phase != /* TickEvent */.Phase.END || !Utils.nullCheck() || mc.currentScreen != null) {
+    public void onRenderTick( e) {
+        if (e.phase.END || !Utils.nullCheck() || mc.currentScreen != null) {
             return;
         }
         int gameStatus = getGameStatus();
@@ -256,7 +256,7 @@ public class SpeedBuilders extends Module {
     }
 
     
-    public void onEntityJoin(/* EntityJoinWorldEvent */ e) {
+    public void onEntityJoin(Object e) {
         if (!Utils.nullCheck() || e.entity == null) {
             return;
         }
@@ -270,7 +270,7 @@ public class SpeedBuilders extends Module {
     }
 
     
-    public void onChat(/* ClientChatReceivedEvent */ e) {
+    public void onChat(Object e) {
         if (e.type == 2 || !Utils.nullCheck() || getGameStatus() == -1 || listenForPacket) {
             return;
         }

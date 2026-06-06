@@ -5,7 +5,7 @@ import keystrokesmod.utility.Theme;
 import keystrokesmod.module.setting.impl.StringListSetting;
 import keystrokesmod.utility.RenderUtils;
 import net.minecraft.util.Identifier;
-// import org.lwjgl.input.Keyboard;
+
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;

@@ -6,7 +6,7 @@ import keystrokesmod.utility.ItemSearchIndex;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.font.RavenFontRenderer;
 import net.minecraft.client.MinecraftClient;
-// import org.lwjgl.input.Keyboard;
+
 
 import java.util.ArrayList;
 import java.util.List;

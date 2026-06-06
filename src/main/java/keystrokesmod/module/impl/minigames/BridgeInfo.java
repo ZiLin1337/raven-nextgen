@@ -108,7 +108,7 @@ public class BridgeInfo extends Module {
     }
 
     
-    public void onRenderTick(/* RenderTickEvent */ ev) {
+    public void onRenderTick(Object ev) {
         if (ev.phase == Phase.END && Utils.nullCheck() && this.isBridge()) {
             if (mc.currentScreen != null || mc.gameSettings.showDebugInfo) {
                 return;
@@ -123,7 +123,7 @@ public class BridgeInfo extends Module {
     }
 
     
-    public void onChat(/* ClientChatReceivedEvent */ c) {
+    public void onChat(Object c) {
         if (Utils.nullCheck()) {
             String s = Utils.stripColor(c.message.getUnformattedText());
             if (s.startsWith(" ")) {
@@ -144,7 +144,7 @@ public class BridgeInfo extends Module {
     }
 
     
-    public void onWorldJoin(/* EntityJoinWorldEvent */ e) {
+    public void onWorldJoin(Object e) {
         if (e.entity == mc.player) {
             this.reset();
         }

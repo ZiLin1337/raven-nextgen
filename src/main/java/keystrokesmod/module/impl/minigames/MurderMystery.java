@@ -92,7 +92,7 @@ public class MurderMystery extends Module {
     }
 
     
-    public void onRenderWordLast(/* RenderWorldLastEvent */ e) {
+    public void onRenderWordLast(Object e) {
         if (Utils.nullCheck()) {
             if (!this.isMurderMystery()) {
                 this.clear();

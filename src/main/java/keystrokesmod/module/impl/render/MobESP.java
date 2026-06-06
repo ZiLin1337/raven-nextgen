@@ -218,7 +218,7 @@ public class MobESP extends Module {
             return false;
         }
         return resolveEntry(entity) != null;
-    }public void onRenderWorldLast(/* RenderWorldLastEvent */ e) {
+    }public void onRenderWorldLast(Object e) {
         this.renderAsTwoD.clear();
         if (!Utils.nullCheck() || !this.isEnabled()) {
             return;
@@ -246,7 +246,7 @@ public class MobESP extends Module {
             this.renderAsTwoD.put(living, rgb);
             this.render(living, rgb);
         }
-    }public void onRenderWorldLast2D(/* RenderWorldLastEvent */ e) {
+    }public void onRenderWorldLast2D(Object e) {
         if (!Utils.nullCheck() || !this.isEnabled()) {
             return;
         }

@@ -579,7 +579,7 @@ public class HUD extends Module {
 
     
 
-    public static String getHudText(Module module) {
+    // public static String getHudText(Module module) {
         String moduleName = module.getName();
         if (lowercase != null && lowercase.isToggled()) {
             moduleName = moduleName.toLowerCase();

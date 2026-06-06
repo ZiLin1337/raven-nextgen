@@ -75,8 +75,8 @@ public class AutoClicker extends Module {
     }
 
     
-    public void onRenderTick(/* TickEvent */./* RenderTickEvent */ e) {
-        if (e.phase != /* TickEvent */.Phase.END) {
+    public void onRenderTick( e) {
+        if (e.phase.END) {
             return;
         }
         if (!inventory.isToggled()) {

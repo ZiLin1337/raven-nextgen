@@ -141,8 +141,8 @@ public class Nametags extends Module {
     }
 
     
-    public void onClientTick(/* TickEvent */./* ClientTickEvent */ event) {
-        if (event.phase != /* TickEvent */.Phase.END) {
+    public void onClientTick( event) {
+        if (event.phase != .Phase.END) {
             return;
         }
 
@@ -152,7 +152,7 @@ public class Nametags extends Module {
         }
 
         updateRenderStates();
-    }public void onRenderWorldLast(/* RenderWorldLastEvent */ event) {
+    }public void onRenderWorldLast(Object event) {
         if (!Utils.nullCheck()) {
             return;
         }

@@ -11,7 +11,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.Identifier;
-// import org.lwjgl.input.Keyboard;
+
 import org.lwjgl.opengl.GL11;
 
 import java.util.HashMap;

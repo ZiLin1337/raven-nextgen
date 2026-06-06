@@ -105,14 +105,14 @@ public class BedAura extends Module {
     }
 
     
-    public void onWorldJoin(/* EntityJoinWorldEvent */ e) {
+    public void onWorldJoin(Object e) {
         if (e.entity == mc.player) {
             resetSpawnTracking();
         }
     }
 
     
-    public void onChat(/* ClientChatReceivedEvent */ event) {
+    public void onChat(Object event) {
         if (!Utils.nullCheck()) {
             return;
         }
@@ -288,7 +288,7 @@ public class BedAura extends Module {
     }
 
     
-    public void onRenderWorldLast(/* RenderWorldLastEvent */ e) {
+    public void onRenderWorldLast(Object e) {
         if (!isEnabled() || !renderOutline.isToggled() || !miningActive || targetPos == null || !Utils.nullCheck() || !canMineBlocks()) {
             return;
         }

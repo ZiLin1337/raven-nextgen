@@ -12,7 +12,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
-// import org.lwjgl.input.Keyboard;
+
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;

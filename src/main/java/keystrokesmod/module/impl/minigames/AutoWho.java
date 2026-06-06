@@ -42,7 +42,7 @@ public class AutoWho extends Module {
     }
 
     
-    public void onChatReceive(/* ClientChatReceivedEvent */ e) {
+    public void onChatReceive(Object e) {
         if (e.type == 2 || !Utils.nullCheck()) {
             return;
         }

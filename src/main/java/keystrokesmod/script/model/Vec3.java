@@ -6,17 +6,17 @@ import net.minecraft.util.math.Vec3d;
 public class Vec3 {
     public double x, y, z;
 
-    public Vec3d(double x, double y, double z) {
+    public Vec3(double x, double y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
-    public Vec3d(net.minecraft.util.math.Vec3d minecraftVec3d) {
+    public Vec3(net.minecraft.util.math.Vec3d minecraftVec3d) {
         this(minecraftVec3d.x, minecraftVec3d.y, minecraftVec3d.z);
     }
 
-    public Vec3d(BlockPos blockPos) {
+    public Vec3(BlockPos blockPos) {
         this(blockPos.getX(), blockPos.getY(), blockPos.getZ());
     }
 

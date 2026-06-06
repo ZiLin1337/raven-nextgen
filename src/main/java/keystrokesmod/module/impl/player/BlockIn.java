@@ -221,8 +221,8 @@ public class BlockIn extends Module {
     }
 
     
-    public void onRenderTick(/* TickEvent */./* RenderTickEvent */ e) {
-        if (e.phase != /* TickEvent */.Phase.END || !Utils.nullCheck()) return;
+    public void onRenderTick( e) {
+        if (e.phase.END || !Utils.nullCheck()) return;
         if (fillCount <= 0) return;
 
         long elapsed = System.currentTimeMillis() - animStartTime;

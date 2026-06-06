@@ -123,8 +123,8 @@ public class FakeLag extends Module {
     }
 
     
-    public void onTick(/* TickEvent */./* ClientTickEvent */ e) {
-        if (e.phase != /* TickEvent */.Phase.END) {
+    public void onTick( e) {
+        if (e.phase.END) {
             return;
         }
         if (mc.world == null && isEnabled()) {

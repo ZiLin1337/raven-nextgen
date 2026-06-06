@@ -56,15 +56,15 @@ public class Tracers extends Module {
     }
 
     
-    public void onClientTick(/* TickEvent */./* ClientTickEvent */ event) {
-        if (event.phase != /* TickEvent */.Phase.END) {
+    public void onClientTick( event) {
+        if (event.phase != .Phase.END) {
             return;
         }
         updateTrackedEntities();
     }
 
     
-    public void onRenderWorldLast(/* RenderWorldLastEvent */ e) {
+    public void onRenderWorldLast(Object e) {
         if (!Utils.nullCheck() || trackedEntityCount == 0) {
             return;
         }

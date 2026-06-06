@@ -376,7 +376,7 @@ public class WoolWars extends Module {
     }
 
     
-    public void onRender(/* RenderWorldLastEvent */ e) {
+    public void onRender(Object e) {
         if (!Utils.nullCheck()) {
             return;
         }
@@ -406,7 +406,7 @@ public class WoolWars extends Module {
     }
 
     
-    public void onWorldJoin(/* EntityJoinWorldEvent */ e) {
+    public void onWorldJoin(Object e) {
         if (e.entity == mc.player) {
             reset();
         }

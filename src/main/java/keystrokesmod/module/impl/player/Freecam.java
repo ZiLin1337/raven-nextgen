@@ -12,7 +12,7 @@ import net.minecraft.client.entity.EntityOtherPlayerMP;
 
 import net.minecraft.util.hit.HitResult;
 
-// import org.lwjgl.input.Keyboard;
+
 
 import java.awt.*;
 
@@ -148,7 +148,7 @@ public class Freecam extends Module {
     }
 
     
-    public void onRenderWorld(/* RenderWorldLastEvent */ e) {
+    public void onRenderWorld(Object e) {
         if (!Utils.nullCheck()) {
             return;
         }
