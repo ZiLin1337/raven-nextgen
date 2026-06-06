@@ -242,7 +242,7 @@ public class BedESP extends Module {
     public String getInfo() {
         int n = SharedBlockHighlightCache.get().totalBedFeet();
         return n > 0 ? String.valueOf(n) : "";
-    }public void onRenderWorld(Object float partialTicks) {
+    }public void onRenderWorld(float partialTicks) {
         if (!Utils.nullCheck()) {
             return;
         }

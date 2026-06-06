@@ -94,7 +94,7 @@ public class TargetHUD extends Module {
             drawTargetHUD(fadeTimer, playerInfo, health);
         }
     }
-public void onRenderWorld(Object Object renderWorldLastEvent) {
+public void onRenderWorld(Object renderWorldLastEvent) {
         if (!renderEsp.isToggled() || !Utils.nullCheck()) {
             return;
         }

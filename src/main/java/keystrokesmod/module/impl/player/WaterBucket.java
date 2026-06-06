@@ -42,7 +42,7 @@ public class WaterBucket extends Module {
     }
 
     
-    public void onRenderWorld(Object Object e) {
+    public void onRenderWorld(Object e) {
         if (!Utils.nullCheck() || mc.isGamePaused() || mc.player.capabilities.isFlying || mc.player.capabilities.isCreativeMode) {
             return;
         }

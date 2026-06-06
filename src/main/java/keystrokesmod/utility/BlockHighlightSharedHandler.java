@@ -15,7 +15,7 @@ public final class BlockHighlightSharedHandler {
     }
 
     
-    public void onClientTick( e) {
+    public void onClientTick(Object e) {
         if (e.phase.END || !Utils.nullCheck()) {
             return;
         }

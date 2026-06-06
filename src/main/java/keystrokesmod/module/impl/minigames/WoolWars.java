@@ -406,7 +406,7 @@ public class WoolWars extends Module {
     }
 
     
-    public void onWorldJoin(Object Object e) {
+    public void onWorldJoin(Object e) {
         if (e.entity == mc.player) {
             reset();
         }

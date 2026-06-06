@@ -469,7 +469,7 @@ public void onGameTick(GameTickEvent e) {
     }
 
     
-    public void onRenderWorld(Object Object e) {
+    public void onRenderWorld(Object e) {
         if (!Utils.nullCheck() || !showDirection.isToggled()) {
             clearArrowState();
             return;

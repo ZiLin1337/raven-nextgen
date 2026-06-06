@@ -262,7 +262,7 @@ public class Indicators extends Module {
     }
 
     
-    public void onRenderWorld(Object Object event) {
+    public void onRenderWorld(Object event) {
         if (!Utils.nullCheck() || mc.world == null || !hasEnabledWorldTrajectories()) {
             return;
         }

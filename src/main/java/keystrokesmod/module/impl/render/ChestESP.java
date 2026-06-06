@@ -159,7 +159,7 @@ public class ChestESP extends Module {
     }
 
     
-    public void onRenderWorld(Object Object ev) {
+    public void onRenderWorld(Object ev) {
         if (!Utils.nullCheck() || trackedWorldBatches.isEmpty()) {
             return;
         }

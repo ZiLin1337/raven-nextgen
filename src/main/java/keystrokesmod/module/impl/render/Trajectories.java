@@ -500,7 +500,7 @@ public class Trajectories extends Module {
     }
 
     
-    public void onRenderWorld(Object Object e) {
+    public void onRenderWorld(Object e) {
         if (!Utils.nullCheck() || mc.world == null) {
             return;
         }

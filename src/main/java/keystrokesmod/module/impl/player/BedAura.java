@@ -105,14 +105,14 @@ public class BedAura extends Module {
     }
 
     
-    public void onWorldJoin(Object Object e) {
+    public void onWorldJoin(Object e) {
         if (e.entity == mc.player) {
             resetSpawnTracking();
         }
     }
 
     
-    public void onChat(Object Object event) {
+    public void onChat(Object event) {
         if (!Utils.nullCheck()) {
             return;
         }

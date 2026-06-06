@@ -170,7 +170,7 @@ public class SpeedBuilders extends Module {
     }
 
     
-    public void onRenderWorld(Object Object ev) {
+    public void onRenderWorld(Object ev) {
         if (!Utils.nullCheck() || getGameStatus() != 2 || !renderBlocks.isToggled()) {
             return;
         }
@@ -256,7 +256,7 @@ public class SpeedBuilders extends Module {
     }
 
     
-    public void onEntityJoin(Object Object e) {
+    public void onEntityJoin(Object e) {
         if (!Utils.nullCheck() || e.entity == null) {
             return;
         }
@@ -270,7 +270,7 @@ public class SpeedBuilders extends Module {
     }
 
     
-    public void onChat(Object Object e) {
+    public void onChat(Object e) {
         if (e.type == 2 || !Utils.nullCheck() || getGameStatus() == -1 || listenForPacket) {
             return;
         }

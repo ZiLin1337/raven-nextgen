@@ -380,22 +380,68 @@ public class HUD extends Module {
     public static float getRelativePosY() {
         syncPositionToResolution();
         return relativePosY;
+
+    // === Font Methods ===
+
+    public static RavenFontRenderer getHudFontRenderer() {
+        return FontManager.getHudRenderer(getSelectedFontName(), getSelectedFontScale());
     }
 
-    
-
-    
-
-    
-    }
+    public static String getHudRenderText(Module module) {
+        String moduleName = module.getName();
+        if (lowercase != null \&\& lowercase.isToggled()) {
+            moduleName = moduleName.toLowerCase();
         }
+        return moduleName;
+    }
+
+    public static String getSelectedFontName() {
+        return FontManager.getHudFontOptions()[(int) font.getInput()];
+    }
+
+    public static float getSelectedFontScale() {
+        return (float) fontSize.getInput();
+    }
+
+    public static float getRelativePosX() {
+        syncPositionToResolution();
+        return relativePosX;
+    }
+
+    public static void setRelativePosition(float normalizedX, float normalizedY) {
+        relativePosX = normalizedX;
+        relativePosY = normalizedY;
+    }
+
+    public static void setAbsolutePosition(float absoluteX, float absoluteY) {
+        posX = absoluteX;
+        posY = absoluteY;
+    }
+
+    public static void resetPosition() {
+        setRelativePosition(DEFAULT_RELATIVE_X, DEFAULT_RELATIVE_Y);
+    }
+
+    private static void syncPositionToResolution() {
+        int scaledWidth = mc.getWindow().getScaledWidth();
+        int scaledHeight = mc.getWindow().getScaledHeight();
+
+        if (Float.isNaN(relativePosX) || Float.isNaN(relativePosY)) {
+            if (Float.isNaN(posX) || Float.isNaN(posY)) {
+                relativePosX = DEFAULT_RELATIVE_X;
+                relativePosY = DEFAULT_RELATIVE_Y;
+            }
+            else {
+                relativePosX = posX / scaledWidth;
+                relativePosY = posY / scaledHeight;
+            }
+        }
+
         posX = relativePosX * scaledWidth;
         posY = relativePosY * scaledHeight;
     }
 
-    // === Layout Methods ===
-
-    
+    public static int getHudHorizontalTextPadding() { return getScaledHudPixels(2.0f); }
     private static int getHudTextTopPadding() { return getScaledHudPixels(2.0f); }
     private static int getHudTextBottomPadding() { return 0; }
     private static int getHudOutlineThickness() { return getScaledHudPixels(1.0f); }
@@ -446,7 +492,6 @@ public class HUD extends Module {
         public void render(DrawContext ctx, int mouseX, int mouseY, float delta) {
             ctx.fill(0, 0, width, height, 0xB0000000);
 
-            if (!dragging) {
                 syncPositionToResolution();
                 actualX = posX;
                 actualY = posY;
@@ -455,7 +500,6 @@ public class HUD extends Module {
             float previewX = actualX;
             float previewY = actualY;
 
-            // Calculate preview bounds
             float[] clickPos = getPreviewBounds(EXAMPLE);
             minX = previewX;
             minY = previewY;
@@ -471,19 +515,13 @@ public class HUD extends Module {
             }
 
             setAbsolutePosition(previewX, previewY);
-
-            // Draw preview
             drawPreview(ctx);
-
-            // Draw instruction
             ctx.drawTextWithShadow(textRenderer, "Drag to reposition HUD", width / 2 - 60, height / 2 - 40, 0xFFFFFF);
-
             super.render(ctx, mouseX, mouseY, delta);
         }
 
         private float[] getPreviewBounds(String text) {
             RavenFontRenderer hudFont = getHudFontRenderer();
-
             if (empty()) {
                 float x = minX;
                 float y = minY;
@@ -491,7 +529,6 @@ public class HUD extends Module {
                 int localTextTopPadding = getHudTextTopPadding();
                 int localTextBottomPadding = getHudTextBottomPadding();
                 int localRowHeight = getHudRowHeight(hudFont.getTextTopOffset(), hudFont.getTextBottomOffset(), localTextTopPadding, localTextBottomPadding);
-
                 for (String line : lines) {
                     if (alignRight.isToggled()) {
                         x += hudFont.getStringWidth(lines[0]) - hudFont.getStringWidth(line);
@@ -500,14 +537,12 @@ public class HUD extends Module {
                 }
                 return null;
             }
-
             int longestModule = getLongestModule();
             return new float[]{minX + longestModule, maxY, minX - longestModule};
         }
 
         private boolean empty() {
             for (Module module : ModuleManager.getModules()) {
-                if (module.isEnabled() && !module.getName().equals("HUD") && !module.isHidden()) {
                     return false;
                 }
             }
@@ -537,15 +572,13 @@ public class HUD extends Module {
                 }
                 y += rowHeight;
             }
-
             ctx.getMatrices().pop();
         }
 
         @Override
         public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
             if (button == 0) {
-                if (!dragging) {
-                    if (mouseX > clickMinX && mouseX < maxX && mouseY > minY && mouseY < maxY) {
+                    if (mouseX > clickMinX \&\& mouseX < maxX \&\& mouseY > minY \&\& mouseY < maxY) {
                         dragging = true;
                         lastMouseX = (int) mouseX;
                         lastMouseY = (int) mouseY;
@@ -575,107 +608,5 @@ public class HUD extends Module {
         public boolean shouldPause() {
             return false;
         }
-    }
-
-    
-
-    // public static String getHudText(Module module) {
-        String moduleName = module.getName();
-        if (lowercase != null && lowercase.isToggled()) {
-            moduleName = moduleName.toLowerCase();
-        }
-        return moduleName;
-    }
-
-    
-
-    
-
-    
-
-    
-
-    public static float getRelativePosY() {
-        syncPositionToResolution();
-        return relativePosY;
-    }
-
-    
-
-    
-
-    
-    }
-        }
-        posX = relativePosX * scaledWidth;
-        posY = relativePosY * scaledHeight;
-    }
-
-    
-    private static int getHudTextTopPadding() { return getScaledHudPixels(2.0f); }
-    private static int getHudTextBottomPadding() { return 0; }
-    private static int getHudOutlineThickness() { return getScaledHudPixels(1.0f); }
-
-    private static int getHudRowHeight(int textTopOffset, int textBottomOffset, int textTopPadding, int textBottomPadding) {
-        int textBoxHeight = Math.max(1, textBottomOffset - textTopOffset);
-        return Math.max(1, textBoxHeight + textTopPadding + textBottomPadding);
-    }
-
-    private static float getHudTextY(float rowTop, int textTopOffset, int textTopPadding) {
-        return rowTop + textTopPadding - textTopOffset;
-    }
-
-    private static int getScaledHudPixels(float basePixels) {
-        return Math.max(1, Math.round(basePixels * getSelectedFontScale()));
-    }
-
-    private static boolean shouldDrawTextShadow() {
-        return textShadow == null || textShadow.isToggled();
-    }
-
-    private static boolean hudWaveIsVertical() {
-        return waveAxis == null || (int) waveAxis.getInput() == 0;
-    }
-
-    private static double hudWavePhase(double verticalAccum, double rowCenterX) {
-        if (hudWaveIsVertical()) {
-            return verticalAccum;
-        }
-        return rowCenterX * (HUD_WAVE_HORIZONTAL_X_SCALE / getWaveLengthMultiplier()) * getHorizontalWaveDirectionSign();
-    }
-
-    private static void drawHudText(RavenFontRenderer hudFont, String moduleName, float xPos, float textY, int fallbackColor) {
-        if (!shouldUseHorizontalWaveText()) {
-            hudFont.drawString(moduleName, xPos, textY, fallbackColor, shouldDrawTextShadow());
-            return;
-        }
-        hudFont.drawGlyphString(moduleName, xPos, textY, (character, xOffset, width, formattingColor) -> {
-            if (formattingColor != null) return formattingColor;
-            return getHudColor(hudWavePhase(0.0, xPos + xOffset + width * 0.5f));
-        }, shouldDrawTextShadow());
-    }
-
-    private static boolean shouldUseHorizontalWaveText() {
-        return colorMode != null && (int) colorMode.getInput() != 0 && !hudWaveIsVertical();
-    }
-
-    private static double getVerticalWaveStep() {
-        return (12.0 / getWaveLengthMultiplier()) * getVerticalWaveDirectionSign();
-    }
-
-    private static int getVerticalWaveDirectionSign() {
-        return verticalWaveDirection == null || (int) verticalWaveDirection.getInput() == 0 ? -1 : 1;
-    }
-
-    private static int getHorizontalWaveDirectionSign() {
-        return horizontalWaveDirection == null || (int) horizontalWaveDirection.getInput() == 0 ? 1 : -1;
-    }
-
-    private static double getWaveLengthMultiplier() {
-        return waveLength != null ? waveLength.getInput() : 1.0;
-    }
-
-    private static void drawRect(DrawContext ctx, double x1, double y1, double x2, double y2, int color) {
-        ctx.fill((int) x1, (int) y1, (int) x2, (int) y2, color);
     }
 }

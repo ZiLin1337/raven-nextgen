@@ -53,7 +53,7 @@ public class Teleport extends Module {
     }
 
     
-    public void onRenderWorld(Object Object e) {
+    public void onRenderWorld(Object e) {
         if (!rightClick.isToggled() || !highlightTarget.isToggled() || this.targetPos == null || !Utils.nullCheck()) {
             return;
         }

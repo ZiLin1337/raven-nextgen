@@ -261,7 +261,7 @@ public class LagRange extends Module {
     }
 
     
-    public void onRenderWorld(Object Object e) {
+    public void onRenderWorld(Object e) {
         if (!Utils.nullCheck()) return;
         if (!isLagging) {
             clearIndicatorInterp();

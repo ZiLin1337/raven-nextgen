@@ -90,14 +90,14 @@ public class Xray extends Module {
     }
 
     
-    public void onEntityJoin(Object Object e) {
+    public void onEntityJoin(Object e) {
         if (e.entity == mc.player) {
             this.blocks.clear();
         }
     }
 
     
-    public void onRenderWorld(Object Object ev) {
+    public void onRenderWorld(Object ev) {
         if (!Utils.nullCheck()) {
             return;
         }

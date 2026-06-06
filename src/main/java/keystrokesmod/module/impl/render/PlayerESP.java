@@ -134,7 +134,7 @@ public class PlayerESP extends Module {
 
         this.renderSkeleton(e.entityPlayer, e.renderer.getMainModel(), resolveBaseRenderColor(renderState), e.partialRenderTick);
     }
-public void onRenderWorld(Object Object e) {
+public void onRenderWorld(Object e) {
         this.visibleRenderStateCount = 0;
         if (!Utils.nullCheck()) {
             return;
