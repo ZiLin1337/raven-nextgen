@@ -15,7 +15,7 @@ public abstract class AbstractTextInputComponent extends Component implements Fo
     public float o;
     public float xOffset;
 
-    private final ClickTextFieldWidget textField;
+    private final ClickGuiTextField textField;
 
     protected static final class Layout {
         float cx;
@@ -30,10 +30,10 @@ public abstract class AbstractTextInputComponent extends Component implements Fo
     protected AbstractTextInputComponent(ModuleComponent moduleComponent, float o, String placeholder, int maxLength) {
         this.moduleComponent = moduleComponent;
         this.o = o;
-        this.textField = new ClickTextFieldWidget(placeholder, maxLength, TEXT_SCALE);
+        this.textField = new ClickGuiTextField(placeholder, maxLength, TEXT_SCALE);
     }
 
-    protected final ClickTextFieldWidget getTextField() {
+    protected final ClickGuiTextField getTextField() {
         return textField;
     }
 
