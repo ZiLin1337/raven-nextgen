@@ -77,7 +77,8 @@ public class Autoblock extends Module {
         wasBlocking = false;
     }
 
-    @EventHandlerpublic void onPreMotion(PreMotionEvent e) {
+    @EventHandler
+    public void onPreMotion(PreMotionEvent e) {
         if (!Utils.nullCheck()) return;
 
         ClientPlayerEntity player = mc.player;

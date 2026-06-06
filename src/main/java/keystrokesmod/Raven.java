@@ -1,4 +1,5 @@
 package keystrokesmod;
+import meteordevelopment.orbit.EventHandler;
 import keystrokesmod.module.Module;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 
@@ -20,6 +21,8 @@ public class Raven implements ClientModInitializer {
     public static ClickGui clickGui;
     // TODO: Create CommandManager
     public static Object commandManager;
+    public static Object profileManager;
+    public static Object scriptManager;
     public static final IEventBus EVENT_BUS = new EventBus();
     
     @Override
@@ -40,8 +43,9 @@ public class Raven implements ClientModInitializer {
 
     @EventHandler
     public void onSendPacket(SendPacketEvent e) {
-        if (e.getPacket() instanceof ChatMessageC2SPacket chat) {
-            if (commandManager.execute(chat.chatMessage())) e.setCanceled(true);
+        // TODO: Fix ChatMessageC2SPacket - not available in 1.21.4
+        if (false) {
+            // if (commandManager.execute(chat.chatMessage())) e.setCanceled(true);
         }
     }
 

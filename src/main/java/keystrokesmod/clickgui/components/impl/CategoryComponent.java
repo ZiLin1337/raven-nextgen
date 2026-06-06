@@ -434,3 +434,17 @@ public class CategoryComponent {
         return stack;
     }
 }
+    // Added for ClickGui compatibility
+    public boolean isMouseOver(int x, int y) {
+        return overTitle(x, y) || overCategory(x, y);
+    }
+    public void onClick(int mx, int my, int button) {
+        mouseClicked(!this.opened);
+        markInteracted();
+    }
+    public void onMouseRelease() {
+        overTitle(false);
+    }
+    public void onMouseMove(int mx, int my) {
+        mousePosition(mx, my, true);
+    }
