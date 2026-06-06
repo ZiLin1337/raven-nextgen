@@ -292,7 +292,7 @@ public class KillAura extends Module {
             }
         } else if (entity instanceof MobEntity && attackMobs.isToggled()) {
             MobEntity creature = (MobEntity) entity;
-            if (creature.tasks == null || creature.isAIDisabled() || creature.deathTime != 0) {
+            if (creature.tasks == null || creature/* .isAIDisabled() removed */ || creature.deathTime != 0) {
                 return null;
             }
 

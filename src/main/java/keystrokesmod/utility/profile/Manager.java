@@ -1,9 +1,14 @@
 package keystrokesmod.utility.profile;
+import keystrokesmod.module.Module;
 
 import keystrokesmod.Raven;
 import java.io.File;
 
-public class Manager {
+public class Manager extends Module {
+    public Manager() {
+        super("ProfileManager");
+    }
+
     private File configDir;
 
     public Manager() {

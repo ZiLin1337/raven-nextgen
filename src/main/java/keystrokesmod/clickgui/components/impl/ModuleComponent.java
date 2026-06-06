@@ -339,7 +339,7 @@ public class ModuleComponent extends Component {
             float currentHeight = smoothTimer != null ? smoothingY : (isOpened ? getHeightF() : 16f);
             this.animationStartY = currentHeight;
             this.isOpened = !this.isOpened;
-            float targetHeight = this.isOpened ? (getCollapsedHeight() + settings.stream().mapToDouble(c -> getAnimatedComponentHeightF(c)).sum()) : getCollapsedHeight();
+            float targetHeight = this.isOpened ? (float)(getCollapsedHeight() + settings.stream().mapToDouble(c -> getAnimatedComponentHeightF(c)).sum()) : (float)getCollapsedHeight();
             this.animationTargetY = (float) targetHeight;
             (this.smoothTimer = new Timer(250)).start();
             return true;
