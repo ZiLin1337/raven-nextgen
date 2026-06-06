@@ -75,7 +75,7 @@ class MinecraftFontAdapter implements RavenFontRenderer {
     @Override
     public int drawString(String text, float x, float y, int color, boolean shadow) {
         if (shadow) {
-            return textRenderer.drawWithShadow(text, x, y, color);
+            return textRenderer.drawStringWithShadow(text, x, y, color);
         }
         return textRenderer.draw(text, x, y, color);
     }
@@ -95,7 +95,7 @@ class MinecraftFontAdapter implements RavenFontRenderer {
                     int color = colorProvider.colorForGlyph('\0', segmentStartX,
                         textRenderer.getWidth(currentSegment.toString()), formattingColor);
                     if (shadow) {
-                        textRenderer.drawWithShadow(currentSegment.toString(), currentX, y, color);
+                        textRenderer.drawStringWithShadow(currentSegment.toString(), currentX, y, color);
                     } else {
                         textRenderer.draw(currentSegment.toString(), currentX, y, color);
                     }
@@ -116,7 +116,7 @@ class MinecraftFontAdapter implements RavenFontRenderer {
             int color = colorProvider.colorForGlyph('\0', segmentStartX,
                 textRenderer.getWidth(currentSegment.toString()), formattingColor);
             if (shadow) {
-                textRenderer.drawWithShadow(currentSegment.toString(), currentX, y, color);
+                textRenderer.drawStringWithShadow(currentSegment.toString(), currentX, y, color);
             } else {
                 textRenderer.draw(currentSegment.toString(), currentX, y, color);
             }

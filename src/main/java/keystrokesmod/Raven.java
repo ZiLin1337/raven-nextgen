@@ -23,6 +23,7 @@ public class Raven implements ClientModInitializer {
     public static Object commandManager;
     public static Object profileManager;
     public static Object scriptManager;
+    public static Object currentProfile;
     public static final IEventBus EVENT_BUS = new EventBus();
     
     @Override

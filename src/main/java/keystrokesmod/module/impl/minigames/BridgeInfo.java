@@ -234,7 +234,7 @@ public class BridgeInfo extends Module {
             int y = this.minY;
             String[] lines = text.split("-");
             for (String line : lines) {
-                textRenderer.drawWithShadow(line, (float) x, (float) y, textRGB);
+                textRenderer.drawStringWithShadow(line, (float) x, (float) y, textRGB);
                 y += textRenderer.fontHeight + 2;
             }
         }

@@ -20,3 +20,13 @@ public class Gui extends Module {
         return (gui != null && gui.isEnabled()) ? guiScale.getInput() / 100.0 : 1.0;
     }
 }
+
+
+    // Stub methods for ClickGui compatibility
+    public static RavenFontRenderer getClickGuiHeaderFontRenderer() {
+        return new RavenFontRenderer();
+    }
+    public static RavenFontRenderer getClickGuiSettingFontRenderer() {
+        return new RavenFontRenderer();
+    }
+}

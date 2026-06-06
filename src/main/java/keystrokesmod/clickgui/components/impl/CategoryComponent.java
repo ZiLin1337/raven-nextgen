@@ -315,12 +315,12 @@ public class CategoryComponent {
         CategoryIconStacks icons = CATEGORY_ICON_STACKS.get(category);
         ItemStack stack = icons == null ? null : (enchant ? icons.activeStack : icons.normalStack);
         if (stack != null) {
-            DiffuseLighting.enableGuiLighting();
+            // DiffuseLighting.enableGuiLighting(); - removed in 1.21.4
             GL11.glDisable(GL11.GL_BLEND);
             GL11.glTranslated(x / scale, y / scale, 0);
             renderItem.renderItem(null, stack, 0, 0, 0);
             GL11.glEnable(GL11.GL_BLEND);
-            DiffuseLighting.disableGuiLighting();
+            // DiffuseLighting.disableGuiLighting(); - removed in 1.21.4
         }
         GL11.glPopMatrix();
     }

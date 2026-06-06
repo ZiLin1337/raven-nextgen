@@ -13,3 +13,6 @@ public class GroupSetting extends Setting {
         // 分组设置不保存
     }
 }
+    // Added for ClickGui compatibility
+    public boolean isOpened() { return false; }
+    public void setOpened(boolean opened) { /* stub */ }

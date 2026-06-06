@@ -6,7 +6,7 @@ import keystrokesmod.module.setting.Setting;
 public class KeySetting extends Setting {
     private int keyCode;
     public boolean isBinding;
-    private GroupSetting group;
+    public GroupSetting group;
 
     public KeySetting(String name, int keyCode) {
         super(name);
