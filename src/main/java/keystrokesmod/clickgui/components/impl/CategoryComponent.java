@@ -433,7 +433,8 @@ public class CategoryComponent {
         }
         return stack;
     }
-}
+
+
     // Added for ClickGui compatibility
     public boolean isMouseOver(int x, int y) {
         return overTitle(x, y) || overCategory(x, y);
@@ -448,3 +449,4 @@ public class CategoryComponent {
     public void onMouseMove(int mx, int my) {
         mousePosition(mx, my, true);
     }
+}
