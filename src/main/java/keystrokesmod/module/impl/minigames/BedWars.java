@@ -123,7 +123,7 @@ public void onRenderWorld(Object e) {
                         continue;
                     }
                     String name = p.getName();
-                    ItemStack item = p.getHeldItem();
+                    ItemStack item = p.getMainHandStack();
                     if (diamondArmor.isToggled()) {
                         ItemStack leggings = p.inventory.armorInventory[1];
                         if (!armoredPlayer.contains(name) && p.inventory != null && leggings != null && leggings.getItem() != null && leggings.getItem() == Items.diamond_leggings) {

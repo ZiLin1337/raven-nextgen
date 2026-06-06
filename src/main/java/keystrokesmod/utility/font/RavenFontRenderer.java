@@ -17,7 +17,7 @@ public interface RavenFontRenderer {
     
     default int getStringWidth(String text) {
         if (text == null) return 0;
-        TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+        TextRenderer textRenderer = mc.textRenderer;
         return textRenderer.getWidth(text);
     }
     

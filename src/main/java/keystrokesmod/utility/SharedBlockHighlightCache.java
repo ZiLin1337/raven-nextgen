@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public final class SharedBlockHighlightCache {
 
-    private static final MinecraftClient mc = MinecraftClient.getInstance();
+    private static final MinecraftClient mc = mc;
     private static final SharedBlockHighlightCache INSTANCE = new SharedBlockHighlightCache();
 
     private final Map<Long, Set<BlockPos>> blockListByChunk = new ConcurrentHashMap<>();

@@ -128,7 +128,7 @@ public class PlayerSkinCache {
                         return;
                     }
 
-                    MinecraftClient minecraft = MinecraftClient.getInstance();
+                    MinecraftClient minecraft = mc;
                     GameProfile filledProfile = minecraft.getSessionService().fillProfileProperties(profile, false);
                     if (filledProfile == null) {
                         cacheProfile(normalized, null);
@@ -163,7 +163,7 @@ public class PlayerSkinCache {
             Raven.playerRelationsManager.refreshDisplayName(profile.getName());
         }
 
-        MinecraftClient minecraft = MinecraftClient.getInstance();
+        MinecraftClient minecraft = mc;
         Map<Type, MinecraftProfileTexture> textures = minecraft.getSkinManager().loadSkinFromCache(profile);
         final MinecraftProfileTexture skinTexture = textures == null ? null : textures.get(Type.SKIN);
         if (skinTexture == null) {
@@ -174,7 +174,7 @@ public class PlayerSkinCache {
         minecraft.addScheduledTask(new Runnable() {
             @Override
             public void run() {
-                Identifier location = MinecraftClient.getInstance().getSkinManager().loadSkin(skinTexture, Type.SKIN);
+                Identifier location = mc.getSkinManager().loadSkin(skinTexture, Type.SKIN);
                 if (location != null) {
                     SKINS.put(normalized, location);
                     LOOKUP_FAILED.remove(normalized);

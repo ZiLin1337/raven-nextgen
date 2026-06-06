@@ -159,7 +159,7 @@ public class Anticheat extends Module {
             alert(entityPlayer, noSlow);
             return;
         }
-        if (scaffold.isToggled() && entityPlayer.isSwingInProgress && entityPlayer.getPitch() >= 70.0f && entityPlayer.getHeldItem() != null && entityPlayer.getHeldItem().getItem() instanceof ItemBlock && playerData.fastTick >= 20 && entityPlayer.age - playerData.lastSneakTick >= 30 && entityPlayer.age - playerData.aboveVoidTicks >= 20) {
+        if (scaffold.isToggled() && entityPlayer.isSwingInProgress && entityPlayer.getPitch() >= 70.0f && entityPlayer.getMainHandStack() != null && entityPlayer.getMainHandStack().getItem() instanceof ItemBlock && playerData.fastTick >= 20 && entityPlayer.age - playerData.lastSneakTick >= 30 && entityPlayer.age - playerData.aboveVoidTicks >= 20) {
             boolean overAir = true;
             BlockPos blockPos = entityPlayer.getPosition().down(2);
             for (int i = 0; i < 4; ++i) {

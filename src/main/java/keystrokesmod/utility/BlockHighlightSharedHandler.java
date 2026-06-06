@@ -7,7 +7,7 @@ import net.minecraft.client.MinecraftClient;
 
 public final class BlockHighlightSharedHandler {
 
-    private static final MinecraftClient mc = MinecraftClient.getInstance();
+    private static final MinecraftClient mc = mc;
 
     
     public void onReceivePacket(ReceivePacketEvent e) {

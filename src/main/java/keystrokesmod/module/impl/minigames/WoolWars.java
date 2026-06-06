@@ -90,11 +90,11 @@ public class WoolWars extends Module {
         }
         else if (!mc.player.getAbilities().allowFlying && mc.player.getDistanceSq(middlePos) < rangeSq && isActiveRound() && (!onlyMiddleClick.isToggled() || /* Mouse.isButtonDown */(2))) {
             if (swapBack == -1) {
-                swapBack = mc.player.inventory.currentItem;
+                swapBack = mc.player.getInventory().selectedSlot;
             }
             if (delay > 0 && --delay > 0) {
                 if (fakeSwing) {
-                    mc.player.swingItem();
+                    mc.player.swingHand(Hand.MAIN_HAND);
                 }
                 return;
             }
@@ -145,7 +145,7 @@ public class WoolWars extends Module {
                 miningPos = closestPos;
                 switchToSlot(Utils.getTool(BlockUtils.getBlock(closestPos)));
                 miningPos = closestPos;
-                mc.player.swingItem();
+                mc.player.swingHand(Hand.MAIN_HAND);
                 startBreak(miningPos);
             }
             else if (!Utils.isPossibleToReach(miningPos, lastRange)) {
@@ -154,7 +154,7 @@ public class WoolWars extends Module {
                 curBlockDamageMP = (delay = 0);
                 return;
             }
-            curBlockDamageMP += BlockUtils.getBlockHardness(BlockUtils.getBlock(miningPos), mc.player.getHeldItem(), false, false);
+            curBlockDamageMP += BlockUtils.getBlockHardness(BlockUtils.getBlock(miningPos), mc.player.getMainHandStack(), false, false);
             if (curBlockDamageMP < breakSpeed.getInput()) {
                 curBlockDamageMP = (float) breakSpeed.getInput();
             }
@@ -167,7 +167,7 @@ public class WoolWars extends Module {
                 fakeSwing = true;
             }
             mc.world.sendBlockBreakProgress(mc.player.getId(), miningPos, (int) (curBlockDamageMP * 10.0f) - 1);
-            mc.player.swingItem();
+            mc.player.swingHand(Hand.MAIN_HAND);
         }
         else if (miningPos != null) {
             abortBreak(miningPos);
@@ -188,7 +188,7 @@ public class WoolWars extends Module {
         if (slot == -1) {
             return false;
         }
-        mc.player.inventory.currentItem = slot;
+        mc.player.getInventory().selectedSlot = slot;
         return true;
     }
 
@@ -304,8 +304,8 @@ public class WoolWars extends Module {
         }
         if (placeMop != null) {
             if (placingPitch > 90.0f) {
-                if (mc.interactionManager.onPlayerRightClick(mc.player, mc.world, mc.player.getHeldItem(), placeMop.getBlockPos(), placeMop.sideHit, placeMop.hitVec)) {
-                    mc.player.swingItem();
+                if (mc.interactionManager.onPlayerRightClick(mc.player, mc.world, mc.player.getMainHandStack(), placeMop.getBlockPos(), placeMop.sideHit, placeMop.hitVec)) {
+                    mc.player.swingHand(Hand.MAIN_HAND);
                     mc.getItemRenderer().resetEquippedProgress();
                     delay = (int) placeDelay.getInput();
                     fakeSwing = false;
@@ -360,7 +360,7 @@ public class WoolWars extends Module {
 
     private void swapBack() {
         if (swapBack != -1) {
-            mc.player.inventory.currentItem = swapBack;
+            mc.player.getInventory().selectedSlot = swapBack;
             swapBack = -1;
         }
     }
@@ -411,14 +411,14 @@ public class WoolWars extends Module {
     }
 
     public static void startBreak(BlockPos pos) {
-        mc.player.sendQueue.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, pos, Direction.UP));
+        mc.player.sendQueue.networkHandler.sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, pos, Direction.UP));
     }
 
     public static void stopBreak(BlockPos pos) {
-        mc.player.sendQueue.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, pos, Direction.UP));
+        mc.player.sendQueue.networkHandler.sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, pos, Direction.UP));
     }
 
     public static void abortBreak(final BlockPos pos) {
-        mc.player.sendQueue.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.ABORT_DESTROY_BLOCK, pos, Direction.DOWN));
+        mc.player.sendQueue.networkHandler.sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.ABORT_DESTROY_BLOCK, pos, Direction.DOWN));
     }
 }

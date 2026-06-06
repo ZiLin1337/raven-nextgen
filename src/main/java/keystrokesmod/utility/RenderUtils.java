@@ -123,7 +123,7 @@ public class RenderUtils implements IMinecraftInstance {
         y *= guiScale;
         width *= guiScale;
         height *= guiScale;
-int scale = MinecraftClient.getInstance().getWindow().getScaleFactor();
+int scale = mc.getWindow().getScaleFactor();
         double screenH = sr.getScaledHeight();
 
         int left = (int) Math.floor(x * scale);
@@ -153,7 +153,7 @@ int scale = MinecraftClient.getInstance().getWindow().getScaleFactor();
         y *= guiScale;
         width *= guiScale;
         height *= guiScale;
-int scale = MinecraftClient.getInstance().getWindow().getScaleFactor();
+int scale = mc.getWindow().getScaleFactor();
         double screenH = sr.getScaledHeight();
         int left = (int) Math.floor(x * scale);
         int right = (int) Math.ceil((x + width) * scale);
@@ -776,7 +776,7 @@ String s = "";
     }
 
     public static void renderBlockModel(BlockState blockState, double x, double y, double z, int color) {
-        MinecraftClient mc = MinecraftClient.getInstance();
+        MinecraftClient mc = mc;
         BlockRendererDispatcher dispatcher = mc.getBlockRendererDispatcher();
         IBakedModel model = dispatcher.getModelFromBlockState(blockState, mc.world, new BlockPos(x, y, z));
 

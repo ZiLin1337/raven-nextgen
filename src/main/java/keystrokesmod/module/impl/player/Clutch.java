@@ -179,10 +179,10 @@ public class Clutch extends Module {
 
         placeQueued = false;
         if (placeAtBlock != null && hitSide != null && hitVec != null
-                && mc.interactionManager.onPlayerRightClick(mc.player, mc.world, mc.player.getHeldItem(), placeAtBlock, hitSide, hitVec)) {
+                && mc.interactionManager.onPlayerRightClick(mc.player, mc.world, mc.player.getMainHandStack(), placeAtBlock, hitSide, hitVec)) {
             if (hitSide != Direction.UP) clutchBlocksPlaced++;
             lastPlaced = placeAtBlock;
-            mc.player.swingItem();
+            mc.player.swingHand(Hand.MAIN_HAND);
         }
     }
 // TODO: Replace MouseEvent
@@ -235,7 +235,7 @@ public class Clutch extends Module {
         if (hasAim && !placing) enablePlacing();
 
         if (placing || resetting || hasAim) {
-            InputUtil.setKeyPressed(mc.options.keyBindAttack.getKeyCode(), false);
+            InputUtil.setKeyPressed(mc.options.attackKey.getDefaultKey().getCode(), false);
             InputUtil.setKeyPressed(mc.options.keyBindUseItem.getKeyCode(), false);
             equipPlannedSlot();
         }
@@ -298,7 +298,7 @@ public class Clutch extends Module {
     private void enablePlacing() {
         if (placing) return;
         placing = true;
-        if (!slotWasSwapped) prevSlot = mc.player.inventory.currentItem;
+        if (!slotWasSwapped) prevSlot = mc.player.getInventory().selectedSlot;
         autoClickerWasOn = autoClickerWasOn || (ModuleManager.autoClicker != null && ModuleManager.autoClicker.isEnabled());
         if (autoClickerWasOn && ModuleManager.autoClicker != null) {
             ModuleManager.autoClicker.disable();
@@ -311,8 +311,8 @@ public class Clutch extends Module {
         placing = false;
         plannedSlot = -1;
 
-        if ((forceRestore || !hasAim) && slotWasSwapped && prevSlot != -1 && prevSlot != mc.player.inventory.currentItem) {
-            mc.player.inventory.currentItem = prevSlot;
+        if ((forceRestore || !hasAim) && slotWasSwapped && prevSlot != -1 && prevSlot != mc.player.getInventory().selectedSlot) {
+            mc.player.getInventory().selectedSlot = prevSlot;
             slotWasSwapped = false;
         }
         if (forceRestore) {
@@ -322,8 +322,8 @@ public class Clutch extends Module {
     }
 
     private void clearAim(boolean allowSnapback) {
-        if (slotWasSwapped && prevSlot != -1 && prevSlot != mc.player.inventory.currentItem) {
-            mc.player.inventory.currentItem = prevSlot;
+        if (slotWasSwapped && prevSlot != -1 && prevSlot != mc.player.getInventory().selectedSlot) {
+            mc.player.getInventory().selectedSlot = prevSlot;
             slotWasSwapped = false;
         }
         targetHitPos = null;
@@ -337,8 +337,8 @@ public class Clutch extends Module {
 
     private void restoreInputsAndAutoClicker() {
         if (mc.currentScreen == null) {
-            InputUtil.setKeyPressed(mc.options.keyBindAttack.getKeyCode(), GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS);
-            InputUtil.setKeyPressed(mc.options.keyBindUseItem.getKeyCode(), GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS);
+            InputUtil.setKeyPressed(mc.options.attackKey.getDefaultKey().getCode(), GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS);
+            InputUtil.setKeyPressed(mc.options.keyBindUseItem.getKeyCode(), GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS);
         }
         if (autoClickerWasOn && ModuleManager.autoClicker != null) {
             ModuleManager.autoClicker.enable();
@@ -491,7 +491,7 @@ public class Clutch extends Module {
     private int pickBlockSlot() {
         boolean playingBedwars = Utils.getBedwarsStatus() == 2;
         if (!playingBedwars) {
-            int current = mc.player.inventory.currentItem;
+            int current = mc.player.getInventory().selectedSlot;
             if (isBlockSlot(current)) return current;
 
             for (int slot = 8; slot >= 0; --slot) {
@@ -529,9 +529,9 @@ public class Clutch extends Module {
     }
 
     private void equipPlannedSlot() {
-        int current = mc.player.inventory.currentItem;
+        int current = mc.player.getInventory().selectedSlot;
         if (plannedSlot != -1 && plannedSlot != current) {
-            mc.player.inventory.currentItem = plannedSlot;
+            mc.player.getInventory().selectedSlot = plannedSlot;
             slotWasSwapped = true;
         }
     }

@@ -219,7 +219,7 @@ public class AimAssist extends Module {
         if (weaponOnly.isToggled() && !Utils.holdingWeapon()) {
             return false;
         }
-        if (clickAim.isToggled() && !GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) {
+        if (clickAim.isToggled() && !GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) {
             return false;
         }
         if (stopWhenBreaking.isToggled() && Utils.isMining()) {

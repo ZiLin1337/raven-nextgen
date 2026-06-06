@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AutoRequeue extends Module {
-    private static final MinecraftClient mc = MinecraftClient.getInstance();
+    private static final MinecraftClient mc = mc;
     private SliderSetting delay;
     private String receivedCommand = "";
     private long receiveTime = 0;

@@ -308,7 +308,7 @@ public class CategoryComponent {
     public boolean overRect(int x, int y) { return x >= this.x - 2 && x <= this.x + this.width + 2 && y >= this.y && y <= lastHeight; }
 
     private void renderItemForCategory(Module.category category, int x, int y, boolean enchant) {
-        ItemRenderer renderItem = MinecraftClient.getInstance().getItemRenderer();
+        ItemRenderer renderItem = mc.getItemRenderer();
         double scale = 0.55;
         GL11.glPushMatrix();
         GL11.glScaled(scale, scale, scale);

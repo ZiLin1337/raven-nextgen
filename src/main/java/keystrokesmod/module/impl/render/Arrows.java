@@ -127,7 +127,7 @@ public class Arrows extends Module {
         ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(((IAccessorMinecraft) mc).getTimer().renderPartialTicks, 0);
 
          scaledResolution = null; // int removed for 1.21.4
-        Vec3d vec = RenderUtils.convertTo2D(MinecraftClient.getInstance().getWindow().getScaleFactor(), x, y, z);
+        Vec3d vec = RenderUtils.convertTo2D(mc.getWindow().getScaleFactor(), x, y, z);
 
         if (vec != null) {
             mc.entityRenderer.setupOverlayRendering();

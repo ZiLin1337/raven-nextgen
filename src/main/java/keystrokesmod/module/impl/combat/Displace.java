@@ -628,7 +628,7 @@ public void onGameTick(GameTickEvent e) {
         boolean passesItemCondition = true;
         if (hasKnockback.isToggled() || itemWhitelistToggle.isToggled()) {
             boolean kbPass = !hasKnockback.isToggled() || EnchantmentHelper.getKnockbackModifier(mc.player) > 0;
-            boolean wlPass = !itemWhitelistToggle.isToggled() || itemWhitelist.matches(mc.player.getHeldItem());
+            boolean wlPass = !itemWhitelistToggle.isToggled() || itemWhitelist.matches(mc.player.getMainHandStack());
             passesItemCondition = kbPass || wlPass;
         }
         if (!passesItemCondition) {
@@ -677,7 +677,7 @@ public void onGameTick(GameTickEvent e) {
         }
 
         if (!displaceThisTick && wasDisplacingLastTick) {
-            int key = mc.options.keyBindAttack.getKeyCode();
+            int key = mc.options.attackKey.getDefaultKey().getCode();
             if (key != 0) {
                 KeyBinding.onTick(key);
             }

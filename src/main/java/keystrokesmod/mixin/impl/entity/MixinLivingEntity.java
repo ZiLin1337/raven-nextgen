@@ -79,7 +79,7 @@ public abstract class MixinLivingEntity {
             return;
         }
 
-        self.setVelocity(self.getVelocity().x, jumpEvent.getMotionY(), self.getVelocity().z);
+        self.setVelocity(self.getVelocity().x, jumpEvent.velocityY, self.getVelocity().z);
 
         if (jumpEvent.applySprint()) {
             float f = jumpEvent.getYaw() * 0.017453292F;

@@ -12,7 +12,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import java.util.*;
 
 public class AntiDebuff extends Module {
-    private static final MinecraftClient mc = MinecraftClient.getInstance();
+    private static final MinecraftClient mc = mc;
     private final SliderSetting mode;
     private final ButtonSetting showOverlay, showWarning;
 

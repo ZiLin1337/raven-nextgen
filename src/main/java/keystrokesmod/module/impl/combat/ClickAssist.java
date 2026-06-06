@@ -51,7 +51,7 @@ public class ClickAssist extends Module {
         this.ignNR = false;
         this.bot = null;
     }public void onMouseUpdate(MouseEvent ev) {
-        if (disableInCreative.isToggled() && mc.player.getAbilities().isCreativeMode) {
+        if (disableInCreative.isToggled() && mc.player.getAbilities().creativeMode) {
             return;
         }
         if (ev.button >= 0 && ev.buttonstate && Utils.nullCheck()) {
@@ -93,7 +93,7 @@ public class ClickAssist extends Module {
                             return;
                         }
                         if (blocksOnly.isToggled()) {
-                            ItemStack item = mc.player.getHeldItem();
+                            ItemStack item = mc.player.getMainHandStack();
                             if (item == null || !(item.getItem() instanceof ItemBlock)) {
                                 this.fix(1);
                                 return;
@@ -126,11 +126,11 @@ public class ClickAssist extends Module {
 
     private void fix(int t) {
         if (t == 0) {
-            if (this.ignNL && !GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) {
+            if (this.ignNL && !GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) {
                 this.bot.mouseRelease(16);
             }
         }
-        else if (t == 1 && this.ignNR && !GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS) {
+        else if (t == 1 && this.ignNR && !GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS) {
             this.bot.mouseRelease(4);
         }
     }

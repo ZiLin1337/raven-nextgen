@@ -85,7 +85,7 @@ public class AutoClicker extends Module {
             inventoryNextClickTime = 0L;
             return;
         }
-        if (!GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) {
+        if (!GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) {
             inventoryNextClickTime = 0L;
             return;
         }
@@ -117,14 +117,14 @@ public class AutoClicker extends Module {
 
         int windowId = gui.getInventory().windowId;
         int slotId = slot.getIndex();
-        int mode = net.minecraft.client.gui.screen.Screen.isShiftKeyDown() ? 1 : 0;
+        int mode = net.minecraft.client.gui.screen.Screen.hasShiftDown() ? 1 : 0;
 
         if (mc.interactionManager == null || mc.player == null) {
             return;
         }
 
         for (int i = 0; i < clicks; i++) {
-            mc.interactionManager.windowClick(windowId, slotId, 0, mode, mc.player);
+            mc.interactionManager.clickSlot(windowId, slotId, 0, mode, mc.player);
         }
     }
 
@@ -133,8 +133,8 @@ public class AutoClicker extends Module {
         if (!Utils.nullCheck()) return;
         if (ModuleManager.killAura != null && ModuleManager.killAura.isEnabled() && KillAura.target != null) return;
 
-        int key = mc.options.keyBindAttack.getKeyCode();
-        if (GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) {
+        int key = mc.options.attackKey.getDefaultKey().getCode();
+        if (GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) {
             long now = System.currentTimeMillis();
             if (nextClickTime == 0) {
                 nextClickTime = now + nextDelay();
@@ -147,12 +147,12 @@ public class AutoClicker extends Module {
             }
 
             if (notUsingItem.isToggled() && mc.player.isUsingItem()) return;
-            if (disableCreative.isToggled() && mc.player.getAbilities().isCreativeMode) return;
+            if (disableCreative.isToggled() && mc.player.getAbilities().creativeMode) return;
             if (mc.currentScreen != null || !mc.isWindowFocused()) return;
             if (weaponOnly.isToggled() && !Utils.holdingWeapon()) return;
 
             if (breakBlocks.isToggled()) {
-                if (!mc.player.getAbilities().allowEdit) {
+                if (!mc.player.getAbilities().allowFlying) {
                     if (this.isHoldingBlockBreak) {
                         InputUtil.setKeyPressed(key, false);
                         ReflectionUtils.setButton(0, false);
@@ -163,7 +163,7 @@ public class AutoClicker extends Module {
                 BlockPos pos = mc.crosshairTarget.getBlockPos();
                 if (pos != null) {
                     Block block = mc.world.getBlockState(pos).getBlock();
-                    if (block != Blocks.AIR && !(block instanceof BlockLiquid)) {
+                    if (block != Blocks.AIR && !(block instanceof LiquidBlock)) {
                         if (!this.isHoldingBlockBreak) {
                             InputUtil.setKeyPressed(key, true);
                             ReflectionUtils.setButton(0, true);

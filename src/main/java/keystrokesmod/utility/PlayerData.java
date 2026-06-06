@@ -50,7 +50,7 @@ public class PlayerData {
         else {
             this.noSlowTicks = 0;
         }
-        if (entityPlayer.getPitch() >= 70.0f && entityPlayer.getHeldItem() != null && entityPlayer.getHeldItem().getItem() instanceof ItemBlock) {
+        if (entityPlayer.getPitch() >= 70.0f && entityPlayer.getMainHandStack() != null && entityPlayer.getMainHandStack().getItem() instanceof ItemBlock) {
             if (entityPlayer.swingProgressInt == 1) {
                 if (!this.sneaking && entityPlayer.isSneaking()) {
                     ++this.sneakTicks;

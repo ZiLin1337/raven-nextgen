@@ -330,7 +330,7 @@ public void onRenderWorld(Object e) {
 
          scaledResolution = null; // int removed for 1.21.4
         ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(partialTicks, 0);
-        projectionContext = RenderUtils.captureProjectionContext(projectionContext, MinecraftClient.getInstance().getWindow().getScaleFactor());
+        projectionContext = RenderUtils.captureProjectionContext(projectionContext, mc.getWindow().getScaleFactor());
         mc.entityRenderer.setupOverlayRendering();
 
         int screenWidth = scaledResolution.getScaledWidth();

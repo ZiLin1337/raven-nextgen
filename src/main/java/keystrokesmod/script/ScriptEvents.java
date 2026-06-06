@@ -11,7 +11,7 @@ import net.minecraft.network.packet.Packet;
  */
 public class ScriptEvents {
     private final String scriptName;
-    private final MinecraftClient mc = MinecraftClient.getInstance();
+    private final MinecraftClient mc = mc;
     
     public ScriptEvents(String scriptName) {
         this.scriptName = scriptName;

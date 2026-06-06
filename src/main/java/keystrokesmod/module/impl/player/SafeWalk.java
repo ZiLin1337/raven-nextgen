@@ -115,7 +115,7 @@ public class SafeWalk extends Module {
                 return false;
             }
             if (blocksOnly.isToggled()) {
-                ItemStack held = mc.player.getHeldItem();
+                ItemStack held = mc.player.getMainHandStack();
                 if (held == null || !(held.getItem() instanceof ItemBlock)) {
                     return false;
                 }
@@ -127,7 +127,7 @@ public class SafeWalk extends Module {
 
     private boolean settingsMet() {
         if (blocksOnly.isToggled()) {
-            ItemStack held = mc.player.getHeldItem();
+            ItemStack held = mc.player.getMainHandStack();
             if (held == null || !(held.getItem() instanceof ItemBlock)) {
                 return false;
             }

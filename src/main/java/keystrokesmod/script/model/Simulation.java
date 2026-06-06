@@ -4,7 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.math.Vec3d;
 
 public class Simulation {
-    public static final MinecraftClient mc = MinecraftClient.getInstance();
+    public static final MinecraftClient mc = mc;
 
     /**
      * Predicts the ground Y level below a position using raycast

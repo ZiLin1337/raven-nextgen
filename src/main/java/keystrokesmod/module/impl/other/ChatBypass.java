@@ -9,7 +9,7 @@ import net.minecraft.client.MinecraftClient;
 import java.util.Random;
 
 public class ChatBypass extends Module {
-    private static final MinecraftClient mc = MinecraftClient.getInstance();
+    private static final MinecraftClient mc = mc;
     private SliderSetting mode;
     private SliderSetting spacing;
     private ButtonSetting unicode;

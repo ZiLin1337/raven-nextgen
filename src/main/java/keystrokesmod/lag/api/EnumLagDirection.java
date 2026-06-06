@@ -26,7 +26,7 @@ public enum EnumLagDirection implements IMinecraftInstance {
     ),
     OUTBOUND(
             packet -> {
-                mc.getNetHandler().addToSendQueue(packet);
+                mc.getNetHandler().networkHandler.sendPacket(packet);
             }
     );
 

@@ -127,11 +127,11 @@ public class SpeedBuilders extends Module {
                         if (autoSwap.isToggled()) {
                             int requiredMeta = info.requiredState.getBlock().getMetaFromState(info.requiredState);
                             int slot = getSlot(info.requiredState.getBlock(), requiredMeta);
-                            if (slot != -1 && slot != mc.player.inventory.currentItem) {
-                                mc.player.inventory.currentItem = slot;
+                            if (slot != -1 && slot != mc.player.getInventory().selectedSlot) {
+                                mc.player.getInventory().selectedSlot = slot;
                             }
                         }
-                        if ((hoverPlace.isToggled()) && holdingSameBlock(info.requiredState) && correctPlaceState(info.requiredState, targetPos, mop.sideHit, mop.hitVec, mc.player.getHeldItem())) {
+                        if ((hoverPlace.isToggled()) && holdingSameBlock(info.requiredState) && correctPlaceState(info.requiredState, targetPos, mop.sideHit, mop.hitVec, mc.player.getMainHandStack())) {
                             if (lastPlaceTick++ < placeDelay.getInput()) {
                                 return;
                             }
@@ -157,7 +157,7 @@ public class SpeedBuilders extends Module {
                 BlockPos facePos = targetPos.offset(mop.sideHit);
 
                 BuildBlockInfo info = buildInfo.get(facePos);
-                if (info == null || !holdingSameBlock(info.requiredState) || !correctPlaceState(info.requiredState, targetPos, mop.sideHit, mop.hitVec, mc.player.getHeldItem())) {
+                if (info == null || !holdingSameBlock(info.requiredState) || !correctPlaceState(info.requiredState, targetPos, mop.sideHit, mop.hitVec, mc.player.getMainHandStack())) {
                     e.setCanceled(true);
                 }
             }
@@ -391,7 +391,7 @@ public class SpeedBuilders extends Module {
             return false;
         }
 
-        ItemStack heldItem = mc.player.getHeldItem();
+        ItemStack heldItem = mc.player.getMainHandStack();
         if (heldItem == null) {
             return false;
         }

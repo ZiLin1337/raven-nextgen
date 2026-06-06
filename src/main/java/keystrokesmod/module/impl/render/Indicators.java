@@ -348,7 +348,7 @@ public class Indicators extends Module {
         ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(((IAccessorMinecraft) mc).getTimer().renderPartialTicks, 0);
 
          scaledResolution = null; // int removed for 1.21.4
-        Vec3d vec = RenderUtils.convertTo2D(MinecraftClient.getInstance().getWindow().getScaleFactor(), x, y, z);
+        Vec3d vec = RenderUtils.convertTo2D(mc.getWindow().getScaleFactor(), x, y, z);
 
         if (vec != null) {
             mc.entityRenderer.setupOverlayRendering();
@@ -978,7 +978,7 @@ public class Indicators extends Module {
                     }
 
                     double liquidSurfaceY = (double) ((float) (y + 1)
-                            - BlockLiquid.getLiquidHeightPercent((Integer) blockState.getValue(BlockLiquid.LEVEL)));
+                            - LiquidBlock.getLiquidHeightPercent((Integer) blockState.getValue(LiquidBlock.LEVEL)));
                     if ((double) maxY >= liquidSurfaceY) {
                         inWater = true;
                         flowDirection = blockState.getBlock().modifyAcceleration(mc.world, mutablePos, projectile, flowDirection);

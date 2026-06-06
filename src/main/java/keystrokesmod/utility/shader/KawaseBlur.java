@@ -13,7 +13,7 @@ import java.util.List;
 import static org.lwjgl.opengl.GL11.*;
 
 public class KawaseBlur {
-    private static final MinecraftClient mc = MinecraftClient.getInstance();
+    private static final MinecraftClient mc = mc;
     public static ShaderUtils kawaseDown = new ShaderUtils("kawaseDown");
     public static ShaderUtils kawaseUp = new ShaderUtils("kawaseUp");
     public static net.minecraft.client.gl.Framebuffer framebuffer = new net.minecraft.client.gl.Framebuffer(1, 1, false);

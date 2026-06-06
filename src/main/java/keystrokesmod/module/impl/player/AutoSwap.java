@@ -62,7 +62,7 @@ public class AutoSwap extends Module {
 
         trackedStack = stack.copy();
         trackedStack.stackSize = 1;
-        lastPlaceSlot = mc.player.inventory.currentItem;
+        lastPlaceSlot = mc.player.getInventory().selectedSlot;
     }
 
     
@@ -76,11 +76,11 @@ public class AutoSwap extends Module {
             return;
         }
 
-        if (trackedStack == null || lastPlaceSlot == -1 || mc.player.inventory.currentItem != lastPlaceSlot) {
+        if (trackedStack == null || lastPlaceSlot == -1 || mc.player.getInventory().selectedSlot != lastPlaceSlot) {
             return;
         }
 
-        ItemStack held = mc.player.getHeldItem();
+        ItemStack held = mc.player.getMainHandStack();
         if (held != null && held.stackSize > 0) {
             return;
         }
@@ -141,11 +141,11 @@ public class AutoSwap extends Module {
     }
 
     private void swapToSlot(int slot) {
-        if (slot == -1 || slot == mc.player.inventory.currentItem) {
+        if (slot == -1 || slot == mc.player.getInventory().selectedSlot) {
             return;
         }
 
-        mc.player.inventory.currentItem = slot;
+        mc.player.getInventory().selectedSlot = slot;
         ((IAccessorClientPlayerInteractionManager) mc.interactionManager).callSyncCurrentPlayItem();
     }
 

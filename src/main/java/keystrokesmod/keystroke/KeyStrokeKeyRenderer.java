@@ -4,7 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 
 public class KeyStrokeKeyRenderer {
-    private static MinecraftClient mc = MinecraftClient.getInstance();
+    private static MinecraftClient mc = mc;
     private int x, y;
     private String key;
     private int keyCode;

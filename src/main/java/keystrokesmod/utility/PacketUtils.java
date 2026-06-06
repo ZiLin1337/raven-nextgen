@@ -32,7 +32,7 @@ public class PacketUtils implements IMinecraftInstance {
             return;
         }
         skipSendEvent.add(packet);
-        Raven.mc.player.sendQueue.addToSendQueue(packet);
+        Raven.mc.player.sendQueue.networkHandler.sendPacket(packet);
     }
 
     public static void receivePacketNoEvent(Packet packet) {
@@ -45,6 +45,6 @@ public class PacketUtils implements IMinecraftInstance {
     }
 
     public static void sendReleasePacket() {
-        mc.player.sendQueue.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, DOWN));
+        mc.player.sendQueue.networkHandler.sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, DOWN));
     }
 }

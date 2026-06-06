@@ -68,7 +68,7 @@ import java.util.concurrent.Executors;
 
 public class ScriptDefaults {
     private static ExecutorService cachedExecutor;
-    private static final MinecraftClient mc = MinecraftClient.getInstance();
+    private static final MinecraftClient mc = mc;
     public static final Bridge bridge = new Bridge();
     private static final LinkedHashMap<String, Module> modulesMap = new LinkedHashMap<>();
 
@@ -116,7 +116,7 @@ public class ScriptDefaults {
         }
 
         public static int getFPS() {
-            return MinecraftClient.getInstance().getDebugFps();
+            return mc.getDebugFps();
         }
 
         public static void chat(String message) {
@@ -406,7 +406,7 @@ public class ScriptDefaults {
 
         public static int[] getDisplaySize() {
             Window window = mc.getWindow();
-            return new int[]{window.getScaledWidth(), window.getScaledHeight(), (int)MinecraftClient.getInstance().getWindow().getScaleFactor()};
+            return new int[]{window.getScaledWidth(), window.getScaledHeight(), (int)mc.getWindow().getScaleFactor()};
         }
 
         public static float getServerDirection(PlayerState state) {

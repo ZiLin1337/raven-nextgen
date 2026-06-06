@@ -54,7 +54,7 @@ public class BlockUtils implements IMinecraftInstance {
         if (mv == null || mv.typeOfHit != HitResult.MovingObjectType.BLOCK || mv.getBlockPos() == null) {
             return false;
         }
-        if (!mc.player.isSneaking() || mc.player.getHeldItem() == null) {
+        if (!mc.player.isSneaking() || mc.player.getMainHandStack() == null) {
             return isInteractable(BlockUtils.getBlock(mv.getBlockPos()));
         }
         return false;

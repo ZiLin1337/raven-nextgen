@@ -60,7 +60,7 @@ public class NoFall extends Module {
         if (isFalling && mode.getInput() == 2) {
             if (distanceFallen >= dynamic) {
                 ((IAccessorMinecraft) mc).getTimer().timerSpeed = (0.7399789F + (float) Utils.randomizeDouble(-0.012, 0.012));
-                mc.getNetHandler().addToSendQueue(new C03PacketPlayer(true));
+                mc.getNetHandler().networkHandler.sendPacket(new C03PacketPlayer(true));
                 initialY = mc.player.getY();
             }
         }
@@ -72,7 +72,7 @@ public class NoFall extends Module {
                 ((IAccessorMinecraft) mc).getTimer().timerSpeed = (float) 1;
             }
             if (distanceFallen >= 3) {
-                mc.getNetHandler().addToSendQueue(new C03PacketPlayer(true));
+                mc.getNetHandler().networkHandler.sendPacket(new C03PacketPlayer(true));
                 initialY = mc.player.getY();
             }
         }
@@ -118,7 +118,7 @@ public class NoFall extends Module {
         if (mc.player.getVelocity().y > -0.0784) {
             return true;
         }
-        if (mc.player.getAbilities().isCreativeMode) {
+        if (mc.player.getAbilities().creativeMode) {
             return true;
         }
         if (isVoid() && mc.player.getY() <= 41) {

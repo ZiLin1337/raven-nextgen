@@ -37,7 +37,7 @@ public class KillAura extends Module {
     public void onUpdate() {
         if (!this.isEnabled()) return;
         
-        MinecraftClient mc = MinecraftClient.getInstance();
+        MinecraftClient mc = mc;
         if (mc.player == null || mc.world == null) return;
         
         // Find target

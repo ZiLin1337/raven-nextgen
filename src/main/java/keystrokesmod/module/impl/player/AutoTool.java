@@ -97,7 +97,7 @@ public class AutoTool extends Module {
         }
         if (overrideSwapBack.isToggled()) {
             int slot = Integer.compare(e.slot, 0);
-            previousSlot = Math.floorMod(mc.player.inventory.currentItem - slot, 9);
+            previousSlot = Math.floorMod(mc.player.getInventory().selectedSlot - slot, 9);
         }
         e.setCanceled(true);
     }
@@ -120,16 +120,16 @@ public class AutoTool extends Module {
             return;
         }
 
-        if (spoofItem.isToggled() && previousSlot != mc.player.inventory.currentItem && previousSlot != -1) {
+        if (spoofItem.isToggled() && previousSlot != mc.player.getInventory().selectedSlot && previousSlot != -1) {
             ((IMixinItemRenderer) mc.getItemRenderer()).setCancelUpdate(true);
             ((IMixinItemRenderer) mc.getItemRenderer()).setCancelReset(true);
         }
 
         int currentTick = ++tickCounter;
-        boolean leftMouseDown = GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS;
+        boolean leftMouseDown = GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS;
         updateLeftMouseState(leftMouseDown, currentTick);
 
-        if (!mc.isWindowFocused() || mc.currentScreen != null || mc.player.isRemoved() || !mc.player.getAbilities().allowEdit) {
+        if (!mc.isWindowFocused() || mc.currentScreen != null || mc.player.isRemoved() || !mc.player.getAbilities().allowFlying) {
             resetState(true);
             return;
         }
@@ -201,8 +201,8 @@ public class AutoTool extends Module {
             return;
         }
 
-        if (previousSlot == -1 && slot != mc.player.inventory.currentItem) {
-            previousSlot = mc.player.inventory.currentItem;
+        if (previousSlot == -1 && slot != mc.player.getInventory().selectedSlot) {
+            previousSlot = mc.player.getInventory().selectedSlot;
         }
 
         if (!hasSwapped) {
@@ -210,7 +210,7 @@ public class AutoTool extends Module {
             return;
         }
 
-        if (slot != mc.player.inventory.currentItem) {
+        if (slot != mc.player.getInventory().selectedSlot) {
             setSlot(slot);
         }
     }
@@ -239,7 +239,7 @@ public class AutoTool extends Module {
 
     private boolean isUseBlocked() {
         boolean useActive = Utils.isBindDown(mc.options.keyBindUseItem) || mc.player.isUsingItem();
-        if (ignoredHeldItemsToggle.isToggled() && ignoredHeldItems.matches(mc.player.getHeldItem())) {
+        if (ignoredHeldItemsToggle.isToggled() && ignoredHeldItems.matches(mc.player.getMainHandStack())) {
             return true;
         }
         return useActive;
@@ -305,10 +305,10 @@ public class AutoTool extends Module {
     }
 
     private void setSlot(int currentItem) {
-        if (currentItem == -1 || currentItem == mc.player.inventory.currentItem) {
+        if (currentItem == -1 || currentItem == mc.player.getInventory().selectedSlot) {
             return;
         }
-        mc.player.inventory.currentItem = currentItem;
+        mc.player.getInventory().selectedSlot = currentItem;
         hasSwapped = true;
         ((IAccessorClientPlayerInteractionManager) mc.interactionManager).callSyncCurrentPlayItem();
     }

@@ -153,7 +153,7 @@ public class BedAura extends Module {
         }
         if (hasSwapped && overrideSwapBack.isToggled() && Utils.nullCheck()) {
             int slot = Integer.compare(e.slot, 0);
-            previousSlot = Math.floorMod(mc.player.inventory.currentItem - slot, PlayerInventory.getHotbarSize());
+            previousSlot = Math.floorMod(mc.player.getInventory().selectedSlot - slot, PlayerInventory.getHotbarSize());
         }
         e.setCanceled(true);
     }public void onSlotUpdate(SlotUpdateEvent e) {
@@ -180,7 +180,7 @@ public class BedAura extends Module {
         if (!miningActive || !isEnabled() || !Utils.nullCheck() || mc.currentScreen != null) {
             return;
         }
-        int atk = mc.options.keyBindAttack.getKeyCode();
+        int atk = mc.options.attackKey.getDefaultKey().getCode();
         int use = mc.options.keyBindUseItem.getKeyCode();
         InputUtil.setKeyPressed(atk, false);
         InputUtil.setKeyPressed(use, false);
@@ -309,8 +309,8 @@ public class BedAura extends Module {
         if (switchBackWhenDone.isToggled() && previousSlot != -1 && Utils.nullCheck()) {
             setSlot(previousSlot);
         }
-        InputUtil.setKeyPressed(mc.options.keyBindAttack.getKeyCode(), GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS);
-        InputUtil.setKeyPressed(mc.options.keyBindUseItem.getKeyCode(), GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS);
+        InputUtil.setKeyPressed(mc.options.attackKey.getDefaultKey().getCode(), GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS);
+        InputUtil.setKeyPressed(mc.options.keyBindUseItem.getKeyCode(), GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS);
         hotbarProgrammaticDepth = 0;
         targetPos = null;
         targetHitVec = null;
@@ -572,21 +572,21 @@ public class BedAura extends Module {
         if (slot < 0) {
             return;
         }
-        if (previousSlot == -1 && slot != mc.player.inventory.currentItem) {
-            previousSlot = mc.player.inventory.currentItem;
+        if (previousSlot == -1 && slot != mc.player.getInventory().selectedSlot) {
+            previousSlot = mc.player.getInventory().selectedSlot;
         }
-        if (slot != mc.player.inventory.currentItem) {
+        if (slot != mc.player.getInventory().selectedSlot) {
             setSlot(slot);
         }
     }
 
     private void setSlot(int slot) {
-        if (slot == -1 || slot == mc.player.inventory.currentItem) {
+        if (slot == -1 || slot == mc.player.getInventory().selectedSlot) {
             return;
         }
         hotbarProgrammaticDepth++;
         try {
-            mc.player.inventory.currentItem = slot;
+            mc.player.getInventory().selectedSlot = slot;
             hasSwapped = true;
             ((IAccessorClientPlayerInteractionManager) mc.interactionManager).callSyncCurrentPlayItem();
         } finally {
@@ -595,8 +595,8 @@ public class BedAura extends Module {
     }
 
     private boolean canMineBlocks() {
-        return mc.player.getAbilities().allowEdit
-                && !mc.player.getAbilities().isCreativeMode
+        return mc.player.getAbilities().allowFlying
+                && !mc.player.getAbilities().creativeMode
                 && !mc.player.isSpectator();
     }
 

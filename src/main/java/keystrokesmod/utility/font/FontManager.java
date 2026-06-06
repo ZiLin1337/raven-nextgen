@@ -132,7 +132,7 @@ public final class FontManager {
     }
 
     private static RavenFontRenderer getMinecraftRenderer(float fontSize) {
-        MinecraftClient mc = MinecraftClient.getInstance();
+        MinecraftClient mc = mc;
         float vanillaHeight = Math.max(1.0f, mc.textRenderer.fontHeight);
         float scale = Math.max(0.5f, Math.min(2.0f, fontSize / vanillaHeight));
         String key = MINECRAFT + "#" + quantizeForCacheKey(scale);
@@ -185,7 +185,7 @@ public final class FontManager {
 
     private static int getUiScale() {
         try {
-            return Math.max(1, MinecraftClient.getInstance().options.getGuiScale().getValue());
+            return Math.max(1, mc.options.getGuiScale().getValue());
         }
         catch (Exception ignored) {
             return 1;

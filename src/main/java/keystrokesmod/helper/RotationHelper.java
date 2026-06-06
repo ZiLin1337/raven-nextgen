@@ -19,7 +19,7 @@ import net.minecraft.util.math.Vec3d;
  * Uses Meteor's orbit event bus
  */
 public class RotationHelper {
-    private static final MinecraftClient mc = MinecraftClient.getInstance();
+    private static final MinecraftClient mc = mc;
     private static final RotationHelper INSTANCE = new RotationHelper();
 
     private Float serverYaw = null;

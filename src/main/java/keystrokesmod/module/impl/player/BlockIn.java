@@ -176,7 +176,7 @@ public class BlockIn extends Module {
             clearAim();
         }
 
-        InputUtil.setKeyPressed(mc.options.keyBindAttack.getKeyCode(), false);
+        InputUtil.setKeyPressed(mc.options.attackKey.getDefaultKey().getCode(), false);
         InputUtil.setKeyPressed(mc.options.keyBindUseItem.getKeyCode(), false);
         equipPlannedSlot();
     }
@@ -189,9 +189,9 @@ public class BlockIn extends Module {
             placeQueued = false;
             if (hitAt != null && hitSide != null && placeAt != null) {
                 if (mc.interactionManager.onPlayerRightClick(
-                        mc.player, mc.world, mc.player.getHeldItem(),
+                        mc.player, mc.world, mc.player.getMainHandStack(),
                         hitAt, hitSide, placeAt)) {
-                    mc.player.swingItem();
+                    mc.player.swingHand(Hand.MAIN_HAND);
                 }
             }
         }
@@ -270,14 +270,14 @@ float cx = sr.getScaledWidth() / 2f - 1f;
         if (placing) return;
         placing = true;
         slotWasSwapped = false;
-        prevSlot = mc.player.inventory.currentItem;
+        prevSlot = mc.player.getInventory().selectedSlot;
     }
 
     private void disablePlacing() {
         if (!placing) return;
 
-        if (slotWasSwapped && prevSlot != -1 && prevSlot != mc.player.inventory.currentItem) {
-            mc.player.inventory.currentItem = prevSlot;
+        if (slotWasSwapped && prevSlot != -1 && prevSlot != mc.player.getInventory().selectedSlot) {
+            mc.player.getInventory().selectedSlot = prevSlot;
         }
 
         placing = false;
@@ -286,8 +286,8 @@ float cx = sr.getScaledWidth() / 2f - 1f;
         plannedSlot = -1;
 
         if (mc.currentScreen == null) {
-            InputUtil.setKeyPressed(mc.options.keyBindAttack.getKeyCode(), GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS);
-            InputUtil.setKeyPressed(mc.options.keyBindUseItem.getKeyCode(), GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS);
+            InputUtil.setKeyPressed(mc.options.attackKey.getDefaultKey().getCode(), GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS);
+            InputUtil.setKeyPressed(mc.options.keyBindUseItem.getKeyCode(), GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS);
         }
     }
 
@@ -297,9 +297,9 @@ float cx = sr.getScaledWidth() / 2f - 1f;
     }
 
     private void equipPlannedSlot() {
-        int cur = mc.player.inventory.currentItem;
+        int cur = mc.player.getInventory().selectedSlot;
         if (plannedSlot != -1 && plannedSlot != cur) {
-            mc.player.inventory.currentItem = plannedSlot;
+            mc.player.getInventory().selectedSlot = plannedSlot;
             slotWasSwapped = true;
         }
     }

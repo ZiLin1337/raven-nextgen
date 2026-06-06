@@ -3,7 +3,7 @@ package keystrokesmod.helper;
 import net.minecraft.client.MinecraftClient;
 
 public class MouseHelper {
-    private static MinecraftClient mc = MinecraftClient.getInstance();
+    private static MinecraftClient mc = mc;
 
     public static boolean isButtonDown(int button) {
         return org.lwjgl.glfw.GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), button) == 1;

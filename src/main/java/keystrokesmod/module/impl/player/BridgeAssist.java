@@ -108,7 +108,7 @@ public class BridgeAssist extends Module {
             return;
         }
         if (holdingBlocks.isToggled()) {
-            ItemStack held = mc.player.getHeldItem();
+            ItemStack held = mc.player.getMainHandStack();
             if (held == null || !(held.getItem() instanceof ItemBlock)) {
                 clearSneak(e);
                 return;
@@ -168,7 +168,7 @@ public class BridgeAssist extends Module {
             return;
         }
 
-        ItemStack held = mc.player.getHeldItem();
+        ItemStack held = mc.player.getMainHandStack();
         if (held == null || !(held.getItem() instanceof ItemBlock)) return;
         if (lookingDown.isToggled() && mc.player.getPitch() < 70f) return;
         if (notMovingForward.isToggled() && mc.player.movementInput.moveForward > 0f) return;

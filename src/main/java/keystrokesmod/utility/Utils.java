@@ -245,7 +245,7 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static boolean holdingFood(LivingEntity entity) {
-        return entity.getHeldItem() != null && entity.getHeldItem().getItem() instanceof ItemFood;
+        return entity.getMainHandStack() != null && entity.getMainHandStack().getItem() instanceof ItemFood;
     }
 
     public static int getColorFromEntity(Entity entity) {
@@ -359,10 +359,10 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static boolean holdingFireball() {
-        if (mc.player.getHeldItem() == null) {
+        if (mc.player.getMainHandStack() == null) {
             return false;
         }
-        return mc.player.getHeldItem().getItem() instanceof ItemFireball;
+        return mc.player.getMainHandStack().getItem() instanceof ItemFireball;
     }
 
     public static boolean canSeeVec(Vec3d vecPlayer, Vec3d vecTarget) {
@@ -484,10 +484,10 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static boolean holdingBow() {
-        if (mc.player.getHeldItem() == null) {
+        if (mc.player.getMainHandStack() == null) {
             return false;
         }
-        return mc.player.getHeldItem().getItem() instanceof ItemBow;
+        return mc.player.getMainHandStack().getItem() instanceof ItemBow;
     }
 
     public static boolean bowBackwards() {
@@ -531,10 +531,10 @@ public class Utils implements IMinecraftInstance {
 
     public static void attackEntity(Entity e, boolean clientSwing, boolean silentSwing) {
         if (clientSwing) {
-            mc.player.swingItem();
+            mc.player.swingHand(Hand.MAIN_HAND);
         }
         else if (silentSwing || (!silentSwing && !clientSwing)) {
-            mc.player.sendQueue.addToSendQueue(new C0APacketAnimation());
+            mc.player.sendQueue.networkHandler.sendPacket(new C0APacketAnimation());
         }
         mc.interactionManager.attackEntity(mc.player, e);
     }
@@ -774,7 +774,7 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static boolean hasArrows(ItemStack stack) {
-        final boolean flag = mc.player.getAbilities().isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
+        final boolean flag = mc.player.getAbilities().creativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
         return flag || mc.player.inventory.hasItem(Items.arrow);
     }
 
@@ -976,7 +976,7 @@ public class Utils implements IMinecraftInstance {
                 float y = t[0];
                 float p = t[1] + 4.0F + offset;
                 if (sendPacket) {
-                    mc.getNetHandler().addToSendQueue(new C05PacketPlayerLook(y, p, mc.player.isOnGround()));
+                    mc.getNetHandler().networkHandler.sendPacket(new C05PacketPlayerLook(y, p, mc.player.isOnGround()));
                 }
                 else {
                     mc.player.setYaw(y);
@@ -1033,7 +1033,7 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static void switchSlot(final int slot, final boolean instant) {
-        mc.player.inventory.currentItem = slot;
+        mc.player.getInventory().selectedSlot = slot;
         if (instant) {
             ((IAccessorClientPlayerInteractionManager) mc.interactionManager).callSyncCurrentPlayItem();
         }
@@ -1295,7 +1295,7 @@ public class Utils implements IMinecraftInstance {
 
     public static boolean isClicking() {
         if (ModuleManager.autoClicker != null && ModuleManager.autoClicker.isEnabled()) {
-            return GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS;
+            return GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS;
         }
         else {
             return MouseHelper.f() > 1 && System.currentTimeMillis() - MouseHelper.LL < 300L;
@@ -1307,7 +1307,7 @@ public class Utils implements IMinecraftInstance {
      * Uses raw input for attack key (ignores AutoClicker's KeyBinding state).
      */
     public static boolean isMining() {
-        int keyCode = mc.options.keyBindAttack.getKeyCode();
+        int keyCode = mc.options.attackKey.getDefaultKey().getCode();
         if (keyCode == 0) return false;
         boolean attackDown = keyCode < 0 ? /* Mouse.isButtonDown */(keyCode + 100) : GLFW.glfwGetKey(keyCode);
         if (!attackDown) return false;
@@ -1490,18 +1490,18 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static boolean holdingWeapon(LivingEntity entityLivingBase) {
-        if (entityLivingBase.getHeldItem() == null) {
+        if (entityLivingBase.getMainHandStack() == null) {
             return false;
         }
-        Item getItem = entityLivingBase.getHeldItem().getItem();
+        Item getItem = entityLivingBase.getMainHandStack().getItem();
         return getItem instanceof ItemSword || (Settings.weaponAxe.isToggled() && getItem instanceof ItemAxe) || (Settings.weaponRod.isToggled() && getItem instanceof ItemFishingRod) || (Settings.weaponStick.isToggled() && getItem == Items.stick) || (Settings.weaponHoe.isToggled() && getItem instanceof ItemHoe) || (Settings.weaponShovel.isToggled() && getItem instanceof ItemSpade);
     }
 
     public static boolean holdingSword() {
-        if (mc.player.getHeldItem() == null) {
+        if (mc.player.getMainHandStack() == null) {
             return false;
         }
-        return mc.player.getHeldItem().getItem() instanceof ItemSword;
+        return mc.player.getMainHandStack().getItem() instanceof ItemSword;
     }
 
     public static double getDamageLevel(ItemStack itemStack) {
@@ -1539,7 +1539,7 @@ public class Utils implements IMinecraftInstance {
         if (block == null) {
             return false;
         }
-        if (BlockUtils.isInteractable(block) || block instanceof BlockSnow || block instanceof BlockWeb || block instanceof BlockSapling || block instanceof BlockDaylightDetector || block instanceof BlockBeacon || block instanceof BlockBanner || block instanceof BlockEndPortalFrame || block instanceof BlockEndPortal || block instanceof BlockLever || block instanceof BlockButton || block instanceof BlockSkull || block instanceof BlockLiquid || block instanceof BlockCactus || block instanceof BlockDoublePlant || block instanceof BlockLilyPad || block instanceof BlockCarpet || block instanceof BlockTripWire || block instanceof BlockTripWireHook || block instanceof BlockTallGrass || block instanceof BlockFlower || block instanceof BlockFlowerPot || block instanceof BlockSign || block instanceof BlockLadder || block instanceof BlockTorch || block instanceof BlockRedstoneTorch || block instanceof StairsBlock || block instanceof BlockSlab || block instanceof BlockFence || block instanceof BlockPane || block instanceof BlockStainedGlassPane || block instanceof BlockGravel || block instanceof BlockClay || block instanceof BlockSand || block instanceof BlockSoulSand || block instanceof BlockRailBase) {
+        if (BlockUtils.isInteractable(block) || block instanceof BlockSnow || block instanceof BlockWeb || block instanceof BlockSapling || block instanceof BlockDaylightDetector || block instanceof BlockBeacon || block instanceof BlockBanner || block instanceof BlockEndPortalFrame || block instanceof BlockEndPortal || block instanceof BlockLever || block instanceof BlockButton || block instanceof BlockSkull || block instanceof LiquidBlock || block instanceof BlockCactus || block instanceof BlockDoublePlant || block instanceof BlockLilyPad || block instanceof BlockCarpet || block instanceof BlockTripWire || block instanceof BlockTripWireHook || block instanceof BlockTallGrass || block instanceof BlockFlower || block instanceof BlockFlowerPot || block instanceof BlockSign || block instanceof BlockLadder || block instanceof BlockTorch || block instanceof BlockRedstoneTorch || block instanceof StairsBlock || block instanceof BlockSlab || block instanceof BlockFence || block instanceof BlockPane || block instanceof BlockStainedGlassPane || block instanceof BlockGravel || block instanceof BlockClay || block instanceof BlockSand || block instanceof BlockSoulSand || block instanceof BlockRailBase) {
             return false;
         }
         return true;
@@ -1563,7 +1563,7 @@ public class Utils implements IMinecraftInstance {
 
     public static ItemStack getSpoofedItem(ItemStack original) {
         if (ModuleManager.autoTool != null && ModuleManager.autoTool.isEnabled() && ModuleManager.autoTool.spoofItem.isToggled() && mc.player != null) {
-            return mc.player.inventory.getStackInSlot(ModuleManager.autoTool.previousSlot == -1 ? mc.player.inventory.currentItem : ModuleManager.autoTool.previousSlot);
+            return mc.player.inventory.getStackInSlot(ModuleManager.autoTool.previousSlot == -1 ? mc.player.getInventory().selectedSlot : ModuleManager.autoTool.previousSlot);
         }
         return original;
     }

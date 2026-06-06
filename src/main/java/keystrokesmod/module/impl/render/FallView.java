@@ -76,7 +76,7 @@ public class FallView extends Module {
         if (mc.currentScreen != null) {
             return;
         }
-        if (!Utils.nullCheck() || mc.player.getAbilities().isCreativeMode) {
+        if (!Utils.nullCheck() || mc.player.getAbilities().creativeMode) {
             return;
         }
         if (disableWhileFlying.isToggled() && mc.player.getAbilities().allowFlying) {

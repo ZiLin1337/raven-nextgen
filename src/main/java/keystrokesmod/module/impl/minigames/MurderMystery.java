@@ -104,8 +104,8 @@ public class MurderMystery extends Module {
                         if (AntiBot.isBot(en) && !highlightDead.isToggled()) {
                             continue;
                         }
-                        if (en.getHeldItem() != null) {
-                            ItemStack heldStack = en.getHeldItem();
+                        if (en.getMainHandStack() != null) {
+                            ItemStack heldStack = en.getMainHandStack();
                             Item heldItem = heldStack.getItem();
                             if (murderWeapons.matches(heldStack)) {
                                 if (!murderers.contains(en)) {

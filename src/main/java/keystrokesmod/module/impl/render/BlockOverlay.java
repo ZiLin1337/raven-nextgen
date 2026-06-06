@@ -165,7 +165,7 @@ public void onDrawBlockHighlight(DrawBlockHighlightEvent e) {
     }
 
     public static void renderBlockOutline(BlockPos pos, int outlineArgbStart, int outlineArgbEnd, float lineWidth, boolean depthless) {
-        MinecraftClient m = MinecraftClient.getInstance();
+        MinecraftClient m = mc;
         if (m.theWorld == null || pos == null) {
             return;
         }

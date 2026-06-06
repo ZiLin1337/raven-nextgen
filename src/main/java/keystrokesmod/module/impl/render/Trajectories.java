@@ -223,7 +223,7 @@ public class Trajectories extends Module {
                     }
 
                     double liquidSurfaceY = (double) ((float) (y + 1) -
-                            BlockLiquid.getLiquidHeightPercent((Integer) blockState.getValue(BlockLiquid.LEVEL)));
+                            LiquidBlock.getLiquidHeightPercent((Integer) blockState.getValue(LiquidBlock.LEVEL)));
 
                     if ((double) maxY >= liquidSurfaceY) {
                         inWater = true;
@@ -479,7 +479,7 @@ public class Trajectories extends Module {
     }
 
     private ItemStack getHeldProjectile(PlayerEntity player) {
-        ItemStack held = player.getHeldItem();
+        ItemStack held = player.getMainHandStack();
         if (held == null) return null;
         Item item = held.getItem();
         if (item == Items.ender_pearl || item == Items.snowball || item == Items.egg || item == Items.experience_bottle) {

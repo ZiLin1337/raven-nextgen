@@ -120,7 +120,7 @@ public class RoundedUtils {
         RenderUtils.setAlphaLimit(0);
         roundedOutlineShader.init();
 setupRoundedRectUniforms(x, y, width, height, radius, roundedOutlineShader);
-        roundedOutlineShader.setUniformf("outlineThickness", outlineThickness * MinecraftClient.getInstance().getWindow().getScaleFactor());
+        roundedOutlineShader.setUniformf("outlineThickness", outlineThickness * mc.getWindow().getScaleFactor());
         roundedOutlineShader.setUniformf("color", color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
         roundedOutlineShader.setUniformf("outlineColor", outlineColor.getRed() / 255f, outlineColor.getGreen() / 255f, outlineColor.getBlue() / 255f, outlineColor.getAlpha() / 255f);
 
@@ -144,10 +144,10 @@ setupRoundedRectUniforms(x, y, width, height, radius, roundedOutlineShader);
     }
 
     private static void setupRoundedRectUniforms(float x, float y, float width, float height, float radius, ShaderUtils roundedTexturedShader) {
-roundedTexturedShader.setUniformf("location", x * MinecraftClient.getInstance().getWindow().getScaleFactor(),
-                (MinecraftClient.getInstance().displayHeight - (height * MinecraftClient.getInstance().getWindow().getScaleFactor())) - (y * MinecraftClient.getInstance().getWindow().getScaleFactor()));
-        roundedTexturedShader.setUniformf("rectSize", width * MinecraftClient.getInstance().getWindow().getScaleFactor(), height * MinecraftClient.getInstance().getWindow().getScaleFactor());
-        roundedTexturedShader.setUniformf("radius", radius * MinecraftClient.getInstance().getWindow().getScaleFactor());
+roundedTexturedShader.setUniformf("location", x * mc.getWindow().getScaleFactor(),
+                (mc.displayHeight - (height * mc.getWindow().getScaleFactor())) - (y * mc.getWindow().getScaleFactor()));
+        roundedTexturedShader.setUniformf("rectSize", width * mc.getWindow().getScaleFactor(), height * mc.getWindow().getScaleFactor());
+        roundedTexturedShader.setUniformf("radius", radius * mc.getWindow().getScaleFactor());
     }
 
     public static void drawRoundedRectRise(final float x, final float y, final float width, final float height, final float radius, final int color, boolean leftTop, boolean rightTop, boolean rightBottom, boolean leftBottom) {

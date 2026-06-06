@@ -38,7 +38,7 @@ public final class UnifiedLagHandler extends AbstractFastTrackProvider {
     public @Nullable Vec3d getLastReleasedServerPosition() {
         return serverPosition;
     }public void onSendPacket(final @NotNull SendPacketEvent event) {
-        if (MinecraftClient.getInstance().getNetHandler() == null) {
+        if (mc.getNetHandler() == null) {
             queue.clear();
             clearServerPositions();
             return;
@@ -66,7 +66,7 @@ public final class UnifiedLagHandler extends AbstractFastTrackProvider {
 
     
     public void onReceivePacket(final @NotNull ReceivePacketEvent event) {
-        if (MinecraftClient.getInstance().getNetHandler() == null) {
+        if (mc.getNetHandler() == null) {
             queue.clear();
             clearServerPositions();
             return;
@@ -90,7 +90,7 @@ public final class UnifiedLagHandler extends AbstractFastTrackProvider {
 
     
     public void onGameTick(final @NotNull GameTickEvent event) {
-        if (MinecraftClient.getInstance().getNetHandler() == null) {
+        if (mc.getNetHandler() == null) {
             queue.clear();
             clearServerPositions();
             return;

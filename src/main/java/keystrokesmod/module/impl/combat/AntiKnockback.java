@@ -44,8 +44,8 @@ public class AntiKnockback extends Module {
             return;
         }
         if (e.getPacket() instanceof EntityVelocityUpdateS2CPacket) {
-            if (((EntityVelocityUpdateS2CPacket) e.getPacket()).getEntityID() == mc.player.getId() && !disable) {
-                if (!cancelBurning.isToggled() && mc.player.isBurning()) {
+            if (((EntityVelocityUpdateS2CPacket) e.getPacket()).getId() == mc.player.getId() && !disable) {
+                if (!cancelBurning.isToggled() && mc.player.isOnFire()) {
                     return;
                 }
                 if (disableInLobby.isToggled() && Utils.isLobby()) {
@@ -60,19 +60,19 @@ public class AntiKnockback extends Module {
                 }
                 EntityVelocityUpdateS2CPacket s12PacketEntityVelocity = (EntityVelocityUpdateS2CPacket) e.getPacket();
                 if (horizontal.getInput() == 0 && vertical.getInput() > 0) {
-                    mc.player.getVelocity().y = ((double) s12PacketEntityVelocity.getMotionY() / 8000) * vertical.getInput() / 100.0;
+                    mc.player.getVelocity().y = ((double) s12PacketEntityVelocity.velocityY / 8000) * vertical.getInput() / 100.0;
                 }
                 else if (horizontal.getInput() > 0 && vertical.getInput() == 0) {
-                    mc.player.getVelocity().x = ((double) s12PacketEntityVelocity.getMotionX() / 8000) * horizontal.getInput() / 100.0;
-                    mc.player.getVelocity().z = ((double) s12PacketEntityVelocity.getMotionZ() / 8000) * horizontal.getInput() / 100.0;
+                    mc.player.getVelocity().x = ((double) s12PacketEntityVelocity.velocityX / 8000) * horizontal.getInput() / 100.0;
+                    mc.player.getVelocity().z = ((double) s12PacketEntityVelocity.velocityZ / 8000) * horizontal.getInput() / 100.0;
                 }
                 else {
-                    mc.player.getVelocity().x = ((double) s12PacketEntityVelocity.getMotionX() / 8000) * horizontal.getInput() / 100.0;
-                    mc.player.getVelocity().y = ((double) s12PacketEntityVelocity.getMotionY() / 8000) * vertical.getInput() / 100.0;
-                    mc.player.getVelocity().z = ((double) s12PacketEntityVelocity.getMotionZ() / 8000) * horizontal.getInput() / 100.0;
+                    mc.player.getVelocity().x = ((double) s12PacketEntityVelocity.velocityX / 8000) * horizontal.getInput() / 100.0;
+                    mc.player.getVelocity().y = ((double) s12PacketEntityVelocity.velocityY / 8000) * vertical.getInput() / 100.0;
+                    mc.player.getVelocity().z = ((double) s12PacketEntityVelocity.velocityZ / 8000) * horizontal.getInput() / 100.0;
                 }
                 if (boostMultiplier.getInput() != 1) {
-                    if (boostWithLMB.isToggled() && !GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) {
+                    if (boostWithLMB.isToggled() && !GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) {
                         return;
                     }
                     Utils.setSpeed(Utils.getHorizontalSpeed() * boostMultiplier.getInput());
@@ -92,16 +92,16 @@ public class AntiKnockback extends Module {
             }
             ExplosionS2CPacket s27PacketExplosion = (ExplosionS2CPacket) e.getPacket();
             if (horizontal.getInput() == 0 && vertical.getInput() > 0) {
-                mc.player.getVelocity().y += s27PacketExplosion.func_149144_d() * vertical.getInput() / 100.0;
+                mc.player.getVelocity().y += s27PacketExplosion.velocityY * vertical.getInput() / 100.0;
             }
             else if (horizontal.getInput() > 0 && vertical.getInput() == 0) {
-                mc.player.getVelocity().x += s27PacketExplosion.func_149149_c() * horizontal.getInput() / 100.0;
-                mc.player.getVelocity().z += s27PacketExplosion.func_149147_e() * horizontal.getInput() / 100.0;
+                mc.player.getVelocity().x += s27PacketExplosion.velocityX * horizontal.getInput() / 100.0;
+                mc.player.getVelocity().z += s27PacketExplosion.velocityZ * horizontal.getInput() / 100.0;
             }
             else {
-                mc.player.getVelocity().x += s27PacketExplosion.func_149149_c() * horizontal.getInput() / 100.0;
-                mc.player.getVelocity().y += s27PacketExplosion.func_149144_d() * vertical.getInput() / 100.0;
-                mc.player.getVelocity().z += s27PacketExplosion.func_149147_e() * horizontal.getInput() / 100.0;
+                mc.player.getVelocity().x += s27PacketExplosion.velocityX * horizontal.getInput() / 100.0;
+                mc.player.getVelocity().y += s27PacketExplosion.velocityY * vertical.getInput() / 100.0;
+                mc.player.getVelocity().z += s27PacketExplosion.velocityZ * horizontal.getInput() / 100.0;
             }
         }
     }

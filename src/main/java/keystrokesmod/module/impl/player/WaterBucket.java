@@ -43,7 +43,7 @@ public class WaterBucket extends Module {
 
     
     public void onRenderWorld(Object e) {
-        if (!Utils.nullCheck() || mc.isGamePaused() || mc.player.getAbilities().isFlying || mc.player.getAbilities().isCreativeMode) {
+        if (!Utils.nullCheck() || mc.isGamePaused() || mc.player.getAbilities().isFlying || mc.player.getAbilities().creativeMode) {
             return;
         }
         if (!fallCheck()) {
@@ -57,7 +57,7 @@ public class WaterBucket extends Module {
         if (Utils.timeBetween(lastPlace, now) < PLACE_DELAY) {
             return;
         }
-        if (!isItem(mc.player.getHeldItem(), Items.water_bucket) && switchToItem.isToggled()) {
+        if (!isItem(mc.player.getMainHandStack(), Items.water_bucket) && switchToItem.isToggled()) {
             this.attemptSwitch();
         }
         if (!silentAim.isToggled() && mc.player.getPitch() < 80.0f) {
@@ -78,7 +78,7 @@ public class WaterBucket extends Module {
         if (mc.isGamePaused()) {
             return;
         }
-        if (shouldPickup && Utils.timeBetween(lastPlace, System.currentTimeMillis()) > PICKUP_WAIT && isItem(mc.player.getHeldItem(), Items.bucket)) {
+        if (shouldPickup && Utils.timeBetween(lastPlace, System.currentTimeMillis()) > PICKUP_WAIT && isItem(mc.player.getMainHandStack(), Items.bucket)) {
             shouldPickup = false;
             this.useCurrentItem();
             if (this.lastSlot != -1) {
@@ -102,7 +102,7 @@ public class WaterBucket extends Module {
     private void attemptSwitch() {
         int slot = getWaterBucketSlot();
         if (slot != -1) {
-            this.lastSlot = mc.player.inventory.currentItem;
+            this.lastSlot = mc.player.getInventory().selectedSlot;
             Utils.switchSlot(slot, true);
         }
     }
@@ -117,7 +117,7 @@ public class WaterBucket extends Module {
     }
 
     private void useCurrentItem() {
-        mc.getNetHandler().addToSendQueue(new PlayerInteractBlockC2SPacket(mc.player.getHeldItem()));
+        mc.getNetHandler().networkHandler.sendPacket(new PlayerInteractBlockC2SPacket(mc.player.getMainHandStack()));
     }
 
     private boolean isItem(ItemStack itemStack, Item item) {

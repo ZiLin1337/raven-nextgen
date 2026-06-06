@@ -268,7 +268,7 @@ public class ModuleComponent extends Component {
             titleRenderer.drawString(this.mod.getName(), textX, textY, button_rgb, true);
         }
         if (scissorRequired) {
-            MinecraftClient mc = MinecraftClient.getInstance();
+            MinecraftClient mc = mc;
             int scale = (int) mc.getWindow().getScaleFactor();
             double guiScale = ClickGui.getActiveRenderScale();
             float scrollOffset = this.categoryComponent.getModuleY() - this.categoryComponent.getY();
@@ -464,7 +464,7 @@ public class ModuleComponent extends Component {
                 }
                 if (progress > 0f && groupContentHeight > 0f) {
                     float revealHeight = groupContentHeight * progress;
-                    MinecraftClient mc = MinecraftClient.getInstance();
+                    MinecraftClient mc = mc;
                     int sf = (int) mc.getWindow().getScaleFactor();
                     double guiScale = ClickGui.getActiveRenderScale();
                     double screenH = mc.getWindow().getScaledHeight();

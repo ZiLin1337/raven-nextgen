@@ -23,7 +23,7 @@ import net.minecraft.text.Text;
 import java.awt.Color;
 
 public class HUD extends Module {
-    private static final MinecraftClient mc = MinecraftClient.getInstance();
+    private static final MinecraftClient mc = mc;
     private static final String[] COLOR_MODES = new String[] { "Static", "Gradient", "Rainbow" };
     private static final String[] WAVE_AXES = new String[] { "Vertical", "Horizontal" };
     private static final String[] VERTICAL_WAVE_DIRECTIONS = new String[] { "Down", "Up" };

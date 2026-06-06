@@ -139,7 +139,7 @@ public class FastPlace extends Module {
 
     private boolean canFastPlace(long now, boolean requireActivationDelay) {
         if (blocksOnly.isToggled()) {
-            ItemStack item = mc.player.getHeldItem();
+            ItemStack item = mc.player.getMainHandStack();
             if (item == null || !(item.getItem() instanceof ItemBlock)) {
                 return false;
             }
@@ -147,7 +147,7 @@ public class FastPlace extends Module {
         if (pitchCheck.isToggled() && mc.player.getPitch() < 70.0f) {
             return false;
         }
-        if (ignoredHeldItemsToggle.isToggled() && ignoredHeldItems.matches(mc.player.getHeldItem())) {
+        if (ignoredHeldItemsToggle.isToggled() && ignoredHeldItems.matches(mc.player.getMainHandStack())) {
             return false;
         }
         if (isBlockedHoverBlock()) {

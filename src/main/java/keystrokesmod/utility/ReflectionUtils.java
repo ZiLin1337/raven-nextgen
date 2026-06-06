@@ -41,7 +41,7 @@ public class ReflectionUtils {
     }
 
     public static void setKeyBindings() {
-        for (KeyBinding keyBind : MinecraftClient.getInstance().gameSettings.keyBindings) {
+        for (KeyBinding keyBind : mc.gameSettings.keyBindings) {
             String keyName = keyBind.getKeyDescription().replaceFirst("key\\.", "");
             keybinds.put(keyName, keyBind);
         }
@@ -79,7 +79,7 @@ public class ReflectionUtils {
     }
 
     public static boolean setItemInUse(boolean blocking) {
-        MinecraftClient mc = MinecraftClient.getInstance();
+        MinecraftClient mc = mc;
         if (mc.getItemRenderer() != null) {
             ((IMixinItemRenderer) mc.getItemRenderer()).setRenderItemInUse(blocking);
         }

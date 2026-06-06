@@ -149,7 +149,7 @@ public class AntiFireball extends Module {
             nextClickTime = now;
         }
 
-        int key = mc.options.keyBindAttack.getKeyCode();
+        int key = mc.options.attackKey.getDefaultKey().getCode();
         while (nextClickTime <= now) {
             InputUtil.setKeyPressed(key, true);
             KeyBinding.onTick(key);

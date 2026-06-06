@@ -1797,7 +1797,7 @@ public class InvManager extends Module {
 
     private void click(int slotId, int button, int mode) {
         inventoryActionPerformed = true;
-        mc.interactionManager.windowClick(mc.player.openContainer.windowId, slotId, button, mode, mc.player);
+        mc.interactionManager.clickSlot(mc.player.openContainer.windowId, slotId, button, mode, mc.player);
     }
 
     private boolean isManagedInventoryOpen() {

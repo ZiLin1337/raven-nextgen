@@ -164,9 +164,9 @@ public class LongJump extends Module {
             int fireballSlot = setupFireballSlot(true);
             if (fireballSlot != -1) {
                 if (!manual.isToggled()) {
-                    lastSlot = mc.player.inventory.currentItem;
-                    if (mc.player.inventory.currentItem != fireballSlot) {
-                        mc.player.inventory.currentItem = fireballSlot;
+                    lastSlot = mc.player.getInventory().selectedSlot;
+                    if (mc.player.getInventory().selectedSlot != fireballSlot) {
+                        mc.player.getInventory().selectedSlot = fireballSlot;
                     }
 
                 }
@@ -216,7 +216,7 @@ public class LongJump extends Module {
         }
 
         if (firstSlot != -1) {
-            mc.player.inventory.currentItem = firstSlot;
+            mc.player.getInventory().selectedSlot = firstSlot;
         }
     }public void onPreMotion(PreMotionEvent e) {
         if (!Utils.nullCheck()) {
@@ -243,10 +243,10 @@ public class LongJump extends Module {
             if (fireballSlot != -1) {
                 fireballTime = System.currentTimeMillis();
                 if (!manual.isToggled()) {
-                    mc.getNetHandler().addToSendQueue(new PlayerInteractBlockC2SPacket(mc.player.getHeldItem()));
+                    mc.getNetHandler().networkHandler.sendPacket(new PlayerInteractBlockC2SPacket(mc.player.getMainHandStack()));
                     //((IAccessorMinecraft) mc).callRightClickMouse();
                 }
-                mc.player.swingItem();
+                mc.player.swingHand(Hand.MAIN_HAND);
                 mc.getItemRenderer().resetEquippedProgress();
                 stopVelocity = true;
                 //Utils.sendMessage("Right click");
@@ -367,7 +367,7 @@ public class LongJump extends Module {
                 ((IMixinItemRenderer) mc.getItemRenderer()).setCancelUpdate(false);
                 ((IMixinItemRenderer) mc.getItemRenderer()).setCancelReset(false);
             }
-            mc.player.inventory.currentItem = lastSlot;
+            mc.player.getInventory().selectedSlot = lastSlot;
             lastSlot = -1;
             firstSlot = -1;
         }

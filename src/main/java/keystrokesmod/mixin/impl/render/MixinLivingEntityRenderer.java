@@ -55,7 +55,7 @@ public abstract class MixinLivingEntityRenderer<T extends LivingEntity> {
     private int raven$getOutlineColor(LivingEntity entity) {
         int i = 0xFFFFFF;
         boolean drawOutline = shouldRender()
-                && (entity != MinecraftClient.getInstance().player || ModuleManager.playerESP.renderSelf.isToggled());
+                && (entity != mc.player || ModuleManager.playerESP.renderSelf.isToggled());
         if (drawOutline && !AntiBot.isBot(entity)) {
             if (ModuleManager.playerESP.rainbow.isToggled()) {
                 i = Utils.getChroma(2L, 0L);

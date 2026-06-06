@@ -7,7 +7,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import java.awt.Color;
 
 public class Chams extends Module {
-    private static final MinecraftClient mc = MinecraftClient.getInstance();
+    private static final MinecraftClient mc = mc;
     private SliderSetting mode;
     private ColorSetting color;
     private ButtonSetting invisible;

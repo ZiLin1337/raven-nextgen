@@ -14,7 +14,7 @@ public final class BlockAnimationUtils {
     }
 
     public static void beginRender(PlayerEntity player) {
-        if (player == MinecraftClient.getInstance().thePlayer) {
+        if (player == mc.thePlayer) {
             if (renderingDepth++ == 0) {
                 renderingPlayer = player;
             }
@@ -36,7 +36,7 @@ public final class BlockAnimationUtils {
             return false;
         }
 
-        MinecraftClient mc = MinecraftClient.getInstance();
+        MinecraftClient mc = mc;
         return mc.getItemRenderer() != null && ((IMixinItemRenderer) mc.getItemRenderer()).isRenderItemInUse();
     }
 }

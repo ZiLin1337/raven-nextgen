@@ -41,7 +41,7 @@ public class Module {
         this.moduleCategory = moduleCategory;
         this.keycode = keycode;
         this.enabled = false;
-        mc = MinecraftClient.getInstance();
+        mc = mc;
         this.settings = new ArrayList();
     }
 

@@ -79,8 +79,8 @@ public class GhostHand extends Module {
         if (mc == null || mc.world == null || mc.player == null) return false;
         if (mc.getRenderViewEntity() == null) return false;
         if (notSword.isToggled() && Utils.holdingSword()) return false;
-        if (requireLmb.isToggled() && !GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) return false;
-        if (requireRmb.isToggled() && !GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS) return false;
+        if (requireLmb.isToggled() && !GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) return false;
+        if (requireRmb.isToggled() && !GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS) return false;
         return heldItemAllowed();
     }
 
@@ -159,7 +159,7 @@ public class GhostHand extends Module {
     }
 
     private boolean heldItemAllowed() {
-        ItemStack held = mc.player.getHeldItem();
+        ItemStack held = mc.player.getMainHandStack();
         switch (classify(held)) {
             case SWORD: return useSword.isToggled();
             case TOOL: return useTool.isToggled();

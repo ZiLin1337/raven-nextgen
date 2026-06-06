@@ -193,7 +193,7 @@ public class LagRange extends Module {
                 }
 
                 if (usedSplashPotion.isToggled() && mc.player.isUsingItem()) {
-                    ItemStack held = mc.player.getHeldItem();
+                    ItemStack held = mc.player.getMainHandStack();
                     if (held != null && held.getItem() instanceof ItemPotion && ItemPotion.isSplash(held.getMetadata())) {
                         flushLag();
                         lastDistSq = distSq;

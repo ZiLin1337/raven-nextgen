@@ -34,9 +34,9 @@ public class PacketsHandler implements IMinecraftInstance {
                 serverSlot.set(index);
             }
         }
-        else if (e.getPacket() instanceof S0CPacketSpawnPlayer && MinecraftClient.getInstance().thePlayer != null && handleSlots) {
+        else if (e.getPacket() instanceof S0CPacketSpawnPlayer && mc.thePlayer != null && handleSlots) {
             S0CPacketSpawnPlayer packet = (S0CPacketSpawnPlayer) e.getPacket();
-            if (packet.getEntityID() != MinecraftClient.getInstance().thePlayer.getId()) {
+            if (packet.getId() != mc.thePlayer.getId()) {
                 return;
             }
             playerSlot.set(-1);
