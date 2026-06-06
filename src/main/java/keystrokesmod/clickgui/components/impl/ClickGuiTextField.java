@@ -59,11 +59,11 @@ public class ClickGuiTextField {
     private long lastCursorTick;
     private boolean cursorVisible;
 
-    public ClickTextFieldWidget(String placeholder, int maxLength) {
+    public ClickGuiTextField(String placeholder, int maxLength) {
         this(placeholder, maxLength, DEFAULT_TEXT_SCALE);
     }
 
-    public ClickTextFieldWidget(String placeholder, int maxLength, float textScale) {
+    public ClickGuiTextField(String placeholder, int maxLength, float textScale) {
         this.placeholder = placeholder == null ? "" : placeholder;
         this.textScale = textScale;
         this.textField = new TextFieldWidget(
