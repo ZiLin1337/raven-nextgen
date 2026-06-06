@@ -44,7 +44,7 @@ public class ModuleManager {
     public static keystrokesmod.module.impl.other.NameHider nameHider;
     public static keystrokesmod.module.impl.render.AntiShuffle antiShuffle;
 
-    public void register() {
+    public static void register() {
         // Register modules
         addModule(sprint = new keystrokesmod.module.impl.movement.Sprint());
         addModule(noSlow = new keystrokesmod.module.impl.movement.NoSlow());
@@ -77,7 +77,7 @@ public class ModuleManager {
         modules.sort(Comparator.comparing(Module::getName));
     }
 
-    public void addModule(Module module) {
+    public static void addModule(Module module) {
         modules.add(module);
         modulesByName.put(module.getName(), module);
         modulesByNormalizedName.put(normalizeModuleName(module.getName()), module);

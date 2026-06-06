@@ -1,4 +1,5 @@
 package keystrokesmod.mixin.impl.render;
+import net.minecraft.client.render.WorldRenderer;
 
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.impl.render.Freelook;

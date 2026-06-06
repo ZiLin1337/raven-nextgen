@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.IdentityHashMap;
 import java.util.Set;
 
-import static net.minecraft.util.Direction.DOWN;
+import net.minecraft.util.math.Direction;
 
 public class PacketUtils implements IMinecraftInstance {
     private static final Set<Packet<?>> skipSendEvent = Collections.newSetFromMap(
