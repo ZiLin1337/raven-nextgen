@@ -12,7 +12,6 @@ import net.minecraft.item.ShearsItem;
 import net.minecraft.item.ShovelItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
-import net.minecraft.item.ToolItem;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;

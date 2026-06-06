@@ -12,11 +12,9 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockAir;
-
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.block.Blocks;
-import net.minecraft.item.EnumDyeColor;
+import net.minecraft.util.DyeColor;
 
 import net.minecraft.item.ItemStack;
 

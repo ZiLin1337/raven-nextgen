@@ -5,8 +5,8 @@ import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.DescriptionSetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
-import net.minecraft.client.gui.GuiChat;
-import net.minecraft.client.gui.inventory.GuiInventory;
+import net.minecraft.client.gui.screen.ChatScreen;
+import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 
 import net.minecraft.util.Identifier;
 

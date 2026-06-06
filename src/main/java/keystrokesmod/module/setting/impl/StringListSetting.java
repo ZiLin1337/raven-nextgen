@@ -1,4 +1,5 @@
 package keystrokesmod.module.setting.impl;
+import keystrokesmod.module.setting.Setting;
 
 import java.util.ArrayList;
 import java.util.List;

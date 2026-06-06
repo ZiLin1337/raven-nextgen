@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 // import com.mojang.authlib.GameProfile; // unused
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.ButtonSetting;
-
+import keystrokesmod.module.setting.impl.TextSetting;
 import keystrokesmod.utility.TextUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.client.network.PlayerListEntry;

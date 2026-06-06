@@ -6,8 +6,8 @@ import keystrokesmod.module.setting.impl.DescriptionSetting;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 
 import net.minecraft.entity.Entity;

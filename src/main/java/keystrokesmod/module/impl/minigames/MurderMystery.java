@@ -9,8 +9,7 @@ import keystrokesmod.utility.ItemSearchIndex;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Items;
@@ -18,7 +17,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.MathHelper;
 
 import org.lwjgl.opengl.GL11;
 

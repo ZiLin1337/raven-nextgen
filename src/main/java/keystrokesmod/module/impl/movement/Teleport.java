@@ -2,6 +2,7 @@ package keystrokesmod.module.impl.movement;
 
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.ButtonSetting;
+import keystrokesmod.event.ClickMouseEvent;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
@@ -85,7 +86,7 @@ public class Teleport extends Module {
     }
 
     
-    public void onMouse(MouseEvent mouseEvent) {
+    public void onMouse(ClickMouseEvent mouseEvent) {
         if (mouseEvent.button != 1 || !mouseEvent.buttonstate || !rightClick.isToggled() || !Utils.nullCheck()) {
             return;
         }

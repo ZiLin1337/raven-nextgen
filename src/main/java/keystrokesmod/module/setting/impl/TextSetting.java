@@ -1,5 +1,5 @@
 package keystrokesmod.module.setting.impl;
-
+import keystrokesmod.module.setting.Setting;
 public class TextSetting extends Setting {
     private String value;
     

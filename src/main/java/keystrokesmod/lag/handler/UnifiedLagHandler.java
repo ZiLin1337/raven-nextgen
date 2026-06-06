@@ -1,8 +1,8 @@
 package keystrokesmod.lag.handler;
-
 import net.minecraft.network.packet.Packet;
+import keystrokesmod.event.GameTickEvent;
 import keystrokesmod.event.ReceivePacketEvent;
-
+import keystrokesmod.event.SendPacketEvent;
 import keystrokesmod.lag.api.EnumLagDirection;
 import keystrokesmod.lag.api.LagRequest;
 import keystrokesmod.lag.queue.BiTrackLagNodeQueue;

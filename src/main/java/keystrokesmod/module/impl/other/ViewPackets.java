@@ -1,14 +1,13 @@
 package keystrokesmod.module.impl.other;
-
 import keystrokesmod.event.NoEventPacketEvent;
 import keystrokesmod.event.ReceivePacketEvent;
-
+import keystrokesmod.event.SendPacketEvent;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.utility.Utils;
 import net.minecraft.entity.Entity;
-import net.minecraft.event.HoverEvent;
-
+import net.minecraft.network.packet.Packet;
+import net.minecraft.text.HoverEvent;
 import net.minecraft.util.*;
 
 public class ViewPackets extends Module {

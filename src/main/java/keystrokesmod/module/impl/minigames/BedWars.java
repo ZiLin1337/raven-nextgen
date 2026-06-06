@@ -1,7 +1,7 @@
 package keystrokesmod.module.impl.minigames;
 
 import keystrokesmod.event.ReceivePacketEvent;
-
+import keystrokesmod.event.SendPacketEvent;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.impl.world.AntiBot;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -10,18 +10,13 @@ import keystrokesmod.utility.BlockUtils;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.BedBlock;
-import net.minecraft.block.BlockObsidian;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
-
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
-import net.minecraft.item.ItemEnderPearl;
-import net.minecraft.item.ItemFireball;
-import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
-
-import net.minecraft.network.play.server.S23PacketBlockChange;
+import net.minecraft.network.packet.s2c.play.BlockUpdateS2CPacket;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;

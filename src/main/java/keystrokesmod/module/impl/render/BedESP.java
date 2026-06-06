@@ -12,6 +12,7 @@ import keystrokesmod.utility.Utils;
 import java.awt.Color;
 import net.minecraft.block.Block;
 import net.minecraft.block.BedBlock;
+import net.minecraft.item.Item;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.client.font.TextRenderer;

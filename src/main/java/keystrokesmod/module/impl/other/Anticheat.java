@@ -10,14 +10,13 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.BlockUtils;
 import keystrokesmod.utility.PlayerData;
 import keystrokesmod.utility.Utils;
-import net.minecraft.block.BlockAir;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.event.ClickEvent;
-
+import net.minecraft.text.ClickEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.text.Text;
-import net.minecraft.util.ChatStyle;
+import net.minecraft.text.Style;
 
 import java.util.HashMap;
 import java.util.UUID;

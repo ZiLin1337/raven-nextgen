@@ -15,10 +15,14 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Items;
 import net.minecraft.item.Item;
-
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.server.S08PacketPlayerPosLook;
+import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
 import net.minecraft.util.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.hit.HitResult;
 
 import java.awt.*;
 import java.util.*;

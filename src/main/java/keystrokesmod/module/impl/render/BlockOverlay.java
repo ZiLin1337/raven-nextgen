@@ -1,5 +1,6 @@
 package keystrokesmod.module.impl.render;
 
+import keystrokesmod.event.DrawBlockHighlightEvent;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.ColorSetting;
@@ -9,15 +10,16 @@ import keystrokesmod.utility.BlockUtils;
 import keystrokesmod.utility.StairsUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
-
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.block.BlockDeadBush;
-import net.minecraft.block.BlockDoublePlant;
-import net.minecraft.block.BlockFlower;
-import net.minecraft.block.BlockTallGrass;
+import net.minecraft.block.DeadBushBlock;
+import net.minecraft.block.TallPlantBlock;
+import net.minecraft.block.FlowerBlock;
+import net.minecraft.block.TallGrassBlock;
 import net.minecraft.block.BlockState;
-
+import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.BufferBuilder;
+import net.minecraft.client.render.BufferRenderer;
+import net.minecraft.client.render.VertexFormats;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.Box;
@@ -262,24 +264,23 @@ public void onDrawBlockHighlight(DrawBlockHighlightEvent e) {
 
     private static void drawFace(Box box, Direction face, int os, int oe, int ls, int le, boolean overlay, boolean outline) {
         Tessellator ts = Tessellator.getInstance();
-        WorldRenderer wr = ts.getWorldRenderer();
         if (overlay) {
-            wr.begin(7, VertexFormats.POSITION_COLOR);
+            BufferBuilder wr = ts.begin(7, VertexFormats.POSITION_COLOR);
             addFaceVertices(wr, face, box, os, oe);
-            ts.draw();
+            BufferRenderer.drawWithGlobalProgram(wr.end());
         }
         if (outline) {
-            wr.begin(2, VertexFormats.POSITION_COLOR);
+            BufferBuilder wr = ts.begin(2, VertexFormats.POSITION_COLOR);
             addFaceVertices(wr, face, box, ls, le);
-            ts.draw();
+            BufferRenderer.drawWithGlobalProgram(wr.end());
         }
     }
 
-    private static void v(WorldRenderer wr, double x, double y, double z, int color) {
+    private static void v(BufferBuilder wr, double x, double y, double z, int color) {
         wr.pos(x, y, z).color((color >> 16) & 0xFF, (color >> 8) & 0xFF, color & 0xFF, (color >> 24) & 0xFF).endVertex();
     }
 
-    private static void addFaceVertices(WorldRenderer wr, Direction face, Box box, int start, int end) {
+    private static void addFaceVertices(BufferBuilder wr, Direction face, Box box, int start, int end) {
         switch (face) {
             case UP:
                 v(wr, box.minX, box.maxY, box.maxZ, start);

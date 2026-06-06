@@ -1,9 +1,11 @@
 package keystrokesmod;
 
 import net.fabricmc.api.ClientModInitializer;
-
 import net.minecraft.client.MinecraftClient;
 import keystrokesmod.clickgui.ClickGui;
+import keystrokesmod.command.CommandManager;
+import keystrokesmod.event.KeyPressEvent;
+import keystrokesmod.event.SendPacketEvent;
 import keystrokesmod.module.ModuleManager;
 import meteordevelopment.orbit.EventBus;
 import meteordevelopment.orbit.IEventBus;

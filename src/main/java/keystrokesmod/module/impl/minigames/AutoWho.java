@@ -5,7 +5,7 @@ import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.DescriptionSetting;
 import keystrokesmod.utility.Utils;
 import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.scoreboard.ScorePlayerTeam;
+import net.minecraft.scoreboard.Team;
 
 public class AutoWho extends Module {
     private ButtonSetting artifical;
