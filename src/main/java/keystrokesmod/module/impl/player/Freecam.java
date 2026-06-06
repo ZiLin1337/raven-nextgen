@@ -88,7 +88,7 @@ public class Freecam extends Module {
             mc.player.moveStrafing = 0.0F;
             freeEntity.setYaw(freeEntity.yawHead);
             freeEntity.yawHead = mc.player.getYaw();
-            freeEntity.setPitch(mc.player.getPitch();
+            freeEntity.setPitch(mc.player.getPitch());
             double s = 0.215D * speed.getInput();
             double rad;
             double dx;

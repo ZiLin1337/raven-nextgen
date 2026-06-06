@@ -121,7 +121,7 @@ public class AimAssist extends Module {
         boolean useBackup = ignoreBehindWalls.isToggled() || ignoreBehindEntities.isToggled();
         float[] rot = RotationHelper.get().getRotationsToTarget(en, speedVal, multipointH, multipointV, randomizationPercent, useBackup, range.getInput(), !ignoreBehindWalls.isToggled(), !ignoreBehindEntities.isToggled());
         if (rot == null) return;
-        mc.player.setYaw( rot[0];
+        mc.player.setYaw(rot[0]);
         mc.player.setPitch(rot[1]);
     }
 
