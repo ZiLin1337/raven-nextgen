@@ -10,7 +10,7 @@ import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import keystrokesmod.Raven;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.client.resources.DefaultPlayerSkin;
+import net.minecraft.client.texture.PlayerSkinProvider;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 

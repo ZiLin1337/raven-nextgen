@@ -20,7 +20,7 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.color.ColorConstants;
 import net.minecraft.block.*;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.inventory.GuiInventory;
+import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.render.ActiveRenderInfo;
 import net.minecraft.client.option.KeyBinding;

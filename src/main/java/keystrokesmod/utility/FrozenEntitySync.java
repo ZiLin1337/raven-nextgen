@@ -1,7 +1,7 @@
 package keystrokesmod.utility;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.entity.PlayerEntitySP;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 
 // TODO: Remove Forge packet imports

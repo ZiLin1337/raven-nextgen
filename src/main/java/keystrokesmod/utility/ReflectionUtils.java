@@ -3,9 +3,6 @@ package keystrokesmod.utility;
 import keystrokesmod.mixin.interfaces.IMixinItemRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.GuiEnchantment;
-import net.minecraft.client.gui.inventory.GuiBrewingStand;
-import net.minecraft.client.gui.inventory.GuiDispenser;
-import net.minecraft.client.gui.inventory.GuiFurnace;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.inventory.*;
 
