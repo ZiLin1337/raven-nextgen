@@ -111,7 +111,7 @@ public class FrozenEntitySync {
         player.lastTickPosZ = player.posZ;
         player.prevRotationYaw = player.getYaw();
         player.prevRotationPitch = player.getPitch();
-        player.prevRotationYawHead = player.getYaw()Head;
+        player.prevYawHead = player.yawHead;
         player.prevRenderYawOffset = player.renderYawOffset;
         player.prevLimbSwingAmount = player.limbSwingAmount;
         player.prevSwingProgress = player.swingProgress;

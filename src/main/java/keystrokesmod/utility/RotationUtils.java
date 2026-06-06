@@ -37,7 +37,7 @@ public class RotationUtils implements IMinecraftInstance {
     }
 
     public static void setRenderYaw(float yaw) {
-        mc.player.getYaw()Head = yaw;
+        mc.player.yawHead = yaw;
         if (Settings.rotateBody.isToggled() && Settings.fullBody.isToggled()) {
             mc.player.prevRenderYawOffset = prevRenderYaw;
             mc.player.renderYawOffset = yaw;

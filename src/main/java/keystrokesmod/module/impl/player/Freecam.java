@@ -43,11 +43,11 @@ public class Freecam extends Module {
         else {
             freeEntity = new OtherClientPlayerEntity(mc.world, mc.player.getGameProfile());
             freeEntity.copyLocationAndAnglesFrom(mc.player);
-            this.sAng[0] = freeEntity.getYaw()Head = mc.player.getYaw()Head;
+            this.sAng[0] = freeEntity.yawHead = mc.player.yawHead;
             this.sAng[1] = mc.player.getPitch();
             freeEntity.setVelocity(0.0D, 0.0D, 0.0D);
             freeEntity.setInvisible(true);
-            mc.world.addEntityToWorld(-8008, freeEntity);
+            mc.world.addEntity(-8008, freeEntity);
             mc.setRenderViewEntity(freeEntity);
         }
     }
@@ -56,9 +56,10 @@ public class Freecam extends Module {
     public void onDisable() {
         if (freeEntity != null) {
             mc.setRenderViewEntity(mc.player);
-            mc.player.getYaw() = mc.player.getYaw()Head = this.sAng[0];
-            mc.player.getPitch() = this.sAng[1];
-            mc.world.removeEntity(freeEntity);
+            mc.player.setYaw(this.sAng[0]);
+            mc.player.yawHead = this.sAng[0];
+            mc.player.setPitch(this.sAng[1]);
+            mc.world.remove(freeEntity);
             freeEntity = null;
         }
 
@@ -85,14 +86,15 @@ public class Freecam extends Module {
             mc.player.setSprinting(false);
             mc.player.moveForward = 0.0F;
             mc.player.moveStrafing = 0.0F;
-            freeEntity.getYaw() = freeEntity.getYaw()Head = mc.player.getYaw();
-            freeEntity.getPitch() = mc.player.getPitch();
+            freeEntity.setYaw(freeEntity.yawHead);
+            freeEntity.yawHead = mc.player.getYaw();
+            freeEntity.setPitch(mc.player.getPitch();
             double s = 0.215D * speed.getInput();
             double rad;
             double dx;
             double dz;
             if (Keyboard.isKeyDown(mc.options.keyBindForward.getKeyCode())) {
-                rad = (double) freeEntity.getYaw()Head * 0.017453292519943295D;
+                rad = (double) freeEntity.yawHead * 0.017453292519943295D;
                 dx = -1.0D * Math.sin(rad) * s;
                 dz = Math.cos(rad) * s;
                 freeEntity.posX += dx;
@@ -100,7 +102,7 @@ public class Freecam extends Module {
             }
 
             if (Keyboard.isKeyDown(mc.options.keyBindBack.getKeyCode())) {
-                rad = (double) freeEntity.getYaw()Head * 0.017453292519943295D;
+                rad = (double) freeEntity.yawHead * 0.017453292519943295D;
                 dx = -1.0D * Math.sin(rad) * s;
                 dz = Math.cos(rad) * s;
                 freeEntity.posX -= dx;
@@ -108,7 +110,7 @@ public class Freecam extends Module {
             }
 
             if (Keyboard.isKeyDown(mc.options.keyBindLeft.getKeyCode())) {
-                rad = (double) (freeEntity.getYaw()Head - 90.0F) * 0.017453292519943295D;
+                rad = (double) (freeEntity.yawHead - 90.0F) * 0.017453292519943295D;
                 dx = -1.0D * Math.sin(rad) * s;
                 dz = Math.cos(rad) * s;
                 freeEntity.posX += dx;
@@ -116,7 +118,7 @@ public class Freecam extends Module {
             }
 
             if (Keyboard.isKeyDown(mc.options.keyBindRight.getKeyCode())) {
-                rad = (double) (freeEntity.getYaw()Head + 90.0F) * 0.017453292519943295D;
+                rad = (double) (freeEntity.yawHead + 90.0F) * 0.017453292519943295D;
                 dx = -1.0D * Math.sin(rad) * s;
                 dz = Math.cos(rad) * s;
                 freeEntity.posX += dx;

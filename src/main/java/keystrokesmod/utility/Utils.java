@@ -979,8 +979,8 @@ public class Utils implements IMinecraftInstance {
                     mc.getNetHandler().addToSendQueue(new C05PacketPlayerLook(y, p, mc.player.isOnGround()));
                 }
                 else {
-                    mc.player.getYaw() = y;
-                    mc.player.getPitch() = p;
+                    mc.player.setYaw( y;
+                    mc.player.setPitch(p);
                 }
             }
 

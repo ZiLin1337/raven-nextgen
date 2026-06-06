@@ -78,7 +78,7 @@ public class ParticleEngine {
         while (it.hasNext()) {
             Particle p = it.next();
             p.update();
-            if (p.isRemoved()()) {
+            if (p.isRemoved()) {
                 it.remove();
             }
         }
