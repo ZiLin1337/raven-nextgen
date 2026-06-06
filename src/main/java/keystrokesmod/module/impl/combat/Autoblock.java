@@ -2,7 +2,7 @@ package keystrokesmod.module.impl.combat;
 
 import keystrokesmod.event.PreMotionEvent;
 import keystrokesmod.event.PrePlayerInputEvent;
-import keystrokesmod.event.SendPacketEvent;
+
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -29,7 +29,7 @@ import net.minecraft.util.Hand;
 
 /**
  * High combat protocol sword blocking (1.21.4).
- * In modern Minecraft, swords cannot block - only shields can.
+ * In modern MinecraftClient, swords cannot block - only shields can.
  * This module simulates sword blocking by using a shield in the offhand.
  * Inspired by LiquidBounce's SwordBlock + KillAuraAutoBlock.
  */

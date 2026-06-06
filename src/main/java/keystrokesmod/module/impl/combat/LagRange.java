@@ -2,7 +2,7 @@ package keystrokesmod.module.impl.combat;
 
 import keystrokesmod.Raven;
 import keystrokesmod.event.AttackEvent;
-import keystrokesmod.event.GameTickEvent;
+
 import keystrokesmod.event.PrePlayerInteractEvent;
 import keystrokesmod.lag.api.EnumLagDirection;
 import keystrokesmod.lag.api.LagRequest;
@@ -22,7 +22,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Vec3dd;
+import net.minecraft.util.math.Vec3d;
 
 import org.lwjgl.opengl.GL11;
 
@@ -261,7 +261,7 @@ public class LagRange extends Module {
     }
 
     
-    public void onRenderWorld(RenderWorldLastEvent e) {
+    public void onRenderWorld(/* RenderWorldLastEvent */ e) {
         if (!Utils.nullCheck()) return;
         if (!isLagging) {
             clearIndicatorInterp();

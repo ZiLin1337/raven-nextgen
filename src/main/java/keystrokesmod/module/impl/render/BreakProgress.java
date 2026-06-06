@@ -1,6 +1,6 @@
 package keystrokesmod.module.impl.render;
 
-import keystrokesmod.mixin.impl.accessor.IAccessorPlayerControllerMP;
+
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -34,7 +34,7 @@ public class BreakProgress extends Module {
         this.registerSetting(bedAura = new ButtonSetting("Show BedAura", true));
         this.registerSetting(fadeIn = new ButtonSetting("Fade in", false));
     }
-public void onRenderWorld(RenderWorldLastEvent e) {
+public void onRenderWorld(/* RenderWorldLastEvent */ e) {
         if (this.progress == 0.0f || this.block == null || !Utils.nullCheck()) {
             return;
         }

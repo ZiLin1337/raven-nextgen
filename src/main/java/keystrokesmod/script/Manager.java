@@ -4,7 +4,7 @@ import keystrokesmod.Raven;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.DescriptionSetting;
-import keystrokesmod.module.setting.impl.TextSetting;
+
 import keystrokesmod.script.model.Entity;
 import keystrokesmod.script.model.Image;
 import keystrokesmod.script.model.NetworkPlayer;

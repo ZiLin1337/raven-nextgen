@@ -1,11 +1,11 @@
 package keystrokesmod.utility;
 
 import keystrokesmod.event.ReceivePacketEvent;
-import keystrokesmod.event.SendPacketEvent;
+
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.C09PacketHeldItemChange;
+import net.minecraft.entity.player.PlayerInventory;
+
+
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -30,7 +30,7 @@ public class PacketsHandler implements IMinecraftInstance {
         if (e.getPacket() instanceof S09PacketHeldItemChange && handleSlots) {
             S09PacketHeldItemChange packet = (S09PacketHeldItemChange) e.getPacket();
             int index = packet.getHeldItemHotbarIndex();
-            if (index >= 0 && index < InventoryPlayer.getHotbarSize()) {
+            if (index >= 0 && index < PlayerInventory.getHotbarSize()) {
                 serverSlot.set(index);
             }
         }

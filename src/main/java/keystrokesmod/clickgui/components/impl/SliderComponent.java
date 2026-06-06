@@ -11,7 +11,7 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import keystrokesmod.utility.font.FontManager;
 import keystrokesmod.utility.font.RavenFontRenderer;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.Color;
@@ -249,7 +249,7 @@ public class SliderComponent extends Component {
 
     private void drawFontPreview(float labelX, float labelY, String valueText, String suffix) {
         String prefix = this.sliderSetting.getName() + ": ";
-        Minecraft mc = MinecraftClient.getInstance();
+        MinecraftClient mc = MinecraftClient.getInstance();
         mc.fontRendererObj.drawStringWithShadow(prefix, labelX, labelY, -1);
 
         RavenFontRenderer previewRenderer = FontManager.getClickGuiSettingRenderer(valueText);

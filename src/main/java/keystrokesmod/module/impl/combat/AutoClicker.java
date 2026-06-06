@@ -10,13 +10,13 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.Utils;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.LiquidBlock;
-import net.minecraft.client.gui.inventory.GuiContainer;
+
+
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 
 
-import net.minecraft.inventory.Slot;
+
 
 import java.lang.reflect.Field;
 import java.util.Random;
@@ -75,8 +75,8 @@ public class AutoClicker extends Module {
     }
 
     
-    public void onRenderTick(TickEvent.RenderTickEvent e) {
-        if (e.phase != TickEvent.Phase.END) {
+    public void onRenderTick(/* TickEvent */./* RenderTickEvent */ e) {
+        if (e.phase != /* TickEvent */.Phase.END) {
             return;
         }
         if (!inventory.isToggled()) {

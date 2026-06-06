@@ -6,7 +6,7 @@ import keystrokesmod.event.PrePlayerInteractEvent;
 import keystrokesmod.event.PreSlotScrollEvent;
 import keystrokesmod.event.SlotUpdateEvent;
 // import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
-import keystrokesmod.mixin.impl.accessor.IAccessorPlayerControllerMP;
+
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.impl.combat.KillAura;
@@ -22,7 +22,7 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BedBlock;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.*;
 
@@ -105,14 +105,14 @@ public class BedAura extends Module {
     }
 
     
-    public void onWorldJoin(EntityJoinWorldEvent e) {
+    public void onWorldJoin(/* EntityJoinWorldEvent */ e) {
         if (e.entity == mc.player) {
             resetSpawnTracking();
         }
     }
 
     
-    public void onChat(ClientChatReceivedEvent event) {
+    public void onChat(/* ClientChatReceivedEvent */ event) {
         if (!Utils.nullCheck()) {
             return;
         }
@@ -150,7 +150,7 @@ public class BedAura extends Module {
         }
         if (hasSwapped && overrideSwapBack.isToggled() && Utils.nullCheck()) {
             int slot = Integer.compare(e.slot, 0);
-            previousSlot = Math.floorMod(mc.player.inventory.currentItem - slot, InventoryPlayer.getHotbarSize());
+            previousSlot = Math.floorMod(mc.player.inventory.currentItem - slot, PlayerInventory.getHotbarSize());
         }
         e.setCanceled(true);
     }public void onSlotUpdate(SlotUpdateEvent e) {
@@ -288,7 +288,7 @@ public class BedAura extends Module {
     }
 
     
-    public void onRenderWorldLast(RenderWorldLastEvent e) {
+    public void onRenderWorldLast(/* RenderWorldLastEvent */ e) {
         if (!isEnabled() || !renderOutline.isToggled() || !miningActive || targetPos == null || !Utils.nullCheck() || !canMineBlocks()) {
             return;
         }
@@ -465,7 +465,7 @@ public class BedAura extends Module {
 
     private double scoreChoice(Choice ch, float curProg, BlockPos breaking) {
         Block block = BlockUtils.getBlock(ch.pos);
-        float bestHotbar = BlockUtils.maxDigRateAcrossSlots(block, InventoryPlayer.getHotbarSize());
+        float bestHotbar = BlockUtils.maxDigRateAcrossSlots(block, PlayerInventory.getHotbarSize());
         if (bestHotbar <= 0) {
             return Double.POSITIVE_INFINITY;
         }

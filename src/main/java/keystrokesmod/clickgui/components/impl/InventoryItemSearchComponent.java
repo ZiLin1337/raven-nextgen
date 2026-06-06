@@ -5,8 +5,8 @@ import keystrokesmod.module.setting.impl.InventoryItemListSetting;
 import keystrokesmod.utility.ItemSearchIndex;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.font.RavenFontRenderer;
-import net.minecraft.client.Minecraft;
-import org.lwjgl.input.Keyboard;
+import net.minecraft.client.MinecraftClient;
+// import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -173,7 +173,7 @@ public class InventoryItemSearchComponent extends AbstractItemSearchComponent<In
     }
 
     private int getHotbarSlotForKey(int keyCode) {
-        Minecraft mc = MinecraftClient.getInstance();
+        MinecraftClient mc = MinecraftClient.getInstance();
         for (int i = 0; i < mc.gameSettings.keyBindsHotbar.length; i++) {
             if (keyCode == mc.gameSettings.keyBindsHotbar[i].getKeyCode()) return i + 1;
         }

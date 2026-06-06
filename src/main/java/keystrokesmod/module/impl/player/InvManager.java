@@ -14,7 +14,7 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Items;
 import net.minecraft.inventory.ContainerChest;
@@ -24,7 +24,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemAppleGold;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemAxe;
-import net.minecraft.item.ItemBlock;
+
 import net.minecraft.item.ItemEgg;
 import net.minecraft.item.ItemEnderPearl;
 import net.minecraft.item.ItemPickaxe;
@@ -33,7 +33,7 @@ import net.minecraft.item.ItemSnowball;
 import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
-import net.minecraft.potion.PotionEffect;
+
 import net.minecraft.util.DamageSource;
 
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ import java.util.HashSet;
 import java.util.List;
 
 public class InvManager extends Module {
-    private static final int HOTBAR_SIZE = InventoryPlayer.getHotbarSize();
+    private static final int HOTBAR_SIZE = PlayerInventory.getHotbarSize();
     private static final double QUALITY_EPSILON = 1.0E-6D;
 
     private static final Comparator<PlannedAction> ACTION_COMPARATOR = (first, second) -> {

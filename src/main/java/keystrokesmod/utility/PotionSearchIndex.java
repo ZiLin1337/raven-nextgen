@@ -5,7 +5,7 @@ import net.minecraft.item.Items;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
+
 import net.minecraft.util.StatCollector;
 
 import java.util.ArrayList;

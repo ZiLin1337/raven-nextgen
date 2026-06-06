@@ -1,7 +1,7 @@
 package keystrokesmod.script.model;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.math.Vec3dd;
+import net.minecraft.util.math.Vec3d;
 
 public class Simulation {
     public static final MinecraftClient mc = MinecraftClient.getInstance();
@@ -18,7 +18,7 @@ public class Simulation {
     /**
      * Gets the motion of a simulated player after applying friction
      */
-    public static Vec3dd simulateMotion(Vec3dd motion, float strafe, float forward, float yaw, float friction) {
+    public static Vec3d simulateMotion(Vec3d motion, float strafe, float forward, float yaw, float friction) {
         float f = strafe * strafe + forward * forward;
         if (f >= 1.0E-4F) {
             f = Math.max(1.0f, (float) Math.sqrt(f));
@@ -35,7 +35,7 @@ public class Simulation {
     /**
      * Applies gravity to a motion vector
      */
-    public static Vec3dd applyGravity(Vec3dd motion, double gravity) {
+    public static Vec3d applyGravity(Vec3d motion, double gravity) {
         return motion.add(0, -gravity, 0);
     }
 

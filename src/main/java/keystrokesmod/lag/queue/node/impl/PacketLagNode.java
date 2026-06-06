@@ -3,7 +3,7 @@ package keystrokesmod.lag.queue.node.impl;
 import keystrokesmod.lag.api.EnumLagDirection;
 import keystrokesmod.lag.handler.AbstractFastTrackProvider;
 import keystrokesmod.lag.queue.node.api.AbstractLagNode;
-import net.minecraft.network.Packet;
+
 import org.jetbrains.annotations.NotNull;
 
 public final class PacketLagNode extends AbstractLagNode {

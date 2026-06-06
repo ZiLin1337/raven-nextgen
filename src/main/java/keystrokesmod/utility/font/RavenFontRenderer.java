@@ -62,7 +62,7 @@ public interface RavenFontRenderer {
 }
 
 /**
- * Implementation of RavenFontRenderer using Minecraft's built-in TextRenderer.
+ * Implementation of RavenFontRenderer using MinecraftClient's built-in TextRenderer.
  */
 class MinecraftFontAdapter implements RavenFontRenderer {
     private final MinecraftClient mc = MinecraftClient.getInstance();

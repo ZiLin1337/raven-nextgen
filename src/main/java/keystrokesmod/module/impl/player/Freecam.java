@@ -1,18 +1,18 @@
 package keystrokesmod.module.impl.player;
 
-import keystrokesmod.event.SendPacketEvent;
+
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
-import net.minecraft.network.play.client.C02PacketUseEntity;
-import net.minecraft.network.play.client.C07PacketPlayerDigging;
-import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+
+
+
 import net.minecraft.util.hit.HitResult;
 
-import org.lwjgl.input.Keyboard;
+// import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
 
@@ -148,7 +148,7 @@ public class Freecam extends Module {
     }
 
     
-    public void onRenderWorld(RenderWorldLastEvent e) {
+    public void onRenderWorld(/* RenderWorldLastEvent */ e) {
         if (!Utils.nullCheck()) {
             return;
         }

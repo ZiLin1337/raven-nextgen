@@ -65,7 +65,7 @@ public class DuelsStats extends Module {
     }
 
     
-    public void onMessageReceived(ClientChatReceivedEvent e) {
+    public void onMessageReceived(/* ClientChatReceivedEvent */ e) {
         if (Utils.nullCheck() && this.id()) {
             String s = Utils.stripColor(e.message.getUnformattedText());
             if (s.contains(" ")) {
@@ -91,7 +91,7 @@ public class DuelsStats extends Module {
     }
 
     
-    public void onEntityJoin(EntityJoinWorldEvent e) {
+    public void onEntityJoin(/* EntityJoinWorldEvent */ e) {
         if (e.entity == mc.player) {
             this.en = "";
             this.q.clear();

@@ -7,13 +7,13 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import net.minecraft.client.shader.Shader;
 import net.minecraft.client.shader.ShaderGroup;
 import net.minecraft.client.shader.ShaderUniform;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Identifier;
 
 import java.io.IOException;
 import java.util.List;
 
 public class Saturation extends Module {
-    private static final ResourceLocation SHADER_LOCATION = new ResourceLocation("minecraft:shaders/post/color_convolve.json");
+    private static final Identifier SHADER_LOCATION = new Identifier("minecraft:shaders/post/color_convolve.json");
 
     private SliderSetting saturationSlider;
     private float lastSaturation = 1.0f;

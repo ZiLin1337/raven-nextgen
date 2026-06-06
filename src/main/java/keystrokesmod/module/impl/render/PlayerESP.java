@@ -2,7 +2,7 @@ package keystrokesmod.module.impl.render;
 
 import keystrokesmod.Raven;
 // import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
-import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
+import keystrokesmod.mixin.impl.accessor.IAccessorMinecraftClient;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.impl.client.Settings;
@@ -19,7 +19,7 @@ import keystrokesmod.utility.shader.OutlineShader;
 
 
 
-import net.minecraft.client.model.ModelBiped;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -108,8 +108,8 @@ public class PlayerESP extends Module {
     }
 
     
-    public void onClientTick(TickEvent.ClientTickEvent event) {
-        if (event.phase != TickEvent.Phase.END) {
+    public void onClientTick(/* TickEvent */./* ClientTickEvent */ event) {
+        if (event.phase != /* TickEvent */.Phase.END) {
             return;
         }
 
@@ -122,7 +122,7 @@ public class PlayerESP extends Module {
     }
 
     
-    public void onRenderPlayerEvent(RenderPlayerEvent.Post e) {
+    public void onRenderPlayerEvent(/* RenderPlayerEvent */.Post e) {
         if (!skeleton.isToggled() || e.entityPlayer == null || !Utils.nullCheck()) {
             return;
         }
@@ -134,7 +134,7 @@ public class PlayerESP extends Module {
 
         this.renderSkeleton(e.entityPlayer, e.renderer.getMainModel(), resolveBaseRenderColor(renderState), e.partialRenderTick);
     }
-public void onRenderWorld(RenderWorldLastEvent e) {
+public void onRenderWorld(/* RenderWorldLastEvent */ e) {
         this.visibleRenderStateCount = 0;
         if (!Utils.nullCheck()) {
             return;
@@ -161,7 +161,7 @@ public void onRenderWorld(RenderWorldLastEvent e) {
                 addVisibleRenderState(renderState);
             }
         }
-    }public void onRenderTwo2D(RenderWorldLastEvent e) {
+    }public void onRenderTwo2D(/* RenderWorldLastEvent */ e) {
         if (!Utils.nullCheck() || visibleRenderStateCount == 0) {
             return;
         }

@@ -17,7 +17,7 @@ public class DebugHelper {
     }
 
     public static String getMinecraftInfo() {
-        return "Minecraft " + Util.getVersionType();
+        return "MinecraftClient " + Util.getVersionType();
     }
 
     public static String getJavaInfo() {

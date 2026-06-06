@@ -6,7 +6,7 @@ import keystrokesmod.lag.handler.AbstractFastTrackProvider;
 import keystrokesmod.lag.queue.node.api.AbstractLagNode;
 import keystrokesmod.lag.queue.node.impl.AddRequestLagNode;
 import keystrokesmod.lag.queue.node.impl.PacketLagNode;
-import net.minecraft.network.Packet;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

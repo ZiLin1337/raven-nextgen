@@ -2,7 +2,7 @@ package keystrokesmod.script.model;
 
 import keystrokesmod.script.ScriptDefaults;
 import keystrokesmod.utility.NetworkUtils;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 
 import java.awt.image.BufferedImage;
 import java.util.HashMap;

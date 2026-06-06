@@ -3,7 +3,7 @@ package keystrokesmod.mixin.impl.network;
 import keystrokesmod.Raven;
 import keystrokesmod.event.DispatchPacketEvent;
 import keystrokesmod.event.ReceivePacketEvent;
-import keystrokesmod.event.SendPacketEvent;
+
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.packet.Packet;

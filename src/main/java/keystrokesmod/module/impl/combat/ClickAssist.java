@@ -7,7 +7,7 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.helper.MouseHelper;
 import keystrokesmod.utility.Utils;
 
-import net.minecraft.item.ItemBlock;
+
 import net.minecraft.item.ItemStack;
 
 

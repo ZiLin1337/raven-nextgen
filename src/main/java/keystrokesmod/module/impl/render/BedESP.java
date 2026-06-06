@@ -17,7 +17,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.font.TextRenderer;
 
 
-import net.minecraft.client.render.Tessellator;
+
 import net.minecraft.client.render.BufferBuilder;
 
 import net.minecraft.client.texture.Sprite;

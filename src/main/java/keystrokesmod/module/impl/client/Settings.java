@@ -7,8 +7,8 @@ import keystrokesmod.module.setting.impl.DescriptionSetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.util.ResourceLocation;
+
+import net.minecraft.util.Identifier;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -42,7 +42,7 @@ public class Settings extends Module {
 
     private String[] capes = new String[] { "None", "Anime", "Aqua", "Green", "Purple", "Red", "White", "Yellow" };
 
-    public static List<ResourceLocation> loadedCapes = new ArrayList<>();
+    public static List<Identifier> loadedCapes = new ArrayList<>();
 
     public Settings() {
         super("Settings", category.client, 0);

@@ -19,7 +19,7 @@ public class ReflectionUtils {
     public static Field buttonstate;
     public static Field buttons;
 
-    public static HashMap<Class, Field> containerInventoryPlayer = new HashMap<>();
+    public static HashMap<Class, Field> containerPlayerInventory = new HashMap<>();
 
     private static List<Class> containerClasses = Arrays.asList(GuiFurnace.class, GuiBrewingStand.class, GuiEnchantment.class, ContainerHopper.class, GuiDispenser.class, ContainerWorkbench.class, ContainerMerchant.class, ContainerHorseInventory.class);
 
@@ -80,7 +80,7 @@ public class ReflectionUtils {
             return;
         }
         field.setAccessible(true);
-        containerInventoryPlayer.put(clazz, field);
+        containerPlayerInventory.put(clazz, field);
     }
 
     public static boolean setItemInUse(boolean blocking) {

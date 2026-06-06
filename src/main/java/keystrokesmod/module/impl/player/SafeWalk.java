@@ -6,10 +6,10 @@ import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.Utils;
-import net.minecraft.item.ItemBlock;
+
 import net.minecraft.item.ItemStack;
 
-import org.lwjgl.input.Keyboard;
+// import org.lwjgl.input.Keyboard;
 
 public class SafeWalk extends Module {
     private SliderSetting sneakDelay;

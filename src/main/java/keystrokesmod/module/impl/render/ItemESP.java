@@ -39,15 +39,15 @@ public class ItemESP extends Module {
     }
 
     
-    public void onClientTick(TickEvent.ClientTickEvent event) {
-        if (event.phase != TickEvent.Phase.END) {
+    public void onClientTick(/* TickEvent */./* ClientTickEvent */ event) {
+        if (event.phase != /* TickEvent */.Phase.END) {
             return;
         }
         updateRenderStates();
     }
 
     
-    public void onRenderWorldLast(RenderWorldLastEvent e) {
+    public void onRenderWorldLast(/* RenderWorldLastEvent */ e) {
         if (!Utils.nullCheck() || renderStateCount == 0) {
             return;
         }

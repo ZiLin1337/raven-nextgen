@@ -3,7 +3,7 @@ package keystrokesmod.utility;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.entity.PlayerEntitySP;
 import net.minecraft.entity.Entity;
-import net.minecraft.network.Packet;
+
 import net.minecraft.network.play.server.*;
 
 import java.util.Queue;
@@ -92,7 +92,7 @@ public class FrozenEntitySync {
         }
 
         float frozenPartial = (float) (frozenTickAccumulator / (double) TICK_NANOS);
-        net.minecraft.util.Timer timer = ((keystrokesmod.mixin.impl.accessor.IAccessorMinecraft) mc).getTimer();
+        net.minecraft.util.Timer timer = ((keystrokesmod.mixin.impl.accessor.IAccessorMinecraftClient) mc).getTimer();
         timer.renderPartialTicks = frozenPartial;
 
         snapLocalPlayerInterpolation(mc.player);

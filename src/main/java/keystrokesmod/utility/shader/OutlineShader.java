@@ -1,6 +1,6 @@
 package keystrokesmod.utility.shader;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import org.lwjgl.opengl.GL20;
 
 public class OutlineShader extends OutlineESPShader {
@@ -37,7 +37,7 @@ public class OutlineShader extends OutlineESPShader {
         if (u >= 0) GL20.glUniform1i(u, 0);
         u = uniform("texelSize");
         if (u >= 0) {
-            Minecraft mc = MinecraftClient.getInstance();
+            MinecraftClient mc = MinecraftClient.getInstance();
             GL20.glUniform2f(u, 1.0f / mc.displayWidth, 1.0f / mc.displayHeight);
         }
         u = uniform("kernel");

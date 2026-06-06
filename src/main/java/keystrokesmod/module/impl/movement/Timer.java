@@ -1,6 +1,6 @@
 package keystrokesmod.module.impl.movement;
 
-import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
+import keystrokesmod.mixin.impl.accessor.IAccessorMinecraftClient;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.Utils;
@@ -43,7 +43,7 @@ public class Timer extends Module {
 
         float configuredSpeed = (float) speed.getInput();
         if (configuredSpeed > 0.0F) {
-            ((IAccessorMinecraft) mc).getTimer().timerSpeed = configuredSpeed;
+            ((IAccessorMinecraftClient) mc).getTimer().timerSpeed = configuredSpeed;
         } else {
             // 0-speed mode uses local update skipping in MixinPlayerEntitySP.
             // Keep global timer at normal speed so world/entities continue updating.

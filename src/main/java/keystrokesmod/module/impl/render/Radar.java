@@ -33,8 +33,8 @@ public class Radar extends Module {
     }
 
     
-    public void onRenderTick(TickEvent.RenderTickEvent e) {
-        if (e.phase != TickEvent.Phase.END || !Utils.nullCheck()) {
+    public void onRenderTick(/* TickEvent */./* RenderTickEvent */ e) {
+        if (e.phase != /* TickEvent */.Phase.END || !Utils.nullCheck()) {
             return;
         }
         if (mc.currentScreen instanceof ClickGui) {

@@ -1,6 +1,6 @@
 package keystrokesmod.utility.font;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
@@ -445,7 +445,7 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
     }
 
     private static float resolveRenderScale() {
-        Minecraft mc = MinecraftClient.getInstance();
+        MinecraftClient mc = MinecraftClient.getInstance();
         int uiScale = 1;
 
         try {

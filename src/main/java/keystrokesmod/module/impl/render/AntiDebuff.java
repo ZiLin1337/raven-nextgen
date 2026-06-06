@@ -1,6 +1,6 @@
 package keystrokesmod.module.impl.render;
 
-import keystrokesmod.event.Render2DEvent;
+
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.*;
 import keystrokesmod.utility.Utils;

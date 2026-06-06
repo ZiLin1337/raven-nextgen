@@ -5,10 +5,10 @@ import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
-import net.minecraft.network.play.client.C03PacketPlayer;
+
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.Vec3dd;
+import net.minecraft.util.math.Vec3d;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -53,7 +53,7 @@ public class Teleport extends Module {
     }
 
     
-    public void onRenderWorld(RenderWorldLastEvent e) {
+    public void onRenderWorld(/* RenderWorldLastEvent */ e) {
         if (!rightClick.isToggled() || !highlightTarget.isToggled() || this.targetPos == null || !Utils.nullCheck()) {
             return;
         }

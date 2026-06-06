@@ -1,7 +1,7 @@
 package keystrokesmod.module.impl.minigames;
 
 import keystrokesmod.event.PreUpdateEvent;
-import keystrokesmod.event.SendPacketEvent;
+
 import keystrokesmod.event.UseItemEvent;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
@@ -15,9 +15,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemEnderPearl;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3dd;
+import net.minecraft.util.math.Vec3d;
 
 import java.awt.*;
 import java.util.*;
@@ -80,7 +80,7 @@ public class SkyWars extends Module {
     }
 
     
-    public void onChat(ClientChatReceivedEvent e) {
+    public void onChat(/* ClientChatReceivedEvent */ e) {
         if (e.type == 2 || !Utils.nullCheck()) {
             return;
         }
@@ -117,7 +117,7 @@ public class SkyWars extends Module {
     }
 
     
-    public void onRenderWorld(RenderWorldLastEvent e) {
+    public void onRenderWorld(/* RenderWorldLastEvent */ e) {
         if (!Utils.nullCheck() || Utils.getSkyWarsStatus() != 2) {
             return;
         }
@@ -149,7 +149,7 @@ public class SkyWars extends Module {
     }
 
     
-    public void onWorldJoin(EntityJoinWorldEvent e) {
+    public void onWorldJoin(/* EntityJoinWorldEvent */ e) {
         if (e.entity == mc.player) {
             clear();
         }

@@ -1,15 +1,15 @@
 package keystrokesmod.lag.handler;
 
-import keystrokesmod.event.GameTickEvent;
+
 import keystrokesmod.event.ReceivePacketEvent;
-import keystrokesmod.event.SendPacketEvent;
+
 import keystrokesmod.lag.api.EnumLagDirection;
 import keystrokesmod.lag.api.LagRequest;
 import keystrokesmod.lag.queue.BiTrackLagNodeQueue;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.C03PacketPlayer;
-import net.minecraft.util.math.Vec3dd;
+
+
+import net.minecraft.util.math.Vec3d;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

@@ -3,7 +3,7 @@ package keystrokesmod.module.impl.player;
 import java.util.Set;
 
 import keystrokesmod.Raven;
-import keystrokesmod.event.GameTickEvent;
+
 import keystrokesmod.lag.api.EnumLagDirection;
 import keystrokesmod.lag.api.LagRequest;
 import keystrokesmod.lag.timeout.ModuleBackedTimeout;
@@ -123,8 +123,8 @@ public class FakeLag extends Module {
     }
 
     
-    public void onTick(TickEvent.ClientTickEvent e) {
-        if (e.phase != TickEvent.Phase.END) {
+    public void onTick(/* TickEvent */./* ClientTickEvent */ e) {
+        if (e.phase != /* TickEvent */.Phase.END) {
             return;
         }
         if (mc.world == null && isEnabled()) {

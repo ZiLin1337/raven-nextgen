@@ -3,7 +3,7 @@ package keystrokesmod.clickgui.components.impl;
 import keystrokesmod.module.impl.client.Gui;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.font.RavenFontRenderer;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.GuiTextField;
 import org.lwjgl.opengl.GL11;
 

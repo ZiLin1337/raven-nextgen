@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MinecraftClient.class)
-public class MixinMinecraft {
+public class MixinMinecraftClient {
     @Inject(method = "run", at = @At("HEAD"))
     private void onRun(CallbackInfo ci) {
         // Raven初始化

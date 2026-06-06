@@ -12,7 +12,7 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.Vec3dd;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 
@@ -126,8 +126,8 @@ public class HitParticles extends Module {
     }
 
     
-    public void onClientTick(TickEvent.ClientTickEvent event) {
-        if (!isEnabled() || !onRanged.isToggled() || event.phase != TickEvent.Phase.END || !Utils.nullCheck()) {
+    public void onClientTick(/* TickEvent */./* ClientTickEvent */ event) {
+        if (!isEnabled() || !onRanged.isToggled() || event.phase != /* TickEvent */.Phase.END || !Utils.nullCheck()) {
             return;
         }
 

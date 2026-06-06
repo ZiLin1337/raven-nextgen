@@ -1,7 +1,7 @@
 package keystrokesmod.module.impl.combat;
 
 import keystrokesmod.event.PreMotionEvent;
-import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
+import keystrokesmod.mixin.impl.accessor.IAccessorMinecraftClient;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.impl.world.AntiBot;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -72,7 +72,7 @@ public class RodAimbot extends Module {
                 rotate = false;
             }
             if (rightClick) {
-                ((IAccessorMinecraft) mc).callRightClickMouse();
+                ((IAccessorMinecraftClient) mc).callRightClickMouse();
                 rightClick = false;
             }
         }

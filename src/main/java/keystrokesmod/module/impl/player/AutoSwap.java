@@ -1,16 +1,16 @@
 package keystrokesmod.module.impl.player;
 
 import keystrokesmod.event.PrePlayerInteractEvent;
-import keystrokesmod.event.SendPacketEvent;
-import keystrokesmod.mixin.impl.accessor.IAccessorPlayerControllerMP;
+
+
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.BlockListSetting;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemBlock;
+
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+
 
 public class AutoSwap extends Module {
     private final ButtonSetting useBlockWhitelist;

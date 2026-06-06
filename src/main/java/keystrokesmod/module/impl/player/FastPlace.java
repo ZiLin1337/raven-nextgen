@@ -1,8 +1,8 @@
 package keystrokesmod.module.impl.player;
 
-import keystrokesmod.event.RightClickDelayTickEvent;
-import keystrokesmod.event.SendPacketEvent;
-import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
+
+
+import keystrokesmod.mixin.impl.accessor.IAccessorMinecraftClient;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.BlockListSetting;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -11,9 +11,9 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import keystrokesmod.utility.Utils;
-import net.minecraft.item.ItemBlock;
+
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.hit.HitResult;
 
@@ -74,14 +74,14 @@ public class FastPlace extends Module {
 
         int delay = (int) tickDelay.getInput();
         if (delay == 0) {
-            ((IAccessorMinecraft) mc).setRightClickDelayTimer(0);
+            ((IAccessorMinecraftClient) mc).setRightClickDelayTimer(0);
         }
         else {
             if (delay == 4) {
                 return;
             }
-            if (((IAccessorMinecraft) mc).getRightClickDelayTimer() > delay) {
-                ((IAccessorMinecraft) mc).setRightClickDelayTimer(delay);
+            if (((IAccessorMinecraftClient) mc).getRightClickDelayTimer() > delay) {
+                ((IAccessorMinecraftClient) mc).setRightClickDelayTimer(delay);
             }
         }
     }

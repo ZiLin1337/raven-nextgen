@@ -16,14 +16,14 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.monster.GiantEntity;
-import net.minecraft.entity.monster.IronGolemEntity;
-import net.minecraft.entity.monster.ZombieEntity;
-import net.minecraft.entity.monster.SilverfishEntity;
+
+
+
+
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.Vec3dd;
+import net.minecraft.util.math.Vec3d;
 
 
 
@@ -206,7 +206,7 @@ public class KillAura extends Module {
     }
 
     
-    public void onWorldJoin(EntityJoinWorldEvent e) {
+    public void onWorldJoin(/* EntityJoinWorldEvent */ e) {
         if (e.entity == mc.player) {
             hitMap.clear();
             hostileMobs.clear();

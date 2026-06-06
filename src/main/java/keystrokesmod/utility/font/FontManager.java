@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
 public final class FontManager {
-    private static final String MINECRAFT = "Minecraft";
+    private static final String MINECRAFT = "MinecraftClient";
     private static final String RESOURCE_ROOT = "/assets/keystrokesmod/fonts/";
     /** Large enough that HUD font-size drags + clickgui + nametags do not evict active renderers every frame. */
     private static final int MAX_CACHED_RENDERERS = 512;

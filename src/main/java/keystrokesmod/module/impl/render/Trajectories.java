@@ -9,7 +9,7 @@ import keystrokesmod.utility.BlockUtils;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
-import net.minecraft.block.LiquidBlock;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.block.BlockState;
 
@@ -500,7 +500,7 @@ public class Trajectories extends Module {
     }
 
     
-    public void onRenderWorld(RenderWorldLastEvent e) {
+    public void onRenderWorld(/* RenderWorldLastEvent */ e) {
         if (!Utils.nullCheck() || mc.world == null) {
             return;
         }

@@ -14,7 +14,7 @@ import net.minecraft.block.BlockAir;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.event.ClickEvent;
-import net.minecraft.item.ItemBlock;
+
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
@@ -134,7 +134,7 @@ public class Anticheat extends Module {
     }
 
     
-    public void onEntityJoin(EntityJoinWorldEvent e) {
+    public void onEntityJoin(/* EntityJoinWorldEvent */ e) {
         if (e.entity == mc.player) {
             players.clear();
             flags.clear();

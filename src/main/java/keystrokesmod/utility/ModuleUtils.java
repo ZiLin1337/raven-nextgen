@@ -8,8 +8,8 @@ import keystrokesmod.module.impl.render.HUD;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import keystrokesmod.module.ModuleManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.*;
+
+
 
 import net.minecraft.util.math.BlockPos;
 
@@ -311,7 +311,7 @@ public class ModuleUtils implements IMinecraftInstance {
         didSlow = false;
         canSlow = true;
     }
-public void onRenderWorld(RenderWorldLastEvent e) {
+public void onRenderWorld(/* RenderWorldLastEvent */ e) {
         if (!Utils.nullCheck()) {
             return;
         }

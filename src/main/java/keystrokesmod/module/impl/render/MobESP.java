@@ -1,7 +1,7 @@
 package keystrokesmod.module.impl.render;
 
 // import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
-import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
+import keystrokesmod.mixin.impl.accessor.IAccessorMinecraftClient;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -16,13 +16,13 @@ import keystrokesmod.utility.shader.OutlineShader;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.boss.EntityDragon;
-import net.minecraft.entity.boss.EntityWither;
-import net.minecraft.entity.monster.*;
+// import net.minecraft.entity.boss.EntityDragon;
+// import net.minecraft.entity.boss.EntityWither;
+
 import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Vec3dd;
+import net.minecraft.util.math.Vec3d;
 
 
 
@@ -218,7 +218,7 @@ public class MobESP extends Module {
             return false;
         }
         return resolveEntry(entity) != null;
-    }public void onRenderWorldLast(RenderWorldLastEvent e) {
+    }public void onRenderWorldLast(/* RenderWorldLastEvent */ e) {
         this.renderAsTwoD.clear();
         if (!Utils.nullCheck() || !this.isEnabled()) {
             return;
@@ -246,7 +246,7 @@ public class MobESP extends Module {
             this.renderAsTwoD.put(living, rgb);
             this.render(living, rgb);
         }
-    }public void onRenderWorldLast2D(RenderWorldLastEvent e) {
+    }public void onRenderWorldLast2D(/* RenderWorldLastEvent */ e) {
         if (!Utils.nullCheck() || !this.isEnabled()) {
             return;
         }
@@ -346,7 +346,7 @@ public class MobESP extends Module {
         if (!RenderUtils.isInViewFrustum(en)) {
             return;
         }
-        ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(((IAccessorMinecraft) mc).getTimer().renderPartialTicks, 0);
+        ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(((IAccessorMinecraftClient) mc).getTimer().renderPartialTicks, 0);
 
         double playerX = en.lastTickPosX + (en.posX - en.lastTickPosX) * partialTicks - mc.getEntityRenderDispatcher().viewerPosX;
         double playerY = en.lastTickPosY + (en.posY - en.lastTickPosY) * partialTicks - mc.getEntityRenderDispatcher().viewerPosY;

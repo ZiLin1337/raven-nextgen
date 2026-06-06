@@ -7,7 +7,7 @@ import net.minecraft.network.packet.c2s.play.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.Vec3dd;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.Hand;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerAbilities;
@@ -58,7 +58,7 @@ public class PacketHandler {
     public static CPacket createInteractBlock(BlockPos pos, Direction direction, float hitX, float hitY, float hitZ) {
         return new CPacket(new PlayerInteractBlockC2SPacket(
             mc.player != null ? mc.player.getActiveHand() : Hand.MAIN_HAND,
-            new BlockHitResult(new Vec3dd(hitX, hitY, hitZ), direction, pos, false),
+            new BlockHitResult(new Vec3d(hitX, hitY, hitZ), direction, pos, false),
             0
         ));
     }

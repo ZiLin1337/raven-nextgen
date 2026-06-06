@@ -7,11 +7,11 @@ import keystrokesmod.module.setting.impl.PlayerListSetting;
 import keystrokesmod.utility.PlayerRelationsManager;
 import keystrokesmod.utility.PlayerSkinCache;
 import keystrokesmod.utility.RenderUtils;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.ResourceLocation;
-import org.lwjgl.input.Keyboard;
+import net.minecraft.util.Identifier;
+// import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import java.util.HashMap;
@@ -117,7 +117,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
     }
 
     private void renderPlayerHead(PlayerRelationsManager.PlayerEntry entry, NetworkPlayerInfo playerInfo, float x, float y) {
-        ResourceLocation skin = PlayerSkinCache.getSkin(entry.getDisplayName(), playerInfo);
+        Identifier skin = PlayerSkinCache.getSkin(entry.getDisplayName(), playerInfo);
         if (skin == null) return;
         boolean depth = GL11.glIsEnabled(GL11.GL_DEPTH_TEST);
         boolean blend = GL11.glIsEnabled(GL11.GL_BLEND);
@@ -147,6 +147,6 @@ public class PlayerListComponent extends AbstractTextInputComponent {
     private boolean isMouseOverSelectedList(float mx, float my) { List<PlayerRelationsManager.PlayerEntry> e = setting.getEntries(); if (e.isEmpty()) return false; Layout l = layout(true); float top = getSelectedTop(l); float h = getSelectedVisibleHeight(e.size()); return mx >= l.left && mx <= l.right && my >= top && my < top + h; }
     private float getSelectedTop(Layout l) { return l.contentTop + SELECTED_LIST_GAP; }
     private float getSelectedVisibleHeight(int c) { return Math.min(MAX_VISIBLE_SELECTED, c) * ROW_HEIGHT; }
-    private void renderCloseIcon(float right, float rowTop) { ResourceLocation close = RenderUtils.getIcon(CLOSE_ICON_PATH); if (close == null) return; float cx = right - CLOSE_SIZE - CLOSE_PAD; float cy = rowTop + (LIST_ROW_VISUAL_HEIGHT - CLOSE_SIZE) / 2f; RenderUtils.drawIcon(close, cx, cy, CLOSE_SIZE, Theme.getGradient(Theme.hiddenBind[0], Theme.hiddenBind[1], 0)); }
+    private void renderCloseIcon(float right, float rowTop) { Identifier close = RenderUtils.getIcon(CLOSE_ICON_PATH); if (close == null) return; float cx = right - CLOSE_SIZE - CLOSE_PAD; float cy = rowTop + (LIST_ROW_VISUAL_HEIGHT - CLOSE_SIZE) / 2f; RenderUtils.drawIcon(close, cx, cy, CLOSE_SIZE, Theme.getGradient(Theme.hiddenBind[0], Theme.hiddenBind[1], 0)); }
     private boolean isOverClose(float mx, float my, float rowTop, float right) { float cx = right - CLOSE_SIZE - CLOSE_PAD; float cy = rowTop + (LIST_ROW_VISUAL_HEIGHT - CLOSE_SIZE) / 2f; return mx >= cx && mx <= cx + CLOSE_SIZE && my >= cy && my <= cy + CLOSE_SIZE; }
 }

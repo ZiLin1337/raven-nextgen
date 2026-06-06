@@ -6,8 +6,8 @@ import com.google.gson.JsonObject;
 import keystrokesmod.helper.MouseHelper;
 import keystrokesmod.mixin.impl.accessor.IAccessorGuiIngame;
 import keystrokesmod.mixin.impl.accessor.IAccessorItemFood;
-import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
-import keystrokesmod.mixin.impl.accessor.IAccessorPlayerControllerMP;
+import keystrokesmod.mixin.impl.accessor.IAccessorMinecraftClient;
+
 import keystrokesmod.Raven;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
@@ -29,11 +29,11 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Items;
 import net.minecraft.inventory.ContainerPlayer;
 import net.minecraft.item.*;
-import net.minecraft.network.play.client.C03PacketPlayer.C05PacketPlayerLook;
+
 
 import net.minecraft.potion.Potion;
 import net.minecraft.scoreboard.Score;
@@ -331,7 +331,7 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static net.minecraft.block.Block getBlockFromName(String name) {
-        return net.minecraft.block.Block.blockRegistry.getObject(new ResourceLocation("minecraft:" + name));
+        return net.minecraft.block.Block.blockRegistry.getObject(new Identifier("minecraft:" + name));
     }
 
     public static boolean canPlayerBeSeen(LivingEntity player) {
@@ -571,7 +571,7 @@ public class Utils implements IMinecraftInstance {
     public static int getTool(Block block) {
         double bestScore = 1.0D;
         int bestSlot = -1;
-        for (int i = 0; i < InventoryPlayer.getHotbarSize(); ++i) {
+        for (int i = 0; i < PlayerInventory.getHotbarSize(); ++i) {
             final ItemStack getStackInSlot = mc.player.inventory.getStackInSlot(i);
             if (getStackInSlot != null) {
                 double score = ItemSortScoring.getBlockBreakingScore(getStackInSlot, block);
@@ -833,7 +833,7 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static void resetTimer() {
-        ((IAccessorMinecraft) mc).getTimer().timerSpeed = 1.0F;
+        ((IAccessorMinecraftClient) mc).getTimer().timerSpeed = 1.0F;
     }
 
     public static void beginLocalPlayerSubUpdate() {
@@ -1542,7 +1542,7 @@ public class Utils implements IMinecraftInstance {
         if (block == null) {
             return false;
         }
-        if (BlockUtils.isInteractable(block) || block instanceof BlockSnow || block instanceof BlockWeb || block instanceof BlockSapling || block instanceof BlockDaylightDetector || block instanceof BlockBeacon || block instanceof BlockBanner || block instanceof BlockEndPortalFrame || block instanceof BlockEndPortal || block instanceof BlockLever || block instanceof BlockButton || block instanceof BlockSkull || block instanceof BlockLiquid || block instanceof BlockCactus || block instanceof BlockDoublePlant || block instanceof BlockLilyPad || block instanceof BlockCarpet || block instanceof BlockTripWire || block instanceof BlockTripWireHook || block instanceof BlockTallGrass || block instanceof BlockFlower || block instanceof BlockFlowerPot || block instanceof BlockSign || block instanceof BlockLadder || block instanceof BlockTorch || block instanceof BlockRedstoneTorch || block instanceof BlockStairs || block instanceof BlockSlab || block instanceof BlockFence || block instanceof BlockPane || block instanceof BlockStainedGlassPane || block instanceof BlockGravel || block instanceof BlockClay || block instanceof BlockSand || block instanceof BlockSoulSand || block instanceof BlockRailBase) {
+        if (BlockUtils.isInteractable(block) || block instanceof BlockSnow || block instanceof BlockWeb || block instanceof BlockSapling || block instanceof BlockDaylightDetector || block instanceof BlockBeacon || block instanceof BlockBanner || block instanceof BlockEndPortalFrame || block instanceof BlockEndPortal || block instanceof BlockLever || block instanceof BlockButton || block instanceof BlockSkull || block instanceof BlockLiquid || block instanceof BlockCactus || block instanceof BlockDoublePlant || block instanceof BlockLilyPad || block instanceof BlockCarpet || block instanceof BlockTripWire || block instanceof BlockTripWireHook || block instanceof BlockTallGrass || block instanceof BlockFlower || block instanceof BlockFlowerPot || block instanceof BlockSign || block instanceof BlockLadder || block instanceof BlockTorch || block instanceof BlockRedstoneTorch || block instanceof StairsBlock || block instanceof BlockSlab || block instanceof BlockFence || block instanceof BlockPane || block instanceof BlockStainedGlassPane || block instanceof BlockGravel || block instanceof BlockClay || block instanceof BlockSand || block instanceof BlockSoulSand || block instanceof BlockRailBase) {
             return false;
         }
         return true;

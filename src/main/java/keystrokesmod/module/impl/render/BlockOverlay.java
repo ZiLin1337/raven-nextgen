@@ -9,15 +9,15 @@ import keystrokesmod.utility.BlockUtils;
 import keystrokesmod.utility.StairsUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockStairs;
-import net.minecraft.client.Minecraft;
+
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.block.BlockDeadBush;
 import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.BlockTallGrass;
 import net.minecraft.block.BlockState;
 
-import net.minecraft.client.render.Tessellator;
+
 import net.minecraft.client.render.BufferBuilder;
 
 import net.minecraft.block.Blocks;
@@ -166,7 +166,7 @@ public void onDrawBlockHighlight(DrawBlockHighlightEvent e) {
     }
 
     public static void renderBlockOutline(BlockPos pos, int outlineArgbStart, int outlineArgbEnd, float lineWidth, boolean depthless) {
-        Minecraft m = MinecraftClient.getInstance();
+        MinecraftClient m = MinecraftClient.getInstance();
         if (m.theWorld == null || pos == null) {
             return;
         }
@@ -208,10 +208,10 @@ public void onDrawBlockHighlight(DrawBlockHighlightEvent e) {
         }
     }
 
-    private static void drawOverlayGeometry(Minecraft mc, BlockPos pos, Box paddedWorldBox, Direction side, double vx, double vy, double vz, int overlayStart, int overlayEnd, int outlineStart, int outlineEnd, boolean showOverlay, boolean showOutline) {
+    private static void drawOverlayGeometry(MinecraftClient mc, BlockPos pos, Box paddedWorldBox, Direction side, double vx, double vy, double vz, int overlayStart, int overlayEnd, int outlineStart, int outlineEnd, boolean showOverlay, boolean showOutline) {
         Box renderBox = paddedWorldBox.offset(-vx, -vy, -vz);
         BlockState state = mc.world.getBlockState(pos);
-        if (state.getBlock() instanceof BlockStairs) {
+        if (state.getBlock() instanceof StairsBlock) {
             StairsUtils.drawStairs(pos, state, paddedWorldBox, side, vx, vy, vz, overlayStart, overlayEnd, outlineStart, outlineEnd, showOverlay, showOutline, BlockOverlay::drawFace);
         } else if (side != null) {
             drawFace(renderBox, side, overlayStart, overlayEnd, outlineStart, outlineEnd, showOverlay, showOutline);

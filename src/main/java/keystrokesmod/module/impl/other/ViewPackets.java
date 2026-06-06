@@ -2,14 +2,14 @@ package keystrokesmod.module.impl.other;
 
 import keystrokesmod.event.NoEventPacketEvent;
 import keystrokesmod.event.ReceivePacketEvent;
-import keystrokesmod.event.SendPacketEvent;
+
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.utility.Utils;
 import net.minecraft.entity.Entity;
 import net.minecraft.event.HoverEvent;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.*;
+
+
 import net.minecraft.util.*;
 
 public class ViewPackets extends Module {
@@ -186,8 +186,8 @@ public class ViewPackets extends Module {
     }
 
     
-    public void onTick(TickEvent.ClientTickEvent e) {
-        if (e.phase == TickEvent.Phase.START) {
+    public void onTick(/* TickEvent */./* ClientTickEvent */ e) {
+        if (e.phase == /* TickEvent */.Phase.START) {
             ++tick;
         }
     }

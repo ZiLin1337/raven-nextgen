@@ -11,11 +11,11 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.util.math.MatrixStack;
 
-import net.minecraft.client.gui.inventory.GuiContainer;
+
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.network.play.server.S2EPacketCloseWindow;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Identifier;
 
 import java.io.IOException;
 
@@ -111,8 +111,8 @@ public void onGuiOpen(GuiOpenEvent event) {
     }
 
     
-    public void onRenderTick(TickEvent.RenderTickEvent event) {
-        if (event.phase != TickEvent.Phase.END) {
+    public void onRenderTick(/* TickEvent */./* RenderTickEvent */ event) {
+        if (event.phase != /* TickEvent */.Phase.END) {
             return;
         }
         if (hiddenGui == null || mc.currentScreen != null || mc.gameSettings.showDebugInfo) {
@@ -157,7 +157,7 @@ public void onGuiOpen(GuiOpenEvent event) {
 
     private void renderIcon(boolean editing) {
         syncPosition();
-        ResourceLocation icon = RenderUtils.getIcon(ICON_PATH);
+        Identifier icon = RenderUtils.getIcon(ICON_PATH);
         if (icon == null) {
             return;
         }

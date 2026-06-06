@@ -3,7 +3,7 @@ package keystrokesmod.utility.math;
 /**
  * 3D Vector class for math operations.
  */
-public class Vec3d {
+public class Vec3 {
     public double x, y, z;
 
     public Vec3d(double x, double y, double z) {

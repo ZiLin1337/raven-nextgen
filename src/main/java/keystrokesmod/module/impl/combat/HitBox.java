@@ -1,6 +1,6 @@
 package keystrokesmod.module.impl.combat;
 
-import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
+import keystrokesmod.mixin.impl.accessor.IAccessorMinecraftClient;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -13,7 +13,7 @@ import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.Vec3dd;
+import net.minecraft.util.math.Vec3d;
 
 import org.lwjgl.opengl.GL11;
 
@@ -66,7 +66,7 @@ public class HitBox extends Module {
     }
 
     
-    public void onRenderWorld(RenderWorldLastEvent e) {
+    public void onRenderWorld(/* RenderWorldLastEvent */ e) {
         if (showHitbox.isToggled() && Utils.nullCheck()) {
             for (Entity en : mc.world.loadedEntityList) {
                 if (en != mc.player && en instanceof LivingEntity && ((LivingEntity) en).deathTime == 0 && !(en instanceof ArmorStandEntity) && !en.isInvisible()) {
@@ -142,7 +142,7 @@ public class HitBox extends Module {
 
     private void rh(Entity e, Color c) {
         if (e instanceof LivingEntity) {
-            float partialTicks = ((IAccessorMinecraft) mc).getTimer().renderPartialTicks;
+            float partialTicks = ((IAccessorMinecraftClient) mc).getTimer().renderPartialTicks;
             double x = e.lastTickPosX + (e.posX - e.lastTickPosX) * (double) partialTicks - mc.getEntityRenderDispatcher().viewerPosX;
             double y = e.lastTickPosY + (e.posY - e.lastTickPosY) * (double) partialTicks - mc.getEntityRenderDispatcher().viewerPosY;
             double z = e.lastTickPosZ + (e.posZ - e.lastTickPosZ) * (double) partialTicks - mc.getEntityRenderDispatcher().viewerPosZ;

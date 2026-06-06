@@ -18,7 +18,7 @@ import net.minecraft.block.BlockFence;
 import net.minecraft.block.BlockWall;
 import net.minecraft.client.util.math.MatrixStack;
 
-import net.minecraft.item.ItemBlock;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
 
@@ -221,8 +221,8 @@ public class BlockIn extends Module {
     }
 
     
-    public void onRenderTick(TickEvent.RenderTickEvent e) {
-        if (e.phase != TickEvent.Phase.END || !Utils.nullCheck()) return;
+    public void onRenderTick(/* TickEvent */./* RenderTickEvent */ e) {
+        if (e.phase != /* TickEvent */.Phase.END || !Utils.nullCheck()) return;
         if (fillCount <= 0) return;
 
         long elapsed = System.currentTimeMillis() - animStartTime;

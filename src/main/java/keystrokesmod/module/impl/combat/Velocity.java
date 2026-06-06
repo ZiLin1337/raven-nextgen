@@ -1,7 +1,7 @@
 package keystrokesmod.module.impl.combat;
 
 import keystrokesmod.Raven;
-import keystrokesmod.event.GameTickEvent;
+
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.impl.movement.LongJump;

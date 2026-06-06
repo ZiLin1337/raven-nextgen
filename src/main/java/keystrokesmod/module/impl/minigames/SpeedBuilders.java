@@ -2,7 +2,7 @@ package keystrokesmod.module.impl.minigames;
 
 import keystrokesmod.event.PreUpdateEvent;
 import keystrokesmod.event.ReceivePacketEvent;
-import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
+import keystrokesmod.mixin.impl.accessor.IAccessorMinecraftClient;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.DescriptionSetting;
@@ -15,7 +15,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import net.minecraft.util.*;
@@ -131,7 +131,7 @@ public class SpeedBuilders extends Module {
                             if (lastPlaceTick++ < placeDelay.getInput()) {
                                 return;
                             }
-                            ((IAccessorMinecraft) mc).callRightClickMouse();
+                            ((IAccessorMinecraftClient) mc).callRightClickMouse();
                             lastPlaceTick = 0;
                         }
                     }
@@ -170,7 +170,7 @@ public class SpeedBuilders extends Module {
     }
 
     
-    public void onRenderWorld(RenderWorldLastEvent ev) {
+    public void onRenderWorld(/* RenderWorldLastEvent */ ev) {
         if (!Utils.nullCheck() || getGameStatus() != 2 || !renderBlocks.isToggled()) {
             return;
         }
@@ -199,8 +199,8 @@ public class SpeedBuilders extends Module {
     }
 
     
-    public void onRenderTick(TickEvent.RenderTickEvent e) {
-        if (e.phase != TickEvent.Phase.END || !Utils.nullCheck() || mc.currentScreen != null) {
+    public void onRenderTick(/* TickEvent */./* RenderTickEvent */ e) {
+        if (e.phase != /* TickEvent */.Phase.END || !Utils.nullCheck() || mc.currentScreen != null) {
             return;
         }
         int gameStatus = getGameStatus();
@@ -256,7 +256,7 @@ public class SpeedBuilders extends Module {
     }
 
     
-    public void onEntityJoin(EntityJoinWorldEvent e) {
+    public void onEntityJoin(/* EntityJoinWorldEvent */ e) {
         if (!Utils.nullCheck() || e.entity == null) {
             return;
         }
@@ -270,7 +270,7 @@ public class SpeedBuilders extends Module {
     }
 
     
-    public void onChat(ClientChatReceivedEvent e) {
+    public void onChat(/* ClientChatReceivedEvent */ e) {
         if (e.type == 2 || !Utils.nullCheck() || getGameStatus() == -1 || listenForPacket) {
             return;
         }
@@ -458,7 +458,7 @@ public class SpeedBuilders extends Module {
     }
 
     private boolean removeMeta(Block block) {
-        return (block instanceof BlockStairs || block instanceof BlockDoublePlant || block instanceof BlockFlower || block instanceof BlockSkull || block instanceof BlockLadder || block instanceof BlockPumpkin || block instanceof BlockCauldron || block instanceof BlockRail || block instanceof BlockRailBase || block instanceof BlockTripWireHook || block instanceof BlockTripWire || block instanceof BlockDispenser || block instanceof BlockDropper || block instanceof BlockHopper || block instanceof BlockTorch || block instanceof BlockButton || block instanceof BlockLever || block instanceof BlockTrapDoor || block instanceof BlockSlab);
+        return (block instanceof StairsBlock || block instanceof BlockDoublePlant || block instanceof BlockFlower || block instanceof BlockSkull || block instanceof BlockLadder || block instanceof BlockPumpkin || block instanceof BlockCauldron || block instanceof BlockRail || block instanceof BlockRailBase || block instanceof BlockTripWireHook || block instanceof BlockTripWire || block instanceof BlockDispenser || block instanceof BlockDropper || block instanceof BlockHopper || block instanceof BlockTorch || block instanceof BlockButton || block instanceof BlockLever || block instanceof BlockTrapDoor || block instanceof BlockSlab);
     }
 
     private boolean correctPlaceState(BlockState requiredState, BlockPos blockPos, Direction enumFacing, Vec3d hitVec, ItemStack heldItem) {
@@ -499,11 +499,11 @@ public class SpeedBuilders extends Module {
                 return false;
             }
         }
-        if (simulatedState.getBlock() instanceof BlockStairs && requiredState.getBlock() instanceof BlockStairs) {
-            Direction simulatedFacing = simulatedState.getValue(BlockStairs.FACING);
-            Direction requiredFacing = requiredState.getValue(BlockStairs.FACING);
-            BlockStairs.EnumHalf simulatedHalf = simulatedState.getValue(BlockStairs.HALF);
-            BlockStairs.EnumHalf requiredHalf = requiredState.getValue(BlockStairs.HALF);
+        if (simulatedState.getBlock() instanceof StairsBlock && requiredState.getBlock() instanceof StairsBlock) {
+            Direction simulatedFacing = simulatedState.getValue(StairsBlock.FACING);
+            Direction requiredFacing = requiredState.getValue(StairsBlock.FACING);
+            StairsBlock.EnumHalf simulatedHalf = simulatedState.getValue(StairsBlock.HALF);
+            StairsBlock.EnumHalf requiredHalf = requiredState.getValue(StairsBlock.HALF);
 
             if (simulatedFacing != requiredFacing || simulatedHalf != requiredHalf) {
                 return false;

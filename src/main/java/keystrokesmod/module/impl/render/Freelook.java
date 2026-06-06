@@ -1,6 +1,6 @@
 package keystrokesmod.module.impl.render;
 
-import keystrokesmod.mixin.impl.accessor.IAccessorMouseHelper;
+
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.impl.player.Freecam;
@@ -8,7 +8,7 @@ import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.KeySetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.Utils;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 
 
@@ -45,7 +45,7 @@ public class Freelook extends Module {
     }
 
     
-    public void onRenderTick(RenderTickEvent e) {
+    public void onRenderTick(/* RenderTickEvent */ e) {
         if (e.phase != Phase.END || mc.currentScreen != null || !Utils.nullCheck()) {
             return;
         }
@@ -112,7 +112,7 @@ public class Freelook extends Module {
         }
     }
 
-    public static boolean overrideMouse(Minecraft mc) {
+    public static boolean overrideMouse(MinecraftClient mc) {
         if (!mc.inGameHasFocus) {
             return false;
         }

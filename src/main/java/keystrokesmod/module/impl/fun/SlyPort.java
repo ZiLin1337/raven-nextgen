@@ -9,7 +9,7 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.Vec3dd;
+import net.minecraft.util.math.Vec3d;
 
 public class SlyPort extends Module {
     public SliderSetting range;

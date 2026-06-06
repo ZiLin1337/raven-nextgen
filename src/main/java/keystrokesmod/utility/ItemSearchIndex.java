@@ -13,7 +13,7 @@ import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -668,7 +668,7 @@ public final class ItemSearchIndex {
 
     private static Item getItemForName(String registryId) {
         try {
-            return (Item) Item.itemRegistry.getObject(new ResourceLocation(registryId));
+            return (Item) Item.itemRegistry.getObject(new Identifier(registryId));
         }
         catch (Exception ignored) {
             return null;

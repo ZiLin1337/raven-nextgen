@@ -13,13 +13,13 @@ import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
-import net.minecraft.block.BlockStairs;
-import net.minecraft.entity.player.InventoryPlayer;
+
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.EnumDyeColor;
-import net.minecraft.item.ItemBlock;
+
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.C07PacketPlayerDigging;
+
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.math.BlockPos;
@@ -201,7 +201,7 @@ public class WoolWars extends Module {
         int startY;
         for (startY = (y = (int) Math.floor(mc.player.getY() + 20.0)); y > -1; --y) {
             BlockPos pos = BlockUtils.pos(0.0, y, 0.0);
-            if (BlockUtils.getBlock(pos.add(0, 0, 2)) instanceof BlockStairs || isControlPointBlock(pos, false)) {
+            if (BlockUtils.getBlock(pos.add(0, 0, 2)) instanceof StairsBlock || isControlPointBlock(pos, false)) {
                 middlePos = pos;
                 break;
             }
@@ -209,7 +209,7 @@ public class WoolWars extends Module {
         if (middlePos == null) {
             for (y = startY; y > -1; --y) {
                 BlockPos pos = BlockUtils.pos(0.0, y, 6.0);
-                if (BlockUtils.getBlock(pos.add(0, 0, 2)) instanceof BlockStairs || isControlPointBlock(pos, false)) {
+                if (BlockUtils.getBlock(pos.add(0, 0, 2)) instanceof StairsBlock || isControlPointBlock(pos, false)) {
                     middlePos = pos;
                     break;
                 }
@@ -265,7 +265,7 @@ public class WoolWars extends Module {
             return true;
         }
         EnumDyeColor teamColor = null;
-        for (int i = 0; i < InventoryPlayer.getHotbarSize(); ++i) {
+        for (int i = 0; i < PlayerInventory.getHotbarSize(); ++i) {
             ItemStack stack = mc.player.inventory.getStackInSlot(i);
             if (stack != null && stack.getItem() instanceof ItemBlock && ((ItemBlock) stack.getItem()).getBlock() == Blocks.wool) {
                 teamColor = EnumDyeColor.byMetadata(stack.getMetadata());
@@ -286,7 +286,7 @@ public class WoolWars extends Module {
     }
 
     public int getBlockSlot() {
-        for (int slot = 0; slot < InventoryPlayer.getHotbarSize(); ++slot) {
+        for (int slot = 0; slot < PlayerInventory.getHotbarSize(); ++slot) {
             ItemStack stack = mc.player.inventory.getStackInSlot(slot);
             if (stack != null) {
                 if (stack.getItem() instanceof ItemBlock) {
@@ -376,7 +376,7 @@ public class WoolWars extends Module {
     }
 
     
-    public void onRender(RenderWorldLastEvent e) {
+    public void onRender(/* RenderWorldLastEvent */ e) {
         if (!Utils.nullCheck()) {
             return;
         }
@@ -406,7 +406,7 @@ public class WoolWars extends Module {
     }
 
     
-    public void onWorldJoin(EntityJoinWorldEvent e) {
+    public void onWorldJoin(/* EntityJoinWorldEvent */ e) {
         if (e.entity == mc.player) {
             reset();
         }

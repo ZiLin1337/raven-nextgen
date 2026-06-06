@@ -2,7 +2,7 @@ package keystrokesmod.utility.shader;
 
 import keystrokesmod.utility.IMinecraftInstance;
 import keystrokesmod.utility.RenderUtils;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;

@@ -5,7 +5,7 @@ import keystrokesmod.clickgui.ClickGui;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.impl.client.Settings;
 import keystrokesmod.module.setting.impl.ButtonSetting;
-import keystrokesmod.module.setting.impl.TextSetting;
+
 import keystrokesmod.utility.Utils;
 
 public class ProfileModule extends Module {

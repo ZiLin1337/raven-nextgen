@@ -12,7 +12,7 @@ import keystrokesmod.utility.font.FontManager;
 import keystrokesmod.utility.font.RavenFontRenderer;
 import net.minecraft.client.font.TextRenderer;
 
-import net.minecraft.client.render.Tessellator;
+
 import net.minecraft.client.render.BufferBuilder;
 
 
@@ -141,8 +141,8 @@ public class Nametags extends Module {
     }
 
     
-    public void onClientTick(TickEvent.ClientTickEvent event) {
-        if (event.phase != TickEvent.Phase.END) {
+    public void onClientTick(/* TickEvent */./* ClientTickEvent */ event) {
+        if (event.phase != /* TickEvent */.Phase.END) {
             return;
         }
 
@@ -152,7 +152,7 @@ public class Nametags extends Module {
         }
 
         updateRenderStates();
-    }public void onRenderWorldLast(RenderWorldLastEvent event) {
+    }public void onRenderWorldLast(/* RenderWorldLastEvent */ event) {
         if (!Utils.nullCheck()) {
             return;
         }

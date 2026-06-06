@@ -1,7 +1,7 @@
 package keystrokesmod.utility;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.LiquidBlock;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -12,7 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.Vec3dd;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;

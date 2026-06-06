@@ -1,19 +1,19 @@
 package keystrokesmod.utility;
 
 import keystrokesmod.clickgui.ClickGui;
-import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
+import keystrokesmod.mixin.impl.accessor.IAccessorMinecraftClient;
 import keystrokesmod.module.impl.player.Freecam;
 
-import net.minecraft.block.BlockStairs;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 
 import net.minecraft.client.renderer.*;
-import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.culling.Frustum;
 
-import net.minecraft.client.resources.model.IBakedModel;
+
+
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,16 +21,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3dd;
+import net.minecraft.util.math.Vec3d;
 import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.Display;
+// import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.glu.GLU;
+// import org.lwjgl.util.glu.GLU;
 
 import keystrokesmod.Raven;
 import keystrokesmod.utility.StairsUtils;
-import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.util.ResourceLocation;
+
+import net.minecraft.util.Identifier;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -533,7 +533,7 @@ int scale = MinecraftClient.getInstance().getWindow().getScaleFactor();
         GL11.glDisable(2929);
         GL11.glDepthMask(false);
 
-        if (state.getBlock() instanceof BlockStairs) {
+        if (state.getBlock() instanceof StairsBlock) {
             StairsUtils.drawStairs(pos, state, box, null, vx, vy, vz, overlayColor, outlineColor, outlineColor, outlineColor, shade, outline, (b, face, os, oe, ls, le, ov, ol) -> drawBoxFace(b, face, overlayColor, outlineColor, ov, ol));
         } else {
             Box renderBox = box.offset(-vx, -vy, -vz);
@@ -583,7 +583,7 @@ String s = "";
 
     public static void renderEntity(Entity e, int type, double expand, double shift, int color, boolean damage) {
         if (e instanceof LivingEntity) {
-            float partialTicks = ((IAccessorMinecraft) mc).getTimer().renderPartialTicks;
+            float partialTicks = ((IAccessorMinecraftClient) mc).getTimer().renderPartialTicks;
             double x = e.lastTickPosX + (e.posX - e.lastTickPosX) * (double) partialTicks - mc.getEntityRenderDispatcher().viewerPosX;
             double y = e.lastTickPosY + (e.posY - e.lastTickPosY) * (double) partialTicks - mc.getEntityRenderDispatcher().viewerPosY;
             double z = e.lastTickPosZ + (e.posZ - e.lastTickPosZ) * (double) partialTicks - mc.getEntityRenderDispatcher().viewerPosZ;
@@ -1715,7 +1715,7 @@ RenderSystem.bindTexture(framebuffer.framebufferTexture);
         }
     }
 
-    public static ResourceLocation buildWhiteMaskedTexture(String resourcePath, String registryName, ResourceLocation fallback) {
+    public static Identifier buildWhiteMaskedTexture(String resourcePath, String registryName, Identifier fallback) {
         try (InputStream stream = Raven.class.getResourceAsStream(resourcePath)) {
             if (stream == null) return fallback;
             BufferedImage src = ImageIO.read(stream);
@@ -1734,19 +1734,19 @@ RenderSystem.bindTexture(framebuffer.framebufferTexture);
         }
     }
 
-    private static final java.util.Map<String, ResourceLocation> iconCache = new java.util.HashMap<>();
+    private static final java.util.Map<String, Identifier> iconCache = new java.util.HashMap<>();
 
     /**
      * Returns a cached white-masked icon texture, loading it on first access.
      * The resource path should start with "/" (e.g. "/assets/keystrokesmod/textures/gui/close.png").
      */
-    public static ResourceLocation getIcon(String resourcePath) {
-        ResourceLocation cached = iconCache.get(resourcePath);
+    public static Identifier getIcon(String resourcePath) {
+        Identifier cached = iconCache.get(resourcePath);
         if (cached != null) {
             return cached;
         }
         String registryName = "raven_icon_" + resourcePath.hashCode();
-        ResourceLocation icon = buildWhiteMaskedTexture(resourcePath, registryName, null);
+        Identifier icon = buildWhiteMaskedTexture(resourcePath, registryName, null);
         if (icon != null) {
             iconCache.put(resourcePath, icon);
         }
@@ -1757,7 +1757,7 @@ RenderSystem.bindTexture(framebuffer.framebufferTexture);
      * Draws a tinted icon texture at the given position with full GL state management.
      * Saves and restores depth/blend state automatically.
      */
-    public static void drawIcon(ResourceLocation texture, float x, float y, int size, int argbColor) {
+    public static void drawIcon(Identifier texture, float x, float y, int size, int argbColor) {
         if (texture == null) {
             return;
         }

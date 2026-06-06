@@ -2,7 +2,7 @@ package keystrokesmod.module.impl.render;
 
 import keystrokesmod.mixin.impl.accessor.IAccessorEntityArrow;
 // import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
-import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
+import keystrokesmod.mixin.impl.accessor.IAccessorMinecraftClient;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.impl.world.AntiBot;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -15,7 +15,7 @@ import keystrokesmod.utility.Utils;
 import keystrokesmod.utility.font.FontManager;
 import keystrokesmod.utility.font.RavenFontRenderer;
 import net.minecraft.block.Block;
-import net.minecraft.block.LiquidBlock;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.block.BlockState;
 
@@ -31,7 +31,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.*;
 import net.minecraft.item.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.Vec3dd;
+import net.minecraft.util.math.Vec3d;
 
 
 
@@ -199,8 +199,8 @@ public class Indicators extends Module {
     }
 
     
-    public void onClientTick(TickEvent.ClientTickEvent event) {
-        if (event.phase != TickEvent.Phase.END || !Utils.nullCheck()) {
+    public void onClientTick(/* TickEvent */./* ClientTickEvent */ event) {
+        if (event.phase != /* TickEvent */.Phase.END || !Utils.nullCheck()) {
             return;
         }
         tickCounter++;
@@ -242,8 +242,8 @@ public class Indicators extends Module {
     }
 
     
-    public void onRenderTick(TickEvent.RenderTickEvent event) {
-        if (event.phase != TickEvent.Phase.END) {
+    public void onRenderTick(/* TickEvent */./* RenderTickEvent */ event) {
+        if (event.phase != /* TickEvent */.Phase.END) {
             return;
         }
         if (mc.currentScreen != null || !Utils.nullCheck()) {
@@ -262,7 +262,7 @@ public class Indicators extends Module {
     }
 
     
-    public void onRenderWorld(RenderWorldLastEvent event) {
+    public void onRenderWorld(/* RenderWorldLastEvent */ event) {
         if (!Utils.nullCheck() || mc.world == null || !hasEnabledWorldTrajectories()) {
             return;
         }
@@ -349,7 +349,7 @@ public class Indicators extends Module {
         double y = en.lastTickPosY + (en.posY - en.lastTickPosY) * partialTicks - mc.getEntityRenderDispatcher().viewerPosY + en.height / 2;
         double z = en.lastTickPosZ + (en.posZ - en.lastTickPosZ) * partialTicks - mc.getEntityRenderDispatcher().viewerPosZ;
 
-        ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(((IAccessorMinecraft) mc).getTimer().renderPartialTicks, 0);
+        ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(((IAccessorMinecraftClient) mc).getTimer().renderPartialTicks, 0);
 
          scaledResolution = null; // int removed for 1.21.4
         Vec3d vec = RenderUtils.convertTo2D(MinecraftClient.getInstance().getWindow().getScaleFactor(), x, y, z);

@@ -3,7 +3,7 @@ package keystrokesmod.command.impl;
 import keystrokesmod.Raven;
 import keystrokesmod.command.Command;
 import keystrokesmod.command.CommandInput;
-import keystrokesmod.command.CommandManager;
+
 import keystrokesmod.module.Module;
 import keystrokesmod.utility.Utils;
 

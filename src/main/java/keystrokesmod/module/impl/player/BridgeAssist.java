@@ -2,7 +2,7 @@ package keystrokesmod.module.impl.player;
 
 import keystrokesmod.event.ClientRotationEvent;
 import keystrokesmod.event.PrePlayerInputEvent;
-import keystrokesmod.event.SendPacketEvent;
+
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -12,9 +12,9 @@ import keystrokesmod.script.model.SimulatedPlayer;
 import keystrokesmod.utility.BlockUtils;
 import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
-import net.minecraft.item.ItemBlock;
+
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+
 import net.minecraft.util.*;
 
 import java.util.ArrayList;

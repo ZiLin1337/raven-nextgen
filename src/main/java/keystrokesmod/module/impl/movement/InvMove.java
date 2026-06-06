@@ -3,7 +3,7 @@ package keystrokesmod.module.impl.movement;
 import keystrokesmod.Raven;
 import keystrokesmod.event.JumpEvent;
 import keystrokesmod.event.PreUpdateEvent;
-import keystrokesmod.event.SendPacketEvent;
+
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.impl.client.Settings;
@@ -17,7 +17,7 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.network.packet.c2s.play.CloseHandledScreenC2SPacket;
 import net.minecraft.network.packet.c2s.play.ClickSlotC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
-import net.minecraft.util.math.Vec3dd;
+import net.minecraft.util.math.Vec3d;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;

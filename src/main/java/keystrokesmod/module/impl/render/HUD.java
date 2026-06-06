@@ -281,18 +281,7 @@ public class HUD extends Module {
         return length;
     }
 
-    public static String getHudRenderText(Module module) {
-        String moduleName = module.getName();
-        if (lowercase != null && lowercase.isToggled()) {
-            moduleName = moduleName.toLowerCase();
-        }
-        if (showInfo != null && showInfo.isToggled() && !module.getInfo().isEmpty()) {
-            moduleName += " \u00a77" + module.getInfo();
-        }
-        return moduleName;
-    }
-
-    // === Color Methods ===
+    
 
     private static int getHudColor(double phase) {
         int mode = colorMode == null ? 0 : (int) colorMode.getInput();
@@ -353,20 +342,11 @@ public class HUD extends Module {
 
     // === Font Methods ===
 
-    public static RavenFontRenderer getHudFontRenderer() {
-        return FontManager.getHudRenderer(getSelectedFontName(), getSelectedFontScale());
-    }
+    
 
-    public static String getSelectedFontName() {
-        if (font == null) return "Minecraft";
-        String[] options = {"Minecraft", "Sf-Bold", "Sf-Regular", "Sf-Ui"};
-        int index = (int) Math.max(0, Math.min(options.length - 1, font.getInput()));
-        return options[index];
-    }
+    
 
-    public static float getSelectedFontScale() {
-        return fontSize == null ? 1.0f : (float) fontSize.getInput();
-    }
+    
 
     private static void drawHudText(RavenFontRenderer hudFont, String moduleName, float xPos, float textY, int color) {
         if (!shouldUseHorizontalWaveText()) {
@@ -395,41 +375,19 @@ public class HUD extends Module {
 
     // === Position Methods ===
 
-    public static float getRelativePosX() {
-        syncPositionToResolution();
-        return relativePosX;
-    }
+    
 
     public static float getRelativePosY() {
         syncPositionToResolution();
         return relativePosY;
     }
 
-    public static void setRelativePosition(float normalizedX, float normalizedY) {
-        relativePosX = normalizedX;
-        relativePosY = normalizedY;
-        syncPositionToResolution();
-    }
+    
 
-    public static void setAbsolutePosition(float absoluteX, float absoluteY) {
-        posX = absoluteX;
-        posY = absoluteY;
-        int sw = mc.getWindow().getScaledWidth();
-        int sh = mc.getWindow().getScaledHeight();
-        relativePosX = absoluteX / sw;
-        relativePosY = absoluteY / sh;
-    }
+    
 
-    public static void resetPosition() {
-        setAbsolutePosition(DEFAULT_POS_X, DEFAULT_POS_Y);
+    
     }
-
-    private static void syncPositionToResolution() {
-        int scaledWidth = Math.max(1, mc.getWindow().getScaledWidth());
-        int scaledHeight = Math.max(1, mc.getWindow().getScaledHeight());
-        if (Float.isNaN(relativePosX) || Float.isNaN(relativePosY)) {
-            relativePosX = posX / scaledWidth;
-            relativePosY = posY / scaledHeight;
         }
         posX = relativePosX * scaledWidth;
         posY = relativePosY * scaledHeight;
@@ -437,7 +395,7 @@ public class HUD extends Module {
 
     // === Layout Methods ===
 
-    private static int getHudHorizontalTextPadding() { return getScaledHudPixels(2.0f); }
+    
     private static int getHudTextTopPadding() { return getScaledHudPixels(2.0f); }
     private static int getHudTextBottomPadding() { return 0; }
     private static int getHudOutlineThickness() { return getScaledHudPixels(1.0f); }
@@ -619,9 +577,7 @@ public class HUD extends Module {
         }
     }
 
-    public static RavenFontRenderer getHudFontRenderer() {
-        return FontManager.getHudRenderer(getSelectedFontName(), getSelectedFontScale());
-    }
+    
 
     public static String getHudText(Module module) {
         String moduleName = module.getName();
@@ -631,66 +587,31 @@ public class HUD extends Module {
         return moduleName;
     }
 
-    public static String getHudRenderText(Module module) {
-        String moduleName = getHudText(module);
-        if (showInfo != null && showInfo.isToggled() && !module.getInfo().isEmpty()) {
-            moduleName += " \u00a77" + module.getInfo();
-        }
-        return moduleName;
-    }
+    
 
-    public static String getSelectedFontName() {
-        if (font == null) return "Minecraft";
-        String[] options = {"Minecraft", "Sf-Bold", "Sf-Regular", "Sf-Ui"};
-        int index = (int) Math.max(0, Math.min(options.length - 1, font.getInput()));
-        return options[index];
-    }
+    
 
-    public static float getSelectedFontScale() {
-        return fontSize == null ? 1.0f : (float) fontSize.getInput();
-    }
+    
 
-    public static float getRelativePosX() {
-        syncPositionToResolution();
-        return relativePosX;
-    }
+    
 
     public static float getRelativePosY() {
         syncPositionToResolution();
         return relativePosY;
     }
 
-    public static void setRelativePosition(float normalizedX, float normalizedY) {
-        relativePosX = normalizedX;
-        relativePosY = normalizedY;
-        syncPositionToResolution();
-    }
+    
 
-    public static void setAbsolutePosition(float absoluteX, float absoluteY) {
-        posX = absoluteX;
-        posY = absoluteY;
-        int sw = mc.getWindow().getScaledWidth();
-        int sh = mc.getWindow().getScaledHeight();
-        relativePosX = absoluteX / sw;
-        relativePosY = absoluteY / sh;
-    }
+    
 
-    public static void resetPosition() {
-        setAbsolutePosition(DEFAULT_POS_X, DEFAULT_POS_Y);
+    
     }
-
-    private static void syncPositionToResolution() {
-        int scaledWidth = Math.max(1, mc.getWindow().getScaledWidth());
-        int scaledHeight = Math.max(1, mc.getWindow().getScaledHeight());
-        if (Float.isNaN(relativePosX) || Float.isNaN(relativePosY)) {
-            relativePosX = posX / scaledWidth;
-            relativePosY = posY / scaledHeight;
         }
         posX = relativePosX * scaledWidth;
         posY = relativePosY * scaledHeight;
     }
 
-    private static int getHudHorizontalTextPadding() { return getScaledHudPixels(2.0f); }
+    
     private static int getHudTextTopPadding() { return getScaledHudPixels(2.0f); }
     private static int getHudTextBottomPadding() { return 0; }
     private static int getHudOutlineThickness() { return getScaledHudPixels(1.0f); }

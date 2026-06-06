@@ -22,8 +22,8 @@ public class Holdlook extends Module {
     }
 
     
-    public void onClientTick(TickEvent.ClientTickEvent e) {
-        if (e.phase != TickEvent.Phase.START || !Utils.nullCheck()) return;
+    public void onClientTick(/* TickEvent */./* ClientTickEvent */ e) {
+        if (e.phase != /* TickEvent */.Phase.START || !Utils.nullCheck()) return;
 
         if (mc.currentScreen != null) {
             if (rearActive || frontActive) {

@@ -3,7 +3,7 @@ package keystrokesmod.module.impl.player;
 import keystrokesmod.event.PrePlayerInteractEvent;
 import keystrokesmod.event.PreSlotScrollEvent;
 import keystrokesmod.event.SlotUpdateEvent;
-import keystrokesmod.mixin.impl.accessor.IAccessorPlayerControllerMP;
+
 import keystrokesmod.mixin.interfaces.IMixinItemRenderer;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.BlockListSetting;

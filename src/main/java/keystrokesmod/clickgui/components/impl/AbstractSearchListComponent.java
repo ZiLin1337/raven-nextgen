@@ -6,13 +6,13 @@ import keystrokesmod.module.impl.client.Gui;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Theme;
 import keystrokesmod.utility.Timer;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import org.lwjgl.input.Keyboard;
+import net.minecraft.util.Identifier;
+// import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;
@@ -160,7 +160,7 @@ public abstract class AbstractSearchListComponent extends AbstractTextInputCompo
 
     protected final void renderBackRow(float left, float right, float rowTop, int bgColor, String groupName) {
         RenderUtils.drawRect(left, rowTop, right, rowTop + ROW_HEIGHT - 1f, bgColor);
-        ResourceLocation arrow = RenderUtils.getIcon(ARROW_ICON_PATH);
+        Identifier arrow = RenderUtils.getIcon(ARROW_ICON_PATH);
         if (arrow != null) RenderUtils.drawIcon(arrow, left + 2f, rowTop + (LIST_ROW_VISUAL_HEIGHT - CLOSE_SIZE) / 2f, CLOSE_SIZE, 0xFFFFFFFF);
         drawListRowText(groupName != null ? groupName : "Back", left + 13f, rowTop, 0xFFCCCCCC);
     }
@@ -177,7 +177,7 @@ public abstract class AbstractSearchListComponent extends AbstractTextInputCompo
     }
 
     protected final void renderCloseIcon(float right, float rowTop) {
-        ResourceLocation close = RenderUtils.getIcon(CLOSE_ICON_PATH);
+        Identifier close = RenderUtils.getIcon(CLOSE_ICON_PATH);
         if (close == null) return;
         float closeX = right - CLOSE_SIZE - CLOSE_PAD;
         float closeY = rowTop + (LIST_ROW_VISUAL_HEIGHT - CLOSE_SIZE) / 2f;

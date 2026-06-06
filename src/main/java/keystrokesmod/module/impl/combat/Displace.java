@@ -2,9 +2,9 @@ package keystrokesmod.module.impl.combat;
 
 import keystrokesmod.Raven;
 import keystrokesmod.event.ClientRotationEvent;
-import keystrokesmod.event.GameTickEvent;
+
 import keystrokesmod.event.PostPlayerInputEvent;
-import keystrokesmod.event.SendPacketEvent;
+
 import keystrokesmod.helper.RotationHelper;
 import keystrokesmod.lag.api.EnumLagDirection;
 import keystrokesmod.lag.api.LagRequest;
@@ -22,11 +22,11 @@ import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.play.client.C03PacketPlayer;
+
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.math.Vec3dd;
+import net.minecraft.util.math.Vec3d;
 
 import org.lwjgl.opengl.GL11;
 
@@ -469,7 +469,7 @@ public void onGameTick(GameTickEvent e) {
     }
 
     
-    public void onRenderWorld(RenderWorldLastEvent e) {
+    public void onRenderWorld(/* RenderWorldLastEvent */ e) {
         if (!Utils.nullCheck() || !showDirection.isToggled()) {
             clearArrowState();
             return;

@@ -16,7 +16,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.Vec3dd;
+import net.minecraft.util.math.Vec3d;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -175,7 +175,7 @@ public class AntiFireball extends Module {
     }
 
     
-    public void onEntityJoin(EntityJoinWorldEvent e) {
+    public void onEntityJoin(/* EntityJoinWorldEvent */ e) {
         if (!Utils.nullCheck()) return;
         if (e.entity == mc.player) {
             fireballs.clear();

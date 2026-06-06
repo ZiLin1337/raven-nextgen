@@ -9,8 +9,8 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Theme;
 import keystrokesmod.utility.font.RavenFontRenderer;
 import keystrokesmod.utility.profile.ProfileModule;
-import net.minecraft.util.ResourceLocation;
-import org.lwjgl.input.Keyboard;
+import net.minecraft.util.Identifier;
+// import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 public class BindComponent extends Component {

@@ -2,7 +2,7 @@ package keystrokesmod.utility.particle;
 
 import keystrokesmod.utility.math.Vec3d;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.Tessellator;
+
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.BufferRenderer;
 import net.minecraft.client.render.VertexFormat;

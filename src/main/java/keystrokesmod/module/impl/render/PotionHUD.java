@@ -12,7 +12,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 
 import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
+
 import net.minecraft.util.StatCollector;
 
 
@@ -73,8 +73,8 @@ public class PotionHUD extends Module {
     }
 
     
-    public void onRenderTick(TickEvent.RenderTickEvent event) {
-        if (event.phase != TickEvent.Phase.END || !Utils.nullCheck()) {
+    public void onRenderTick(/* TickEvent */./* RenderTickEvent */ event) {
+        if (event.phase != /* TickEvent */.Phase.END || !Utils.nullCheck()) {
             return;
         }
 

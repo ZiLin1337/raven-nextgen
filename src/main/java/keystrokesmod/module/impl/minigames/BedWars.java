@@ -1,7 +1,7 @@
 package keystrokesmod.module.impl.minigames;
 
 import keystrokesmod.event.ReceivePacketEvent;
-import keystrokesmod.event.SendPacketEvent;
+
 import keystrokesmod.module.Module;
 import keystrokesmod.module.impl.world.AntiBot;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -13,18 +13,18 @@ import net.minecraft.block.BedBlock;
 import net.minecraft.block.BlockObsidian;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
-import net.minecraft.entity.monster.IronGolemEntity;
+
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.item.ItemEnderPearl;
 import net.minecraft.item.ItemFireball;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+
 import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3dd;
+import net.minecraft.util.math.Vec3d;
 
 import java.awt.*;
 import java.util.*;
@@ -61,7 +61,7 @@ public class BedWars extends Module {
         entitySpawnQueue.clear();
         spawnedMobs.clear();
     }
-public void onRenderWorld(RenderWorldLastEvent e) {
+public void onRenderWorld(/* RenderWorldLastEvent */ e) {
         if (Utils.nullCheck() && obsidian.isToggled()) {
             if (this.obsidianPos.isEmpty()) {
                 return;
@@ -86,7 +86,7 @@ public void onRenderWorld(RenderWorldLastEvent e) {
     }
 
     
-    public void onWorldJoin(EntityJoinWorldEvent e) {
+    public void onWorldJoin(/* EntityJoinWorldEvent */ e) {
         if (e.entity == mc.player) {
             armoredPlayer.clear();
             lastHeldMap.clear();

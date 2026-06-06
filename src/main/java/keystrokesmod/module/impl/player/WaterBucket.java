@@ -7,11 +7,11 @@ import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.utility.Utils;
-import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.hit.HitResult;
 
@@ -42,7 +42,7 @@ public class WaterBucket extends Module {
     }
 
     
-    public void onRenderWorld(RenderWorldLastEvent e) {
+    public void onRenderWorld(/* RenderWorldLastEvent */ e) {
         if (!Utils.nullCheck() || mc.isGamePaused() || mc.player.capabilities.isFlying || mc.player.capabilities.isCreativeMode) {
             return;
         }
@@ -108,7 +108,7 @@ public class WaterBucket extends Module {
     }
 
     private int getWaterBucketSlot() {
-        for (int slot = 0; slot < InventoryPlayer.getHotbarSize(); ++slot) {
+        for (int slot = 0; slot < PlayerInventory.getHotbarSize(); ++slot) {
             if (isItem(mc.player.inventory.getStackInSlot(slot), Items.water_bucket)) {
                 return slot;
             }

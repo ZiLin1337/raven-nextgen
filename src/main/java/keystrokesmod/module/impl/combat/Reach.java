@@ -18,7 +18,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Vec3dd;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 
 import java.util.ArrayList;
@@ -64,7 +64,7 @@ public class Reach extends Module {
         if (hitResult == null) return;
 
         Entity target = (Entity) hitResult[0];
-        Vec3dd hitVec = (Vec3dd) hitResult[1];
+        Vec3d hitVec = (Vec3d) hitResult[1];
 
         // Override the crosshair target for this attack
         e.setTarget(target);
@@ -95,8 +95,8 @@ public class Reach extends Module {
     public static Object[] rayCastEntities(double reach, double expand, float[] rotations) {
         if (mc.player == null || mc.world == null) return null;
 
-        Vec3dd eyePos = mc.player.getEyePos();
-        Vec3dd lookVec;
+        Vec3d eyePos = mc.player.getEyePos();
+        Vec3d lookVec;
         if (rotations != null) {
             float radYaw = -rotations[0] * 0.017453292f - (float)Math.PI;
             float radPitch = -rotations[1] * 0.017453292f;
@@ -104,12 +104,12 @@ public class Reach extends Module {
             float sinYaw = (float)Math.sin(radYaw);
             float cosPitch = -(float)Math.cos(radPitch);
             float sinPitch = (float)Math.sin(radPitch);
-            lookVec = new Vec3dd(sinYaw * cosPitch, sinPitch, cosYaw * cosPitch);
+            lookVec = new Vec3d(sinYaw * cosPitch, sinPitch, cosYaw * cosPitch);
         } else {
             lookVec = mc.player.getRotationVec(1.0f);
         }
 
-        Vec3dd endPos = eyePos.add(lookVec.x * reach, lookVec.y * reach, lookVec.z * reach);
+        Vec3d endPos = eyePos.add(lookVec.x * reach, lookVec.y * reach, lookVec.z * reach);
 
         // Check block collision
         BlockHitResult blockHit = mc.world.raycast(new RaycastContext(
@@ -131,13 +131,13 @@ public class Reach extends Module {
                 e -> e != null && e.isAlive() && e.canBeHitByProjectile());
 
         Entity closestEntity = null;
-        Vec3dd closestHitVec = null;
+        Vec3d closestHitVec = null;
         double closestDist = reach;
 
         for (Entity entity : entities) {
             float expandVal = (float) ((double) entity.getTargetingMargin() * (1.0 + expand));
             Box bb = entity.getBoundingBox().expand(expandVal);
-            Optional<Vec3dd> hit = bb.raycast(eyePos, endPos);
+            Optional<Vec3d> hit = bb.raycast(eyePos, endPos);
             if (hit.isPresent()) {
                 double dist = eyePos.distanceTo(hit.get());
                 if (dist < closestDist) {

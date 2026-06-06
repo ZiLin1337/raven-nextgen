@@ -9,7 +9,7 @@ import keystrokesmod.utility.Utils;
 import keystrokesmod.utility.font.FontManager;
 import keystrokesmod.utility.font.RavenFontRenderer;
 
-import net.minecraft.client.render.Tessellator;
+
 import net.minecraft.client.render.BufferBuilder;
 
 
@@ -17,7 +17,7 @@ import net.minecraft.entity.DataWatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.play.server.S1CPacketEntityMetadata;
+
 import net.minecraft.util.math.Box;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -181,7 +181,7 @@ public class DamageTags extends Module {
     }
 
     
-    public void onRenderWorldLast(RenderWorldLastEvent e) {
+    public void onRenderWorldLast(/* RenderWorldLastEvent */ e) {
         if (!Utils.nullCheck()) {
             return;
         }

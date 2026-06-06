@@ -11,7 +11,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.block.material.Material;
 import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
+
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
@@ -70,8 +70,8 @@ public class FallView extends Module {
     }
 
     
-    public void onClientTick(TickEvent.ClientTickEvent ev) {
-        if (ev.phase != TickEvent.Phase.END) {
+    public void onClientTick(/* TickEvent */./* ClientTickEvent */ ev) {
+        if (ev.phase != /* TickEvent */.Phase.END) {
             return;
         }
 
@@ -213,8 +213,8 @@ public class FallView extends Module {
     }
 
     
-    public void onRenderTick(TickEvent.RenderTickEvent ev) {
-        if (ev.phase != TickEvent.Phase.END || mc.currentScreen != null || !Utils.nullCheck()) {
+    public void onRenderTick(/* TickEvent */./* RenderTickEvent */ ev) {
+        if (ev.phase != /* TickEvent */.Phase.END || mc.currentScreen != null || !Utils.nullCheck()) {
             return;
         }
         if (!showDamageText && !showDistanceText) {
