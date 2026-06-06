@@ -1,5 +1,3 @@
-mport net.minecraft.util.math.Vec3d;
-mport net.minecraft.util.math.Direction;
 package keystrokesmod.module.impl.player;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.BlockPos;
