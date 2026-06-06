@@ -82,7 +82,7 @@ public class SkyWars extends Module {
         if (e.type == 2 || !Utils.nullCheck()) {
             return;
         }
-        String stripped = Utils.stripColor(e.message.getUnformattedText());
+        String stripped = Utils.stripColor(e.message.getString());
         if (stripped.isEmpty()) {
             return;
         }
@@ -166,7 +166,7 @@ public class SkyWars extends Module {
                     if (!entitySpawnQueue.remove(entityClassName, eggInfo)) {
                         return;
                     }
-                    spawnedMobs.add(e.entity.getEntityId());
+                    spawnedMobs.add(e.entity.getId());
                 }
             }
         }

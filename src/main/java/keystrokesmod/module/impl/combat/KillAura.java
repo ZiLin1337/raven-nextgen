@@ -338,7 +338,7 @@ public class KillAura extends Module {
                 entity.getHealth(),
                 entity.hurtTime,
                 RotationUtils.distanceFromYaw(entity, false),
-                entity.getEntityId(),
+                entity.getId(),
                 isEnemyPlayer
         );
     }
@@ -386,23 +386,23 @@ public class KillAura extends Module {
             if (entityCreature instanceof GiantEntity) {
                 return false;
             }
-            return !ModuleManager.skyWars.spawnedMobs.contains(entityCreature.getEntityId());
+            return !ModuleManager.skyWars.spawnedMobs.contains(entityCreature.getId());
         } else if (entityCreature instanceof SilverfishEntity) {
-            String teamColor = Utils.getFirstColorCode(entityCreature.getCustomNameTag());
-            String teamColorSelf = Utils.getFirstColorCode(mc.player.getDisplayName().getFormattedText());
+            String teamColor = Utils.getFirstColorCode(entityCreature.getCustomName() == null ? "" : entity.getCustomName().getString());
+            String teamColorSelf = Utils.getFirstColorCode(mc.player.getDisplayName().getString());
             return teamColor.isEmpty() || (!teamColorSelf.equals(teamColor) && !Utils.isTeammate(entityCreature));
         } else if (entityCreature instanceof IronGolemEntity) {
             if (Utils.getBedwarsStatus() != 2) {
                 return true;
             }
-            if (!golems.containsKey(entityCreature.getEntityId())) {
+            if (!golems.containsKey(entityCreature.getId())) {
                 double nearestDistance = -1;
                 ArmorStandEntity nearestArmorStand = null;
                 for (Entity entity : mc.world.loadedEntityList) {
                     if (!(entity instanceof ArmorStandEntity)) {
                         continue;
                     }
-                    String stripped = Utils.stripString(entity.getDisplayName().getFormattedText());
+                    String stripped = Utils.stripString(entity.getDisplayName().getString());
                     if (stripped.contains("[") && stripped.endsWith("]")) {
                         double distanceSq = entity.getDistanceSq(entityCreature.posX, entityCreature.posY, entityCreature.posZ);
                         if (distanceSq < nearestDistance || nearestDistance == -1) {
@@ -412,15 +412,15 @@ public class KillAura extends Module {
                     }
                 }
                 if (nearestArmorStand != null) {
-                    String teamColor = Utils.getFirstColorCode(nearestArmorStand.getDisplayName().getFormattedText());
-                    String teamColorSelf = Utils.getFirstColorCode(mc.player.getDisplayName().getFormattedText());
+                    String teamColor = Utils.getFirstColorCode(nearestArmorStand.getDisplayName().getString());
+                    String teamColorSelf = Utils.getFirstColorCode(mc.player.getDisplayName().getString());
                     boolean isTeam = !teamColor.isEmpty() && (teamColorSelf.equals(teamColor) || Utils.isTeammate(nearestArmorStand));
-                    golems.put(entityCreature.getEntityId(), isTeam);
+                    golems.put(entityCreature.getId(), isTeam);
                     return !isTeam;
                 }
-                return !ModuleManager.bedwars.spawnedMobs.contains(entityCreature.getEntityId());
+                return !ModuleManager.bedwars.spawnedMobs.contains(entityCreature.getId());
             } else {
-                return !golems.getOrDefault(entityCreature.getEntityId(), false);
+                return !golems.getOrDefault(entityCreature.getId(), false);
             }
         } else if (entityCreature instanceof ZombieEntity && Utils.getBedwarsStatus() != 2) {
             return false;

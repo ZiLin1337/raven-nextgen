@@ -234,7 +234,7 @@ public class HideWindow extends Module {
             return ((GenericContainerScreenHandler) gui.inventorySlots)
                     .getLowerChestInventory()
                     .getDisplayName()
-                    .getUnformattedText();
+                    .getString();
         }
         return "";
     }

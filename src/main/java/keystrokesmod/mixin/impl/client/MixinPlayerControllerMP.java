@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ClientPlayerInteractionManager.class)
-public class MixinPlayerControllerMP {
+public class MixinClientPlayerInteractionManager {
     @Shadow private int blockBreakCooldown;
 
     @Inject(method = "attackEntity", at = @At("HEAD"), cancellable = true)

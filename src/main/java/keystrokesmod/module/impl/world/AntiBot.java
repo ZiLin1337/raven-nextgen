@@ -38,7 +38,7 @@ public class AntiBot extends Module {
                 entities.put((PlayerEntity) e.entity, System.currentTimeMillis());
             }
             if (printWorldJoin.isToggled()) {
-                Utils.sendMessage("&7Entity &b" + e.entity.getEntityId() + " &7joined: &r" + e.entity.getDisplayName().getFormattedText());
+                Utils.sendMessage("&7Entity &b" + e.entity.getId() + " &7joined: &r" + e.entity.getDisplayName().getString());
             }
         }
     }
@@ -91,7 +91,7 @@ public class AntiBot extends Module {
         }
         if (entityPlayer.maxHurtTime == 0) {
             if (entityPlayer.getHealth() == 20.0f) {
-                String unformattedText = entityPlayer.getDisplayName().getUnformattedText();
+                String unformattedText = entityPlayer.getDisplayName().getString();
                 if (unformattedText.length() == 10 && unformattedText.charAt(0) != '§') {
                     return true;
                 }
@@ -105,7 +105,7 @@ public class AntiBot extends Module {
                     return true;
                 }
             } else if (entityPlayer.isInvisible()) {
-                String unformattedText = entityPlayer.getDisplayName().getUnformattedText();
+                String unformattedText = entityPlayer.getDisplayName().getString();
                 if (unformattedText.length() >= 3 && unformattedText.charAt(0) == '§' && unformattedText.charAt(1) == 'c') {
                     return true;
                 }

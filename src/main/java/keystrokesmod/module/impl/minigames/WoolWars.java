@@ -166,7 +166,7 @@ public class WoolWars extends Module {
                 delay = (int) breakDelay.getInput();
                 fakeSwing = true;
             }
-            mc.world.sendBlockBreakProgress(mc.player.getEntityId(), miningPos, (int) (curBlockDamageMP * 10.0f) - 1);
+            mc.world.sendBlockBreakProgress(mc.player.getId(), miningPos, (int) (curBlockDamageMP * 10.0f) - 1);
             mc.player.swingItem();
         }
         else if (miningPos != null) {

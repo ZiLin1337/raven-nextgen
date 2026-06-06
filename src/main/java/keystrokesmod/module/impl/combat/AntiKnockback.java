@@ -44,7 +44,7 @@ public class AntiKnockback extends Module {
             return;
         }
         if (e.getPacket() instanceof S12PacketEntityVelocity) {
-            if (((S12PacketEntityVelocity) e.getPacket()).getEntityID() == mc.player.getEntityId() && !disable) {
+            if (((S12PacketEntityVelocity) e.getPacket()).getEntityID() == mc.player.getId() && !disable) {
                 if (!cancelBurning.isToggled() && mc.player.isBurning()) {
                     return;
                 }

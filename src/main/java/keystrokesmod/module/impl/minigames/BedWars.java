@@ -102,7 +102,7 @@ public void onRenderWorld(Object e) {
                     if (!entitySpawnQueue.remove(eggInfo)) {
                         return;
                     }
-                    spawnedMobs.add(e.entity.getEntityId());
+                    spawnedMobs.add(e.entity.getId());
                 }
             }
         }
@@ -128,7 +128,7 @@ public void onRenderWorld(Object e) {
                         ItemStack leggings = p.inventory.armorInventory[1];
                         if (!armoredPlayer.contains(name) && p.inventory != null && leggings != null && leggings.getItem() != null && leggings.getItem() == Items.diamond_leggings) {
                             armoredPlayer.add(name);
-                            Utils.sendMessage("&eAlert: &r" + p.getDisplayName().getFormattedText() + " &7has purchased &bDiamond Armor");
+                            Utils.sendMessage("&eAlert: &r" + p.getDisplayName().getString() + " &7has purchased &bDiamond Armor");
                             ping();
                         }
                     }
@@ -137,7 +137,7 @@ public void onRenderWorld(Object e) {
                         if (itemType != null) {
                             lastHeldMap.put(name, itemType);
                             double distance = Math.round(mc.player.getDistanceToEntity(p));
-                            handleAlert(itemType, p.getDisplayName().getFormattedText(), Utils.asWholeNum(distance));
+                            handleAlert(itemType, p.getDisplayName().getString(), Utils.asWholeNum(distance));
                         }
                     } else if (lastHeldMap.containsKey(name)) {
                         String itemType = lastHeldMap.get(name);

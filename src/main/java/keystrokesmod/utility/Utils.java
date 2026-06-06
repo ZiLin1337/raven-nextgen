@@ -174,7 +174,7 @@ public class Utils implements IMinecraftInstance {
                 sendMessage("&7team suffix: &r" + scoreTeam.getColorSuffix());
             }
         }
-        sendMessage("&7display unformatted: &r" + (hasDisplayName ? displayName.getUnformattedText() : "&cnull"));
+        sendMessage("&7display unformatted: &r" + (hasDisplayName ? displayName.getString() : "&cnull"));
         sendMessage("&7insertion: &r" + (hasDisplayName ? displayName.getChatStyle().getInsertion() : "&cnull"));
         sendMessage("&7health: &r" + ent.getHealth());
         sendMessage("&7ht: &d" + ent.hurtTime + " &7mht: &d" + ent.maxHurtTime);
@@ -277,7 +277,7 @@ public class Utils implements IMinecraftInstance {
             return -1;
         }
 
-        String displayName = removeFormatCodes(displayNameComponent.getFormattedText());
+        String displayName = removeFormatCodes(displayNameComponent.getString());
         if (displayName.length() < 2 || !displayName.startsWith("§") || Character.toLowerCase(displayName.charAt(1)) == 'f') {
             return -1;
         }
@@ -807,7 +807,7 @@ public class Utils implements IMinecraftInstance {
     public static boolean isTeammate(Entity entity) {
         try {
             Entity teamMate = entity;
-            if (mc.player.isOnSameTeam((LivingEntity) entity) || mc.player.getDisplayName().getUnformattedText().startsWith(teamMate.getDisplayName().getUnformattedText().substring(0, 2)) || getNetworkDisplayName().startsWith(teamMate.getDisplayName().getUnformattedText().substring(0, 2))) {
+            if (mc.player.isOnSameTeam((LivingEntity) entity) || mc.player.getDisplayName().getString().startsWith(teamMate.getDisplayName().getString().substring(0, 2)) || getNetworkDisplayName().startsWith(teamMate.getDisplayName().getString().substring(0, 2))) {
                 return true;
             }
         }
@@ -1041,7 +1041,7 @@ public class Utils implements IMinecraftInstance {
     public static void switchSlot(final int slot, final boolean instant) {
         mc.player.inventory.currentItem = slot;
         if (instant) {
-            ((IAccessorPlayerControllerMP) mc.playerController).callSyncCurrentPlayItem();
+            ((IAccessorClientPlayerInteractionManager) mc.playerController).callSyncCurrentPlayItem();
         }
     }
 

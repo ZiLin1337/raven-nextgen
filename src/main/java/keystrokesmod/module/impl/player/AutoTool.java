@@ -310,6 +310,6 @@ public class AutoTool extends Module {
         }
         mc.player.inventory.currentItem = currentItem;
         hasSwapped = true;
-        ((IAccessorPlayerControllerMP) mc.playerController).callSyncCurrentPlayItem();
+        ((IAccessorClientPlayerInteractionManager) mc.playerController).callSyncCurrentPlayItem();
     }
 }

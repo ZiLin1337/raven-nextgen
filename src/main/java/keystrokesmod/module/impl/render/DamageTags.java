@@ -174,7 +174,7 @@ public class DamageTags extends Module {
             return;
         }
 
-        pendingUpdates.offer(new QueuedMetadataUpdate(packet.getEntityId(), hasHealth, health, hasAbsorption, absorption));
+        pendingUpdates.offer(new QueuedMetadataUpdate(packet.getId(), hasHealth, health, hasAbsorption, absorption));
     }
 
     
@@ -289,7 +289,7 @@ public class DamageTags extends Module {
             }
 
             LivingEntity living = (LivingEntity) entity;
-            trackedStates.put(entity.getEntityId(), new HealthSnapshot(getHealth(living), getAbsorption(living)));
+            trackedStates.put(entity.getId(), new HealthSnapshot(getHealth(living), getAbsorption(living)));
         }
     }
 

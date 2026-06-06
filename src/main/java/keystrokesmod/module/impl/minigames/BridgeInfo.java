@@ -126,7 +126,7 @@ public class BridgeInfo extends Module {
     
     public void onChat(Object c) {
         if (Utils.nullCheck()) {
-            String s = Utils.stripColor(c.message.getUnformattedText());
+            String s = Utils.stripColor(c.message.getString());
             if (s.startsWith(" ")) {
                 if (s.contains(this.qt)) {
                     this.q = true;

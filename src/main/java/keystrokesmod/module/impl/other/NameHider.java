@@ -121,12 +121,12 @@ public class NameHider extends Module {
     }
 
     public static Text getPlayerDisplayName(PlayerEntity player, Text original) {
-        if (original == null || !shouldProcessText(original.getFormattedText())) {
+        if (original == null || !shouldProcessText(original.getString())) {
             return original;
         }
 
         refreshCaches();
-        String originalText = original.getFormattedText();
+        String originalText = original.getString();
         String replaced = getDisplayTextForPlayer(player, originalText);
         if (Objects.equals(originalText, replaced)) {
             return original;

@@ -397,7 +397,7 @@ public class HitSelect extends Module {
             return currentTarget == nextTarget;
         }
 
-        return currentTarget.getEntityId() == nextTarget.getEntityId();
+        return currentTarget.getId() == nextTarget.getId();
     }
 
     private void resetWaitFirstState() {
@@ -447,13 +447,13 @@ public class HitSelect extends Module {
     }
 
     private TargetState getTargetState(PlayerEntity target, int currentTick) {
-        TargetState state = targetStates.get(target.getEntityId());
+        TargetState state = targetStates.get(target.getId());
         if (state == null) {
             state = new TargetState();
             if (useServerAttackTime.isToggled()) {
                 state.lastObservedTargetHurtTime = target.hurtTime;
             }
-            targetStates.put(target.getEntityId(), state);
+            targetStates.put(target.getId(), state);
         }
         return state;
     }

@@ -55,7 +55,7 @@ public class DuelsStats extends Module {
 
             for (PlayerEntity player : players) {
                 String name = player.getName();
-                if (!name.equals(this.ign) && !name.equals(nick) && !this.q.contains(name) && player.getDisplayName().getUnformattedText().contains("§k")) {
+                if (!name.equals(this.ign) && !name.equals(nick) && !this.q.contains(name) && player.getDisplayName().getString().contains("§k")) {
                     this.ef(name);
                     break;
                 }
@@ -67,7 +67,7 @@ public class DuelsStats extends Module {
     
     public void onMessageReceived(Object e) {
         if (Utils.nullCheck() && this.id()) {
-            String s = Utils.stripColor(e.message.getUnformattedText());
+            String s = Utils.stripColor(e.message.getString());
             if (s.contains(" ")) {
                 String[] sp = s.split(" ");
                 String n;

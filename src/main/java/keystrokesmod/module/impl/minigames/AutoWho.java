@@ -46,7 +46,7 @@ public class AutoWho extends Module {
         if (e.type == 2 || !Utils.nullCheck()) {
             return;
         }
-        final String r = Utils.stripColor(e.message.getUnformattedText());
+        final String r = Utils.stripColor(e.message.getString());
         if (r.isEmpty()) {
             return;
         }
@@ -87,7 +87,7 @@ public class AutoWho extends Module {
                 Utils.log.info("[CHAT] " + (online + mc.player.getName()));
                 return;
             }
-            Utils.sendRawMessage(online + mc.player.getDisplayName().getFormattedText());
+            Utils.sendRawMessage(online + mc.player.getDisplayName().getString());
         } else {
             mc.player.sendChatMessage("/who");
         }

@@ -146,7 +146,7 @@ public class AutoSwap extends Module {
         }
 
         mc.player.inventory.currentItem = slot;
-        ((IAccessorPlayerControllerMP) mc.playerController).callSyncCurrentPlayItem();
+        ((IAccessorClientPlayerInteractionManager) mc.playerController).callSyncCurrentPlayItem();
     }
 
     private void resetState() {

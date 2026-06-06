@@ -144,8 +144,8 @@ public class HitParticles extends Module {
             if (target == null || target.hurtTime > 0) {
                 continue;
             }
-            int aid = arrow.getEntityId();
-            int tid = target.getEntityId();
+            int aid = arrow.getId();
+            int tid = target.getId();
             Integer prev = rangedSpawnForArrow.get(aid);
             if (prev != null && prev == tid) {
                 continue;

@@ -279,7 +279,7 @@ public class SpeedBuilders extends Module {
         if (e.type == 2 || !Utils.nullCheck() || getGameStatus() == -1 || listenForPacket) {
             return;
         }
-        String stripped = Utils.stripColor(e.message.getUnformattedText());
+        String stripped = Utils.stripColor(e.message.getString());
         if (stripped.isEmpty()) {
             return;
         }

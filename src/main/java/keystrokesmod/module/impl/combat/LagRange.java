@@ -137,7 +137,7 @@ public class LagRange extends Module {
                 }
 
                 if (lastDistSq >= 0 && distSq >= lastDistSq) {
-                    boolean hitHold = hitMarkedEntityId == currentTarget.getEntityId()
+                    boolean hitHold = hitMarkedEntityId == currentTarget.getId()
                             && distSq <= MINIMUM_DISTANCE_SQ
                             && mc.player.hurtTime == 0;
                     if (!hitHold) {
@@ -218,14 +218,14 @@ public class LagRange extends Module {
             if (hurtTime == 0
                     && lastTargetHurtTime == 0
                     && currentTarget.hurtTime > 0) {
-                hitMarkedEntityId = currentTarget.getEntityId();
+                hitMarkedEntityId = currentTarget.getId();
             }
             lastTargetHurtTime = currentTarget.hurtTime;
 
             boolean closing = lastDistSq >= 0 && distSq < lastDistSq;
             boolean outsideMinDist = distSq > MINIMUM_DISTANCE_SQ;
             boolean weaponOk = !holdingWeapon.isToggled() || Utils.holdingWeapon();
-            boolean hitMarkedHere = hitMarkedEntityId == currentTarget.getEntityId();
+            boolean hitMarkedHere = hitMarkedEntityId == currentTarget.getId();
             boolean hitStart = hitMarkedHere && distSq <= MINIMUM_DISTANCE_SQ && hurtTime == 0 && moving && weaponOk;
 
             lastDistSq = distSq;
@@ -393,7 +393,7 @@ public class LagRange extends Module {
         if (currentTarget == null || nextTarget == null) {
             return currentTarget == nextTarget;
         }
-        return currentTarget.getEntityId() == nextTarget.getEntityId();
+        return currentTarget.getId() == nextTarget.getId();
     }
 
     private boolean isMoving() {

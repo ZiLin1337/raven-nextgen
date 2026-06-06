@@ -81,11 +81,11 @@ public class WTap extends Module {
         if (chance.getInput() == 0) return;
 
         if (playersOnly.isToggled()) {
-            if (mc.world == null || !(mc.world.getEntityById(packet.getEntityId()) instanceof PlayerEntity)) return;
-            if (AntiBot.isBot(mc.world.getEntityById(packet.getEntityId()))) return;
+            if (mc.world == null || !(mc.world.getEntityById(packet.getId()) instanceof PlayerEntity)) return;
+            if (AntiBot.isBot(mc.world.getEntityById(packet.getId()))) return;
         } else {
             if (mc.world == null) return;
-            var target = mc.world.getEntityById(packet.getEntityId());
+            var target = mc.world.getEntityById(packet.getId());
             if (!(target instanceof LivingEntity)) return;
             if (((LivingEntity)target).deathTime != 0) return;
         }

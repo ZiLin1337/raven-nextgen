@@ -77,7 +77,7 @@ public class KnockbackDelay extends Module {
         if (!Utils.nullCheck() || mc.player == null || mc.world == null) return;
 
         EntityVelocityUpdateS2CPacket packet = (EntityVelocityUpdateS2CPacket) e.getPacket();
-        if (packet.getEntityId() != mc.player.getId()) return;
+        if (packet.getId() != mc.player.getId()) return;
 
         String failReason = conditionsFailureReason();
         if (failReason != null) return;

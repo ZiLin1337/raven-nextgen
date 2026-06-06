@@ -93,7 +93,7 @@ public void onRenderWorld(Object e) {
             this.resetVariables();
             return;
         }
-        this.progress = ((IAccessorPlayerControllerMP) mc.playerController).getCurBlockDamageMP();
+        this.progress = ((IAccessorClientPlayerInteractionManager) mc.playerController).getCurBlockDamageMP();
         if (this.progress == 0.0f) {
             this.resetVariables();
             return;

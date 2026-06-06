@@ -119,7 +119,7 @@ public class BedAura extends Module {
             return;
         }
 
-        String strippedMessage = Utils.stripColor(event.message.getUnformattedText());
+        String strippedMessage = Utils.stripColor(event.message.getString());
         if (strippedMessage.startsWith(" ") && strippedMessage.contains("Protect your bed and destroy the enemy beds.")) {
             pendingSpawnAnchorCapture = true;
             waitingForRespawn = false;
@@ -212,7 +212,7 @@ public class BedAura extends Module {
         if (!canMineBlocks() || !miningActive || mc.playerController == null) {
             return 0f;
         }
-        IAccessorPlayerControllerMP pc = (IAccessorPlayerControllerMP) mc.playerController;
+        IAccessorClientPlayerInteractionManager pc = (IAccessorClientPlayerInteractionManager) mc.playerController;
         BlockPos currentBlock = pc.getCurrentBlock();
         if (targetPos == null || currentBlock == null || !targetPos.equals(currentBlock)) {
             return 0f;
@@ -418,7 +418,7 @@ public class BedAura extends Module {
     }
 
     private Choice chooseBestTarget(double reachSq) {
-        IAccessorPlayerControllerMP pc = (IAccessorPlayerControllerMP) mc.playerController;
+        IAccessorClientPlayerInteractionManager pc = (IAccessorClientPlayerInteractionManager) mc.playerController;
         float curProg = pc.getCurBlockDamageMP();
         BlockPos breaking = pc.getCurrentBlock();
 
@@ -588,7 +588,7 @@ public class BedAura extends Module {
         try {
             mc.player.inventory.currentItem = slot;
             hasSwapped = true;
-            ((IAccessorPlayerControllerMP) mc.playerController).callSyncCurrentPlayItem();
+            ((IAccessorClientPlayerInteractionManager) mc.playerController).callSyncCurrentPlayItem();
         } finally {
             hotbarProgrammaticDepth--;
         }

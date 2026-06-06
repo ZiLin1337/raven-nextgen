@@ -290,12 +290,12 @@ public class Nametags extends Module {
         String name;
 
         if (onlyRenderName.isToggled()) {
-            String formatted = Utils.getFirstColorCode(entity.getDisplayName().getFormattedText());
+            String formatted = Utils.getFirstColorCode(entity.getDisplayName().getString());
             String color = (formatted.length() >= 2 && formatted.charAt(0) == '\u00a7') ? formatted : "";
             name = color + entity.getName();
         }
         else {
-            name = entity.getDisplayName().getFormattedText();
+            name = entity.getDisplayName().getString();
         }
 
         if (showHealth.isToggled()) {

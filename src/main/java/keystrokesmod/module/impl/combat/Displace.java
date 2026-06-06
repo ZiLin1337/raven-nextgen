@@ -441,7 +441,7 @@ public class Displace extends Module {
             return true;
         }
 
-        int targetId = target.getEntityId();
+        int targetId = target.getId();
         Integer windowStartTick = targetWindowStartTicks.get(targetId);
         if (windowStartTick == null || currentTick - windowStartTick >= DISPLACE_WINDOW_TICKS) {
             targetWindowStartTicks.put(targetId, currentTick);
