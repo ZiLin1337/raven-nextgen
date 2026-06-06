@@ -20,9 +20,9 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3dd;
 
 
 import java.util.ArrayList;
@@ -61,7 +61,7 @@ public class Clutch extends Module {
 
     private BlockPos placeAtBlock;
     private Direction hitSide;
-    private Vec3 hitVec;
+    private Vec3d hitVec;
     private boolean placeQueued;
     private boolean placing;
     private boolean slotWasSwapped;
@@ -154,7 +154,7 @@ public class Clutch extends Module {
         float[] smoothed = getRotationsSmoothed(baseYaw, basePitch, aimYaw, aimPitch, false);
 
         if (placing && targetHitPos != null) {
-            MovingObjectPosition mop = RotationUtils.rayCastBlock(reach.getInput(), smoothed[0], smoothed[1]);
+            HitResult mop = RotationUtils.rayCastBlock(reach.getInput(), smoothed[0], smoothed[1]);
             if (mop != null && targetHitPos.equals(mop.getBlockPos()) && targetSide == mop.sideHit) {
                 int maxBlocks = (int) maxDistance.getInput();
                 if (maxBlocks == 0 || clutchBlocksPlaced < maxBlocks) {
@@ -375,10 +375,10 @@ public void onMouse(MouseEvent e) {
     }
 
     private AimResult clutchAim() {
-        Vec3 playerPos = new Vec3(mc.player.getX(), mc.player.getY(), mc.player.getZ());
-        Vec3 eye = mc.player.getPositionEyes(1.0f);
+        Vec3d playerPos = new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ());
+        Vec3d eye = mc.player.getPositionEyes(1.0f);
 
-        Vec3 futurePos = playerPos;
+        Vec3d futurePos = playerPos;
         if (simulateFuturePosition.isToggled()) {
             PredictionState prediction = PredictionState.fromPlayer();
             for (int t = 0; t < 20; t++) {
@@ -426,7 +426,7 @@ public void onMouse(MouseEvent e) {
         return null;
     }
 
-    private boolean isBlockUnderPlayer(BlockPos blockPos, Vec3 pos) {
+    private boolean isBlockUnderPlayer(BlockPos blockPos, Vec3d pos) {
         if (blockPos.getY() >= MathHelper.floor_double(pos.yCoord)) return false;
         for (double[] corner : CORNERS) {
             int cx = MathHelper.floor_double(pos.xCoord + corner[0]);
@@ -436,7 +436,7 @@ public void onMouse(MouseEvent e) {
         return false;
     }
 
-    private AimResult getBestRotationsToBlock(ItemStack held, BlockPos targetCell, Vec3 eye, double reachVal, boolean underPlayer) {
+    private AimResult getBestRotationsToBlock(ItemStack held, BlockPos targetCell, Vec3d eye, double reachVal, boolean underPlayer) {
         double inset = 0.05;
         double step = 0.2;
         double jitter = step * 0.1;
@@ -474,7 +474,7 @@ public void onMouse(MouseEvent e) {
 
         for (RotationCandidate candidate : candidates) {
             float yaw = unwrapYaw(candidate.yaw, RotationUtils.serverRotations[0]);
-            MovingObjectPosition ray = RotationUtils.rayCastBlock(reachVal, yaw, candidate.pitch);
+            HitResult ray = RotationUtils.rayCastBlock(reachVal, yaw, candidate.pitch);
             if (ray == null) continue;
 
             Direction face = ray.sideHit;
@@ -593,7 +593,7 @@ public void onMouse(MouseEvent e) {
         return prevYaw + MathHelper.wrapAngleTo180_float(yaw - prevYaw);
     }
 
-    private static float[] getRotationsWrapped(Vec3 eye, double tx, double ty, double tz) {
+    private static float[] getRotationsWrapped(Vec3d eye, double tx, double ty, double tz) {
         double dx = tx - eye.xCoord;
         double dy = ty - eye.yCoord;
         double dz = tz - eye.zCoord;
@@ -626,11 +626,11 @@ public void onMouse(MouseEvent e) {
     }
 
     private static class AimResult {
-        final MovingObjectPosition ray;
+        final HitResult ray;
         final float yaw;
         final float pitch;
 
-        AimResult(MovingObjectPosition ray, float yaw, float pitch) {
+        AimResult(HitResult ray, float yaw, float pitch) {
             this.ray = ray;
             this.yaw = yaw;
             this.pitch = pitch;
@@ -656,8 +656,8 @@ public void onMouse(MouseEvent e) {
             return state;
         }
 
-        Vec3 getPos() {
-            return new Vec3((box.minX + box.maxX) / 2.0, box.minY, (box.minZ + box.maxZ) / 2.0);
+        Vec3d getPos() {
+            return new Vec3d((box.minX + box.maxX) / 2.0, box.minY, (box.minZ + box.maxZ) / 2.0);
         }
 
         void tick(boolean stopHorizontal) {

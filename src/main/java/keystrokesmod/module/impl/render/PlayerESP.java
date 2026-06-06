@@ -1,7 +1,7 @@
 package keystrokesmod.module.impl.render;
 
 import keystrokesmod.Raven;
-import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
+// import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
 import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
@@ -21,8 +21,8 @@ import keystrokesmod.utility.shader.OutlineShader;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
 
 
@@ -61,7 +61,7 @@ public class PlayerESP extends Module {
 
     private final List<EspRenderState> renderStates = new ArrayList<>();
     private final List<EspRenderState> visibleRenderStates = new ArrayList<>();
-    private final Map<EntityPlayer, EspRenderState> playerRenderStates = new HashMap<>();
+    private final Map<PlayerEntity, EspRenderState> playerRenderStates = new HashMap<>();
     private final double[] projectedPoint = new double[3];
     private RenderUtils.ProjectionContext projectionContext;
     private int renderStateCount;
@@ -72,11 +72,11 @@ public class PlayerESP extends Module {
     private final GlowShader glowShader = new GlowShader();
 
     private static final class EspRenderState {
-        private EntityLivingBase entity;
+        private LivingEntity entity;
         private int staticColor;
         private int renderColor;
 
-        private void set(EntityLivingBase entity, int staticColor) {
+        private void set(LivingEntity entity, int staticColor) {
             this.entity = entity;
             this.staticColor = staticColor;
             this.renderColor = staticColor;
@@ -148,7 +148,7 @@ public void onRenderWorld(RenderWorldLastEvent e) {
 
         for (int i = 0; i < renderStateCount; i++) {
             EspRenderState renderState = renderStates.get(i);
-            EntityLivingBase entity = renderState.entity;
+            LivingEntity entity = renderState.entity;
             if (entity == null || !RenderUtils.isInViewFrustum(entity)) {
                 continue;
             }
@@ -187,7 +187,7 @@ public void onRenderWorld(RenderWorldLastEvent e) {
         glowShader.use();
         for (int i = 0; i < visibleRenderStateCount; i++) {
             EspRenderState renderState = visibleRenderStates.get(i);
-            EntityLivingBase ent = renderState.entity;
+            LivingEntity ent = renderState.entity;
             int col = resolveOutlineColor(renderState);
             glowShader.setColor((col >> 16) & 0xFF, (col >> 8) & 0xFF, col & 0xFF, (col >> 24) & 0xFF);
             boolean invis = ent.isInvisible();
@@ -225,20 +225,20 @@ public void onRenderWorld(RenderWorldLastEvent e) {
         double maxDistSq = maxDistance.getInput() * maxDistance.getInput();
         if (Raven.DEBUG) {
             for (Entity entity : mc.world.loadedEntityList) {
-                if (!(entity instanceof EntityLivingBase) || entity == mc.player) {
+                if (!(entity instanceof LivingEntity) || entity == mc.player) {
                     continue;
                 }
                 if (!RenderUtils.isWithinDistanceSqToRenderView(entity, maxDistSq)) {
                     continue;
                 }
-                addRenderState((EntityLivingBase) entity, resolveStaticColor(entity));
+                addRenderState((LivingEntity) entity, resolveStaticColor(entity));
             }
             return;
         }
 
-        EntityPlayer selfPlayer = (Freecam.freeEntity == null) ? mc.player : Freecam.freeEntity;
+        PlayerEntity selfPlayer = (Freecam.freeEntity == null) ? mc.player : Freecam.freeEntity;
         boolean allowSelf = shouldRenderSelf(selfPlayer);
-        for (EntityPlayer player : mc.world.playerEntities) {
+        for (PlayerEntity player : mc.world.playerEntities) {
             if (player == selfPlayer && !allowSelf) {
                 continue;
             }
@@ -258,19 +258,19 @@ public void onRenderWorld(RenderWorldLastEvent e) {
         }
     }
 
-    private boolean shouldRenderSelf(EntityPlayer selfPlayer) {
+    private boolean shouldRenderSelf(PlayerEntity selfPlayer) {
         return selfPlayer == mc.player && renderSelf.isToggled() && (!Settings.hideFirstPersonESP.isToggled() || mc.gameSettings.thirdPersonView > 0);
     }
 
-    private void addRenderState(EntityLivingBase entity, int staticColor) {
+    private void addRenderState(LivingEntity entity, int staticColor) {
         if (renderStateCount >= renderStates.size()) {
             renderStates.add(new EspRenderState());
         }
 
         EspRenderState renderState = renderStates.get(renderStateCount++);
         renderState.set(entity, staticColor);
-        if (entity instanceof EntityPlayer) {
-            playerRenderStates.put((EntityPlayer) entity, renderState);
+        if (entity instanceof PlayerEntity) {
+            playerRenderStates.put((PlayerEntity) entity, renderState);
         }
     }
 
@@ -345,7 +345,7 @@ public void onRenderWorld(RenderWorldLastEvent e) {
     }
 
     private void renderTwoD(EspRenderState renderState, EntityRenderDispatcher renderManager, int screenWidth, int screenHeight, float partialTicks) {
-        EntityLivingBase en = renderState.entity;
+        LivingEntity en = renderState.entity;
         double playerX = en.lastTickPosX + (en.posX - en.lastTickPosX) * partialTicks - renderManager.viewerPosX;
         double playerY = en.lastTickPosY + (en.posY - en.lastTickPosY) * partialTicks - renderManager.viewerPosY;
         double playerZ = en.lastTickPosZ + (en.posZ - en.lastTickPosZ) * partialTicks - renderManager.viewerPosZ;
@@ -441,7 +441,7 @@ public void onRenderWorld(RenderWorldLastEvent e) {
         GL11.glPopMatrix();
     }
 
-    public void renderSkeleton(EntityPlayer player, ModelBiped modelBiped, int color, float partialTicks) {
+    public void renderSkeleton(PlayerEntity player, ModelBiped modelBiped, int color, float partialTicks) {
         GL11.glPushMatrix();
         GL11.glDisable(GL11.GL_DEPTH_TEST);
 

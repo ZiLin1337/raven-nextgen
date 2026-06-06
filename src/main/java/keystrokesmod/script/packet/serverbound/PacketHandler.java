@@ -1,13 +1,13 @@
 package keystrokesmod.script.packet.serverbound;
 
-import keystrokesmod.script.model.Vec3;
+import keystrokesmod.script.model.Vec3d;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.c2s.play.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3dd;
 import net.minecraft.util.Hand;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerAbilities;
@@ -58,7 +58,7 @@ public class PacketHandler {
     public static CPacket createInteractBlock(BlockPos pos, Direction direction, float hitX, float hitY, float hitZ) {
         return new CPacket(new PlayerInteractBlockC2SPacket(
             mc.player != null ? mc.player.getActiveHand() : Hand.MAIN_HAND,
-            new BlockHitResult(new Vec3d(hitX, hitY, hitZ), direction, pos, false),
+            new BlockHitResult(new Vec3dd(hitX, hitY, hitZ), direction, pos, false),
             0
         ));
     }
@@ -101,7 +101,7 @@ public class PacketHandler {
         return new CPacket(new UpdateSignC2SPacket(pos, l1, l2, l3, l4));
     }
 
-    public static CPacket convertOldC03Format(Vec3 pos, float yaw, float pitch, boolean ground, boolean hasPos, boolean hasRot) {
+    public static CPacket convertOldC03Format(Vec3d pos, float yaw, float pitch, boolean ground, boolean hasPos, boolean hasRot) {
         if (hasPos && hasRot) return createPlayerMove(pos.x, pos.y, pos.z, yaw, pitch, ground);
         else if (hasPos) return createPlayerMove(pos.x, pos.y, pos.z, ground);
         else if (hasRot) return new CPacket(new PlayerMoveC2SPacket.LookAndOnGround(yaw, pitch, ground));

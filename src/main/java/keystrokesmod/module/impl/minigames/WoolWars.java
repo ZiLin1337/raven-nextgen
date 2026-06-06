@@ -24,7 +24,7 @@ import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.hit.HitResult;
 
 
 import java.awt.*;
@@ -45,7 +45,7 @@ public class WoolWars extends Module {
 
     private BlockPos middlePos;
     private BlockPos miningPos;
-    private MovingObjectPosition placeMop;
+    private HitResult placeMop;
 
     private float curBlockDamageMP;
     private int delay;
@@ -91,7 +91,7 @@ public class WoolWars extends Module {
         if (middlePos == null) {
             middlePos = getMiddlePos();
         }
-        else if (!mc.player.capabilities.allowFlying && mc.player.getDistanceSq(middlePos) < rangeSq && isActiveRound() && (!onlyMiddleClick.isToggled() || Mouse.isButtonDown(2))) {
+        else if (!mc.player.capabilities.allowFlying && mc.player.getDistanceSq(middlePos) < rangeSq && isActiveRound() && (!onlyMiddleClick.isToggled() || /* Mouse.isButtonDown */(2))) {
             if (swapBack == -1) {
                 swapBack = mc.player.inventory.currentItem;
             }
@@ -120,8 +120,8 @@ public class WoolWars extends Module {
                             int j = 20;
                             while (j < 90) {
                                 float pitch = RotationUtils.clampPitch((float) (j + randomRotationOffset()));
-                                MovingObjectPosition mop = Utils.getTarget(lastRange, yaw, pitch);
-                                if (mop != null && mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && BlockUtils.isBlockPosEqual(BlockUtils.offsetPos(mop), closestPos)) {
+                                HitResult mop = Utils.getTarget(lastRange, yaw, pitch);
+                                if (mop != null && mop.typeOfHit == HitResult.MovingObjectType.BLOCK && BlockUtils.isBlockPosEqual(BlockUtils.offsetPos(mop), closestPos)) {
                                     placeMop = mop;
                                     placingYaw = yaw;
                                     placingPitch = pitch;
@@ -329,7 +329,7 @@ public class WoolWars extends Module {
                 e.setPitch(rotations[1]);
             }
         }
-        if (delay > 0 && (!onlyMiddleClick.isToggled() || Mouse.isButtonDown(2))) {
+        if (delay > 0 && (!onlyMiddleClick.isToggled() || /* Mouse.isButtonDown */(2))) {
             List<BlockPos> posList = getPossiblePos(middlePos, true);
             BlockPos closestPos = null;
             if (!posList.isEmpty()) {

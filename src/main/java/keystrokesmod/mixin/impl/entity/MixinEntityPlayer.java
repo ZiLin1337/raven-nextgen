@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PlayerEntity.class)
-public abstract class MixinEntityPlayer {
+public abstract class MixinPlayerEntity {
     @Shadow public abstract ItemStack getMainHandStack();
     @Shadow public abstract ItemStack getOffHandStack();
     @Shadow public abstract void addExhaustion(float exhaustion);

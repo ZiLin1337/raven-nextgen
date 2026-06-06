@@ -64,7 +64,7 @@ public class BlockIn extends Module {
 
     private BlockPos hitAt;
     private Direction hitSide;
-    private Vec3 placeAt;
+    private Vec3d placeAt;
 
     private float fillCount;
     private float lastFillCount = -1;
@@ -121,7 +121,7 @@ public class BlockIn extends Module {
         float[] sm = RotationUtils.smoothRotation(baseYaw, basePitch, aimYaw, aimPitch,
                 (int) speed.getInput(), (float) randomization.getInput());
         double r = REACH;
-        MovingObjectPosition mop = RotationUtils.rayCastBlock(r, sm[0], sm[1]);
+        HitResult mop = RotationUtils.rayCastBlock(r, sm[0], sm[1]);
 
         if (mop != null) {
             BlockPos hitBlock = mop.getBlockPos();
@@ -339,7 +339,7 @@ public void onMouse(MouseEvent e) {
     }
 
     private AimResult roofAim() {
-        Vec3 pos = new Vec3(mc.player.getX(), mc.player.getY(), mc.player.getZ());
+        Vec3d pos = new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ());
         BlockPos aboveHead = new BlockPos(
                 MathHelper.floor_double(pos.xCoord),
                 MathHelper.floor_double(pos.yCoord) + 2,
@@ -350,7 +350,7 @@ public void onMouse(MouseEvent e) {
         if (plannedSlot < 0 || plannedSlot > 8) return null;
         ItemStack held = mc.player.inventory.mainInventory[plannedSlot];
         double r = REACH;
-        Vec3 eye = new Vec3(pos.xCoord, pos.yCoord + mc.player.getEyeHeight(), pos.zCoord);
+        Vec3d eye = new Vec3d(pos.xCoord, pos.yCoord + mc.player.getEyeHeight(), pos.zCoord);
         double r2 = r * r;
         double rp12 = (r + 1) * (r + 1);
 
@@ -392,7 +392,7 @@ public void onMouse(MouseEvent e) {
         return null;
     }
 
-    private AimResult getBestRotationsToBlock(ItemStack held, BlockPos targetCell, Vec3 eye, double reachVal, int minY) {
+    private AimResult getBestRotationsToBlock(ItemStack held, BlockPos targetCell, Vec3d eye, double reachVal, int minY) {
         float baseYaw = RotationUtils.serverRotations[0];
         float basePitch = RotationUtils.serverRotations[1];
 
@@ -435,7 +435,7 @@ public void onMouse(MouseEvent e) {
 
         int byY = targetCell.getY();
         for (RotationCandidate c : cands) {
-            MovingObjectPosition mop = RotationUtils.rayCastBlock(reachVal, c.yaw, c.pitch);
+            HitResult mop = RotationUtils.rayCastBlock(reachVal, c.yaw, c.pitch);
             if (mop == null) continue;
             BlockPos hitBlock = mop.getBlockPos();
             Direction face = mop.sideHit;
@@ -456,7 +456,7 @@ public void onMouse(MouseEvent e) {
         );
         BlockPos head = feet.up();
         double r = REACH;
-        Vec3 eye = mc.player.getPositionEyes(1.0f);
+        Vec3d eye = mc.player.getPositionEyes(1.0f);
 
         ArrayList<BlockPos> baseline = new ArrayList<>(8);
         for (Direction dir : HORIZONTALS) {
@@ -472,7 +472,7 @@ public void onMouse(MouseEvent e) {
         }
         if (primaryGoals.isEmpty()) return null;
 
-        Vec3 enemyPos = Utils.getClosestPlayerPos(100);
+        Vec3d enemyPos = Utils.getClosestPlayerPos(100);
         if (enemyPos != null) {
             baseline.sort((a, b) -> {
                 double da = sq(a.getX() + 0.5 - enemyPos.xCoord)
@@ -523,7 +523,7 @@ public void onMouse(MouseEvent e) {
         return null;
     }
 
-    private AimResult findBestForGoals(List<BlockPos> goals, double reachVal, Vec3 eye) {
+    private AimResult findBestForGoals(List<BlockPos> goals, double reachVal, Vec3d eye) {
         if (goals == null || goals.isEmpty()) return null;
         if (plannedSlot < 0 || plannedSlot > 8) return null;
 
@@ -531,7 +531,7 @@ public void onMouse(MouseEvent e) {
         float curYaw = RotationUtils.serverRotations[0];
         float curPitch = RotationUtils.serverRotations[1];
 
-        MovingObjectPosition now = RotationUtils.rayCastBlock(reachVal, curYaw, curPitch);
+        HitResult now = RotationUtils.rayCastBlock(reachVal, curYaw, curPitch);
         if (now != null) {
             BlockPos support = now.getBlockPos();
             Direction faceHit = now.sideHit;
@@ -601,7 +601,7 @@ public void onMouse(MouseEvent e) {
     }
 
     private AimResult tryPlacement(double reachVal, float yaw, float pit, BlockPos expectedSupport, Direction expectedFace, BlockPos goal) {
-        MovingObjectPosition mop = RotationUtils.rayCastBlock(reachVal, yaw, pit);
+        HitResult mop = RotationUtils.rayCastBlock(reachVal, yaw, pit);
         if (mop == null) return null;
         BlockPos hitBlock = mop.getBlockPos();
         Direction faceHit = mop.sideHit;

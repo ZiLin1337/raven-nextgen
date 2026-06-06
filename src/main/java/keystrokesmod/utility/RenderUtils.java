@@ -21,7 +21,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3dd;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
@@ -252,7 +252,7 @@ int scale = MinecraftClient.getInstance().getWindow().getScaleFactor();
         RenderSystem.popMatrix();
     }
 
-    public static void drawPlayerBoundingBox(Vec3 pos, int color) {
+    public static void drawPlayerBoundingBox(Vec3d pos, int color) {
         RenderSystem.pushMatrix();
         double x = pos.xCoord - mc.getEntityRenderDispatcher().viewerPosX;
         double y = pos.yCoord - mc.getEntityRenderDispatcher().viewerPosY;
@@ -1239,7 +1239,7 @@ RenderSystem.bindTexture(framebuffer.framebufferTexture);
         RenderSystem.color(1, 1, 1, 1);
     }
 
-    public static Vec3 convertTo2D(int scaleFactor, double x, double y, double z) {
+    public static Vec3d convertTo2D(int scaleFactor, double x, double y, double z) {
         GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, MODELVIEW);
         GL11.glGetFloat(GL11.GL_PROJECTION_MATRIX, PROJECTION);
         GL11.glGetInteger(GL11.GL_VIEWPORT, VIEWPORT);
@@ -1255,7 +1255,7 @@ RenderSystem.bindTexture(framebuffer.framebufferTexture);
         );
 
         if (result) {
-            return new Vec3(SCREEN_COORDS.get(0) / scaleFactor, (Display.getHeight() - SCREEN_COORDS.get(1)) / scaleFactor, SCREEN_COORDS.get(2));
+            return new Vec3d(SCREEN_COORDS.get(0) / scaleFactor, (Display.getHeight() - SCREEN_COORDS.get(1)) / scaleFactor, SCREEN_COORDS.get(2));
         }
 
         return null;

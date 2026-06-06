@@ -12,7 +12,7 @@ import keystrokesmod.module.impl.combat.KillAura;
 import keystrokesmod.module.setting.Setting;
 import keystrokesmod.module.setting.impl.*;
 import keystrokesmod.script.model.*;
-import keystrokesmod.script.model.Vec3;
+import keystrokesmod.script.model.Vec3d;
 import keystrokesmod.script.packet.clientbound.SPacket;
 import keystrokesmod.script.packet.serverbound.CPacket;
 import keystrokesmod.script.packet.serverbound.PacketHandler;
@@ -50,7 +50,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3dd;
 import net.minecraft.world.RaycastContext;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
@@ -305,9 +305,9 @@ public class ScriptDefaults {
             return mc.player != null && mc.player.hasVehicle();
         }
 
-        public static Vec3 getMotion() {
-            if (mc.player == null) return new Vec3(0, 0, 0);
-            return new Vec3(mc.player.getVelocity().x, mc.player.getVelocity().y, mc.player.getVelocity().z);
+        public static Vec3d getMotion() {
+            if (mc.player == null) return new Vec3d(0, 0, 0);
+            return new Vec3d(mc.player.getVelocity().x, mc.player.getVelocity().y, mc.player.getVelocity().z);
         }
 
         public static void sleep(long ms) {
@@ -415,11 +415,11 @@ public class ScriptDefaults {
 
         // --- Raycast helpers ---
 
-        private static Vec3d getLookVec(float yaw, float pitch) {
+        private static Vec3dd getLookVec(float yaw, float pitch) {
             float radYaw = (float) Math.toRadians(yaw);
             float radPitch = (float) Math.toRadians(pitch);
             float cosPitch = (float) Math.cos(radPitch);
-            return new Vec3d(-Math.sin(radYaw) * cosPitch, -Math.sin(radPitch), Math.cos(radYaw) * cosPitch);
+            return new Vec3dd(-Math.sin(radYaw) * cosPitch, -Math.sin(radPitch), Math.cos(radYaw) * cosPitch);
         }
 
         public static Object[] raycastBlock(final double distance) {
@@ -429,14 +429,14 @@ public class ScriptDefaults {
 
         public static Object[] raycastBlock(final double distance, final float yaw, final float pitch) {
             if (mc.world == null || mc.player == null) return null;
-            Vec3d eyeVec = mc.player.getCameraPosVec(1.0f);
-            Vec3d lookVec = getLookVec(yaw, pitch);
-            Vec3d sumVec = eyeVec.add(lookVec.multiply(distance));
+            Vec3dd eyeVec = mc.player.getCameraPosVec(1.0f);
+            Vec3dd lookVec = getLookVec(yaw, pitch);
+            Vec3dd sumVec = eyeVec.add(lookVec.multiply(distance));
             BlockHitResult hit = mc.world.raycast(new RaycastContext(eyeVec, sumVec, RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, mc.player));
             if (hit == null || hit.getType() != HitResult.Type.BLOCK) return null;
             BlockPos pos = hit.getBlockPos();
-            Vec3 posW = new Vec3(pos.getX(), pos.getY(), pos.getZ());
-            Vec3 offset = new Vec3(hit.getPos().x - pos.getX(), hit.getPos().y - pos.getY(), hit.getPos().z - pos.getZ());
+            Vec3d posW = new Vec3d(pos.getX(), pos.getY(), pos.getZ());
+            Vec3d offset = new Vec3d(hit.getPos().x - pos.getX(), hit.getPos().y - pos.getY(), hit.getPos().z - pos.getZ());
             return new Object[] { posW, offset, hit.getSide().name() };
         }
 
@@ -448,21 +448,21 @@ public class ScriptDefaults {
         public static Object[] raycastEntity(final double distance, final float yaw, final float pitch) {
             if (mc.world == null || mc.player == null) return null;
             net.minecraft.entity.Entity pointedEntity = null;
-            Vec3d eyeVec = mc.player.getCameraPosVec(1.0f);
-            Vec3d lookVec = getLookVec(yaw, pitch);
-            Vec3d reachVec = eyeVec.add(lookVec.multiply(distance));
+            Vec3dd eyeVec = mc.player.getCameraPosVec(1.0f);
+            Vec3dd lookVec = getLookVec(yaw, pitch);
+            Vec3dd reachVec = eyeVec.add(lookVec.multiply(distance));
             EntityHitResult mop = ProjectileUtil.raycast(mc.player, eyeVec, reachVec, mc.player.getBoundingBox().stretch(lookVec.multiply(distance)).expand(1.0), (entity) -> !entity.isSpectator() && entity.canHit(), distance);
             if (mop != null && mop.getEntity() != null) {
-                Vec3 offset = new Vec3(mop.getPos().x - mop.getEntity().getX(), mop.getPos().y - mop.getEntity().getY(), mop.getPos().z - mop.getEntity().getZ());
+                Vec3d offset = new Vec3d(mop.getPos().x - mop.getEntity().getX(), mop.getPos().y - mop.getEntity().getY(), mop.getPos().z - mop.getEntity().getZ());
                 return new Object[] { new Entity(mop.getEntity()), offset, eyeVec.squaredDistanceTo(mop.getPos()) };
             }
             // fallback: manual entity search
             net.minecraft.entity.Entity best = null;
             double bestDist = distance;
-            Vec3d bestHit = null;
+            Vec3dd bestHit = null;
             for (net.minecraft.entity.Entity e : mc.world.getEntities()) {
                 if (e.isSpectator() || e == mc.player || !e.canHit()) continue;
-                Vec3d rel = e.getBoundingBox().raycast(eyeVec, reachVec).orElse(null);
+                Vec3dd rel = e.getBoundingBox().raycast(eyeVec, reachVec).orElse(null);
                 if (rel != null) {
                     double d = eyeVec.distanceTo(rel);
                     if (d < bestDist) {
@@ -473,12 +473,12 @@ public class ScriptDefaults {
                 }
             }
             if (best != null) {
-                return new Object[] { new Entity(best), new Vec3(bestHit.x - best.getX(), bestHit.y - best.getY(), bestHit.z - best.getZ()), eyeVec.squaredDistanceTo(bestHit) };
+                return new Object[] { new Entity(best), new Vec3d(bestHit.x - best.getX(), bestHit.y - best.getY(), bestHit.z - best.getZ()), eyeVec.squaredDistanceTo(bestHit) };
             }
             return null;
         }
 
-        public static boolean canPlaceBlock(ItemStack stack, Vec3 pos, String side) {
+        public static boolean canPlaceBlock(ItemStack stack, Vec3d pos, String side) {
             if (stack == null || stack.itemStack == null || stack.itemStack.isEmpty() || !(stack.itemStack.getItem() instanceof BlockItem)) return false;
             if (mc.world == null || mc.player == null) return false;
             BlockPos targetPos = new BlockPos((int) pos.x, (int) pos.y, (int) pos.z);
@@ -487,12 +487,12 @@ public class ScriptDefaults {
             return ((BlockItem) stack.itemStack.getItem()).canPlaceAt(mc.world, targetPos.offset(dir));
         }
 
-        public static boolean placeBlock(Vec3 targetPos, String side, Vec3 hitVec) {
+        public static boolean placeBlock(Vec3d targetPos, String side, Vec3d hitVec) {
             if (mc.interactionManager == null || mc.player == null || mc.world == null) return false;
             Direction dir = Direction.byName(side);
             if (dir == null) dir = Direction.UP;
             BlockPos pos = new BlockPos((int) targetPos.x, (int) targetPos.y, (int) targetPos.z);
-            Vec3d hit = new Vec3d(hitVec.x, hitVec.y, hitVec.z);
+            Vec3dd hit = new Vec3dd(hitVec.x, hitVec.y, hitVec.z);
             return mc.interactionManager.interactBlock(mc.player, mc.player.getActiveHand(), pos, dir, hit) == net.minecraft.util.ActionResult.SUCCESS;
         }
 
@@ -532,7 +532,7 @@ public class ScriptDefaults {
             return RotationHelper.get().getServerPitch();
         }
 
-        public static float[] getRotationsToBlock(Vec3 position) {
+        public static float[] getRotationsToBlock(Vec3d position) {
             BlockPos bp = new BlockPos((int) position.x, (int) position.y, (int) position.z);
             return RotationUtils.getRotations(bp);
         }
@@ -565,7 +565,7 @@ public class ScriptDefaults {
             return new Block(state, new BlockPos(x, y, z));
         }
 
-        public static Block getBlockAt(Vec3 pos) {
+        public static Block getBlockAt(Vec3d pos) {
             BlockPos bp = new BlockPos((int) pos.x, (int) pos.y, (int) pos.z);
             BlockState state = BlockUtils.getBlockState(bp);
             if (state == null) return new Block(null, bp);
@@ -728,10 +728,10 @@ public class ScriptDefaults {
             return categories;
         }
 
-        public Vec3 getBedAuraPosition() {
+        public Vec3d getBedAuraPosition() {
             if (ModuleManager.bedAura == null || !ModuleManager.bedAura.isEnabled()) return null;
             BlockPos p = ModuleManager.bedAura.getAuraTargetPos();
-            return p != null ? new Vec3(p.getX(), p.getY(), p.getZ()) : null;
+            return p != null ? new Vec3d(p.getX(), p.getY(), p.getZ()) : null;
         }
 
         public float[] getBedAuraProgress() {

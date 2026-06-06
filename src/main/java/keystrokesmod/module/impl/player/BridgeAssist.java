@@ -311,7 +311,7 @@ public class BridgeAssist extends Module {
             if (step > 1.8f) step = 1.8f;
             pitch += step;
             float samplePitch = Math.min(pitch, 90f);
-            MovingObjectPosition mop = RotationUtils.rayCastBlock(reach, yaw, samplePitch);
+            HitResult mop = RotationUtils.rayCastBlock(reach, yaw, samplePitch);
             if (mop == null) continue;
             Direction hitFace = mop.sideHit;
             if (hitFace == Direction.UP || hitFace == Direction.DOWN) continue;

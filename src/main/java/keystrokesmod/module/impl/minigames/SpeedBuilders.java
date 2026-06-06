@@ -113,7 +113,7 @@ public class SpeedBuilders extends Module {
             }
 
             if (getLookInfo() != null) {
-                MovingObjectPosition mop = getLookInfo();
+                HitResult mop = getLookInfo();
                 if (mop.sideHit != null) {
                     BlockPos targetPos = mop.getBlockPos();
                     BlockPos facePos = targetPos.offset(mop.sideHit);
@@ -146,7 +146,7 @@ public class SpeedBuilders extends Module {
             return;
         }
         if (e.button == 1 && antiMiss.isToggled() && getLookInfo() != null && getGameStatus() == 2) {
-            MovingObjectPosition mop = getLookInfo();
+            HitResult mop = getLookInfo();
             if (mop.sideHit != null) {
                 BlockPos targetPos = mop.getBlockPos();
                 BlockPos facePos = targetPos.offset(mop.sideHit);
@@ -293,7 +293,7 @@ public class SpeedBuilders extends Module {
     
     public void onReceivePacket(ReceivePacketEvent e) {
         if (listenForPacket && Utils.nullCheck() && e.getPacket() instanceof S08PacketPlayerPosLook) {
-            Vec3 setPos = new Vec3(((S08PacketPlayerPosLook) e.getPacket()).getX(), ((S08PacketPlayerPosLook) e.getPacket()).getY(), ((S08PacketPlayerPosLook) e.getPacket()).getZ());
+            Vec3d setPos = new Vec3d(((S08PacketPlayerPosLook) e.getPacket()).getX(), ((S08PacketPlayerPosLook) e.getPacket()).getY(), ((S08PacketPlayerPosLook) e.getPacket()).getZ());
             if (platformCenter == null) {
                 platformCenter = findCenter(setPos);
             }
@@ -331,7 +331,7 @@ public class SpeedBuilders extends Module {
         return 0;
     }
 
-    public BlockPos findCenter(Vec3 position) {
+    public BlockPos findCenter(Vec3d position) {
         BlockPos closestPos = null;
         double closestDistSq = Double.MAX_VALUE;
         double maxDistance = 30.0;
@@ -419,9 +419,9 @@ public class SpeedBuilders extends Module {
         return heldBlock == requiredBlock && heldMeta == requiredMeta;
     }
 
-    public MovingObjectPosition getLookInfo() {
-        MovingObjectPosition movingObjectPosition = mc.objectMouseOver;
-        if (movingObjectPosition == null || movingObjectPosition.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK || movingObjectPosition.getBlockPos() == null) {
+    public HitResult getLookInfo() {
+        HitResult movingObjectPosition = mc.objectMouseOver;
+        if (movingObjectPosition == null || movingObjectPosition.typeOfHit != HitResult.MovingObjectType.BLOCK || movingObjectPosition.getBlockPos() == null) {
             return null;
         }
         return mc.objectMouseOver;
@@ -461,7 +461,7 @@ public class SpeedBuilders extends Module {
         return (block instanceof BlockStairs || block instanceof BlockDoublePlant || block instanceof BlockFlower || block instanceof BlockSkull || block instanceof BlockLadder || block instanceof BlockPumpkin || block instanceof BlockCauldron || block instanceof BlockRail || block instanceof BlockRailBase || block instanceof BlockTripWireHook || block instanceof BlockTripWire || block instanceof BlockDispenser || block instanceof BlockDropper || block instanceof BlockHopper || block instanceof BlockTorch || block instanceof BlockButton || block instanceof BlockLever || block instanceof BlockTrapDoor || block instanceof BlockSlab);
     }
 
-    private boolean correctPlaceState(BlockState requiredState, BlockPos blockPos, Direction enumFacing, Vec3 hitVec, ItemStack heldItem) {
+    private boolean correctPlaceState(BlockState requiredState, BlockPos blockPos, Direction enumFacing, Vec3d hitVec, ItemStack heldItem) {
         if (requiredState == null || blockPos == null || enumFacing == null || hitVec == null || heldItem == null || !(heldItem.getItem() instanceof ItemBlock)) {
             return false;
         }
@@ -474,7 +474,7 @@ public class SpeedBuilders extends Module {
         Block block = itemBlock.getBlock();
         int meta = heldItem.getItemDamage();
 
-        Vec3 relativeHitVec = hitVec.subtract(new Vec3(blockPos.getX(), blockPos.getY(), blockPos.getZ()));
+        Vec3d relativeHitVec = hitVec.subtract(new Vec3d(blockPos.getX(), blockPos.getY(), blockPos.getZ()));
 
         BlockState simulatedState = block.onBlockPlaced(mc.world, blockPos, enumFacing,
                 (float) relativeHitVec.xCoord, (float) relativeHitVec.yCoord, (float) relativeHitVec.zCoord, meta, mc.player);

@@ -10,7 +10,7 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 
 
 import java.util.ArrayList;
@@ -136,8 +136,8 @@ public class AimAssist extends Module {
             }
         }
 
-        List<EntityPlayer> candidates = new ArrayList<>();
-        for (EntityPlayer entityPlayer : mc.world.playerEntities) {
+        List<PlayerEntity> candidates = new ArrayList<>();
+        for (PlayerEntity entityPlayer : mc.world.playerEntities) {
             if (entityPlayer == mc.player || entityPlayer.deathTime != 0) {
                 continue;
             }
@@ -169,7 +169,7 @@ public class AimAssist extends Module {
             return null;
         }
 
-        Comparator<EntityPlayer> primary;
+        Comparator<PlayerEntity> primary;
         switch ((int) sortMode.getInput()) {
             case 0: // Health (lower first)
                 primary = Comparator.comparingDouble(p -> p.getHealth() + p.getAbsorptionAmount());
@@ -182,7 +182,7 @@ public class AimAssist extends Module {
                 });
                 break;
             case 2: // Hurt time (lower first)
-                primary = Comparator.<EntityPlayer>comparingInt(p -> p.hurtTime);
+                primary = Comparator.<PlayerEntity>comparingInt(p -> p.hurtTime);
                 break;
             case 3: // Distance (closer first)
                 primary = Comparator.comparingDouble(p -> mc.player.getDistanceSqToEntity(p));
@@ -202,7 +202,7 @@ public class AimAssist extends Module {
             double rangeVal = range.getInput();
             boolean allowThroughBlocks = !ignoreBehindWalls.isToggled();
             boolean allowThroughEntities = !ignoreBehindEntities.isToggled();
-            for (EntityPlayer candidate : candidates) {
+            for (PlayerEntity candidate : candidates) {
                 if (RotationUtils.hasValidAimPoint(candidate, multipointH, multipointV, rangeVal, allowThroughBlocks, allowThroughEntities)) {
                     return candidate;
                 }

@@ -10,7 +10,7 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.Utils;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockLiquid;
+import net.minecraft.block.LiquidBlock;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;

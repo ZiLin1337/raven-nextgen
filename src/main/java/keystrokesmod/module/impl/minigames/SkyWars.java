@@ -11,13 +11,13 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemEnderPearl;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3dd;
 
 import java.awt.*;
 import java.util.*;
@@ -28,9 +28,9 @@ public class SkyWars extends Module {
     public ButtonSetting onlyAuraHostileMobs;
     public ButtonSetting renderTimeWarp;
 
-    public Map<EntityPlayer, Long> strengthPlayers = new HashMap<>();
+    public Map<PlayerEntity, Long> strengthPlayers = new HashMap<>();
     private Map<String, SpawnEggInfo> entitySpawnQueue = new LinkedHashMap<>(); // type name, spawn info
-    private Map<Vec3, Long> timeWarpPositions = new LinkedHashMap<>(); // position when thrown, time when thrown
+    private Map<Vec3d, Long> timeWarpPositions = new LinkedHashMap<>(); // position when thrown, time when thrown
     public List<Integer> spawnedMobs = new ArrayList<>(); // entity id
 
     private final int STRENGTH_COLOR = new Color(255, 0, 0).getRGB();
@@ -68,8 +68,8 @@ public class SkyWars extends Module {
         }
         isSkyWarsTeams = customMode == 1;
         long duration = isSkyWarsTeams ? 2000 : 5000;
-        ArrayList<EntityPlayer> keysList = new ArrayList<>(strengthPlayers.keySet());
-        for (EntityPlayer entityPlayer : keysList) {
+        ArrayList<PlayerEntity> keysList = new ArrayList<>(strengthPlayers.keySet());
+        for (PlayerEntity entityPlayer : keysList) {
             long storedTime = strengthPlayers.get(entityPlayer);
             long timePassed = System.currentTimeMillis() - storedTime;
             if (timePassed < duration && !AntiBot.isBot(entityPlayer)) {
@@ -89,7 +89,7 @@ public class SkyWars extends Module {
             return;
         }
         if (stripped.equals("You will be warped back in 3 seconds!") && thrownPearl) {
-            timeWarpPositions.put(new Vec3(mc.player.lastTickPosX, mc.player.lastTickPosY, mc.player.lastTickPosZ), System.currentTimeMillis());
+            timeWarpPositions.put(new Vec3d(mc.player.lastTickPosX, mc.player.lastTickPosY, mc.player.lastTickPosZ), System.currentTimeMillis());
             thrownPearl = false;
             return;
         }
@@ -104,7 +104,7 @@ public class SkyWars extends Module {
                         continue;
                     }
                     String name = part.substring(0, part.length() - 1);
-                    for (EntityPlayer entity : mc.world.playerEntities) {
+                    for (PlayerEntity entity : mc.world.playerEntities) {
                         if (!entity.getName().trim().equals(name) || entity == mc.player) {
                             continue;
                         }
@@ -122,7 +122,7 @@ public class SkyWars extends Module {
             return;
         }
         if (strengthIndicator.isToggled()) {
-            for (EntityPlayer entityPlayer : strengthPlayers.keySet()) {
+            for (PlayerEntity entityPlayer : strengthPlayers.keySet()) {
                 if (AntiBot.isBot(entityPlayer)) {
                     continue;
                 }
@@ -130,12 +130,12 @@ public class SkyWars extends Module {
             }
         }
         if (renderTimeWarp.isToggled()) {
-            Iterator<Map.Entry<Vec3, Long>> iterator = this.timeWarpPositions.entrySet().iterator();
+            Iterator<Map.Entry<Vec3d, Long>> iterator = this.timeWarpPositions.entrySet().iterator();
             long currentTime = System.currentTimeMillis();
 
             while (iterator.hasNext()) {
-                Map.Entry<Vec3, Long> entry = iterator.next();
-                Vec3 position = entry.getKey();
+                Map.Entry<Vec3d, Long> entry = iterator.next();
+                Vec3d position = entry.getKey();
                 long timeThrown = entry.getValue();
 
                 if (currentTime - timeThrown >= 3050) {
@@ -160,7 +160,7 @@ public class SkyWars extends Module {
                 }
                 String entityClassName = e.entity.getClass().getSimpleName();
                 if (entitySpawnQueue.containsKey(entityClassName)) {
-                    Vec3 spawnPosition = new Vec3(e.entity.posX, e.entity.posY, e.entity.posZ);
+                    Vec3d spawnPosition = new Vec3d(e.entity.posX, e.entity.posY, e.entity.posZ);
                     SpawnEggInfo eggInfo = entitySpawnQueue.get(entityClassName);
                     if (eggInfo.spawnPos.distanceTo(spawnPosition) > 3 || Utils.timeBetween(mc.player.ticksExisted, eggInfo.tickSpawned) > 60) { // 3 seconds or not at spawn point then not own mob
                         return;
@@ -239,11 +239,11 @@ public class SkyWars extends Module {
     }
 
     public static class SpawnEggInfo {
-        public Vec3 spawnPos;
+        public Vec3d spawnPos;
         public int tickSpawned;
 
         public SpawnEggInfo(BlockPos spawnPos, int tickSpawned) {
-            this.spawnPos = new Vec3(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ());
+            this.spawnPos = new Vec3d(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ());
             this.tickSpawned = tickSpawned;
         }
     }

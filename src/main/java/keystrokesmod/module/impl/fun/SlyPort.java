@@ -7,9 +7,9 @@ import keystrokesmod.module.setting.impl.DescriptionSetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.Utils;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.Vec3;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.Vec3dd;
 
 public class SlyPort extends Module {
     public SliderSetting range;
@@ -41,7 +41,7 @@ public class SlyPort extends Module {
             mc.player.playSound("mob.endermen.portal", 1.0F, 1.0F);
         }
 
-        Vec3 vec = en.getLookVec();
+        Vec3d vec = en.getLookVec();
         double x = en.posX - vec.xCoord * 2.5D;
         double z = en.posZ - vec.zCoord * 2.5D;
         mc.player.setPosition(x, mc.player.getY(), z);
@@ -60,13 +60,13 @@ public class SlyPort extends Module {
             if (entities == mc.player) {
                 continue;
             }
-            if (!(entities instanceof EntityLivingBase)) {
+            if (!(entities instanceof LivingEntity)) {
                 continue;
             }
-            if (((EntityLivingBase) entities).deathTime != 0) {
+            if (((LivingEntity) entities).deathTime != 0) {
                 continue;
             }
-            if (this.playersOnly.isToggled() && !(entities instanceof EntityPlayer)) {
+            if (this.playersOnly.isToggled() && !(entities instanceof PlayerEntity)) {
                 continue;
             }
             if (AntiBot.isBot(entities)) {

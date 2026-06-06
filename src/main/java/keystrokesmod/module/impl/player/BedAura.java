@@ -5,7 +5,7 @@ import keystrokesmod.event.PreAttackEvent;
 import keystrokesmod.event.PrePlayerInteractEvent;
 import keystrokesmod.event.PreSlotScrollEvent;
 import keystrokesmod.event.SlotUpdateEvent;
-import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
+// import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
 import keystrokesmod.mixin.impl.accessor.IAccessorPlayerControllerMP;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
@@ -51,7 +51,7 @@ public class BedAura extends Module {
     private int scanCooldown;
 
     private BlockPos targetPos;
-    private Vec3 targetHitVec;
+    private Vec3d targetHitVec;
     private Direction targetSide;
 
     private boolean miningActive;
@@ -229,7 +229,7 @@ public class BedAura extends Module {
             return;
         }
 
-        MovingObjectPosition mop = new MovingObjectPosition(targetHitVec, targetSide, targetPos);
+        HitResult mop = new MovingObjectPosition(targetHitVec, targetSide, targetPos);
         mc.objectMouseOver = mop;
         mc.pointedEntity = null;
 
@@ -337,7 +337,7 @@ public class BedAura extends Module {
                     if (!bedInSearchRange(pair, searchRange)) {
                         continue;
                     }
-                    Vec3 center = bedCenter(pair);
+                    Vec3d center = bedCenter(pair);
                     if (!inFov(center, (float) fov.getInput())) {
                         continue;
                     }
@@ -380,35 +380,35 @@ public class BedAura extends Module {
         return new BlockPos[]{foot, head};
     }
 
-    private Vec3 bedCenter(BlockPos[] pair) {
+    private Vec3d bedCenter(BlockPos[] pair) {
         Box a = BlockUtils.unionBlockBounds(pair[0], pair[1]);
-        return new Vec3((a.minX + a.maxX) * 0.5, (a.minY + a.maxY) * 0.5, (a.minZ + a.maxZ) * 0.5);
+        return new Vec3d((a.minX + a.maxX) * 0.5, (a.minY + a.maxY) * 0.5, (a.minZ + a.maxZ) * 0.5);
     }
 
     private boolean bedInSearchRange(BlockPos[] pair, double searchRadius) {
-        Vec3 eye = mc.player.getPositionEyes(1.0f);
+        Vec3d eye = mc.player.getPositionEyes(1.0f);
         double r2 = searchRadius * searchRadius + 1e-4;
         Box u = BlockUtils.unionBlockBounds(pair[0], pair[1]);
-        Vec3 onBox = RotationUtils.closestPointOnAabb(u, eye);
+        Vec3d onBox = RotationUtils.closestPointOnAabb(u, eye);
         if (eye.squareDistanceTo(onBox) <= r2) {
             return true;
         }
-        Vec3 mid = new Vec3((u.minX + u.maxX) * 0.5, (u.minY + u.maxY) * 0.5, (u.minZ + u.maxZ) * 0.5);
+        Vec3d mid = new Vec3d((u.minX + u.maxX) * 0.5, (u.minY + u.maxY) * 0.5, (u.minZ + u.maxZ) * 0.5);
         return eye.squareDistanceTo(mid) <= r2;
     }
 
-    private boolean inFov(Vec3 worldPoint, float fovDeg) {
+    private boolean inFov(Vec3d worldPoint, float fovDeg) {
         if (fovDeg >= 360) {
             return true;
         }
-        Vec3 eyes = mc.player.getPositionEyes(1f);
-        Vec3 look = mc.player.getLook(1f);
-        Vec3 to = worldPoint.subtract(eyes);
+        Vec3d eyes = mc.player.getPositionEyes(1f);
+        Vec3d look = mc.player.getLook(1f);
+        Vec3d to = worldPoint.subtract(eyes);
         double len = to.lengthVector();
         if (len < 1e-6) {
             return true;
         }
-        to = new Vec3(to.xCoord / len, to.yCoord / len, to.zCoord / len);
+        to = new Vec3d(to.xCoord / len, to.yCoord / len, to.zCoord / len);
         double dot = look.xCoord * to.xCoord + look.yCoord * to.yCoord + look.zCoord * to.zCoord;
         double ang = Math.acos(MathHelper.clamp_double(dot, -1.0, 1.0)) * (180.0 / Math.PI);
         return ang <= fovDeg * 0.5;
@@ -439,7 +439,7 @@ public class BedAura extends Module {
     }
 
     private void sortBedsByEyeDistance(List<BlockPos[]> pairs) {
-        Vec3 eye = mc.player.getPositionEyes(1f);
+        Vec3d eye = mc.player.getPositionEyes(1f);
         pairs.sort(Comparator.comparingDouble(p -> eye.squareDistanceTo(bedCenter(p))));
     }
 
@@ -474,7 +474,7 @@ public class BedAura extends Module {
         if (breaking != null && breaking.equals(ch.pos) && curProg > 0.02f) {
             timeEst -= curProg * 12.0;
         }
-        Vec3 eye = mc.player.getPositionEyes(1f);
+        Vec3d eye = mc.player.getPositionEyes(1f);
         timeEst += eye.squareDistanceTo(ch.hitVec) * 0.002;
         return timeEst;
     }
@@ -541,13 +541,13 @@ public class BedAura extends Module {
         if (bb == null) {
             return;
         }
-        Vec3 eye = mc.player.getPositionEyes(1.0f);
-        Vec3 hit = RotationUtils.closestPointOnAabb(bb, eye);
+        Vec3d eye = mc.player.getPositionEyes(1.0f);
+        Vec3d hit = RotationUtils.closestPointOnAabb(bb, eye);
         if (eye.squareDistanceTo(hit) > reachSq + 1e-3) {
             return;
         }
 
-        MovingObjectPosition trace = block.collisionRayTrace(mc.world, pos, eye, hit.addVector(
+        HitResult trace = block.collisionRayTrace(mc.world, pos, eye, hit.addVector(
                 (hit.xCoord - eye.xCoord) * 0.01,
                 (hit.yCoord - eye.yCoord) * 0.01,
                 (hit.zCoord - eye.zCoord) * 0.01
@@ -620,7 +620,7 @@ public class BedAura extends Module {
 
         BlockPos[] ownBedPair = null;
         double closestDistance = Double.POSITIVE_INFINITY;
-        Vec3 spawnCenter = spawnAnchorCenter();
+        Vec3d spawnCenter = spawnAnchorCenter();
 
         for (BlockPos[] pair : bedPairsCache) {
             double distance = spawnCenter.squareDistanceTo(bedCenter(pair));
@@ -642,16 +642,16 @@ public class BedAura extends Module {
                 && mc.player.getDistanceSq(spawnAnchor) <= OWN_BED_PROTECTION_RADIUS_SQ;
     }
 
-    private Vec3 spawnAnchorCenter() {
-        return new Vec3(spawnAnchor.getX() + 0.5, spawnAnchor.getY() + 0.5, spawnAnchor.getZ() + 0.5);
+    private Vec3d spawnAnchorCenter() {
+        return new Vec3d(spawnAnchor.getX() + 0.5, spawnAnchor.getY() + 0.5, spawnAnchor.getZ() + 0.5);
     }
 
     private static final class Choice {
         final BlockPos pos;
-        final Vec3 hitVec;
+        final Vec3d hitVec;
         final Direction side;
 
-        Choice(BlockPos pos, Vec3 hitVec, Direction side) {
+        Choice(BlockPos pos, Vec3d hitVec, Direction side) {
             this.pos = pos;
             this.hitVec = hitVec;
             this.side = side;

@@ -13,8 +13,8 @@ import net.minecraft.block.BedBlock;
 import net.minecraft.block.BlockObsidian;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
-import net.minecraft.entity.monster.EntityIronGolem;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.monster.IronGolemEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.item.ItemEnderPearl;
 import net.minecraft.item.ItemFireball;
@@ -24,7 +24,7 @@ import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3dd;
 
 import java.awt.*;
 import java.util.*;
@@ -95,11 +95,11 @@ public void onRenderWorld(RenderWorldLastEvent e) {
             spawnedMobs.clear();
         }
         else {
-            if (e.entity != null && e.entity instanceof EntityIronGolem) {
+            if (e.entity != null && e.entity instanceof IronGolemEntity) {
                 if (Utils.getBedwarsStatus() != 2) {
                     return;
                 }
-                Vec3 spawnPosition = new Vec3(e.entity.posX, e.entity.posY, e.entity.posZ);
+                Vec3d spawnPosition = new Vec3d(e.entity.posX, e.entity.posY, e.entity.posZ);
                 for (SkyWars.SpawnEggInfo eggInfo : entitySpawnQueue) {
                     if (eggInfo.spawnPos.distanceTo(spawnPosition) > 3 || Utils.timeBetween(mc.player.ticksExisted, eggInfo.tickSpawned) > 60) { // 3 seconds or not at spawn point then not own mob
                         return;
@@ -117,7 +117,7 @@ public void onRenderWorld(RenderWorldLastEvent e) {
     public void onUpdate() {
         if (Utils.getBedwarsStatus() == 2) {
             if (diamondArmor.isToggled() || enderPearl.isToggled() || obsidian.isToggled()) {
-                for (EntityPlayer p : mc.world.playerEntities) {
+                for (PlayerEntity p : mc.world.playerEntities) {
                     if (p == null) {
                         continue;
                     }
@@ -165,7 +165,7 @@ public void onRenderWorld(RenderWorldLastEvent e) {
                     if (oclass == null) {
                         return;
                     }
-                    if (oclass.getSimpleName().equals("EntityIronGolem")) {
+                    if (oclass.getSimpleName().equals("IronGolemEntity")) {
                         entitySpawnQueue.add(new SkyWars.SpawnEggInfo(p.getPosition(), mc.player.ticksExisted));
                     }
                 }

@@ -12,7 +12,7 @@ import keystrokesmod.utility.PlayerData;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.BlockAir;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.math.BlockPos;
@@ -64,7 +64,7 @@ public class Anticheat extends Module {
         lastClientBoundPacket = System.currentTimeMillis();
     }
 
-    private void alert(EntityPlayer entityPlayer, ButtonSetting mode) {
+    private void alert(PlayerEntity entityPlayer, ButtonSetting mode) {
         if (Utils.isFriended(entityPlayer) || (ignoreTeammates.isToggled() && Utils.isTeammate(entityPlayer))) {
             return;
         }
@@ -111,7 +111,7 @@ public class Anticheat extends Module {
         if (mc.isSingleplayer()) {
             return;
         }
-        for (EntityPlayer entityPlayer : mc.world.playerEntities) {
+        for (PlayerEntity entityPlayer : mc.world.playerEntities) {
             if (entityPlayer == null) {
                 continue;
             }
@@ -147,7 +147,7 @@ public class Anticheat extends Module {
         lastAlert = 0L;
     }
 
-    private void performCheck(EntityPlayer entityPlayer, PlayerData playerData) {
+    private void performCheck(PlayerEntity entityPlayer, PlayerData playerData) {
         if (autoBlock.isToggled() && playerData.autoBlockTicks >= 10) {
             alert(entityPlayer, autoBlock);
             return;

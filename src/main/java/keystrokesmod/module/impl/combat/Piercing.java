@@ -7,9 +7,9 @@ import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.Utils;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.EntityItemFrame;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.*;
 
 public class Piercing extends Module {
@@ -52,7 +52,7 @@ public class Piercing extends Module {
         }
         return ignoreBlocks.isToggled()
                 || mc.objectMouseOver == null
-                || mc.objectMouseOver.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK;
+                || mc.objectMouseOver.typeOfHit != HitResult.MovingObjectType.BLOCK;
     }
 
     public void modifyMouseOverFromGetMouseOver(float partialTicks) {
@@ -67,15 +67,15 @@ public class Piercing extends Module {
         }
 
         double reach = mc.playerController.getBlockReachDistance();
-        final Vec3 eyes = viewEntity.getPositionEyes(partialTicks);
+        final Vec3d eyes = viewEntity.getPositionEyes(partialTicks);
         if (mc.playerController.extendedReach()) {
             reach = 6.0;
         }
-        final Vec3 look = viewEntity.getLook(partialTicks);
-        final Vec3 rayEnd = eyes.addVector(look.xCoord * reach, look.yCoord * reach, look.zCoord * reach);
+        final Vec3d look = viewEntity.getLook(partialTicks);
+        final Vec3d rayEnd = eyes.addVector(look.xCoord * reach, look.yCoord * reach, look.zCoord * reach);
 
         Entity best = null;
-        Vec3 bestHit = null;
+        Vec3d bestHit = null;
         double bestDist = Double.MAX_VALUE;
         boolean bestLiving = false;
         int bestHurt = Integer.MAX_VALUE;
@@ -87,14 +87,14 @@ public class Piercing extends Module {
                         .addCoord(look.xCoord * reach, look.yCoord * reach, look.zCoord * reach)
                         .expand(1.0, 1.0, 1.0), Predicates.and(EntitySelectors.NOT_SPECTATING, Entity::canBeCollidedWith)
         )) {
-            if ((this.ignoreNonPlayer.isToggled() && !(e instanceof EntityPlayer)) || (this.ignoreTeammates.isToggled() && Utils.isTeammate(e))
-                    || AntiBot.isBot(e) || (e instanceof EntityPlayer && Utils.isFriended((EntityPlayer) e))) {
+            if ((this.ignoreNonPlayer.isToggled() && !(e instanceof PlayerEntity)) || (this.ignoreTeammates.isToggled() && Utils.isTeammate(e))
+                    || AntiBot.isBot(e) || (e instanceof PlayerEntity && Utils.isFriended((PlayerEntity) e))) {
                 continue;
             }
 
             final float cb = e.getCollisionBorderSize();
             final Box bb = e.getEntityBoundingBox().expand(cb, cb, cb);
-            final MovingObjectPosition hit = bb.calculateIntercept(eyes, rayEnd);
+            final HitResult hit = bb.calculateIntercept(eyes, rayEnd);
             final boolean inside = bb.isVecInside(eyes);
 
             if (!inside && hit == null) continue;
@@ -106,9 +106,9 @@ public class Piercing extends Module {
 
             if (e == viewEntity.ridingEntity && !viewEntity.canRiderInteract() && best != null) continue;
 
-            boolean living = e instanceof EntityLivingBase;
-            int hurt = living ? ((EntityLivingBase) e).hurtTime : Integer.MAX_VALUE;
-            float hp = living ? ((EntityLivingBase) e).getHealth() : Float.POSITIVE_INFINITY;
+            boolean living = e instanceof LivingEntity;
+            int hurt = living ? ((LivingEntity) e).hurtTime : Integer.MAX_VALUE;
+            float hp = living ? ((LivingEntity) e).getHealth() : Float.POSITIVE_INFINITY;
 
             boolean take = false;
             if (best == null) {
@@ -151,14 +151,14 @@ public class Piercing extends Module {
 
         if (best != null && reach > 3.0 && bestDist > 3.0 && !mc.playerController.extendedReach()) {
             mc.objectMouseOver = new MovingObjectPosition(
-                    MovingObjectPosition.MovingObjectType.MISS, bestHit, null, new BlockPos(bestHit)
+                    HitResult.MovingObjectType.MISS, bestHit, null, new BlockPos(bestHit)
             );
             return;
         }
 
         if (best != null) {
             mc.objectMouseOver = new MovingObjectPosition(best, bestHit);
-            if (best instanceof EntityLivingBase || best instanceof EntityItemFrame) {
+            if (best instanceof LivingEntity || best instanceof EntityItemFrame) {
                 mc.pointedEntity = best;
             }
         }

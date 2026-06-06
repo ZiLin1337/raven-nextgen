@@ -9,7 +9,7 @@ import keystrokesmod.utility.Utils;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 
 import net.minecraft.util.math.Box;
@@ -53,7 +53,7 @@ public class ItemESP extends Module {
         }
 
         float partialTicks = e.partialTicks;
-        EntityPlayer self = (Freecam.freeEntity == null) ? mc.player : Freecam.freeEntity;
+        PlayerEntity self = (Freecam.freeEntity == null) ? mc.player : Freecam.freeEntity;
         if (self == null) {
             return;
         }

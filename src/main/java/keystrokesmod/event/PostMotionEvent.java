@@ -1,6 +1,6 @@
 package keystrokesmod.event;
 
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3dd;
 
 public class PostMotionEvent extends Event {
     private double posX, posY, posZ;

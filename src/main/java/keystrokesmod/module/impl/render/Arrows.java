@@ -1,6 +1,6 @@
 package keystrokesmod.module.impl.render;
 
-import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
+// import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
 import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.impl.world.AntiBot;
@@ -12,8 +12,8 @@ import keystrokesmod.utility.font.FontManager;
 import keystrokesmod.utility.font.RavenFontRenderer;
 
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.Vec3;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.Vec3dd;
 
 
 import org.lwjgl.opengl.GL11;
@@ -88,7 +88,7 @@ public class Arrows extends Module {
             return;
         }
 
-        for (EntityPlayer en : mc.world.playerEntities) {
+        for (PlayerEntity en : mc.world.playerEntities) {
             if (en == null || en == mc.player) {
                 continue;
             }
@@ -117,7 +117,7 @@ public class Arrows extends Module {
         }
     }
 
-    private void renderIndicatorFor(EntityPlayer en, int color, float partialTicks) {
+    private void renderIndicatorFor(PlayerEntity en, int color, float partialTicks) {
         if (renderOnlyOffScreen.isToggled() && RenderUtils.isInViewFrustum(en)) {
             return;
         }
@@ -129,7 +129,7 @@ public class Arrows extends Module {
         ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(((IAccessorMinecraft) mc).getTimer().renderPartialTicks, 0);
 
          scaledResolution = null; // int removed for 1.21.4
-        Vec3 vec = RenderUtils.convertTo2D(MinecraftClient.getInstance().getWindow().getScaleFactor(), x, y, z);
+        Vec3d vec = RenderUtils.convertTo2D(MinecraftClient.getInstance().getWindow().getScaleFactor(), x, y, z);
 
         if (vec != null) {
             mc.entityRenderer.setupOverlayRendering();
@@ -239,10 +239,10 @@ public class Arrows extends Module {
     }
 
     private static final class ArrowRenderState {
-        private EntityPlayer player;
+        private PlayerEntity player;
         private int color;
 
-        private void set(EntityPlayer player, int color) {
+        private void set(PlayerEntity player, int color) {
             this.player = player;
             this.color = color;
         }

@@ -9,13 +9,13 @@ import keystrokesmod.utility.BlockUtils;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockLiquid;
+import net.minecraft.block.LiquidBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.BlockState;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 
 import net.minecraft.item.ItemBow;
@@ -70,9 +70,9 @@ public class Trajectories extends Module {
     private static final class FluidState {
         final boolean inWater;
         final boolean inLava;
-        final Vec3 flowDirection;
+        final Vec3d flowDirection;
 
-        FluidState(boolean inWater, boolean inLava, Vec3 flowDirection) {
+        FluidState(boolean inWater, boolean inLava, Vec3d flowDirection) {
             this.inWater = inWater;
             this.inLava = inLava;
             this.flowDirection = flowDirection;
@@ -80,10 +80,10 @@ public class Trajectories extends Module {
     }
 
     private static final class BlockCollisionResult {
-        final MovingObjectPosition hit;
+        final HitResult hit;
         final double distanceSq;
 
-        BlockCollisionResult(MovingObjectPosition hit, double distanceSq) {
+        BlockCollisionResult(HitResult hit, double distanceSq) {
             this.hit = hit;
             this.distanceSq = distanceSq;
         }
@@ -151,7 +151,7 @@ public class Trajectories extends Module {
         return f * 2.0f * 1.5f;
     }
 
-    private TrajectoryProps getProjectileProperties(Item item, EntityPlayer player, float partialTicks) {
+    private TrajectoryProps getProjectileProperties(Item item, PlayerEntity player, float partialTicks) {
         if (item == Items.bow) {
             float vel = getBowVelocity(partialTicks);
             return new TrajectoryProps(PhysicsModel.ARROW, 0.05, 0.99, ARROW_WATER_DRAG, 0.5, 0.5, 0.5, vel, false, true);
@@ -204,11 +204,11 @@ public class Trajectories extends Module {
         int maxZ = MathHelper.floor_double(waterCheckBox.maxZ + 1.0D);
 
         if (!mc.world.isAreaLoaded(new BlockPos(minX, minY, minZ), new BlockPos(maxX, maxY, maxZ), true)) {
-            return new FluidState(false, false, new Vec3(0.0D, 0.0D, 0.0D));
+            return new FluidState(false, false, new Vec3d(0.0D, 0.0D, 0.0D));
         }
 
         boolean inWater = false;
-        Vec3 flowDirection = new Vec3(0.0D, 0.0D, 0.0D);
+        Vec3d flowDirection = new Vec3d(0.0D, 0.0D, 0.0D);
         BlockPos.Mutable mutablePos = new BlockPos.Mutable();
 
         for (int x = minX; x < maxX; ++x) {
@@ -331,7 +331,7 @@ public class Trajectories extends Module {
         return box.expand(ENTITY_HIT_EXPANSION, ENTITY_HIT_EXPANSION, ENTITY_HIT_EXPANSION);
     }
 
-    private Box getBlockSweepBounds(Vec3 start, Vec3 end) {
+    private Box getBlockSweepBounds(Vec3d start, Vec3d end) {
         return new Box(
                 Math.min(start.xCoord, end.xCoord),
                 Math.min(start.yCoord, end.yCoord),
@@ -362,7 +362,7 @@ public class Trajectories extends Module {
         return new Box(minX, minY, minZ, maxX, maxY, maxZ);
     }
 
-    private BlockCollisionResult rayTraceBlockCollisionBoxes(Vec3 start, Vec3 end, TrajectoryProps props) {
+    private BlockCollisionResult rayTraceBlockCollisionBoxes(Vec3d start, Vec3d end, TrajectoryProps props) {
         Box sweepBounds = getBlockSweepBounds(start, end);
         int minX = MathHelper.floor_double(sweepBounds.minX);
         int maxX = MathHelper.floor_double(sweepBounds.maxX + 1.0D);
@@ -377,7 +377,7 @@ public class Trajectories extends Module {
 
         List<Box> collisionBoxes = new ArrayList<>();
         BlockPos.Mutable mutablePos = new BlockPos.Mutable();
-        MovingObjectPosition bestHit = null;
+        HitResult bestHit = null;
         double bestDistanceSq = Double.MAX_VALUE;
 
         for (int x = minX; x < maxX; ++x) {
@@ -400,7 +400,7 @@ public class Trajectories extends Module {
                                 continue;
                             }
 
-                            MovingObjectPosition hit = projectileCollisionBox.calculateIntercept(start, end);
+                            HitResult hit = projectileCollisionBox.calculateIntercept(start, end);
                             if (hit == null) {
                                 continue;
                             }
@@ -419,8 +419,8 @@ public class Trajectories extends Module {
         return new BlockCollisionResult(bestHit, bestDistanceSq);
     }
 
-    private BlockCollisionResult getNearestBlockCollision(Vec3 start, Vec3 end, TrajectoryProps props) {
-        MovingObjectPosition vanillaHit = mc.world.rayTraceBlocks(start, end, false, props.ignoreBlockWithoutBoundingBox, false);
+    private BlockCollisionResult getNearestBlockCollision(Vec3d start, Vec3d end, TrajectoryProps props) {
+        HitResult vanillaHit = mc.world.rayTraceBlocks(start, end, false, props.ignoreBlockWithoutBoundingBox, false);
         double vanillaDistanceSq = vanillaHit != null ? start.squareDistanceTo(vanillaHit.hitVec) : Double.MAX_VALUE;
 
         BlockCollisionResult collisionBoxHit = rayTraceBlockCollisionBoxes(start, end, props);
@@ -477,7 +477,7 @@ public class Trajectories extends Module {
         return clippedPoints;
     }
 
-    private ItemStack getHeldProjectile(EntityPlayer player) {
+    private ItemStack getHeldProjectile(PlayerEntity player) {
         ItemStack held = player.getHeldItem();
         if (held == null) return null;
         Item item = held.getItem();
@@ -504,7 +504,7 @@ public class Trajectories extends Module {
         if (!Utils.nullCheck() || mc.world == null) {
             return;
         }
-        EntityPlayer player = mc.player;
+        PlayerEntity player = mc.player;
         float partialTicks = e.partialTicks;
         ItemStack heldStack = getHeldProjectile(player);
         if (onlyWhenHolding.isToggled() && heldStack == null) return;
@@ -556,12 +556,12 @@ public class Trajectories extends Module {
         }
 
         List<double[]> renderPoints = new ArrayList<>();
-        MovingObjectPosition hitBlock = null;
+        HitResult hitBlock = null;
         Entity hitEntity = null;
         Box hitEntityBox = null;
         int hitType = HIT_NONE;
-        Vec3 hitPos = null;
-        Vec3 terminalPos = null;
+        Vec3d hitPos = null;
+        Vec3d terminalPos = null;
         EntityRenderDispatcher rm = mc.getEntityRenderDispatcher();
         final int maxSteps = (int) maxTicks.getInput();
         final int SUB = 4;
@@ -582,31 +582,31 @@ public class Trajectories extends Module {
             double nextY = posY + motY;
             double nextZ = posZ + motZ;
 
-            Vec3 start = new Vec3(posX, posY, posZ);
-            Vec3 end = new Vec3(nextX, nextY, nextZ);
+            Vec3d start = new Vec3d(posX, posY, posZ);
+            Vec3d end = new Vec3d(nextX, nextY, nextZ);
             BlockCollisionResult blockCollision = getNearestBlockCollision(start, end, props);
-            MovingObjectPosition blockMop = blockCollision.hit;
+            HitResult blockMop = blockCollision.hit;
             double blockDistSq = blockCollision.distanceSq;
-            Vec3 clampedEnd = blockMop != null
-                    ? new Vec3(blockMop.hitVec.xCoord, blockMop.hitVec.yCoord, blockMop.hitVec.zCoord)
+            Vec3d clampedEnd = blockMop != null
+                    ? new Vec3d(blockMop.hitVec.xCoord, blockMop.hitVec.yCoord, blockMop.hitVec.zCoord)
                     : end;
 
             Box broadBox = new Box(posX - hw, posY - hw, posZ - hw, posX + hw, posY + hw, posZ + hw).addCoord(motX, motY, motZ).expand(1.0, 1.0, 1.0);
             List<Entity> candidates = mc.world.getEntitiesWithinAABBExcludingEntity(mc.getRenderViewEntity(), broadBox);
             Entity bestEntity = null;
-            Vec3 bestHitVec = null;
+            Vec3d bestHitVec = null;
             Box bestBox = null;
             double bestDistSq = blockDistSq;
             for (Entity en : candidates) {
-                if (!(en instanceof EntityLivingBase)) continue;
-                if (en instanceof EntityArmorStand) continue;
+                if (!(en instanceof LivingEntity)) continue;
+                if (en instanceof ArmorStandEntity) continue;
                 if (!en.canBeCollidedWith()) continue;
-                if (((EntityLivingBase) en).deathTime != 0) continue;
-                if (en instanceof EntityPlayer && AntiBot.isBot(en)) continue;
+                if (((LivingEntity) en).deathTime != 0) continue;
+                if (en instanceof PlayerEntity && AntiBot.isBot(en)) continue;
 
                 Box entityBox = en.getEntityBoundingBox();
                 Box expandedEntityBox = expandEntityCollisionBox(entityBox);
-                MovingObjectPosition mop = expandedEntityBox.calculateIntercept(start, clampedEnd);
+                HitResult mop = expandedEntityBox.calculateIntercept(start, clampedEnd);
                 if (mop == null) continue;
 
                 double dSq = start.squareDistanceTo(mop.hitVec);
@@ -633,7 +633,7 @@ public class Trajectories extends Module {
                 break outer;
             }
             if (blockMop != null) {
-                Vec3 hitVec = blockMop.hitVec;
+                Vec3d hitVec = blockMop.hitVec;
                 int side = blockMop.sideHit.getIndex();
                 hitType = (side == 0 || side == 1) ? HIT_GROUND : HIT_WALL;
                 hitPos = hitVec;
@@ -659,7 +659,7 @@ public class Trajectories extends Module {
             posX = nextX;
             posY = nextY;
             posZ = nextZ;
-            terminalPos = new Vec3(posX, posY, posZ);
+            terminalPos = new Vec3d(posX, posY, posZ);
 
             mot[0] = motX;
             mot[1] = motY;
@@ -735,7 +735,7 @@ public class Trajectories extends Module {
         GL11.glPopMatrix();
     }
 
-    private void renderLandingIndicator(Vec3 hitPos, double camX, double camY, double camZ, float r, float g, float b, int hitType) {
+    private void renderLandingIndicator(Vec3d hitPos, double camX, double camY, double camZ, float r, float g, float b, int hitType) {
         double boxSize = hitType == HIT_ENTITY ? 0.4 : 0.2;
         Box worldBox = new Box(hitPos.xCoord - boxSize, hitPos.yCoord - boxSize, hitPos.zCoord - boxSize, hitPos.xCoord + boxSize, hitPos.yCoord + boxSize, hitPos.zCoord + boxSize);
         GL11.glLineWidth(2.0f);

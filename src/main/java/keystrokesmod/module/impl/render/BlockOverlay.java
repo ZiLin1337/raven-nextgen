@@ -24,7 +24,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.hit.HitResult;
 
 
 import org.lwjgl.opengl.GL11;
@@ -223,7 +223,7 @@ public void onDrawBlockHighlight(DrawBlockHighlightEvent e) {
     }
 
     private BlockPos getFocusedBlock() {
-        if (mc.objectMouseOver == null || mc.objectMouseOver.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) return null;
+        if (mc.objectMouseOver == null || mc.objectMouseOver.typeOfHit != HitResult.MovingObjectType.BLOCK) return null;
         BlockPos pos = mc.objectMouseOver.getBlockPos();
         if (pos == null) return null;
         Block block = mc.world.getBlockState(pos).getBlock();

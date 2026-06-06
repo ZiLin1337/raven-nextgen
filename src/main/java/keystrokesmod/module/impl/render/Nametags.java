@@ -1,6 +1,6 @@
 package keystrokesmod.module.impl.render;
 
-import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
+// import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.impl.world.AntiBot;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -18,7 +18,7 @@ import net.minecraft.client.render.BufferBuilder;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBow;
@@ -68,7 +68,7 @@ public class Nametags extends Module {
     private int renderStateCount = 0;
 
     private static class NametagRenderState {
-        private EntityPlayer player;
+        private PlayerEntity player;
         private String displayName;
         private int stringHalfWidth;
         private int teamColor;
@@ -85,7 +85,7 @@ public class Nametags extends Module {
         private ItemStack helmet;
         private int totalItems;
 
-        private void set(EntityPlayer player, String displayName, int stringHalfWidth, int teamColor, int relationshipColor,
+        private void set(PlayerEntity player, String displayName, int stringHalfWidth, int teamColor, int relationshipColor,
                          int playerNameStart, int playerNameEnd,
                          double distanceSq, float baseScale, float yOffset,
                          ItemStack heldItem, ItemStack boots, ItemStack leggings, ItemStack chestplate, ItemStack helmet,
@@ -166,8 +166,8 @@ public class Nametags extends Module {
             return;
         }
 
-        if (event.entity instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) event.entity;
+        if (event.entity instanceof PlayerEntity) {
+            PlayerEntity player = (PlayerEntity) event.entity;
             if (shouldRenderNametag(player)) {
                 event.setCanceled(true);
             }
@@ -187,7 +187,7 @@ public class Nametags extends Module {
         float baseScale = computeBaseScaleValue();
         renderStateCount = 0;
 
-        for (EntityPlayer player : mc.world.playerEntities) {
+        for (PlayerEntity player : mc.world.playerEntities) {
             if (!shouldRenderNametag(player)) {
                 continue;
             }
@@ -281,7 +281,7 @@ public class Nametags extends Module {
         RenderSystem.color(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
-    private boolean shouldRenderNametag(EntityPlayer player) {
+    private boolean shouldRenderNametag(PlayerEntity player) {
         if (player == null) return false;
         if (player == mc.player) {
             return showYourself.isToggled() && mc.gameSettings.thirdPersonView != 0;
@@ -291,7 +291,7 @@ public class Nametags extends Module {
         return !AntiBot.isBot(player);
     }
 
-    private String buildDisplayName(EntityPlayer entity, boolean showDist, float distance) {
+    private String buildDisplayName(PlayerEntity entity, boolean showDist, float distance) {
         String name;
 
         if (onlyRenderName.isToggled()) {
@@ -316,7 +316,7 @@ public class Nametags extends Module {
         return name;
     }
 
-    private int resolveRelationshipColor(EntityPlayer entity) {
+    private int resolveRelationshipColor(PlayerEntity entity) {
         if (Utils.isFriended(entity)) {
             return friendColor.getColor();
         }
@@ -342,7 +342,7 @@ public class Nametags extends Module {
     }
 
     private void renderCustomName(NametagRenderState state, float partialTicks, EntityRenderDispatcher renderManager, RavenFontRenderer textRenderer, FontRenderer itemFontRenderer) {
-        EntityPlayer entity = state.player;
+        PlayerEntity entity = state.player;
         if (entity == null || entity.isDead || entity.deathTime > 0) {
             return;
         }
@@ -544,7 +544,7 @@ public class Nametags extends Module {
         return FontManager.getNametagRenderer(getSelectedFontName());
     }
 
-    private String appendHealth(String name, EntityPlayer entity) {
+    private String appendHealth(String name, PlayerEntity entity) {
         float health = Math.max(0.0f, entity.getHealth());
         float maxHealth = entity.getMaxHealth();
         if (maxHealth <= 0.0f) maxHealth = 20.0f;

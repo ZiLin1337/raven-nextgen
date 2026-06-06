@@ -141,7 +141,7 @@ public class ViewPackets extends Module {
             String string3 = s + "\n&7Action: &b" + c02PacketUseEntity.getAction().name();
             Entity getEntityFromWorld = c02PacketUseEntity.getEntityFromWorld(mc.world);
             String string4 = string3 + "\n&7Target: &b" + ((getEntityFromWorld == null) ? "null" : getEntityFromWorld.getName());
-            Vec3 getHitVec = c02PacketUseEntity.getHitVec();
+            Vec3d getHitVec = c02PacketUseEntity.getHitVec();
             if (getHitVec == null) {
                 s = string4 + "\n&7Hit vec: &bnull";
             }

@@ -9,8 +9,8 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 
 
 
@@ -86,14 +86,14 @@ public class Tracers extends Module {
 
         if (Raven.DEBUG) {
             for (Entity entity : mc.world.loadedEntityList) {
-                if (entity instanceof EntityLivingBase && entity != mc.player) {
+                if (entity instanceof LivingEntity && entity != mc.player) {
                     addTrackedEntity(entity);
                 }
             }
             return;
         }
 
-        for (EntityPlayer player : mc.world.playerEntities) {
+        for (PlayerEntity player : mc.world.playerEntities) {
             if (player == mc.player) {
                 continue;
             }

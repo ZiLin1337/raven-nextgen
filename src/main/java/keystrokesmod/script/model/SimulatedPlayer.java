@@ -4,7 +4,7 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3dd;
 
 public class SimulatedPlayer {
     private static final MinecraftClient mc = MinecraftClient.getInstance();
@@ -69,8 +69,8 @@ public class SimulatedPlayer {
         this.pitch = pitch;
     }
 
-    public Vec3d getPositionVec() {
-        return new Vec3d(x, y, z);
+    public Vec3dd getPositionVec() {
+        return new Vec3dd(x, y, z);
     }
 
     public double distanceTo(SimulatedPlayer other) {

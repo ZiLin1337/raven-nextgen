@@ -3,7 +3,7 @@ package keystrokesmod.utility;
 import keystrokesmod.module.impl.world.AntiBot;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.hit.HitResult;
 
 public final class CombatTargeting implements IMinecraftInstance {
     private CombatTargeting() {
@@ -58,7 +58,7 @@ public final class CombatTargeting implements IMinecraftInstance {
             return null;
         }
 
-        MovingObjectPosition objectMouseOver = mc.objectMouseOver;
+        HitResult objectMouseOver = mc.objectMouseOver;
         return asValidPlayer(objectMouseOver.entityHit, maxDistanceSq, ignoreTeammates);
     }
 

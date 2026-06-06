@@ -11,8 +11,8 @@ import net.minecraft.util.math.Box;
 
 public class Entity {
     public net.minecraft.entity.Entity entity;
-    public Vec3 position;
-    public Vec3 lastPosition;
+    public Vec3d position;
+    public Vec3d lastPosition;
     public boolean isPlayer;
     public boolean isLiving;
     public String type;
@@ -24,13 +24,13 @@ public class Entity {
         this.isPlayer = entity instanceof PlayerEntity;
         this.isLiving = entity instanceof LivingEntity;
         this.type = entity.getType().getName().getString();
-        this.position = Vec3.convert(entity.getPos());
-        this.lastPosition = Vec3.convert(entity.prevX, entity.prevY, entity.prevZ);
+        this.position = Vec3d.convert(entity.getPos());
+        this.lastPosition = Vec3d.convert(entity.prevX, entity.prevY, entity.prevZ);
     }
 
-    public Vec3 getPosition() { return Vec3.convert(entity.getPos()); }
-    public Vec3 getLastPosition() { return Vec3.convert(entity.prevX, entity.prevY, entity.prevZ); }
-    public Vec3 getServerPosition() { return new Vec3(entity.getX(), entity.getY(), entity.getZ()); }
+    public Vec3d getPosition() { return Vec3d.convert(entity.getPos()); }
+    public Vec3d getLastPosition() { return Vec3d.convert(entity.prevX, entity.prevY, entity.prevZ); }
+    public Vec3d getServerPosition() { return new Vec3d(entity.getX(), entity.getY(), entity.getZ()); }
     public boolean isOnGround() { return entity.isOnGround(); }
     public boolean isDead() { return !entity.isAlive(); }
 
@@ -85,7 +85,7 @@ public class Entity {
     public double getMotionY() { return entity.getVelocity().y; }
     public double getMotionZ() { return entity.getVelocity().z; }
 
-    public Vec3 getMotion() { return Vec3.convert(entity.getVelocity().x, entity.getVelocity().y, entity.getVelocity().z); }
+    public Vec3d getMotion() { return Vec3d.convert(entity.getVelocity().x, entity.getVelocity().y, entity.getVelocity().z); }
 
     public float getDistanceToEntity(Entity other) {
         return entity.distanceTo(other.entity);

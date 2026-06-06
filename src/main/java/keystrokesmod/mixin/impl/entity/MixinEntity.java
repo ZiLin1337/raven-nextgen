@@ -12,7 +12,7 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3dd;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -88,7 +88,7 @@ public abstract class MixinEntity {
 
     // ===== getRotationVector =====
     @Inject(method = "getRotationVector", at = @At("HEAD"), cancellable = true)
-    private void onGetRotationVector(float pitch, float yaw, CallbackInfoReturnable<Vec3d> cir) {
+    private void onGetRotationVector(float pitch, float yaw, CallbackInfoReturnable<Vec3dd> cir) {
         ClientLookEvent event = new ClientLookEvent(yaw, pitch);
         Raven.EVENT_BUS.post(event);
 
@@ -100,7 +100,7 @@ public abstract class MixinEntity {
         float f2 = -MathHelper.cos(-pitch * (float) (Math.PI / 180.0));
         float f3 = MathHelper.sin(-pitch * (float) (Math.PI / 180.0));
 
-        cir.setReturnValue(new Vec3d(f1 * f2, f3, f * f2));
+        cir.setReturnValue(new Vec3dd(f1 * f2, f3, f * f2));
     }
 
     // ===== PlayerMoveEvent =====

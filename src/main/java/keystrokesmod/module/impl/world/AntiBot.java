@@ -9,14 +9,14 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.Utils;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class AntiBot extends Module {
-    private static final HashMap<EntityPlayer, Long> entities = new HashMap();
+    private static final HashMap<PlayerEntity, Long> entities = new HashMap();
     private static SliderSetting delay;
     private static SliderSetting pitSpawn;
     private static ButtonSetting tablist;
@@ -33,9 +33,9 @@ public class AntiBot extends Module {
 
     
     public void onEntityJoin(EntityJoinWorldEvent e) {
-        if ((e.entity instanceof EntityPlayer || Raven.DEBUG) && e.entity != mc.player) {
-            if (delay.getInput() != -1 && e.entity instanceof EntityPlayer) {
-                entities.put((EntityPlayer) e.entity, System.currentTimeMillis());
+        if ((e.entity instanceof PlayerEntity || Raven.DEBUG) && e.entity != mc.player) {
+            if (delay.getInput() != -1 && e.entity instanceof PlayerEntity) {
+                entities.put((PlayerEntity) e.entity, System.currentTimeMillis());
             }
             if (printWorldJoin.isToggled()) {
                 Utils.sendMessage("&7Entity &b" + e.entity.getEntityId() + " &7joined: &r" + e.entity.getDisplayName().getFormattedText());
@@ -62,10 +62,10 @@ public class AntiBot extends Module {
         if (Freecam.freeEntity != null && Freecam.freeEntity == entity) {
             return true;
         }
-        if (entity == null || !(entity instanceof EntityPlayer)) {
+        if (entity == null || !(entity instanceof PlayerEntity)) {
             return true;
         }
-        final EntityPlayer entityPlayer = (EntityPlayer) entity;
+        final PlayerEntity entityPlayer = (PlayerEntity) entity;
         if (delay.getInput() != -1 && !entities.isEmpty() && entities.containsKey(entityPlayer)) {
             return true;
         }

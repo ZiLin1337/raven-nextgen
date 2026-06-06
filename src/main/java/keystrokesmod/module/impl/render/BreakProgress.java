@@ -9,7 +9,7 @@ import keystrokesmod.utility.BlockUtils;
 import keystrokesmod.utility.Utils;
 
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.hit.HitResult;
 
 
 
@@ -92,7 +92,7 @@ public void onRenderWorld(RenderWorldLastEvent e) {
                 return;
             }
         }
-        if (!manual.isToggled() || mc.objectMouseOver == null || mc.objectMouseOver.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) {
+        if (!manual.isToggled() || mc.objectMouseOver == null || mc.objectMouseOver.typeOfHit != HitResult.MovingObjectType.BLOCK) {
             this.resetVariables();
             return;
         }

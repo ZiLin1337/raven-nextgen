@@ -11,7 +11,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.util.math.MatrixStack;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -63,16 +63,16 @@ public class BridgeInfo extends Module {
     @Override
     public void onUpdate() {
         if (!this.enemyName.isEmpty() && this.isBridge()) {
-            EntityPlayer enem = null;
+            PlayerEntity enem = null;
             Iterator var2 = mc.world.loadedEntityList.iterator();
 
             while (var2.hasNext()) {
                 Entity e = (Entity) var2.next();
-                if (e instanceof EntityPlayer) {
+                if (e instanceof PlayerEntity) {
                     if (e.getName().equals(this.enemyName)) {
-                        enem = (EntityPlayer) e;
+                        enem = (PlayerEntity) e;
                     }
-                } else if (e instanceof EntityArmorStand) {
+                } else if (e instanceof ArmorStandEntity) {
                     if (e.getName().contains(this.start)) {
                         this.g1p = e.getPosition();
                     }

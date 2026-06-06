@@ -8,7 +8,7 @@ import keystrokesmod.module.setting.impl.TextSetting;
 import keystrokesmod.utility.TextUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.client.network.NetworkPlayerInfo;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 
@@ -120,7 +120,7 @@ public class NameHider extends Module {
         return replaced;
     }
 
-    public static IChatComponent getPlayerDisplayName(EntityPlayer player, IChatComponent original) {
+    public static IChatComponent getPlayerDisplayName(PlayerEntity player, IChatComponent original) {
         if (original == null || !shouldProcessText(original.getFormattedText())) {
             return original;
         }
@@ -169,7 +169,7 @@ public class NameHider extends Module {
         applyFakeName(normalized);
     }
 
-    private static String getDisplayTextForPlayer(EntityPlayer player, String original) {
+    private static String getDisplayTextForPlayer(PlayerEntity player, String original) {
         if (player == null) {
             return original;
         }
@@ -296,7 +296,7 @@ public class NameHider extends Module {
             return;
         }
 
-        for (EntityPlayer player : mc.world.playerEntities) {
+        for (PlayerEntity player : mc.world.playerEntities) {
             if (player == null || player == mc.player) {
                 continue;
             }
@@ -367,7 +367,7 @@ public class NameHider extends Module {
         return !normalized.isEmpty() && detectedSelfNames.add(normalized);
     }
 
-    private static List<String> getEntityVisibleNames(EntityPlayer player, String key) {
+    private static List<String> getEntityVisibleNames(PlayerEntity player, String key) {
         LinkedHashSet<String> names = new LinkedHashSet<String>();
         addNames(names, cachedVisibleNamesByKey.get(key));
         addName(names, player.getName());
@@ -442,7 +442,7 @@ public class NameHider extends Module {
         return mc.getNetHandler() == null || mc.player == null ? null : mc.getNetHandler().getPlayerInfo(mc.player.getUniqueID());
     }
 
-    private static NetworkPlayerInfo getPlayerInfo(EntityPlayer player) {
+    private static NetworkPlayerInfo getPlayerInfo(PlayerEntity player) {
         return mc.getNetHandler() == null || player == null ? null : mc.getNetHandler().getPlayerInfo(player.getUniqueID());
     }
 
@@ -454,7 +454,7 @@ public class NameHider extends Module {
         return mc.player == null ? null : getIdentityKey(mc.player.getUniqueID(), mc.player.getName());
     }
 
-    private static boolean isSelfPlayer(EntityPlayer player, String key) {
+    private static boolean isSelfPlayer(PlayerEntity player, String key) {
         return player == mc.player || isSelfKey(key);
     }
 
@@ -477,7 +477,7 @@ public class NameHider extends Module {
         return profile == null ? null : getIdentityKey(profile.getId(), profile.getName());
     }
 
-    private static String getIdentityKey(EntityPlayer player) {
+    private static String getIdentityKey(PlayerEntity player) {
         NetworkPlayerInfo playerInfo = getPlayerInfo(player);
         if (playerInfo != null) {
             return getIdentityKey(playerInfo);

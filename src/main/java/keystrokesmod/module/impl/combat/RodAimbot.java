@@ -8,7 +8,7 @@ import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemFishingRod;
 
 public class RodAimbot extends Module {
@@ -19,7 +19,7 @@ public class RodAimbot extends Module {
     private ButtonSetting ignoreTeammates;
     public boolean rotate;
     private boolean rightClick;
-    private EntityPlayer entity;
+    private PlayerEntity entity;
 
     public RodAimbot() {
         super("RodAimbot", Module.category.combat, 0);
@@ -78,8 +78,8 @@ public class RodAimbot extends Module {
         }
     }
 
-    private EntityPlayer getEntity() {
-        for (final EntityPlayer entityPlayer : mc.world.playerEntities) {
+    private PlayerEntity getEntity() {
+        for (final PlayerEntity entityPlayer : mc.world.playerEntities) {
             if (entityPlayer != mc.player) {
                 if (entityPlayer.deathTime != 0) {
                     continue;

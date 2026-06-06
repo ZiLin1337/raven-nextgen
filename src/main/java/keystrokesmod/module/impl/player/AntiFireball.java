@@ -12,11 +12,11 @@ import keystrokesmod.utility.ReflectionUtils;
 import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.Vec3dd;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -96,13 +96,13 @@ public class AntiFireball extends Module {
     }
 
     private float[] computeAimRotations(float baseYaw, float basePitch) {
-        Vec3 eye = mc.player.getPositionEyes(1.0f);
+        Vec3d eye = mc.player.getPositionEyes(1.0f);
         float borderSize = fireball.getCollisionBorderSize();
         Box fireballBox = fireball.getEntityBoundingBox().expand(borderSize, borderSize, borderSize);
         double reach = mc.playerController.getBlockReachDistance();
 
-        List<EntityPlayer> players = new ArrayList<>();
-        for (EntityPlayer player : mc.world.playerEntities) {
+        List<PlayerEntity> players = new ArrayList<>();
+        for (PlayerEntity player : mc.world.playerEntities) {
             if (player == mc.player || player.deathTime != 0) continue;
             if (Utils.isFriended(player)) continue;
             if (Utils.isTeammate(player)) continue;
@@ -111,7 +111,7 @@ public class AntiFireball extends Module {
         }
         players.sort(Comparator.comparingDouble(p -> mc.player.getDistanceSqToEntity(p)));
 
-        for (EntityPlayer player : players) {
+        for (PlayerEntity player : players) {
             float[] rot = RotationUtils.getRotationsToPoint(player.posX, player.posY, player.posZ, baseYaw, basePitch);
             if (hitsFireballBox(eye, rot[0], rot[1], fireballBox, reach)) {
                 return rot;
@@ -124,10 +124,10 @@ public class AntiFireball extends Module {
         return RotationUtils.getRotationsToPoint(centerX, topY, centerZ, baseYaw, basePitch);
     }
 
-    private boolean hitsFireballBox(Vec3 eye, float yaw, float pitch, Box box, double range) {
-        Vec3 look = Utils.getLookVec(yaw, pitch);
-        Vec3 end = eye.addVector(look.xCoord * range, look.yCoord * range, look.zCoord * range);
-        MovingObjectPosition intercept = box.calculateIntercept(eye, end);
+    private boolean hitsFireballBox(Vec3d eye, float yaw, float pitch, Box box, double range) {
+        Vec3d look = Utils.getLookVec(yaw, pitch);
+        Vec3d end = eye.addVector(look.xCoord * range, look.yCoord * range, look.zCoord * range);
+        HitResult intercept = box.calculateIntercept(eye, end);
         return intercept != null;
     }
 
@@ -137,8 +137,8 @@ public class AntiFireball extends Module {
         if (onGround.isToggled() && !mc.player.onGround) return;
         if (fireball == null) return;
 
-        MovingObjectPosition mop = mc.objectMouseOver;
-        if (mop == null || mop.typeOfHit != MovingObjectPosition.MovingObjectType.ENTITY || mop.entityHit != fireball) {
+        HitResult mop = mc.objectMouseOver;
+        if (mop == null || mop.typeOfHit != HitResult.MovingObjectType.ENTITY || mop.entityHit != fireball) {
             nextClickTime = 0;
             ReflectionUtils.setButton(0, false);
             return;

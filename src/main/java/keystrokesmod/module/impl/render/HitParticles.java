@@ -7,12 +7,12 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.Vec3dd;
 import net.minecraft.world.World;
 
 
@@ -114,10 +114,10 @@ public class HitParticles extends Module {
         if (!isEnabled() || !onMelee.isToggled() || !Utils.nullCheck()) {
             return;
         }
-        if (event.entityPlayer != mc.player || !(event.target instanceof EntityLivingBase)) {
+        if (event.entityPlayer != mc.player || !(event.target instanceof LivingEntity)) {
             return;
         }
-        EntityLivingBase target = (EntityLivingBase) event.target;
+        LivingEntity target = (LivingEntity) event.target;
         if (target.hurtTime > 5 || target.hurtResistantTime > 0) {
             return;
         }
@@ -141,7 +141,7 @@ public class HitParticles extends Module {
             if (arrow.shootingEntity != mc.player) {
                 continue;
             }
-            EntityLivingBase target = getCollisionEntity(arrow);
+            LivingEntity target = getCollisionEntity(arrow);
             if (target == null || target.hurtTime > 0) {
                 continue;
             }
@@ -195,17 +195,17 @@ public class HitParticles extends Module {
         }
     }
 
-    private static EntityLivingBase getCollisionEntity(EntityArrow arrow) {
+    private static LivingEntity getCollisionEntity(EntityArrow arrow) {
         World world = arrow.worldObj;
-        Vec3 pos = new Vec3(arrow.posX, arrow.posY, arrow.posZ);
-        Vec3 motionEnd = new Vec3(arrow.posX + arrow.motionX, arrow.posY + arrow.motionY, arrow.posZ + arrow.motionZ);
-        MovingObjectPosition rayTrace = world.rayTraceBlocks(pos, motionEnd, false, true, false);
-        Vec3 traceEnd = motionEnd;
+        Vec3d pos = new Vec3d(arrow.posX, arrow.posY, arrow.posZ);
+        Vec3d motionEnd = new Vec3d(arrow.posX + arrow.motionX, arrow.posY + arrow.motionY, arrow.posZ + arrow.motionZ);
+        HitResult rayTrace = world.rayTraceBlocks(pos, motionEnd, false, true, false);
+        Vec3d traceEnd = motionEnd;
         if (rayTrace != null) {
             traceEnd = rayTrace.hitVec;
         }
 
-        EntityLivingBase target = null;
+        LivingEntity target = null;
         double closestSq = 0.0;
         Box search = arrow.getEntityBoundingBox()
                 .addCoord(arrow.motionX, arrow.motionY, arrow.motionZ)
@@ -214,10 +214,10 @@ public class HitParticles extends Module {
         List<Entity> entities = world.getEntitiesWithinAABBExcludingEntity(arrow, search);
 
         for (Entity entity : entities) {
-            if (!(entity instanceof EntityLivingBase)) {
+            if (!(entity instanceof LivingEntity)) {
                 continue;
             }
-            EntityLivingBase living = (EntityLivingBase) entity;
+            LivingEntity living = (LivingEntity) entity;
             if (!living.canBeCollidedWith()) {
                 continue;
             }
@@ -225,7 +225,7 @@ public class HitParticles extends Module {
                 continue;
             }
             Box collisionBox = entity.getEntityBoundingBox().expand(0.3, 0.3, 0.3);
-            MovingObjectPosition collision = collisionBox.calculateIntercept(pos, traceEnd);
+            HitResult collision = collisionBox.calculateIntercept(pos, traceEnd);
             if (collision == null) {
                 continue;
             }

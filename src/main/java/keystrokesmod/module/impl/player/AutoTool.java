@@ -17,7 +17,7 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.hit.HitResult;
 
 
 public class AutoTool extends Module {
@@ -135,13 +135,13 @@ public class AutoTool extends Module {
             return;
         }
 
-        MovingObjectPosition hoverResult = RotationUtils.rayTraceBlockIfNoEntityInFront(
+        HitResult hoverResult = RotationUtils.rayTraceBlockIfNoEntityInFront(
             mc.playerController.getBlockReachDistance(),
             mc.player.rotationYaw,
             mc.player.rotationPitch
         );
         BlockPos hoverPos = hoverResult != null
-            && hoverResult.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK
+            && hoverResult.typeOfHit == HitResult.MovingObjectType.BLOCK
             ? hoverResult.getBlockPos()
             : null;
         updateHoverState(hoverPos, currentTick);
@@ -187,9 +187,9 @@ public class AutoTool extends Module {
             return;
         }
 
-        MovingObjectPosition swapResult = mc.objectMouseOver;
+        HitResult swapResult = mc.objectMouseOver;
         BlockPos swapPos = swapResult != null
-            && swapResult.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK
+            && swapResult.typeOfHit == HitResult.MovingObjectType.BLOCK
             ? swapResult.getBlockPos()
             : null;
         if (swapPos == null) {
