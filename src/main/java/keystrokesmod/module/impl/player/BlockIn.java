@@ -236,7 +236,7 @@ public class BlockIn extends Module {
             circleProgress = animTargetProgress;
         }
 
-        Object /*Object /* ScaledResolution */ removed*/ sr = new Object /*Object /* ScaledResolution */ removed*/(mc);
+        int(mc);
         float cx = sr.getScaledWidth() / 2f - 1f;
         float cy = sr.getScaledHeight() / 2f;
         float radius = 10f;
@@ -259,9 +259,7 @@ public class BlockIn extends Module {
 
         RenderUtils.draw2DCircleArc(cx, cy, radius, startAngle, endAngle, thickness, color);
     }
-
-    (priority = EST)
-    public void onMouse(MouseEvent e) {
+public void onMouse(MouseEvent e) {
         if (placing && e.button > -1) {
             e.setCanceled(true);
         }

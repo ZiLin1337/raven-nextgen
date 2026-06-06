@@ -100,9 +100,7 @@ public class BlockOverlay extends Module {
     public String getInfo() {
         return RENDER_MODES[(int) renderMode.getInput()];
     }
-
-    (priority = EST)
-    public void onDrawBlockHighlight(DrawBlockHighlightEvent e) {
+public void onDrawBlockHighlight(DrawBlockHighlightEvent e) {
         int mode = (int) renderMode.getInput();
         if (mode == 0) {
             e.setCanceled(true);
@@ -169,7 +167,7 @@ public class BlockOverlay extends Module {
     }
 
     public static void renderBlockOutline(BlockPos pos, int outlineArgbStart, int outlineArgbEnd, float lineWidth, boolean depthless) {
-        Minecraft m = Minecraft.getMinecraft();
+        Minecraft m = MinecraftClient.getInstance();
         if (m.theWorld == null || pos == null) {
             return;
         }

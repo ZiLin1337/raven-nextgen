@@ -34,9 +34,7 @@ public class BreakProgress extends Module {
         this.registerSetting(bedAura = new ButtonSetting("Show BedAura", true));
         this.registerSetting(fadeIn = new ButtonSetting("Fade in", false));
     }
-
-    (priority = EST)
-    public void onRenderWorld(RenderWorldLastEvent e) {
+public void onRenderWorld(RenderWorldLastEvent e) {
         if (this.progress == 0.0f || this.block == null || !Utils.nullCheck()) {
             return;
         }

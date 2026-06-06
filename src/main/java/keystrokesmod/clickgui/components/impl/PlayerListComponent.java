@@ -124,7 +124,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
         boolean depthMask = GL11.glGetBoolean(GL11.GL_DEPTH_WRITEMASK);
         try {
             RenderUtils.prepareGuiTextureRenderState();
-            Minecraft.getMinecraft().getTextureManager().bindTexture(skin);
+            MinecraftClient.getInstance().getTextureManager().bindTexture(skin);
             GlStateManager.color(1f, 1f, 1f, 1f);
             net.minecraft.client.gui.Gui.drawScaledCustomSizeModalRect((int) x, (int) y, 8f, 8f, 8, 8, (int) HEAD_SIZE, (int) HEAD_SIZE, 64f, 64f);
             net.minecraft.client.gui.Gui.drawScaledCustomSizeModalRect((int) x, (int) y, 40f, 8f, 8, 8, (int) HEAD_SIZE, (int) HEAD_SIZE, 64f, 64f);
@@ -133,8 +133,8 @@ public class PlayerListComponent extends AbstractTextInputComponent {
 
     private Map<String, NetworkPlayerInfo> getPlayerInfoMap() {
         Map<String, NetworkPlayerInfo> map = new HashMap<>();
-        if (Minecraft.getMinecraft().getNetHandler() == null) return map;
-        for (NetworkPlayerInfo info : Minecraft.getMinecraft().getNetHandler().getPlayerInfoMap()) {
+        if (MinecraftClient.getInstance().getNetHandler() == null) return map;
+        for (NetworkPlayerInfo info : MinecraftClient.getInstance().getNetHandler().getPlayerInfoMap()) {
             if (info == null) continue;
             GameProfile profile = info.getGameProfile();
             if (profile == null || profile.getName() == null) continue;

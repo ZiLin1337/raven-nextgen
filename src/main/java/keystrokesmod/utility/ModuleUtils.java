@@ -311,9 +311,7 @@ public class ModuleUtils implements IMinecraftInstance {
         didSlow = false;
         canSlow = true;
     }
-
-    (priority = EST)
-    public void onRenderWorld(RenderWorldLastEvent e) {
+public void onRenderWorld(RenderWorldLastEvent e) {
         if (!Utils.nullCheck()) {
             return;
         }

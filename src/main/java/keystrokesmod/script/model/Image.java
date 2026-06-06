@@ -3,7 +3,6 @@ package keystrokesmod.script.model;
 import keystrokesmod.script.ScriptDefaults;
 import keystrokesmod.utility.NetworkUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Object /*Object /* ScaledResolution */ removed*/;
 
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
@@ -43,7 +42,7 @@ public class Image {
     }
 
     public float[] getDimensions() {
-        final int scaleFactor = new Object /*Object /* ScaledResolution */ removed*/(Minecraft.getMinecraft()).getScaleFactor();
+        final int scaleFactor = new int(MinecraftClient.getInstance()).getScaleFactor();
         return new float[] { this.width / scaleFactor, this.height / scaleFactor };
     }
 

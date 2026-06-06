@@ -70,9 +70,7 @@ public class HideWindow extends Module {
         }
         hiddenGui = null;
     }
-
-    (priority = EST)
-    public void onGuiOpen(GuiOpenEvent event) {
+public void onGuiOpen(GuiOpenEvent event) {
         if (event.gui == null || mc.player == null) {
             return;
         }
@@ -153,7 +151,7 @@ public class HideWindow extends Module {
     }
 
     public void setAbsolutePosition(float absoluteX, float absoluteY) {
-        setAbsolutePosition(absoluteX, absoluteY, new Object /*Object /* ScaledResolution */ removed*/(mc));
+        setAbsolutePosition(absoluteX, absoluteY, new int(mc));
     }
 
     public void resetPosition() {
@@ -187,10 +185,10 @@ public class HideWindow extends Module {
     }
 
     private void syncPosition() {
-        syncPosition(new Object /*Object /* ScaledResolution */ removed*/(mc));
+        syncPosition(new int(mc));
     }
 
-    private void syncPosition(Object /*Object /* ScaledResolution */ removed*/ resolution) {
+    private void syncPosition(int resolution) {
         int w = Math.max(1, resolution.getScaledWidth());
         int h = Math.max(1, resolution.getScaledHeight());
         if (Float.isNaN(relativePosX) || Float.isNaN(relativePosY)) {
@@ -206,7 +204,7 @@ public class HideWindow extends Module {
         posY = relativePosY * h;
     }
 
-    private void setAbsolutePosition(float absoluteX, float absoluteY, Object /*Object /* ScaledResolution */ removed*/ resolution) {
+    private void setAbsolutePosition(float absoluteX, float absoluteY, int resolution) {
         posX = absoluteX;
         posY = absoluteY;
         int w = Math.max(1, resolution.getScaledWidth());
@@ -254,14 +252,14 @@ public class HideWindow extends Module {
         public void initGui() {
             super.initGui();
             buttonList.add(resetBtn = new GuiButtonExt(1, width - 90, height - 25, 85, 20, "Reset position"));
-            syncPosition(new Object /*Object /* ScaledResolution */ removed*/(mc));
+            syncPosition(new int(mc));
             actualX = posX;
             actualY = posY;
         }
 
         @Override
         public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-            Object /*Object /* ScaledResolution */ removed*/ resolution = new Object /*Object /* ScaledResolution */ removed*/(mc);
+            int(mc);
             if (!dragging) {
                 syncPosition(resolution);
                 actualX = posX;

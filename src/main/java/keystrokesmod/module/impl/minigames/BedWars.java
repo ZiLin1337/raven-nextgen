@@ -61,9 +61,7 @@ public class BedWars extends Module {
         entitySpawnQueue.clear();
         spawnedMobs.clear();
     }
-
-    (priority = EST)
-    public void onRenderWorld(RenderWorldLastEvent e) {
+public void onRenderWorld(RenderWorldLastEvent e) {
         if (Utils.nullCheck() && obsidian.isToggled()) {
             if (this.obsidianPos.isEmpty()) {
                 return;

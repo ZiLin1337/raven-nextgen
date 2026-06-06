@@ -380,7 +380,7 @@ public class MobESP extends Module {
         double maxY = Double.MIN_VALUE;
 
         boolean isInView = false;
-         scaledResolution = null; // Object /* ScaledResolution */ removed for 1.21.4
+         scaledResolution = null; // int removed for 1.21.4
 
         for (Vec3 corner : corners) {
             Vec3 screenVec = RenderUtils.convertTo2D(scaledResolution.getScaleFactor(), corner.xCoord, corner.yCoord, corner.zCoord);
@@ -412,7 +412,7 @@ public class MobESP extends Module {
 
         mc.entityRenderer.setupOverlayRendering();
 
-         res = null; // Object /* ScaledResolution */ removed for 1.21.4
+         res = null; // int removed for 1.21.4
         int screenWidth = res.getScaledWidth();
         int screenHeight = res.getScaledHeight();
 

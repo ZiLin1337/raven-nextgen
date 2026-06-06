@@ -221,7 +221,7 @@ public class FallView extends Module {
             return;
         }
 
-         scaledResolution = null; // Object /* ScaledResolution */ removed for 1.21.4
+         scaledResolution = null; // int removed for 1.21.4
         if (showDamageText && damageText != null) {
             mc.textRenderer.drawStringWithShadow(
                     damageText,

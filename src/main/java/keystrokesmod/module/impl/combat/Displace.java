@@ -463,9 +463,7 @@ public class Displace extends Module {
             outboundBlink = null;
         }
     }
-
-    (priority = EST)
-    public void onGameTick(GameTickEvent e) {
+public void onGameTick(GameTickEvent e) {
         if (releaseBlinkNextGameTick) {
             releaseBlink();
             releaseBlinkNextGameTick = false;

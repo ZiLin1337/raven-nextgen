@@ -2,7 +2,6 @@ package keystrokesmod.utility.shader;
 
 import keystrokesmod.utility.Utils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Object /*Object /* ScaledResolution */ removed*/;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL20;
 
@@ -17,7 +16,7 @@ import static org.lwjgl.opengl.GL20.*;
 
 public class ShaderUtils {
 
-    private Minecraft mc = Minecraft.getMinecraft();
+    private Minecraft mc = MinecraftClient.getInstance();
     public final int programID;
     private final Map<String, Integer> uniformLocations = new HashMap<String, Integer>();
     private final String kawaseUpGlow = "#version 120\n" +
@@ -423,7 +422,7 @@ public class ShaderUtils {
     }
 
     public static void drawQuads() {
-        Object /*Object /* ScaledResolution */ removed*/ sr = new Object /*Object /* ScaledResolution */ removed*/(Minecraft.getMinecraft());
+        int(MinecraftClient.getInstance());
         float width = (float) sr.getScaledWidth_double();
         float height = (float) sr.getScaledHeight_double();
         glBegin(GL_QUADS);

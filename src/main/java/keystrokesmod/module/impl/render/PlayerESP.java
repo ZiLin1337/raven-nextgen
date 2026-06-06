@@ -136,9 +136,7 @@ public class PlayerESP extends Module {
 
         this.renderSkeleton(e.entityPlayer, e.renderer.getMainModel(), resolveBaseRenderColor(renderState), e.partialRenderTick);
     }
-
-    (priority = EST)
-    public void onRenderWorld(RenderWorldLastEvent e) {
+public void onRenderWorld(RenderWorldLastEvent e) {
         this.visibleRenderStateCount = 0;
         if (!Utils.nullCheck()) {
             return;
@@ -336,7 +334,7 @@ public class PlayerESP extends Module {
             return;
         }
 
-         scaledResolution = null; // Object /* ScaledResolution */ removed for 1.21.4
+         scaledResolution = null; // int removed for 1.21.4
         ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(partialTicks, 0);
         projectionContext = RenderUtils.captureProjectionContext(projectionContext, scaledResolution.getScaleFactor());
         mc.entityRenderer.setupOverlayRendering();

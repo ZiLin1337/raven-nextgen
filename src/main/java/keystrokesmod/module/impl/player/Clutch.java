@@ -190,9 +190,7 @@ public class Clutch extends Module {
             mc.player.swingItem();
         }
     }
-
-    (priority = EST)
-    public void onMouse(MouseEvent e) {
+public void onMouse(MouseEvent e) {
         if ((placing || resetting || hasAim) && e.button > -1) {
             e.setCanceled(true);
         }

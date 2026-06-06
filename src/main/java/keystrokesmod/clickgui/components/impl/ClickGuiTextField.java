@@ -69,7 +69,7 @@ public class ClickGuiTextField {
         this.textScale = textScale;
         this.textField = new GuiTextField(
             nextId++,
-            Minecraft.getMinecraft().fontRendererObj,
+            MinecraftClient.getInstance().fontRendererObj,
             0,
             0,
             100,
