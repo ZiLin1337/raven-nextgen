@@ -1,4 +1,5 @@
 package keystrokesmod.module.impl.player;
+import keystrokesmod.event.SendPacketEvent;
 
 import keystrokesmod.event.PrePlayerInteractEvent;
 

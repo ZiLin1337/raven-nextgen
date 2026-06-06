@@ -1,4 +1,6 @@
 package keystrokesmod.module.impl.player;
+import keystrokesmod.event.SendPacketEvent;
+import keystrokesmod.event.RightClickDelayTickEvent;
 
 import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
 import keystrokesmod.module.Module;

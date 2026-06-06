@@ -1,4 +1,5 @@
 package keystrokesmod.module.impl.player;
+import keystrokesmod.event.WorldEvent;
 
 import keystrokesmod.event.ReceivePacketEvent;
 import keystrokesmod.module.Module;
@@ -239,7 +240,7 @@ public class HideWindow extends Module {
     }
 
     private class EditScreen extends Screen {
-        private GuiButtonExt resetBtn;
+        private ButtonWidget resetBtn;
         private boolean dragging;
         private float actualX, actualY;
         private float lastActualX, lastActualY;
@@ -248,7 +249,7 @@ public class HideWindow extends Module {
         @Override
         public void initGui() {
             super.initGui();
-            buttonList.add(resetBtn = new GuiButtonExt(1, width - 90, height - 25, 85, 20, "Reset position"));
+            buttonList.add(resetBtn = new ButtonWidget(1, width - 90, height - 25, 85, 20, "Reset position"));
             syncPosition();
             actualX = posX;
             actualY = posY;

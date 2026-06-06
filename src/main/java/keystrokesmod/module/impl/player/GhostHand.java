@@ -1,4 +1,5 @@
 package keystrokesmod.module.impl.player;
+import net.minecraft.util.hit.HitResult;
 
 import com.google.common.base.Predicates;
 // import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;

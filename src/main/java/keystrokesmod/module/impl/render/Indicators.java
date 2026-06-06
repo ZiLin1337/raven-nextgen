@@ -269,8 +269,8 @@ public class Indicators extends Module {
                     continue;
                 }
 
-                if (entity instanceof LargeFireballEntity && drawFireballTrajectory.isToggled()) {
-                    renderFireballTrajectory((LargeFireballEntity) entity, event.partialTicks);
+                if (entity instanceof FireballEntity && drawFireballTrajectory.isToggled()) {
+                    renderFireballTrajectory((FireballEntity) entity, event.partialTicks);
                 }
                 else if (entity instanceof ArrowEntity && drawArrowTrajectory.isToggled()
                         && !((IAccessorArrowEntity) entity).getInGround()) {
@@ -313,7 +313,7 @@ public class Indicators extends Module {
         if (entity instanceof ArrowEntity && !((IAccessorArrowEntity) entity).getInGround() && renderArrows.isToggled()) {
             return true;
         }
-        else if (entity instanceof LargeFireballEntity && renderFireballs.isToggled()) {
+        else if (entity instanceof FireballEntity && renderFireballs.isToggled()) {
             return true;
         }
         else if (entity instanceof EnderPearlEntity && renderPearls.isToggled()) {
@@ -505,7 +505,7 @@ public class Indicators extends Module {
         }
     }
 
-    private void renderFireballTrajectory(LargeFireballEntity fireball, float partialTicks) {
+    private void renderFireballTrajectory(FireballEntity fireball, float partialTicks) {
         FireballSimulator.Result result = FireballSimulator.simulate(fireball);
         Vec3d impactPosition = result.getImpactPosition();
 
@@ -928,7 +928,7 @@ public class Indicators extends Module {
         );
     }
 
-    private Box getImpactBox(LargeFireballEntity fireball, Vec3d impactPosition) {
+    private Box getImpactBox(FireballEntity fireball, Vec3d impactPosition) {
         double halfWidth = fireball.width * 0.5D;
         return new Box(
                 impactPosition.xCoord - halfWidth,

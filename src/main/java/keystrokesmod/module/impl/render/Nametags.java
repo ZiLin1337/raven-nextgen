@@ -1,4 +1,5 @@
 package keystrokesmod.module.impl.render;
+import keystrokesmod.event.RenderLivingEvent;
 
 // import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
 import keystrokesmod.module.Module;

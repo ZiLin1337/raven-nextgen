@@ -11,30 +11,25 @@ import keystrokesmod.module.setting.impl.KeySetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.ItemSearchIndex;
 import keystrokesmod.utility.Utils;
-import net.minecraft.client.gui.inventory.GuiChest;
-import net.minecraft.client.gui.inventory.GuiInventory;
+import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Items;
-import net.minecraft.inventory.ContainerChest;
-import net.minecraft.inventory.ContainerPlayer;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.screen.GenericContainerScreenHandler;
+import net.minecraft.screen.PlayerScreenHandler;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemAppleGold;
-import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.AxeItem;
 
-import net.minecraft.item.ItemEgg;
-import net.minecraft.item.ItemEnderPearl;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.item.PotionItem;
-import net.minecraft.item.ItemSnowball;
 import net.minecraft.item.ShovelItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 
-import net.minecraft.util.DamageSource;
+import net.minecraft.entity.damage.DamageSource;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -210,14 +205,14 @@ public class InvManager extends Module {
             return;
         }
 
-        if (closeInventory.isToggled() && closeInventoryGui && mc.currentScreen instanceof GuiInventory) {
+        if (closeInventory.isToggled() && closeInventoryGui && mc.currentScreen instanceof InventoryScreen) {
             closeInventoryGui = false;
             closeSession();
             mc.player.closeScreen();
             return;
         }
 
-        if (mc.currentScreen instanceof GuiInventory) {
+        if (mc.currentScreen instanceof InventoryScreen) {
             handleInventoryScreen();
             return;
         }
@@ -394,7 +389,7 @@ public class InvManager extends Module {
             }
 
             if (isArmor(itemStack)) {
-                ItemArmor armor = (ItemArmor)item;
+                ArmorItem armor = (ArmorItem)item;
                 int armorSlot = 3 - armor.armorType;
                 int defenceLevel = getDefenceLevel(itemStack);
                 int bestLevel = bestArmorLevels[armorSlot];
@@ -474,7 +469,7 @@ public class InvManager extends Module {
     }
 
     private void handleChestScreen() {
-        if (chestStealer.getInput() == -1 || !(mc.player.openContainer instanceof ContainerChest)) {
+        if (chestStealer.getInput() == -1 || !(mc.player.openContainer instanceof GenericContainerScreenHandler)) {
             return;
         }
 
@@ -482,7 +477,7 @@ public class InvManager extends Module {
             return;
         }
 
-        IInventory chestInventory = ((ContainerChest)mc.player.openContainer).getLowerChestInventory();
+        Inventory chestInventory = ((GenericContainerScreenHandler)mc.player.openContainer).getLowerChestInventory();
         if (!stealFromCustomChests.isToggled() && !chestInventory.getName().contains("Chest")) {
             return;
         }
@@ -614,11 +609,11 @@ public class InvManager extends Module {
     }
 
     private boolean isArmor(ItemStack itemStack) {
-        return itemStack != null && itemStack.getItem() instanceof ItemArmor;
+        return itemStack != null && itemStack.getItem() instanceof ArmorItem;
     }
 
     private int getDefenceLevel(ItemStack itemStack) {
-        return ((ItemArmor)itemStack.getItem()).damageReduceAmount
+        return ((ArmorItem)itemStack.getItem()).damageReduceAmount
                 + EnchantmentHelper.getEnchantmentModifierDamage(new ItemStack[] { itemStack }, DamageSource.generic);
     }
 
@@ -1597,7 +1592,7 @@ public class InvManager extends Module {
     }
 
     private void recoverCarriedStackImmediately(InventorySnapshot snapshot, boolean allowDrop) {
-        if (!(mc.player.openContainer instanceof ContainerPlayer) || snapshot.carried == null) {
+        if (!(mc.player.openContainer instanceof PlayerScreenHandler) || snapshot.carried == null) {
             currentAction = null;
             if (allowDrop) {
                 cursorRecoveryInventoryIndex = -1;
@@ -1807,8 +1802,8 @@ public class InvManager extends Module {
 
     private boolean isManagedInventoryOpen() {
         return Utils.nullCheck()
-                && mc.currentScreen instanceof GuiInventory
-                && mc.player.openContainer instanceof ContainerPlayer
+                && mc.currentScreen instanceof InventoryScreen
+                && mc.player.openContainer instanceof PlayerScreenHandler
                 && Utils.inInventory();
     }
 
@@ -1888,7 +1883,7 @@ public class InvManager extends Module {
     }
 
     private final class InventoryData {
-        final IInventory inventory;
+        final Inventory inventory;
         final int size;
         int filled;
         int emptyWithoutHotbar;
@@ -1900,7 +1895,7 @@ public class InvManager extends Module {
         double bestShovel = -1.0;
         final HashSet<Integer> uniqueSingles = new HashSet<Integer>();
 
-        InventoryData(IInventory inventory, boolean playerInventory, boolean armorOnly) {
+        InventoryData(Inventory inventory, boolean playerInventory, boolean armorOnly) {
             this.inventory = inventory;
             this.size = playerInventory ? inventory.getSizeInventory() - 4 : inventory.getSizeInventory();
 
@@ -1918,7 +1913,7 @@ public class InvManager extends Module {
                 }
 
                 if (isArmor(itemStack)) {
-                    ItemArmor armor = (ItemArmor)itemStack.getItem();
+                    ArmorItem armor = (ArmorItem)itemStack.getItem();
                     int slot = 3 - armor.armorType;
                     int defenceLevel = getDefenceLevel(itemStack);
                     if (defenceLevel > armorData[1][slot]) {

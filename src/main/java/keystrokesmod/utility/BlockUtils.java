@@ -1,13 +1,12 @@
 package keystrokesmod.utility;
 
 import net.minecraft.block.*;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.block.Blocks;
-import net.minecraft.item.EnumDyeColor;
+import net.minecraft.util.DyeColor;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
@@ -261,8 +260,8 @@ public class BlockUtils implements IMinecraftInstance {
         return false;
     }
 
-    public static EnumDyeColor getWoolColor(final BlockState state) {
-        return (EnumDyeColor)state.getProperties().get(BlockColored.COLOR);
+    public static DyeColor getWoolColor(final BlockState state) {
+        return (DyeColor)state.getProperties().get(BlockColored.COLOR);
     }
 
     public static Direction[] getVisibleFaces(Vec3d eye, BlockPos block) {

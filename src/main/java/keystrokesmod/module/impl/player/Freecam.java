@@ -1,11 +1,12 @@
 package keystrokesmod.module.impl.player;
+import keystrokesmod.event.SendPacketEvent;
 
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
-import net.minecraft.client.entity.EntityOtherPlayerMP;
+import net.minecraft.client.network.OtherClientPlayerEntity;
 
 import net.minecraft.util.hit.HitResult;
 
@@ -19,7 +20,7 @@ public class Freecam extends Module {
     private ButtonSetting allowInteracting;
     private ButtonSetting allowPlacing;
 
-    public static EntityOtherPlayerMP freeEntity = null;
+    public static OtherClientPlayerEntity freeEntity = null;
 
     private int[] lcc = new int[]{Integer.MAX_VALUE, 0};
     private float[] sAng = new float[]{0.0F, 0.0F};
@@ -40,7 +41,7 @@ public class Freecam extends Module {
             this.disable();
         }
         else {
-            freeEntity = new EntityOtherPlayerMP(mc.world, mc.player.getGameProfile());
+            freeEntity = new OtherClientPlayerEntity(mc.world, mc.player.getGameProfile());
             freeEntity.copyLocationAndAnglesFrom(mc.player);
             this.sAng[0] = freeEntity.rotationYawHead = mc.player.rotationYawHead;
             this.sAng[1] = mc.player.rotationPitch;

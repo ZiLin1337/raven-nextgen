@@ -1,7 +1,6 @@
 package keystrokesmod.utility;
 
 import keystrokesmod.utility.system.SystemUtils;
-import net.minecraft.client.render.texture.TextureUtil;
 import org.apache.commons.io.IOUtils;
 
 import java.awt.image.BufferedImage;

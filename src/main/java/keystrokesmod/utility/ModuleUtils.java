@@ -1,4 +1,5 @@
 package keystrokesmod.utility;
+import net.minecraft.network.packet.Packet;
 
 import keystrokesmod.event.*;
 import keystrokesmod.module.impl.combat.KillAura;
@@ -6,7 +7,7 @@ import keystrokesmod.module.impl.combat.Velocity;
 import keystrokesmod.module.impl.movement.LongJump;
 import keystrokesmod.module.impl.render.HUD;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockAir;
+import net.minecraft.block.Blocks;
 import keystrokesmod.module.ModuleManager;
 
 import net.minecraft.util.math.BlockPos;

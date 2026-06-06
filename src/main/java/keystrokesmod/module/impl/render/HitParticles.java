@@ -1,4 +1,5 @@
 package keystrokesmod.module.impl.render;
+import keystrokesmod.event.AttackEntityEvent;
 
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.ButtonSetting;

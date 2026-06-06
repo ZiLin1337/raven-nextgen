@@ -13,7 +13,7 @@ import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.EntityFireball;
+import net.minecraft.entity.projectile.FireballEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
@@ -32,7 +32,7 @@ public class AntiFireball extends Module {
     private final ButtonSetting onGround;
     private final ButtonSetting sneakWhileActive;
 
-    public EntityFireball fireball;
+    public FireballEntity fireball;
     private final HashSet<Entity> fireballs = new HashSet<>();
 
     private long nextClickTime;
@@ -158,18 +158,18 @@ public class AntiFireball extends Module {
         }
     }
 
-    private EntityFireball getFireball() {
+    private FireballEntity getFireball() {
         double rangeSq = range.getInput() * range.getInput();
         float fovVal = (float) fov.getInput();
 
         if (onGround.isToggled() && !mc.player.onGround) return null;
 
         for (Entity entity : mc.world.loadedEntityList) {
-            if (!(entity instanceof EntityFireball)) continue;
+            if (!(entity instanceof FireballEntity)) continue;
             if (!fireballs.contains(entity)) continue;
             if (mc.player.getDistanceSqToEntity(entity) > rangeSq) continue;
             if (fovVal != 360.0f && !Utils.inFov(fovVal, entity)) continue;
-            return (EntityFireball) entity;
+            return (FireballEntity) entity;
         }
         return null;
     }
@@ -179,7 +179,7 @@ public class AntiFireball extends Module {
         if (!Utils.nullCheck()) return;
         if (e.entity == mc.player) {
             fireballs.clear();
-        } else if (e.entity instanceof EntityFireball && mc.player.getDistanceSqToEntity(e.entity) > 16.0) {
+        } else if (e.entity instanceof FireballEntity && mc.player.getDistanceSqToEntity(e.entity) > 16.0) {
             fireballs.add(e.entity);
         }
     }

@@ -1,4 +1,7 @@
 package keystrokesmod.module.impl.player;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 
 import keystrokesmod.event.ClientRotationEvent;
 import keystrokesmod.event.PreUpdateEvent;
@@ -14,8 +17,8 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFence;
-import net.minecraft.block.BlockWall;
+import net.minecraft.block.FenceBlock;
+import net.minecraft.block.WallBlock;
 import net.minecraft.client.util.math.MatrixStack;
 
 import net.minecraft.item.ItemStack;
@@ -372,7 +375,7 @@ float cx = sr.getScaledWidth() / 2f - 1f;
                     BlockPos bp = new BlockPos(x, y, z);
                     if (BlockUtils.replaceable(bp)) continue;
                     Block block = BlockUtils.getBlock(bp);
-                    if (BlockUtils.isInteractable(block) || block instanceof BlockFence || block instanceof BlockWall) continue;
+                    if (BlockUtils.isInteractable(block) || block instanceof FenceBlock || block instanceof WallBlock) continue;
 
                     double d2 = BlockUtils.dist2PointAABB(eye, bp);
                     if (d2 > r2) continue;

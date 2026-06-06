@@ -13,7 +13,7 @@ import keystrokesmod.utility.font.RavenFontRenderer;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.screen.Screen;
 
-import net.minecraft.potion.StatusEffect;
+import net.minecraft.entity.effect.StatusEffect;
 
 import net.minecraft.text.Text;
 

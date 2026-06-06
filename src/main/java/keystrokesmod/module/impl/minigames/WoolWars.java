@@ -18,7 +18,7 @@ import net.minecraft.util.DyeColor;
 
 import net.minecraft.item.ItemStack;
 
-import net.minecraft.scoreboard.ScoreObjective;
+import net.minecraft.scoreboard.ScoreboardObjective;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -354,7 +354,7 @@ public class WoolWars extends Module {
         if (scoreboard == null) {
             return false;
         }
-        ScoreObjective objective = scoreboard.getObjectiveInDisplaySlot(1);
+        ScoreboardObjective objective = scoreboard.getObjectiveInDisplaySlot(1);
         return objective != null && Utils.stripString(objective.getDisplayName()).contains("WOOL WARS");
     }
 
