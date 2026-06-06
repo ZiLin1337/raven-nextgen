@@ -8,11 +8,11 @@ import keystrokesmod.utility.ReflectionUtils;
 import keystrokesmod.module.setting.impl.DescriptionSetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.Utils;
-
 import net.minecraft.block.Block;
-
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.screen.slot.Slot;
 
 import java.lang.reflect.Field;
 import java.util.Random;
@@ -81,7 +81,7 @@ public class AutoClicker extends Module {
         if (!Utils.nullCheck()) {
             return;
         }
-        if (!(mc.currentScreen instanceof GuiContainer)) {
+        if (!(mc.currentScreen instanceof Screen)) {
             inventoryNextClickTime = 0L;
             return;
         }
@@ -109,7 +109,7 @@ public class AutoClicker extends Module {
             return;
         }
 
-        GuiContainer gui = (GuiContainer) mc.currentScreen;
+        Screen gui = (Screen) mc.currentScreen;
         Slot slot = getHoveredSlot(gui);
         if (slot == null || slot.slotNumber < 0) {
             return;
@@ -233,11 +233,11 @@ public class AutoClicker extends Module {
             return;
         }
         try {
-            hoveredSlotField = GuiContainer.class.getDeclaredField("theSlot");
+            hoveredSlotField = Screen.class.getDeclaredField("theSlot");
             hoveredSlotField.setAccessible(true);
         } catch (NoSuchFieldException e) {
             try {
-                hoveredSlotField = GuiContainer.class.getDeclaredField("field_147006_u");
+                hoveredSlotField = Screen.class.getDeclaredField("field_147006_u");
                 hoveredSlotField.setAccessible(true);
             } catch (NoSuchFieldException ignored) {
                 hoveredSlotField = null;
@@ -245,7 +245,7 @@ public class AutoClicker extends Module {
         }
     }
 
-    private static Slot getHoveredSlot(GuiContainer gui) {
+    private static Slot getHoveredSlot(Screen gui) {
         if (hoveredSlotField == null || gui == null) {
             return null;
         }

@@ -31,9 +31,6 @@ dependencies {
     
     // Orbit event bus
     implementation "meteordevelopment:orbit:${project.orbit_version}"
-    
-    // WebSocket support
-    implementation "org.java-websocket:Java-WebSocket:1.5.4"
 }
 
 processResources {

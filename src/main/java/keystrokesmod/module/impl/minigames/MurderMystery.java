@@ -9,6 +9,7 @@ import keystrokesmod.utility.ItemSearchIndex;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.block.Blocks;

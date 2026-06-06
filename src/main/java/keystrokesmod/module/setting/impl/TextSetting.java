@@ -13,3 +13,4 @@ public class TextSetting extends Setting {
     public String getText() { return value; }
     public void setText(String text) { this.value = text; }
 }
+}
