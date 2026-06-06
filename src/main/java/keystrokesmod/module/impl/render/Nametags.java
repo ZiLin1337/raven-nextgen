@@ -169,7 +169,7 @@ public class Nametags extends Module {
     }
 
     private void updateRenderStates() {
-        RavenTextRenderer fontRenderer = getNametagFontRenderer();
+        RavenFontRenderer fontRenderer = getNametagTextRenderer();
         Entity viewer = mc.getRenderViewEntity();
         if (viewer == null) {
             renderStateCount = 0;
@@ -248,9 +248,9 @@ public class Nametags extends Module {
 
     private void renderNametags(float partialTicks) {
         Object renderManager = mc.getEntityRenderDispatcher();
-        FontRenderer itemFontRenderer = mc.textRenderer;
-        RavenFontRenderer textRenderer = getNametagFontRenderer();
-        if (renderManager == null || itemFontRenderer == null || renderStateCount == 0) {
+        TextRenderer itemTextRenderer = mc.textRenderer;
+        RavenFontRenderer textRenderer = getNametagTextRenderer();
+        if (renderManager == null || itemTextRenderer == null || renderStateCount == 0) {
             return;
         }
 
@@ -261,7 +261,7 @@ public class Nametags extends Module {
             if (renderState.player == null || !RenderUtils.isInViewFrustum(renderState.player)) {
                 continue;
             }
-            renderCustomName(renderState, partialTicks, renderManager, textRenderer, itemFontRenderer);
+            renderCustomName(renderState, partialTicks, renderManager, textRenderer, itemTextRenderer);
         }
 
         RenderSystem.enableDepth();
@@ -335,7 +335,7 @@ public class Nametags extends Module {
         return Math.max(scaleValue, scaledValue);
     }
 
-    private void renderCustomName(NametagRenderState state, float partialTicks, Object renderManager, RavenFontRenderer textRenderer, FontRenderer itemFontRenderer) {
+    private void renderCustomName(NametagRenderState state, float partialTicks, Object renderManager, RavenFontRenderer textRenderer, TextRenderer itemTextRenderer) {
         PlayerEntity entity = state.player;
         if (entity == null || entity.isDead || entity.deathTime > 0) {
             return;
@@ -375,23 +375,23 @@ public class Nametags extends Module {
             int iconY = -20;
 
             if (state.heldItem != null) {
-                renderItemStack(state.heldItem, iconX, iconY, itemFontRenderer);
+                renderItemStack(state.heldItem, iconX, iconY, itemTextRenderer);
                 iconX += ITEM_SPACING;
             }
             if (state.helmet != null) {
-                renderItemStack(state.helmet, iconX, iconY, itemFontRenderer);
+                renderItemStack(state.helmet, iconX, iconY, itemTextRenderer);
                 iconX += ITEM_SPACING;
             }
             if (state.chestplate != null) {
-                renderItemStack(state.chestplate, iconX, iconY, itemFontRenderer);
+                renderItemStack(state.chestplate, iconX, iconY, itemTextRenderer);
                 iconX += ITEM_SPACING;
             }
             if (state.leggings != null) {
-                renderItemStack(state.leggings, iconX, iconY, itemFontRenderer);
+                renderItemStack(state.leggings, iconX, iconY, itemTextRenderer);
                 iconX += ITEM_SPACING;
             }
             if (state.boots != null) {
-                renderItemStack(state.boots, iconX, iconY, itemFontRenderer);
+                renderItemStack(state.boots, iconX, iconY, itemTextRenderer);
             }
         }
 
@@ -433,7 +433,7 @@ public class Nametags extends Module {
         }, textShadow.isToggled());
     }
 
-    private void renderBackground(int stringWidth, float textY, int teamColor, int relationshipColor, RavenTextRenderer fontRenderer) {
+    private void renderBackground(int stringWidth, float textY, int teamColor, int relationshipColor, RavenFontRenderer fontRenderer) {
         RenderSystem.disableTexture2D();
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder worldRenderer = tessellator.getWorldRenderer();
@@ -534,7 +534,7 @@ public class Nametags extends Module {
         return font.getOptions()[index];
     }
 
-    private RavenFontRenderer getNametagFontRenderer() {
+    private RavenFontRenderer getNametagTextRenderer() {
         return FontManager.getNametagRenderer(getSelectedFontName());
     }
 

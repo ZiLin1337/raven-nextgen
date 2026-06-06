@@ -8,7 +8,7 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.Utils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.item.EntityItemFrame;
+import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.*;
 
@@ -158,7 +158,7 @@ public class Piercing extends Module {
 
         if (best != null) {
             mc.objectMouseOver = new MovingObjectPosition(best, bestHit);
-            if (best instanceof LivingEntity || best instanceof EntityItemFrame) {
+            if (best instanceof LivingEntity || best instanceof ItemFrameEntity) {
                 mc.pointedEntity = best;
             }
         }

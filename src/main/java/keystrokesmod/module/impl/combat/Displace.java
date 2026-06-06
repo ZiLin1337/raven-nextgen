@@ -1,4 +1,6 @@
 package keystrokesmod.module.impl.combat;
+import keystrokesmod.event.SendPacketEvent;
+import keystrokesmod.event.GameTickEvent;
 
 import keystrokesmod.Raven;
 import keystrokesmod.event.ClientRotationEvent;
@@ -25,7 +27,7 @@ import net.minecraft.entity.player.PlayerEntity;
 
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 import org.lwjgl.opengl.GL11;

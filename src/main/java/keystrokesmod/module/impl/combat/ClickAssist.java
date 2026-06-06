@@ -1,4 +1,5 @@
 package keystrokesmod.module.impl.combat;
+import keystrokesmod.event.MouseEvent;
 
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.ButtonSetting;

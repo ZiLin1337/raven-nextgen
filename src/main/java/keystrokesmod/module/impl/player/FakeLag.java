@@ -1,4 +1,5 @@
 package keystrokesmod.module.impl.player;
+import keystrokesmod.event.GameTickEvent;
 
 import java.util.Set;
 

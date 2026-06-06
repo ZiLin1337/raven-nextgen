@@ -11,13 +11,13 @@ import keystrokesmod.utility.font.RavenFontRenderer;
 
 import net.minecraft.client.render.BufferBuilder;
 
-import net.minecraft.entity.DataWatcher;
+import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
 import net.minecraft.util.math.Box;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 import org.lwjgl.opengl.GL11;
@@ -197,7 +197,7 @@ public class DamageTags extends Module {
             return;
         }
 
-        RavenTextRenderer fontRenderer = getDamageTagFontRenderer();
+        RavenFontRenderer fontRenderer = getDamageTagFontRenderer();
         Object renderManager = mc.getEntityRenderDispatcher();
         if (fontRenderer == null || renderManager == null) {
             return;
@@ -321,7 +321,7 @@ public class DamageTags extends Module {
         }
     }
 
-    private void renderTag(DamageTag tag, long now, Object renderManager, RavenTextRenderer fontRenderer,
+    private void renderTag(DamageTag tag, long now, Object renderManager, RavenFontRenderer fontRenderer,
                            double viewerX, double viewerY, double viewerZ,
                            int depthOrdinal, float scaleMul,
                            boolean bgEnabled, float bgOpacitySlider) {
@@ -374,7 +374,7 @@ public class DamageTags extends Module {
         RenderSystem.popMatrix();
     }
 
-    private void renderVanillaDepthTag(RavenTextRenderer fontRenderer, DamageTag tag, int halfWidth, float alpha,
+    private void renderVanillaDepthTag(RavenFontRenderer fontRenderer, DamageTag tag, int halfWidth, float alpha,
                                        boolean bgEnabled, float bgOpacitySlider) {
         RenderSystem.depthMask(false);
         RenderSystem.disableDepth();
@@ -385,7 +385,7 @@ public class DamageTags extends Module {
         fontRenderer.drawString(tag.text, -halfWidth, 0, applyFontAlpha(tag.color, alpha), textShadow.isToggled());
     }
 
-    private void renderVisibleTag(RavenTextRenderer fontRenderer, DamageTag tag, int halfWidth, float alpha,
+    private void renderVisibleTag(RavenFontRenderer fontRenderer, DamageTag tag, int halfWidth, float alpha,
                                   boolean bgEnabled, float bgOpacitySlider) {
         RenderSystem.depthMask(false);
         RenderSystem.enableDepth();
@@ -393,7 +393,7 @@ public class DamageTags extends Module {
         fontRenderer.drawString(tag.text, -halfWidth, 0, applyFontAlpha(tag.color, alpha), textShadow.isToggled());
     }
 
-    private void renderThroughWallsTag(RavenTextRenderer fontRenderer, DamageTag tag, int halfWidth, float alpha,
+    private void renderThroughWallsTag(RavenFontRenderer fontRenderer, DamageTag tag, int halfWidth, float alpha,
                                        boolean bgEnabled, float bgOpacitySlider) {
         RenderSystem.depthMask(false);
         RenderSystem.disableDepth();

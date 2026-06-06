@@ -1,4 +1,5 @@
 package keystrokesmod.module.impl.combat;
+import keystrokesmod.event.SendPacketEvent;
 
 import keystrokesmod.module.Module;
 import keystrokesmod.module.impl.world.AntiBot;

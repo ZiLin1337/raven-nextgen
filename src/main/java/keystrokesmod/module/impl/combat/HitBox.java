@@ -9,7 +9,7 @@ import keystrokesmod.utility.Utils;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.item.EntityItemFrame;
+import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.hit.HitResult;
@@ -133,7 +133,7 @@ public class HitBox extends Module {
 
             if (pointedEntity != null && (d3 < d2 || mv == null)) {
                 mv = new MovingObjectPosition(pointedEntity, vec6);
-                if (pointedEntity instanceof LivingEntity || pointedEntity instanceof EntityItemFrame) {
+                if (pointedEntity instanceof LivingEntity || pointedEntity instanceof ItemFrameEntity) {
                     return pointedEntity;
                 }
             }

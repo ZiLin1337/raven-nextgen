@@ -7,13 +7,13 @@ import keystrokesmod.module.setting.impl.ColorSetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.module.setting.impl.StringListSetting;
 import keystrokesmod.utility.RenderUtils;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 
-import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.inventory.ContainerChest;
-import net.minecraft.network.play.server.S2EPacketCloseWindow;
+import net.minecraft.client.gui.screen.ingame.InventoryScreen;
+import net.minecraft.screen.GenericContainerScreenHandler;
+import net.minecraft.network.packet.s2c.play.CloseScreenS2CPacket;
 import net.minecraft.util.Identifier;
 
 import java.io.IOException;
@@ -31,7 +31,7 @@ public class HideWindow extends Module {
     private final ButtonSetting whitelist;
     private final StringListSetting whitelistEntries;
 
-    private GuiContainer hiddenGui;
+    private Screen hiddenGui;
 
     private float posX = Float.NaN;
     private float posY = Float.NaN;
@@ -72,13 +72,13 @@ public class HideWindow extends Module {
             return;
         }
 
-        if (event.gui instanceof GuiContainer && !(event.gui instanceof GuiInventory)) {
-            if (mc.currentScreen instanceof GuiContainer) {
+        if (event.gui instanceof Screen && !(event.gui instanceof GuiInventory)) {
+            if (mc.currentScreen instanceof Screen) {
                 hiddenGui = null;
                 return;
             }
 
-            GuiContainer gui = (GuiContainer) event.gui;
+            Screen gui = (Screen) event.gui;
             if (onlyWhileCrouching.isToggled() && !mc.player.isSneaking()) {
                 return;
             }
@@ -210,7 +210,7 @@ public class HideWindow extends Module {
         relativePosY = absoluteY / h;
     }
 
-    private boolean matchesWhitelist(GuiContainer gui) {
+    private boolean matchesWhitelist(Screen gui) {
         java.util.List<String> entries = whitelistEntries.getEntries();
         if (entries.isEmpty()) {
             return false;
@@ -228,9 +228,9 @@ public class HideWindow extends Module {
         return false;
     }
 
-    private static String getContainerTitle(GuiContainer gui) {
-        if (gui.inventorySlots instanceof ContainerChest) {
-            return ((ContainerChest) gui.inventorySlots)
+    private static String getContainerTitle(Screen gui) {
+        if (gui.inventorySlots instanceof GenericContainerScreenHandler) {
+            return ((GenericContainerScreenHandler) gui.inventorySlots)
                     .getLowerChestInventory()
                     .getDisplayName()
                     .getUnformattedText();
@@ -238,7 +238,7 @@ public class HideWindow extends Module {
         return "";
     }
 
-    private class EditScreen extends GuiScreen {
+    private class EditScreen extends Screen {
         private GuiButtonExt resetBtn;
         private boolean dragging;
         private float actualX, actualY;
@@ -314,7 +314,7 @@ if (!dragging) {
         }
 
         @Override
-        public void actionPerformed(GuiButton button) {
+        public void actionPerformed(ButtonWidget button) {
             if (button == resetBtn) {
                 resetPosition();
                 actualX = posX;

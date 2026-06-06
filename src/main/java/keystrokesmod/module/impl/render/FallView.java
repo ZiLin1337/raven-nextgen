@@ -9,12 +9,11 @@ import keystrokesmod.utility.Utils;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.block.material.Material;
 import net.minecraft.potion.Potion;
 
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.util.math.MathHelper;
 
 import java.awt.*;
 import java.util.HashMap;

@@ -14,7 +14,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.block.DeadBushBlock;
 import net.minecraft.block.TallPlantBlock;
 import net.minecraft.block.FlowerBlock;
-import net.minecraft.block.TallGrassBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.BufferBuilder;

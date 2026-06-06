@@ -10,7 +10,6 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
 
-import net.minecraft.block.material.Material;
 import net.minecraft.block.BlockState;
 
 import net.minecraft.entity.Entity;
@@ -19,12 +18,15 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 
 import net.minecraft.item.BowItem;
-import net.minecraft.item.ItemEgg;
-import net.minecraft.item.ItemEnderPearl;
 import net.minecraft.item.PotionItem;
-import net.minecraft.item.ItemSnowball;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.item.Item;
 
 import org.lwjgl.opengl.GL11;
 

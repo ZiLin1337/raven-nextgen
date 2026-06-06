@@ -8,9 +8,9 @@ import keystrokesmod.module.setting.impl.GroupSetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.tileentity.TileEntityEnderChest;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.ChestBlockEntity;
+import net.minecraft.block.entity.EnderChestBlockEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
 
@@ -48,7 +48,7 @@ public class ChestESP extends Module {
         }
     }
 
-    public static void onRenderChestPre(TileEntity tileEntity) {
+    public static void onRenderChestPre(BlockEntity tileEntity) {
         ChestESP mod = getChestEspModule();
         if (mod == null || !mod.shouldApplyChamsTo(tileEntity)) {
             return;
@@ -72,7 +72,7 @@ public class ChestESP extends Module {
         return m instanceof ChestESP && m.isEnabled() ? (ChestESP) m : null;
     }
 
-    private boolean shouldApplyChamsTo(TileEntity tileEntity) {
+    private boolean shouldApplyChamsTo(BlockEntity tileEntity) {
         ChestVisualSettings settings = getChestSettings(getChestKind(tileEntity));
         return settings != null
                 && settings.isChamsEnabled()
@@ -80,12 +80,12 @@ public class ChestESP extends Module {
                 && !shouldSkipOpened(settings, tileEntity);
     }
 
-    private ChestKind getChestKind(TileEntity tileEntity) {
-        if (tileEntity instanceof TileEntityEnderChest) {
+    private ChestKind getChestKind(BlockEntity tileEntity) {
+        if (tileEntity instanceof EnderChestBlockEntity) {
             return ChestKind.ENDER;
         }
-        if (tileEntity instanceof TileEntityChest) {
-            return ((TileEntityChest) tileEntity).getChestType() == TRAPPED_CHEST_TYPE ? ChestKind.TRAPPED : ChestKind.NORMAL;
+        if (tileEntity instanceof ChestBlockEntity) {
+            return ((ChestBlockEntity) tileEntity).getChestType() == TRAPPED_CHEST_TYPE ? ChestKind.TRAPPED : ChestKind.NORMAL;
         }
         return ChestKind.NONE;
     }
@@ -119,14 +119,14 @@ public class ChestESP extends Module {
         return chestSettingsByKind.get(chestKind);
     }
 
-    private boolean shouldSkipOpened(ChestVisualSettings settings, TileEntity tileEntity) {
+    private boolean shouldSkipOpened(ChestVisualSettings settings, BlockEntity tileEntity) {
         if (settings == null || !settings.isDisableIfOpened()) {
             return false;
         }
-        if (tileEntity instanceof TileEntityChest) {
-            return ((TileEntityChest) tileEntity).lidAngle > 0.0f;
+        if (tileEntity instanceof ChestBlockEntity) {
+            return ((ChestBlockEntity) tileEntity).lidAngle > 0.0f;
         }
-        return tileEntity instanceof TileEntityEnderChest && ((TileEntityEnderChest) tileEntity).lidAngle > 0.0f;
+        return tileEntity instanceof EnderChestBlockEntity && ((EnderChestBlockEntity) tileEntity).lidAngle > 0.0f;
     }
 
     private boolean hasAnyWorldOverlayEnabled() {
@@ -138,7 +138,7 @@ public class ChestESP extends Module {
         return false;
     }
 
-    private boolean isWithinMaxDistance(TileEntity tileEntity) {
+    private boolean isWithinMaxDistance(BlockEntity tileEntity) {
         double maxDistSq = maxDistance.getInput() * maxDistance.getInput();
         return RenderUtils.isBlockPosWithinDistanceSqToView(tileEntity.getPos(), maxDistSq);
     }
@@ -205,7 +205,7 @@ public class ChestESP extends Module {
             }
         }
 
-        for (TileEntity tileEntity : mc.world.loadedTileEntityList) {
+        for (BlockEntity tileEntity : mc.world.loadedTileEntityList) {
             ChestKind chestKind = getChestKind(tileEntity);
             ChestVisualSettings settings = getChestSettings(chestKind);
             if (settings == null || !settings.hasWorldOverlayEnabled() || shouldSkipOpened(settings, tileEntity)) {

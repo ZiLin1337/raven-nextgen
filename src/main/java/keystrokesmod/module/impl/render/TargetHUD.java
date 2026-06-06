@@ -11,8 +11,8 @@ import keystrokesmod.utility.Timer;
 import keystrokesmod.utility.Utils;
 import keystrokesmod.utility.shader.BlurUtils;
 import keystrokesmod.utility.shader.RoundedUtils;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.screen.Screen;
 
 import net.minecraft.entity.LivingEntity;
 
@@ -196,8 +196,8 @@ public void onRenderWorld(Object renderWorldLastEvent) {
         renderEntity = null;
     }
 
-    class EditScreen extends GuiScreen {
-        GuiButtonExt resetPosition;
+    class EditScreen extends Screen {
+        ButtonWidget resetPosition;
         boolean d = false;
         int miX = 0;
         int miY = 0;
@@ -213,7 +213,7 @@ public void onRenderWorld(Object renderWorldLastEvent) {
 
         public void initGui() {
             super.initGui();
-            this.buttonList.add(this.resetPosition = new GuiButtonExt(1, this.width - 90, this.height - 25, 85, 20, "Reset position"));
+            this.buttonList.add(this.resetPosition = new ButtonWidget(1, this.width - 90, this.height - 25, 85, 20, "Reset position"));
             this.aX = posX;
             this.aY = posY;
         }
@@ -285,7 +285,7 @@ public void onRenderWorld(Object renderWorldLastEvent) {
 
         }
 
-        public void actionPerformed(GuiButton b) {
+        public void actionPerformed(ButtonWidget b) {
             if (b == this.resetPosition) {
                 this.aX = posX = 70;
                 this.aY = posY = 30;

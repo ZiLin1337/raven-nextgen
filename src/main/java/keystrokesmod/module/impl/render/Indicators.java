@@ -16,16 +16,15 @@ import keystrokesmod.utility.font.FontManager;
 import keystrokesmod.utility.font.RavenFontRenderer;
 import net.minecraft.block.Block;
 
-import net.minecraft.block.material.Material;
 import net.minecraft.block.BlockState;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityEnderPearl;
+import net.minecraft.entity.projectile.thrown.EnderPearlEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.*;
 import net.minecraft.item.Items;
@@ -270,15 +269,15 @@ public class Indicators extends Module {
                     continue;
                 }
 
-                if (entity instanceof EntityLargeFireball && drawFireballTrajectory.isToggled()) {
-                    renderFireballTrajectory((EntityLargeFireball) entity, event.partialTicks);
+                if (entity instanceof LargeFireballEntity && drawFireballTrajectory.isToggled()) {
+                    renderFireballTrajectory((LargeFireballEntity) entity, event.partialTicks);
                 }
-                else if (entity instanceof EntityArrow && drawArrowTrajectory.isToggled()
-                        && !((IAccessorEntityArrow) entity).getInGround()) {
-                    renderArrowTrajectory((EntityArrow) entity, event.partialTicks);
+                else if (entity instanceof ArrowEntity && drawArrowTrajectory.isToggled()
+                        && !((IAccessorArrowEntity) entity).getInGround()) {
+                    renderArrowTrajectory((ArrowEntity) entity, event.partialTicks);
                 }
-                else if (entity instanceof EntityEnderPearl && drawPearlTrajectory.isToggled()) {
-                    renderPearlTrajectory((EntityEnderPearl) entity, event.partialTicks);
+                else if (entity instanceof EnderPearlEntity && drawPearlTrajectory.isToggled()) {
+                    renderPearlTrajectory((EnderPearlEntity) entity, event.partialTicks);
                 }
             }
         }
@@ -289,8 +288,8 @@ public class Indicators extends Module {
         if (en == null) {
             return null;
         }
-        if (en instanceof EntityArrow) {
-            if (((IAccessorEntityArrow) en).getInGround()) {
+        if (en instanceof ArrowEntity) {
+            if (((IAccessorArrowEntity) en).getInGround()) {
                 return null;
             }
             return new ItemStack(Items.arrow);
@@ -298,7 +297,7 @@ public class Indicators extends Module {
         if (en instanceof EntityFireball) {
             return new ItemStack(Items.fire_charge);
         }
-        if (en instanceof EntityEnderPearl) {
+        if (en instanceof EnderPearlEntity) {
             return new ItemStack(Items.ender_pearl);
         }
         if (en instanceof EntityEgg) {
@@ -311,13 +310,13 @@ public class Indicators extends Module {
     }
 
     private boolean canRender(Entity entity) {
-        if (entity instanceof EntityArrow && !((IAccessorEntityArrow) entity).getInGround() && renderArrows.isToggled()) {
+        if (entity instanceof ArrowEntity && !((IAccessorArrowEntity) entity).getInGround() && renderArrows.isToggled()) {
             return true;
         }
-        else if (entity instanceof EntityLargeFireball && renderFireballs.isToggled()) {
+        else if (entity instanceof LargeFireballEntity && renderFireballs.isToggled()) {
             return true;
         }
-        else if (entity instanceof EntityEnderPearl && renderPearls.isToggled()) {
+        else if (entity instanceof EnderPearlEntity && renderPearls.isToggled()) {
             return true;
         }
         else if (entity instanceof EntityEgg && renderEggs.isToggled()) {
@@ -506,7 +505,7 @@ public class Indicators extends Module {
         }
     }
 
-    private void renderFireballTrajectory(EntityLargeFireball fireball, float partialTicks) {
+    private void renderFireballTrajectory(LargeFireballEntity fireball, float partialTicks) {
         FireballSimulator.Result result = FireballSimulator.simulate(fireball);
         Vec3d impactPosition = result.getImpactPosition();
 
@@ -555,7 +554,7 @@ public class Indicators extends Module {
         GL11.glPopMatrix();
     }
 
-    private void renderArrowTrajectory(EntityArrow arrowEntity, float partialTicks) {
+    private void renderArrowTrajectory(ArrowEntity arrowEntity, float partialTicks) {
         ProjectileTrajectoryProps props = new ProjectileTrajectoryProps(
                 ARROW_GRAVITY,
                 PROJECTILE_DRAG,
@@ -574,7 +573,7 @@ public class Indicators extends Module {
         );
     }
 
-    private void renderPearlTrajectory(EntityEnderPearl pearlEntity, float partialTicks) {
+    private void renderPearlTrajectory(EnderPearlEntity pearlEntity, float partialTicks) {
         ProjectileTrajectoryProps props = new ProjectileTrajectoryProps(
                 THROWABLE_GRAVITY,
                 PROJECTILE_DRAG,
@@ -775,7 +774,7 @@ public class Indicators extends Module {
             RenderUtils.drawBoundingBox(impactBox.offset(-viewerX, -viewerY, -viewerZ), red, green, blue, FIREBALL_TRAJECTORY_SHADE_ALPHA);
         }
 
-        if (projectile instanceof EntityArrow) {
+        if (projectile instanceof ArrowEntity) {
             renderArrowTrajectoryStartMarker(prediction, projectile, partialTicks, startX, startY, startZ, viewerX, viewerY, viewerZ, red, green, blue);
         }
 
@@ -894,7 +893,7 @@ public class Indicators extends Module {
     }
 
     private Box getPredictedImpactBox(Entity projectile, TrajectoryPrediction prediction) {
-        if (projectile instanceof EntityArrow) {
+        if (projectile instanceof ArrowEntity) {
             return getProjectileImpactBox(prediction);
         }
 
@@ -929,7 +928,7 @@ public class Indicators extends Module {
         );
     }
 
-    private Box getImpactBox(EntityLargeFireball fireball, Vec3d impactPosition) {
+    private Box getImpactBox(LargeFireballEntity fireball, Vec3d impactPosition) {
         double halfWidth = fireball.width * 0.5D;
         return new Box(
                 impactPosition.xCoord - halfWidth,

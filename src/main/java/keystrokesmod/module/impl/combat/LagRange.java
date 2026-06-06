@@ -1,4 +1,5 @@
 package keystrokesmod.module.impl.combat;
+import keystrokesmod.event.GameTickEvent;
 
 import keystrokesmod.Raven;
 import keystrokesmod.event.AttackEvent;
