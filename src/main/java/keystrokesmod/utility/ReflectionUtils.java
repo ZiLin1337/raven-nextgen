@@ -2,7 +2,6 @@ package keystrokesmod.utility;
 
 import keystrokesmod.mixin.interfaces.IMixinItemRenderer;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.GuiEnchantment;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.inventory.*;
 

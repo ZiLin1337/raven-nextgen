@@ -1,4 +1,8 @@
 package keystrokesmod.utility;
+import net.minecraft.item.BlockItem;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.Vec3d;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -1536,7 +1540,7 @@ public class Utils implements IMinecraftInstance {
         return yaw * 0.017453292f;
     }
 
-    public static boolean canBePlaced(ItemBlock itemBlock) {
+    public static boolean canBePlaced(BlockItem itemBlock) {
         Block block = itemBlock.getBlock();
         if (block == null) {
             return false;
