@@ -7,13 +7,13 @@ public class JumpEvent extends Event {
     private boolean cancelled;
 
     public JumpEvent(double motionY, float yaw, boolean sprint) {
-        this.getVelocity().y = motionY;
+        this.motionY = motionY;
         this.yaw = yaw;
         this.sprint = sprint;
     }
 
     public double getMotionY() { return motionY; }
-    public void setMotionY(double motionY) { this.getVelocity().y = motionY; }
+    public void setMotionY(double motionY) { this.motionY = motionY; }
     public float getYaw() { return yaw; }
     public void setYaw(float yaw) { this.yaw = yaw; }
     public boolean applySprint() { return sprint; }
