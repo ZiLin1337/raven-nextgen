@@ -9,7 +9,7 @@ import keystrokesmod.script.model.Entity;
 import keystrokesmod.script.model.Image;
 import keystrokesmod.script.model.NetworkPlayer;
 import keystrokesmod.utility.Utils;
-import org.lwjgl.Sys;
+import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 import java.io.File;

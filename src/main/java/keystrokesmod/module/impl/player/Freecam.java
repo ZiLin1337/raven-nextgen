@@ -155,7 +155,8 @@ public class Freecam extends Module {
     }
 
     
-    public void onMouse(MouseEvent e) {
+    // TODO: Replace MouseEvent
+    public void onMouse(Object e) {
         if (!Utils.nullCheck()) {
             return;
         }

@@ -1,6 +1,6 @@
 package keystrokesmod.module.impl.minigames;
 
-import keystrokesmod.mixin.impl.accessor.IAccessorMinecraftClient;
+import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.impl.world.AntiBot;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -140,7 +140,7 @@ public class MurderMystery extends Module {
                 if (!goldEsp.isToggled()) {
                     return;
                 }
-                float renderPartialTicks = ((IAccessorMinecraftClient) mc).getTimer().renderPartialTicks;
+                float renderPartialTicks = ((IAccessorMinecraft) mc).getTimer().renderPartialTicks;
                 int n4 = -331703;
                 for (Entity entity : mc.world.loadedEntityList) {
                     if (entity instanceof EntityItem) {

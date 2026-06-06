@@ -1,7 +1,7 @@
 package keystrokesmod.module.impl.render;
 
 // import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
-import keystrokesmod.mixin.impl.accessor.IAccessorMinecraftClient;
+import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -343,7 +343,7 @@ public class MobESP extends Module {
         if (!RenderUtils.isInViewFrustum(en)) {
             return;
         }
-        ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(((IAccessorMinecraftClient) mc).getTimer().renderPartialTicks, 0);
+        ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(((IAccessorMinecraft) mc).getTimer().renderPartialTicks, 0);
 
         double playerX = en.lastTickPosX + (en.posX - en.lastTickPosX) * partialTicks - mc.getEntityRenderDispatcher().viewerPosX;
         double playerY = en.lastTickPosY + (en.posY - en.lastTickPosY) * partialTicks - mc.getEntityRenderDispatcher().viewerPosY;

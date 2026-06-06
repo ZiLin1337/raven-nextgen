@@ -198,7 +198,7 @@ public class DamageTags extends Module {
         }
 
         RavenTextRenderer fontRenderer = getDamageTagFontRenderer();
-        EntityRenderDispatcher renderManager = mc.getEntityRenderDispatcher();
+        Object renderManager = mc.getEntityRenderDispatcher();
         if (fontRenderer == null || renderManager == null) {
             return;
         }
@@ -321,7 +321,7 @@ public class DamageTags extends Module {
         }
     }
 
-    private void renderTag(DamageTag tag, long now, EntityRenderDispatcher renderManager, RavenTextRenderer fontRenderer,
+    private void renderTag(DamageTag tag, long now, Object renderManager, RavenTextRenderer fontRenderer,
                            double viewerX, double viewerY, double viewerZ,
                            int depthOrdinal, float scaleMul,
                            boolean bgEnabled, float bgOpacitySlider) {

@@ -6,7 +6,7 @@ import com.google.gson.JsonObject;
 import keystrokesmod.helper.MouseHelper;
 import keystrokesmod.mixin.impl.accessor.IAccessorGuiIngame;
 import keystrokesmod.mixin.impl.accessor.IAccessorItemFood;
-import keystrokesmod.mixin.impl.accessor.IAccessorMinecraftClient;
+import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
 
 import keystrokesmod.Raven;
 import keystrokesmod.module.Module;
@@ -832,7 +832,7 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static void resetTimer() {
-        ((IAccessorMinecraftClient) mc).getTimer().timerSpeed = 1.0F;
+        ((IAccessorMinecraft) mc).getTimer().timerSpeed = 1.0F;
     }
 
     public static void beginLocalPlayerSubUpdate() {

@@ -248,7 +248,7 @@ public class Nametags extends Module {
     }
 
     private void renderNametags(float partialTicks) {
-        EntityRenderDispatcher renderManager = mc.getEntityRenderDispatcher();
+        Object renderManager = mc.getEntityRenderDispatcher();
         FontRenderer itemFontRenderer = mc.textRenderer;
         RavenFontRenderer textRenderer = getNametagFontRenderer();
         if (renderManager == null || itemFontRenderer == null || renderStateCount == 0) {
@@ -336,7 +336,7 @@ public class Nametags extends Module {
         return Math.max(scaleValue, scaledValue);
     }
 
-    private void renderCustomName(NametagRenderState state, float partialTicks, EntityRenderDispatcher renderManager, RavenFontRenderer textRenderer, FontRenderer itemFontRenderer) {
+    private void renderCustomName(NametagRenderState state, float partialTicks, Object renderManager, RavenFontRenderer textRenderer, FontRenderer itemFontRenderer) {
         PlayerEntity entity = state.player;
         if (entity == null || entity.isDead || entity.deathTime > 0) {
             return;

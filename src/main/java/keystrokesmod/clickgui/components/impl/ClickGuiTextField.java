@@ -9,7 +9,7 @@ import org.lwjgl.opengl.GL11;
 
 import java.lang.reflect.Field;
 
-public class ClickTextFieldWidget {
+public class ClickGuiTextField {
     private static final float DEFAULT_TEXT_SCALE = 0.5f;
 
     private static final int BACKGROUND_COLOR = 0xFF222222;

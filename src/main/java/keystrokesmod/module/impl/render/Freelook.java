@@ -58,14 +58,16 @@ public class Freelook extends Module {
     }
 
     
-    public void onGuiOpen(GuiOpenEvent event) {
+    // TODO: Replace GuiOpenEvent with proper event
+    public void onGuiOpen(Object event) {
         if (event.gui != null && perspectiveToggled && hold.isToggled()) {
             resetPerspective();
         }
     }
 
     
-    public void onWorldLoad(WorldEvent.Load e) {
+    // TODO: Replace WorldEvent with proper event
+    public void onWorldLoad(Object e) {
         if (perspectiveToggled) {
             resetPerspective();
         }

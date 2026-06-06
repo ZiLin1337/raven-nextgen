@@ -2,7 +2,7 @@ package keystrokesmod.utility.shader;
 
 import keystrokesmod.utility.RenderUtils;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 

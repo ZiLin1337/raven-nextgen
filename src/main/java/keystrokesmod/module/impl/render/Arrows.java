@@ -1,7 +1,7 @@
 package keystrokesmod.module.impl.render;
 
 // import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
-import keystrokesmod.mixin.impl.accessor.IAccessorMinecraftClient;
+import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.impl.world.AntiBot;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -124,7 +124,7 @@ public class Arrows extends Module {
         double y = en.lastTickPosY + (en.posY - en.lastTickPosY) * partialTicks - mc.getEntityRenderDispatcher().viewerPosY + en.height / 2;
         double z = en.lastTickPosZ + (en.posZ - en.lastTickPosZ) * partialTicks - mc.getEntityRenderDispatcher().viewerPosZ;
 
-        ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(((IAccessorMinecraftClient) mc).getTimer().renderPartialTicks, 0);
+        ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(((IAccessorMinecraft) mc).getTimer().renderPartialTicks, 0);
 
          scaledResolution = null; // int removed for 1.21.4
         Vec3d vec = RenderUtils.convertTo2D(MinecraftClient.getInstance().getWindow().getScaleFactor(), x, y, z);

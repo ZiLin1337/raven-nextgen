@@ -66,7 +66,8 @@ public class HideWindow extends Module {
         }
         hiddenGui = null;
     }
-public void onGuiOpen(GuiOpenEvent event) {
+// TODO: Replace GuiOpenEvent with proper event
+    public void onGuiOpen(Object event) {
         if (event.gui == null || mc.player == null) {
             return;
         }

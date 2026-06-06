@@ -1,7 +1,7 @@
 package keystrokesmod.utility;
 
 import com.mojang.authlib.Agent;
-import com.mojang.authlib.GameProfile;
+// import com.mojang.authlib.GameProfile; // unused
 import com.mojang.authlib.GameProfileRepository;
 import com.mojang.authlib.ProfileLookupCallback;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;

@@ -472,7 +472,7 @@ public class BedESP extends Module {
             return;
         }
 
-        EntityRenderDispatcher renderManager = mc.getEntityRenderDispatcher();
+        Object renderManager = mc.getEntityRenderDispatcher();
         TextRenderer fontRenderer = mc.textRenderer;
         if (renderManager == null || fontRenderer == null) {
             return;

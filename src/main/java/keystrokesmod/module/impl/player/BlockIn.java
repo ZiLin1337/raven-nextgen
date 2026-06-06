@@ -252,7 +252,8 @@ float cx = sr.getScaledWidth() / 2f - 1f;
 
         RenderUtils.draw2DCircleArc(cx, cy, radius, startAngle, endAngle, thickness, color);
     }
-public void onMouse(MouseEvent e) {
+// TODO: Replace MouseEvent
+    public void onMouse(Object e) {
         if (placing && e.button > -1) {
             e.setCanceled(true);
         }

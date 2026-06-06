@@ -1,6 +1,6 @@
 package keystrokesmod.module.impl.combat;
 
-import keystrokesmod.mixin.impl.accessor.IAccessorMinecraftClient;
+import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -43,7 +43,8 @@ public class HitBox extends Module {
     }
 
     
-    public void onMouse(MouseEvent e) {
+    // TODO: Replace MouseEvent
+    public void onMouse(Object e) {
         if (e.button != 0 || !e.buttonstate || !Utils.nullCheck() || multiplier.getInput() == 1 || mc.player.isBlocking() || mc.currentScreen != null) {
             return;
         }
@@ -142,7 +143,7 @@ public class HitBox extends Module {
 
     private void rh(Entity e, Color c) {
         if (e instanceof LivingEntity) {
-            float partialTicks = ((IAccessorMinecraftClient) mc).getTimer().renderPartialTicks;
+            float partialTicks = ((IAccessorMinecraft) mc).getTimer().renderPartialTicks;
             double x = e.lastTickPosX + (e.posX - e.lastTickPosX) * (double) partialTicks - mc.getEntityRenderDispatcher().viewerPosX;
             double y = e.lastTickPosY + (e.posY - e.lastTickPosY) * (double) partialTicks - mc.getEntityRenderDispatcher().viewerPosY;
             double z = e.lastTickPosZ + (e.posZ - e.lastTickPosZ) * (double) partialTicks - mc.getEntityRenderDispatcher().viewerPosZ;

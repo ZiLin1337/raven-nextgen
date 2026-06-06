@@ -14,7 +14,8 @@ public class Raven implements ClientModInitializer {
     public static MinecraftClient mc = MinecraftClient.getInstance();
     public static ModuleManager moduleManager;
     public static ClickGui clickGui;
-    public static CommandManager commandManager;
+    // TODO: Create CommandManager
+    public static Object commandManager;
     public static final IEventBus EVENT_BUS = new EventBus();
     
     @Override

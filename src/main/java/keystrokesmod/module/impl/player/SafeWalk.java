@@ -80,7 +80,8 @@ public class SafeWalk extends Module {
     }
 
     
-    public void onGuiOpen(GuiOpenEvent e) {
+    // TODO: Replace GuiOpenEvent with proper event
+    public void onGuiOpen(Object e) {
         if (sneak.isToggled() && e.gui == null) {
             this.isSneaking = mc.player.isSneaking();
         }

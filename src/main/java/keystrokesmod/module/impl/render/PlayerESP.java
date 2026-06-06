@@ -1,8 +1,9 @@
 package keystrokesmod.module.impl.render;
 
+import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import keystrokesmod.Raven;
 // import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
-import keystrokesmod.mixin.impl.accessor.IAccessorMinecraftClient;
+import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.impl.client.Settings;
@@ -116,7 +117,8 @@ public class PlayerESP extends Module {
     }
 
     
-    public void onRenderPlayerEvent(Post e) {
+    // TODO: Replace Post render event
+    public void onRenderPlayerEvent(Object e) {
         if (!skeleton.isToggled() || e.entityPlayer == null || !Utils.nullCheck()) {
             return;
         }
@@ -321,7 +323,7 @@ public void onRenderWorld(Object e) {
     }
 
     private void renderTwoDPass(float partialTicks) {
-        EntityRenderDispatcher renderManager = mc.getEntityRenderDispatcher();
+        Object renderManager = mc.getEntityRenderDispatcher();
         if (renderManager == null) {
             return;
         }
@@ -338,7 +340,7 @@ public void onRenderWorld(Object e) {
         }
     }
 
-    private void renderTwoD(EspRenderState renderState, EntityRenderDispatcher renderManager, int screenWidth, int screenHeight, float partialTicks) {
+    private void renderTwoD(Object renderState, Object renderManager, int screenWidth, int screenHeight, float partialTicks) {
         LivingEntity en = renderState.entity;
         double playerX = en.lastTickPosX + (en.posX - en.lastTickPosX) * partialTicks - renderManager.viewerPosX;
         double playerY = en.lastTickPosY + (en.posY - en.lastTickPosY) * partialTicks - renderManager.viewerPosY;
@@ -435,7 +437,7 @@ public void onRenderWorld(Object e) {
         GL11.glPopMatrix();
     }
 
-    public void renderSkeleton(PlayerEntity player, PlayerEntityModel modelBiped, int color, float partialTicks) {
+    public void renderSkeleton(PlayerEntity player, Object modelBiped, int color, float partialTicks) {
         GL11.glPushMatrix();
         GL11.glDisable(GL11.GL_DEPTH_TEST);
 

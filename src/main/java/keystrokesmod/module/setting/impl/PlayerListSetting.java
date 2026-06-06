@@ -1,0 +1,13 @@
+package keystrokesmod.module.setting.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class PlayerListSetting extends Setting {
+    private final List<String> players = new ArrayList<>();
+    public PlayerListSetting(String name) { super(name); }
+    public List<String> getPlayers() { return players; }
+    public void addPlayer(String s) { players.add(s); }
+    public void removePlayer(String s) { players.remove(s); }
+    public boolean contains(String s) { return players.contains(s); }
+}

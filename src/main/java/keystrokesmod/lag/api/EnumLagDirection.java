@@ -3,8 +3,8 @@ package keystrokesmod.lag.api;
 import keystrokesmod.utility.IMinecraftInstance;
 import keystrokesmod.utility.Utils;
 
-import net.minecraft.network.ThreadQuickExitException;
-import net.minecraft.network.play.INetHandlerPlayClient;
+import net.minecraft.network.packet.Packet;
+// TODO: Remove Forge net handler import
 import org.jetbrains.annotations.NotNull;
 
 import java.util.EnumSet;
@@ -34,15 +34,15 @@ public enum EnumLagDirection implements IMinecraftInstance {
     public static final @NotNull Set<EnumLagDirection> ONLY_OUTBOUND = EnumSet.of(OUTBOUND);
     public static final @NotNull Set<EnumLagDirection> BIDIRECTIONAL = EnumSet.allOf(EnumLagDirection.class);
 
-    private final @NotNull Consumer<Packet<?>> channel;
+    private final @NotNull Object channel;
 
     EnumLagDirection(
-            final @NotNull Consumer<Packet<?>> channel
+            final @NotNull Object channel
     ) {
         this.channel = channel;
     }
 
-    public void passThroughChannel(final @NotNull Packet<?> packet) {
+    public void passThroughChannel(final Object packet) {
         channel.accept(packet);
     }
 

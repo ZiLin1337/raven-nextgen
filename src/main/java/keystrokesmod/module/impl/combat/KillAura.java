@@ -185,7 +185,8 @@ public class KillAura extends Module {
     }
 
     
-    public void onSetAttackTarget(LivingSetAttackTargetEvent e) {
+    // TODO: Replace LivingSetAttackTargetEvent
+    public void onSetAttackTarget(Object e) {
         if (e.entity != null && !hostileMobs.contains(e.entity)) {
             if (!(e.target instanceof PlayerEntity) || !e.target.getName().equals(mc.player.getName())) {
                 return;

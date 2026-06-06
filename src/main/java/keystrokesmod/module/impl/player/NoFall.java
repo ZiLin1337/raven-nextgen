@@ -2,7 +2,7 @@ package keystrokesmod.module.impl.player;
 
 import keystrokesmod.event.PreMotionEvent;
 import keystrokesmod.event.PreUpdateEvent;
-import keystrokesmod.mixin.impl.accessor.IAccessorMinecraftClient;
+import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
@@ -59,17 +59,17 @@ public class NoFall extends Module {
         }
         if (isFalling && mode.getInput() == 2) {
             if (distanceFallen >= dynamic) {
-                ((IAccessorMinecraftClient) mc).getTimer().timerSpeed = (0.7399789F + (float) Utils.randomizeDouble(-0.012, 0.012));
+                ((IAccessorMinecraft) mc).getTimer().timerSpeed = (0.7399789F + (float) Utils.randomizeDouble(-0.012, 0.012));
                 mc.getNetHandler().addToSendQueue(new C03PacketPlayer(true));
                 initialY = mc.player.getY();
             }
         }
         if (isFalling && mode.getInput() == 3) {
             if (mc.player.ticksExisted % 2 == 0) {
-                ((IAccessorMinecraftClient) mc).getTimer().timerSpeed = (float) Utils.randomizeDouble(0.5, 0.50201);
+                ((IAccessorMinecraft) mc).getTimer().timerSpeed = (float) Utils.randomizeDouble(0.5, 0.50201);
             }
             else {
-                ((IAccessorMinecraftClient) mc).getTimer().timerSpeed = (float) 1;
+                ((IAccessorMinecraft) mc).getTimer().timerSpeed = (float) 1;
             }
             if (distanceFallen >= 3) {
                 mc.getNetHandler().addToSendQueue(new C03PacketPlayer(true));

@@ -4,7 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.entity.PlayerEntitySP;
 import net.minecraft.entity.Entity;
 
-import net.minecraft.network.play.server.*;
+// TODO: Remove Forge packet imports
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -92,7 +92,7 @@ public class FrozenEntitySync {
         }
 
         float frozenPartial = (float) (frozenTickAccumulator / (double) TICK_NANOS);
-        net.minecraft.util.Timer timer = ((keystrokesmod.mixin.impl.accessor.IAccessorMinecraftClient) mc).getTimer();
+        net.minecraft.util.Timer timer = ((keystrokesmod.mixin.impl.accessor.IAccessorMinecraft) mc).getTimer();
         timer.renderPartialTicks = frozenPartial;
 
         snapLocalPlayerInterpolation(mc.player);

@@ -393,7 +393,8 @@ public class WoolWars extends Module {
     }
 
     
-    public void onMouse(MouseEvent e) {
+    // TODO: Replace MouseEvent
+    public void onMouse(Object e) {
         if (e.button == 0) {
             if (e.buttonstate && (miningPos != null || placeMop != null)) {
                 e.setCanceled(true);

@@ -1,6 +1,6 @@
 package keystrokesmod.script.packet.serverbound;
 
-import keystrokesmod.script.model.Vec3d;
+import keystrokesmod.script.model.Vec3;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.c2s.play.*;

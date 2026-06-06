@@ -1,6 +1,6 @@
 package keystrokesmod.module.impl.player;
 
-import keystrokesmod.mixin.impl.accessor.IAccessorMinecraftClient;
+import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.BlockListSetting;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -72,14 +72,14 @@ public class FastPlace extends Module {
 
         int delay = (int) tickDelay.getInput();
         if (delay == 0) {
-            ((IAccessorMinecraftClient) mc).setRightClickDelayTimer(0);
+            ((IAccessorMinecraft) mc).setRightClickDelayTimer(0);
         }
         else {
             if (delay == 4) {
                 return;
             }
-            if (((IAccessorMinecraftClient) mc).getRightClickDelayTimer() > delay) {
-                ((IAccessorMinecraftClient) mc).setRightClickDelayTimer(delay);
+            if (((IAccessorMinecraft) mc).getRightClickDelayTimer() > delay) {
+                ((IAccessorMinecraft) mc).setRightClickDelayTimer(delay);
             }
         }
     }

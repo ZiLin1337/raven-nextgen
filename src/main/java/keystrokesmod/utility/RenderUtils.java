@@ -1,7 +1,8 @@
 package keystrokesmod.utility;
 
+import net.minecraft.client.render.VertexConsumer;
 import keystrokesmod.clickgui.ClickGui;
-import keystrokesmod.mixin.impl.accessor.IAccessorMinecraftClient;
+import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
 import keystrokesmod.module.impl.player.Freecam;
 
 import net.minecraft.block.BlockState;
@@ -578,7 +579,7 @@ String s = "";
 
     public static void renderEntity(Entity e, int type, double expand, double shift, int color, boolean damage) {
         if (e instanceof LivingEntity) {
-            float partialTicks = ((IAccessorMinecraftClient) mc).getTimer().renderPartialTicks;
+            float partialTicks = ((IAccessorMinecraft) mc).getTimer().renderPartialTicks;
             double x = e.lastTickPosX + (e.posX - e.lastTickPosX) * (double) partialTicks - mc.getEntityRenderDispatcher().viewerPosX;
             double y = e.lastTickPosY + (e.posY - e.lastTickPosY) * (double) partialTicks - mc.getEntityRenderDispatcher().viewerPosY;
             double z = e.lastTickPosZ + (e.posZ - e.lastTickPosZ) * (double) partialTicks - mc.getEntityRenderDispatcher().viewerPosZ;
@@ -809,7 +810,7 @@ String s = "";
         RenderSystem.popMatrix();
     }
 
-    private static void renderModelColoredQuads(IBakedModel model, float r, float g, float b, float a) {
+    private static void renderModelColoredQuads(Object model, float r, float g, float b, float a) {
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer wr = tessellator.getWorldRenderer();
         for (Direction face : Direction.values()) {
@@ -822,7 +823,7 @@ String s = "";
         }
     }
 
-    private static void drawColoredQuad(WorldRenderer wr, BakedQuad quad, float r, float g, float b, float a, Tessellator tessellator) {
+    private static void drawColoredQuad(Object wr, Object quad, float r, float g, float b, float a, Tessellator tessellator) {
         int[] vertexData = quad.getVertexData();
         final int vertexCount = 4;
         final int intsPerVertex = vertexData.length / vertexCount;

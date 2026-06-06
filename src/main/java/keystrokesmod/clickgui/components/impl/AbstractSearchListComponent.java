@@ -7,9 +7,9 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Theme;
 import keystrokesmod.utility.Timer;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.GlStateManager;
-import net.minecraft.client.render.RenderHelper;
-import net.minecraft.client.render.entity.RenderItem;
+import com.mojang.blaze3d.platform.GlStateManager;
+// RenderHelper removed in 1.21
+import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 

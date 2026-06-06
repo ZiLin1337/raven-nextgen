@@ -1,5 +1,6 @@
 package keystrokesmod.lag.handler;
 
+import net.minecraft.network.packet.Packet;
 import keystrokesmod.event.ReceivePacketEvent;
 
 import keystrokesmod.lag.api.EnumLagDirection;
@@ -21,7 +22,7 @@ public final class UnifiedLagHandler extends AbstractFastTrackProvider {
 
     private final @NotNull BiTrackLagNodeQueue queue = new BiTrackLagNodeQueue(this);
 
-    private final @NotNull Set<Packet<?>> packetFastTrack = Collections.newSetFromMap(
+    private final @NotNull Set<Object> packetFastTrack = Collections.newSetFromMap(
             Collections.synchronizedMap(new IdentityHashMap<Packet<?>, Boolean>())
     );
     private volatile @Nullable Vec3d serverPosition;
@@ -99,15 +100,15 @@ public final class UnifiedLagHandler extends AbstractFastTrackProvider {
     }
 
     @Override
-    public void forPacket(final @NotNull Packet<?> packet) {
+    public void forPacket(final Object packet) {
         packetFastTrack.add(packet);
     }
 
-    private boolean consumeFastTrack(final @NotNull Packet<?> packet) {
+    private boolean consumeFastTrack(final Object packet) {
         return packetFastTrack.remove(packet);
     }
 
-    private void updateServerPosition(final @NotNull Packet<?> packet) {
+    private void updateServerPosition(final Object packet) {
         if (!(packet instanceof C03PacketPlayer)) {
             return;
         }

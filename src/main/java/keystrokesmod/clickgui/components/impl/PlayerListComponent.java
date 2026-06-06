@@ -1,6 +1,6 @@
 package keystrokesmod.clickgui.components.impl;
 
-import com.mojang.authlib.GameProfile;
+// import com.mojang.authlib.GameProfile; // unused
 import keystrokesmod.clickgui.animation.ScrollOffsetAnimation;
 import keystrokesmod.utility.Theme;
 import keystrokesmod.module.setting.impl.PlayerListSetting;
@@ -9,7 +9,7 @@ import keystrokesmod.utility.PlayerSkinCache;
 import keystrokesmod.utility.RenderUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.client.render.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.util.Identifier;
 
 import org.lwjgl.opengl.GL11;

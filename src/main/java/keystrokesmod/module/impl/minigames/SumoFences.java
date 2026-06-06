@@ -58,7 +58,8 @@ public class SumoFences extends Module {
     }
 
     
-    public void onMouse(MouseEvent e) {
+    // TODO: Replace MouseEvent
+    public void onMouse(Object e) {
         if (e.buttonstate && (e.button == 0 || e.button == 1) && Utils.nullCheck() && this.isSumo()) {
             HitResult over = mc.objectMouseOver;
             if (over != null && over.typeOfHit == MovingObjectType.BLOCK) {

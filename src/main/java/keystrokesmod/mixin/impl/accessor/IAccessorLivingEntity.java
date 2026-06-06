@@ -1,5 +1,6 @@
 package keystrokesmod.mixin.impl.accessor;
 
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
@@ -23,7 +24,7 @@ public interface IAccessorLivingEntity {
     void setAir(int air);
 
     @Accessor("lastDamageSrc")
-    DamageSource getLastDamageSrc();
+    Object getLastDamageSrc();
     @Accessor("lastDamageSrc")
-    void setLastDamageSrc(DamageSource source);
+    void setLastDamageSrc(Object source);
 }

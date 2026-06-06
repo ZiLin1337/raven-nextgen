@@ -13,7 +13,7 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.item.Items;
 import net.minecraft.item.ItemStack;
 
-import net.minecraft.network.play.server.*;
+// TODO: Remove Forge packet imports
 
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
@@ -244,7 +244,7 @@ public class LongJump extends Module {
                 fireballTime = System.currentTimeMillis();
                 if (!manual.isToggled()) {
                     mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.player.getHeldItem()));
-                    //((IAccessorMinecraftClient) mc).callRightClickMouse();
+                    //((IAccessorMinecraft) mc).callRightClickMouse();
                 }
                 mc.player.swingItem();
                 mc.getItemRenderer().resetEquippedProgress();

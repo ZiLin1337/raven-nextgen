@@ -12,7 +12,7 @@ import keystrokesmod.module.impl.combat.KillAura;
 import keystrokesmod.module.setting.Setting;
 import keystrokesmod.module.setting.impl.*;
 import keystrokesmod.script.model.*;
-import keystrokesmod.script.model.Vec3d;
+import keystrokesmod.script.model.Vec3;
 import keystrokesmod.script.packet.clientbound.SPacket;
 import keystrokesmod.script.packet.serverbound.CPacket;
 import keystrokesmod.script.packet.serverbound.PacketHandler;
@@ -141,7 +141,7 @@ public class ScriptDefaults {
         }
 
         public static void setTimer(float timer) {
-            ((IAccessorMinecraftClient) mc).getTimer().timerSpeed = timer;
+            ((IAccessorMinecraft) mc).getTimer().timerSpeed = timer;
         }
 
         public static boolean isCreative() {
