@@ -62,7 +62,7 @@ public class BedWars extends Module {
         spawnedMobs.clear();
     }
 
-    (priority = EST)
+    
     public void onRenderWorld(RenderWorldLastEvent e) {
         if (Utils.nullCheck() && obsidian.isToggled()) {
             if (this.obsidianPos.isEmpty()) {

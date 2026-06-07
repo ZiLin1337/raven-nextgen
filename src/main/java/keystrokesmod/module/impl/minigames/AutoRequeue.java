@@ -33,7 +33,7 @@ public class AutoRequeue extends Module {
 
     public void onChatMessage(String message) {
         if (!message.contains("play again")) return;
-        Pattern p = Pattern.compile("/(\S+)\s*");
+        Pattern p = Pattern.compile("/(\\S+)\\s*");
         Matcher m = p.matcher(message);
         if (m.find()) {
             receivedCommand = "/" + m.group(1);

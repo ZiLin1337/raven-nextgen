@@ -113,7 +113,7 @@ public class TargetHUD extends Module {
         if (showStatus.isToggled()) {
             string = string + " " + ((health <= Utils.getTotalHealth(mc.player) / mc.player.getMaxHealth()) ? "§aW" : "§cL");
         }
-        final  scaledResolution = /* ScaledResolution removed in 1.21.4 */ null;
+        final int scaledResolution = /* ScaledResolution removed in 1.21.4 */ null;
         final int padding = 8;
         final int targetStrWithPadding = mc.textRenderer.getStringWidth(string) + padding;
         final int x = (scaledResolution.getScaledWidth() / 2 - targetStrWithPadding / 2) + posX;
