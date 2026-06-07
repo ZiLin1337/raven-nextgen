@@ -74,7 +74,7 @@ public class ProfileManager {
     public void load(String profileName) {
         File file = new File(PROFILES_DIR, profileName + ".json");
         if (!file.exists()) return;
-        try (FileReader reader = new FileReader(file) {
+        try (FileReader reader = new FileReader(file)) {
             Type type = new TypeToken<Map<String, Map<String, Object>>>() {}.getType();
             Map<String, Map<String, Object>> profileData = GSON.fromJson(reader, type);
             if (profileData == null) return;
