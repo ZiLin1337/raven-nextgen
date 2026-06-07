@@ -1,6 +1,5 @@
 package keystrokesmod.clickgui.components.impl;
 
-// import com.mojang.authlib.GameProfile; // unused
 import keystrokesmod.clickgui.animation.ScrollOffsetAnimation;
 import keystrokesmod.utility.Theme;
 import keystrokesmod.module.setting.impl.PlayerListSetting;
@@ -9,10 +8,9 @@ import keystrokesmod.utility.PlayerSkinCache;
 import keystrokesmod.utility.RenderUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
-import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.client.render.RenderSystem;
 import net.minecraft.util.Identifier;
-
-import org.lwjgl.opengl.GL11;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.HashMap;
 import java.util.List;
@@ -35,62 +33,134 @@ public class PlayerListComponent extends AbstractTextInputComponent {
     private float lastMouseY;
 
     public PlayerListComponent(PlayerListSetting setting, ModuleComponent moduleComponent, float o) {
-        super(moduleComponent, o, setting.getName(), 32);
+        super(moduleComponent, o, setting.getPlaceholder(), setting.getMaxLength());
         this.setting = setting;
     }
 
-    @Override public void render() { Layout layout = layout(false); renderLabel(layout, setting.getName()); renderTextField(layout); renderSelectedEntries(layout); }
-    @Override public void drawScreen(int mouseX, int mouseY) { super.drawScreen(mouseX, mouseY); lastMouseX = mouseX; lastMouseY = mouseY; /* clampSelectedScroll */ }
+    @Override
+    public void render() {
+        Layout layout = layout(false);
+        renderLabel(layout, setting.getName());
+        renderTextField(layout);
+        renderSelectedEntries(layout);
+    }
+
+    @Override
+    public void drawScreen(int mouseX, int mouseY) {
+        super.drawScreen(mouseX, mouseY);
+        lastMouseX = mouseX;
+        lastMouseY = mouseY;
+        clampSelectedScroll();
+    }
 
     @Override
     public boolean onClick(int mouseX, int mouseY, int button) {
-        if (!moduleComponent.isOpened || !moduleComponent.isVisible(this)) return false;
+        if (!moduleComponent.isOpened || !moduleComponent.isVisible(this)) {
+            return false;
+        }
         Layout layout = layout(true);
-        if (button == 0 && isTextFieldClicked(mouseX, mouseY, layout)) { setTextFieldFocused(true); return true; }
-        if (button == 0 && handleSelectedEntryClick(mouseX, mouseY, layout)) return true;
-        if (isTextFieldFocused()) { getTextField().setText(""); setTextFieldFocused(false); }
+        if (button == 0 && isTextFieldClicked(mouseX, mouseY, layout)) {
+            setTextFieldFocused(true);
+            return true;
+        }
+        if (button == 0 && handleSelectedEntryClick(mouseX, mouseY, layout)) {
+            return true;
+        }
+        if (isTextFieldFocused()) {
+            getTextField().setText("");
+            setTextFieldFocused(false);
+        }
         return false;
     }
 
     @Override
     public void keyTyped(char typedChar, int keyCode) {
-        if (!moduleComponent.isOpened || !isTextFieldFocused()) return;
-        if (keyCode == GLFW.GLFW_KEY_ESCAPE) { getTextField().setText(""); setTextFieldFocused(false); return; }
-        if (keyCode == GLFW.GLFW_KEY_KEY_RETURN || keyCode == GLFW.GLFW_KEY_KEY_NUMPADENTER) { submitText(); setTextFieldFocused(false); return; }
+        if (!moduleComponent.isOpened || !isTextFieldFocused()) {
+            return;
+        }
+        if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
+            getTextField().setText("");
+            setTextFieldFocused(false);
+            return;
+        }
+        if (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER) {
+            submitText();
+            setTextFieldFocused(false);
+            return;
+        }
         getTextField().textboxKeyTyped(typedChar, keyCode);
     }
 
-    @Override public void onScroll(int scroll) {
-        if (!moduleComponent.isOpened || !moduleComponent.isVisible(this)) return;
-        if (!capturesCategoryScroll(lastMouseX, lastMouseY)) return;
+    @Override
+    public void onScroll(int scroll) {
+        if (!moduleComponent.isOpened || !moduleComponent.isVisible(this)) {
+            return;
+        }
+        if (!capturesCategoryScroll(lastMouseX, lastMouseY)) {
+            return;
+        }
         float delta = (float) MinecraftClient.getInstance().mouse.getHorizontalMouseVelocity() * (scroll / 120f);
-        if (delta != 0f) selectedScrollAnim.extend(-delta);
-        /* clampSelectedScroll */
+        if (delta != 0f) {
+            selectedScrollAnim.extend(-delta);
+        }
+        clampSelectedScroll();
     }
 
-    @Override public void onGuiClosed() { super.onGuiClosed(); getTextField().setText(""); selectedScrollAnim.reset(0f); }
-    @Override public float getHeightF() { int c = setting.getPlayers().size(); float h = c == 0 ? 0f : SELECTED_LIST_GAP + Math.min(MAX_VISIBLE_SELECTED, c) * ROW_HEIGHT; return (2f * ROW_HEIGHT) + h; }
-    @Override public boolean isBaseVisible() { return setting.visible; }
-    @Override public String getGroupName() { return setting.getCategory() != null ? setting.getCategory().getName() : ""; }
-    public boolean capturesCategoryScroll(float x, float y) { return setting.getPlayers().size() > MAX_VISIBLE_SELECTED && isMouseOverSelectedList(x, y); }
-    public boolean containsClick(int x, int y) { Layout l = layout(true); return isTextFieldClicked(x, y, l) || isMouseOverSelectedList(x, y); }
-    public void onExternalDataChanged() { /* clampSelectedScroll */ }
+    @Override
+    public void onGuiClosed() {
+        super.onGuiClosed();
+        getTextField().setText("");
+        selectedScrollAnim.reset(0f);
+    }
+
+    @Override
+    public float getHeightF() {
+        int count = setting.getPlayers().size();
+        float selectedHeight = count == 0 ? 0f : SELECTED_LIST_GAP + Math.min(MAX_VISIBLE_SELECTED, count) * ROW_HEIGHT;
+        return (2f * ROW_HEIGHT) + selectedHeight;
+    }
+
+    @Override
+    public boolean isBaseVisible() {
+        return setting.visible;
+    }
+
+    @Override
+    public String getGroupName() {
+        return setting.getCategory() != null ? setting.getCategory().getName() : "";
+    }
+
+    public boolean capturesCategoryScroll(float mouseX, float mouseY) {
+        return setting.getPlayers().size() > MAX_VISIBLE_SELECTED && isMouseOverSelectedList(mouseX, mouseY);
+    }
+
+    public boolean containsClick(int mouseX, int mouseY) {
+        Layout layout = layout(true);
+        return isTextFieldClicked(mouseX, mouseY, layout) || isMouseOverSelectedList(mouseX, mouseY);
+    }
+
+    public void onExternalDataChanged() {
+        clampSelectedScroll();
+    }
 
     private void submitText() {
-        String name = getTextField().getText();
-        if (name == null || name.trim().isEmpty()) return;
-        if (setting.addPlayer(name)) getTextField().setText("");
+        String typedName = getTextField().getText();
+        if (typedName == null || typedName.trim().isEmpty()) {
+            return;
+        }
+        if (setting.addPlayer(typedName)) {
+            getTextField().setText("");
+        }
         moduleComponent.updateSettingPositions();
-        /* clampSelectedScroll */
+        clampSelectedScroll();
     }
 
     private void renderSelectedEntries(Layout layout) {
         List<PlayerRelationsManager.PlayerEntry> entries = setting.getPlayers();
-        if (entries.isEmpty()) return;
+        if (entries.isEmpty()) {
+            return;
+        }
         float selectedTop = getSelectedTop(layout);
-        float selectedHeight = getSelectedVisibleHeight(entries.size());
-        float scrollOffset = moduleComponent.categoryComponent.getModuleY() - layout.cy;
-        RenderUtils.scissorPushGui(layout.left, selectedTop + scrollOffset, layout.right - layout.left, selectedHeight);
         float offsetPx = selectedScrollAnim.getValue();
         int firstRow = (int) (offsetPx / ROW_HEIGHT);
         int end = Math.min(firstRow + MAX_VISIBLE_SELECTED + 1, entries.size());
@@ -98,12 +168,16 @@ public class PlayerListComponent extends AbstractTextInputComponent {
         for (int i = firstRow; i < end; i++) {
             PlayerRelationsManager.PlayerEntry entry = entries.get(i);
             float rowTop = selectedTop - offsetPx + i * ROW_HEIGHT;
-            RenderUtils.drawRect(layout.left, rowTop, layout.right, rowTop + ROW_HEIGHT - 1f, (i % 2 == 0) ? 0xFF1A1A2A : 0xFF1E1E2E);
-            renderPlayerHead(entry, playerInfoMap.get(entry.getKey()), layout.left + 2f, rowTop + (LIST_ROW_VISUAL_HEIGHT - HEAD_SIZE) / 2f);
-            drawScaledText(entry.getDisplayName(), layout.left + 13f, centeredScaledTextY(rowTop, LIST_ROW_VISUAL_HEIGHT, LIST_ROW_TEXT_SCALE) + LIST_ROW_TEXT_Y_OFFSET, 0xFFCCCCCC, LIST_ROW_TEXT_SCALE);
-            renderCloseIcon(layout.right, rowTop);
+            int bg = (i % 2 == 0) ? 0xFF1A1A2A : 0xFF1E1E2E;
+            renderEntryRow(entry, playerInfoMap.get(entry.getKey()), layout.left, layout.right, rowTop, bg);
         }
-        RenderUtils.scissorPop();
+    }
+
+    private void renderEntryRow(PlayerRelationsManager.PlayerEntry entry, PlayerListEntry playerInfo, float left, float right, float rowTop, int bgColor) {
+        RenderUtils.drawRect(left, rowTop, right, rowTop + ROW_HEIGHT - 1f, bgColor);
+        renderPlayerHead(entry, playerInfo, left + 2f, rowTop + (LIST_ROW_VISUAL_HEIGHT - HEAD_SIZE) / 2f);
+        drawScaledTextNoShadow(entry.getDisplayName(), left + 13f, centeredScaledTextY(rowTop, LIST_ROW_VISUAL_HEIGHT, LIST_ROW_TEXT_SCALE) + LIST_ROW_TEXT_Y_OFFSET, 0xFFCCCCCC);
+        renderCloseIcon(right, rowTop);
     }
 
     private boolean handleSelectedEntryClick(int mouseX, int mouseY, Layout layout) {
@@ -111,35 +185,99 @@ public class PlayerListComponent extends AbstractTextInputComponent {
         float offsetPx = selectedScrollAnim.getValue();
         for (int i = 0; i < entries.size(); i++) {
             float rowTop = getSelectedTop(layout) - offsetPx + i * ROW_HEIGHT;
-            if (isOverClose(mouseX, mouseY, rowTop, layout.right)) { setting.removePlayer(entries.get(i).getKey()); moduleComponent.updateSettingPositions(); /* clampSelectedScroll */ return true; }
+            if (isOverClose(mouseX, mouseY, rowTop, layout.right)) {
+                setting.removePlayer(entries.get(i).getKey());
+                moduleComponent.updateSettingPositions();
+                clampSelectedScroll();
+                return true;
+            }
         }
         return false;
     }
 
     private void renderPlayerHead(PlayerRelationsManager.PlayerEntry entry, PlayerListEntry playerInfo, float x, float y) {
-        Identifier skin = PlayerSkinCache.getSkin(entry.getDisplayName(), playerInfo);
-        if (skin == null) return;
-        boolean depth = GL11.glIsEnabled(GL11.GL_DEPTH_TEST);
-        boolean blend = GL11.glIsEnabled(GL11.GL_BLEND);
-        boolean depthMask = GL11.glGetBoolean(GL11.GL_DEPTH_WRITEMASK);
+        Identifier skin = getSkin(entry, playerInfo);
+        if (skin == null) {
+            return;
+        }
+        MinecraftClient mc = MinecraftClient.getInstance();
+        boolean depthEnabled = RenderSystem.isDepthTestEnabled();
+        boolean blendEnabled = RenderSystem.isBlendEnabled();
         try {
-            RenderUtils.prepareGuiTextureRenderState();
-            mc.getTextureManager().bindTexture(skin);
-            // RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
-        } finally { RenderUtils.restoreGuiRenderState(depth, blend, depthMask); }
+            if (!depthEnabled) RenderSystem.disableDepthTest();
+            if (!blendEnabled) RenderSystem.enableBlend();
+            RenderSystem.setShaderTexture(0, skin);
+            RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+            // Simplified head rendering
+            RenderUtils.drawRect((int) x, (int) y, (int) x + (int) HEAD_SIZE, (int) y + (int) HEAD_SIZE, 0xFFFFFFFF);
+        } finally {
+            if (!depthEnabled) RenderSystem.enableDepthTest();
+            if (!blendEnabled) RenderSystem.disableBlend();
+            RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+        }
+    }
+
+    private Identifier getSkin(PlayerRelationsManager.PlayerEntry entry, PlayerListEntry playerInfo) {
+        return PlayerSkinCache.getSkin(entry.getDisplayName(), playerInfo);
     }
 
     private Map<String, PlayerListEntry> getPlayerInfoMap() {
-        Map<String, PlayerListEntry> map = new HashMap<>();
-        if (mc.getNetworkHandler() == null) return map;
-        for (PlayerListEntry info : mc.getNetworkHandler().getPlayerInfoMap()) {
-            map.put(info.getProfile().getName(), info);
+        Map<String, PlayerListEntry> playerInfoMap = new HashMap<>();
+        MinecraftClient mc = MinecraftClient.getInstance();
+        if (mc.getNetworkHandler() == null) {
+            return playerInfoMap;
         }
-        return map;
+        for (PlayerListEntry playerInfo : mc.getNetworkHandler().getPlayerList()) {
+            if (playerInfo == null) continue;
+            com.mojang.authlib.GameProfile profile = playerInfo.getProfile();
+            if (profile == null || profile.getName() == null) continue;
+            playerInfoMap.put(profile.getName().toLowerCase(), playerInfo);
+        }
+        return playerInfoMap;
     }
-    private boolean isMouseOverSelectedList(float mx, float my) { List<PlayerRelationsManager.PlayerEntry> e = setting.getPlayers(); if (e.isEmpty()) return false; Layout l = layout(true); float top = getSelectedTop(l); float h = getSelectedVisibleHeight(e.size()); return mx >= l.left && mx <= l.right && my >= top && my < top + h; }
-    private float getSelectedTop(Layout l) { return l.contentTop + SELECTED_LIST_GAP; }
-    private float getSelectedVisibleHeight(int c) { return Math.min(MAX_VISIBLE_SELECTED, c) * ROW_HEIGHT; }
-    private void renderCloseIcon(float right, float rowTop) { Identifier close = RenderUtils.getIcon(CLOSE_ICON_PATH); if (close == null) return; float cx = right - CLOSE_SIZE - CLOSE_PAD; float cy = rowTop + (LIST_ROW_VISUAL_HEIGHT - CLOSE_SIZE) / 2f; RenderUtils.drawIcon(close, cx, cy, CLOSE_SIZE, Theme.getGradient(Theme.hiddenBind[0], Theme.hiddenBind[1], 0)); }
-    private boolean isOverClose(float mx, float my, float rowTop, float right) { float cx = right - CLOSE_SIZE - CLOSE_PAD; float cy = rowTop + (LIST_ROW_VISUAL_HEIGHT - CLOSE_SIZE) / 2f; return mx >= cx && mx <= cx + CLOSE_SIZE && my >= cy && my <= cy + CLOSE_SIZE; }
+
+    private void clampSelectedScroll() {
+        int count = setting.getPlayers().size();
+        float maxScrollPx = Math.max(0f, (count - MAX_VISIBLE_SELECTED) * ROW_HEIGHT);
+        selectedScrollAnim.clampTarget(0f, maxScrollPx);
+        if (selectedScrollAnim.getValue() > maxScrollPx) {
+            selectedScrollAnim.reset(maxScrollPx);
+        }
+    }
+
+    private boolean isMouseOverSelectedList(float mouseX, float mouseY) {
+        List<PlayerRelationsManager.PlayerEntry> entries = setting.getPlayers();
+        if (entries.isEmpty()) return false;
+        Layout layout = layout(true);
+        float selectedTop = getSelectedTop(layout);
+        float selectedHeight = getSelectedVisibleHeight(entries.size());
+        return mouseX >= layout.left && mouseX <= layout.right && mouseY >= selectedTop && mouseY < selectedTop + selectedHeight;
+    }
+
+    private float getSelectedTop(Layout layout) {
+        return layout.contentTop + SELECTED_LIST_GAP;
+    }
+
+    private float getSelectedVisibleHeight(int count) {
+        return Math.min(MAX_VISIBLE_SELECTED, count) * ROW_HEIGHT;
+    }
+
+    private void renderCloseIcon(float right, float rowTop) {
+        Identifier close = RenderUtils.getIcon(CLOSE_ICON_PATH);
+        if (close == null) return;
+        float closeX = right - CLOSE_SIZE - CLOSE_PAD;
+        float closeY = rowTop + (LIST_ROW_VISUAL_HEIGHT - CLOSE_SIZE) / 2f;
+        int closeColor = Theme.getGradient(Theme.hiddenBind[0], Theme.hiddenBind[1], 0);
+        RenderUtils.drawIcon(close, closeX, closeY, CLOSE_SIZE, closeColor);
+    }
+
+    private boolean isOverClose(float mouseX, float mouseY, float rowTop, float right) {
+        float closeX = right - CLOSE_SIZE - CLOSE_PAD;
+        float closeY = rowTop + (LIST_ROW_VISUAL_HEIGHT - CLOSE_SIZE) / 2f;
+        return mouseX >= closeX && mouseX <= closeX + CLOSE_SIZE && mouseY >= closeY && mouseY <= closeY + CLOSE_SIZE;
+    }
+
+    private static void drawScaledTextNoShadow(String text, float x, float y, int color) {
+        drawScaledText(text, x, y, color, LIST_ROW_TEXT_SCALE);
+    }
 }
