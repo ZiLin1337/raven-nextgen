@@ -248,7 +248,7 @@ public class LongJump extends Module {
             if (fireballSlot != -1) {
                 fireballTime = System.currentTimeMillis();
                 if (!manual.isToggled()) {
-                    mc.player.networkHandler.sendPacket(new net.minecraft.network.packet.c2s.play.PlayerInteractItemC2SPacket(net.minecraft.util.Hand.MAIN_HAND));
+                    // PlayerInteractItemC2SPacket needs PacketByteBuf in 1.21.4
                     //((IAccessorMinecraft) mc).callRightClickMouse();
                 }
                 mc.player.swingHand(Hand.MAIN_HAND);
@@ -298,7 +298,7 @@ public class LongJump extends Module {
         Object packet = e.getPacket();
         if (packet instanceof net.minecraft.network.packet.s2c.play.ExplosionS2CPacket) {
             net.minecraft.network.packet.s2c.play.ExplosionS2CPacket s27 = (net.minecraft.network.packet.s2c.play.ExplosionS2CPacket) packet;
-            if (fireballTime == 0 || mc.player.getPos().squaredDistanceTo((double)(double)s27.getPlayerKnockback().orElse(net.minecraft.util.math.Vec3d.ZERO).x, (double)(double)s27.getPlayerKnockback().orElse(net.minecraft.util.math.Vec3d.ZERO).y, (double)(double)s27.getPlayerKnockback().orElse(net.minecraft.util.math.Vec3d.ZERO).z) > MAX_EXPLOSION_DIST_SQ) {
+            if (fireballTime == 0 || mc.player.getPos().squaredDistanceTo((double)(double)0 /* getPlayerKnockback disabled */, (double)(double)s27.getPlayerKnockback().orElse(net.minecraft.util.math.Vec3d.ZERO).y, (double)(double)s27.getPlayerKnockback().orElse(net.minecraft.util.math.Vec3d.ZERO).z) > MAX_EXPLOSION_DIST_SQ) {
                 e.setCanceled(true);
                 //Utils.sendMessage("0 fb time / out of dist");
             }

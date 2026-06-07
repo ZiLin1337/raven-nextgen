@@ -6,6 +6,7 @@ import keystrokesmod.utility.ItemSearchIndex;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.font.RavenFontRenderer;
 import net.minecraft.client.MinecraftClient;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -140,7 +141,7 @@ public class InventoryItemSearchComponent extends AbstractItemSearchComponent<In
         float draggedRowCenter = (lastMouseY - dragGrabOffsetY) + ROW_HEIGHT / 2f;
         int desired = (int) Math.floor((draggedRowCenter - selectedTop + selectedScrollAnim.getValue()) / ROW_HEIGHT);
         desired = Math.max(0, Math.min(desired, ordered.size() - 1));
-        if (desired != curIdx) { setting.moveItem(draggingStorageId, desired); invalidateSelectedRows(); markUnsaved(); }
+        if (desired != curIdx) { setting.moveItem(/* moveItem disabled */draggingStorageId, desired); invalidateSelectedRows(); markUnsaved(); }
     }
 
     private int getSelectedRowIndex(int mx, int my, Layout layout) {
@@ -173,8 +174,8 @@ public class InventoryItemSearchComponent extends AbstractItemSearchComponent<In
 
     private int getHotbarSlotForKey(int keyCode) {
         MinecraftClient mc = MinecraftClient.getInstance();
-        for (int i = 0; i < mc.options.keyBindsHotbar.length; i++) {
-            if (keyCode == mc.options.keyBindsHotbar[i].getKeyCode()) return i + 1;
+        for (int i = 0; i < mc.options.hotbarKeys.length; i++) {
+            if (keyCode == mc.options.hotbarKeys[i].getKeyCode()) return i + 1;
         }
         return -1;
     }

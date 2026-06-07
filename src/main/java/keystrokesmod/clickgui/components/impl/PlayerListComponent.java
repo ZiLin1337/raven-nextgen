@@ -99,7 +99,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
         if (!capturesCategoryScroll(lastMouseX, lastMouseY)) {
             return;
         }
-        float delta = (float) MinecraftClient.getInstance().mouse.getHorizontalMouseVelocity() * (scroll / 120f);
+        float delta = (float) MinecraftClient.getInstance().mouse.getDWheel() * (scroll / 120f);
         if (delta != 0f) {
             selectedScrollAnim.extend(-delta);
         }
@@ -127,7 +127,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
 
     @Override
     public String getGroupName() {
-        return setting.getCategory() != null ? setting.getCategory().getName() : "";
+        return setting.getGroup() != null ? setting.getGroup().getName() : "";
     }
 
     public boolean capturesCategoryScroll(float mouseX, float mouseY) {
@@ -148,7 +148,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
         if (typedName == null || typedName.trim().isEmpty()) {
             return;
         }
-        if (setting.addPlayer(typedName)) {
+        if (setting.addPlayer(typedName) != null) {
             getTextField().setText("");
         }
         moduleComponent.updateSettingPositions();
@@ -156,7 +156,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
     }
 
     private void renderSelectedEntries(Layout layout) {
-        List<PlayerRelationsManager.PlayerEntry> entries = setting.getPlayers();
+        List<String> entries = setting.getPlayers();
         if (entries.isEmpty()) {
             return;
         }
@@ -166,22 +166,22 @@ public class PlayerListComponent extends AbstractTextInputComponent {
         int end = Math.min(firstRow + MAX_VISIBLE_SELECTED + 1, entries.size());
         Map<String, PlayerListEntry> playerInfoMap = getPlayerInfoMap();
         for (int i = firstRow; i < end; i++) {
-            PlayerRelationsManager.PlayerEntry entry = entries.get(i);
+            String entry = entries.get(i);
             float rowTop = selectedTop - offsetPx + i * ROW_HEIGHT;
             int bg = (i % 2 == 0) ? 0xFF1A1A2A : 0xFF1E1E2E;
-            renderEntryRow(entry, playerInfoMap.get(entry.getKey()), layout.left, layout.right, rowTop, bg);
+            renderEntryRow(entry, playerInfoMap.get(entry), layout.left, layout.right, rowTop, bg);
         }
     }
 
     private void renderEntryRow(PlayerRelationsManager.PlayerEntry entry, PlayerListEntry playerInfo, float left, float right, float rowTop, int bgColor) {
         RenderUtils.drawRect(left, rowTop, right, rowTop + ROW_HEIGHT - 1f, bgColor);
         renderPlayerHead(entry, playerInfo, left + 2f, rowTop + (LIST_ROW_VISUAL_HEIGHT - HEAD_SIZE) / 2f);
-        drawScaledTextNoShadow(entry.getDisplayName(), left + 13f, centeredScaledTextY(rowTop, LIST_ROW_VISUAL_HEIGHT, LIST_ROW_TEXT_SCALE) + LIST_ROW_TEXT_Y_OFFSET, 0xFFCCCCCC);
+        drawScaledTextNoShadow(entry, left + 13f, centeredScaledTextY(rowTop, LIST_ROW_VISUAL_HEIGHT, LIST_ROW_TEXT_SCALE) + LIST_ROW_TEXT_Y_OFFSET, 0xFFCCCCCC);
         renderCloseIcon(right, rowTop);
     }
 
     private boolean handleSelectedEntryClick(int mouseX, int mouseY, Layout layout) {
-        List<PlayerRelationsManager.PlayerEntry> entries = setting.getPlayers();
+        List<String> entries = setting.getPlayers();
         float offsetPx = selectedScrollAnim.getValue();
         for (int i = 0; i < entries.size(); i++) {
             float rowTop = getSelectedTop(layout) - offsetPx + i * ROW_HEIGHT;
@@ -201,8 +201,8 @@ public class PlayerListComponent extends AbstractTextInputComponent {
             return;
         }
         MinecraftClient mc = MinecraftClient.getInstance();
-        boolean depthEnabled = RenderSystem.isDepthTestEnabled();
-        boolean blendEnabled = RenderSystem.isBlendEnabled();
+        boolean depthEnabled = false;
+        boolean blendEnabled = false;
         try {
             if (!depthEnabled) RenderSystem.disableDepthTest();
             if (!blendEnabled) RenderSystem.enableBlend();
@@ -218,7 +218,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
     }
 
     private Identifier getSkin(PlayerRelationsManager.PlayerEntry entry, PlayerListEntry playerInfo) {
-        return PlayerSkinCache.getSkin(entry.getDisplayName(), playerInfo);
+        return PlayerSkinCache.getSkin(entry, playerInfo);
     }
 
     private Map<String, PlayerListEntry> getPlayerInfoMap() {
@@ -246,7 +246,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
     }
 
     private boolean isMouseOverSelectedList(float mouseX, float mouseY) {
-        List<PlayerRelationsManager.PlayerEntry> entries = setting.getPlayers();
+        List<String> entries = setting.getPlayers();
         if (entries.isEmpty()) return false;
         Layout layout = layout(true);
         float selectedTop = getSelectedTop(layout);

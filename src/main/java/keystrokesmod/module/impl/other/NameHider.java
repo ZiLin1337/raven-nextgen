@@ -54,7 +54,7 @@ public class NameHider extends Module {
 
     public NameHider() {
         super("Name Hider", Module.category.other);
-        this.registerSetting(fakeNameSetting = new TextSetting("Fake name", Text.literal(fakeName), 48) {
+        this.registerSetting(fakeNameSetting = new TextSetting("Fake name", fakeName, 48) {
             @Override
             public void setText(String text) {
                 super.setText(normalizeFakeName(text));
@@ -74,7 +74,7 @@ public class NameHider extends Module {
             }
         });
         this.registerSetting(hideAllNames = new ButtonSetting("Hide all names", false));
-        this.registerSetting(hideAllPrefixSetting = new TextSetting("Hide-all prefix", Text.literal(DEFAULT_HIDE_ALL_PREFIX), 24) {
+        this.registerSetting(hideAllPrefixSetting = new TextSetting("Hide-all prefix", DEFAULT_HIDE_ALL_PREFIX, 24) {
             @Override
             public void setText(String text) {
                 super.setText(normalizeHideAllPrefix(text));
@@ -134,7 +134,7 @@ public class NameHider extends Module {
 
         Object component = Text.literal(replaced);
         // component.setStyle disabled
-        return component;
+        return Text.literal(component.toString());
     }
 
     public static String getTabName(PlayerListEntry playerInfo, String original) {

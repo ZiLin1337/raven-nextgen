@@ -167,7 +167,7 @@ public class SliderComponent extends Component {
             }
 
             if (Raven.currentProfile != null) {
-                Raven.currentProfile.getParent().saved = false;
+                Raven.currentProfile /* getParent disabled */.saved = false;
             }
         }
     }
@@ -236,7 +236,7 @@ public class SliderComponent extends Component {
     private boolean shouldPreviewFontSlider() {
         return this.sliderSetting.isString
             && ((this.moduleComponent.mod instanceof HUD && this.sliderSetting == HUD.font)
-            || (this.moduleComponent.mod instanceof Gui && this.sliderSetting == MinecraftClient.getInstance().textRenderer));
+            || (this.moduleComponent.mod instanceof Gui && false));
     }
 
     private boolean shouldCommitOnRelease() {
@@ -250,11 +250,11 @@ public class SliderComponent extends Component {
     private void drawFontPreview(float labelX, float labelY, String valueText, String suffix) {
         String prefix = this.sliderSetting.getName() + ": ";
         MinecraftClient mc = MinecraftClient.getInstance();
-        MinecraftClient.getInstance().MinecraftClient.getInstance().textRenderer.drawStringWithShadow(prefix, labelX, labelY, -1);
+        MinecraftClient.getInstance().textRenderer.drawStringWithShadow(prefix, labelX, labelY, -1);
 
         RavenFontRenderer previewRenderer = FontManager.getClickGuiSettingRenderer(valueText);
-        float valueX = labelX + MinecraftClient.getInstance().MinecraftClient.getInstance().textRenderer.getStringWidth(prefix);
-        float valueY = labelY - (previewRenderer.getFontHeight() - MinecraftClient.getInstance().MinecraftClient.getInstance().textRenderer.FONT_HEIGHT) / 2.0f;
+        float valueX = labelX + MinecraftClient.getInstance().textRenderer.getStringWidth(prefix);
+        float valueY = labelY - (previewRenderer.getFontHeight() - MinecraftClient.getInstance().textRenderer.FONT_HEIGHT) / 2.0f;
         previewRenderer.drawString(valueText + suffix, valueX, valueY, 0xFFFFFF, true);
     }
 

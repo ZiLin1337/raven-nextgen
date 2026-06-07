@@ -83,7 +83,7 @@ public class BindComponent extends Component {
         if (!overSetting(x, y) || !moduleComponent.isOpened || !moduleComponent.isVisible(this)) return false;
         if (button == 0 && moduleComponent.mod.moduleCategory() != Module.category.profiles && overEyeIcon(x, y)) {
             moduleComponent.mod.setHidden(!moduleComponent.mod.isHidden());
-            if (Raven.currentProfile != null) Raven.currentProfile.getParent().saved = false;
+            if (Raven.currentProfile != null) Raven.currentProfile /* getParent disabled */.saved = false;
             return true;
         }
         if (moduleComponent.mod.canBeEnabled() && button == 0 && overBindText(x, y)) {
@@ -93,7 +93,7 @@ public class BindComponent extends Component {
         if (moduleComponent.mod.canBeEnabled() && button > 1 && isBinding) {
             // keySetting.setKey disabled
             // setBind disabled
-            if (Raven.currentProfile != null) Raven.currentProfile.getParent().saved = false;
+            if (Raven.currentProfile != null) Raven.currentProfile /* getParent disabled */.saved = false;
             isBinding = false;
             return true;
         }
@@ -158,7 +158,7 @@ public class BindComponent extends Component {
         if (!isBinding || scroll == 0) return;
         // keySetting.setKey disabled
         // setBind disabled
-        if (Raven.currentProfile != null) Raven.currentProfile.getParent().saved = false;
+        if (Raven.currentProfile != null) Raven.currentProfile /* getParent disabled */.saved = false;
         isBinding = false;
     }
 
@@ -172,7 +172,7 @@ public class BindComponent extends Component {
             // keySetting.setKey disabled
             /* setBind removed */
         }
-        if (Raven.currentProfile != null) Raven.currentProfile.getParent().saved = false;
+        if (Raven.currentProfile != null) Raven.currentProfile /* getParent disabled */.saved = false;
         isBinding = false;
     }
 

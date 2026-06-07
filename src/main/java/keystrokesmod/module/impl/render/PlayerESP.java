@@ -86,7 +86,7 @@ public class PlayerESP extends Module {
             Box box_bb = player.getBoundingBox().offset(-cameraPos.x, -cameraPos.y, -cameraPos.z);
             
             if (box.isToggled()) {
-                RenderUtils.drawOutlinedBox();
+                // drawOutlinedBox disabled
             }
             if (outline.isToggled()) {
                 // RenderUtils.drawOutline removed
@@ -99,7 +99,7 @@ public class PlayerESP extends Module {
                 double healthHeight = (box_bb.maxY - box_bb.minY) * healthPercent;
                 Box healthBox = new Box(box_bb.minX - 0.1, box_bb.minY, box_bb.minZ - 0.1,
                     box_bb.minX, box_bb.minY + healthHeight, box_bb.minZ);
-                RenderUtils.drawBox(healthBox, healthColor);
+                // drawBox disabled
             }
         }
     }

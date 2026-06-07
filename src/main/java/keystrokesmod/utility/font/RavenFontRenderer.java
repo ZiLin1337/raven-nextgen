@@ -7,9 +7,9 @@ public interface RavenFontRenderer {
         if (mc.textRenderer == null) return 0;
         try {
             if (shadow) {
-                return mc.textRenderer.draw(text, x, y, color, true);
+                return mc.textRenderer.drawWithShadow(Text.literal(text), x, y, color);
             } else {
-                return mc.textRenderer.draw(text, x, y, color, false);
+                return mc.textRenderer.draw(Text.literal(text), x, y, color);
             }
         } catch (Exception e) { return 0; }
     }

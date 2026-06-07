@@ -7,6 +7,7 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Theme;
 import keystrokesmod.utility.Timer;
 import net.minecraft.client.MinecraftClient;
+import org.lwjgl.glfw.GLFW;
 import com.mojang.blaze3d.platform.GlStateManager;
 // RenderHelper removed in 1.21
 import net.minecraft.client.render.item.ItemRenderer;
@@ -155,7 +156,7 @@ public abstract class AbstractSearchListComponent extends AbstractTextInputCompo
     protected final void clampSelectedScroll() { float maxScrollPx = Math.max(0f, (getSelectedEntryCount() - MAX_VISIBLE_SELECTED) * ROW_HEIGHT); selectedScrollAnim.clampTarget(0f, maxScrollPx); }
     protected final void updateDropdownAnimation() { float newTarget = computeDropdownTarget(); if (newTarget != dropdownAnimTargetH) { dropdownAnimStartH = dropdownAnimH; dropdownAnimTargetH = newTarget; dropdownAnimTimer = new Timer(ANIMATION_DURATION); dropdownAnimTimer.start(); } }
     protected final void notifySelectionListChanged() { markUnsaved(); updateDropdownAnimation(); moduleComponent.updateSettingPositions(); }
-    protected final void markUnsaved() { if (Raven.currentProfile != null) Raven.currentProfile.getModule().saved = false; }
+    protected final void markUnsaved() { if (Raven.currentProfile != null) Raven.currentProfile /* getModule disabled */.saved = false; }
     protected final ItemStack getPreviewStack(SelectedRowData row) { if (row == null) return null; if (row.cyclingStacks != null && !row.cyclingStacks.isEmpty()) return row.cyclingStacks.get((int) ((System.currentTimeMillis() / 1000L) % row.cyclingStacks.size())); return row.stack; }
 
     protected final void renderBackRow(float left, float right, float rowTop, int bgColor, String groupName) {
@@ -192,7 +193,7 @@ public abstract class AbstractSearchListComponent extends AbstractTextInputCompo
 
     protected final void renderItemInRow(ItemStack stack, float x, float rowTop) {
         if (stack == null) return;
-        net.minecraft.client.render.item.ItemRenderer renderItem = mc.getNetworkHandler().client.render.item.ItemRenderer();
+        net.minecraft.client.render.item.ItemRenderer renderItem = MinecraftClient.getInstance().gameRenderer.getItemRenderer();
         double scale = 0.55;
         float px = (float) (x / scale);
         float py = (float) ((rowTop + (LIST_ROW_VISUAL_HEIGHT - (float)(16 * scale)) / 2f) / scale);
@@ -201,9 +202,9 @@ public abstract class AbstractSearchListComponent extends AbstractTextInputCompo
         // translate(px, py, 0f);
         // enableGUIStandardItemLighting disabled;
         // disableBlend disabled;
-        renderItem.renderItemAndEffectIntoGUI(stack, 0, 0);
+        // renderItemAndEffectIntoGUI disabled
         // enableBlend disabled;
-        RenderHelper.disableStandardItemLighting();
+        // RenderHelper disabled
         // popMatrix disabled;
     }
 

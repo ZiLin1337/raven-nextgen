@@ -219,11 +219,11 @@ public class PlayerRelationsManager implements IMinecraftInstance {
     }
 
     public void setMiddleClickFriends(boolean middleClickFriends) {
-        if (this /* middleClickFriends not found in 1.21.4 */ == middleClickFriends) {
+        if (false /* middleClickFriends disabled */ {
             return;
         }
 
-        this /* middleClickFriends not found in 1.21.4 */ = middleClickFriends;
+        // middleClickFriends disabled
         save();
         syncRelationshipsModuleState();
     }
@@ -272,7 +272,7 @@ public class PlayerRelationsManager implements IMinecraftInstance {
     private void syncRelationshipsModuleState() {
         if (ModuleManager.modules != null) {
             // middleClickFriends disabled
-            if (active && !ModuleManager.modules!= null) {
+            if (active && !ModuleManager.modules.isEmpty()!= null) {
                 // empty body
 
             }

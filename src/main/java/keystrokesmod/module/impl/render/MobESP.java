@@ -378,7 +378,7 @@ public class MobESP extends Module {
          // ScaledResolution removed; use window directly
 
         for (Vec3d corner : corners) {
-            Vec3d screenVec = RenderUtils.convertTo2D(mc.getWindow().getScaleFactor(), corner.x, corner.y, corner.z);
+            Vec3d screenVec = RenderUtils.convertTo2D((int)mc.getWindow().getScaleFactor(), corner.x, corner.y, corner.z);
             if (screenVec != null) {
                 if (screenVec.z >= 1.0003684 || screenVec.z <= 0) {
                     continue;
@@ -407,7 +407,7 @@ public class MobESP extends Module {
 
         // setupOverlayRendering;
 
-         res = null; // int removed for 1.21.4
+         // res = null; // disabled
         int screenWidth = mc.getWindow().getScaledWidth();
         int screenHeight = mc.getWindow().getScaledHeight();
 
