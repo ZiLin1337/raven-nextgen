@@ -1053,7 +1053,6 @@ public class RenderUtils implements IMinecraftInstance {
         y2 *= 2.0f;
         RenderSystem.getModelViewStack().pushMatrix();
         GL11.glPushAttrib(// // GL11 constant);
-        GL11.glScaled(0.5, 0.5, 0.5);
         RenderSystem.enableBlend();
         RenderSystem.disableTexture();
         glColor(n6);
@@ -1217,7 +1216,6 @@ public class RenderUtils implements IMinecraftInstance {
         context.viewport.clear();
         GL11.glGetFloat(// // GL11 constant, context.modelView);
         GL11.glGetFloat(// // GL11 constant, context.projection);
-        context.modelView.rewind();
         context.projection.rewind();
         context.viewport.rewind();
         return context;
@@ -1266,7 +1264,6 @@ public class RenderUtils implements IMinecraftInstance {
         y2 *= 2.0;
         RenderSystem.getModelViewStack().pushMatrix();
         GL11.glPushAttrib(// // GL11 constant);
-        GL11.glScaled(0.5, 0.5, 0.5);
         RenderSystem.enableBlend();
         RenderSystem.disableTexture();
         glColor(color);
@@ -1325,7 +1322,6 @@ public class RenderUtils implements IMinecraftInstance {
         GL11.glShadeModel(7425);
         RenderSystem.getModelViewStack().pushMatrix();
         GL11.glPushAttrib(// // GL11 constant);
-        GL11.glScaled(0.5, 0.5, 0.5);
         x *= 2.0;
         y *= 2.0;
         x2 *= 2.0;
@@ -1501,7 +1497,6 @@ public class RenderUtils implements IMinecraftInstance {
         prepareGuiItemRenderState();
         RenderSystem.depthMask(true);
         RenderSystem.clear(// // GL11 constant);
-        RenderHelper.enableStandardItemLighting();
         RenderSystem.getModelViewStack().pushMatrix();
         RenderSystem.scale(1.0f, 1.0f, -0.01f);
         mc.getRenderItem().zLevel = -150.0f;
