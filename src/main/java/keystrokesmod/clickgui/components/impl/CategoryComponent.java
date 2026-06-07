@@ -215,7 +215,7 @@ public class CategoryComponent {
             }
         }
         this.markInteracted();
-        float scrollSpeed = (float) Gui.scrollSpeed.getInput();
+        float scrollSpeed = (float) 0.0f;
         float minScrollY = computeMinScrollY();
         float maxScrollY = this.y;
         float delta = scrollSpeed * (mouseScrollInput / 120f);
@@ -260,8 +260,8 @@ public class CategoryComponent {
         this.lastHeight = extra;
         GL11.glPushMatrix();
         RenderUtils.drawRoundedGradientOutlinedRectangle(this.x - 2, this.y, this.x + this.width + 2, extra, 10, TRANSLUCENT_BACKGROUND,
-                ((opened || hovering) && Gui.rainBowOutlines.isToggled()) ? RenderUtils.setAlpha(Utils.getChroma(2, 0), 0.5) : REGULAR_OUTLINE,
-                ((opened || hovering) && Gui.rainBowOutlines.isToggled()) ? RenderUtils.setAlpha(Utils.getChroma(2, 700), 0.5) : REGULAR_OUTLINE2);
+                ((opened || hovering) && false) ? RenderUtils.setAlpha(Utils.getChroma(2, 0), 0.5) : REGULAR_OUTLINE,
+                ((opened || hovering) && false) ? RenderUtils.setAlpha(Utils.getChroma(2, 700), 0.5) : REGULAR_OUTLINE2);
         renderItemForCategory(this.category, (int) (this.x + 1), (int) (this.y + 4), opened || hovering);
         titleRenderer.drawString(this.category.name(), namePos, this.y + 4, CATEGORY_NAME_COLOR, false);
         float moduleAreaTop = this.y + this.titleHeight + 3;
