@@ -711,13 +711,7 @@ public class HUD extends Module {
             return;
         }
 
-        hudFont.drawString(moduleName, xPos, textY, 0xFFFFFFFF, true); // drawGlyphString stubbed
-            if (formattingColor != null) {
-                return formattingColor;
-            }
-            return getHudColor(hudWavePhase(0.0, xPos + xOffset + width * 0.5f));
-        }, shouldDrawTextShadow());
-    }
+        hudFont.drawString(moduleName, xPos, textY, getHudColor(hudWavePhase(0.0, xPos)), shouldDrawTextShadow());
 
     private static boolean shouldUseHorizontalWaveText() {
         return colorMode != null && (int) colorMode.getInput() != 0 && !hudWaveIsVertical();
