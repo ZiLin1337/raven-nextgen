@@ -379,8 +379,8 @@ public class ModuleComponent extends Component {
     private GroupComponent getOwningGroup(Component component) { return owningGroups.get(component); }
 
     private String getGroupName(Component component) {
-        if (component instanceof SliderComponent && ((SliderComponent) component).sliderSetting.groupSetting != null)
-            return ((SliderComponent) component).sliderSetting.groupSetting.getName();
+        if (component instanceof SliderComponent && ((SliderComponent) component).sliderSetting.getGroup() != null)
+            return ((SliderComponent) component).sliderSetting.getGroup().getName();
         if (component instanceof ButtonComponent && ((ButtonComponent) component).buttonSetting.group != null)
             return ((ButtonComponent) component).buttonSetting.group.getName();
         if (component instanceof BindComponent && ((BindComponent) component).keySetting != null && ((BindComponent) component).keySetting.group != null)

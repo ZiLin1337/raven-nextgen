@@ -40,7 +40,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
     }
 
     @Override public void render() { Layout layout = layout(false); renderLabel(layout, setting.getName()); renderTextField(layout); renderSelectedEntries(layout); }
-    @Override public void drawScreen(int mouseX, int mouseY) { super.drawScreen(mouseX, mouseY); lastMouseX = mouseX; lastMouseY = mouseY; clampSelectedScroll(); }
+    @Override public void drawScreen(int mouseX, int mouseY) { super.drawScreen(mouseX, mouseY); lastMouseX = mouseX; lastMouseY = mouseY; // /* clampSelectedScroll */; }
 
     @Override
     public boolean onClick(int mouseX, int mouseY, int button) {
@@ -63,25 +63,25 @@ public class PlayerListComponent extends AbstractTextInputComponent {
     @Override public void onScroll(int scroll) {
         if (!moduleComponent.isOpened || !moduleComponent.isVisible(this)) return;
         if (!capturesCategoryScroll(lastMouseX, lastMouseY)) return;
-        float delta = (float) mc.mouse.getHorizontalMouseVelocity() * (scroll / 120f);
+        float delta = (float) MinecraftClient.getInstance().mouse.getHorizontalMouseVelocity() * (scroll / 120f);
         if (delta != 0f) selectedScrollAnim.extend(-delta);
-        clampSelectedScroll();
+        // /* clampSelectedScroll */;
     }
 
     @Override public void onGuiClosed() { super.onGuiClosed(); getTextField().setText(""); selectedScrollAnim.reset(0f); }
     @Override public float getHeightF() { int c = setting.getPlayers().size(); float h = c == 0 ? 0f : SELECTED_LIST_GAP + Math.min(MAX_VISIBLE_SELECTED, c) * ROW_HEIGHT; return (2f * ROW_HEIGHT) + h; }
     @Override public boolean isBaseVisible() { return setting.visible; }
-    @Override public String getGroupName() { return setting.category != null ? setting.category.getName() : ""; }
+    @Override public String getGroupName() { return setting.getCategory() != null ? setting.getCategory().getName() : ""; }
     public boolean capturesCategoryScroll(float x, float y) { return setting.getPlayers().size() > MAX_VISIBLE_SELECTED && isMouseOverSelectedList(x, y); }
     public boolean containsClick(int x, int y) { Layout l = layout(true); return isTextFieldClicked(x, y, l) || isMouseOverSelectedList(x, y); }
-    public void onExternalDataChanged() { clampSelectedScroll(); }
+    public void onExternalDataChanged() { // /* clampSelectedScroll */; }
 
     private void submitText() {
         String name = getTextField().getText();
         if (name == null || name.trim().isEmpty()) return;
         if (setting.addPlayer(name)) getTextField().setText("");
         moduleComponent.updateSettingPositions();
-        clampSelectedScroll();
+        // /* clampSelectedScroll */;
     }
 
     private void renderSelectedEntries(Layout layout) {
@@ -111,7 +111,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
         float offsetPx = selectedScrollAnim.getValue();
         for (int i = 0; i < entries.size(); i++) {
             float rowTop = getSelectedTop(layout) - offsetPx + i * ROW_HEIGHT;
-            if (isOverClose(mouseX, mouseY, rowTop, layout.right)) { setting.removePlayer(entries.get(i).getKey()); moduleComponent.updateSettingPositions(); clampSelectedScroll(); return true; }
+            if (isOverClose(mouseX, mouseY, rowTop, layout.right)) { setting.removePlayer(entries.get(i).getKey()); moduleComponent.updateSettingPositions(); // /* clampSelectedScroll */; return true; }
         }
         return false;
     }
@@ -124,15 +124,15 @@ public class PlayerListComponent extends AbstractTextInputComponent {
         boolean depthMask = GL11.glGetBoolean(GL11.GL_DEPTH_WRITEMASK);
         try {
             RenderUtils.prepareGuiTextureRenderState();
-            mc.getTextureManager().bindTexture(skin);
+            MinecraftClient.getInstance().getTextureManager().bindTexture(skin);
             // RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
         } finally { RenderUtils.restoreGuiRenderState(depth, blend, depthMask); }
     }
 
     private Map<String, PlayerListEntry> getPlayerInfoMap() {
         Map<String, PlayerListEntry> map = new HashMap<>();
-        if (mc.getNetworkHandler() == null) return map;
-        for (PlayerListEntry info : mc.getNetworkHandler().getPlayerInfoMap()) {
+        if (MinecraftClient.getInstance().getNetworkHandler() == null) return map;
+        for (PlayerListEntry info : MinecraftClient.getInstance().getNetworkHandler().getPlayerInfoMap()) {
             map.put(info.getProfile().getName(), info);
         }
         return map;

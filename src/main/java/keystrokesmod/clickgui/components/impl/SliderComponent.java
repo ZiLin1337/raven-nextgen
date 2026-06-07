@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class SliderComponent extends Component {
-    public Setting sliderSetting;
+    public SliderSetting sliderSetting;
     private ModuleComponent moduleComponent;
     public float o;
     public float x;
@@ -32,7 +32,7 @@ public class SliderComponent extends Component {
     private double displayedValue;
     private static final double SLIDER_SPEED = 0.6;
 
-    public SliderComponent(Setting sliderSetting, ModuleComponent moduleComponent, float o) {
+    public SliderComponent(SliderSetting sliderSetting, ModuleComponent moduleComponent, float o) {
         this.sliderSetting = sliderSetting;
         this.moduleComponent = moduleComponent;
         this.o = o;
@@ -250,11 +250,11 @@ public class SliderComponent extends Component {
     private void drawFontPreview(float labelX, float labelY, String valueText, String suffix) {
         String prefix = this.sliderSetting.getName() + ": ";
         MinecraftClient mc = MinecraftClient.getInstance();
-        MinecraftClient.getInstance().getInstance().mc.textRenderer.drawStringWithShadow(prefix, labelX, labelY, -1);
+        MinecraftClient.getInstance().getInstance().MinecraftClient.getInstance().textRenderer.drawStringWithShadow(prefix, labelX, labelY, -1);
 
         RavenFontRenderer previewRenderer = FontManager.getClickGuiSettingRenderer(valueText);
-        float valueX = labelX + MinecraftClient.getInstance().getInstance().mc.textRenderer.getStringWidth(prefix);
-        float valueY = labelY - (previewRenderer.getFontHeight() - MinecraftClient.getInstance().getInstance().mc.textRenderer.FONT_HEIGHT) / 2.0f;
+        float valueX = labelX + MinecraftClient.getInstance().getInstance().MinecraftClient.getInstance().textRenderer.getStringWidth(prefix);
+        float valueY = labelY - (previewRenderer.getFontHeight() - MinecraftClient.getInstance().getInstance().MinecraftClient.getInstance().textRenderer.FONT_HEIGHT) / 2.0f;
         previewRenderer.drawString(valueText + suffix, valueX, valueY, 0xFFFFFF, true);
     }
 

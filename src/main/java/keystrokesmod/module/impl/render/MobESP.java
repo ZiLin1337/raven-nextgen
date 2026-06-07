@@ -375,7 +375,7 @@ public class MobESP extends Module {
         double maxY = Double.MIN_VALUE;
 
         boolean isInView = false;
-         ScaledResolution sr = new ScaledResolution(mc); // 1.21.4
+         // ScaledResolution removed; use window directly
 
         for (Vec3d corner : corners) {
             Vec3d screenVec = RenderUtils.convertTo2D(mc.getWindow().getScaleFactor(), corner.x, corner.y, corner.z);
