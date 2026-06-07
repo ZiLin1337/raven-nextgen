@@ -712,6 +712,7 @@ public class HUD extends Module {
         }
 
         hudFont.drawString(moduleName, xPos, textY, getHudColor(hudWavePhase(0.0, xPos)), shouldDrawTextShadow());
+    }
 
     private static boolean shouldUseHorizontalWaveText() {
         return colorMode != null && (int) colorMode.getInput() != 0 && !hudWaveIsVertical();
