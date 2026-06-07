@@ -82,7 +82,7 @@ public class Tracers extends Module {
         }
 
         if (Raven.DEBUG) {
-            for (Entity entity : mc.world.loadedEntityList) {
+            for (Entity entity : mc.world.world.getEntities()) {
                 if (entity instanceof LivingEntity && entity != mc.player) {
                     addTrackedEntity(entity);
                 }
@@ -90,7 +90,7 @@ public class Tracers extends Module {
             return;
         }
 
-        for (PlayerEntity player : mc.world.playerEntities) {
+        for (PlayerEntity player : mc.world.world.getPlayers()) {
             if (player == mc.player) {
                 continue;
             }

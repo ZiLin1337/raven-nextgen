@@ -11,4 +11,9 @@ public class PlayerListSetting extends Setting {
     public void addPlayer(String s) { players.add(s); }
     public void removePlayer(String s) { players.remove(s); }
     public boolean contains(String s) { return players.contains(s); }
+
+    @Override
+    public void loadProfile(com.google.gson.JsonObject json) {
+        if (json.has("players")) { this.players.clear(); json.getAsJsonArray("players").forEach(e -> this.players.add(e.getAsString())); }
+    }
 }

@@ -86,7 +86,7 @@ public class Arrows extends Module {
             return;
         }
 
-        for (PlayerEntity en : mc.world.playerEntities) {
+        for (PlayerEntity en : mc.world.world.getPlayers()) {
             if (en == null || en == mc.player) {
                 continue;
             }
@@ -133,9 +133,9 @@ public class Arrows extends Module {
             mc.gameRenderer.setupOverlayRendering();
              res = null; // int removed for 1.21.4
 
-            double dx = vec.xCoord - res.getScaledWidth() / 2.0;
-            double dy = vec.yCoord - res.getScaledHeight() / 2.0;
-            boolean inFrustum = vec.zCoord < 1.0003684;
+            double dx = vec.x - res.getScaledWidth() / 2.0;
+            double dy = vec.y - res.getScaledHeight() / 2.0;
+            boolean inFrustum = vec.z < 1.0003684;
 
             if (!inFrustum) {
                 dx *= -1.0;
@@ -215,7 +215,7 @@ public class Arrows extends Module {
             RenderSystem.scale(0.8, 0.8, 0.8);
 
             if (renderDistance.isToggled()) {
-                String text = (int) mc.player.getDistanceToEntity(en) + "m";
+                String text = (int) mc.player.distanceTo(en) + "m";
                 RavenFontRenderer fr = getArrowFontRenderer();
                 fr.drawString(text, (float) (-fr.getStringWidth(text) / 2), -4.0f, -1, true);
             }

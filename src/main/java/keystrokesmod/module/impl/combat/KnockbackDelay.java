@@ -135,7 +135,7 @@ public class KnockbackDelay extends Module {
             return "not looking at player";
         }
 
-        if (requireLeftMouse.isToggled() && !mc.mouse.isLeftButtonPressed()) {
+        if (requireLeftMouse.isToggled() && !mc.mouseHelper.isLeftButtonPressed()) {
             return "LMB not held";
         }
 

@@ -10,11 +10,11 @@ public class MouseHelper {
     }
 
     public static double getX() {
-        return mc.mouse.getX();
+        return mc.mouseHelper.getX();
     }
 
     public static double getY() {
-        return mc.mouse.getY();
+        return mc.mouseHelper.getY();
     }
 
     public static int getScaledX() {
@@ -26,6 +26,6 @@ public class MouseHelper {
     }
 
     public static int getDWheel() {
-        return mc.mouse.getDWheel();
+        return mc.mouseHelper.getDWheel();
     }
 }

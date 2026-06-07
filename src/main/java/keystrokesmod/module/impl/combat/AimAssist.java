@@ -136,7 +136,7 @@ public class AimAssist extends Module {
         }
 
         List<PlayerEntity> candidates = new ArrayList<>();
-        for (PlayerEntity entityPlayer : mc.world.playerEntities) {
+        for (PlayerEntity entityPlayer : mc.world.world.getPlayers()) {
             if (entityPlayer == mc.player || entityPlayer.deathTime != 0) {
                 continue;
             }

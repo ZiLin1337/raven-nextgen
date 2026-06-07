@@ -133,7 +133,7 @@ public class NameHider extends Module {
         }
 
         ChatComponentText component = Text.literal(replaced);
-        component.setChatStyle(original.getStyle().createShallowCopy());
+        component.setChatStyle(original.getStyle().withColor(original.getStyle().getColor()));
         return component;
     }
 
@@ -277,12 +277,12 @@ public class NameHider extends Module {
     }
 
     private static void collectTargetsFromTab(Map<String, LinkedHashSet<String>> targets, Set<String> protectedNames) {
-        if (mc.getNetworkHandler() == null || mc.getNetworkHandler().getPlayerInfoMap() == null) {
+        if (mc.getNetworkHandler() == null || mc.getNetworkHandler().getPlayerList() == null) {
             return;
         }
 
         PlayerListEntry self = getSelfPlayerInfo();
-        for (PlayerListEntry playerInfo : mc.getNetworkHandler().getPlayerInfoMap()) {
+        for (PlayerListEntry playerInfo : mc.getNetworkHandler().getPlayerList()) {
             if (playerInfo == null || playerInfo == self) {
                 continue;
             }
@@ -468,12 +468,12 @@ public class NameHider extends Module {
     }
 
     private static String getProfileName(PlayerListEntry playerInfo) {
-        com.mojang.authlib.GameProfile profile = playerInfo == null ? null : playerInfo.getcom.mojang.authlib.GameProfile();
+        com.mojang.authlib.GameProfile profile = playerInfo == null ? null : playerInfo.getProfile();
         return profile == null ? "" : profile.getName();
     }
 
     private static String getIdentityKey(PlayerListEntry playerInfo) {
-        com.mojang.authlib.GameProfile profile = playerInfo == null ? null : playerInfo.getcom.mojang.authlib.GameProfile();
+        com.mojang.authlib.GameProfile profile = playerInfo == null ? null : playerInfo.getProfile();
         return profile == null ? null : getIdentityKey(profile.getId(), profile.getName());
     }
 

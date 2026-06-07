@@ -95,8 +95,8 @@ public class Autoblock extends Module {
                 && ModuleManager.killAura.isEnabled()
                 && KillAura.target != null;
 
-        boolean lmbDown = mc.mouse.isLeftButtonPressed() || killAuraActive;
-        boolean rmbDown = mc.mouse.isRightButtonPressed();
+        boolean lmbDown = mc.mouseHelper.isLeftButtonPressed() || killAuraActive;
+        boolean rmbDown = mc.mouseHelper.isRightButtonPressed();
 
         // Check use conditions
         boolean shouldBlock = currentTarget != null;

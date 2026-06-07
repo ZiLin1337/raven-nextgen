@@ -16,7 +16,7 @@ public enum EnumLagDirection implements IMinecraftInstance {
     INBOUND(
             packet -> {
                 try {
-                    ((Packet<INetHandlerPlayClient>) packet).processPacket(mc.getNetHandler());
+                    ((Packet<INetHandlerPlayClient>) packet).processPacket(mc.getNetworkHandler());
                 } catch (final @NotNull ThreadQuickExitException ignored) {
                     // minecraft uses an exception to indicate something getting scheduled... why?
                 } catch (final @NotNull Exception e) {
@@ -26,7 +26,7 @@ public enum EnumLagDirection implements IMinecraftInstance {
     ),
     OUTBOUND(
             packet -> {
-                mc.getNetHandler().networkHandler.sendPacket(packet);
+                mc.getNetworkHandler().networkHandler.sendPacket(packet);
             }
     );
 

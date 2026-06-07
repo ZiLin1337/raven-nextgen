@@ -99,7 +99,7 @@ public class MurderMystery extends Module {
             }
             else {
                 override = false;
-                for (PlayerEntity en : mc.world.playerEntities) {
+                for (PlayerEntity en : mc.world.world.getPlayers()) {
                     if (en != mc.player && !en.isInvisible()) {
                         if (AntiBot.isBot(en) && !highlightDead.isToggled()) {
                             continue;
@@ -112,7 +112,7 @@ public class MurderMystery extends Module {
                                     murderers.add(en);
                                     if (alert.isToggled()) {
                                         mc.player.playSound("note.pling", 1.0F, 1.0F);
-                                        Utils.sendMessage("&eAlert: &b" + en.getName() + " &7is the &cmurderer&7! (&d" + (int) mc.player.getDistanceToEntity(en) + "m&7)");
+                                        Utils.sendMessage("&eAlert: &b" + en.getName() + " &7is the &cmurderer&7! (&d" + (int) mc.player.distanceTo(en) + "m&7)");
                                     }
                                 }
                             }
@@ -142,7 +142,7 @@ public class MurderMystery extends Module {
                 }
                 float renderPartialTicks = ((IAccessorMinecraft) mc).getTimer().renderPartialTicks;
                 int n4 = -331703;
-                for (Entity entity : mc.world.loadedEntityList) {
+                for (Entity entity : mc.world.world.getEntities()) {
                     if (entity instanceof EntityItem) {
                         if (entity.age < 3) {
                             continue;
@@ -229,7 +229,7 @@ public class MurderMystery extends Module {
     }
 
     private double getBoundingBoxVolume(Entity entity) {
-        Box boundingBox = entity.getEntityBoundingBox();
+        Box boundingBox = entity.getBoundingBox();
 
         if (boundingBox == null) {
             return 0;

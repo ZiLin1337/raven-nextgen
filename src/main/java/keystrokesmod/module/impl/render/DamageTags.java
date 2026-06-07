@@ -281,7 +281,7 @@ public class DamageTags extends Module {
             return !(entity instanceof LivingEntity) || entity instanceof ArmorStandEntity || entity == mc.player;
         });
 
-        List<Entity> loaded = mc.world.loadedEntityList;
+        List<Entity> loaded = mc.world.world.getEntities();
         for (int i = 0, n = loaded.size(); i < n; i++) {
             Entity entity = loaded.get(i);
             if (!(entity instanceof LivingEntity) || entity instanceof ArmorStandEntity || entity == mc.player) {

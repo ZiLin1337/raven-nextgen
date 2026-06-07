@@ -182,7 +182,7 @@ public class Nametags extends Module {
         float baseScale = computeBaseScaleValue();
         renderStateCount = 0;
 
-        for (PlayerEntity player : mc.world.playerEntities) {
+        for (PlayerEntity player : mc.world.world.getPlayers()) {
             if (!shouldRenderNametag(player)) {
                 continue;
             }

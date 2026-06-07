@@ -299,8 +299,8 @@ public class LagRange extends Module {
         float halfW = mc.player.width / 2.0f;
         float height = mc.player.height;
         Box worldBox = new Box(
-                drawPos.xCoord - halfW, drawPos.yCoord, drawPos.zCoord - halfW,
-                drawPos.xCoord + halfW, drawPos.yCoord + height, drawPos.zCoord + halfW
+                drawPos.x - halfW, drawPos.y, drawPos.z - halfW,
+                drawPos.x + halfW, drawPos.y + height, drawPos.z + halfW
         );
         Vec3d cameraPos = Utils.getCameraPos(e.partialTicks);
         if (worldBox.isVecInside(cameraPos)) return;
@@ -370,9 +370,9 @@ public class LagRange extends Module {
     }
 
     private static boolean serverPosChanged(Vec3d a, Vec3d b) {
-        return Math.abs(a.xCoord - b.xCoord) > POS_EPS
-                || Math.abs(a.yCoord - b.yCoord) > POS_EPS
-                || Math.abs(a.zCoord - b.zCoord) > POS_EPS;
+        return Math.abs(a.x - b.x) > POS_EPS
+                || Math.abs(a.y - b.y) > POS_EPS
+                || Math.abs(a.z - b.z) > POS_EPS;
     }
 
     private static Vec3d lerpVec3d(Vec3d from, Vec3d to, double t) {
@@ -383,9 +383,9 @@ public class LagRange extends Module {
             return to;
         }
         return new Vec3d(
-                from.xCoord + (to.xCoord - from.xCoord) * t,
-                from.yCoord + (to.yCoord - from.yCoord) * t,
-                from.zCoord + (to.zCoord - from.zCoord) * t
+                from.x + (to.x - from.x) * t,
+                from.y + (to.y - from.y) * t,
+                from.z + (to.z - from.z) * t
         );
     }
 

@@ -129,12 +129,12 @@ public class MobESP extends Module {
         registerMob("Squid", net.minecraft.entity.passive.SquidEntity.class, false, 30, 60, 180);
         registerMob("Villager", net.minecraft.entity.passive.VillagerEntity.class, false, 180, 150, 120);
         registerMob("Witch", net.minecraft.entity.mob.WitchEntity.class, false, 90, 50, 120);
-        registerMob("Wither", net.minecraft.entity.mob.WitherEntity.class, false, 64, 64, 64);
+        registerMob("Wither", net.minecraft.entity.mob.WitherSkeletonEntity.class, false, 64, 64, 64);
         registerMob("Wither Skeleton", net.minecraft.entity.mob.SkeletonEntity.class, e -> true, true, 55, 55, 55);
         registerMob("Wolf", net.minecraft.entity.passive.WolfEntity.class, false, 200, 200, 200);
         registerMob("Zombie", net.minecraft.entity.mob.ZombieEntity.class, e -> true, true, 0, 0, 255);
         registerMob("Zombie Horse", net.minecraft.entity.passive.HorseEntity.class, e -> true, false, 80, 100, 70);
-        registerMob("Zombie Pigman", ZombieEntity.class, true, 255, 192, 203);
+        registerMob("Zombie Pigman", net.minecraft.entity.mob.ZombifiedPiglinEntity.class, true, 255, 192, 203);
         registerMob("Zombie Villager", net.minecraft.entity.mob.ZombieEntity.class, e -> true, true, 100, 140, 90);
     }
 
@@ -279,7 +279,7 @@ public class MobESP extends Module {
 
         // RenderSystem.pushMatrix();
         // RenderSystem.pushAttrib();
-        outlineFramebuffer.beginWrite();
+        outlineFramebuffer.beginWrite(false);
         // mc.gameRenderer.callSetupCameraTransform(partialTicks, 0); // Method not available
         boolean shadows = mc.options.getEntityShadows().getValue();
         // mc.options.getEntityShadows() assignment not supported
@@ -327,7 +327,7 @@ public class MobESP extends Module {
             RenderUtils.renderEntity(en, 1, 0, 0, rgb, redOnDamage.isToggled());
         }
         if (shaded.isToggled()) {
-            if (null == null || !null.isEnabled() || null.isEmpty()) {
+            if (null == null || !false || null.isEmpty()) {
                 RenderUtils.renderEntity(en, 2, 0, 0, rgb, redOnDamage.isToggled());
             }
         }
@@ -345,18 +345,18 @@ public class MobESP extends Module {
         }
         // mc.gameRenderer.callSetupCameraTransform // Method not available
 
-        double playerX = en.prevX + (en.posX - en.prevX) * partialTicks - mc.getEntityRenderDispatcher().viewerPosX;
-        double playerY = en.prevY + (en.posY - en.prevY) * partialTicks - mc.getEntityRenderDispatcher().viewerPosY;
-        double playerZ = en.prevZ + (en.posZ - en.prevZ) * partialTicks - mc.getEntityRenderDispatcher().viewerPosZ;
+        double playerX = en.prevX + (en.getX() - en.prevX) * partialTicks - mc.getEntityRenderDispatcher().mc.gameRenderer.getCamera().getPos().x;
+        double playerY = en.prevY + (en.getY() - en.prevY) * partialTicks - mc.getEntityRenderDispatcher().mc.gameRenderer.getCamera().getPos().y;
+        double playerZ = en.prevZ + (en.getZ() - en.prevZ) * partialTicks - mc.getEntityRenderDispatcher().mc.gameRenderer.getCamera().getPos().z;
 
-        Box bbox = en.getEntityBoundingBox().expand(0.1D + expand, 0.1D + expand, 0.1D + expand);
+        Box bbox = en.getBoundingBox().expand(0.1D + expand, 0.1D + expand, 0.1D + expand);
         Box axis = new Box(
-                bbox.minX - en.posX + playerX,
-                bbox.minY - en.posY + playerY,
-                bbox.minZ - en.posZ + playerZ,
-                bbox.maxX - en.posX + playerX,
-                bbox.maxY - en.posY + playerY,
-                bbox.maxZ - en.posZ + playerZ
+                bbox.minX - en.getX() + playerX,
+                bbox.minY - en.getY() + playerY,
+                bbox.minZ - en.getZ() + playerZ,
+                bbox.maxX - en.getX() + playerX,
+                bbox.maxY - en.getY() + playerY,
+                bbox.maxZ - en.getZ() + playerZ
         );
 
         Vec3d[] corners = new Vec3d[8];
@@ -378,14 +378,14 @@ public class MobESP extends Module {
          scaledResolution = null; // int removed for 1.21.4
 
         for (Vec3d corner : corners) {
-            Vec3d screenVec = RenderUtils.convertTo2D(mc.getWindow().getScaleFactor(), corner.xCoord, corner.yCoord, corner.zCoord);
+            Vec3d screenVec = RenderUtils.convertTo2D(mc.getWindow().getScaleFactor(), corner.x, corner.y, corner.z);
             if (screenVec != null) {
-                if (screenVec.zCoord >= 1.0003684 || screenVec.zCoord <= 0) {
+                if (screenVec.z >= 1.0003684 || screenVec.z <= 0) {
                     continue;
                 }
                 isInView = true;
-                double screenX = screenVec.xCoord;
-                double screenY = screenVec.yCoord;
+                double screenX = screenVec.x;
+                double screenY = screenVec.y;
                 if (screenX < minX) {
                     minX = screenX;
                 }

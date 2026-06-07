@@ -132,7 +132,7 @@ public class HitParticles extends Module {
 
         pruneArrowDedupeMap();
 
-        Box scan = mc.player.getEntityBoundingBox().expand(ARROW_SCAN_EXPAND, ARROW_SCAN_EXPAND, ARROW_SCAN_EXPAND);
+        Box scan = mc.player.getBoundingBox().expand(ARROW_SCAN_EXPAND, ARROW_SCAN_EXPAND, ARROW_SCAN_EXPAND);
         @SuppressWarnings("unchecked")
         List<EntityArrow> arrows = mc.world.getEntitiesWithinAABB(EntityArrow.class, scan);
         for (int i = 0, n = arrows.size(); i < n; i++) {
@@ -187,7 +187,7 @@ public class HitParticles extends Module {
             double zOffset = RANDOM.nextFloat() * (offset * 2.0f) - offset;
             if (ignoreDistance || xOffset * xOffset + yOffset * yOffset + zOffset * zOffset <= 1.0) {
                 double x = entity.posX + xOffset * entity.width / 4.0;
-                double y = entity.getEntityBoundingBox().minY + entity.height / 2.0f + yOffset * entity.height / 4.0;
+                double y = entity.getBoundingBox().minY + entity.height / 2.0f + yOffset * entity.height / 4.0;
                 double z = entity.posZ + zOffset * entity.width / 4.0;
                 mc.effectRenderer.spawnEffectParticle(id, x, y, z, xOffset, yOffset, zOffset, args);
             }
@@ -206,7 +206,7 @@ public class HitParticles extends Module {
 
         LivingEntity target = null;
         double closestSq = 0.0;
-        Box search = arrow.getEntityBoundingBox()
+        Box search = arrow.getBoundingBox()
                 .addCoord(arrow.getVelocity().x, arrow.getVelocity().y, arrow.getVelocity().z)
                 .expand(1.0, 1.0, 1.0);
         @SuppressWarnings("unchecked")
@@ -223,7 +223,7 @@ public class HitParticles extends Module {
             if (living == arrow.shootingEntity) {
                 continue;
             }
-            Box collisionBox = entity.getEntityBoundingBox().expand(0.3, 0.3, 0.3);
+            Box collisionBox = entity.getBoundingBox().expand(0.3, 0.3, 0.3);
             HitResult collision = collisionBox.calculateIntercept(pos, traceEnd);
             if (collision == null) {
                 continue;

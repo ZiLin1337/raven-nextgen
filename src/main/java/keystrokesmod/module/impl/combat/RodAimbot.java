@@ -80,7 +80,7 @@ public class RodAimbot extends Module {
     }
 
     private PlayerEntity getEntity() {
-        for (final PlayerEntity entityPlayer : mc.world.playerEntities) {
+        for (final PlayerEntity entityPlayer : mc.world.world.getPlayers()) {
             if (entityPlayer != mc.player) {
                 if (entityPlayer.deathTime != 0) {
                     continue;

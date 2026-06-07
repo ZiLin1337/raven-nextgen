@@ -196,12 +196,12 @@ int scale = mc.getWindow().getScaleFactor();
 
     public static boolean isInViewFrustum(final Entity entity) {
         if (entity == null) return false;
-        return isInViewFrustum(entity.getEntityBoundingBox()) || entity.ignoreFrustumCheck;
+        return isInViewFrustum(entity.getBoundingBox()) || entity.ignoreFrustumCheck;
     }
 
     public static boolean isInViewFrustum(final Box bb) {
         if (bb == null) return false;
-        Entity view = mc.getRenderViewEntity();
+        Entity view = mc.getCameraEntity();
         if (view == null) return true;
         frustum.setPosition(view.posX, view.posY, view.posZ);
         return frustum.isBoundingBoxInFrustum(bb);
@@ -209,14 +209,14 @@ int scale = mc.getWindow().getScaleFactor();
 
     public static boolean isWithinDistanceSqToRenderView(final Entity entity, final double maxDistSq) {
         if (entity == null) return false;
-        Entity view = mc.getRenderViewEntity();
+        Entity view = mc.getCameraEntity();
         if (view == null) return false;
         return entity.getDistanceSqToEntity(view) <= maxDistSq;
     }
 
     public static boolean isBlockPosWithinDistanceSqToView(final BlockPos pos, final double maxDistSq) {
         if (pos == null) return false;
-        Entity view = mc.getRenderViewEntity();
+        Entity view = mc.getCameraEntity();
         if (view == null) return false;
         double dx = pos.getX() + 0.5 - view.posX;
         double dy = pos.getY() + 0.5 - view.posY;
@@ -250,10 +250,10 @@ int scale = mc.getWindow().getScaleFactor();
 
     public static void drawPlayerBoundingBox(Vec3d pos, int color) {
         RenderSystem.pushMatrix();
-        double x = pos.xCoord - mc.getEntityRenderDispatcher().viewerPosX;
-        double y = pos.yCoord - mc.getEntityRenderDispatcher().viewerPosY;
-        double z = pos.zCoord - mc.getEntityRenderDispatcher().viewerPosZ;
-        Box bbox = mc.player.getEntityBoundingBox().expand(0.1D, 0.1, 0.1);
+        double x = pos.x - mc.getEntityRenderDispatcher().viewerPosX;
+        double y = pos.y - mc.getEntityRenderDispatcher().viewerPosY;
+        double z = pos.z - mc.getEntityRenderDispatcher().viewerPosZ;
+        Box bbox = mc.player.getBoundingBox().expand(0.1D, 0.1, 0.1);
         Box axis = new Box(bbox.minX - mc.player.getX() + x, bbox.minY - mc.player.getY() + y, bbox.minZ - mc.player.getZ() + z, bbox.maxX - mc.player.getX() + x, bbox.maxY - mc.player.getY() + y, bbox.maxZ - mc.player.getZ() + z);
         float a = (float) (color >> 24 & 255) / 255.0F;
         float r = (float) (color >> 16 & 255) / 255.0F;
@@ -645,7 +645,7 @@ String s = "";
                     float r = (float) (color >> 16 & 255) / 255.0F;
                     float g = (float) (color >> 8 & 255) / 255.0F;
                     float b = (float) (color & 255) / 255.0F;
-                    Box bbox = e.getEntityBoundingBox().expand(0.1D + expand, 0.1D + expand, 0.1D + expand);
+                    Box bbox = e.getBoundingBox().expand(0.1D + expand, 0.1D + expand, 0.1D + expand);
                     Box axis = new Box(bbox.minX - e.posX + x, bbox.minY - e.posY + y, bbox.minZ - e.posZ + z, bbox.maxX - e.posX + x, bbox.maxY - e.posY + y, bbox.maxZ - e.posZ + z);
                     GL11.glBlendFunc(770, 771);
                     glEnable(3042);
@@ -845,7 +845,7 @@ String s = "";
             return;
         }
 
-        Entity viewEntity = mc.getRenderViewEntity();
+        Entity viewEntity = mc.getCameraEntity();
         if (viewEntity == null) {
             viewEntity = mc.player;
         }
@@ -861,7 +861,7 @@ String s = "";
         double startX = 0.0D;
         double startY = viewEntity.getEyeHeight();
         double startZ = 0.0D;
-        if (viewEntity == mc.player && mc.options.thirdPersonView == 0) {
+        if (viewEntity == mc.player && mc.options.getPerspective().ordinal() == 0) {
             float yaw = viewEntity.getYaw();
             float pitch = viewEntity.getPitch();
             double dirX = -Math.sin(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch));
@@ -975,7 +975,7 @@ String s = "";
         float r = (float) (color >> 16 & 255) / 255.0F;
         float g = (float) (color >> 8 & 255) / 255.0F;
         float b = (float) (color & 255) / 255.0F;
-        mc.entityRenderer.disableLightmap();
+        mc.gameRenderer.disableLightmap();
         GL11.glDisable(3553);
         glEnable(3042);
         GL11.glBlendFunc(770, 771);
@@ -1020,7 +1020,7 @@ String s = "";
         glEnable(2929);
         GL11.glDisable(3042);
         glEnable(3553);
-        mc.entityRenderer.enableLightmap();
+        mc.gameRenderer.enableLightmap();
     }
 
     public static void drawCaret(float x, float y, int color, double width, double length) {

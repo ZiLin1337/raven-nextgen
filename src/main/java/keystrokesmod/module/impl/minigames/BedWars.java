@@ -112,7 +112,7 @@ public void onRenderWorld(Object e) {
     public void onUpdate() {
         if (Utils.getBedwarsStatus() == 2) {
             if (diamondArmor.isToggled() || enderPearl.isToggled() || obsidian.isToggled()) {
-                for (PlayerEntity p : mc.world.playerEntities) {
+                for (PlayerEntity p : mc.world.world.getPlayers()) {
                     if (p == null) {
                         continue;
                     }
@@ -136,7 +136,7 @@ public void onRenderWorld(Object e) {
                         String itemType = getItemType(item);
                         if (itemType != null) {
                             lastHeldMap.put(name, itemType);
-                            double distance = Math.round(mc.player.getDistanceToEntity(p));
+                            double distance = Math.round(mc.player.distanceTo(p));
                             handleAlert(itemType, p.getDisplayName().getString(), Utils.asWholeNum(distance));
                         }
                     } else if (lastHeldMap.containsKey(name)) {

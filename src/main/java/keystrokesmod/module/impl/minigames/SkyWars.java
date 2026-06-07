@@ -102,7 +102,7 @@ public class SkyWars extends Module {
                         continue;
                     }
                     String name = part.substring(0, part.length() - 1);
-                    for (PlayerEntity entity : mc.world.playerEntities) {
+                    for (PlayerEntity entity : mc.world.world.getPlayers()) {
                         if (!entity.getName().trim().equals(name) || entity == mc.player) {
                             continue;
                         }

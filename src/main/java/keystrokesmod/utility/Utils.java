@@ -90,7 +90,7 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static Vec3d getCameraPos(double renderPartialTicks) {
-        if (mc.options.thirdPersonView == 0) {
+        if (mc.options.getPerspective().ordinal() == 0) {
             Vec3d firstPersonPos = new Vec3d(mc.player.getX(), mc.player.getY() + mc.player.getEyeHeight(), mc.player.getZ());
             return firstPersonPos;
         }
@@ -99,7 +99,7 @@ public class Utils implements IMinecraftInstance {
             cameraDistance = (float) ModuleManager.extendCamera.distance.getInput();
         }
 
-        Entity renderEntity = mc.getRenderViewEntity();
+        Entity renderEntity = mc.getCameraEntity();
         float entityEyeHeight = renderEntity.getEyeHeight();
 
         double interpolatedX = renderEntity.prevPosX + (renderEntity.posX - renderEntity.prevPosX) * renderPartialTicks;
@@ -155,9 +155,9 @@ public class Utils implements IMinecraftInstance {
         boolean hasDisplayName = displayName != null;
         if (isPlayer) {
             PlayerEntity p = (PlayerEntity)ent;
-            UUID uuid = p.getUniqueID();
+            UUID uuid = p.getUuid();
             sendMessage("&7uuid: &d" + uuid.toString() + " &b" + uuid.variant() + " " + uuid.version());
-            PlayerListEntry clientPlayer = mc.getNetHandler().getPlayerInfo(p.getUniqueID());
+            PlayerListEntry clientPlayer = mc.getNetworkHandler().getPlayerInfo(p.getUuid());
             sendMessage("&7ping: &d" + ((clientPlayer == null) ? "&cnot found" : clientPlayer.getResponseTime()));
             sendMessage("&7teammate: &r" + isTeammate(p));
             sendMessage("&7tablist: &r" + isInTabList(p));
@@ -195,17 +195,17 @@ public class Utils implements IMinecraftInstance {
         float ff3 = -MathHelper.cos(-pitch * 0.017453292f);
         float ff4 = MathHelper.sin(-pitch * 0.017453292f);
         Vec3d lookVec = new Vec3d((double)(ff2 * ff3), (double)ff4, (double)(ff * ff3));
-        double lookVecX = lookVec.xCoord * max_reach;
-        double lookVecY = lookVec.yCoord * max_reach;
-        double lookVecZ = lookVec.zCoord * max_reach;
+        double lookVecX = lookVec.x * max_reach;
+        double lookVecY = lookVec.y * max_reach;
+        double lookVecZ = lookVec.z * max_reach;
         Vec3d sumVec = eyeVec.addVector(lookVecX, lookVecY, lookVecZ);
-        List list = mc.world.getEntitiesWithinAABBExcludingEntity(mc.getRenderViewEntity(), mc.getRenderViewEntity().getEntityBoundingBox().addCoord(lookVecX, lookVecY, lookVecZ).expand(1.0, 1.0, 1.0));
+        List list = mc.world.getEntitiesWithinAABBExcludingEntity(mc.getCameraEntity(), mc.getCameraEntity().getBoundingBox().addCoord(lookVecX, lookVecY, lookVecZ).expand(1.0, 1.0, 1.0));
         for (int i = 0; i < list.size(); ++i) {
             Entity entity = (Entity)list.get(i);
             if (entity == en) {
                 if (entity.canBeCollidedWith()) {
                     float cbs = entity.getCollisionBorderSize();
-                    Box axis = entity.getEntityBoundingBox().expand((double)cbs, (double)cbs, (double)cbs);
+                    Box axis = entity.getBoundingBox().expand((double)cbs, (double)cbs, (double)cbs);
                     HitResult mop = axis.calculateIntercept(eyeVec, sumVec);
                     if (mop != null) {
                         return eyeVec.squareDistanceTo(mop.hitVec);
@@ -221,7 +221,7 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static boolean isInTabList(PlayerEntity p) {
-        for (PlayerListEntry playerInfo : mc.getNetHandler().getPlayerInfoMap()) {
+        for (PlayerListEntry playerInfo : mc.getNetworkHandler().getPlayerInfoMap()) {
             if (playerInfo.getGameProfile().equals(p.getGameProfile())) {
                 return true;
             }
@@ -371,10 +371,10 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static List<PlayerListEntry> getTablist(boolean removeSelf) {
-        ArrayList<PlayerListEntry> list = new ArrayList<>(mc.getNetHandler().getPlayerInfoMap());
+        ArrayList<PlayerListEntry> list = new ArrayList<>(mc.getNetworkHandler().getPlayerInfoMap());
         removeDuplicates(list);
         if (removeSelf) {
-            list.remove(mc.getNetHandler().getPlayerInfo(mc.player.getUniqueID()));
+            list.remove(mc.getNetworkHandler().getPlayerInfo(mc.player.getUuid()));
         }
         return list;
     }
@@ -507,14 +507,14 @@ public class Utils implements IMinecraftInstance {
     public static void sendMessage(String txt) {
         if (nullCheck()) {
             String m = formatColor("&7[&dR&7]&r " + txt);
-            mc.player.addChatMessage(new ChatComponentText(m));
+            mc.player.addChatMessage(new net.minecraft.text.Text.literal(m));
         }
     }
 
     public static void sendMessageStr(String txt) {
         if (nullCheck()) {
             String m = formatColor("&7[&dR&7]&r " + txt);
-            mc.player.addChatMessage(new ChatComponentText(m));
+            mc.player.addChatMessage(new net.minecraft.text.Text.literal(m));
         }
     }
 
@@ -541,7 +541,7 @@ public class Utils implements IMinecraftInstance {
 
     public static void sendRawMessage(String txt) {
         if (nullCheck()) {
-            mc.player.addChatMessage(new ChatComponentText(formatColor(txt)));
+            mc.player.addChatMessage(new net.minecraft.text.Text.literal(formatColor(txt)));
         }
     }
 
@@ -811,7 +811,7 @@ public class Utils implements IMinecraftInstance {
 
     public static String getNetworkDisplayName() {
         try {
-            PlayerListEntry playerInfo = mc.getNetHandler().getPlayerInfo(mc.player.getUniqueID());
+            PlayerListEntry playerInfo = mc.getNetworkHandler().getPlayerInfo(mc.player.getUuid());
             return ScorePlayerTeam.formatPlayerName(playerInfo.getPlayerTeam(), playerInfo.getGameProfile().getName());
         }
         catch (Exception ignored) {}
@@ -976,7 +976,7 @@ public class Utils implements IMinecraftInstance {
                 float y = t[0];
                 float p = t[1] + 4.0F + offset;
                 if (sendPacket) {
-                    mc.getNetHandler().networkHandler.sendPacket(new C05PacketPlayerLook(y, p, mc.player.isOnGround()));
+                    mc.getNetworkHandler().networkHandler.sendPacket(new C05PacketPlayerLook(y, p, mc.player.isOnGround()));
                 }
                 else {
                     mc.player.setYaw(y);
@@ -998,7 +998,7 @@ public class Utils implements IMinecraftInstance {
                 LivingEntity en = (LivingEntity) q;
                 diffY = en.posY + (double) en.getEyeHeight() * 0.9D - (mc.player.getY() + (double) mc.player.getEyeHeight());
             } else {
-                diffY = (q.getEntityBoundingBox().minY + q.getEntityBoundingBox().maxY) / 2.0D - (mc.player.getY() + (double) mc.player.getEyeHeight());
+                diffY = (q.getBoundingBox().minY + q.getBoundingBox().maxY) / 2.0D - (mc.player.getY() + (double) mc.player.getEyeHeight());
             }
 
             double diffZ = q.posZ - mc.player.getZ();
@@ -1048,7 +1048,7 @@ public class Utils implements IMinecraftInstance {
         float f3 = -MathHelper.cos(p);
         float f4 = MathHelper.sin(p);
         Vec3d lookVec = new Vec3d(f2 * f3, f4, f * f3);
-        Vec3d sumVec = eyeVec.addVector(lookVec.xCoord * reach, lookVec.yCoord * reach, lookVec.zCoord * reach);
+        Vec3d sumVec = eyeVec.addVector(lookVec.x * reach, lookVec.y * reach, lookVec.z * reach);
         return mc.world.rayTraceBlocks(eyeVec, sumVec, false, false, false);
     }
 
@@ -1062,7 +1062,7 @@ public class Utils implements IMinecraftInstance {
         final float f3 = -MathHelper.cos(p);
         final float f4 = MathHelper.sin(p);
         final Vec3d lookVec = new Vec3d(f2 * f3, f4, f * f3);
-        final Vec3d sumVec = eyeVec.addVector(lookVec.xCoord * reach, lookVec.yCoord * reach, lookVec.zCoord * reach);
+        final Vec3d sumVec = eyeVec.addVector(lookVec.x * reach, lookVec.y * reach, lookVec.z * reach);
         final Box axis = BlockUtils.getBlock(pos).getCollisionBoundingBox(mc.world, pos, BlockUtils.getBlockState(pos));
         if (axis == null) {
             return false;
@@ -1257,7 +1257,7 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static boolean onEdge(Entity entity) {
-        return mc.world.getCollidingBoundingBoxes(entity, entity.getEntityBoundingBox().offset(entity.getVelocity().x / 3.0D, -1.0D, entity.getVelocity().z / 3.0D)).isEmpty();
+        return mc.world.getCollidingBoundingBoxes(entity, entity.getBoundingBox().offset(entity.getVelocity().x / 3.0D, -1.0D, entity.getVelocity().z / 3.0D)).isEmpty();
     }
 
     public static boolean lookingAtBlock() {
@@ -1346,15 +1346,15 @@ public class Utils implements IMinecraftInstance {
         final float sin = MathHelper.sin(-rotationYaw * 0.017453292f - 3.1415927f);
         final float n2 = -MathHelper.cos(-rotationPitch * 0.017453292f);
         final Vec3d vec3 = new Vec3d((double)(sin * n2), (double)MathHelper.sin(-rotationPitch * 0.017453292f), cos * n2);
-        final Vec3d addVector = getPositionEyes.addVector(vec3.xCoord * (double)range, vec3.yCoord * (double)range, vec3.zCoord * (double)range);
+        final Vec3d addVector = getPositionEyes.addVector(vec3.x * (double)range, vec3.y * (double)range, vec3.z * (double)range);
         Vec3d vec4 = null;
-        final List getEntitiesWithinAABBExcludingEntity = mc.world.getEntitiesWithinAABBExcludingEntity(mc.getRenderViewEntity(), mc.getRenderViewEntity().getEntityBoundingBox().addCoord(vec3.xCoord * (double)range, vec3.yCoord * (double)range, vec3.zCoord * (double)range).expand(1.0, 1.0, 1.0));
+        final List getEntitiesWithinAABBExcludingEntity = mc.world.getEntitiesWithinAABBExcludingEntity(mc.getCameraEntity(), mc.getCameraEntity().getBoundingBox().addCoord(vec3.x * (double)range, vec3.y * (double)range, vec3.z * (double)range).expand(1.0, 1.0, 1.0));
         double n3 = (double)range;
         for (int i = 0; i < getEntitiesWithinAABBExcludingEntity.size(); ++i) {
             final Entity entity2 = (Entity)getEntitiesWithinAABBExcludingEntity.get(i);
             if (entity2.canBeCollidedWith()) {
                 final float getCollisionBorderSize = entity2.getCollisionBorderSize();
-                final Box expand = entity2.getEntityBoundingBox().expand((double)getCollisionBorderSize, (double)getCollisionBorderSize, (double)getCollisionBorderSize);
+                final Box expand = entity2.getBoundingBox().expand((double)getCollisionBorderSize, (double)getCollisionBorderSize, (double)getCollisionBorderSize);
                 final HitResult calculateIntercept = expand.calculateIntercept(getPositionEyes, addVector);
                 if (expand.isVecInside(getPositionEyes)) {
                     if (0.0 < n3 || n3 == 0.0) {
@@ -1366,7 +1366,7 @@ public class Utils implements IMinecraftInstance {
                 else if (calculateIntercept != null) {
                     final double distanceTo = getPositionEyes.distanceTo(calculateIntercept.hitVec);
                     if (distanceTo < n3 || n3 == 0.0) {
-                        if (entity2 == mc.getRenderViewEntity().ridingEntity && !entity2.canRiderInteract()) {
+                        if (entity2 == mc.getCameraEntity().ridingEntity && !entity2.canRiderInteract()) {
                             if (n3 == 0.0) {
                                 entity = entity2;
                                 vec4 = calculateIntercept.hitVec;
@@ -1626,9 +1626,9 @@ public class Utils implements IMinecraftInstance {
         if (mc.world == null || mc.player == null) return null;
         Vec3d closest = null;
         double bestDist = maxDistSq;
-        for (PlayerEntity player : mc.world.playerEntities) {
+        for (PlayerEntity player : mc.world.world.getPlayers()) {
             if (player == mc.player) continue;
-            if (mc.getNetHandler() == null || mc.getNetHandler().getPlayerInfo(player.getUniqueID()) == null)
+            if (mc.getNetworkHandler() == null || mc.getNetworkHandler().getPlayerInfo(player.getUuid()) == null)
                 continue;
             double dx = player.posX - mc.player.getX();
             double dy = player.posY - mc.player.getY();

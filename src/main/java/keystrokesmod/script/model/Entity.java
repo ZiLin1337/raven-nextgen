@@ -87,7 +87,7 @@ public class Entity {
 
     public Vec3 getMotion() { return Vec3.convert(entity.getVelocity().x, entity.getVelocity().y, entity.getVelocity().z); }
 
-    public float getDistanceToEntity(Entity other) {
+    public float distanceTo(Entity other) {
         return entity.distanceTo(other.entity);
     }
 

@@ -98,11 +98,11 @@ public class AntiFireball extends Module {
     private float[] computeAimRotations(float baseYaw, float basePitch) {
         Vec3d eye = mc.player.getPositionEyes(1.0f);
         float borderSize = fireball.getCollisionBorderSize();
-        Box fireballBox = fireball.getEntityBoundingBox().expand(borderSize, borderSize, borderSize);
+        Box fireballBox = fireball.getBoundingBox().expand(borderSize, borderSize, borderSize);
         double reach = mc.interactionManager.getBlockReachDistance();
 
         List<PlayerEntity> players = new ArrayList<>();
-        for (PlayerEntity player : mc.world.playerEntities) {
+        for (PlayerEntity player : mc.world.world.getPlayers()) {
             if (player == mc.player || player.deathTime != 0) continue;
             if (Utils.isFriended(player)) continue;
             if (Utils.isTeammate(player)) continue;
@@ -126,7 +126,7 @@ public class AntiFireball extends Module {
 
     private boolean hitsFireballBox(Vec3d eye, float yaw, float pitch, Box box, double range) {
         Vec3d look = Utils.getLookVec(yaw, pitch);
-        Vec3d end = eye.addVector(look.xCoord * range, look.yCoord * range, look.zCoord * range);
+        Vec3d end = eye.addVector(look.x * range, look.y * range, look.z * range);
         HitResult intercept = box.calculateIntercept(eye, end);
         return intercept != null;
     }
@@ -164,7 +164,7 @@ public class AntiFireball extends Module {
 
         if (onGround.isToggled() && !mc.player.isOnGround()) return null;
 
-        for (Entity entity : mc.world.loadedEntityList) {
+        for (Entity entity : mc.world.world.getEntities()) {
             if (!(entity instanceof FireballEntity)) continue;
             if (!fireballs.contains(entity)) continue;
             if (mc.player.getDistanceSqToEntity(entity) > rangeSq) continue;

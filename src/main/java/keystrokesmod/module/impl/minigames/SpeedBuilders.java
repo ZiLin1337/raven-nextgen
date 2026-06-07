@@ -343,9 +343,9 @@ public class SpeedBuilders extends Module {
         double maxDistSq = maxDistance * maxDistance;
 
         for (BlockPos pos : PLATFORM_POSITIONS) {
-            double dx = pos.getX() - position.xCoord;
-            double dy = pos.getY() - position.yCoord;
-            double dz = pos.getZ() - position.zCoord;
+            double dx = pos.getX() - position.x;
+            double dy = pos.getY() - position.y;
+            double dz = pos.getZ() - position.z;
             double distSq = Math.abs(dx * dx + dy * dy + dz * dz);
 
             if (distSq <= maxDistSq && distSq < closestDistSq) {
@@ -482,7 +482,7 @@ public class SpeedBuilders extends Module {
         Vec3d relativeHitVec = hitVec.subtract(new Vec3d(blockPos.getX(), blockPos.getY(), blockPos.getZ()));
 
         BlockState simulatedState = block.onBlockPlaced(mc.world, blockPos, enumFacing,
-                (float) relativeHitVec.xCoord, (float) relativeHitVec.yCoord, (float) relativeHitVec.zCoord, meta, mc.player);
+                (float) relativeHitVec.x, (float) relativeHitVec.y, (float) relativeHitVec.z, meta, mc.player);
 
         if (simulatedState == null) {
             return false;

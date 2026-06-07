@@ -35,7 +35,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
     private float lastMouseY;
 
     public PlayerListComponent(PlayerListSetting setting, ModuleComponent moduleComponent, float o) {
-        super(moduleComponent, o, setting.getPlaceholder(), setting.getMaxLength());
+        super(moduleComponent, o, setting.getName(), 32);
         this.setting = setting;
     }
 
@@ -55,24 +55,24 @@ public class PlayerListComponent extends AbstractTextInputComponent {
     @Override
     public void keyTyped(char typedChar, int keyCode) {
         if (!moduleComponent.isOpened || !isTextFieldFocused()) return;
-        if (keyCode == Keyboard.KEY_ESCAPE) { getTextField().setText(""); setTextFieldFocused(false); return; }
-        if (keyCode == Keyboard.KEY_RETURN || keyCode == Keyboard.KEY_NUMPADENTER) { submitText(); setTextFieldFocused(false); return; }
+        if (keyCode == GLFW.GLFW_KEY_KEY_ESCAPE) { getTextField().setText(""); setTextFieldFocused(false); return; }
+        if (keyCode == GLFW.GLFW_KEY_KEY_RETURN || keyCode == GLFW.GLFW_KEY_KEY_NUMPADENTER) { submitText(); setTextFieldFocused(false); return; }
         getTextField().textboxKeyTyped(typedChar, keyCode);
     }
 
     @Override public void onScroll(int scroll) {
         if (!moduleComponent.isOpened || !moduleComponent.isVisible(this)) return;
         if (!capturesCategoryScroll(lastMouseX, lastMouseY)) return;
-        float delta = (float) keystrokesmod.module.impl.client.Gui.scrollSpeed.getInput() * (scroll / 120f);
+        float delta = (float) keystrokesmod.module.impl.client.0.getInput() * (scroll / 120f);
         if (delta != 0f) selectedScrollAnim.extend(-delta);
         clampSelectedScroll();
     }
 
     @Override public void onGuiClosed() { super.onGuiClosed(); getTextField().setText(""); selectedScrollAnim.reset(0f); }
-    @Override public float getHeightF() { int c = setting.getEntries().size(); float h = c == 0 ? 0f : SELECTED_LIST_GAP + Math.min(MAX_VISIBLE_SELECTED, c) * ROW_HEIGHT; return (2f * ROW_HEIGHT) + h; }
+    @Override public float getHeightF() { int c = setting.getPlayers().size(); float h = c == 0 ? 0f : SELECTED_LIST_GAP + Math.min(MAX_VISIBLE_SELECTED, c) * ROW_HEIGHT; return (2f * ROW_HEIGHT) + h; }
     @Override public boolean isBaseVisible() { return setting.visible; }
-    @Override public String getGroupName() { return setting.group != null ? setting.group.getName() : ""; }
-    public boolean capturesCategoryScroll(float x, float y) { return setting.getEntries().size() > MAX_VISIBLE_SELECTED && isMouseOverSelectedList(x, y); }
+    @Override public String getGroupName() { return setting.getCategory() != null ? setting.getCategory().getName() : ""; }
+    public boolean capturesCategoryScroll(float x, float y) { return setting.getPlayers().size() > MAX_VISIBLE_SELECTED && isMouseOverSelectedList(x, y); }
     public boolean containsClick(int x, int y) { Layout l = layout(true); return isTextFieldClicked(x, y, l) || isMouseOverSelectedList(x, y); }
     public void onExternalDataChanged() { clampSelectedScroll(); }
 
@@ -85,7 +85,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
     }
 
     private void renderSelectedEntries(Layout layout) {
-        List<PlayerRelationsManager.PlayerEntry> entries = setting.getEntries();
+        List<PlayerRelationsManager.PlayerEntry> entries = setting.getPlayers();
         if (entries.isEmpty()) return;
         float selectedTop = getSelectedTop(layout);
         float selectedHeight = getSelectedVisibleHeight(entries.size());
@@ -107,7 +107,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
     }
 
     private boolean handleSelectedEntryClick(int mouseX, int mouseY, Layout layout) {
-        List<PlayerRelationsManager.PlayerEntry> entries = setting.getEntries();
+        List<PlayerRelationsManager.PlayerEntry> entries = setting.getPlayers();
         float offsetPx = selectedScrollAnim.getValue();
         for (int i = 0; i < entries.size(); i++) {
             float rowTop = getSelectedTop(layout) - offsetPx + i * ROW_HEIGHT;
@@ -125,26 +125,26 @@ public class PlayerListComponent extends AbstractTextInputComponent {
         try {
             RenderUtils.prepareGuiTextureRenderState();
             mc.getTextureManager().bindTexture(skin);
-            GlStateManager.color(1f, 1f, 1f, 1f);
-            net.minecraft.client.gui.Gui.drawScaledCustomSizeModalRect((int) x, (int) y, 8f, 8f, 8, 8, (int) HEAD_SIZE, (int) HEAD_SIZE, 64f, 64f);
-            net.minecraft.client.gui.Gui.drawScaledCustomSizeModalRect((int) x, (int) y, 40f, 8f, 8, 8, (int) HEAD_SIZE, (int) HEAD_SIZE, 64f, 64f);
+            RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+            net.minecraft.client.gui.hud.InGameHud.drawScaledCustomSizeModalRect((int) x, (int) y, 8f, 8f, 8, 8, (int) HEAD_SIZE, (int) HEAD_SIZE, 64f, 64f);
+            net.minecraft.client.gui.hud.InGameHud.drawScaledCustomSizeModalRect((int) x, (int) y, 40f, 8f, 8, 8, (int) HEAD_SIZE, (int) HEAD_SIZE, 64f, 64f);
         } finally { RenderUtils.restoreGuiRenderState(depth, blend, depthMask); }
     }
 
     private Map<String, PlayerListEntry> getPlayerInfoMap() {
         Map<String, PlayerListEntry> map = new HashMap<>();
-        if (mc.getNetHandler() == null) return map;
-        for (PlayerListEntry info : mc.getNetHandler().getPlayerInfoMap()) {
+        if (mc.getNetworkHandler() == null) return map;
+        for (PlayerListEntry info : mc.getNetworkHandler().getPlayerInfoMap()) {
             if (info == null) continue;
-            GameProfile profile = info.getGameProfile();
+            GameProfile profile = info.getProfile();
             if (profile == null || profile.getName() == null) continue;
             map.put(profile.getName().toLowerCase(), info);
         }
         return map;
     }
 
-    private void clampSelectedScroll() { int c = setting.getEntries().size(); float max = Math.max(0f, (c - MAX_VISIBLE_SELECTED) * ROW_HEIGHT); selectedScrollAnim.clampTarget(0f, max); if (selectedScrollAnim.getValue() > max) selectedScrollAnim.reset(max); }
-    private boolean isMouseOverSelectedList(float mx, float my) { List<PlayerRelationsManager.PlayerEntry> e = setting.getEntries(); if (e.isEmpty()) return false; Layout l = layout(true); float top = getSelectedTop(l); float h = getSelectedVisibleHeight(e.size()); return mx >= l.left && mx <= l.right && my >= top && my < top + h; }
+    private void clampSelectedScroll() { int c = setting.getPlayers().size(); float max = Math.max(0f, (c - MAX_VISIBLE_SELECTED) * ROW_HEIGHT); selectedScrollAnim.clampTarget(0f, max); if (selectedScrollAnim.getValue() > max) selectedScrollAnim.reset(max); }
+    private boolean isMouseOverSelectedList(float mx, float my) { List<PlayerRelationsManager.PlayerEntry> e = setting.getPlayers(); if (e.isEmpty()) return false; Layout l = layout(true); float top = getSelectedTop(l); float h = getSelectedVisibleHeight(e.size()); return mx >= l.left && mx <= l.right && my >= top && my < top + h; }
     private float getSelectedTop(Layout l) { return l.contentTop + SELECTED_LIST_GAP; }
     private float getSelectedVisibleHeight(int c) { return Math.min(MAX_VISIBLE_SELECTED, c) * ROW_HEIGHT; }
     private void renderCloseIcon(float right, float rowTop) { Identifier close = RenderUtils.getIcon(CLOSE_ICON_PATH); if (close == null) return; float cx = right - CLOSE_SIZE - CLOSE_PAD; float cy = rowTop + (LIST_ROW_VISUAL_HEIGHT - CLOSE_SIZE) / 2f; RenderUtils.drawIcon(close, cx, cy, CLOSE_SIZE, Theme.getGradient(Theme.hiddenBind[0], Theme.hiddenBind[1], 0)); }

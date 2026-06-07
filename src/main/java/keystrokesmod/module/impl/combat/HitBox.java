@@ -69,7 +69,7 @@ public class HitBox extends Module {
     
     public void onRenderWorld(Object e) {
         if (showHitbox.isToggled() && Utils.nullCheck()) {
-            for (Entity en : mc.world.loadedEntityList) {
+            for (Entity en : mc.world.world.getEntities()) {
                 if (en != mc.player && en instanceof LivingEntity && ((LivingEntity) en).deathTime == 0 && !(en instanceof ArmorStandEntity) && !en.isInvisible()) {
                     this.rh(en, Color.WHITE);
                 }
@@ -95,17 +95,17 @@ public class HitBox extends Module {
             }
 
             Vec3d vec4 = mc.getCameraEntity().getLook(partialTicks);
-            Vec3d vec5 = vec3.addVector(vec4.xCoord * d0, vec4.yCoord * d0, vec4.zCoord * d0);
+            Vec3d vec5 = vec3.addVector(vec4.x * d0, vec4.y * d0, vec4.z * d0);
             Vec3d vec6 = null;
             float f1 = 1.0F;
-            List list = mc.world.getEntitiesWithinAABBExcludingEntity(mc.getCameraEntity(), mc.getCameraEntity().getEntityBoundingBox().addCoord(vec4.xCoord * d0, vec4.yCoord * d0, vec4.zCoord * d0).expand((double) f1, (double) f1, (double) f1));
+            List list = mc.world.getEntitiesWithinAABBExcludingEntity(mc.getCameraEntity(), mc.getCameraEntity().getBoundingBox().addCoord(vec4.x * d0, vec4.y * d0, vec4.z * d0).expand((double) f1, (double) f1, (double) f1));
             double d3 = d2;
 
             for (Object o : list) {
                 Entity entity = (Entity) o;
                 if (entity.canBeCollidedWith()) {
                     float ex = (float) ((double) entity.getCollisionBorderSize() * getExpand(entity));
-                    Box ax = entity.getEntityBoundingBox().expand((double) ex, (double) ex, (double) ex);
+                    Box ax = entity.getBoundingBox().expand((double) ex, (double) ex, (double) ex);
                     HitResult mop = ax.calculateIntercept(vec3, vec5);
                     if (ax.isVecInside(vec3)) {
                         if (0.0D < d3 || d3 == 0.0D) {
@@ -148,7 +148,7 @@ public class HitBox extends Module {
             double y = e.lastTickPosY + (e.posY - e.lastTickPosY) * (double) partialTicks - mc.getEntityRenderDispatcher().viewerPosY;
             double z = e.lastTickPosZ + (e.posZ - e.lastTickPosZ) * (double) partialTicks - mc.getEntityRenderDispatcher().viewerPosZ;
             float ex = (float) ((double) e.getCollisionBorderSize() * multiplier.getInput());
-            Box bbox = e.getEntityBoundingBox().expand((double) ex, (double) ex, (double) ex);
+            Box bbox = e.getBoundingBox().expand((double) ex, (double) ex, (double) ex);
             Box axis = new Box(bbox.minX - e.posX + x, bbox.minY - e.posY + y, bbox.minZ - e.posZ + z, bbox.maxX - e.posX + x, bbox.maxY - e.posY + y, bbox.maxZ - e.posZ + z);
             GL11.glBlendFunc(770, 771);
             GL11.glEnable(3042);

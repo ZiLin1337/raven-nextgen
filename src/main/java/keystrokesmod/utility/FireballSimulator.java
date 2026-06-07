@@ -79,9 +79,9 @@ public final class FireballSimulator {
             WaterState waterState = sampleWaterState(world, posX, posY, posZ, width, height, fireball);
 
             if (waterState.flowDirection.lengthVector() > 0.0D) {
-                motion[0] += waterState.flowDirection.xCoord * WATER_FLOW_ACCELERATION;
-                motion[1] += waterState.flowDirection.yCoord * WATER_FLOW_ACCELERATION;
-                motion[2] += waterState.flowDirection.zCoord * WATER_FLOW_ACCELERATION;
+                motion[0] += waterState.flowDirection.x * WATER_FLOW_ACCELERATION;
+                motion[1] += waterState.flowDirection.y * WATER_FLOW_ACCELERATION;
+                motion[2] += waterState.flowDirection.z * WATER_FLOW_ACCELERATION;
             }
 
             motionX = motion[0];
@@ -112,7 +112,7 @@ public final class FireballSimulator {
                 }
 
                 Box expandedBox = expandTargetForProjectile(
-                        candidate.getEntityBoundingBox(),
+                        candidate.getBoundingBox(),
                         halfWidth,
                         height,
                         ENTITY_HIT_EXPANSION

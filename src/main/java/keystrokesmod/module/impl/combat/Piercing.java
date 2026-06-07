@@ -72,7 +72,7 @@ public class Piercing extends Module {
             reach = 6.0;
         }
         final Vec3d look = viewEntity.getLook(partialTicks);
-        final Vec3d rayEnd = eyes.addVector(look.xCoord * reach, look.yCoord * reach, look.zCoord * reach);
+        final Vec3d rayEnd = eyes.addVector(look.x * reach, look.y * reach, look.z * reach);
 
         Entity best = null;
         Vec3d bestHit = null;
@@ -83,8 +83,8 @@ public class Piercing extends Module {
         final int modeSel = (int) this.sortMode.getInput();
 
         for (final Entity e : mc.world.getEntitiesInAABBexcluding(viewEntity,
-                viewEntity.getEntityBoundingBox()
-                        .addCoord(look.xCoord * reach, look.yCoord * reach, look.zCoord * reach)
+                viewEntity.getBoundingBox()
+                        .addCoord(look.x * reach, look.y * reach, look.z * reach)
                         .expand(1.0, 1.0, 1.0), Predicates.and(EntitySelectors.NOT_SPECTATING, Entity::canBeCollidedWith)
         )) {
             if ((this.ignoreNonPlayer.isToggled() && !(e instanceof PlayerEntity)) || (this.ignoreTeammates.isToggled() && Utils.isTeammate(e))
@@ -93,7 +93,7 @@ public class Piercing extends Module {
             }
 
             final float cb = e.getCollisionBorderSize();
-            final Box bb = e.getEntityBoundingBox().expand(cb, cb, cb);
+            final Box bb = e.getBoundingBox().expand(cb, cb, cb);
             final HitResult hit = bb.calculateIntercept(eyes, rayEnd);
             final boolean inside = bb.isVecInside(eyes);
 

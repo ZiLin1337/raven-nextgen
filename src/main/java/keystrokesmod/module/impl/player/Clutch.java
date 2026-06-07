@@ -382,14 +382,14 @@ public class Clutch extends Module {
             PredictionState prediction = PredictionState.fromPlayer();
             for (int t = 0; t < 20; t++) {
                 prediction.tick(false);
-                if (prediction.posY < playerPos.yCoord - 2 || prediction.isOnGround()) break;
+                if (prediction.posY < playerPos.y - 2 || prediction.isOnGround()) break;
             }
             futurePos = prediction.getPos();
         }
 
-        int feetX = MathHelper.floor_double(playerPos.xCoord);
-        int feetZ = MathHelper.floor_double(playerPos.zCoord);
-        int feetY = MathHelper.floor_double(playerPos.yCoord);
+        int feetX = MathHelper.floor_double(playerPos.x);
+        int feetZ = MathHelper.floor_double(playerPos.z);
+        int feetY = MathHelper.floor_double(playerPos.y);
         int minX = feetX - 5;
         int maxX = feetX + 4;
         int minZ = feetZ - 5;
@@ -426,10 +426,10 @@ public class Clutch extends Module {
     }
 
     private boolean isBlockUnderPlayer(BlockPos blockPos, Vec3d pos) {
-        if (blockPos.getY() >= MathHelper.floor_double(pos.yCoord)) return false;
+        if (blockPos.getY() >= MathHelper.floor_double(pos.y)) return false;
         for (double[] corner : CORNERS) {
-            int cx = MathHelper.floor_double(pos.xCoord + corner[0]);
-            int cz = MathHelper.floor_double(pos.zCoord + corner[1]);
+            int cx = MathHelper.floor_double(pos.x + corner[0]);
+            int cz = MathHelper.floor_double(pos.z + corner[1]);
             if (blockPos.getX() == cx && blockPos.getZ() == cz) return true;
         }
         return false;
@@ -439,8 +439,8 @@ public class Clutch extends Module {
         double inset = 0.05;
         double step = 0.2;
         double jitter = step * 0.1;
-        boolean faceSouth = Math.abs(eye.zCoord - (targetCell.getZ() + 1)) < Math.abs(eye.zCoord - targetCell.getZ());
-        boolean faceEast = Math.abs(eye.xCoord - (targetCell.getX() + 1)) < Math.abs(eye.xCoord - targetCell.getX());
+        boolean faceSouth = Math.abs(eye.z - (targetCell.getZ() + 1)) < Math.abs(eye.z - targetCell.getZ());
+        boolean faceEast = Math.abs(eye.x - (targetCell.getX() + 1)) < Math.abs(eye.x - targetCell.getX());
         float baseYaw = normYaw(RotationUtils.serverRotations[0]);
         float basePitch = RotationUtils.serverRotations[1];
         int n = (int) Math.round(1 / step);
@@ -593,9 +593,9 @@ public class Clutch extends Module {
     }
 
     private static float[] getRotationsWrapped(Vec3d eye, double tx, double ty, double tz) {
-        double dx = tx - eye.xCoord;
-        double dy = ty - eye.yCoord;
-        double dz = tz - eye.zCoord;
+        double dx = tx - eye.x;
+        double dy = ty - eye.y;
+        double dz = tz - eye.z;
         double horizontalDistance = Math.sqrt(dx * dx + dz * dz);
         float yaw = (float) Math.toDegrees(Math.atan2(dz, dx)) - 90f;
         float pitch = (float) Math.toDegrees(-Math.atan2(dy, horizontalDistance));
@@ -646,7 +646,7 @@ public class Clutch extends Module {
 
         static PredictionState fromPlayer() {
             PredictionState state = new PredictionState();
-            state.box = mc.player.getEntityBoundingBox();
+            state.box = mc.player.getBoundingBox();
             state.getVelocity().x = mc.player.getVelocity().x;
             state.getVelocity().y = mc.player.getVelocity().y;
             state.getVelocity().z = mc.player.getVelocity().z;

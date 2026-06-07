@@ -112,7 +112,7 @@ public class FrozenEntitySync {
         player.prevRotationYaw = player.getYaw();
         player.prevRotationPitch = player.getPitch();
         player.prevYawHead = player.yawHead;
-        player.prevRenderYawOffset = player.renderYawOffset;
+        player.prevRenderYawOffset = player.bodyYaw;
         player.prevLimbSwingAmount = player.limbSwingAmount;
         player.prevSwingProgress = player.swingProgress;
         player.prevCameraPitch = player.cameraPitch;
@@ -151,7 +151,7 @@ public class FrozenEntitySync {
             }
         }
 
-        for (Entity entity : mc.world.loadedEntityList) {
+        for (Entity entity : mc.world.world.getEntities()) {
             if (entity == null || entity.isRemoved() || entity == local) continue;
             if (entity.ridingEntity != null) {
                 if (!entity.ridingEntity.isRemoved() && entity.ridingEntity.riddenByEntity == entity) {

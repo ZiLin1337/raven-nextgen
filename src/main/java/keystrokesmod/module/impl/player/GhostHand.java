@@ -110,12 +110,12 @@ public class GhostHand extends Module {
             double blockDist = eyes.distanceTo(blockHitVec);
 
             Box scanBox = new Box(
-                    Math.min(eyes.xCoord, blockHitVec.xCoord) - 1.0,
-                    Math.min(eyes.yCoord, blockHitVec.yCoord) - 1.0,
-                    Math.min(eyes.zCoord, blockHitVec.zCoord) - 1.0,
-                    Math.max(eyes.xCoord, blockHitVec.xCoord) + 1.0,
-                    Math.max(eyes.yCoord, blockHitVec.yCoord) + 1.0,
-                    Math.max(eyes.zCoord, blockHitVec.zCoord) + 1.0);
+                    Math.min(eyes.x, blockHitVec.x) - 1.0,
+                    Math.min(eyes.y, blockHitVec.y) - 1.0,
+                    Math.min(eyes.z, blockHitVec.z) - 1.0,
+                    Math.max(eyes.x, blockHitVec.x) + 1.0,
+                    Math.max(eyes.y, blockHitVec.y) + 1.0,
+                    Math.max(eyes.z, blockHitVec.z) + 1.0);
 
             List<Entity> candidates = mc.world.getEntitiesInAABBexcluding(
                     viewEntity, scanBox, Predicates.and(EntitySelectors.NOT_SPECTATING, Entity::canBeCollidedWith));
@@ -126,7 +126,7 @@ public class GhostHand extends Module {
             for (Entity e : candidates) {
                 if (e == viewEntity) continue;
                 float cb = e.getCollisionBorderSize();
-                Box bb = e.getEntityBoundingBox().expand(cb, cb, cb);
+                Box bb = e.getBoundingBox().expand(cb, cb, cb);
                 HitResult intercept = bb.calculateIntercept(eyes, blockHitVec);
                 boolean inside = bb.isVecInside(eyes);
                 if (!inside && intercept == null) continue;
@@ -154,7 +154,7 @@ public class GhostHand extends Module {
     private HitResult findPrioritizedBlock(Entity viewEntity, double reach, float partialTicks) {
         Vec3d eyes = viewEntity.getPositionEyes(partialTicks);
         Vec3d look = viewEntity.getLook(partialTicks);
-        Vec3d rayEnd = eyes.addVector(look.xCoord * reach, look.yCoord * reach, look.zCoord * reach);
+        Vec3d rayEnd = eyes.addVector(look.x * reach, look.y * reach, look.z * reach);
         return BlockUtils.traverseBlocksAlongRay(eyes, rayEnd, priorityBed.isToggled(), priorityBedAdjacent.isToggled());
     }
 

@@ -22,7 +22,7 @@ public class KeySetting extends Setting {
     public int getKeyCode() { return keyCode; }
     public void setKeyCode(int keyCode) { this.keyCode = keyCode; }
     public boolean isPressed() { return keyCode != 0 && org.lwjgl.glfw.GLFW.glfwGetKey(
-            net.minecraft.client.mc.getWindow().getHandle(), keyCode) == 1; }
+            net.minecraft.client.MinecraftClient.getWindow().getHandle(), keyCode) == 1; }
 
     @Override
     public void loadProfile(JsonObject data) {

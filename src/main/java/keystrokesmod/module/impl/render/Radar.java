@@ -56,7 +56,7 @@ public class Radar extends Module {
         GL11.glPushMatrix();
         GL11.glEnable(GL11.GL_SCISSOR_TEST);
         GL11.glScissor(x * this.scale, mc.displayHeight - this.scale * 170, rightX * this.scale - this.scale * 5, this.scale * 100);
-        for (PlayerEntity player : mc.world.playerEntities) {
+        for (PlayerEntity player : mc.world.world.getPlayers()) {
             if (player != mc.player && player.deathTime == 0) {
                 if (AntiBot.isBot(player)) {
                     continue;

@@ -42,8 +42,8 @@ public class SlyPort extends Module {
         }
 
         Vec3d vec = en.getLookVec();
-        double x = en.posX - vec.xCoord * 2.5D;
-        double z = en.posZ - vec.zCoord * 2.5D;
+        double x = en.posX - vec.x * 2.5D;
+        double z = en.posZ - vec.z * 2.5D;
         mc.player.setPosition(x, mc.player.getY(), z);
         if (aim.isToggled()) {
             Utils.aim(en, 0.0F, false);
@@ -56,7 +56,7 @@ public class SlyPort extends Module {
         double range = Math.pow(this.range.getInput(), 2.0D);
         double dist = range + 1.0D;
 
-        for (Entity entities : mc.world.loadedEntityList) {
+        for (Entity entities : mc.world.world.getEntities()) {
             if (entities == mc.player) {
                 continue;
             }

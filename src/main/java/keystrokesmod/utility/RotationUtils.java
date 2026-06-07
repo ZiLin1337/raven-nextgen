@@ -40,7 +40,7 @@ public class RotationUtils implements IMinecraftInstance {
         mc.player.yawHead = yaw;
         if (Settings.rotateBody.isToggled() && Settings.fullBody.isToggled()) {
             mc.player.prevRenderYawOffset = prevRenderYaw;
-            mc.player.renderYawOffset = yaw;
+            mc.player.bodyYaw = yaw;
         }
     }
 
@@ -93,9 +93,9 @@ public class RotationUtils implements IMinecraftInstance {
     }
 
     public static float[] getRotations(Vec3d vec3) {
-        double x = vec3.xCoord + 1.0D - mc.player.getX();
-        double y = vec3.yCoord + 1.0D - (mc.player.getY() + mc.player.getEyeHeight());
-        double z = vec3.zCoord + 1.0D - mc.player.getZ();
+        double x = vec3.x + 1.0D - mc.player.getX();
+        double y = vec3.y + 1.0D - (mc.player.getY() + mc.player.getEyeHeight());
+        double z = vec3.z + 1.0D - mc.player.getZ();
 
         float angleToBlock = (float) (Math.atan2(z, x) * (180 / Math.PI)) - 90.0f;
         float deltaYaw = MathHelper.wrapAngleTo180_float(angleToBlock - mc.player.getYaw());
@@ -162,15 +162,15 @@ public class RotationUtils implements IMinecraftInstance {
                 cosYaw * cosPitch // z
         );
 
-        final double lookVecX = lookVector.xCoord * reach;
-        final double lookVecY = lookVector.yCoord * reach;
-        final double lookVecZ = lookVector.zCoord * reach;
+        final double lookVecX = lookVector.x * reach;
+        final double lookVecY = lookVector.y * reach;
+        final double lookVecZ = lookVector.z * reach;
 
         final Vec3d endPosition = eyePosition.addVector(lookVecX, lookVecY, lookVecZ);
 
-        final Entity renderViewEntity = mc.getRenderViewEntity();
+        final Entity renderViewEntity = mc.getCameraEntity();
         final Box expandedBox = renderViewEntity
-                .getEntityBoundingBox()
+                .getBoundingBox()
                 .addCoord(lookVecX, lookVecY, lookVecZ)
                 .expand(1.0, 1.0, 1.0);
 
@@ -178,7 +178,7 @@ public class RotationUtils implements IMinecraftInstance {
         for (Entity entity : entitiesInPath) {
             if (entity == target && entity.canBeCollidedWith()) {
                 final float borderSize = entity.getCollisionBorderSize();
-                final Box entityBox = entity.getEntityBoundingBox()
+                final Box entityBox = entity.getBoundingBox()
                         .expand(borderSize, borderSize, borderSize);
                 final HitResult intercept = entityBox.calculateIntercept(eyePosition, endPosition);
                 return intercept != null;
@@ -202,7 +202,7 @@ public class RotationUtils implements IMinecraftInstance {
         if (block != null && blockState != null) {
             Box boundingBox = block.getCollisionBoundingBox(mc.world, blockPos, blockState);
             if (boundingBox != null) {
-                Vec3d targetVec = getPositionEyes.addVector(vec3.xCoord * n, vec3.yCoord * n, vec3.zCoord * n);
+                Vec3d targetVec = getPositionEyes.addVector(vec3.x * n, vec3.y * n, vec3.z * n);
                 HitResult intercept = boundingBox.calculateIntercept(getPositionEyes, targetVec);
                 if (intercept != null) {
                     return true;
@@ -228,7 +228,7 @@ public class RotationUtils implements IMinecraftInstance {
             deltaY = entityLivingBase.posY + playerOffset.getHeightOffset(entityLivingBase) * 0.9 - (mc.player.getY() + mc.player.getEyeHeight());
         }
         else {
-            deltaY = (entity.getEntityBoundingBox().minY + entity.getEntityBoundingBox().maxY) / 2.0 - (mc.player.getY() + mc.player.getEyeHeight());
+            deltaY = (entity.getBoundingBox().minY + entity.getBoundingBox().maxY) / 2.0 - (mc.player.getY() + mc.player.getEyeHeight());
         }
         return new float[] { mc.player.getYaw() + MathHelper.wrapAngleTo180_float((float) (Math.atan2(deltaZ, deltaX) * 57.295780181884766) - 90.0f - mc.player.getYaw()), clampPitch(mc.player.getPitch() + MathHelper.wrapAngleTo180_float((float) (-(Math.atan2(deltaY, MathHelper.sqrt_double(deltaX * deltaX + deltaZ * deltaZ)) * 57.295780181884766)) - mc.player.getPitch()) + 3.0f)};
     }
@@ -268,7 +268,7 @@ public class RotationUtils implements IMinecraftInstance {
         if (aimPoint == null) {
             return null;
         }
-        return getRotationsToPoint(aimPoint.xCoord, aimPoint.yCoord, aimPoint.zCoord, baseYaw, basePitch);
+        return getRotationsToPoint(aimPoint.x, aimPoint.y, aimPoint.z, baseYaw, basePitch);
     }
 
     /**
@@ -278,7 +278,7 @@ public class RotationUtils implements IMinecraftInstance {
     public static Vec3d getAimPoint(Entity entity, double horizontalMultipoint, double verticalMultipoint) {
         if (entity == null || mc.player == null) return null;
         float borderSize = entity.getCollisionBorderSize();
-        Box bb = entity.getEntityBoundingBox().expand(borderSize, borderSize, borderSize);
+        Box bb = entity.getBoundingBox().expand(borderSize, borderSize, borderSize);
         double centerX = (bb.minX + bb.maxX) / 2.0;
         double centerY;
         if (entity instanceof LivingEntity) {
@@ -289,21 +289,21 @@ public class RotationUtils implements IMinecraftInstance {
         double centerZ = (bb.minZ + bb.maxZ) / 2.0;
         Vec3d eye = mc.player.getPositionEyes(1.0f);
         if (bb.isVecInside(eye)) {
-            return new Vec3d(centerX, eye.yCoord, centerZ);
+            return new Vec3d(centerX, eye.y, centerZ);
         }
         Vec3d cl = closestPointOnAabb(bb, eye);
         double tH = Math.max(0.0, Math.min(1.0, horizontalMultipoint / 100.0));
         double tV = Math.max(0.0, Math.min(1.0, verticalMultipoint / 100.0));
-        double targetX = centerX + (cl.xCoord - centerX) * tH;
-        double targetY = centerY + (cl.yCoord - centerY) * tV;
-        double targetZ = centerZ + (cl.zCoord - centerZ) * tH;
+        double targetX = centerX + (cl.x - centerX) * tH;
+        double targetY = centerY + (cl.y - centerY) * tV;
+        double targetZ = centerZ + (cl.z - centerZ) * tH;
         return new Vec3d(targetX, targetY, targetZ);
     }
 
     public static Vec3d closestPointOnAabb(Box box, Vec3d point) {
-        double x = Math.max(box.minX, Math.min(box.maxX, point.xCoord));
-        double y = Math.max(box.minY, Math.min(box.maxY, point.yCoord));
-        double z = Math.max(box.minZ, Math.min(box.maxZ, point.zCoord));
+        double x = Math.max(box.minX, Math.min(box.maxX, point.x));
+        double y = Math.max(box.minY, Math.min(box.maxY, point.y));
+        double z = Math.max(box.minZ, Math.min(box.maxZ, point.z));
         return new Vec3d(x, y, z);
     }
 
@@ -313,18 +313,18 @@ public class RotationUtils implements IMinecraftInstance {
     public static List<Vec3d> buildBackupPoints(Entity entity, Vec3d eye) {
         if (entity == null || mc.player == null) return new ArrayList<>();
         float borderSize = entity.getCollisionBorderSize();
-        Box bb = entity.getEntityBoundingBox().expand(borderSize, borderSize, borderSize);
+        Box bb = entity.getBoundingBox().expand(borderSize, borderSize, borderSize);
 
         double sizeX = bb.maxX - bb.minX;
         double sizeY = bb.maxY - bb.minY;
         double sizeZ = bb.maxZ - bb.minZ;
 
-        boolean xPos = eye.xCoord > bb.maxX;
-        boolean xNeg = eye.xCoord < bb.minX;
-        boolean yPos = eye.yCoord > bb.maxY;
-        boolean yNeg = eye.yCoord < bb.minY;
-        boolean zPos = eye.zCoord > bb.maxZ;
-        boolean zNeg = eye.zCoord < bb.minZ;
+        boolean xPos = eye.x > bb.maxX;
+        boolean xNeg = eye.x < bb.minX;
+        boolean yPos = eye.y > bb.maxY;
+        boolean yNeg = eye.y < bb.minY;
+        boolean zPos = eye.z > bb.maxZ;
+        boolean zNeg = eye.z < bb.minZ;
 
         int visibleFaceCount = (xPos || xNeg ? 1 : 0) + (yPos || yNeg ? 1 : 0) + (zPos || zNeg ? 1 : 0);
         if (visibleFaceCount == 0) return new ArrayList<>();
@@ -397,11 +397,11 @@ public class RotationUtils implements IMinecraftInstance {
         if (entity == null || mc.player == null) return Double.MAX_VALUE;
         Vec3d eye = mc.player.getPositionEyes(1.0f);
         float borderSize = entity.getCollisionBorderSize();
-        Box bb = entity.getEntityBoundingBox().expand(borderSize, borderSize, borderSize);
+        Box bb = entity.getBoundingBox().expand(borderSize, borderSize, borderSize);
         Vec3d closest = closestPointOnAabb(bb, eye);
-        double dx = eye.xCoord - closest.xCoord;
-        double dy = eye.yCoord - closest.yCoord;
-        double dz = eye.zCoord - closest.zCoord;
+        double dx = eye.x - closest.x;
+        double dy = eye.y - closest.y;
+        double dz = eye.z - closest.z;
         return dx * dx + dy * dy + dz * dz;
     }
 
@@ -419,16 +419,16 @@ public class RotationUtils implements IMinecraftInstance {
 
     public static boolean canAimAtPoint(Vec3d eye, Vec3d point, Entity target, double range, boolean allowThroughBlocks, boolean allowThroughEntities) {
         if (target == null) return false;
-        double dx = point.xCoord - eye.xCoord;
-        double dy = point.yCoord - eye.yCoord;
-        double dz = point.zCoord - eye.zCoord;
+        double dx = point.x - eye.x;
+        double dy = point.y - eye.y;
+        double dz = point.z - eye.z;
         double len = Math.sqrt(dx * dx + dy * dy + dz * dz);
         if (len < 1e-6) return false;
         double scale = range / len;
-        Vec3d end = new Vec3d(eye.xCoord + dx * scale, eye.yCoord + dy * scale, eye.zCoord + dz * scale);
+        Vec3d end = new Vec3d(eye.x + dx * scale, eye.y + dy * scale, eye.z + dz * scale);
 
         float borderSize = target.getCollisionBorderSize();
-        Box aabb = target.getEntityBoundingBox().expand(borderSize, borderSize, borderSize);
+        Box aabb = target.getBoundingBox().expand(borderSize, borderSize, borderSize);
         HitResult entityHit = aabb.calculateIntercept(eye, end);
         if (entityHit == null) return false;
 
@@ -449,8 +449,8 @@ public class RotationUtils implements IMinecraftInstance {
     private static boolean hasEntityBlockingPath(Vec3d eye, Vec3d end, Entity target, double targetDistSq) {
         if (mc.player == null || mc.world == null) return false;
         Vec3d delta = end.subtract(eye);
-        Box searchBox = mc.player.getEntityBoundingBox()
-                .addCoord(delta.xCoord, delta.yCoord, delta.zCoord)
+        Box searchBox = mc.player.getBoundingBox()
+                .addCoord(delta.x, delta.y, delta.z)
                 .expand(1.0, 1.0, 1.0);
         List<Entity> entities = mc.world.getEntitiesInAABBexcluding(mc.player, searchBox, Predicates.and(EntitySelectors.NOT_SPECTATING, Entity::canBeCollidedWith));
         for (Entity entity : entities) {
@@ -458,7 +458,7 @@ public class RotationUtils implements IMinecraftInstance {
                 continue;
             }
             float border = entity.getCollisionBorderSize();
-            Box bb = entity.getEntityBoundingBox().expand(border, border, border);
+            Box bb = entity.getBoundingBox().expand(border, border, border);
             HitResult hit = bb.calculateIntercept(eye, end);
             if (bb.isVecInside(eye)) {
                 return true;
@@ -483,20 +483,20 @@ public class RotationUtils implements IMinecraftInstance {
         if (entity == null || mc.player == null) return false;
         Vec3d eye = mc.player.getPositionEyes(1.0f);
         float borderSize = entity.getCollisionBorderSize();
-        Box bb = entity.getEntityBoundingBox().expand(borderSize, borderSize, borderSize);
+        Box bb = entity.getBoundingBox().expand(borderSize, borderSize, borderSize);
         return bb.isVecInside(eye);
     }
 
     private static boolean mainRayHitsTargetAABB(Vec3d eye, Vec3d point, Entity target, double range) {
-        double dx = point.xCoord - eye.xCoord;
-        double dy = point.yCoord - eye.yCoord;
-        double dz = point.zCoord - eye.zCoord;
+        double dx = point.x - eye.x;
+        double dy = point.y - eye.y;
+        double dz = point.z - eye.z;
         double len = Math.sqrt(dx * dx + dy * dy + dz * dz);
         if (len < 1e-6) return false;
         double scale = range / len;
-        Vec3d end = new Vec3d(eye.xCoord + dx * scale, eye.yCoord + dy * scale, eye.zCoord + dz * scale);
+        Vec3d end = new Vec3d(eye.x + dx * scale, eye.y + dy * scale, eye.z + dz * scale);
         float borderSize = target.getCollisionBorderSize();
-        Box aabb = target.getEntityBoundingBox().expand(borderSize, borderSize, borderSize);
+        Box aabb = target.getBoundingBox().expand(borderSize, borderSize, borderSize);
         return aabb.calculateIntercept(eye, end) != null;
     }
 
@@ -521,9 +521,9 @@ public class RotationUtils implements IMinecraftInstance {
 
         List<Vec3d> backups = buildBackupPoints(entity, eye);
         Collections.sort(backups, Comparator.comparingDouble(p -> {
-            double dx = p.xCoord - eye.xCoord;
-            double dy = p.yCoord - eye.yCoord;
-            double dz = p.zCoord - eye.zCoord;
+            double dx = p.x - eye.x;
+            double dy = p.y - eye.y;
+            double dz = p.z - eye.z;
             return dx * dx + dy * dy + dz * dz;
         }));
         for (Vec3d p : backups) {
@@ -542,35 +542,35 @@ public class RotationUtils implements IMinecraftInstance {
         if (entity == null || mc.player == null) return null;
         Vec3d eye = mc.player.getPositionEyes(1.0f);
         float borderSize = entity.getCollisionBorderSize();
-        Box bb = entity.getEntityBoundingBox().expand(borderSize, borderSize, borderSize);
+        Box bb = entity.getBoundingBox().expand(borderSize, borderSize, borderSize);
         if (bb.isVecInside(eye)) {
             double centerX = (bb.minX + bb.maxX) / 2.0;
             double centerZ = (bb.minZ + bb.maxZ) / 2.0;
-            return getRotationsToPoint(centerX, eye.yCoord, centerZ, baseYaw, basePitch);
+            return getRotationsToPoint(centerX, eye.y, centerZ, baseYaw, basePitch);
         }
         Vec3d mainPoint = getAimPoint(entity, horizontalMultipoint, verticalMultipoint);
         if (mainPoint == null) return null;
         if (eye.squareDistanceTo(mainPoint) < 1e-6) return null;
 
         if (!mainRayHitsTargetAABB(eye, mainPoint, entity, range)) {
-            return getRotationsToPoint(mainPoint.xCoord, mainPoint.yCoord, mainPoint.zCoord, baseYaw, basePitch);
+            return getRotationsToPoint(mainPoint.x, mainPoint.y, mainPoint.z, baseYaw, basePitch);
         }
 
         if (canAimAtPoint(eye, mainPoint, entity, range, allowThroughBlocks, allowThroughEntities)) {
-            return getRotationsToPoint(mainPoint.xCoord, mainPoint.yCoord, mainPoint.zCoord, baseYaw, basePitch);
+            return getRotationsToPoint(mainPoint.x, mainPoint.y, mainPoint.z, baseYaw, basePitch);
         }
 
         List<Vec3d> backups = buildBackupPoints(entity, eye);
         Collections.sort(backups, Comparator.comparingDouble(p -> {
-            double dx = p.xCoord - eye.xCoord;
-            double dy = p.yCoord - eye.yCoord;
-            double dz = p.zCoord - eye.zCoord;
+            double dx = p.x - eye.x;
+            double dy = p.y - eye.y;
+            double dz = p.z - eye.z;
             return dx * dx + dy * dy + dz * dz;
         }));
 
         for (Vec3d p : backups) {
             if (canAimAtPoint(eye, p, entity, range, allowThroughBlocks, allowThroughEntities)) {
-                return getRotationsToPoint(p.xCoord, p.yCoord, p.zCoord, baseYaw, basePitch);
+                return getRotationsToPoint(p.x, p.y, p.z, baseYaw, basePitch);
             }
         }
         return null;
@@ -598,7 +598,7 @@ public class RotationUtils implements IMinecraftInstance {
             n5 = posY + entity.getEyeHeight() * 0.9 - (mc.player.getY() + mc.player.getEyeHeight());
         }
         else {
-            n5 = (entity.getEntityBoundingBox().minY + entity.getEntityBoundingBox().maxY) / 2.0 - (mc.player.getY() + mc.player.getEyeHeight());
+            n5 = (entity.getBoundingBox().minY + entity.getBoundingBox().maxY) / 2.0 - (mc.player.getY() + mc.player.getEyeHeight());
         }
         final double n6 = posZ - mc.player.getZ();
         return new float[] { applyVanilla(mc.player.getYaw() + MathHelper.wrapAngleTo180_float((float)(Math.atan2(n6, n4) * 57.295780181884766) - 90.0f - mc.player.getYaw())), clampPitch(mc.player.getPitch() + MathHelper.wrapAngleTo180_float((float)(-(Math.atan2(n5, MathHelper.sqrt_double(n4 * n4 + n6 * n6)) * 57.295780181884766)) - mc.player.getPitch()) + 3.0f) };
@@ -693,13 +693,13 @@ public class RotationUtils implements IMinecraftInstance {
         final float sin = MathHelper.sin(n4 - 3.1415927f);
         final float n6 = -MathHelper.cos(n5);
         final Vec3d vec3 = new Vec3d(sin * n6, MathHelper.sin(n5), cos * n6);
-        return mc.world.rayTraceBlocks(getPositionEyes, getPositionEyes.addVector(vec3.xCoord * distance, vec3.yCoord * distance, vec3.zCoord * distance), true, collisionCheck, true);
+        return mc.world.rayTraceBlocks(getPositionEyes, getPositionEyes.addVector(vec3.x * distance, vec3.y * distance, vec3.z * distance), true, collisionCheck, true);
     }
 
     public static HitResult rayCastBlock(final double distance, final float yaw, final float pitch) {
         Vec3d eyeVec = mc.player.getPositionEyes(1.0f);
         Vec3d lookVec = Utils.getLookVec(yaw, pitch);
-        Vec3d sumVec = eyeVec.addVector(lookVec.xCoord * distance, lookVec.yCoord * distance, lookVec.zCoord * distance);
+        Vec3d sumVec = eyeVec.addVector(lookVec.x * distance, lookVec.y * distance, lookVec.z * distance);
         HitResult mop = mc.world.rayTraceBlocks(eyeVec, sumVec, false, false, false);
         if (mop == null || mop.typeOfHit != HitResult.MovingObjectType.BLOCK) {
             return null;
@@ -710,7 +710,7 @@ public class RotationUtils implements IMinecraftInstance {
     public static HitResult rayTraceCustom(double blockReachDistance, float yaw, float pitch) {
         final Vec3d vec3 = mc.player.getPositionEyes(1.0F);
         final Vec3d vec31 = getVectorForRotation(pitch, yaw);
-        final Vec3d vec32 = vec3.addVector(vec31.xCoord * blockReachDistance, vec31.yCoord * blockReachDistance, vec31.zCoord * blockReachDistance);
+        final Vec3d vec32 = vec3.addVector(vec31.x * blockReachDistance, vec31.y * blockReachDistance, vec31.z * blockReachDistance);
         return mc.world.rayTraceBlocks(vec3, vec32, false, false, true);
     }
 
@@ -728,11 +728,11 @@ public class RotationUtils implements IMinecraftInstance {
             return null;
         }
         Vec3d lookVec = getVectorForRotation(pitch, yaw);
-        Vec3d end = eyes.addVector(lookVec.xCoord * reach, lookVec.yCoord * reach, lookVec.zCoord * reach);
-        List<Entity> entities = mc.world.getEntitiesInAABBexcluding(mc.player, mc.player.getEntityBoundingBox().addCoord(lookVec.xCoord * reach, lookVec.yCoord * reach, lookVec.zCoord * reach).expand(1.0F, 1.0F, 1.0F), Predicates.and(EntitySelectors.NOT_SPECTATING, Entity::canBeCollidedWith));
+        Vec3d end = eyes.addVector(lookVec.x * reach, lookVec.y * reach, lookVec.z * reach);
+        List<Entity> entities = mc.world.getEntitiesInAABBexcluding(mc.player, mc.player.getBoundingBox().addCoord(lookVec.x * reach, lookVec.y * reach, lookVec.z * reach).expand(1.0F, 1.0F, 1.0F), Predicates.and(EntitySelectors.NOT_SPECTATING, Entity::canBeCollidedWith));
         for (Entity entity : entities) {
             float border = entity.getCollisionBorderSize();
-            Box aabb = entity.getEntityBoundingBox().expand(border, border, border);
+            Box aabb = entity.getBoundingBox().expand(border, border, border);
             HitResult entityHit = aabb.calculateIntercept(eyes, end);
             if (aabb.isVecInside(eyes)) {
                 return null;
@@ -798,16 +798,16 @@ public class RotationUtils implements IMinecraftInstance {
         }
 
         Vec3d vec31 = RotationUtils.getVectorForRotation(rotations[1], rotations[0]);
-        Vec3d vec32 = vec3.addVector(vec31.xCoord * d0, vec31.yCoord * d0, vec31.zCoord * d0);
+        Vec3d vec32 = vec3.addVector(vec31.x * d0, vec31.y * d0, vec31.z * d0);
         Vec3d vec33 = null;
         float f = 1.0F;
-        List<Entity> list = mc.world.getEntitiesInAABBexcluding(mc.player, mc.player.getEntityBoundingBox().addCoord(vec31.xCoord * d0, vec31.yCoord * d0, vec31.zCoord * d0).expand(f, f, f), Predicates.and(EntitySelectors.NOT_SPECTATING, Entity::canBeCollidedWith));
+        List<Entity> list = mc.world.getEntitiesInAABBexcluding(mc.player, mc.player.getBoundingBox().addCoord(vec31.x * d0, vec31.y * d0, vec31.z * d0).expand(f, f, f), Predicates.and(EntitySelectors.NOT_SPECTATING, Entity::canBeCollidedWith));
         double d2 = distanceTo;
 
         for(int j = 0; j < list.size(); ++j) {
             Entity entity1 = list.get(j);
             float f1 = entity1.getCollisionBorderSize();
-            Box axisalignedbb = entity1.getEntityBoundingBox().expand(f1, f1, f1);
+            Box axisalignedbb = entity1.getBoundingBox().expand(f1, f1, f1);
             HitResult movingobjectposition = axisalignedbb.calculateIntercept(vec3, vec32);
             if (axisalignedbb.isVecInside(vec3)) {
                 if (d2 >= 0.0) {
@@ -863,13 +863,13 @@ public class RotationUtils implements IMinecraftInstance {
                     rotations[0]   // yaw
             );
             Vec3d end = start.addVector(
-                    lookVec.xCoord * range,
-                    lookVec.yCoord * range,
-                    lookVec.zCoord * range
+                    lookVec.x * range,
+                    lookVec.y * range,
+                    lookVec.z * range
             );
 
             float f1 = ignoreCollision.getCollisionBorderSize();
-            Box aabb = ignoreCollision.getEntityBoundingBox()
+            Box aabb = ignoreCollision.getBoundingBox()
                     .expand(f1, f1, f1);
             HitResult ignoreMOP = aabb.calculateIntercept(start, end);
 
@@ -897,9 +897,9 @@ public class RotationUtils implements IMinecraftInstance {
     }
 
     public static float[] getRotationsFromEye(Vec3d eye, double tx, double ty, double tz) {
-        double dx = tx - eye.xCoord;
-        double dy = ty - eye.yCoord;
-        double dz = tz - eye.zCoord;
+        double dx = tx - eye.x;
+        double dy = ty - eye.y;
+        double dz = tz - eye.z;
         double dist = Math.sqrt(dx * dx + dz * dz);
         float yaw = (float) Math.toDegrees(Math.atan2(dz, dx)) - 90;
         float pitch = (float) -Math.toDegrees(Math.atan2(dy, dist));

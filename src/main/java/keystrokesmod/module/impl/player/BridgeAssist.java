@@ -130,7 +130,7 @@ public class BridgeAssist extends Module {
         sim.movementInput.sneak = false;
         sim.tick();
 
-        double offset = computeEdgeOffset(sim.getEntityBoundingBox());
+        double offset = computeEdgeOffset(sim.getBoundingBox());
 
         if (Double.isNaN(offset)) {
             if (e.isJump() && (sneakOnJump.getInput() <= 0 || (e.getForward() == 0 && e.getStrafe() == 0))) {
@@ -283,7 +283,7 @@ public class BridgeAssist extends Module {
     private TargetResult findTarget(float currentPitch, double reach) {
         float yaw = mc.player.getYaw();
 
-        Box bbox = mc.player.getEntityBoundingBox();
+        Box bbox = mc.player.getBoundingBox();
         int standY = MathHelper.floor_double(bbox.minY) - 1;
         int minX = MathHelper.floor_double(bbox.minX);
         int maxX = MathHelper.floor_double(bbox.maxX);

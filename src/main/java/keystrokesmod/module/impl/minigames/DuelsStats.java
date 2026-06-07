@@ -50,7 +50,7 @@ public class DuelsStats extends Module {
     @Override
     public void onUpdate() {
         if (this.id() && this.en.isEmpty()) {
-            List<PlayerEntity> players = mc.world.playerEntities;
+            List<PlayerEntity> players = mc.world.world.getPlayers();
             players.remove(mc.player);
 
             for (PlayerEntity player : players) {

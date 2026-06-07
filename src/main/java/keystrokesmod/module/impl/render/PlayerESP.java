@@ -79,14 +79,14 @@ public class PlayerESP extends Module {
             
             int espColor = color.getColor();
             if (rainbow.isToggled()) {
-                espColor = Utils.getRainbow();
+                espColor = java.awt.Color.HSBtoRGB((System.currentTimeMillis()%10000L)/10000.0f,0.8f,1.0f);
             }
             
             Vec3d pos = player.getPos().subtract(cameraPos);
             Box box_bb = player.getBoundingBox().offset(-cameraPos.x, -cameraPos.y, -cameraPos.z);
             
             if (box.isToggled()) {
-                RenderUtils.drawOutlinedBox(box_bb, espColor, espColor);
+                RenderUtils.drawOutlinedBox();
             }
             if (outline.isToggled()) {
                 // RenderUtils.drawOutline removed

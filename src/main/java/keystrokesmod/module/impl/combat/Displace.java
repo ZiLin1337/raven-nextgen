@@ -278,7 +278,7 @@ public class Displace extends Module {
         double score = 0.0D;
         double checkedForward = 0.0D;
         int consecutiveCenterVoid = 0;
-        Box baseCollisionBox = target.getEntityBoundingBox().contract(DYNAMIC_COLLISION_INSET, 0.0D, DYNAMIC_COLLISION_INSET);
+        Box baseCollisionBox = target.getBoundingBox().contract(DYNAMIC_COLLISION_INSET, 0.0D, DYNAMIC_COLLISION_INSET);
 
         for (int step = 1; step <= (int) (DYNAMIC_SCAN_DISTANCE / DYNAMIC_SCAN_STEP); step++) {
             double forward = (double) step * DYNAMIC_SCAN_STEP;

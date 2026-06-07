@@ -343,33 +343,33 @@ float cx = sr.getScaledWidth() / 2f - 1f;
     private AimResult roofAim() {
         Vec3d pos = new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ());
         BlockPos aboveHead = new BlockPos(
-                MathHelper.floor_double(pos.xCoord),
-                MathHelper.floor_double(pos.yCoord) + 2,
-                MathHelper.floor_double(pos.zCoord)
+                MathHelper.floor_double(pos.x),
+                MathHelper.floor_double(pos.y) + 2,
+                MathHelper.floor_double(pos.z)
         );
         if (!BlockUtils.replaceable(aboveHead)) return null;
 
         if (plannedSlot < 0 || plannedSlot > 8) return null;
         ItemStack held = mc.player.inventory.mainInventory[plannedSlot];
         double r = REACH;
-        Vec3d eye = new Vec3d(pos.xCoord, pos.yCoord + mc.player.getEyeHeight(), pos.zCoord);
+        Vec3d eye = new Vec3d(pos.x, pos.y + mc.player.getEyeHeight(), pos.z);
         double r2 = r * r;
         double rp12 = (r + 1) * (r + 1);
 
-        int minY = MathHelper.floor_double(eye.yCoord) + 1;
-        int maxY = MathHelper.floor_double(eye.yCoord + r);
-        int minX = MathHelper.floor_double(eye.xCoord - r);
-        int maxX = MathHelper.floor_double(eye.xCoord + r);
-        int minZ = MathHelper.floor_double(eye.zCoord - r);
-        int maxZ = MathHelper.floor_double(eye.zCoord + r);
+        int minY = MathHelper.floor_double(eye.y) + 1;
+        int maxY = MathHelper.floor_double(eye.y + r);
+        int minX = MathHelper.floor_double(eye.x - r);
+        int maxX = MathHelper.floor_double(eye.x + r);
+        int minZ = MathHelper.floor_double(eye.z - r);
+        int maxZ = MathHelper.floor_double(eye.z + r);
 
         ArrayList<BlockCandidate> cands = new ArrayList<>();
         for (int y = minY; y <= maxY; y++) {
             for (int x = minX; x <= maxX; x++) {
                 for (int z = minZ; z <= maxZ; z++) {
-                    double dx = (x + 0.5) - eye.xCoord;
-                    double dy = (y + 0.5) - eye.yCoord;
-                    double dz = (z + 0.5) - eye.zCoord;
+                    double dx = (x + 0.5) - eye.x;
+                    double dy = (y + 0.5) - eye.y;
+                    double dz = (z + 0.5) - eye.z;
                     if (dx * dx + dy * dy + dz * dz > rp12) continue;
 
                     BlockPos bp = new BlockPos(x, y, z);
@@ -398,9 +398,9 @@ float cx = sr.getScaledWidth() / 2f - 1f;
         float baseYaw = RotationUtils.serverRotations[0];
         float basePitch = RotationUtils.serverRotations[1];
 
-        boolean faceUp = Math.abs(eye.yCoord - (targetCell.getY() + 1)) < Math.abs(eye.yCoord - targetCell.getY());
-        boolean faceSouth = Math.abs(eye.zCoord - (targetCell.getZ() + 1)) < Math.abs(eye.zCoord - targetCell.getZ());
-        boolean faceEast = Math.abs(eye.xCoord - (targetCell.getX() + 1)) < Math.abs(eye.xCoord - targetCell.getX());
+        boolean faceUp = Math.abs(eye.y - (targetCell.getY() + 1)) < Math.abs(eye.y - targetCell.getY());
+        boolean faceSouth = Math.abs(eye.z - (targetCell.getZ() + 1)) < Math.abs(eye.z - targetCell.getZ());
+        boolean faceEast = Math.abs(eye.x - (targetCell.getX() + 1)) < Math.abs(eye.x - targetCell.getX());
 
         double bx = targetCell.getX(), by = targetCell.getY(), bz = targetCell.getZ();
         double jit = GRID_STEP * 0.1;
@@ -477,12 +477,12 @@ float cx = sr.getScaledWidth() / 2f - 1f;
         Vec3d enemyPos = Utils.getClosestPlayerPos(100);
         if (enemyPos != null) {
             baseline.sort((a, b) -> {
-                double da = sq(a.getX() + 0.5 - enemyPos.xCoord)
-                        + sq(a.getY() + 0.5 - enemyPos.yCoord)
-                        + sq(a.getZ() + 0.5 - enemyPos.zCoord);
-                double db = sq(b.getX() + 0.5 - enemyPos.xCoord)
-                        + sq(b.getY() + 0.5 - enemyPos.yCoord)
-                        + sq(b.getZ() + 0.5 - enemyPos.zCoord);
+                double da = sq(a.getX() + 0.5 - enemyPos.x)
+                        + sq(a.getY() + 0.5 - enemyPos.y)
+                        + sq(a.getZ() + 0.5 - enemyPos.z);
+                double db = sq(b.getX() + 0.5 - enemyPos.x)
+                        + sq(b.getY() + 0.5 - enemyPos.y)
+                        + sq(b.getZ() + 0.5 - enemyPos.z);
                 return Double.compare(da, db);
             });
             int picked = 0;

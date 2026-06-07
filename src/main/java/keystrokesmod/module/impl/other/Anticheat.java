@@ -77,7 +77,7 @@ public class Anticheat extends Module {
         }
         long currentTimeMillis = System.currentTimeMillis();
         if (interval.getInput() > 0.0) {
-            HashMap<ButtonSetting, Long> hashMap = flags.get(entityPlayer.getUniqueID());
+            HashMap<ButtonSetting, Long> hashMap = flags.get(entityPlayer.getUuid());
             if (hashMap == null) {
                 hashMap = new HashMap<>();
             }
@@ -88,12 +88,12 @@ public class Anticheat extends Module {
                 }
             }
             hashMap.put(mode, currentTimeMillis);
-            flags.put(entityPlayer.getUniqueID(), hashMap);
+            flags.put(entityPlayer.getUuid(), hashMap);
         }
-        ChatComponentText chatComponentText = new ChatComponentText(Utils.formatColor("&7[&dR&7]&r " + entityPlayer.getDisplayName().getString() + " &7detected for &d" + mode.getName()));
+        ChatComponentText chatComponentText = new net.minecraft.text.Text.literal(Utils.formatColor("&7[&dR&7]&r " + entityPlayer.getDisplayName().getString() + " &7detected for &d" + mode.getName()));
         ChatStyle chatStyle = new ChatStyle();
         chatStyle.setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/wdr " + entityPlayer.getName()));
-        chatComponentText.appendSibling(new ChatComponentText(Utils.formatColor(" §7[§cWDR§7]")).setChatStyle(chatStyle));
+        chatComponentText.appendSibling(new net.minecraft.text.Text.literal(Utils.formatColor(" §7[§cWDR§7]")).setChatStyle(chatStyle));
         mc.player.addChatMessage(chatComponentText);
         postAntiCheatFlagEvent(mode.getName(), entityPlayer);
         if (shouldPing.isToggled() && Utils.timeBetween(lastAlert, currentTimeMillis) >= 1500L) {
@@ -110,7 +110,7 @@ public class Anticheat extends Module {
         if (mc.isSingleplayer()) {
             return;
         }
-        for (PlayerEntity entityPlayer : mc.world.playerEntities) {
+        for (PlayerEntity entityPlayer : mc.world.world.getPlayers()) {
             if (entityPlayer == null) {
                 continue;
             }
@@ -120,7 +120,7 @@ public class Anticheat extends Module {
             if (AntiBot.isBot(entityPlayer)) {
                 continue;
             }
-            PlayerData data = players.get(entityPlayer.getUniqueID());
+            PlayerData data = players.get(entityPlayer.getUuid());
             if (data == null) {
                 data = new PlayerData();
             }
@@ -128,7 +128,7 @@ public class Anticheat extends Module {
             this.performCheck(entityPlayer, data);
             data.updateServerPos(entityPlayer);
             data.updateSneak(entityPlayer);
-            players.put(entityPlayer.getUniqueID(), data);
+            players.put(entityPlayer.getUuid(), data);
         }
     }
 

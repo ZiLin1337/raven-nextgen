@@ -65,7 +65,7 @@ public class BridgeInfo extends Module {
     public void onUpdate() {
         if (!this.enemyName.isEmpty() && this.isBridge()) {
             PlayerEntity enem = null;
-            Iterator var2 = mc.world.loadedEntityList.iterator();
+            Iterator var2 = mc.world.world.getEntities().iterator();
 
             while (var2.hasNext()) {
                 Entity e = (Entity) var2.next();

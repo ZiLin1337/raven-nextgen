@@ -56,4 +56,10 @@ public class ColorSetting extends Setting {
     public void setSaturation(float s) { float[] hsb=Color.RGBtoHSB(red,green,blue,null); setFromHSB(hsb[0]*360f,s,hsb[2]); }
     public void setBrightness(float b) { float[] hsb=Color.RGBtoHSB(red,green,blue,null); setFromHSB(hsb[0]*360f,hsb[1],b); }
     private static int clamp(int v) { return Math.max(0,Math.min(255,v)); }
+
+    @Override
+    public void loadProfile(com.google.gson.JsonObject json) {
+        if (json.has("color")) this.color = json.get("color").getAsInt();
+        if (json.has("rainbow")) this.rainbow = json.get("rainbow").getAsBoolean();
+    }
 }

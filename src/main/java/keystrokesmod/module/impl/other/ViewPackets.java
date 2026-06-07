@@ -50,10 +50,10 @@ public class ViewPackets extends Module {
         }
         String s = b ? ("&a" + packet.getClass().getSimpleName()) : applyInfo(packet);
         String string = ((compactC03.isToggled() && packet instanceof C03PacketPlayer) ? "&6" : "&d") + packet.getClass().getSimpleName();
-        ChatComponentText chatComponentText = new ChatComponentText(Utils.formatColor("&7[&dR&7]&r &7" + (b ? "Received" : "Sent") + " packet (t:&b" + tick + "&7): "));
+        ChatComponentText chatComponentText = new net.minecraft.text.Text.literal(Utils.formatColor("&7[&dR&7]&r &7" + (b ? "Received" : "Sent") + " packet (t:&b" + tick + "&7): "));
         ChatStyle chatStyle = new ChatStyle();
-        chatStyle.setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ChatComponentText(Utils.formatColor(s))));
-        chatComponentText.appendSibling(new ChatComponentText(Utils.formatColor(string)).setChatStyle(chatStyle));
+        chatStyle.setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new net.minecraft.text.Text.literal(Utils.formatColor(s))));
+        chatComponentText.appendSibling(new net.minecraft.text.Text.literal(Utils.formatColor(string)).setChatStyle(chatStyle));
         mc.player.addChatMessage(chatComponentText);
     }
 
@@ -144,7 +144,7 @@ public class ViewPackets extends Module {
                 s = string4 + "\n&7Hit vec: &bnull";
             }
             else {
-                s = string4 + "\n&7Hit vec: &b" + round(getHitVec.xCoord) + "&7, &b" + round(getHitVec.yCoord) + "&7, &b" + round(getHitVec.zCoord);
+                s = string4 + "\n&7Hit vec: &b" + round(getHitVec.x) + "&7, &b" + round(getHitVec.y) + "&7, &b" + round(getHitVec.z);
             }
         }
         else if (packet instanceof C01PacketChatMessage) {

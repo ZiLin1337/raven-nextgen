@@ -37,7 +37,7 @@ public class Teleport extends Module {
         if (!instant.isToggled()) {
             ArrayList<Vec3d> pathList = this.path = getPath(targetBlock);
             for (Vec3d pathPos : pathList) {
-                mc.getNetHandler().networkHandler.sendPacket(new C03PacketPlayer.C04PacketPlayerPosition(pathPos.xCoord, pathPos.yCoord, pathPos.zCoord, true));
+                mc.getNetworkHandler().networkHandler.sendPacket(new C03PacketPlayer.C04PacketPlayerPosition(pathPos.x, pathPos.y, pathPos.z, true));
                 if (++packetsSent >= 175) {
                     if (sendMessage) {
                         Utils.sendMessage("&eToo many packets, ending loop.");
@@ -65,7 +65,7 @@ public class Teleport extends Module {
                 if (positions >= 175) {
                     break;
                 }
-                RenderUtils.renderBlock(new BlockPos(pos.xCoord, pos.yCoord, pos.zCoord), Color.yellow.getRGB(), false, true);
+                RenderUtils.renderBlock(new BlockPos(pos.x, pos.y, pos.z), Color.yellow.getRGB(), false, true);
                 ++positions;
             }
         }
