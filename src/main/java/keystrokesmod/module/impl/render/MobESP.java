@@ -1,6 +1,6 @@
 package keystrokesmod.module.impl.render;
 
-// import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
+// import keystrokesmod.mixin.impl.accessor.// IAccessorEntityRenderer;
 import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
@@ -103,7 +103,7 @@ public class MobESP extends Module {
         registerMob("Chicken", net.minecraft.entity.passive.ChickenEntity.class, false, 255, 255, 255);
         registerMob("Cow", net.minecraft.entity.passive.CowEntity.class, false, 120, 80, 60);
         registerMob("Creeper", net.minecraft.entity.mob.CreeperEntity.class, true, 0, 255, 0);
-        registerMob("Donkey", net.minecraft.entity.passive.HorseEntity.class, e -> ((net.minecraft.entity.passive.HorseEntity) e).getHorseType() == 1, false, 120, 120, 120);
+        registerMob("Donkey", net.minecraft.entity.passive.HorseEntity.class, e -> ((net.minecraft.entity.passive.HorseEntity) e)0 // getHorseType == 1, false, 120, 120, 120);
         registerMob("Elder Guardian", net.minecraft.entity.mob.GuardianEntity.class, e -> true, false, 0, 90, 140);
         registerMob("Ender Dragon", net.minecraft.entity.boss.dragon.EnderDragonEntity.class, false, 200, 0, 200);
         registerMob("Enderman", net.minecraft.entity.mob.EndermanEntity.class, true, 0, 0, 0);
@@ -111,18 +111,18 @@ public class MobESP extends Module {
         registerMob("Ghast", net.minecraft.entity.mob.GhastEntity.class, true, 255, 255, 255);
         registerMob("Giant", net.minecraft.entity.mob.GiantEntity.class, false, 0, 0, 139);
         registerMob("Guardian", net.minecraft.entity.mob.GuardianEntity.class, g -> true, false, 0, 150, 180);
-        registerMob("Horse", net.minecraft.entity.passive.HorseEntity.class, e -> ((net.minecraft.entity.passive.HorseEntity) e).getHorseType() == 0, false, 150, 100, 60);
+        registerMob("Horse", net.minecraft.entity.passive.HorseEntity.class, e -> ((net.minecraft.entity.passive.HorseEntity) e)0 // getHorseType == 0, false, 150, 100, 60);
         registerMob("Iron Golem", IronGolemEntity.class, false, 200, 200, 200);
         registerMob("Magma Cube", net.minecraft.entity.mob.MagmaCubeEntity.class, false, 200, 60, 0);
         registerMob("Mooshroom", net.minecraft.entity.passive.MooshroomEntity.class, false, 200, 0, 0);
-        registerMob("Mule", net.minecraft.entity.passive.HorseEntity.class, e -> ((net.minecraft.entity.passive.HorseEntity) e).getHorseType() == 2, false, 130, 110, 80);
+        registerMob("Mule", net.minecraft.entity.passive.HorseEntity.class, e -> ((net.minecraft.entity.passive.HorseEntity) e)0 // getHorseType == 2, false, 130, 110, 80);
         registerMob("Ocelot", net.minecraft.entity.passive.OcelotEntity.class, false, 200, 150, 100);
         registerMob("Pig", net.minecraft.entity.passive.PigEntity.class, false, 255, 150, 200);
         registerMob("Rabbit", net.minecraft.entity.passive.RabbitEntity.class, false, 180, 140, 100);
         registerMob("Sheep", net.minecraft.entity.passive.SheepEntity.class, false, 255, 255, 255);
         registerMob("Silverfish", net.minecraft.entity.mob.SilverfishEntity.class, true, 128, 128, 128);
         registerMob("Skeleton", net.minecraft.entity.mob.SkeletonEntity.class, e -> true, true, 255, 255, 255);
-        registerMob("Skeleton Horse", net.minecraft.entity.passive.HorseEntity.class, e -> ((net.minecraft.entity.passive.HorseEntity) e).getHorseType() == 4, false, 220, 220, 220);
+        registerMob("Skeleton Horse", net.minecraft.entity.passive.HorseEntity.class, e -> ((net.minecraft.entity.passive.HorseEntity) e)0 // getHorseType == 4, false, 220, 220, 220);
         registerMob("Slime", net.minecraft.entity.mob.SlimeEntity.class, true, 0, 255, 0);
         registerMob("Snow Golem", net.minecraft.entity.passive.SnowGolemEntity.class, false, 255, 255, 255);
         registerMob("Spider", net.minecraft.entity.mob.SpiderEntity.class, true, 0, 0, 0);
@@ -133,7 +133,7 @@ public class MobESP extends Module {
         registerMob("Wither Skeleton", net.minecraft.entity.mob.SkeletonEntity.class, e -> true, true, 55, 55, 55);
         registerMob("Wolf", net.minecraft.entity.passive.WolfEntity.class, false, 200, 200, 200);
         registerMob("Zombie", net.minecraft.entity.mob.ZombieEntity.class, e -> true, true, 0, 0, 255);
-        registerMob("Zombie Horse", net.minecraft.entity.passive.HorseEntity.class, e -> ((net.minecraft.entity.passive.HorseEntity) e).getHorseType() == 3, false, 80, 100, 70);
+        registerMob("Zombie Horse", net.minecraft.entity.passive.HorseEntity.class, e -> ((net.minecraft.entity.passive.HorseEntity) e)0 // getHorseType == 3, false, 80, 100, 70);
         registerMob("Zombie Pigman", ZombieEntity.class, true, 255, 192, 203);
         registerMob("Zombie Villager", net.minecraft.entity.mob.ZombieEntity.class, e -> true, true, 100, 140, 90);
     }
@@ -277,12 +277,12 @@ public class MobESP extends Module {
             return;
         }
 
-        RenderSystem.pushMatrix();
-        RenderSystem.pushAttrib();
-        outlineFramebuffer.bindnet.minecraft.client.gl.Framebuffer(false);
-        ((IAccessorEntityRenderer) mc.gameRenderer).callSetupCameraTransform(partialTicks, 0);
-        boolean shadows = mc.options.entityShadows;
-        mc.options.entityShadows = false;
+        // RenderSystem.pushMatrix();
+        // RenderSystem.pushAttrib();
+        outlineFramebuffer.beginWrite();
+        ((// IAccessorEntityRenderer) mc.gameRenderer).callSetupCameraTransform(partialTicks, 0);
+        boolean shadows = mc.options.getEntityShadows().getValue();
+        mc.options.getEntityShadows().getValue() = false;
         renderingOutlinePass = true;
 
         glowShader.use();
@@ -297,23 +297,23 @@ public class MobESP extends Module {
             if (showInvis.isToggled()) {
                 ent.setInvisible(false);
             }
-            mc.getEntityRenderDispatcher().renderEntityStatic(ent, partialTicks, true);
+            mc.getEntityRenderDispatcher()// renderEntityStatic(ent, partialTicks, true);
             ent.setInvisible(invis);
         }
         glowShader.stop();
         renderingOutlinePass = false;
 
-        mc.options.entityShadows = shadows;
-        mc.gameRenderer.disableLightmap();
-        mc.gameRenderer.setupOverlayRendering();
-        mc.getnet.minecraft.client.gl.Framebuffer().bindnet.minecraft.client.gl.Framebuffer(false);
+        mc.options.getEntityShadows().getValue() = shadows;
+        // mc.gameRenderer.disableLightmap();
+        // setupOverlayRendering;
+        mc.getFramebuffer().beginWrite();
         outlineShader.use();
-        RenderUtils.drawnet.minecraft.client.gl.FramebufferFullscreen(outlineFramebuffer);
+        // drawFramebufferFullscreen(outlineFramebuffer);
         outlineShader.stop();
-        outlineFramebuffer.framebufferClear();
-        mc.getnet.minecraft.client.gl.Framebuffer().bindnet.minecraft.client.gl.Framebuffer(false);
-        RenderSystem.popAttrib();
-        RenderSystem.popMatrix();
+        outlineFramebuffer.clear();
+        mc.getFramebuffer().beginWrite();
+        // RenderSystem.popAttrib();
+        // RenderSystem.popMatrix();
     }
 
     private void render(Entity en, int rgb) {
@@ -327,7 +327,7 @@ public class MobESP extends Module {
             RenderUtils.renderEntity(en, 1, 0, 0, rgb, redOnDamage.isToggled());
         }
         if (shaded.isToggled()) {
-            if (ModuleManager.murderMystery == null || !ModuleManager.murderMystery.isEnabled() || ModuleManager.murderMystery.isEmpty()) {
+            if (null // murderMystery == null || !null // murderMystery.isEnabled() || null // murderMystery.isEmpty()) {
                 RenderUtils.renderEntity(en, 2, 0, 0, rgb, redOnDamage.isToggled());
             }
         }
@@ -343,11 +343,11 @@ public class MobESP extends Module {
         if (!RenderUtils.isInViewFrustum(en)) {
             return;
         }
-        ((IAccessorEntityRenderer) mc.gameRenderer).callSetupCameraTransform(((IAccessorMinecraft) mc).getTimer().renderPartialTicks, 0);
+        ((// IAccessorEntityRenderer) mc.gameRenderer).callSetupCameraTransform(((IAccessorMinecraft) mc).getTimer().renderPartialTicks, 0);
 
-        double playerX = en.lastTickPosX + (en.posX - en.lastTickPosX) * partialTicks - mc.getEntityRenderDispatcher().viewerPosX;
-        double playerY = en.lastTickPosY + (en.posY - en.lastTickPosY) * partialTicks - mc.getEntityRenderDispatcher().viewerPosY;
-        double playerZ = en.lastTickPosZ + (en.posZ - en.lastTickPosZ) * partialTicks - mc.getEntityRenderDispatcher().viewerPosZ;
+        double playerX = en.prevX + (en.posX - en.prevX) * partialTicks - mc.getEntityRenderDispatcher().viewerPosX;
+        double playerY = en.prevY + (en.posY - en.prevY) * partialTicks - mc.getEntityRenderDispatcher().viewerPosY;
+        double playerZ = en.prevZ + (en.posZ - en.prevZ) * partialTicks - mc.getEntityRenderDispatcher().viewerPosZ;
 
         Box bbox = en.getEntityBoundingBox().expand(0.1D + expand, 0.1D + expand, 0.1D + expand);
         Box axis = new Box(
@@ -405,7 +405,7 @@ public class MobESP extends Module {
             return;
         }
 
-        mc.gameRenderer.setupOverlayRendering();
+        // setupOverlayRendering;
 
          res = null; // int removed for 1.21.4
         int screenWidth = res.getScaledWidth();

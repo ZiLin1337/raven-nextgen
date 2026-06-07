@@ -1,7 +1,7 @@
 package keystrokesmod.module.impl.other;
 
 import com.google.gson.JsonObject;
-// import com.mojang.authlib.GameProfile; // unused
+// import com.mojang.authlib.com.mojang.authlib.GameProfile; // unused
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.TextSetting;
@@ -132,8 +132,8 @@ public class NameHider extends Module {
             return original;
         }
 
-        ChatComponentText component = new ChatComponentText(replaced);
-        component.setChatStyle(original.getChatStyle().createShallowCopy());
+        ChatComponentText component = Text.literal(replaced);
+        component.setChatStyle(original.getStyle().createShallowCopy());
         return component;
     }
 
@@ -277,12 +277,12 @@ public class NameHider extends Module {
     }
 
     private static void collectTargetsFromTab(Map<String, LinkedHashSet<String>> targets, Set<String> protectedNames) {
-        if (mc.getNetHandler() == null || mc.getNetHandler().getPlayerInfoMap() == null) {
+        if (mc.getNetworkHandler() == null || mc.getNetworkHandler().getPlayerInfoMap() == null) {
             return;
         }
 
         PlayerListEntry self = getSelfPlayerInfo();
-        for (PlayerListEntry playerInfo : mc.getNetHandler().getPlayerInfoMap()) {
+        for (PlayerListEntry playerInfo : mc.getNetworkHandler().getPlayerInfoMap()) {
             if (playerInfo == null || playerInfo == self) {
                 continue;
             }
@@ -292,17 +292,17 @@ public class NameHider extends Module {
     }
 
     private static void collectTargetsFromWorld(Map<String, LinkedHashSet<String>> targets, Set<String> protectedNames) {
-        if (mc.world == null || mc.world.playerEntities == null) {
+        if (mc.world == null || mc.world.getPlayers() == null) {
             return;
         }
 
-        for (PlayerEntity player : mc.world.playerEntities) {
+        for (PlayerEntity player : mc.world.getPlayers()) {
             if (player == null || player == mc.player) {
                 continue;
             }
 
             PlayerListEntry playerInfo = getPlayerInfo(player);
-            String key = playerInfo != null ? getIdentityKey(playerInfo) : getIdentityKey(player.getUniqueID(), player.getName());
+            String key = playerInfo != null ? getIdentityKey(playerInfo) : getIdentityKey(player.getUuid(), player.getName());
             addTargetName(targets, protectedNames, key, player.getName());
             if (playerInfo != null) {
                 addTargetName(targets, protectedNames, key, getProfileName(playerInfo));
@@ -439,11 +439,11 @@ public class NameHider extends Module {
     }
 
     private static PlayerListEntry getSelfPlayerInfo() {
-        return mc.getNetHandler() == null || mc.player == null ? null : mc.getNetHandler().getPlayerInfo(mc.player.getUniqueID());
+        return mc.getNetworkHandler() == null || mc.player == null ? null : mc.getNetworkHandler().getPlayerInfo(mc.player.getUuid());
     }
 
     private static PlayerListEntry getPlayerInfo(PlayerEntity player) {
-        return mc.getNetHandler() == null || player == null ? null : mc.getNetHandler().getPlayerInfo(player.getUniqueID());
+        return mc.getNetworkHandler() == null || player == null ? null : mc.getNetworkHandler().getPlayerInfo(player.getUuid());
     }
 
     private static String getSelfKey() {
@@ -451,7 +451,7 @@ public class NameHider extends Module {
         if (selfPlayerInfo != null) {
             return getIdentityKey(selfPlayerInfo);
         }
-        return mc.player == null ? null : getIdentityKey(mc.player.getUniqueID(), mc.player.getName());
+        return mc.player == null ? null : getIdentityKey(mc.player.getUuid(), mc.player.getName());
     }
 
     private static boolean isSelfPlayer(PlayerEntity player, String key) {
@@ -468,12 +468,12 @@ public class NameHider extends Module {
     }
 
     private static String getProfileName(PlayerListEntry playerInfo) {
-        GameProfile profile = playerInfo == null ? null : playerInfo.getGameProfile();
+        com.mojang.authlib.GameProfile profile = playerInfo == null ? null : playerInfo.getcom.mojang.authlib.GameProfile();
         return profile == null ? "" : profile.getName();
     }
 
     private static String getIdentityKey(PlayerListEntry playerInfo) {
-        GameProfile profile = playerInfo == null ? null : playerInfo.getGameProfile();
+        com.mojang.authlib.GameProfile profile = playerInfo == null ? null : playerInfo.getcom.mojang.authlib.GameProfile();
         return profile == null ? null : getIdentityKey(profile.getId(), profile.getName());
     }
 
@@ -482,7 +482,7 @@ public class NameHider extends Module {
         if (playerInfo != null) {
             return getIdentityKey(playerInfo);
         }
-        return player == null ? null : getIdentityKey(player.getUniqueID(), player.getName());
+        return player == null ? null : getIdentityKey(player.getUuid(), player.getName());
     }
 
     private static String getIdentityKey(UUID uniqueId, String fallbackName) {

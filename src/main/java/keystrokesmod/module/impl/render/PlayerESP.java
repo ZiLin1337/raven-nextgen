@@ -59,7 +59,7 @@ public class PlayerESP extends Module {
 
     @Override
     public void guiUpdate() {
-        twoD.setVisible(box.isToggled());
+        twoD.setVisible(box.isToggled(), this);
     }
 
     public void onRender3D(net.minecraft.client.util.math.MatrixStack matrices, float partialTicks) {
@@ -79,17 +79,17 @@ public class PlayerESP extends Module {
             
             int espColor = color.getColor();
             if (rainbow.isToggled()) {
-                espColor = Utils.getRainbowColor(System.currentTimeMillis(), 1.0f, 1.0f, 1.0f);
+                espColor = Utils.getRainbow();
             }
             
             Vec3d pos = player.getPos().subtract(cameraPos);
             Box box_bb = player.getBoundingBox().offset(-cameraPos.x, -cameraPos.y, -cameraPos.z);
             
             if (box.isToggled()) {
-                RenderUtils.drawBoundingBox(box_bb, espColor);
+                RenderUtils.drawOutlinedBox(box_bb, espColor, espColor);
             }
             if (outline.isToggled()) {
-                RenderUtils.drawOutline(box_bb, espColor);
+                // RenderUtils.drawOutline removed
             }
             if (healthBar.isToggled()) {
                 float health = player.getHealth();
@@ -99,7 +99,7 @@ public class PlayerESP extends Module {
                 double healthHeight = (box_bb.maxY - box_bb.minY) * healthPercent;
                 Box healthBox = new Box(box_bb.minX - 0.1, box_bb.minY, box_bb.minZ - 0.1,
                     box_bb.minX, box_bb.minY + healthHeight, box_bb.minZ);
-                RenderUtils.drawFilledBox(healthBox, healthColor);
+                RenderUtils.drawBox(healthBox, healthColor);
             }
         }
     }

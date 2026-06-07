@@ -248,7 +248,7 @@ public class LongJump extends Module {
             if (fireballSlot != -1) {
                 fireballTime = System.currentTimeMillis();
                 if (!manual.isToggled()) {
-                    mc.player.networkHandler.sendPacket(new net.minecraft.network.packet.c2s.play.PlayerInteractItemC2SPacket(net.minecraft.util.Hand.MAIN_HAND, 0));
+                    mc.player.networkHandler.sendPacket(new net.minecraft.network.packet.c2s.play.PlayerInteractItemC2SPacket(net.minecraft.util.Hand.MAIN_HAND, 1));
                     //((IAccessorMinecraft) mc).callRightClickMouse();
                 }
                 mc.player.swingHand(Hand.MAIN_HAND);

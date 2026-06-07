@@ -50,7 +50,7 @@ public class Freelook extends Module {
             return;
         }
 
-        boolean down = mc.options.keyUse.isPressed();
+        boolean down = mc.options.keyUse.getDefault().isPressed() // keyUse;
         if (down != prevKeyState) {
             onPressed(down);
             prevKeyState = down;
