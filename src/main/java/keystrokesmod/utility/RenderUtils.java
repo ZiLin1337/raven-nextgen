@@ -1216,7 +1216,7 @@ public class RenderUtils implements IMinecraftInstance {
         context.viewport.clear();
         // GL11 not available in 1.21.4
         // GL11 not available in 1.21.4
-        context.projection.rewind();
+        // context.projection.rewind();
         context.viewport.rewind();
         return context;
     }
@@ -1496,7 +1496,7 @@ public class RenderUtils implements IMinecraftInstance {
         RenderSystem.getModelViewStack().pushMatrix();
         prepareGuiItemRenderState();
         RenderSystem.depthMask(true);
-        RenderSystem.clear(// // GL11 constant);
+        RenderSystem.clear(16640, false);
         RenderSystem.getModelViewStack().pushMatrix();
         RenderSystem.scale(1.0f, 1.0f, -0.01f);
         mc.getRenderItem().zLevel = -150.0f;
@@ -1581,9 +1581,9 @@ public class RenderUtils implements IMinecraftInstance {
         RenderSystem.depthMask(false);
         RenderSystem.enableTexture();
         RenderSystem.enableAlpha();
-        RenderSystem.alphaFunc(// // GL11 constant, 0.1F);
+        RenderSystem.alphaFunc(516, 0.1F);
         RenderSystem.enableBlend();
-        RenderSystem.blendFuncSeparate(// // GL11 constant, // // GL11 constant, // // GL11 constant, // // GL11 constant);
+        RenderSystem.blendFuncSeparate(770, 771, 1, 0);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
     }
 
@@ -1591,9 +1591,9 @@ public class RenderUtils implements IMinecraftInstance {
         RenderSystem.disableLighting();
         RenderSystem.enableTexture();
         RenderSystem.enableAlpha();
-        RenderSystem.alphaFunc(// // GL11 constant, 0.1F);
+        RenderSystem.alphaFunc(516, 0.1F);
         RenderSystem.enableBlend();
-        RenderSystem.blendFuncSeparate(// // GL11 constant, // // GL11 constant, // // GL11 constant, // // GL11 constant);
+        RenderSystem.blendFuncSeparate(770, 771, 1, 0);
         RenderSystem.enableDepth();
         RenderSystem.depthMask(true);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -1674,7 +1674,7 @@ public class RenderUtils implements IMinecraftInstance {
             return;
         }
         boolean depthEnabled = // GL11.isEnabled replaced(// // GL11 constant);
-        boolean blendEnabled = GL11.glIsEnabled(GL11.GL_BLEND);
+        boolean blendEnabled = RenderSystem.enableBlend();
         boolean depthMask = GL11.glGetBoolean(GL11.GL_DEPTH_WRITEMASK);
 
         prepareGuiTextureRenderState();
