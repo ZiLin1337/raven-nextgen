@@ -152,16 +152,16 @@ public class HitSelect extends Module {
         return Utils.nullCheck() && mc.world != null && mc.player != null && !mc.player.isDead;
     }
 
-    private ClickType classifyClick(MovingObjectPosition objectMouseOver) {
+    private ClickType classifyClick(HitResult objectMouseOver) {
         if (objectMouseOver == null) {
             return ClickType.MISSED_SWING;
         }
 
-        if (objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+        if (objectMouseOver.typeOfHit == HitResult.MovingObjectType.BLOCK) {
             return ClickType.BLOCK_INTERACTION;
         }
 
-        if (objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY) {
+        if (objectMouseOver.typeOfHit == HitResult.MovingObjectType.ENTITY) {
             Entity entityHit = objectMouseOver.entityHit;
             return CombatTargeting.asValidPlayer(entityHit, HIT_RANGE_SQ) != null ? ClickType.VALID_HIT : ClickType.MISSED_SWING;
         }
@@ -177,7 +177,7 @@ public class HitSelect extends Module {
         event.setCanceled(true);
     }
 
-    private void updateCurrentTarget(EntityPlayer nextTarget, int currentTick) {
+    private void updateCurrentTarget(PlayerEntity nextTarget, int currentTick) {
         if (sameTarget(nextTarget)) {
             if (nextTarget != null) {
                 currentTarget = nextTarget;
@@ -361,7 +361,7 @@ public class HitSelect extends Module {
         return requiredTicks > 0 && currentTick - state.rawBlockStartTick < requiredTicks;
     }
 
-    private void recordPassedValidHit(EntityPlayer target, int currentTick) {
+    private void recordPassedValidHit(PlayerEntity target, int currentTick) {
         if (target == null) {
             return;
         }
@@ -392,7 +392,7 @@ public class HitSelect extends Module {
         return Math.random() * 100.0D < chance;
     }
 
-    private boolean sameTarget(EntityPlayer nextTarget) {
+    private boolean sameTarget(PlayerEntity nextTarget) {
         if (currentTarget == null || nextTarget == null) {
             return currentTarget == nextTarget;
         }
@@ -406,7 +406,7 @@ public class HitSelect extends Module {
         waitFirstUnlocked = false;
     }
 
-    private int getHurtWindowTicks(EntityPlayer target) {
+    private int getHurtWindowTicks(PlayerEntity target) {
         if (target == null || target.maxHurtTime <= 0) {
             return HURT_WINDOW_TICKS;
         }
@@ -446,7 +446,7 @@ public class HitSelect extends Module {
         }
     }
 
-    private TargetState getTargetState(EntityPlayer target, int currentTick) {
+    private TargetState getTargetState(PlayerEntity target, int currentTick) {
         TargetState state = targetStates.get(target.getEntityId());
         if (state == null) {
             state = new TargetState();
@@ -468,7 +468,7 @@ public class HitSelect extends Module {
         while (iterator.hasNext()) {
             Map.Entry<Integer, TargetState> entry = iterator.next();
             Entity entity = mc.world.getEntityByID(entry.getKey());
-            if (!(entity instanceof PlayerEntity) || entity.isDead || ((EntityPlayer) entity).deathTime != 0) {
+            if (!(entity instanceof PlayerEntity) || entity.isDead || ((PlayerEntity) entity).deathTime != 0) {
                 iterator.remove();
             }
         }

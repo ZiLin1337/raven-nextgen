@@ -1,19 +1,19 @@
 package keystrokesmod.utility;
 
 import keystrokesmod.module.setting.impl.ItemListSetting;
-import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.creativetab.ItemGroup;
 import net.minecraft.item.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemAxe;
-import net.minecraft.item.ItemBow;
-import net.minecraft.item.ItemHoe;
-import net.minecraft.item.ItemPickaxe;
+import net.minecraft.item.AxeItem;
+import net.minecraft.item.BowItem;
+import net.minecraft.item.HoeItem;
+import net.minecraft.item.PickaxeItem;
 import net.minecraft.item.ItemShears;
-import net.minecraft.item.ItemSpade;
+import net.minecraft.item.ShovelItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
+import net.minecraft.item.SwordItem;
 import net.minecraft.item.ItemTool;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -111,43 +111,43 @@ public final class ItemSearchIndex {
         SWORD("@category:sword", "Sword", new ItemStack(Items.DIAMOND_SWORD)) {
             @Override
             boolean matches(ItemStack stack) {
-                return stack != null && stack.getItem() instanceof ItemSword;
+                return stack != null && stack.getItem() instanceof SwordItem;
             }
         },
-        BOW("@category:bow", "Bow", new ItemStack(Items.bow)) {
+        BOW("@category:bow", "Bow", new ItemStack(Items.BOW)) {
             @Override
             boolean matches(ItemStack stack) {
-                return stack != null && stack.getItem() instanceof ItemBow;
+                return stack != null && stack.getItem() instanceof BowItem;
             }
         },
-        TOOL("@category:tool", "Tool", new ItemStack(Items.diamond_pickaxe)) {
+        TOOL("@category:tool", "Tool", new ItemStack(Items.DIAMOND_PICKAXE)) {
             @Override
             boolean matches(ItemStack stack) {
                 return stack != null && isToolLike(stack.getItem());
             }
         },
-        AXE("@category:axe", "Axe", new ItemStack(Items.diamond_axe)) {
+        AXE("@category:axe", "Axe", new ItemStack(Items.DIAMOND_AXE)) {
             @Override
             boolean matches(ItemStack stack) {
-                return stack != null && stack.getItem() instanceof ItemAxe;
+                return stack != null && stack.getItem() instanceof AxeItem;
             }
         },
-        PICKAXE("@category:pickaxe", "Pickaxe", new ItemStack(Items.diamond_pickaxe)) {
+        PICKAXE("@category:pickaxe", "Pickaxe", new ItemStack(Items.DIAMOND_PICKAXE)) {
             @Override
             boolean matches(ItemStack stack) {
-                return stack != null && stack.getItem() instanceof ItemPickaxe;
+                return stack != null && stack.getItem() instanceof PickaxeItem;
             }
         },
         SHOVEL("@category:shovel", "Shovel", new ItemStack(Items.diamond_shovel)) {
             @Override
             boolean matches(ItemStack stack) {
-                return stack != null && stack.getItem() instanceof ItemSpade;
+                return stack != null && stack.getItem() instanceof ShovelItem;
             }
         },
         HOE("@category:hoe", "Hoe", new ItemStack(Items.diamond_hoe)) {
             @Override
             boolean matches(ItemStack stack) {
-                return stack != null && stack.getItem() instanceof ItemHoe;
+                return stack != null && stack.getItem() instanceof HoeItem;
             }
         },
         SHEARS("@category:shears", "Shears", new ItemStack(Items.shears)) {
@@ -533,7 +533,7 @@ public final class ItemSearchIndex {
             List<ItemStack> subItems = new ArrayList<ItemStack>();
             collectSubItems(item, subItems);
             if (subItems.isEmpty()) {
-                subItems.add(new ItemStack(item, 1, 0));
+                subItems.add(new ItemStack(item, 1));
             }
 
             Map<String, ItemEntry> dedupedEntries = new LinkedHashMap<String, ItemEntry>();
@@ -628,7 +628,7 @@ public final class ItemSearchIndex {
 
     private static void collectSubItems(Item item, List<ItemStack> subItems) {
         try {
-            item.getSubItems(item, CreativeTabs.tabAllSearch, subItems);
+            item.getSubItems(item, ItemGroup.tabAllSearch, subItems);
         }
         catch (Exception ignored) {
         }
@@ -637,7 +637,7 @@ public final class ItemSearchIndex {
             return;
         }
 
-        CreativeTabs creativeTab = item.getCreativeTab();
+        ItemGroup creativeTab = item.getCreativeTab();
         if (creativeTab == null) {
             return;
         }
@@ -668,7 +668,7 @@ public final class ItemSearchIndex {
 
     private static Item getItemForName(String registryId) {
         try {
-            return (Item) Item.itemRegistry.getObject(new ResourceLocation(registryId));
+            return (Item) Item.itemRegistry.getObject(new Identifier(registryId));
         }
         catch (Exception ignored) {
             return null;
@@ -680,6 +680,6 @@ public final class ItemSearchIndex {
     }
 
     private static boolean isToolLike(Item item) {
-        return item instanceof ItemTool || item instanceof ItemHoe || item instanceof ItemShears;
+        return item instanceof ItemTool || item instanceof HoeItem || item instanceof ItemShears;
     }
 }

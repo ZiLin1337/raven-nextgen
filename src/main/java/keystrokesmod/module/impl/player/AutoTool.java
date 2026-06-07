@@ -137,12 +137,12 @@ public class AutoTool extends Module {
         }
 
         HitResult hoverResult = RotationUtils.rayTraceBlockIfNoEntityInFront(
-            mc.playerController.getBlockReachDistance(),
+            mc.interactionManager.getBlockReachDistance(),
             mc.player.rotationYaw,
             mc.player.rotationPitch
         );
         BlockPos hoverPos = hoverResult != null
-            && hoverResult.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK
+            && hoverResult.typeOfHit == HitResult.MovingObjectType.BLOCK
             ? hoverResult.getBlockPos()
             : null;
         updateHoverState(hoverPos, currentTick);
@@ -190,7 +190,7 @@ public class AutoTool extends Module {
 
         HitResult swapResult = mc.objectMouseOver;
         BlockPos swapPos = swapResult != null
-            && swapResult.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK
+            && swapResult.typeOfHit == HitResult.MovingObjectType.BLOCK
             ? swapResult.getBlockPos()
             : null;
         if (swapPos == null) {
@@ -198,7 +198,7 @@ public class AutoTool extends Module {
             return;
         }
 
-        int slot = Utils.getTool(BlockUtils.getBlock(swapPos));
+        int slot = Utils.getTool(BlockUtils.getBlockState().getBlock()swapPos));
         if (slot == -1) {
             return;
         }
@@ -240,7 +240,7 @@ public class AutoTool extends Module {
     }
 
     private boolean isUseBlocked() {
-        boolean useActive = Utils.isBindDown(mc.gameSettings.keyBindUseItem) || mc.player.isUsingItem();
+        boolean useActive = Utils.isBindDown(mc.options.keyBindUseItem) || mc.player.isUsingItem();
         if (ignoredHeldItemsToggle.isToggled() && ignoredHeldItems.matches(mc.player.getHeldItem())) {
             return true;
         }
@@ -263,7 +263,7 @@ public class AutoTool extends Module {
 
     private boolean matchesBlockList(BlockPos blockPos, BlockListSetting blockList) {
         BlockState state = BlockUtils.getBlockState(blockPos);
-        Block hoveredBlock = state.getBlock();
+        Block hoveredBlock = state.getBlockState().getBlock());
         if (hoveredBlock == null || Block.blockRegistry.getNameForObject(hoveredBlock) == null) {
             return false;
         }
@@ -312,6 +312,6 @@ public class AutoTool extends Module {
         }
         mc.player.inventory.currentItem = currentItem;
         hasSwapped = true;
-        ((IAccessorPlayerControllerMP) mc.playerController).callSyncCurrentPlayItem();
+        ((IAccessorPlayerControllerMP) mc.interactionManager).callSyncCurrentPlayItem();
     }
 }

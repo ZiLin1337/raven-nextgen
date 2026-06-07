@@ -2,12 +2,12 @@ package keystrokesmod.utility;
 
 import keystrokesmod.module.setting.impl.BlockListSetting;
 import net.minecraft.block.Block;
-import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.creativetab.ItemGroup;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -220,7 +220,7 @@ public final class BlockSearchIndex {
             if (item == null) {
                 Item fallback = BLOCK_TO_ITEM_FALLBACK.get(block);
                 if (fallback != null) {
-                    ItemStack displayStack = new ItemStack(fallback, 1, 0);
+                    ItemStack displayStack = new ItemStack(fallback, 1);
                     String displayName = displayStack.getDisplayName();
                     if (displayName != null && !displayName.isEmpty()) {
                         BlockEntry entry = new BlockEntry(block, 0, displayName, registryId, fallback);
@@ -232,8 +232,8 @@ public final class BlockSearchIndex {
             }
 
             List<ItemStack> sub = new ArrayList<>();
-            block.getSubBlocks(item, CreativeTabs.tabBlock, sub);
-            if (sub.isEmpty()) sub.add(new ItemStack(block, 1, 0));
+            block.getSubBlocks(item, ItemGroup.tabBlock, sub);
+            if (sub.isEmpty()) sub.add(new ItemStack(block, 1));
             List<BlockEntry> group = new ArrayList<>();
             for (ItemStack stack : sub) {
                 String displayName = stack.getDisplayName();
@@ -272,7 +272,7 @@ public final class BlockSearchIndex {
         String registryId = parseRegistryId(name);
         if (registryId == null) return null;
         try {
-            return (Block) Block.blockRegistry.getObject(new ResourceLocation(registryId));
+            return (Block) Block.blockRegistry.getObject(new Identifier(registryId));
         } catch (Exception e) {
             return null;
         }

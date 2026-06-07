@@ -40,25 +40,25 @@ public class Radar extends Module {
         if (mc.currentScreen instanceof ClickGui) {
             return;
         }
-        if (mc.currentScreen != null || mc.gameSettings.showDebugInfo) {
+        if (mc.currentScreen != null || mc.options.showDebugInfo) {
             return;
         }
         int x = 5;
         int y = 70;
         int rightX = x + 100;
         int bottomY = y + 100;
-        Gui.drawRect(x, y, rightX, bottomY, RECT_COLOR);
-        Gui.drawRect(x - 1, y - 1, rightX + 1, y, -1);
-        Gui.drawRect(x - 1, bottomY, rightX + 1, bottomY + 1, -1);
-        Gui.drawRect(x - 1, y, x, bottomY, -1);
-        Gui.drawRect(rightX, y, rightX + 1, bottomY, -1);
+        DrawContextHelper.DrawContextHelper.drawRect(x, y, rightX, bottomY, RECT_COLOR);
+        DrawContextHelper.DrawContextHelper.drawRect(x - 1, y - 1, rightX + 1, y, -1);
+        DrawContextHelper.DrawContextHelper.drawRect(x - 1, bottomY, rightX + 1, bottomY + 1, -1);
+        DrawContextHelper.DrawContextHelper.drawRect(x - 1, y, x, bottomY, -1);
+        DrawContextHelper.DrawContextHelper.drawRect(rightX, y, rightX + 1, bottomY, -1);
         int playerIndicatorX = rightX / 2 + 3;
         int playerIndicatorY = y + 52;
         RenderUtils.drawPolygon(playerIndicatorX, playerIndicatorY, 5.0, 3, -1);
-        GL11.glPushMatrix();
-        GL11.glEnable(GL11.GL_SCISSOR_TEST);
-        GL11.glScissor(x * this.scale, mc.displayHeight - this.scale * 170, rightX * this.scale - this.scale * 5, this.scale * 100);
-        for (EntityPlayer player : mc.world.playerEntities) {
+        RenderSystem.getModelViewStack().pushMatrix();
+        RenderSystem.enableBlend(GL11.GL_SCISSOR_TEST);
+        GL11.glScissor(x * this.scale, mc.getWindow().getFramebufferHeight() - this.scale * 170, rightX * this.scale - this.scale * 5, this.scale * 100);
+        for (PlayerEntity player : mc.world.getPlayers()) {
             if (player != mc.player && player.deathTime == 0) {
                 if (AntiBot.isBot(player)) {
                     continue;
@@ -72,31 +72,31 @@ public class Radar extends Module {
                 double xOffset = scaledDistance * Math.sin(Math.toRadians(playerAngle));
                 double zOffset = scaledDistance * Math.cos(Math.toRadians(playerAngle));
                 if (tracerLines.isToggled()) {
-                    GL11.glPushMatrix();
-                    GL11.glEnable(GL11.GL_BLEND);
-                    GL11.glEnable(GL11.GL_LINE_SMOOTH);
-                    GL11.glDisable(GL11.GL_DEPTH_TEST);
-                    GL11.glDisable(GL11.GL_TEXTURE_2D);
+                    RenderSystem.getModelViewStack().pushMatrix();
+                    RenderSystem.enableBlend(GL11.GL_BLEND);
+                    RenderSystem.enableBlend(GL11.GL_LINE_SMOOTH);
+                    RenderSystem.disableBlend(GL11.GL_DEPTH_TEST);
+                    RenderSystem.disableBlend(GL11.GL_TEXTURE_2D);
                     GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                    GL11.glEnable(GL11.GL_BLEND);
-                    GL11.glLineWidth(0.5f);
+                    RenderSystem.enableBlend(GL11.GL_BLEND);
+                    RenderSystem.lineWidth(0.5f);
                     GL11.glColor3d(1.0, 1.0, 1.0);
-                    GL11.glBegin(GL11.GL_LINES);
-                    GL11.glVertex2d(playerIndicatorX, playerIndicatorY);
-                    GL11.glVertex2d((double)playerIndicatorX - xOffset, (double)playerIndicatorY - zOffset);
-                    GL11.glEnd();
-                    GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-                    GL11.glDisable(GL11.GL_BLEND);
-                    GL11.glEnable(GL11.GL_TEXTURE_2D);
-                    GL11.glEnable(GL11.GL_DEPTH_TEST);
-                    GL11.glDisable(GL11.GL_LINE_SMOOTH);
-                    GL11.glDisable(GL11.GL_BLEND);
-                    GL11.glPopMatrix();
+                    // GL11 replaced(GL11.GL_LINES);
+                    // GL11(playerIndicatorX, playerIndicatorY);
+                    // GL11((double)playerIndicatorX - xOffset, (double)playerIndicatorY - zOffset);
+                    // GL11 replaced();
+                    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+                    RenderSystem.disableBlend(GL11.GL_BLEND);
+                    RenderSystem.enableBlend(GL11.GL_TEXTURE_2D);
+                    RenderSystem.enableBlend(GL11.GL_DEPTH_TEST);
+                    RenderSystem.disableBlend(GL11.GL_LINE_SMOOTH);
+                    RenderSystem.disableBlend(GL11.GL_BLEND);
+                    RenderSystem.getModelViewStack().popMatrix();
                 }
                 RenderUtils.drawPolygon((double)playerIndicatorX - xOffset, (double)playerIndicatorY - zOffset, 3.0, 4, Color.red.getRGB());
             }
         }
-        GL11.glDisable(GL11.GL_SCISSOR_TEST);
-        GL11.glPopMatrix();
+        RenderSystem.disableBlend(GL11.GL_SCISSOR_TEST);
+        RenderSystem.getModelViewStack().popMatrix();
     }
 }

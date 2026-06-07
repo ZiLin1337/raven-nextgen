@@ -22,8 +22,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3dd;
 // Removed Forge event
 
 import org.lwjgl.glfw.GLFW;
@@ -64,7 +64,7 @@ public class Clutch extends Module {
 
     private BlockPos placeAtBlock;
     private Direction hitSide;
-    private Vec3 hitVec;
+    private Vec3d hitVec;
     private boolean placeQueued;
     private boolean placing;
     private boolean slotWasSwapped;
@@ -184,7 +184,7 @@ public class Clutch extends Module {
 
         placeQueued = false;
         if (placeAtBlock != null && hitSide != null && hitVec != null
-                && mc.playerController.onPlayerRightClick(mc.player, mc.world, mc.player.getHeldItem(), placeAtBlock, hitSide, hitVec)) {
+                && mc.interactionManager.onPlayerRightClick(mc.player, mc.world, mc.player.getHeldItem(), placeAtBlock, hitSide, hitVec)) {
             if (hitSide != Direction.UP) clutchBlocksPlaced++;
             lastPlaced = placeAtBlock;
             mc.player.swingItem();
@@ -241,8 +241,8 @@ public class Clutch extends Module {
         if (hasAim && !placing) enablePlacing();
 
         if (placing || resetting || hasAim) {
-            KeyBinding.setKeyBindState(mc.gameSettings.keyBindAttack.getKeyCode(), false);
-            KeyBinding.setKeyBindState(mc.gameSettings.keyBindUseItem.getKeyCode(), false);
+            KeyBinding.setKeyBindState(mc.options.keyBindAttack.getKeyCode(), false);
+            KeyBinding.setKeyBindState(mc.options.keyBindUseItem.getKeyCode(), false);
             equipPlannedSlot();
         }
     }
@@ -268,7 +268,7 @@ public class Clutch extends Module {
 
             if (autoClutchLandedGuard) {
                 boolean expired = ticksExisted - autoClutchLandedTick >= 10;
-                boolean jumped = mc.gameSettings.keyBindJump.isKeyDown();
+                boolean jumped = mc.options.keyBindJump.isKeyDown();
                 boolean airborneUp = !mc.player.onGround && mc.player.motionY > 0;
                 if (expired || jumped || airborneUp) {
                     autoClutchActive = false;
@@ -343,8 +343,8 @@ public class Clutch extends Module {
 
     private void restoreInputsAndAutoClicker() {
         if (mc.currentScreen == null) {
-            KeyBinding.setKeyBindState(mc.gameSettings.keyBindAttack.getKeyCode(), Mouse.isButtonDown(0));
-            KeyBinding.setKeyBindState(mc.gameSettings.keyBindUseItem.getKeyCode(), Mouse.isButtonDown(1));
+            KeyBinding.setKeyBindState(mc.options.keyBindAttack.getKeyCode(), Mouse.isButtonDown(0));
+            KeyBinding.setKeyBindState(mc.options.keyBindUseItem.getKeyCode(), Mouse.isButtonDown(1));
         }
         if (autoClickerWasOn && ModuleManager.autoClicker != null) {
             ModuleManager.autoClicker.enable();
@@ -380,10 +380,10 @@ public class Clutch extends Module {
     }
 
     private AimResult clutchAim() {
-        Vec3 playerPos = new Vec3(mc.player.getX(), mc.player.getY(), mc.player.getZ());
-        Vec3 eye = mc.player.getPositionEyes(1.0f);
+        Vec3d playerPos = new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ());
+        Vec3d eye = mc.player.getPositionEyes(1.0f);
 
-        Vec3 futurePos = playerPos;
+        Vec3d futurePos = playerPos;
         if (simulateFuturePosition.isToggled()) {
             PredictionState prediction = PredictionState.fromPlayer();
             for (int t = 0; t < 20; t++) {
@@ -431,7 +431,7 @@ public class Clutch extends Module {
         return null;
     }
 
-    private boolean isBlockUnderPlayer(BlockPos blockPos, Vec3 pos) {
+    private boolean isBlockUnderPlayer(BlockPos blockPos, Vec3d pos) {
         if (blockPos.getY() >= MathHelper.floor_double(pos.yCoord)) return false;
         for (double[] corner : CORNERS) {
             int cx = MathHelper.floor_double(pos.xCoord + corner[0]);
@@ -441,7 +441,7 @@ public class Clutch extends Module {
         return false;
     }
 
-    private AimResult getBestRotationsToBlock(ItemStack held, BlockPos targetCell, Vec3 eye, double reachVal, boolean underPlayer) {
+    private AimResult getBestRotationsToBlock(ItemStack held, BlockPos targetCell, Vec3d eye, double reachVal, boolean underPlayer) {
         double inset = 0.05;
         double step = 0.2;
         double jitter = step * 0.1;
@@ -513,8 +513,8 @@ public class Clutch extends Module {
             ItemStack stack = mc.player.inventory.mainInventory[slot];
             if (stack == null || stack.stackSize == 0 || !(stack.getItem() instanceof BlockItem)) continue;
 
-            Block block = ((ItemBlock) stack.getItem()).getBlock();
-            ResourceLocation id = Block.blockRegistry.getNameForObject(block);
+            Block block = ((BlockItem) stack.getItem()).getBlockState().getBlock());
+            Identifier id = Block.blockRegistry.getNameForObject(block);
             if (id == null) continue;
 
             Integer score = BLOCK_SCORE.get(id.getResourcePath());
@@ -531,7 +531,7 @@ public class Clutch extends Module {
     private boolean isBlockSlot(int slot) {
         if (slot < 0 || slot > 8) return false;
         ItemStack stack = mc.player.inventory.mainInventory[slot];
-        return stack != null && stack.stackSize > 0 && stack.getItem() instanceof ItemBlock;
+        return stack != null && stack.stackSize > 0 && stack.getItem() instanceof BlockItem;
     }
 
     private void equipPlannedSlot() {
@@ -572,7 +572,7 @@ public class Clutch extends Module {
     }
 
     private boolean canPlaceThrough(BlockPos pos) {
-        Block block = BlockUtils.getBlock(pos);
+        Block block = BlockUtils.getBlockState().getBlock()pos);
         Material material = block.getMaterial();
         return material == Material.air || material == Material.water || material == Material.lava || block == Blocks.fire;
     }
@@ -598,7 +598,7 @@ public class Clutch extends Module {
         return prevYaw + MathHelper.wrapAngleTo180_float(yaw - prevYaw);
     }
 
-    private static float[] getRotationsWrapped(Vec3 eye, double tx, double ty, double tz) {
+    private static float[] getRotationsWrapped(Vec3d eye, double tx, double ty, double tz) {
         double dx = tx - eye.xCoord;
         double dy = ty - eye.yCoord;
         double dz = tz - eye.zCoord;
@@ -635,7 +635,7 @@ public class Clutch extends Module {
         final float yaw;
         final float pitch;
 
-        AimResult(MovingObjectPosition ray, float yaw, float pitch) {
+        AimResult(HitResult ray, float yaw, float pitch) {
             this.ray = ray;
             this.yaw = yaw;
             this.pitch = pitch;
@@ -661,8 +661,8 @@ public class Clutch extends Module {
             return state;
         }
 
-        Vec3 getPos() {
-            return new Vec3((box.minX + box.maxX) / 2.0, box.minY, (box.minZ + box.maxZ) / 2.0);
+        Vec3d getPos() {
+            return new Vec3d((box.minX + box.maxX) / 2.0, box.minY, (box.minZ + box.maxZ) / 2.0);
         }
 
         void tick(boolean stopHorizontal) {

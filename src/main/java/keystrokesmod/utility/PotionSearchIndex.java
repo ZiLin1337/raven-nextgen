@@ -184,11 +184,11 @@ public final class PotionSearchIndex {
     }
 
     private static ItemStack resolvePotionItemStack(int potionId) {
-        if (!(Items.potionitem instanceof ItemPotion)) {
+        if (!(Items.POTION instanceof ItemPotion)) {
             return null;
         }
 
-        ItemPotion potionItem = (ItemPotion) Items.potionitem;
+        ItemPotion potionItem = (ItemPotion) Items.POTION;
         ItemStack bestStack = null;
         int bestScore = Integer.MIN_VALUE;
 
@@ -226,10 +226,10 @@ public final class PotionSearchIndex {
 
             if (score > bestScore) {
                 bestScore = score;
-                bestStack = new ItemStack(Items.potionitem, 1, metadata);
+                bestStack = new ItemStack(Items.POTION, 1, metadata);
             }
         }
 
-        return bestStack != null ? bestStack : new ItemStack(Items.potionitem);
+        return bestStack != null ? bestStack : new ItemStack(Items.POTION);
     }
 }

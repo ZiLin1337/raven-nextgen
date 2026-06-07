@@ -58,7 +58,7 @@ public class GroupComponent extends Component {
     public void render() {
         float progress = getAnimationProgress();
         RavenFontRenderer renderer = Gui.getClickGuiSettingFontRenderer();
-        GL11.glPushMatrix();
+        RenderSystem.getModelViewStack().pushMatrix();
         GL11.glScaled(0.5D, 0.5D, 0.5D);
         float strX = ((this.component.categoryComponent.getX() + 4) * 2) + 1;
         float strY = (this.component.categoryComponent.getY() + this.o + 4) * 2;
@@ -69,22 +69,22 @@ public class GroupComponent extends Component {
             int arrowWidth = renderer.getStringWidth(">");
             int fontHeight = renderer.getFontHeight();
 
-            GL11.glPushMatrix();
-            GL11.glTranslatef(strX, strY, 0F);
+            RenderSystem.getModelViewStack().pushMatrix();
+            RenderSystem.translate(strX, strY, 0F);
 
             float arrowX = firstBracketWidth - 2;
-            GL11.glTranslatef(arrowX + (arrowWidth / 2F), (fontHeight / 2F), 0F);
-            GL11.glRotatef(90F * progress, 0F, 0F, 1F);
-            GL11.glTranslatef(-(arrowWidth / 2F), -(fontHeight / 2F), 0F);
+            RenderSystem.translate(arrowX + (arrowWidth / 2F), (fontHeight / 2F), 0F);
+            RenderSystem.rotate(90F * progress, 0F, 0F, 1F);
+            RenderSystem.translate(-(arrowWidth / 2F), -(fontHeight / 2F), 0F);
 
             drawString(renderer, ">", 0, 0);
-            GL11.glPopMatrix();
+            RenderSystem.getModelViewStack().popMatrix();
             drawString(renderer, "]  " + this.setting.getName(), strX + firstBracketWidth + arrowWidth, strY);
         }
         else {
             drawString(renderer, "[>]  " + this.setting.getName(), strX, strY);
         }
-        GL11.glPopMatrix();
+        RenderSystem.getModelViewStack().popMatrix();
     }
 
     public void updateHeight(float n) {

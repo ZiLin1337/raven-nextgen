@@ -56,7 +56,7 @@ public class Fly extends Module {
 
     
     public void onCollision(CollisionEvent e) {
-        if (mode.getInput() != 3 || Utils.isBindDown(mc.gameSettings.keyBindSneak)) {
+        if (mode.getInput() != 3 || Utils.isBindDown(mc.options.keyBindSneak)) {
             this.maxY = mc.player.getPosition().getY();
             return;
         }
@@ -138,7 +138,7 @@ public class Fly extends Module {
         if (!showBPS.isToggled() || e.phase != TickEvent.Phase.END || !Utils.nullCheck()) {
             return;
         }
-        if (mc.currentScreen != null || mc.gameSettings.showDebugInfo) {
+        if (mc.currentScreen != null || mc.options.showDebugInfo) {
             return;
         }
         RenderUtils.renderBPS(true, false);

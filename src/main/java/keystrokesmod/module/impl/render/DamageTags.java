@@ -251,7 +251,7 @@ public class DamageTags extends Module {
                 continue;
             }
 
-            LivingEntity living = (EntityLivingBase) entity;
+            LivingEntity living = (LivingEntity) entity;
             HealthSnapshot previous = trackedStates.get(update.entityId);
 
             float newHealth = update.hasHealth ? update.health : getHealth(living);
@@ -285,14 +285,14 @@ public class DamageTags extends Module {
             return !(entity instanceof LivingEntity) || entity instanceof ArmorStandEntity || entity == mc.player;
         });
 
-        List<Entity> loaded = mc.world.loadedEntityList;
+        List<Entity> loaded = mc.world.getEntities();
         for (int i = 0, n = loaded.size(); i < n; i++) {
             Entity entity = loaded.get(i);
             if (!(entity instanceof LivingEntity) || entity instanceof ArmorStandEntity || entity == mc.player) {
                 continue;
             }
 
-            LivingEntity living = (EntityLivingBase) entity;
+            LivingEntity living = (LivingEntity) entity;
             trackedStates.put(entity.getEntityId(), new HealthSnapshot(getHealth(living), getAbsorption(living)));
         }
     }
@@ -307,7 +307,7 @@ public class DamageTags extends Module {
         }
     }
 
-    private void spawnTag(EntityLivingBase living, float delta, float partialTicks, long nowMillis) {
+    private void spawnTag(LivingEntity living, float delta, float partialTicks, long nowMillis) {
         double x = interpolate(living.lastTickPosX, living.posX, partialTicks);
         double y = interpolate(living.lastTickPosY, living.posY, partialTicks) + living.height + 0.5D;
         double z = interpolate(living.lastTickPosZ, living.posZ, partialTicks);
@@ -350,7 +350,7 @@ public class DamageTags extends Module {
         RenderSystem.translate((float) x, (float) y, (float) z);
         GL11.glNormal3f(0.0F, 1.0F, 0.0F);
         RenderSystem.rotate(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-        RenderSystem.rotate(renderManager.playerViewX * (mc.gameSettings.thirdPersonView == 2 ? -1 : 1), 1.0F, 0.0F, 0.0F);
+        RenderSystem.rotate(renderManager.playerViewX * (mc.options.thirdPersonView == 2 ? -1 : 1), 1.0F, 0.0F, 0.0F);
         RenderSystem.scale(-renderScale, -renderScale, renderScale);
 
         RenderSystem.disableLighting();
@@ -417,7 +417,7 @@ public class DamageTags extends Module {
 
         RenderSystem.disableTexture2D();
         Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder worldRenderer = tessellator.getWorldRenderer();
+        BufferBuilder worldRenderer = tessellator.getBufferBuilder();
         worldRenderer.begin(7, VertexFormats.POSITION_COLOR);
         worldRenderer.pos(-halfWidth - 1, -1, 0.0D).color(0.0F, 0.0F, 0.0F, bgAlpha).endVertex();
         worldRenderer.pos(-halfWidth - 1, 8, 0.0D).color(0.0F, 0.0F, 0.0F, bgAlpha).endVertex();
@@ -456,13 +456,13 @@ public class DamageTags extends Module {
         return overlaps * 0.15D;
     }
 
-    private float getHealth(EntityLivingBase living) {
+    private float getHealth(LivingEntity living) {
         return Math.max(0.0F, living.getHealth());
     }
 
-    private float getAbsorption(EntityLivingBase living) {
+    private float getAbsorption(LivingEntity living) {
         if (living instanceof PlayerEntity) {
-            return Math.max(0.0F, ((EntityPlayer) living).getAbsorptionAmount());
+            return Math.max(0.0F, ((PlayerEntity) living).getAbsorptionAmount());
         }
         return 0.0F;
     }

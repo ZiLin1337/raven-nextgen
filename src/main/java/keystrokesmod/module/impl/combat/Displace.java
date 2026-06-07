@@ -23,11 +23,11 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.network.play.client.PlayerMoveC2SPacket;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3dd;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
@@ -172,17 +172,17 @@ public class Displace extends Module {
     }
 
     private boolean anyMovementKey() {
-        return mc.gameSettings.keyBindForward.isKeyDown()
-                || mc.gameSettings.keyBindBack.isKeyDown()
-                || mc.gameSettings.keyBindLeft.isKeyDown()
-                || mc.gameSettings.keyBindRight.isKeyDown();
+        return mc.options.keyBindForward.isKeyDown()
+                || mc.options.keyBindBack.isKeyDown()
+                || mc.options.keyBindLeft.isKeyDown()
+                || mc.options.keyBindRight.isKeyDown();
     }
 
     private boolean isDynamicAngle() {
         return dynamicAngle.getInput() == 1;
     }
 
-    private Float findStaticVoidYaw(EntityPlayer target) {
+    private Float findStaticVoidYaw(PlayerEntity target) {
         if (target == null || mc.player == null || mc.world == null) {
             return null;
         }
@@ -235,11 +235,11 @@ public class Displace extends Module {
         double aimRadius = Math.min(dist, Math.max(0.35D, (double) target.width * 0.5D + 0.15D));
         double aimX = target.posX + dx / dist * aimRadius;
         double aimZ = target.posZ + dz / dist * aimRadius;
-        Vec3 eyes = mc.player.getPositionEyes(1.0F);
+        Vec3d eyes = mc.player.getPositionEyes(1.0F);
         return RotationUtils.getRotationsFromEye(eyes, aimX, target.posY + (double) target.getEyeHeight() * 0.5D, aimZ)[0];
     }
 
-    private Float findDynamicVoidYaw(EntityPlayer target) {
+    private Float findDynamicVoidYaw(PlayerEntity target) {
         if (target == null || mc.player == null || mc.world == null) {
             return null;
         }
@@ -272,7 +272,7 @@ public class Displace extends Module {
         return (float) (Math.toDegrees(Math.atan2(forwardZ, forwardX)) - 90.0D);
     }
 
-    private double scoreVoidPath(EntityPlayer target, double forwardX, double forwardZ) {
+    private double scoreVoidPath(PlayerEntity target, double forwardX, double forwardZ) {
         double sideX = -forwardZ;
         double sideZ = forwardX;
         double score = 0.0D;
@@ -311,7 +311,7 @@ public class Displace extends Module {
         return score;
     }
 
-    private boolean isDynamicPathClear(EntityPlayer target, Box baseCollisionBox, double forwardX, double forwardZ, double fromForward, double toForward) {
+    private boolean isDynamicPathClear(PlayerEntity target, Box baseCollisionBox, double forwardX, double forwardZ, double fromForward, double toForward) {
         for (double forward = fromForward + DYNAMIC_WALL_CHECK_STEP; forward <= toForward + 1.0E-4D; forward += DYNAMIC_WALL_CHECK_STEP) {
             Box checkBox = baseCollisionBox.offset(forwardX * forward, 0.0D, forwardZ * forward);
             if (hasBlockCollision(target, checkBox)) {
@@ -321,7 +321,7 @@ public class Displace extends Module {
         return true;
     }
 
-    private boolean hasBlockCollision(EntityPlayer target, Box box) {
+    private boolean hasBlockCollision(PlayerEntity target, Box box) {
         int minX = MathHelper.floor_double(box.minX);
         int maxX = MathHelper.floor_double(box.maxX + 1.0D);
         int minY = MathHelper.floor_double(box.minY);
@@ -344,7 +344,7 @@ public class Displace extends Module {
 
                     blockPos.set(blockX, blockY, blockZ);
                     BlockState state = mc.world.getBlockState(blockPos);
-                    state.getBlock().addCollisionBoxesToList(mc.world, blockPos, state, box, collisions, target);
+                    state.getBlockState().getBlock()).addCollisionBoxesToList(mc.world, blockPos, state, box, collisions, target);
                     if (!collisions.isEmpty()) {
                         return true;
                     }
@@ -368,7 +368,7 @@ public class Displace extends Module {
         return true;
     }
 
-    private void updateDisplaceSide(EntityPlayer target, double voidX, double voidZ) {
+    private void updateDisplaceSide(PlayerEntity target, double voidX, double voidZ) {
         double targetDx = target.posX - mc.player.getX();
         double targetDz = target.posZ - mc.player.getZ();
         double voidDx = voidX - mc.player.getX();
@@ -430,13 +430,13 @@ public class Displace extends Module {
         while (iterator.hasNext()) {
             Map.Entry<Integer, Integer> entry = iterator.next();
             Entity entity = mc.world.getEntityByID(entry.getKey());
-            if (!(entity instanceof PlayerEntity) || entity.isDead || ((EntityPlayer) entity).deathTime != 0) {
+            if (!(entity instanceof PlayerEntity) || entity.isDead || ((PlayerEntity) entity).deathTime != 0) {
                 iterator.remove();
             }
         }
     }
 
-    private boolean shouldDisplaceInCurrentWindow(EntityPlayer target, int currentTick) {
+    private boolean shouldDisplaceInCurrentWindow(PlayerEntity target, int currentTick) {
         if (target == null) {
             return true;
         }
@@ -528,19 +528,19 @@ public class Displace extends Module {
         double viewerY = mc.getEntityRenderDispatcher().viewerPosY;
         double viewerZ = mc.getEntityRenderDispatcher().viewerPosZ;
 
-        GL11.glPushMatrix();
+        RenderSystem.getModelViewStack().pushMatrix();
         GL11.glPushAttrib(GL11.GL_ENABLE_BIT | GL11.GL_COLOR_BUFFER_BIT | GL11.GL_LINE_BIT | GL11.GL_DEPTH_BUFFER_BIT | GL11.GL_CURRENT_BIT);
-        GL11.glEnable(GL11.GL_BLEND);
+        RenderSystem.enableBlend(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glDisable(GL11.GL_LIGHTING);
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
-        GL11.glDisable(GL11.GL_CULL_FACE);
+        RenderSystem.disableBlend(GL11.GL_TEXTURE_2D);
+        RenderSystem.disableBlend(GL11.GL_LIGHTING);
+        RenderSystem.disableBlend(GL11.GL_DEPTH_TEST);
+        RenderSystem.disableBlend(GL11.GL_CULL_FACE);
         GL11.glDepthMask(false);
-        GL11.glEnable(GL11.GL_LINE_SMOOTH);
+        RenderSystem.enableBlend(GL11.GL_LINE_SMOOTH);
 
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.82F * alpha);
-        GL11.glBegin(GL11.GL_TRIANGLES);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.82F * alpha);
+        // GL11 replaced(GL11.GL_TRIANGLES);
         GL11.glVertex3d(tailX - viewerX, centerY - viewerY, tailZ - viewerZ);
         arrowVertex(bodyEndX, centerY, bodyEndZ, -ARROW_BODY_HALF_HEIGHT, viewerX, viewerY, viewerZ);
         arrowVertex(bodyEndX, centerY, bodyEndZ, ARROW_BODY_HALF_HEIGHT, viewerX, viewerY, viewerZ);
@@ -553,21 +553,21 @@ public class Displace extends Module {
         arrowVertex(bodyEndX, centerY, bodyEndZ, ARROW_BODY_HALF_HEIGHT, viewerX, viewerY, viewerZ);
         GL11.glVertex3d(tipX - viewerX, centerY - viewerY, tipZ - viewerZ);
         arrowVertex(headBackX, centerY, headBackZ, ARROW_HEAD_HALF_HEIGHT, viewerX, viewerY, viewerZ);
-        GL11.glEnd();
+        // GL11 replaced();
 
-        GL11.glLineWidth(2.0F);
-        GL11.glColor4f(0.0F, 0.0F, 0.0F, 0.95F * alpha);
-        GL11.glBegin(GL11.GL_LINE_LOOP);
+        RenderSystem.lineWidth(2.0F);
+        RenderSystem.setShaderColor(0.0F, 0.0F, 0.0F, 0.95F * alpha);
+        // GL11 replaced(GL11.GL_LINE_LOOP);
         GL11.glVertex3d(tailX - viewerX, centerY - viewerY, tailZ - viewerZ);
         arrowVertex(bodyEndX, centerY, bodyEndZ, -ARROW_BODY_HALF_HEIGHT, viewerX, viewerY, viewerZ);
         arrowVertex(headBackX, centerY, headBackZ, -ARROW_HEAD_HALF_HEIGHT, viewerX, viewerY, viewerZ);
         GL11.glVertex3d(tipX - viewerX, centerY - viewerY, tipZ - viewerZ);
         arrowVertex(headBackX, centerY, headBackZ, ARROW_HEAD_HALF_HEIGHT, viewerX, viewerY, viewerZ);
         arrowVertex(bodyEndX, centerY, bodyEndZ, ARROW_BODY_HALF_HEIGHT, viewerX, viewerY, viewerZ);
-        GL11.glEnd();
+        // GL11 replaced();
 
         GL11.glPopAttrib();
-        GL11.glPopMatrix();
+        RenderSystem.getModelViewStack().popMatrix();
 
         if (activeArrow) {
             lastRenderedDisplaceYaw = arrowYaw;
@@ -613,7 +613,7 @@ public class Displace extends Module {
         if (!blink.isToggled() || !active || !displaceThisTick || releaseBlinkNextGameTick) {
             return;
         }
-        if (!(e.getPacket() instanceof C03PacketPlayer)) {
+        if (!(e.getPacket() instanceof PlayerMoveC2SPacket)) {
             return;
         }
         if (outboundBlink != null) {
@@ -648,7 +648,7 @@ public class Displace extends Module {
         }
 
         PlayerEntity target = null;
-        boolean attacking = mc.gameSettings.keyBindAttack.isKeyDown()
+        boolean attacking = mc.options.keyBindAttack.isKeyDown()
                 || (ModuleManager.killAura != null && ModuleManager.killAura.isEnabled() && KillAura.target != null);
         if (attacking) {
             target = CombatTargeting.findClosestTarget(9.0, ignoreTeammates.isToggled());
@@ -688,7 +688,7 @@ public class Displace extends Module {
         }
 
         if (!displaceThisTick && wasDisplacingLastTick) {
-            int key = mc.gameSettings.keyBindAttack.getKeyCode();
+            int key = mc.options.keyBindAttack.getKeyCode();
             if (key != 0) {
                 KeyBinding.onTick(key);
             }

@@ -7,18 +7,18 @@ import keystrokesmod.module.setting.impl.ColorSetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.module.setting.impl.StringListSetting;
 import keystrokesmod.utility.RenderUtils;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ButtonWidget;
+import net.minecraft.client.gui.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.inventory.ContainerChest;
-import net.minecraft.network.play.server.S2EPacketCloseWindow;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.network.play.server.CloseHandledScreenS2CPacket;
+import net.minecraft.util.Identifier;
 // Removed Forge event
 // Removed Forge event
-import net.minecraftforge.fml.client.config.GuiButtonExt;
+import net.minecraftforge.fml.client.config.ButtonWidgetExt;
 
 import java.io.IOException;
 
@@ -46,7 +46,7 @@ public class HideWindow extends Module {
         super("Hide Window", category.player);
         this.registerSetting(iconColor = new ColorSetting("Icon color", 255, 255, 255));
         this.registerSetting(iconScale = new SliderSetting("Icon scale", 1.0, 0.5, 3.0, 0.1));
-        this.registerSetting(new ButtonSetting("Edit position", () -> mc.displayGuiScreen(new EditScreen())));
+        this.registerSetting(new ButtonSetting("Edit position", () -> mc.displayScreen(new EditScreen())));
         this.registerSetting(onlyWhileCrouching = new ButtonSetting("Only while crouching", false));
         this.registerSetting(whitelist = new ButtonSetting("Whitelist", false));
         this.registerSetting(whitelistEntries = new StringListSetting("Whitelist names", "e.g. Upgrades & Traps", 128));
@@ -105,7 +105,7 @@ public class HideWindow extends Module {
 
     
     public void onReceivePacket(ReceivePacketEvent event) {
-        if (event.getPacket() instanceof S2EPacketCloseWindow) {
+        if (event.getPacket() instanceof CloseHandledScreenS2CPacket) {
             hiddenGui = null;
         }
     }
@@ -120,7 +120,7 @@ public class HideWindow extends Module {
         if (event.phase != TickEvent.Phase.END) {
             return;
         }
-        if (hiddenGui == null || mc.currentScreen != null || mc.gameSettings.showDebugInfo) {
+        if (hiddenGui == null || mc.currentScreen != null || mc.options.showDebugInfo) {
             return;
         }
         renderIcon(false);
@@ -162,7 +162,7 @@ public class HideWindow extends Module {
 
     private void renderIcon(boolean editing) {
         syncPosition();
-        ResourceLocation icon = RenderUtils.getIcon(ICON_PATH);
+        Identifier icon = RenderUtils.getIcon(ICON_PATH);
         if (icon == null) {
             return;
         }
@@ -179,10 +179,10 @@ public class HideWindow extends Module {
             float outTop = drawY - 2;
             float outRight = drawX + size + 2;
             float outBottom = drawY + size + 2;
-            RenderUtils.drawRect(outLeft, outTop, outRight, outTop + 1, EDIT_OUTLINE_COLOR);
-            RenderUtils.drawRect(outLeft, outBottom - 1, outRight, outBottom, EDIT_OUTLINE_COLOR);
-            RenderUtils.drawRect(outLeft, outTop, outLeft + 1, outBottom, EDIT_OUTLINE_COLOR);
-            RenderUtils.drawRect(outRight - 1, outTop, outRight, outBottom, EDIT_OUTLINE_COLOR);
+            RenderUtils.DrawContextHelper.drawRect(outLeft, outTop, outRight, outTop + 1, EDIT_OUTLINE_COLOR);
+            RenderUtils.DrawContextHelper.drawRect(outLeft, outBottom - 1, outRight, outBottom, EDIT_OUTLINE_COLOR);
+            RenderUtils.DrawContextHelper.drawRect(outLeft, outTop, outLeft + 1, outBottom, EDIT_OUTLINE_COLOR);
+            RenderUtils.DrawContextHelper.drawRect(outRight - 1, outTop, outRight, outBottom, EDIT_OUTLINE_COLOR);
         }
     }
 
@@ -243,8 +243,8 @@ public class HideWindow extends Module {
         return "";
     }
 
-    private class EditScreen extends GuiScreen {
-        private GuiButtonExt resetBtn;
+    private class EditScreen extends Screen {
+        private ButtonWidgetExt resetBtn;
         private boolean dragging;
         private float actualX, actualY;
         private float lastActualX, lastActualY;
@@ -253,7 +253,7 @@ public class HideWindow extends Module {
         @Override
         public void initGui() {
             super.initGui();
-            buttonList.add(resetBtn = new GuiButtonExt(1, width - 90, height - 25, 85, 20, "Reset position"));
+            buttonList.add(resetBtn = new ButtonWidgetExt(1, width - 90, height - 25, 85, 20, "Reset position"));
             syncPosition(new ScaledResolution(mc));
             actualX = posX;
             actualY = posY;
@@ -268,7 +268,7 @@ public class HideWindow extends Module {
                 actualY = posY;
             }
 
-            drawRect(0, 0, width, height, 0xB2000000);
+            DrawContextHelper.drawRect(0, 0, width, height, 0xB2000000);
             setAbsolutePosition(actualX, actualY, resolution);
             renderIcon(true);
             actualX = posX;
@@ -320,7 +320,7 @@ public class HideWindow extends Module {
         }
 
         @Override
-        public void actionPerformed(GuiButton button) {
+        public void actionPerformed(ButtonWidget button) {
             if (button == resetBtn) {
                 resetPosition();
                 actualX = posX;

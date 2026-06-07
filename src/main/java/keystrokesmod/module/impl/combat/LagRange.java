@@ -22,7 +22,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3dd;
 
 import org.lwjgl.opengl.GL11;
 
@@ -53,8 +53,8 @@ public class LagRange extends Module {
     private boolean lastBlockingState;
     private LagRequest outboundLag;
 
-    private Vec3 indicatorInterpFrom;
-    private Vec3 indicatorInterpTo;
+    private Vec3d indicatorInterpFrom;
+    private Vec3d indicatorInterpTo;
     private long indicatorInterpStartMs;
 
     public LagRange() {
@@ -268,9 +268,9 @@ public class LagRange extends Module {
             return;
         }
         if (!realPositionIndicator.isToggled()) return;
-        if (mc.gameSettings.thirdPersonView == 0 && !showInFirstPerson.isToggled()) return;
+        if (mc.options.thirdPersonView == 0 && !showInFirstPerson.isToggled()) return;
 
-        Vec3 delayedPos = Raven.lagHandler.getLastReleasedServerPosition();
+        Vec3d delayedPos = Raven.lagHandler.getLastReleasedServerPosition();
         if (delayedPos == null) {
             clearIndicatorInterp();
             return;
@@ -283,13 +283,13 @@ public class LagRange extends Module {
             indicatorInterpStartMs = nowMs;
         } else if (serverPosChanged(delayedPos, indicatorInterpTo)) {
             double te = Math.min(1.0D, (nowMs - indicatorInterpStartMs) / (double) INDICATOR_INTERP_MS);
-            indicatorInterpFrom = lerpVec3(indicatorInterpFrom, indicatorInterpTo, te);
+            indicatorInterpFrom = lerpVec3d(indicatorInterpFrom, indicatorInterpTo, te);
             indicatorInterpTo = delayedPos;
             indicatorInterpStartMs = nowMs;
         }
 
         double t = Math.min(1.0D, (nowMs - indicatorInterpStartMs) / (double) INDICATOR_INTERP_MS);
-        Vec3 drawPos = lerpVec3(indicatorInterpFrom, indicatorInterpTo, t);
+        Vec3d drawPos = lerpVec3d(indicatorInterpFrom, indicatorInterpTo, t);
 
         double viewX = mc.getEntityRenderDispatcher().viewerPosX;
         double viewY = mc.getEntityRenderDispatcher().viewerPosY;
@@ -301,7 +301,7 @@ public class LagRange extends Module {
                 drawPos.xCoord - halfW, drawPos.yCoord, drawPos.zCoord - halfW,
                 drawPos.xCoord + halfW, drawPos.yCoord + height, drawPos.zCoord + halfW
         );
-        Vec3 cameraPos = Utils.getCameraPos(e.partialTicks);
+        Vec3d cameraPos = Utils.getCameraPos(e.partialTicks);
         if (worldBox.isVecInside(cameraPos)) return;
         Box box = worldBox.offset(-viewX, -viewY, -viewZ);
 
@@ -310,7 +310,7 @@ public class LagRange extends Module {
         float b = indicatorColor.getBlue() / 255.0f;
         float a = indicatorColor.getAlpha() / 255.0f;
 
-        GL11.glPushMatrix();
+        RenderSystem.getModelViewStack().pushMatrix();
         RenderSystem.enableBlend();
         RenderSystem.disableTexture2D();
         RenderSystem.disableDepth();
@@ -321,16 +321,16 @@ public class LagRange extends Module {
             RenderUtils.drawBoundingBox(box, r, g, b, a);
         }
 
-        GL11.glLineWidth((float) indicatorLineWidth.getInput());
-        GL11.glColor4f(r, g, b, a);
-        WorldRenderer.drawSelectionBoundingBox(box);
+        RenderSystem.lineWidth((float) indicatorLineWidth.getInput());
+        RenderSystem.setShaderColor(r, g, b, a);
+        BufferBuilder.drawSelectionBoundingBox(box);
 
-        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.enableDepth();
         RenderSystem.depthMask(true);
         RenderSystem.enableTexture2D();
         RenderSystem.disableBlend();
-        GL11.glPopMatrix();
+        RenderSystem.getModelViewStack().popMatrix();
     }
 
     private void startLag() {
@@ -368,27 +368,27 @@ public class LagRange extends Module {
         indicatorInterpStartMs = 0L;
     }
 
-    private static boolean serverPosChanged(Vec3 a, Vec3 b) {
+    private static boolean serverPosChanged(Vec3d a, Vec3d b) {
         return Math.abs(a.xCoord - b.xCoord) > POS_EPS
                 || Math.abs(a.yCoord - b.yCoord) > POS_EPS
                 || Math.abs(a.zCoord - b.zCoord) > POS_EPS;
     }
 
-    private static Vec3 lerpVec3(Vec3 from, Vec3 to, double t) {
+    private static Vec3d lerpVec3d(Vec3d from, Vec3d to, double t) {
         if (t <= 0.0D) {
             return from;
         }
         if (t >= 1.0D) {
             return to;
         }
-        return new Vec3(
+        return new Vec3d(
                 from.xCoord + (to.xCoord - from.xCoord) * t,
                 from.yCoord + (to.yCoord - from.yCoord) * t,
                 from.zCoord + (to.zCoord - from.zCoord) * t
         );
     }
 
-    private boolean sameTarget(EntityPlayer nextTarget) {
+    private boolean sameTarget(PlayerEntity nextTarget) {
         if (currentTarget == null || nextTarget == null) {
             return currentTarget == nextTarget;
         }

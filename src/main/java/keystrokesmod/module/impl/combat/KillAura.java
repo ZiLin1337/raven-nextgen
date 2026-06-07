@@ -26,7 +26,7 @@ import net.minecraft.entity.mob.SilverfishEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3dd;
 
 // Removed Forge event
 
@@ -176,7 +176,7 @@ public class KillAura extends Module {
         if (target == null) return;
         if (targetDistance > swingRange.getInput()) return;
 
-        int key = mc.gameSettings.keyBindAttack.getKeyCode();
+        int key = mc.options.keyBindAttack.getKeyCode();
         long now = System.currentTimeMillis();
         if (nextClickTime == 0) {
             nextClickTime = now;
@@ -237,7 +237,7 @@ public class KillAura extends Module {
         float fovValue = (float) fov.getInput();
 
         List<KillAuraTarget> candidates = new ArrayList<>();
-        for (Entity entity : mc.world.loadedEntityList) {
+        for (Entity entity : mc.world.getEntities()) {
             Candidate candidate = getCandidateTarget(entity, maxRange, fovValue);
             if (candidate == null) {
                 continue;
@@ -409,7 +409,7 @@ public class KillAura extends Module {
             if (!golems.containsKey(entityCreature.getEntityId())) {
                 double nearestDistance = -1;
                 ArmorStandEntity nearestArmorStand = null;
-                for (Entity entity : mc.world.loadedEntityList) {
+                for (Entity entity : mc.world.getEntities()) {
                     if (!(entity instanceof ArmorStandEntity)) {
                         continue;
                     }
@@ -497,10 +497,10 @@ public class KillAura extends Module {
             return;
         }
 
-        Vec3 eyes = viewEntity.getPositionEyes(partialTicks);
-        Vec3 look = viewEntity.getLook(partialTicks);
+        Vec3d eyes = viewEntity.getPositionEyes(partialTicks);
+        Vec3d look = viewEntity.getLook(partialTicks);
         double reach = attackRange.getInput();
-        Vec3 rayEnd = eyes.addVector(look.xCoord * reach, look.yCoord * reach, look.zCoord * reach);
+        Vec3d rayEnd = eyes.addVector(look.xCoord * reach, look.yCoord * reach, look.zCoord * reach);
 
         float border = attackingEntity.getCollisionBorderSize();
         Box bb = attackingEntity.getEntityBoundingBox().expand(border, border, border);
@@ -510,7 +510,7 @@ public class KillAura extends Module {
             return;
         }
 
-        Vec3 hitVec = inside ? (intercept == null ? eyes : intercept.hitVec) : intercept.hitVec;
+        Vec3d hitVec = inside ? (intercept == null ? eyes : intercept.hitVec) : intercept.hitVec;
         if (!aimThroughBlocks.isToggled()) {
             HitResult blockHit = mc.world.rayTraceBlocks(eyes, hitVec, false, false, true);
             if (blockHit != null && blockHit.typeOfHit == HitResult.MovingObjectType.BLOCK) {

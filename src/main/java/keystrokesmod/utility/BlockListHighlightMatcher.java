@@ -41,7 +41,7 @@ public final class BlockListHighlightMatcher implements BlockHighlightMatcher {
         if (state == null) {
             return false;
         }
-        Block block = state.getBlock();
+        Block block = state.getBlockState().getBlock());
         if (block == null) {
             return false;
         }

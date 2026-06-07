@@ -92,7 +92,7 @@ public class FastPlace extends Module {
             return;
         }
 
-        PlayerInteractBlockC2SPacket packet = (C08PacketPlayerBlockPlacement) e.getPacket();
+        PlayerInteractBlockC2SPacket packet = (PlayerInteractBlockC2SPacket) e.getPacket();
         if (packet.getPlacedBlockDirection() != 255) {
             return;
         }
@@ -112,7 +112,7 @@ public class FastPlace extends Module {
     }
 
     private boolean isBlockedHoverBlock() {
-        if (!blockBlacklistToggle.isToggled() || mc.objectMouseOver == null || mc.objectMouseOver.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) {
+        if (!blockBlacklistToggle.isToggled() || mc.objectMouseOver == null || mc.objectMouseOver.typeOfHit != HitResult.MovingObjectType.BLOCK) {
             return false;
         }
 
@@ -122,7 +122,7 @@ public class FastPlace extends Module {
         }
 
         BlockState state = mc.world.getBlockState(hoveredPos);
-        Block hoveredBlock = state.getBlock();
+        Block hoveredBlock = state.getBlockState().getBlock());
         if (hoveredBlock == null || Block.blockRegistry.getNameForObject(hoveredBlock) == null) {
             return false;
         }
@@ -134,7 +134,7 @@ public class FastPlace extends Module {
     }
 
     private boolean isRightClickActive() {
-        return Utils.isBindDown(mc.gameSettings.keyBindUseItem) || mc.player.isUsingItem();
+        return Utils.isBindDown(mc.options.keyBindUseItem) || mc.player.isUsingItem();
     }
 
     private boolean canFastPlace(long now, boolean requireActivationDelay) {

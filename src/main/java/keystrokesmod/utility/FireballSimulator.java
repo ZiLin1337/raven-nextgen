@@ -12,7 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3dd;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -32,10 +32,10 @@ public final class FireballSimulator {
 
     private static final class BlockCollisionResult {
         private final HitResult collision;
-        private final Vec3 impactPosition;
+        private final Vec3d impactPosition;
         private final double distanceSq;
 
-        private BlockCollisionResult(MovingObjectPosition collision, Vec3 impactPosition, double distanceSq) {
+        private BlockCollisionResult(HitResult collision, Vec3d impactPosition, double distanceSq) {
             this.collision = collision;
             this.impactPosition = impactPosition;
             this.distanceSq = distanceSq;
@@ -53,7 +53,7 @@ public final class FireballSimulator {
 
         World world = fireball.worldObj;
         if (world == null) {
-            Vec3 pos = new Vec3(fireball.posX, fireball.posY, fireball.posZ);
+            Vec3d pos = new Vec3d(fireball.posX, fireball.posY, fireball.posZ);
             return new Result(HitType.NONE, null, null, null, pos, 0);
         }
 
@@ -72,7 +72,7 @@ public final class FireballSimulator {
         LivingEntity shooter = fireball.shootingEntity;
         int ticksInAir = Math.max(0, fireball.ticksExisted);
         int simulatedTicks = 0;
-        Vec3 finalPosition = new Vec3(posX, posY, posZ);
+        Vec3d finalPosition = new Vec3d(posX, posY, posZ);
 
         for (int tick = 0; tick < Math.max(1, maxTicks); tick++) {
             simulatedTicks = tick + 1;
@@ -89,15 +89,15 @@ public final class FireballSimulator {
             motionY = motion[1];
             motionZ = motion[2];
 
-            Vec3 start = new Vec3(posX, posY, posZ);
-            Vec3 end = new Vec3(posX + motionX, posY + motionY, posZ + motionZ);
+            Vec3d start = new Vec3d(posX, posY, posZ);
+            Vec3d end = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
             Box sweepBounds = getSweepBounds(posX, posY, posZ, motionX, motionY, motionZ, width, height);
             BlockCollisionResult blockCollision = getBlockCollision(world, start, end, sweepBounds, halfWidth, height);
             HitResult blockHit = blockCollision.collision;
-            Vec3 searchEnd = blockCollision.impactPosition != null ? blockCollision.impactPosition : end;
+            Vec3d searchEnd = blockCollision.impactPosition != null ? blockCollision.impactPosition : end;
             double bestDistanceSq = blockCollision.distanceSq;
             HitResult bestEntityHit = null;
-            Vec3 bestEntityImpact = null;
+            Vec3d bestEntityImpact = null;
 
             Box searchBox = sweepBounds
                     .expand(SEARCH_EXPANSION, SEARCH_EXPANSION, SEARCH_EXPANSION);
@@ -121,7 +121,7 @@ public final class FireballSimulator {
                 HitResult entityHit = expandedBox.calculateIntercept(start, searchEnd);
 
                 if (entityHit == null && expandedBox.isVecInside(start)) {
-                    entityHit = new MovingObjectPosition(candidate, start);
+                    entityHit = new HitResult(candidate, start);
                 }
 
                 if (entityHit == null) {
@@ -131,7 +131,7 @@ public final class FireballSimulator {
                 double distanceSq = start.squareDistanceTo(entityHit.hitVec);
                 if (distanceSq + COLLISION_EPSILON_SQ < bestDistanceSq) {
                     bestDistanceSq = distanceSq;
-                    bestEntityHit = new MovingObjectPosition(candidate, entityHit.hitVec);
+                    bestEntityHit = new HitResult(candidate, entityHit.hitVec);
                     bestEntityImpact = entityHit.hitVec;
                 }
             }
@@ -147,7 +147,7 @@ public final class FireballSimulator {
             posX += motionX;
             posY += motionY;
             posZ += motionZ;
-            finalPosition = new Vec3(posX, posY, posZ);
+            finalPosition = new Vec3d(posX, posY, posZ);
 
             motionX += accelerationX;
             motionY += accelerationY;
@@ -209,8 +209,8 @@ public final class FireballSimulator {
     }
 
     private static BlockCollisionResult getBlockCollision(World world,
-                                                          Vec3 start,
-                                                          Vec3 end,
+                                                          Vec3d start,
+                                                          Vec3d end,
                                                           Box sweepBounds,
                                                           double halfWidth,
                                                           double projectileHeight) {
@@ -228,7 +228,7 @@ public final class FireballSimulator {
         List<Box> collisionBoxes = new ArrayList<>();
         BlockPos.Mutable mutablePos = new BlockPos.Mutable();
         HitResult bestCollision = null;
-        Vec3 bestImpactPosition = null;
+        Vec3d bestImpactPosition = null;
         double bestDistanceSq = Double.MAX_VALUE;
 
         for (int x = minX; x < maxX; ++x) {
@@ -236,7 +236,7 @@ public final class FireballSimulator {
                 for (int z = minZ; z < maxZ; ++z) {
                     mutablePos.set(x, y, z);
                     BlockState blockState = world.getBlockState(mutablePos);
-                    Block block = blockState.getBlock();
+                    Block block = blockState.getBlockState().getBlock());
 
                     if (!block.canCollideCheck(blockState, false)) {
                         continue;
@@ -250,7 +250,7 @@ public final class FireballSimulator {
                         HitResult collision = expandedBox.calculateIntercept(start, end);
 
                         if (collision == null && expandedBox.isVecInside(start)) {
-                            collision = new MovingObjectPosition(start, Direction.UP, new BlockPos(mutablePos));
+                            collision = new HitResult(start, Direction.UP, new BlockPos(mutablePos));
                         }
 
                         if (collision == null) {
@@ -261,7 +261,7 @@ public final class FireballSimulator {
                         if (distanceSq + COLLISION_EPSILON_SQ < bestDistanceSq) {
                             bestDistanceSq = distanceSq;
                             bestImpactPosition = collision.hitVec;
-                            bestCollision = new MovingObjectPosition(collision.hitVec, collision.sideHit, new BlockPos(mutablePos));
+                            bestCollision = new HitResult(collision.hitVec, collision.sideHit, new BlockPos(mutablePos));
                         }
                     }
                 }
@@ -285,11 +285,11 @@ public final class FireballSimulator {
         int maxZ = MathHelper.floor_double(waterCheckBox.maxZ + 1.0D);
 
         if (!world.isAreaLoaded(new BlockPos(minX, minY, minZ), new BlockPos(maxX, maxY, maxZ), true)) {
-            return new WaterState(false, new Vec3(0.0D, 0.0D, 0.0D));
+            return new WaterState(false, new Vec3d(0.0D, 0.0D, 0.0D));
         }
 
         boolean inWater = false;
-        Vec3 flow = new Vec3(0.0D, 0.0D, 0.0D);
+        Vec3d flow = new Vec3d(0.0D, 0.0D, 0.0D);
         BlockPos.Mutable mutablePos = new BlockPos.Mutable();
 
         for (int x = minX; x < maxX; ++x) {
@@ -298,19 +298,19 @@ public final class FireballSimulator {
                     mutablePos.set(x, y, z);
                     BlockState blockState = world.getBlockState(mutablePos);
 
-                    if (blockState.getBlock().getMaterial() != Material.water) {
+                    if (blockState.getBlockState().getBlock()).getMaterial() != Material.water) {
                         continue;
                     }
 
                     double liquidSurfaceY = (double) ((float) (y + 1)
-                            - BlockLiquid.getLiquidHeightPercent((Integer) blockState.getValue(BlockLiquid.LEVEL)));
+                            - FluidBlock.getLiquidHeightPercent((Integer) blockState.getValue(FluidBlock.LEVEL)));
 
                     if ((double) maxY < liquidSurfaceY) {
                         continue;
                     }
 
                     inWater = true;
-                    flow = blockState.getBlock().modifyAcceleration(world, mutablePos, fireball, flow);
+                    flow = blockState.getBlockState().getBlock()).modifyAcceleration(world, mutablePos, fireball, flow);
                 }
             }
         }
@@ -328,9 +328,9 @@ public final class FireballSimulator {
 
     private static final class WaterState {
         private final boolean inWater;
-        private final Vec3 flowDirection;
+        private final Vec3d flowDirection;
 
-        private WaterState(boolean inWater, Vec3 flowDirection) {
+        private WaterState(boolean inWater, Vec3d flowDirection) {
             this.inWater = inWater;
             this.flowDirection = flowDirection;
         }
@@ -345,13 +345,13 @@ public final class FireballSimulator {
     public static final class Result {
         private final HitType hitType;
         private final HitResult collision;
-        private final Vec3 hitPosition;
-        private final Vec3 impactPosition;
-        private final Vec3 finalPosition;
+        private final Vec3d hitPosition;
+        private final Vec3d impactPosition;
+        private final Vec3d finalPosition;
         private final int simulatedTicks;
 
-        private Result(HitType hitType, HitResult collision, Vec3 hitPosition, Vec3 impactPosition,
-                       Vec3 finalPosition, int simulatedTicks) {
+        private Result(HitType hitType, HitResult collision, Vec3d hitPosition, Vec3d impactPosition,
+                       Vec3d finalPosition, int simulatedTicks) {
             this.hitType = hitType;
             this.collision = collision;
             this.hitPosition = hitPosition;
@@ -392,15 +392,15 @@ public final class FireballSimulator {
             return collision != null ? collision.getBlockPos() : null;
         }
 
-        public Vec3 getHitPosition() {
+        public Vec3d getHitPosition() {
             return hitPosition;
         }
 
-        public Vec3 getImpactPosition() {
+        public Vec3d getImpactPosition() {
             return impactPosition;
         }
 
-        public Vec3 getFinalPosition() {
+        public Vec3d getFinalPosition() {
             return finalPosition;
         }
 

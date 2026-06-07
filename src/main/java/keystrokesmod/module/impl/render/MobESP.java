@@ -21,7 +21,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3dd;
 
 import org.lwjgl.opengl.GL11;
 
@@ -181,7 +181,7 @@ public class MobESP extends Module {
         if (mod == null || !mod.shouldApplyChamsTo(entity)) {
             return;
         }
-        GL11.glEnable(GL11.GL_POLYGON_OFFSET_FILL);
+        RenderSystem.enableBlend(GL11.GL_POLYGON_OFFSET_FILL);
         GL11.glPolygonOffset(1.0f, -1_100_000.0f);
         MOB_CHAMS_ACTIVE.set(true);
     }
@@ -192,7 +192,7 @@ public class MobESP extends Module {
         }
         MOB_CHAMS_ACTIVE.set(false);
         GL11.glPolygonOffset(1.0f, 1_100_000.0f);
-        GL11.glDisable(GL11.GL_POLYGON_OFFSET_FILL);
+        RenderSystem.disableBlend(GL11.GL_POLYGON_OFFSET_FILL);
     }
 
     private static MobESP getMobEspModule() {
@@ -359,15 +359,15 @@ public class MobESP extends Module {
                 bbox.maxZ - en.getZ() + playerZ
         );
 
-        Vec3d[] corners = new Vec3d[8];
-        corners[0] = new Vec3d(axis.minX, axis.minY, axis.minZ);
-        corners[1] = new Vec3d(axis.minX, axis.minY, axis.maxZ);
-        corners[2] = new Vec3d(axis.minX, axis.maxY, axis.minZ);
-        corners[3] = new Vec3d(axis.minX, axis.maxY, axis.maxZ);
-        corners[4] = new Vec3d(axis.maxX, axis.minY, axis.minZ);
-        corners[5] = new Vec3d(axis.maxX, axis.minY, axis.maxZ);
-        corners[6] = new Vec3d(axis.maxX, axis.maxY, axis.minZ);
-        corners[7] = new Vec3d(axis.maxX, axis.maxY, axis.maxZ);
+        Vec3dd[] corners = new Vec3dd[8];
+        corners[0] = new Vec3dd(axis.minX, axis.minY, axis.minZ);
+        corners[1] = new Vec3dd(axis.minX, axis.minY, axis.maxZ);
+        corners[2] = new Vec3dd(axis.minX, axis.maxY, axis.minZ);
+        corners[3] = new Vec3dd(axis.minX, axis.maxY, axis.maxZ);
+        corners[4] = new Vec3dd(axis.maxX, axis.minY, axis.minZ);
+        corners[5] = new Vec3dd(axis.maxX, axis.minY, axis.maxZ);
+        corners[6] = new Vec3dd(axis.maxX, axis.maxY, axis.minZ);
+        corners[7] = new Vec3dd(axis.maxX, axis.maxY, axis.maxZ);
 
         double minX = Double.MAX_VALUE;
         double minY = Double.MAX_VALUE;
@@ -377,8 +377,8 @@ public class MobESP extends Module {
         boolean isInView = false;
          // ScaledResolution removed; use window directly
 
-        for (Vec3d corner : corners) {
-            Vec3d screenVec = RenderUtils.convertTo2D((int)mc.getWindow().getScaleFactor(), corner.x, corner.y, corner.z);
+        for (Vec3dd corner : corners) {
+            Vec3dd screenVec = RenderUtils.convertTo2D((int)mc.getWindow().getScaleFactor(), corner.x, corner.y, corner.z);
             if (screenVec != null) {
                 if (screenVec.z >= 1.0003684 || screenVec.z <= 0) {
                     continue;
@@ -420,40 +420,40 @@ public class MobESP extends Module {
         float green = ((rgb >> 8) & 0xFF) / 255.0F;
         float blue = (rgb & 0xFF) / 255.0F;
 
-        GL11.glPushMatrix();
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
-        GL11.glEnable(GL11.GL_LINE_SMOOTH);
-        GL11.glLineWidth(1.0F);
+        RenderSystem.getModelViewStack().pushMatrix();
+        RenderSystem.disableBlend(GL11.GL_TEXTURE_2D);
+        RenderSystem.disableBlend(GL11.GL_DEPTH_TEST);
+        RenderSystem.enableBlend(GL11.GL_LINE_SMOOTH);
+        RenderSystem.lineWidth(1.0F);
 
-        GL11.glColor4f(0.0F, 0.0F, 0.0F, 0.4F);
-        GL11.glBegin(GL11.GL_LINE_LOOP);
-        GL11.glVertex2d(minX, minY);
-        GL11.glVertex2d(maxX, minY);
-        GL11.glVertex2d(maxX, maxY);
-        GL11.glVertex2d(minX, maxY);
-        GL11.glEnd();
+        RenderSystem.setShaderColor(0.0F, 0.0F, 0.0F, 0.4F);
+        // GL11 replaced(GL11.GL_LINE_LOOP);
+        // GL11(minX, minY);
+        // GL11(maxX, minY);
+        // GL11(maxX, maxY);
+        // GL11(minX, maxY);
+        // GL11 replaced();
 
-        GL11.glColor4f(0.0F, 0.0F, 0.0F, 0.4F);
-        GL11.glBegin(GL11.GL_LINE_LOOP);
-        GL11.glVertex2d(minX + 1.0, minY + 1.0);
-        GL11.glVertex2d(maxX - 1.0, minY + 1.0);
-        GL11.glVertex2d(maxX - 1.0, maxY - 1.0);
-        GL11.glVertex2d(minX + 1.0, maxY - 1.0);
-        GL11.glEnd();
+        RenderSystem.setShaderColor(0.0F, 0.0F, 0.0F, 0.4F);
+        // GL11 replaced(GL11.GL_LINE_LOOP);
+        // GL11(minX + 1.0, minY + 1.0);
+        // GL11(maxX - 1.0, minY + 1.0);
+        // GL11(maxX - 1.0, maxY - 1.0);
+        // GL11(minX + 1.0, maxY - 1.0);
+        // GL11 replaced();
 
-        GL11.glColor4f(red, green, blue, 1.0f);
-        GL11.glBegin(GL11.GL_LINE_LOOP);
-        GL11.glVertex2d(minX + 0.5, minY + 0.5);
-        GL11.glVertex2d(maxX - 0.5, minY + 0.5);
-        GL11.glVertex2d(maxX - 0.5, maxY - 0.5);
-        GL11.glVertex2d(minX + 0.5, maxY - 0.5);
-        GL11.glEnd();
+        RenderSystem.setShaderColor(red, green, blue, 1.0f);
+        // GL11 replaced(GL11.GL_LINE_LOOP);
+        // GL11(minX + 0.5, minY + 0.5);
+        // GL11(maxX - 0.5, minY + 0.5);
+        // GL11(maxX - 0.5, maxY - 0.5);
+        // GL11(minX + 0.5, maxY - 0.5);
+        // GL11 replaced();
 
-        GL11.glColor4f(1, 1, 1, 1);
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
-        GL11.glDisable(GL11.GL_LINE_SMOOTH);
-        GL11.glPopMatrix();
+        RenderSystem.setShaderColor(1, 1, 1, 1);
+        RenderSystem.enableBlend(GL11.GL_TEXTURE_2D);
+        RenderSystem.enableBlend(GL11.GL_DEPTH_TEST);
+        RenderSystem.disableBlend(GL11.GL_LINE_SMOOTH);
+        RenderSystem.getModelViewStack().popMatrix();
     }
 }

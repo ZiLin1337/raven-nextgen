@@ -9,7 +9,7 @@ public final class BedFootHighlightMatcher implements BlockHighlightMatcher {
 
     @Override
     public boolean matchesBlock(BlockState state) {
-        return state != null && state.getBlock() instanceof BedBlock;
+        return state != null && state.getBlockState().getBlock()) instanceof BedBlock;
     }
 
     @Override

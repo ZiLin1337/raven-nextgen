@@ -149,7 +149,7 @@ public class FrozenEntitySync {
             }
         }
 
-        for (Entity entity : mc.world.loadedEntityList) {
+        for (Entity entity : mc.world.getEntities()) {
             if (entity == null || entity.isDead || entity == local) continue;
             if (entity.ridingEntity != null) {
                 if (!entity.ridingEntity.isDead && entity.ridingEntity.riddenByEntity == entity) {
@@ -171,7 +171,7 @@ public class FrozenEntitySync {
             || packet instanceof S10PacketSpawnPainting
             || packet instanceof S11PacketSpawnExperienceOrb
             || packet instanceof S2CPacketSpawnGlobalEntity
-            || packet instanceof S12PacketEntityVelocity
+            || packet instanceof EntityVelocityUpdateS2CPacket
             || packet instanceof S13PacketDestroyEntities
             || packet instanceof S14PacketEntity
             || packet instanceof S18PacketEntityTeleport

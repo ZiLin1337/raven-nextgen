@@ -15,7 +15,7 @@ public abstract class AbstractTextInputComponent extends Component implements Fo
     public float o;
     public float xOffset;
 
-    private final ClickGuiTextField textField;
+    private final ClickTextFieldWidget textField;
 
     protected static final class Layout {
         float cx;
@@ -30,10 +30,10 @@ public abstract class AbstractTextInputComponent extends Component implements Fo
     protected AbstractTextInputComponent(ModuleComponent moduleComponent, float o, String placeholder, int maxLength) {
         this.moduleComponent = moduleComponent;
         this.o = o;
-        this.textField = new ClickGuiTextField(placeholder, maxLength, TEXT_SCALE);
+        this.textField = new ClickTextFieldWidget(placeholder, maxLength, TEXT_SCALE);
     }
 
-    protected final ClickGuiTextField getTextField() {
+    protected final ClickTextFieldWidget getTextField() {
         return textField;
     }
 
@@ -154,9 +154,9 @@ public abstract class AbstractTextInputComponent extends Component implements Fo
 
     protected static void drawScaledText(String text, float x, float y, int color, float scale) {
         RavenFontRenderer renderer = keystrokesmod.module.impl.client.Gui.getClickGuiSettingFontRenderer();
-        GL11.glPushMatrix();
+        RenderSystem.getModelViewStack().pushMatrix();
         GL11.glScaled(scale, scale, scale);
         renderer.drawString(text, x / scale, y / scale, color, false);
-        GL11.glPopMatrix();
+        RenderSystem.getModelViewStack().popMatrix();
     }
 }

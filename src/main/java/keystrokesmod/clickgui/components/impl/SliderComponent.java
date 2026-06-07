@@ -73,7 +73,7 @@ public class SliderComponent extends Component {
             Color.getHSBColor((float) (System.currentTimeMillis() % 11000L) / 11000.0F, 0.75F, 0.9F).getRGB()
         );
 
-        GL11.glPushMatrix();
+        RenderSystem.getModelViewStack().pushMatrix();
         GL11.glScaled(0.5, 0.5, 0.5);
 
         double input = getRenderedInputValue();
@@ -117,7 +117,7 @@ public class SliderComponent extends Component {
             );
         }
 
-        GL11.glPopMatrix();
+        RenderSystem.getModelViewStack().popMatrix();
     }
 
     @Override
@@ -249,12 +249,12 @@ public class SliderComponent extends Component {
 
     private void drawFontPreview(float labelX, float labelY, String valueText, String suffix) {
         String prefix = this.sliderSetting.getName() + ": ";
-        Minecraft mc = Minecraft.getMinecraft();
-        mc.fontRendererObj.drawStringWithShadow(prefix, labelX, labelY, -1);
+        Minecraft mc = MinecraftClient.getInstance();
+        mc.textRenderer.drawStringWithShadow(prefix, labelX, labelY, -1);
 
         RavenFontRenderer previewRenderer = FontManager.getClickGuiSettingRenderer(valueText);
-        float valueX = labelX + mc.fontRendererObj.getStringWidth(prefix);
-        float valueY = labelY - (previewRenderer.getFontHeight() - mc.fontRendererObj.FONT_HEIGHT) / 2.0f;
+        float valueX = labelX + mc.textRenderer.getStringWidth(prefix);
+        float valueY = labelY - (previewRenderer.getFontHeight() - mc.textRenderer.FONT_HEIGHT) / 2.0f;
         previewRenderer.drawString(valueText + suffix, valueX, valueY, 0xFFFFFF, true);
     }
 

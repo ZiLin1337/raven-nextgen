@@ -35,11 +35,11 @@ public class ButtonComponent extends Component {
 
     public void render() {
         RavenFontRenderer renderer = Gui.getClickGuiSettingFontRenderer();
-        GL11.glPushMatrix();
+        RenderSystem.getModelViewStack().pushMatrix();
         GL11.glScaled(0.5D, 0.5D, 0.5D);
         renderer.drawString((this.buttonSetting.isMethodButton ? "[=]  " : (this.buttonSetting.isToggled() ? "[+]  " : "[-]  ")) + this.buttonSetting.getName(), (float) ((this.moduleComponent.categoryComponent.getX() + 4) * 2) + xOffset, (float) ((this.moduleComponent.categoryComponent.getY() + this.o + 4) * 2), this.buttonSetting.isToggled() ? ENABLED_COLOR : -1, false);
         GL11.glScaled(1, 1, 1);
-        GL11.glPopMatrix();
+        RenderSystem.getModelViewStack().popMatrix();
     }
 
     public void updateHeight(float n) {

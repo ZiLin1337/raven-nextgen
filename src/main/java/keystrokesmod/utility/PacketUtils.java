@@ -45,6 +45,6 @@ public class PacketUtils implements IMinecraftInstance {
     }
 
     public static void sendReleasePacket() {
-        mc.player.sendQueue.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, DOWN));
+        mc.player.sendQueue.addToSendQueue(new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, DOWN));
     }
 }

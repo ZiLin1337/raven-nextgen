@@ -67,7 +67,7 @@ public class BlockIn extends Module {
 
     private BlockPos hitAt;
     private Direction hitSide;
-    private Vec3 placeAt;
+    private Vec3d placeAt;
 
     private float fillCount;
     private float lastFillCount = -1;
@@ -174,12 +174,12 @@ public class BlockIn extends Module {
 
         if (!placing) enablePlacing();
 
-        if (mc.gameSettings.keyBindAttack.isKeyDown() || mc.gameSettings.keyBindUseItem.isKeyDown()) {
+        if (mc.options.keyBindAttack.isKeyDown() || mc.options.keyBindUseItem.isKeyDown()) {
             clearAim();
         }
 
-        KeyBinding.setKeyBindState(mc.gameSettings.keyBindAttack.getKeyCode(), false);
-        KeyBinding.setKeyBindState(mc.gameSettings.keyBindUseItem.getKeyCode(), false);
+        KeyBinding.setKeyBindState(mc.options.keyBindAttack.getKeyCode(), false);
+        KeyBinding.setKeyBindState(mc.options.keyBindUseItem.getKeyCode(), false);
         equipPlannedSlot();
     }
 
@@ -190,7 +190,7 @@ public class BlockIn extends Module {
         if (placeQueued) {
             placeQueued = false;
             if (hitAt != null && hitSide != null && placeAt != null) {
-                if (mc.playerController.onPlayerRightClick(
+                if (mc.interactionManager.onPlayerRightClick(
                         mc.player, mc.world, mc.player.getHeldItem(),
                         hitAt, hitSide, placeAt)) {
                     mc.player.swingItem();
@@ -291,8 +291,8 @@ public class BlockIn extends Module {
         plannedSlot = -1;
 
         if (mc.currentScreen == null) {
-            KeyBinding.setKeyBindState(mc.gameSettings.keyBindAttack.getKeyCode(), Mouse.isButtonDown(0));
-            KeyBinding.setKeyBindState(mc.gameSettings.keyBindUseItem.getKeyCode(), Mouse.isButtonDown(1));
+            KeyBinding.setKeyBindState(mc.options.keyBindAttack.getKeyCode(), Mouse.isButtonDown(0));
+            KeyBinding.setKeyBindState(mc.options.keyBindUseItem.getKeyCode(), Mouse.isButtonDown(1));
         }
     }
 
@@ -319,7 +319,7 @@ public class BlockIn extends Module {
             if (!(s.getItem() instanceof BlockItem)) continue;
             if (ignoreBlocksToggle.isToggled() && ignoredBlocks.matches(s)) continue;
 
-            Block block = ((ItemBlock) s.getItem()).getBlock();
+            Block block = ((BlockItem) s.getItem()).getBlockState().getBlock());
             float score = BlockUtils.getFistBreakTicks(block);
 
             if (preferStrong ? score > bestScore : score < bestScore) {
@@ -346,7 +346,7 @@ public class BlockIn extends Module {
     }
 
     private AimResult roofAim() {
-        Vec3 pos = new Vec3(mc.player.getX(), mc.player.getY(), mc.player.getZ());
+        Vec3d pos = new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ());
         BlockPos aboveHead = new BlockPos(
                 MathHelper.floor_double(pos.xCoord),
                 MathHelper.floor_double(pos.yCoord) + 2,
@@ -357,7 +357,7 @@ public class BlockIn extends Module {
         if (plannedSlot < 0 || plannedSlot > 8) return null;
         ItemStack held = mc.player.inventory.mainInventory[plannedSlot];
         double r = REACH;
-        Vec3 eye = new Vec3(pos.xCoord, pos.yCoord + mc.player.getEyeHeight(), pos.zCoord);
+        Vec3d eye = new Vec3d(pos.xCoord, pos.yCoord + mc.player.getEyeHeight(), pos.zCoord);
         double r2 = r * r;
         double rp12 = (r + 1) * (r + 1);
 
@@ -379,7 +379,7 @@ public class BlockIn extends Module {
 
                     BlockPos bp = new BlockPos(x, y, z);
                     if (BlockUtils.replaceable(bp)) continue;
-                    Block block = BlockUtils.getBlock(bp);
+                    Block block = BlockUtils.getBlockState().getBlock()bp);
                     if (BlockUtils.isInteractable(block) || block instanceof BlockFence || block instanceof BlockWall) continue;
 
                     double d2 = BlockUtils.dist2PointAABB(eye, bp);
@@ -399,7 +399,7 @@ public class BlockIn extends Module {
         return null;
     }
 
-    private AimResult getBestRotationsToBlock(ItemStack held, BlockPos targetCell, Vec3 eye, double reachVal, int minY) {
+    private AimResult getBestRotationsToBlock(ItemStack held, BlockPos targetCell, Vec3d eye, double reachVal, int minY) {
         float baseYaw = RotationUtils.serverRotations[0];
         float basePitch = RotationUtils.serverRotations[1];
 
@@ -463,7 +463,7 @@ public class BlockIn extends Module {
         );
         BlockPos head = feet.up();
         double r = REACH;
-        Vec3 eye = mc.player.getPositionEyes(1.0f);
+        Vec3d eye = mc.player.getPositionEyes(1.0f);
 
         ArrayList<BlockPos> baseline = new ArrayList<>(8);
         for (Direction dir : HORIZONTALS) {
@@ -479,7 +479,7 @@ public class BlockIn extends Module {
         }
         if (primaryGoals.isEmpty()) return null;
 
-        Vec3 enemyPos = Utils.getClosestPlayerPos(100);
+        Vec3d enemyPos = Utils.getClosestPlayerPos(100);
         if (enemyPos != null) {
             baseline.sort((a, b) -> {
                 double da = sq(a.getX() + 0.5 - enemyPos.xCoord)
@@ -530,7 +530,7 @@ public class BlockIn extends Module {
         return null;
     }
 
-    private AimResult findBestForGoals(List<BlockPos> goals, double reachVal, Vec3 eye) {
+    private AimResult findBestForGoals(List<BlockPos> goals, double reachVal, Vec3d eye) {
         if (goals == null || goals.isEmpty()) return null;
         if (plannedSlot < 0 || plannedSlot > 8) return null;
 

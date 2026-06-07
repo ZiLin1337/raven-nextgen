@@ -81,7 +81,7 @@ public class ColorComponent extends Component {
 
         float boxX = cx + 4 + (xOffset / 2);
         float boxY = cy + o + 3f;
-        RenderUtils.drawRect(boxX - 0.5, boxY - 0.5,
+        RenderUtils.DrawContextHelper.drawRect(boxX - 0.5, boxY - 0.5,
                 boxX + PREVIEW_BOX_SIZE + 0.5, boxY + PREVIEW_BOX_SIZE + 0.5, 0xFF3C3C46);
         if (colorSetting.hasAlpha()) {
             int checkSize = 2;
@@ -89,18 +89,18 @@ public class ColorComponent extends Component {
                 for (float py = boxY; py < boxY + PREVIEW_BOX_SIZE; py += checkSize) {
                     int col = ((int) ((px - boxX) / checkSize) + (int) ((py - boxY) / checkSize)) % 2 == 0
                             ? 0xFF666666 : 0xFF999999;
-                    RenderUtils.drawRect(px, py,
+                    RenderUtils.DrawContextHelper.drawRect(px, py,
                             Math.min(px + checkSize, boxX + PREVIEW_BOX_SIZE),
                             Math.min(py + checkSize, boxY + PREVIEW_BOX_SIZE), col);
                 }
             }
         }
-        RenderUtils.drawRect(boxX, boxY,
+        RenderUtils.DrawContextHelper.drawRect(boxX, boxY,
                 boxX + PREVIEW_BOX_SIZE, boxY + PREVIEW_BOX_SIZE,
                 colorSetting.getColor());
 
         RavenFontRenderer renderer = Gui.getClickGuiSettingFontRenderer();
-        GL11.glPushMatrix();
+        RenderSystem.getModelViewStack().pushMatrix();
         GL11.glScaled(0.5, 0.5, 0.5);
         float textOffset = renderer.getStringWidth("[+]  ");
         renderer.drawString(
@@ -110,7 +110,7 @@ public class ColorComponent extends Component {
                 -1,
                 true
         );
-        GL11.glPopMatrix();
+        RenderSystem.getModelViewStack().popMatrix();
 
         float progress = getAnimationProgress();
         if (progress <= 0f) return;
@@ -145,7 +145,7 @@ public class ColorComponent extends Component {
         float sat = (dragMode != 0 || isBlack) ? cachedSat : satFromSetting;
 
         int hueRGB = Color.HSBtoRGB(hue, 1f, 1f) | 0xFF000000;
-        RenderUtils.drawRect(areaLeft, sqTop, sqRight, sqBottom, hueRGB);
+        RenderUtils.DrawContextHelper.drawRect(areaLeft, sqTop, sqRight, sqBottom, hueRGB);
         RenderUtils.drawHorizontalGradientRect(areaLeft, sqTop, sqRight, sqBottom,
                 0xFFFFFFFF, 0x00FFFFFF);
         RenderUtils.drawVerticalGradientRect(areaLeft, sqTop, sqRight, sqBottom,
@@ -156,8 +156,8 @@ public class ColorComponent extends Component {
 
         float indX = areaLeft + sat * SQUARE_SIZE;
         float indY = sqTop + (1f - bri) * SQUARE_SIZE;
-        RenderUtils.drawRect(indX - 2, indY, indX + 3, indY + 1, 0xFFFFFFFF);
-        RenderUtils.drawRect(indX, indY - 2, indX + 1, indY + 3, 0xFFFFFFFF);
+        RenderUtils.DrawContextHelper.drawRect(indX - 2, indY, indX + 3, indY + 1, 0xFFFFFFFF);
+        RenderUtils.DrawContextHelper.drawRect(indX, indY - 2, indX + 1, indY + 3, 0xFFFFFFFF);
 
         float hueLeft = sqRight + HUE_GAP;
         float hueRight = hueLeft + HUE_BAR_WIDTH;
@@ -175,7 +175,7 @@ public class ColorComponent extends Component {
                 1f, 0xFF3C3C46);
 
         float hueIndY = sqTop + Math.max(0, Math.min(1, hue)) * SQUARE_SIZE;
-        RenderUtils.drawRect(hueLeft - 1, hueIndY - 1,
+        RenderUtils.DrawContextHelper.drawRect(hueLeft - 1, hueIndY - 1,
                 hueRight + 1, hueIndY + 2, 0xFFFFFFFF);
 
         if (colorSetting.hasAlpha()) {
@@ -188,7 +188,7 @@ public class ColorComponent extends Component {
                     int col = ((int) ((ax - alphaLeft) / checkSize)
                             + (int) ((ay - sqTop) / checkSize)) % 2 == 0
                             ? 0xFF666666 : 0xFF999999;
-                    RenderUtils.drawRect(ax, ay,
+                    RenderUtils.DrawContextHelper.drawRect(ax, ay,
                             Math.min(ax + checkSize, alphaRight),
                             Math.min(ay + checkSize, sqBottom), col);
                 }
@@ -203,7 +203,7 @@ public class ColorComponent extends Component {
 
             float alphaFrac = colorSetting.getAlpha() / 255f;
             float alphaIndY = sqTop + alphaFrac * SQUARE_SIZE;
-            RenderUtils.drawRect(alphaLeft - 1, alphaIndY - 1,
+            RenderUtils.DrawContextHelper.drawRect(alphaLeft - 1, alphaIndY - 1,
                     alphaRight + 1, alphaIndY + 2, 0xFFFFFFFF);
         }
     }

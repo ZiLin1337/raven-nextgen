@@ -49,8 +49,8 @@ public class WaterBucket extends Module {
         if (!fallCheck()) {
             return;
         }
-        HitResult mop = Utils.getTarget(mc.playerController.getBlockReachDistance(), mc.player.rotationYaw, silentAim.isToggled() ? 90.0f : mc.player.rotationPitch);
-        if (mop == null || mop.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK || mop.sideHit != Direction.UP) {
+        HitResult mop = Utils.getTarget(mc.interactionManager.getBlockReachDistance(), mc.player.rotationYaw, silentAim.isToggled() ? 90.0f : mc.player.rotationPitch);
+        if (mop == null || mop.typeOfHit != HitResult.MovingObjectType.BLOCK || mop.sideHit != Direction.UP) {
             return;
         }
         long now = System.currentTimeMillis();
@@ -117,7 +117,7 @@ public class WaterBucket extends Module {
     }
 
     private void useCurrentItem() {
-        mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.player.getHeldItem()));
+        mc.getNetHandler().addToSendQueue(new PlayerInteractBlockC2SPacket(mc.player.getHeldItem()));
     }
 
     private boolean isItem(ItemStack itemStack, Item item) {

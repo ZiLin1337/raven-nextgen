@@ -10,11 +10,11 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
-import net.minecraft.entity.item.EntityItemFrame;
+import net.minecraft.entity.item.ItemEntityFrame;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3dd;
 // Removed Forge event
 
 import org.lwjgl.opengl.GL11;
@@ -57,7 +57,7 @@ public class HitBox extends Module {
             return;
         }
         if (c instanceof PlayerEntity) {
-            if (Utils.isFriended((EntityPlayer) c)) {
+            if (Utils.isFriended((PlayerEntity) c)) {
                 return;
             }
         }
@@ -70,8 +70,8 @@ public class HitBox extends Module {
     
     public void onRenderWorld(RenderWorldLastEvent e) {
         if (showHitbox.isToggled() && Utils.nullCheck()) {
-            for (Entity en : mc.world.loadedEntityList) {
-                if (en != mc.player && en instanceof LivingEntity && ((EntityLivingBase) en).deathTime == 0 && !(en instanceof ArmorStandEntity) && !en.isInvisible()) {
+            for (Entity en : mc.world.getEntities()) {
+                if (en != mc.player && en instanceof LivingEntity && ((LivingEntity) en).deathTime == 0 && !(en instanceof ArmorStandEntity) && !en.isInvisible()) {
                     this.rh(en, Color.WHITE);
                 }
             }
@@ -86,18 +86,18 @@ public class HitBox extends Module {
         if (mc.getRenderViewEntity() != null && mc.world != null) {
             mc.pointedEntity = null;
             pointedEntity = null;
-            double d0 = mc.playerController.extendedReach() ? 6.0 : (ModuleManager.reach.isEnabled() ? Utils.getRandomValue(Reach.min, Reach.max, Utils.getRandom()) : 3.0);
+            double d0 = mc.interactionManager.extendedReach() ? 6.0 : (ModuleManager.reach.isEnabled() ? Utils.getRandomValue(Reach.min, Reach.max, Utils.getRandom()) : 3.0);
             mv = mc.getRenderViewEntity().rayTrace(d0, partialTicks);
             double d2 = d0;
-            Vec3 vec3 = mc.getRenderViewEntity().getPositionEyes(partialTicks);
+            Vec3d vec3 = mc.getRenderViewEntity().getPositionEyes(partialTicks);
 
             if (mv != null) {
                 d2 = mv.hitVec.distanceTo(vec3);
             }
 
-            Vec3 vec4 = mc.getRenderViewEntity().getLook(partialTicks);
-            Vec3 vec5 = vec3.addVector(vec4.xCoord * d0, vec4.yCoord * d0, vec4.zCoord * d0);
-            Vec3 vec6 = null;
+            Vec3d vec4 = mc.getRenderViewEntity().getLook(partialTicks);
+            Vec3d vec5 = vec3.addVector(vec4.xCoord * d0, vec4.yCoord * d0, vec4.zCoord * d0);
+            Vec3d vec6 = null;
             float f1 = 1.0F;
             List list = mc.world.getEntitiesWithinAABBExcludingEntity(mc.getRenderViewEntity(), mc.getRenderViewEntity().getEntityBoundingBox().addCoord(vec4.xCoord * d0, vec4.yCoord * d0, vec4.zCoord * d0).expand((double) f1, (double) f1, (double) f1));
             double d3 = d2;
@@ -133,8 +133,8 @@ public class HitBox extends Module {
             }
 
             if (pointedEntity != null && (d3 < d2 || mv == null)) {
-                mv = new MovingObjectPosition(pointedEntity, vec6);
-                if (pointedEntity instanceof LivingEntity || pointedEntity instanceof EntityItemFrame) {
+                mv = new HitResult(pointedEntity, vec6);
+                if (pointedEntity instanceof LivingEntity || pointedEntity instanceof ItemEntityFrame) {
                     return pointedEntity;
                 }
             }
@@ -152,17 +152,17 @@ public class HitBox extends Module {
             Box bbox = e.getEntityBoundingBox().expand((double) ex, (double) ex, (double) ex);
             Box axis = new Box(bbox.minX - e.posX + x, bbox.minY - e.posY + y, bbox.minZ - e.posZ + z, bbox.maxX - e.posX + x, bbox.maxY - e.posY + y, bbox.maxZ - e.posZ + z);
             GL11.glBlendFunc(770, 771);
-            GL11.glEnable(3042);
-            GL11.glDisable(3553);
-            GL11.glDisable(2929);
+            RenderSystem.enableBlend(3042);
+            RenderSystem.disableBlend(3553);
+            RenderSystem.disableBlend(2929);
             GL11.glDepthMask(false);
-            GL11.glLineWidth(2.0F);
+            RenderSystem.lineWidth(2.0F);
             GL11.glColor3d((double) c.getRed(), (double) c.getGreen(), (double) c.getBlue());
-            WorldRenderer.drawSelectionBoundingBox(axis);
-            GL11.glEnable(3553);
-            GL11.glEnable(2929);
+            BufferBuilder.drawSelectionBoundingBox(axis);
+            RenderSystem.enableBlend(3553);
+            RenderSystem.enableBlend(2929);
             GL11.glDepthMask(true);
-            GL11.glDisable(3042);
+            RenderSystem.disableBlend(3042);
         }
     }
 }

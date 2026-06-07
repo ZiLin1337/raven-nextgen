@@ -7,8 +7,8 @@ import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.block.Blocks;
-import net.minecraft.item.ItemBow;
-import net.minecraft.item.ItemHoe;
+import net.minecraft.item.BowItem;
+import net.minecraft.item.HoeItem;
 import net.minecraft.item.ItemStack;
 
 import java.util.Map;
@@ -46,7 +46,7 @@ public final class ItemSortScoring {
     }
 
     public static double getBowDamage(ItemStack stack) {
-        if (stack == null || !(stack.getItem() instanceof ItemBow)) {
+        if (stack == null || !(stack.getItem() instanceof BowItem)) {
             return 0.0D;
         }
 
@@ -91,7 +91,7 @@ public final class ItemSortScoring {
     }
 
     public static double getHoeScore(ItemStack stack) {
-        if (stack == null || !(stack.getItem() instanceof ItemHoe)) {
+        if (stack == null || !(stack.getItem() instanceof HoeItem)) {
             return 0.0D;
         }
 

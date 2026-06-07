@@ -34,7 +34,7 @@ public final class CombatTargeting implements IMinecraftInstance {
         PlayerEntity closest = null;
         double closestDistanceSq = Double.MAX_VALUE;
 
-        for (PlayerEntity player : mc.world.playerEntities) {
+        for (PlayerEntity player : mc.world.getPlayers()) {
             if (!isValidPlayer(player, maxDistanceSq, ignoreTeammates)) {
                 continue;
             }

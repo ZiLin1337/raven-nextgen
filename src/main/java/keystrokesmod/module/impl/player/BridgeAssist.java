@@ -149,7 +149,7 @@ public class BridgeAssist extends Module {
     
     public void onSendPacket(SendPacketEvent e) {
         if (e.getPacket() instanceof PlayerInteractBlockC2SPacket) {
-            PlayerInteractBlockC2SPacket c08 = (C08PacketPlayerBlockPlacement) e.getPacket();
+            PlayerInteractBlockC2SPacket c08 = (PlayerInteractBlockC2SPacket) e.getPacket();
             if (c08.getPlacedBlockDirection() != 255 && sneakingFromModule && sneakKeyPressed.isToggled()) {
                 placed = true;
             }
@@ -170,7 +170,7 @@ public class BridgeAssist extends Module {
         if (notMovingForward.isToggled() && mc.player.movementInput.moveForward > 0f) return;
 
         float basePitch = e.pitch != null ? e.pitch : RotationUtils.serverRotations[1];
-        double reach = mc.playerController.getBlockReachDistance();
+        double reach = mc.interactionManager.getBlockReachDistance();
 
         TargetResult target = findTarget(basePitch, reach);
         if (target == null) return;
@@ -214,7 +214,7 @@ public class BridgeAssist extends Module {
         if (!sneakKeyPressed.isToggled()) {
             e.setSneak(false);
         } else if (sneakingFromModule && isManualSneak() && (placed || !mc.player.onGround)) {
-            KeyBinding.setKeyBindState(mc.gameSettings.keyBindSneak.getKeyCode(), false);
+            KeyBinding.setKeyBindState(mc.options.keyBindSneak.getKeyCode(), false);
             e.setSneak(false);
             forceRelease = true;
         } else if (forceRelease) {
@@ -228,7 +228,7 @@ public class BridgeAssist extends Module {
 
     private void repressSneak(PrePlayerInputEvent e) {
         if (forceRelease && isManualSneak()) {
-            KeyBinding.setKeyBindState(mc.gameSettings.keyBindSneak.getKeyCode(), true);
+            KeyBinding.setKeyBindState(mc.options.keyBindSneak.getKeyCode(), true);
             e.setSneak(true);
         }
         forceRelease = false;
@@ -248,7 +248,7 @@ public class BridgeAssist extends Module {
     }
 
     private boolean isManualSneak() {
-        return Utils.isBindDown(mc.gameSettings.keyBindSneak);
+        return Utils.isBindDown(mc.options.keyBindSneak);
     }
 
     private double computeEdgeOffset(Box simBox) {

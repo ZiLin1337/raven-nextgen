@@ -45,7 +45,7 @@ public class Timer extends Module {
         if (configuredSpeed > 0.0F) {
             ((IAccessorMinecraft) mc).getTimer().timerSpeed = configuredSpeed;
         } else {
-            // 0-speed mode uses local update skipping in MixinEntityPlayerSP.
+            // 0-speed mode uses local update skipping in MixinClientPlayerEntity.
             // Keep global timer at normal speed so world/entities continue updating.
             Utils.resetTimer();
         }

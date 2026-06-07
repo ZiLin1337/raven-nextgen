@@ -60,7 +60,7 @@ public class NoFall extends Module {
         if (isFalling && mode.getInput() == 2) {
             if (distanceFallen >= dynamic) {
                 ((IAccessorMinecraft) mc).getTimer().timerSpeed = (0.7399789F + (float) Utils.randomizeDouble(-0.012, 0.012));
-                mc.getNetHandler().addToSendQueue(new C03PacketPlayer(true));
+                mc.getNetHandler().addToSendQueue(new PlayerMoveC2SPacket(true));
                 initialY = mc.player.getY();
             }
         }
@@ -72,7 +72,7 @@ public class NoFall extends Module {
                 ((IAccessorMinecraft) mc).getTimer().timerSpeed = (float) 1;
             }
             if (distanceFallen >= 3) {
-                mc.getNetHandler().addToSendQueue(new C03PacketPlayer(true));
+                mc.getNetHandler().addToSendQueue(new PlayerMoveC2SPacket(true));
                 initialY = mc.player.getY();
             }
         }
@@ -100,7 +100,7 @@ public class NoFall extends Module {
     }
 
     private boolean reset() {
-        if (disableAdventure.isToggled() && mc.playerController.getCurrentGameType().isAdventure()) {
+        if (disableAdventure.isToggled() && mc.interactionManager.getCurrentGameType().isAdventure()) {
             return true;
         }
         if (ignoreVoid.isToggled() && isVoid()) {
@@ -115,7 +115,7 @@ public class NoFall extends Module {
         if (mc.player.onGround) {
             return true;
         }
-        if (BlockUtils.getBlock(new BlockPos(mc.player.getX(), mc.player.getY() - 1, mc.player.getZ())) != Blocks.AIR) {
+        if (BlockUtils.getBlockState().getBlock()new BlockPos(mc.player.getX(), mc.player.getY() - 1, mc.player.getZ())) != Blocks.AIR) {
             return true;
         }
         if (mc.player.motionY > -0.0784) {

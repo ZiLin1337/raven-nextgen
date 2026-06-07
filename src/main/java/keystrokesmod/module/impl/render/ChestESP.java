@@ -56,7 +56,7 @@ public class ChestESP extends Module {
         if (mod == null || !mod.shouldApplyChamsTo(tileEntity)) {
             return;
         }
-        GL11.glEnable(GL11.GL_POLYGON_OFFSET_FILL);
+        RenderSystem.enableBlend(GL11.GL_POLYGON_OFFSET_FILL);
         GL11.glPolygonOffset(1.0f, -1_100_000.0f);
         CHEST_CHAMS_ACTIVE.set(true);
     }
@@ -67,7 +67,7 @@ public class ChestESP extends Module {
         }
         CHEST_CHAMS_ACTIVE.set(false);
         GL11.glPolygonOffset(1.0f, 1_100_000.0f);
-        GL11.glDisable(GL11.GL_POLYGON_OFFSET_FILL);
+        RenderSystem.disableBlend(GL11.GL_POLYGON_OFFSET_FILL);
     }
 
     private static ChestESP getChestEspModule() {

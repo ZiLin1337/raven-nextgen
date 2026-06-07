@@ -65,7 +65,7 @@ public class Anticheat extends Module {
         lastClientBoundPacket = System.currentTimeMillis();
     }
 
-    private void alert(EntityPlayer entityPlayer, ButtonSetting mode) {
+    private void alert(PlayerEntity entityPlayer, ButtonSetting mode) {
         if (Utils.isFriended(entityPlayer) || (ignoreTeammates.isToggled() && Utils.isTeammate(entityPlayer))) {
             return;
         }
@@ -96,7 +96,7 @@ public class Anticheat extends Module {
         ChatStyle chatStyle = new ChatStyle();
         chatStyle.setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/wdr " + entityPlayer.getName()));
         chatComponentText.appendSibling(new ChatComponentText(Utils.formatColor(" §7[§cWDR§7]")).setChatStyle(chatStyle));
-        mc.player.addChatMessage(chatComponentText);
+        mc.player.sendMessage(Text.literal(chatComponentText));
         postAntiCheatFlagEvent(mode.getName(), entityPlayer);
         if (shouldPing.isToggled() && Utils.timeBetween(lastAlert, currentTimeMillis) >= 1500L) {
             mc.player.playSound("note.pling", 1.0f, 1.0f);
@@ -112,7 +112,7 @@ public class Anticheat extends Module {
         if (mc.isSingleplayer()) {
             return;
         }
-        for (EntityPlayer entityPlayer : mc.world.playerEntities) {
+        for (PlayerEntity entityPlayer : mc.world.getPlayers()) {
             if (entityPlayer == null) {
                 continue;
             }
@@ -148,7 +148,7 @@ public class Anticheat extends Module {
         lastAlert = 0L;
     }
 
-    private void performCheck(EntityPlayer entityPlayer, PlayerData playerData) {
+    private void performCheck(PlayerEntity entityPlayer, PlayerData playerData) {
         if (autoBlock.isToggled() && playerData.autoBlockTicks >= 10) {
             alert(entityPlayer, autoBlock);
             return;
@@ -165,7 +165,7 @@ public class Anticheat extends Module {
             boolean overAir = true;
             BlockPos blockPos = entityPlayer.getPosition().down(2);
             for (int i = 0; i < 4; ++i) {
-                if (!(BlockUtils.getBlock(blockPos) instanceof BlockAir)) {
+                if (!(BlockUtils.getBlockState().getBlock()blockPos) instanceof BlockAir)) {
                     overAir = false;
                     break;
                 }

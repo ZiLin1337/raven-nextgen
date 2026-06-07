@@ -5,7 +5,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(LivingEntity.class)
-public interface IAccessorEntityLivingBase {
+public interface IAccessorLivingEntity {
     @Accessor("invulnerableTime")
     int getInvulnerableTime();
     @Accessor("invulnerableTime")

@@ -98,20 +98,20 @@ public class SafeWalk extends Module {
             return;
         }
 
-        if (!sneakState && Utils.isBindDown(mc.gameSettings.keyBindSneak)) {
+        if (!sneakState && Utils.isBindDown(mc.options.keyBindSneak)) {
             return;
         }
 
-        KeyBinding.setKeyBindState(mc.gameSettings.keyBindSneak.getKeyCode(), sneakState);
+        KeyBinding.setKeyBindState(mc.options.keyBindSneak.getKeyCode(), sneakState);
         if (sneakState) {
-            KeyBinding.onTick(mc.gameSettings.keyBindSneak.getKeyCode());
+            KeyBinding.onTick(mc.options.keyBindSneak.getKeyCode());
         }
         this.isSneaking = sneakState;
     }
 
     public static boolean canSafeWalk() {
         if (ModuleManager.safeWalk != null && ModuleManager.safeWalk.isEnabled()) {
-            if (disableOnForward.isToggled() && Keyboard.isKeyDown(mc.gameSettings.keyBindForward.getKeyCode())) {
+            if (disableOnForward.isToggled() && GLFW.glfwGetKey(MinecraftClient.getInstance().getWindow().getHandle(),mc.options.keyBindForward.getKeyCode())) {
                 return false;
             }
             if (pitchCheck.isToggled() && mc.player.rotationPitch < 70) {
@@ -135,7 +135,7 @@ public class SafeWalk extends Module {
                 return false;
             }
         }
-        if (disableOnForward.isToggled() && Keyboard.isKeyDown(mc.gameSettings.keyBindForward.getKeyCode())) {
+        if (disableOnForward.isToggled() && GLFW.glfwGetKey(MinecraftClient.getInstance().getWindow().getHandle(),mc.options.keyBindForward.getKeyCode())) {
             return false;
         }
         if (pitchCheck.isToggled() && mc.player.rotationPitch < 70.0f) {

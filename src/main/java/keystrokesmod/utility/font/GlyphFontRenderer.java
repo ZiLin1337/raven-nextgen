@@ -1,8 +1,8 @@
 package keystrokesmod.utility.font;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.util.Window;
+import net.minecraft.client.render.GlStateManager;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
@@ -161,15 +161,15 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
         float drawX = startX;
         float drawY = (y * rawScale) - rawTextTop;
 
-        GL11.glPushMatrix();
+        RenderSystem.getModelViewStack().pushMatrix();
         try {
-            GlStateManager.enableAlpha();
-            GlStateManager.enableBlend();
-            GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
-            GlStateManager.enableTexture2D();
+            RenderSystem.enableAlpha();
+            RenderSystem.enableBlend();
+            RenderSystem.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
+            RenderSystem.enableTexture2D();
             GL11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE);
-            GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
-            GlStateManager.scale(drawScale, drawScale, 1.0f);
+            RenderSystem.color(1.0f, 1.0f, 1.0f, 1.0f);
+            RenderSystem.scale(drawScale, drawScale, 1.0f);
 
             for (int i = 0; i < text.length(); i++) {
                 char character = text.charAt(i);
@@ -207,10 +207,10 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
             }
         }
         finally {
-            GlStateManager.bindTexture(0);
-            GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
-            GL11.glPopMatrix();
-            GlStateManager.matrixMode(GL11.GL_MODELVIEW);
+            RenderSystem.bindTexture(0);
+            RenderSystem.color(1.0f, 1.0f, 1.0f, 1.0f);
+            RenderSystem.getModelViewStack().popMatrix();
+            RenderSystem.matrixMode(GL11.GL_MODELVIEW);
         }
         return Math.round((drawX - startX) * drawScale);
     }
@@ -221,15 +221,15 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
         float drawY = (y * rawScale) - rawTextTop;
         Integer formattingColor = null;
 
-        GL11.glPushMatrix();
+        RenderSystem.getModelViewStack().pushMatrix();
         try {
-            GlStateManager.enableAlpha();
-            GlStateManager.enableBlend();
-            GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
-            GlStateManager.enableTexture2D();
+            RenderSystem.enableAlpha();
+            RenderSystem.enableBlend();
+            RenderSystem.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
+            RenderSystem.enableTexture2D();
             GL11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE);
-            GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
-            GlStateManager.scale(drawScale, drawScale, 1.0f);
+            RenderSystem.color(1.0f, 1.0f, 1.0f, 1.0f);
+            RenderSystem.scale(drawScale, drawScale, 1.0f);
 
             for (int i = 0; i < text.length(); i++) {
                 char character = text.charAt(i);
@@ -275,33 +275,33 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
             }
         }
         finally {
-            GlStateManager.bindTexture(0);
-            GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
-            GL11.glPopMatrix();
-            GlStateManager.matrixMode(GL11.GL_MODELVIEW);
+            RenderSystem.bindTexture(0);
+            RenderSystem.color(1.0f, 1.0f, 1.0f, 1.0f);
+            RenderSystem.getModelViewStack().popMatrix();
+            RenderSystem.matrixMode(GL11.GL_MODELVIEW);
         }
         return Math.round((drawX - startX) * drawScale);
     }
 
     private void renderGlyph(GlyphData glyph, float x, float y, int color) {
-        GlStateManager.bindTexture(glyph.textureId);
+        RenderSystem.bindTexture(glyph.textureId);
 
         float alpha = ((color >>> 24) & 0xFF) / 255.0f;
         float red = ((color >>> 16) & 0xFF) / 255.0f;
         float green = ((color >>> 8) & 0xFF) / 255.0f;
         float blue = (color & 0xFF) / 255.0f;
-        GlStateManager.color(red, green, blue, alpha);
+        RenderSystem.color(red, green, blue, alpha);
 
-        GL11.glBegin(GL11.GL_QUADS);
-        GL11.glTexCoord2f(0.0f, 0.0f);
-        GL11.glVertex2f(x, y);
-        GL11.glTexCoord2f(0.0f, 1.0f);
-        GL11.glVertex2f(x, y + glyph.textureHeight);
-        GL11.glTexCoord2f(1.0f, 1.0f);
-        GL11.glVertex2f(x + glyph.textureWidth, y + glyph.textureHeight);
-        GL11.glTexCoord2f(1.0f, 0.0f);
-        GL11.glVertex2f(x + glyph.textureWidth, y);
-        GL11.glEnd();
+        // GL11 replaced(GL11.GL_QUADS);
+        // GL11(0.0f, 0.0f);
+        // GL11(x, y);
+        // GL11(0.0f, 1.0f);
+        // GL11(x, y + glyph.textureHeight);
+        // GL11(1.0f, 1.0f);
+        // GL11(x + glyph.textureWidth, y + glyph.textureHeight);
+        // GL11(1.0f, 0.0f);
+        // GL11(x + glyph.textureWidth, y);
+        // GL11 replaced();
     }
 
     private GlyphData getGlyph(char character) {
@@ -377,7 +377,7 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
 
         byteBuffer.flip();
         int textureId = GL11.glGenTextures();
-        GlStateManager.bindTexture(textureId);
+        RenderSystem.bindTexture(textureId);
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
         GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, width, height, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, byteBuffer);
@@ -446,7 +446,7 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
     }
 
     private static float resolveRenderScale() {
-        Minecraft mc = Minecraft.getMinecraft();
+        Minecraft mc = MinecraftClient.getInstance();
         int uiScale = 1;
 
         try {

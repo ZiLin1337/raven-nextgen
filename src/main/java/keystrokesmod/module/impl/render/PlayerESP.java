@@ -187,8 +187,8 @@ public class PlayerESP extends Module {
         RenderSystem.pushAttrib();
         outlineFramebuffer.bindFramebuffer(false);
         ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(partialTicks, 0);
-        boolean shadows = mc.gameSettings.entityShadows;
-        mc.gameSettings.entityShadows = false;
+        boolean shadows = mc.options.entityShadows;
+        mc.options.entityShadows = false;
         renderingOutlinePass = true;
 
         glowShader.use();
@@ -205,7 +205,7 @@ public class PlayerESP extends Module {
         glowShader.stop();
         renderingOutlinePass = false;
 
-        mc.gameSettings.entityShadows = shadows;
+        mc.options.entityShadows = shadows;
         mc.entityRenderer.disableLightmap();
         mc.entityRenderer.setupOverlayRendering();
         mc.getFramebuffer().bindFramebuffer(false);
@@ -231,7 +231,7 @@ public class PlayerESP extends Module {
 
         double maxDistSq = maxDistance.getInput() * maxDistance.getInput();
         if (Raven.DEBUG) {
-            for (Entity entity : mc.world.loadedEntityList) {
+            for (Entity entity : mc.world.getEntities()) {
                 if (!(entity instanceof LivingEntity) || entity == mc.player) {
                     continue;
                 }
@@ -266,7 +266,7 @@ public class PlayerESP extends Module {
     }
 
     private boolean shouldRenderSelf(PlayerEntity selfPlayer) {
-        return selfPlayer == mc.player && renderSelf.isToggled() && (!Settings.hideFirstPersonESP.isToggled() || mc.gameSettings.thirdPersonView > 0);
+        return selfPlayer == mc.player && renderSelf.isToggled() && (!Settings.hideFirstPersonESP.isToggled() || mc.options.thirdPersonView > 0);
     }
 
     private void addRenderState(LivingEntity entity, int staticColor) {
@@ -411,46 +411,46 @@ public class PlayerESP extends Module {
         float green = ((rgb >> 8) & 0xFF) / 255.0F;
         float blue = (rgb & 0xFF) / 255.0F;
 
-        GL11.glPushMatrix();
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
-        GL11.glEnable(GL11.GL_LINE_SMOOTH);
-        GL11.glLineWidth(1.0F);
+        RenderSystem.getModelViewStack().pushMatrix();
+        RenderSystem.disableBlend(GL11.GL_TEXTURE_2D);
+        RenderSystem.disableBlend(GL11.GL_DEPTH_TEST);
+        RenderSystem.enableBlend(GL11.GL_LINE_SMOOTH);
+        RenderSystem.lineWidth(1.0F);
 
-        GL11.glColor4f(0.0F, 0.0F, 0.0F, 0.4F);
-        GL11.glBegin(GL11.GL_LINE_LOOP);
-        GL11.glVertex2d(minX, minY);
-        GL11.glVertex2d(maxX, minY);
-        GL11.glVertex2d(maxX, maxY);
-        GL11.glVertex2d(minX, maxY);
-        GL11.glEnd();
+        RenderSystem.setShaderColor(0.0F, 0.0F, 0.0F, 0.4F);
+        // GL11 replaced(GL11.GL_LINE_LOOP);
+        // GL11(minX, minY);
+        // GL11(maxX, minY);
+        // GL11(maxX, maxY);
+        // GL11(minX, maxY);
+        // GL11 replaced();
 
-        GL11.glColor4f(0.0F, 0.0F, 0.0F, 0.4F);
-        GL11.glBegin(GL11.GL_LINE_LOOP);
-        GL11.glVertex2d(minX + 1.0, minY + 1.0);
-        GL11.glVertex2d(maxX - 1.0, minY + 1.0);
-        GL11.glVertex2d(maxX - 1.0, maxY - 1.0);
-        GL11.glVertex2d(minX + 1.0, maxY - 1.0);
-        GL11.glEnd();
+        RenderSystem.setShaderColor(0.0F, 0.0F, 0.0F, 0.4F);
+        // GL11 replaced(GL11.GL_LINE_LOOP);
+        // GL11(minX + 1.0, minY + 1.0);
+        // GL11(maxX - 1.0, minY + 1.0);
+        // GL11(maxX - 1.0, maxY - 1.0);
+        // GL11(minX + 1.0, maxY - 1.0);
+        // GL11 replaced();
 
-        GL11.glColor4f(red, green, blue, 1.0f);
-        GL11.glBegin(GL11.GL_LINE_LOOP);
-        GL11.glVertex2d(minX + 0.5, minY + 0.5);
-        GL11.glVertex2d(maxX - 0.5, minY + 0.5);
-        GL11.glVertex2d(maxX - 0.5, maxY - 0.5);
-        GL11.glVertex2d(minX + 0.5, maxY - 0.5);
-        GL11.glEnd();
+        RenderSystem.setShaderColor(red, green, blue, 1.0f);
+        // GL11 replaced(GL11.GL_LINE_LOOP);
+        // GL11(minX + 0.5, minY + 0.5);
+        // GL11(maxX - 0.5, minY + 0.5);
+        // GL11(maxX - 0.5, maxY - 0.5);
+        // GL11(minX + 0.5, maxY - 0.5);
+        // GL11 replaced();
 
-        GL11.glColor4f(1, 1, 1, 1);
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
-        GL11.glDisable(GL11.GL_LINE_SMOOTH);
-        GL11.glPopMatrix();
+        RenderSystem.setShaderColor(1, 1, 1, 1);
+        RenderSystem.enableBlend(GL11.GL_TEXTURE_2D);
+        RenderSystem.enableBlend(GL11.GL_DEPTH_TEST);
+        RenderSystem.disableBlend(GL11.GL_LINE_SMOOTH);
+        RenderSystem.getModelViewStack().popMatrix();
     }
 
     public void renderSkeleton(PlayerEntity player, ModelPart modelBiped, int color, float partialTicks) {
-        GL11.glPushMatrix();
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        RenderSystem.getModelViewStack().pushMatrix();
+        RenderSystem.disableBlend(GL11.GL_DEPTH_TEST);
 
         double viewerPosX = mc.getEntityRenderDispatcher().viewerPosX;
         double viewerPosY = mc.getEntityRenderDispatcher().viewerPosY;
@@ -461,63 +461,63 @@ public class PlayerESP extends Module {
         double posZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * partialTicks - viewerPosZ;
 
         boolean wasBlendEnabled = GL11.glIsEnabled(GL11.GL_BLEND);
-        GL11.glPushMatrix();
+        RenderSystem.getModelViewStack().pushMatrix();
 
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         if (!wasBlendEnabled) {
-            GL11.glEnable(GL11.GL_BLEND);
+            RenderSystem.enableBlend(GL11.GL_BLEND);
         }
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glColor4f((float) (color >> 16 & 0xFF) / 255.0f, (float) (color >> 8 & 0xFF) / 255.0f, (float) (color & 0xFF) / 255.0f, 1.0f);
+        RenderSystem.setShaderColor((float) (color >> 16 & 0xFF) / 255.0f, (float) (color >> 8 & 0xFF) / 255.0f, (float) (color & 0xFF) / 255.0f, 1.0f);
 
-        GL11.glDisable(GL11.GL_LIGHTING);
-        GL11.glEnable(GL11.GL_LINE_SMOOTH);
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        RenderSystem.disableBlend(GL11.GL_LIGHTING);
+        RenderSystem.enableBlend(GL11.GL_LINE_SMOOTH);
+        RenderSystem.disableBlend(GL11.GL_TEXTURE_2D);
 
         GL11.glTranslated(posX, posY, posZ);
 
         float distance = mc.player.getDistanceToEntity(player);
         float computedLineWidth = 4.0f * ((100.0f - Math.min(distance, 100.0f)) / 100.0f);
         float lineWidth = Math.max(1.0f, computedLineWidth);
-        GL11.glLineWidth(lineWidth);
+        RenderSystem.lineWidth(lineWidth);
 
         boolean isSneaking = player.isSneaking();
         float legHeight = isSneaking ? 0.6f : 0.75f;
         double legOffsetZ = isSneaking ? -0.2 : 0.0;
 
-        GL11.glRotatef(player.renderYawOffset, 0.0f, -999.0f, 0.0f);
+        RenderSystem.rotate(player.renderYawOffset, 0.0f, -999.0f, 0.0f);
         GL11.glTranslated(-0.15, legHeight, legOffsetZ);
 
         float rightLegRotX = modelBiped.bipedRightLeg.rotateAngleX * RAD_TO_DEG;
         float rightLegRotY = modelBiped.bipedRightLeg.rotateAngleY * RAD_TO_DEG;
         float rightLegRotZ = modelBiped.bipedRightLeg.rotateAngleZ * RAD_TO_DEG;
-        GL11.glRotatef(rightLegRotX, 1.0f, 0.0f, 0.0f);
-        GL11.glRotatef(-rightLegRotY, 0.0f, 1.0f, 0.0f);
-        GL11.glRotatef(-rightLegRotZ, 0.0f, 0.0f, 1.0f);
+        RenderSystem.rotate(rightLegRotX, 1.0f, 0.0f, 0.0f);
+        RenderSystem.rotate(-rightLegRotY, 0.0f, 1.0f, 0.0f);
+        RenderSystem.rotate(-rightLegRotZ, 0.0f, 0.0f, 1.0f);
         drawLine(0.0, 0.0, 0.0, 0.0, -legHeight, 0.0);
 
-        GL11.glRotatef(rightLegRotZ, 0.0f, 0.0f, 1.0f);
-        GL11.glRotatef(rightLegRotY, 0.0f, 1.0f, 0.0f);
-        GL11.glRotatef(-rightLegRotX, 1.0f, 0.0f, 0.0f);
+        RenderSystem.rotate(rightLegRotZ, 0.0f, 0.0f, 1.0f);
+        RenderSystem.rotate(rightLegRotY, 0.0f, 1.0f, 0.0f);
+        RenderSystem.rotate(-rightLegRotX, 1.0f, 0.0f, 0.0f);
 
         GL11.glTranslated(0.3, 0.0, 0.0);
         float leftLegRotX = modelBiped.bipedLeftLeg.rotateAngleX * RAD_TO_DEG;
         float leftLegRotY = modelBiped.bipedLeftLeg.rotateAngleY * RAD_TO_DEG;
         float leftLegRotZ = modelBiped.bipedLeftLeg.rotateAngleZ * RAD_TO_DEG;
-        GL11.glRotatef(leftLegRotX, 1.0f, 0.0f, 0.0f);
-        GL11.glRotatef(-leftLegRotY, 0.0f, 1.0f, 0.0f);
-        GL11.glRotatef(-leftLegRotZ, 0.0f, 0.0f, 1.0f);
+        RenderSystem.rotate(leftLegRotX, 1.0f, 0.0f, 0.0f);
+        RenderSystem.rotate(-leftLegRotY, 0.0f, 1.0f, 0.0f);
+        RenderSystem.rotate(-leftLegRotZ, 0.0f, 0.0f, 1.0f);
         drawLine(0.0, 0.0, 0.0, 0.0, -legHeight, 0.0);
 
-        GL11.glRotatef(leftLegRotZ, 0.0f, 0.0f, 1.0f);
-        GL11.glRotatef(leftLegRotY, 0.0f, 1.0f, 0.0f);
-        GL11.glRotatef(-leftLegRotX, 1.0f, 0.0f, 0.0f);
+        RenderSystem.rotate(leftLegRotZ, 0.0f, 0.0f, 1.0f);
+        RenderSystem.rotate(leftLegRotY, 0.0f, 1.0f, 0.0f);
+        RenderSystem.rotate(-leftLegRotX, 1.0f, 0.0f, 0.0f);
         GL11.glTranslated(-0.15, 0.0, 0.0);
 
         drawLine(0.15, 0.0, 0.0, -0.15, 0.0, 0.0);
 
         if (player.isSneaking()) {
-            GL11.glRotatef(20.0f, 1.0f, 0.0f, 0.0f);
+            RenderSystem.rotate(20.0f, 1.0f, 0.0f, 0.0f);
         }
         drawLine(0.0, 0.0, 0.0, 0.0, 0.65, 0.0);
 
@@ -528,28 +528,28 @@ public class PlayerESP extends Module {
         float rightArmRotX = modelBiped.bipedRightArm.rotateAngleX * RAD_TO_DEG;
         float rightArmRotY = modelBiped.bipedRightArm.rotateAngleY * RAD_TO_DEG;
         float rightArmRotZ = modelBiped.bipedRightArm.rotateAngleZ * RAD_TO_DEG;
-        GL11.glRotatef(rightArmRotX, 1.0f, 0.0f, 0.0f);
-        GL11.glRotatef(-rightArmRotY, 0.0f, 1.0f, 0.0f);
-        GL11.glRotatef(-rightArmRotZ, 0.0f, 0.0f, 1.0f);
+        RenderSystem.rotate(rightArmRotX, 1.0f, 0.0f, 0.0f);
+        RenderSystem.rotate(-rightArmRotY, 0.0f, 1.0f, 0.0f);
+        RenderSystem.rotate(-rightArmRotZ, 0.0f, 0.0f, 1.0f);
         drawLine(0.0, 0.0, 0.0, 0.0, -0.6, 0.0);
-        GL11.glRotatef(rightArmRotZ, 0.0f, 0.0f, 1.0f);
-        GL11.glRotatef(rightArmRotY, 0.0f, 1.0f, 0.0f);
-        GL11.glRotatef(-rightArmRotX, 1.0f, 0.0f, 0.0f);
+        RenderSystem.rotate(rightArmRotZ, 0.0f, 0.0f, 1.0f);
+        RenderSystem.rotate(rightArmRotY, 0.0f, 1.0f, 0.0f);
+        RenderSystem.rotate(-rightArmRotX, 1.0f, 0.0f, 0.0f);
 
         GL11.glTranslated(0.7, 0.0, 0.0);
         float leftArmRotX = modelBiped.bipedLeftArm.rotateAngleX * RAD_TO_DEG;
         float leftArmRotY = modelBiped.bipedLeftArm.rotateAngleY * RAD_TO_DEG;
         float leftArmRotZ = modelBiped.bipedLeftArm.rotateAngleZ * RAD_TO_DEG;
-        GL11.glRotatef(leftArmRotX, 1.0f, 0.0f, 0.0f);
-        GL11.glRotatef(-leftArmRotY, 0.0f, 1.0f, 0.0f);
-        GL11.glRotatef(-leftArmRotZ, 0.0f, 0.0f, 1.0f);
+        RenderSystem.rotate(leftArmRotX, 1.0f, 0.0f, 0.0f);
+        RenderSystem.rotate(-leftArmRotY, 0.0f, 1.0f, 0.0f);
+        RenderSystem.rotate(-leftArmRotZ, 0.0f, 0.0f, 1.0f);
         drawLine(0.0, 0.0, 0.0, 0.0, -0.6, 0.0);
-        GL11.glRotatef(leftArmRotZ, 0.0f, 0.0f, 1.0f);
-        GL11.glRotatef(leftArmRotY, 0.0f, 1.0f, 0.0f);
-        GL11.glRotatef(-leftArmRotX, 1.0f, 0.0f, 0.0f);
+        RenderSystem.rotate(leftArmRotZ, 0.0f, 0.0f, 1.0f);
+        RenderSystem.rotate(leftArmRotY, 0.0f, 1.0f, 0.0f);
+        RenderSystem.rotate(-leftArmRotX, 1.0f, 0.0f, 0.0f);
         GL11.glTranslated(-0.35, 0.0, 0.0);
 
-        GL11.glRotatef(-player.renderYawOffset, 0.0f, -999.0f, 0.0f);
+        RenderSystem.rotate(-player.renderYawOffset, 0.0f, -999.0f, 0.0f);
         double headHeight = 0.4;
         GL11.glRotated(player.rotationYaw, 0.0, -999.0, 0.0);
         GL11.glRotated(player.rotationPitch, 999.0, 0.0, 0.0);
@@ -559,23 +559,23 @@ public class PlayerESP extends Module {
         GL11.glRotated(-player.rotationYaw, 0.0, 999.0, 0.0);
 
         if (!wasBlendEnabled) {
-            GL11.glDisable(GL11.GL_BLEND);
+            RenderSystem.disableBlend(GL11.GL_BLEND);
         }
 
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glDisable(GL11.GL_LINE_SMOOTH);
-        GL11.glEnable(GL11.GL_LIGHTING);
-        GL11.glPopMatrix();
+        RenderSystem.enableBlend(GL11.GL_TEXTURE_2D);
+        RenderSystem.disableBlend(GL11.GL_LINE_SMOOTH);
+        RenderSystem.enableBlend(GL11.GL_LIGHTING);
+        RenderSystem.getModelViewStack().popMatrix();
 
-        GL11.glColor4f(1, 1, 1,1);
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
-        GL11.glPopMatrix();
+        RenderSystem.setShaderColor(1, 1, 1,1);
+        RenderSystem.enableBlend(GL11.GL_DEPTH_TEST);
+        RenderSystem.getModelViewStack().popMatrix();
     }
 
     private void drawLine(double x1, double y1, double z1, double x2, double y2, double z2) {
-        GL11.glBegin(GL11.GL_LINES);
+        // GL11 replaced(GL11.GL_LINES);
         GL11.glVertex3d(x1, y1, z1);
         GL11.glVertex3d(x2, y2, z2);
-        GL11.glEnd();
+        // GL11 replaced();
     }
 }

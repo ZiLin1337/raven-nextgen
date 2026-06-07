@@ -14,7 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3dd;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
 
@@ -160,21 +160,21 @@ public class RenderUtils1214 {
     }
     
     // Draw 2D rect using DrawContext
-    public static void drawRect(DrawContext context, int x1, int y1, int x2, int y2, int color) {
+    public static void DrawContextHelper.drawRect(DrawContext context, int x1, int y1, int x2, int y2, int color) {
         context.fill(x1, y1, x2, y2, color);
     }
     
     // Draw gradient rect
-    public static void drawGradientRect(DrawContext context, int x1, int y1, int x2, int y2, int color1, int color2) {
+    public static void DrawContextHelper.drawGradientRect(DrawContext context, int x1, int y1, int x2, int y2, int color1, int color2) {
         context.fillGradient(x1, y1, x2, y2, color1, color2);
     }
     
     // Convert world coordinates to screen coordinates
-    public static Vec3d worldToScreen(Vec3d worldPos) {
+    public static Vec3dd worldToScreen(Vec3dd worldPos) {
         if (mc.entityRenderDispatcher == null || mc.player == null) return null;
         
         // Get camera position
-        Vec3d cameraPos = mc.entityRenderDispatcher.camera.getPos();
+        Vec3dd cameraPos = mc.entityRenderDispatcher.camera.getPos();
         
         // Translate to camera-relative coordinates
         double x = worldPos.x - cameraPos.x;
@@ -203,7 +203,7 @@ public class RenderUtils1214 {
         double screenX = (ndcX + 1.0f) / 2.0f * screenWidth;
         double screenY = (1.0f - ndcY) / 2.0f * screenHeight;
         
-        return new Vec3d(screenX, screenY, pos.z());
+        return new Vec3dd(screenX, screenY, pos.z());
     }
     
     // Get Identifier for texture

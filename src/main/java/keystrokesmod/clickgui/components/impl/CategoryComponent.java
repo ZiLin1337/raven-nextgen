@@ -258,7 +258,7 @@ public class CategoryComponent {
         float namePos = (textTimer == null) ? targetNamePos : textTimer.getValueFloat(animationStartNamePos, targetNamePos, 1);
         this.lastNamePos = namePos;
         this.lastHeight = extra;
-        GL11.glPushMatrix();
+        RenderSystem.getModelViewStack().pushMatrix();
         RenderUtils.drawRoundedGradientOutlinedRectangle(this.x - 2, this.y, this.x + this.width + 2, extra, 10, TRANSLUCENT_BACKGROUND,
                 ((opened || hovering) && Gui.rainBowOutlines.isToggled()) ? RenderUtils.setAlpha(Utils.getChroma(2, 0), 0.5) : REGULAR_OUTLINE,
                 ((opened || hovering) && Gui.rainBowOutlines.isToggled()) ? RenderUtils.setAlpha(Utils.getChroma(2, 700), 0.5) : REGULAR_OUTLINE2);
@@ -268,16 +268,16 @@ public class CategoryComponent {
         float scissorBottom = extra - 2f;
         float moduleAreaHeight = Math.max(0f, scissorBottom - moduleAreaTop);
         if (this.opened || smoothTimer != null) {
-            GL11.glEnable(GL11.GL_SCISSOR_TEST);
+            RenderSystem.enableBlend(GL11.GL_SCISSOR_TEST);
             RenderUtils.scissor(0, moduleAreaTop, this.x + this.width + 4, moduleAreaHeight);
             float scrollOffset = moduleY - this.y;
-            GL11.glPushMatrix();
-            GL11.glTranslatef(0f, scrollOffset, 0f);
+            RenderSystem.getModelViewStack().pushMatrix();
+            RenderSystem.translate(0f, scrollOffset, 0f);
             for (Component c2 : this.modules) c2.render();
-            GL11.glPopMatrix();
-            GL11.glDisable(GL11.GL_SCISSOR_TEST);
+            RenderSystem.getModelViewStack().popMatrix();
+            RenderSystem.disableBlend(GL11.GL_SCISSOR_TEST);
         }
-        GL11.glPopMatrix();
+        RenderSystem.getModelViewStack().popMatrix();
     }
 
     public void updateHeight() {
@@ -310,19 +310,19 @@ public class CategoryComponent {
     private void renderItemForCategory(Module.category category, int x, int y, boolean enchant) {
         ItemRenderer renderItem = MinecraftClient.getInstance().getItemRenderer();
         double scale = 0.55;
-        GL11.glPushMatrix();
+        RenderSystem.getModelViewStack().pushMatrix();
         GL11.glScaled(scale, scale, scale);
         CategoryIconStacks icons = CATEGORY_ICON_STACKS.get(category);
         ItemStack stack = icons == null ? null : (enchant ? icons.activeStack : icons.normalStack);
         if (stack != null) {
             DiffuseLighting.enableGuiLighting();
-            GL11.glDisable(GL11.GL_BLEND);
+            RenderSystem.disableBlend(GL11.GL_BLEND);
             GL11.glTranslated(x / scale, y / scale, 0);
             renderItem.renderItem(null, stack, 0, 0, 0);
-            GL11.glEnable(GL11.GL_BLEND);
+            RenderSystem.enableBlend(GL11.GL_BLEND);
             DiffuseLighting.disableGuiLighting();
         }
-        GL11.glPopMatrix();
+        RenderSystem.getModelViewStack().popMatrix();
     }
 
     private float getCurrentCategoryBottomFromContent() {

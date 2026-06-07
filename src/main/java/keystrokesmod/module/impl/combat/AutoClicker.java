@@ -123,14 +123,14 @@ public class AutoClicker extends Module {
 
         int windowId = gui.inventorySlots.windowId;
         int slotId = slot.slotNumber;
-        int mode = net.minecraft.client.gui.GuiScreen.isShiftKeyDown() ? 1 : 0;
+        int mode = net.minecraft.client.gui.Screen.isShiftKeyDown() ? 1 : 0;
 
-        if (mc.playerController == null || mc.player == null) {
+        if (mc.interactionManager == null || mc.player == null) {
             return;
         }
 
         for (int i = 0; i < clicks; i++) {
-            mc.playerController.windowClick(windowId, slotId, 0, mode, mc.player);
+            mc.interactionManager.windowClick(windowId, slotId, 0, mode, mc.player);
         }
     }
 
@@ -139,7 +139,7 @@ public class AutoClicker extends Module {
         if (!Utils.nullCheck()) return;
         if (ModuleManager.killAura != null && ModuleManager.killAura.isEnabled() && KillAura.target != null) return;
 
-        int key = mc.gameSettings.keyBindAttack.getKeyCode();
+        int key = mc.options.keyBindAttack.getKeyCode();
         if (Mouse.isButtonDown(0)) {
             long now = System.currentTimeMillis();
             if (nextClickTime == 0) {
@@ -168,7 +168,7 @@ public class AutoClicker extends Module {
                 else if (mc.objectMouseOver != null) {
                 BlockPos pos = mc.objectMouseOver.getBlockPos();
                 if (pos != null) {
-                    Block block = mc.world.getBlockState(pos).getBlock();
+                    Block block = mc.world.getBlockState(pos).getBlockState().getBlock());
                     if (block != Blocks.AIR && !(block instanceof FluidBlock)) {
                         if (!this.isHoldingBlockBreak) {
                             KeyBinding.setKeyBindState(key, true);

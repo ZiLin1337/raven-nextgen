@@ -24,7 +24,7 @@ import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
 import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3dd;
 
 import java.awt.*;
 import java.util.*;
@@ -75,7 +75,7 @@ public class BedWars extends Module {
                     BlockPos blockPos = entry.getKey();
                     Long receivedMs = entry.getValue();
 
-                    if (!(mc.world.getBlockState(blockPos).getBlock() instanceof BlockObsidian) && Utils.timeBetween(System.currentTimeMillis(), receivedMs) >= 500) {
+                    if (!(mc.world.getBlockState(blockPos).getBlockState().getBlock()) instanceof BlockObsidian) && Utils.timeBetween(System.currentTimeMillis(), receivedMs) >= 500) {
                         iterator.remove();
                         continue;
                     }
@@ -101,7 +101,7 @@ public class BedWars extends Module {
                 if (Utils.getBedwarsStatus() != 2) {
                     return;
                 }
-                Vec3 spawnPosition = new Vec3(e.entity.posX, e.entity.posY, e.entity.posZ);
+                Vec3d spawnPosition = new Vec3d(e.entity.posX, e.entity.posY, e.entity.posZ);
                 for (SkyWars.SpawnEggInfo eggInfo : entitySpawnQueue) {
                     if (eggInfo.spawnPos.distanceTo(spawnPosition) > 3 || Utils.timeBetween(mc.player.ticksExisted, eggInfo.tickSpawned) > 60) { // 3 seconds or not at spawn point then not own mob
                         return;
@@ -119,7 +119,7 @@ public class BedWars extends Module {
     public void onUpdate() {
         if (Utils.getBedwarsStatus() == 2) {
             if (diamondArmor.isToggled() || enderPearl.isToggled() || obsidian.isToggled()) {
-                for (EntityPlayer p : mc.world.playerEntities) {
+                for (PlayerEntity p : mc.world.getPlayers()) {
                     if (p == null) {
                         continue;
                     }
@@ -160,14 +160,14 @@ public class BedWars extends Module {
     
     public void onSendPacket(SendPacketEvent e) {
         if (e.getPacket() instanceof PlayerInteractBlockC2SPacket) {
-            PlayerInteractBlockC2SPacket p = (C08PacketPlayerBlockPlacement) e.getPacket();
+            PlayerInteractBlockC2SPacket p = (PlayerInteractBlockC2SPacket) e.getPacket();
             if (p.getPlacedBlockDirection() != 255 && p.getStack() != null && p.getStack().getItem() != null) {
                 if (p.getStack().getItem() instanceof ItemMonsterPlacer) {
                     Class<? extends Entity> oclass = EntityList.stringToClassMapping.get(ItemMonsterPlacer.getEntityName(p.getStack()));
                     if (oclass == null) {
                         return;
                     }
-                    if (oclass.getSimpleName().equals("EntityIronGolem")) {
+                    if (oclass.getSimpleName().equals("IronGolemEntity")) {
                         entitySpawnQueue.add(new SkyWars.SpawnEggInfo(p.getPosition(), mc.player.ticksExisted));
                     }
                 }
@@ -179,7 +179,7 @@ public class BedWars extends Module {
     public void onReceivePacket(ReceivePacketEvent e) {
         if (e.getPacket() instanceof S23PacketBlockChange) {
             S23PacketBlockChange p = (S23PacketBlockChange) e.getPacket();
-            if (p.getBlockState() != null && p.getBlockState().getBlock() instanceof BlockObsidian && isNextToBed(p.getBlockPosition())) {
+            if (p.getBlockState() != null && p.getBlockState().getBlockState().getBlock()) instanceof BlockObsidian && isNextToBed(p.getBlockPosition())) {
                 this.obsidianPos.put(p.getBlockPosition(), System.currentTimeMillis());
             }
         }
@@ -188,7 +188,7 @@ public class BedWars extends Module {
     private boolean isNextToBed(BlockPos blockPos) {
         for (Direction enumFacing : Direction.values()) {
             BlockPos offset = blockPos.offset(enumFacing);
-            if (BlockUtils.getBlock(offset) instanceof BedBlock) {
+            if (BlockUtils.getBlockState().getBlock()offset) instanceof BedBlock) {
                 return true;
             }
         }

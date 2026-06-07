@@ -12,7 +12,7 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3dd;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 
@@ -118,7 +118,7 @@ public class HitParticles extends Module {
         if (event.entityPlayer != mc.player || !(event.target instanceof LivingEntity)) {
             return;
         }
-        LivingEntity target = (EntityLivingBase) event.target;
+        LivingEntity target = (LivingEntity) event.target;
         if (target.hurtTime > 5 || target.hurtResistantTime > 0) {
             return;
         }
@@ -198,10 +198,10 @@ public class HitParticles extends Module {
 
     private static LivingEntity getCollisionEntity(EntityArrow arrow) {
         World world = arrow.worldObj;
-        Vec3 pos = new Vec3(arrow.posX, arrow.posY, arrow.posZ);
-        Vec3 motionEnd = new Vec3(arrow.posX + arrow.motionX, arrow.posY + arrow.motionY, arrow.posZ + arrow.motionZ);
+        Vec3d pos = new Vec3d(arrow.posX, arrow.posY, arrow.posZ);
+        Vec3d motionEnd = new Vec3d(arrow.posX + arrow.motionX, arrow.posY + arrow.motionY, arrow.posZ + arrow.motionZ);
         HitResult rayTrace = world.rayTraceBlocks(pos, motionEnd, false, true, false);
-        Vec3 traceEnd = motionEnd;
+        Vec3d traceEnd = motionEnd;
         if (rayTrace != null) {
             traceEnd = rayTrace.hitVec;
         }
@@ -218,7 +218,7 @@ public class HitParticles extends Module {
             if (!(entity instanceof LivingEntity)) {
                 continue;
             }
-            LivingEntity living = (EntityLivingBase) entity;
+            LivingEntity living = (LivingEntity) entity;
             if (!living.canBeCollidedWith()) {
                 continue;
             }

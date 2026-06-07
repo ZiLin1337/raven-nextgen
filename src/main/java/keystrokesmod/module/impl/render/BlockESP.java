@@ -50,7 +50,7 @@ public class BlockESP extends Module {
         int color = ((int) colorA.getInput() << 24) | ((int) colorR.getInput() << 16) | ((int) colorG.getInput() << 8) | (int) colorB.getInput();
         for (BlockPos pos : BlockPos.iterate(playerPos.add(-rangeInt, -rangeInt, -rangeInt), playerPos.add(rangeInt, rangeInt, rangeInt))) {
             BlockState state = mc.world.getBlockState(pos);
-            Block block = state.getBlock();
+            Block block = state.getBlockState().getBlock());
             if (shouldRender(block)) {
                 renderBlock(pos, color);
             }
@@ -91,10 +91,10 @@ public class BlockESP extends Module {
         float r = (float) (color >> 16 & 0xFF) / 255.0f;
         float g = (float) (color >> 8 & 0xFF) / 255.0f;
         float b = (float) (color & 0xFF) / 255.0f;
-        GL11.glEnable(GL11.GL_BLEND);
+        RenderSystem.enableBlend(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glDisable(GL11.GL_CULL_FACE);
+        RenderSystem.disableBlend(GL11.GL_TEXTURE_2D);
+        RenderSystem.disableBlend(GL11.GL_CULL_FACE);
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
         buffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
@@ -123,9 +123,9 @@ public class BlockESP extends Module {
         buffer.vertex(box.minX, box.maxY, box.maxZ).color(r, g, b, a).next();
         buffer.vertex(box.minX, box.maxY, box.minZ).color(r, g, b, a).next();
         BufferRenderer.drawWithGlobalProgram(buffer.end());
-        GL11.glEnable(GL11.GL_CULL_FACE);
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glDisable(GL11.GL_BLEND);
+        RenderSystem.enableBlend(GL11.GL_CULL_FACE);
+        RenderSystem.enableBlend(GL11.GL_TEXTURE_2D);
+        RenderSystem.disableBlend(GL11.GL_BLEND);
     }
 
     private void drawOutlinedBox(Box box, int color) {
@@ -133,11 +133,11 @@ public class BlockESP extends Module {
         float r = (float) (color >> 16 & 0xFF) / 255.0f;
         float g = (float) (color >> 8 & 0xFF) / 255.0f;
         float b = (float) (color & 0xFF) / 255.0f;
-        GL11.glEnable(GL11.GL_BLEND);
+        RenderSystem.enableBlend(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
-        GL11.glLineWidth(2.0f);
+        RenderSystem.disableBlend(GL11.GL_TEXTURE_2D);
+        RenderSystem.disableBlend(GL11.GL_DEPTH_TEST);
+        RenderSystem.lineWidth(2.0f);
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
         buffer.begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION_COLOR);
@@ -166,8 +166,8 @@ public class BlockESP extends Module {
         buffer.vertex(box.minX, box.maxY, box.maxZ).color(r, g, b, a).next();
         buffer.vertex(box.minX, box.maxY, box.minZ).color(r, g, b, a).next();
         BufferRenderer.drawWithGlobalProgram(buffer.end());
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glDisable(GL11.GL_BLEND);
+        RenderSystem.enableBlend(GL11.GL_DEPTH_TEST);
+        RenderSystem.enableBlend(GL11.GL_TEXTURE_2D);
+        RenderSystem.disableBlend(GL11.GL_BLEND);
     }
 }

@@ -8,8 +8,8 @@ import keystrokesmod.lag.api.LagRequest;
 import keystrokesmod.lag.queue.BiTrackLagNodeQueue;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.play.client.C03PacketPlayer;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.network.play.client.PlayerMoveC2SPacket;
+import net.minecraft.util.math.Vec3dd;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -26,7 +26,7 @@ public final class UnifiedLagHandler extends AbstractFastTrackProvider {
     private final @NotNull Set<Packet<?>> packetFastTrack = Collections.newSetFromMap(
             Collections.synchronizedMap(new IdentityHashMap<Packet<?>, Boolean>())
     );
-    private volatile @Nullable Vec3 serverPosition;
+    private volatile @Nullable Vec3d serverPosition;
 
     public void requestLag(final @NotNull LagRequest request) {
         queue.requestLag(request);
@@ -36,7 +36,7 @@ public final class UnifiedLagHandler extends AbstractFastTrackProvider {
         queue.releaseExpiredPackets(direction, maxAgeMs);
     }
 
-    public @Nullable Vec3 getLastReleasedServerPosition() {
+    public @Nullable Vec3d getLastReleasedServerPosition() {
         return serverPosition;
     }
 
@@ -113,16 +113,16 @@ public final class UnifiedLagHandler extends AbstractFastTrackProvider {
     }
 
     private void updateServerPosition(final @NotNull Packet<?> packet) {
-        if (!(packet instanceof C03PacketPlayer)) {
+        if (!(packet instanceof PlayerMoveC2SPacket)) {
             return;
         }
 
-        C03PacketPlayer movementPacket = (C03PacketPlayer) packet;
+        PlayerMoveC2SPacket movementPacket = (PlayerMoveC2SPacket) packet;
         if (!movementPacket.isMoving()) {
             return;
         }
 
-        serverPosition = new Vec3(
+        serverPosition = new Vec3d(
                 movementPacket.getPositionX(),
                 movementPacket.getPositionY(),
                 movementPacket.getPositionZ()

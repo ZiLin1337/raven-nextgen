@@ -90,14 +90,14 @@ public class GhostHand extends Module {
 
         Entity viewEntity = mc.getRenderViewEntity();
 
-        double reach = mc.playerController.getBlockReachDistance();
-        if (mc.playerController.extendedReach()) reach = 6.0;
+        double reach = mc.interactionManager.getBlockReachDistance();
+        if (mc.interactionManager.extendedReach()) reach = 6.0;
 
         HitResult blockHit = findPrioritizedBlock(viewEntity, reach, partialTicks);
         if (blockHit == null) return;
 
         BlockPos hitPos = blockHit.getBlockPos();
-        Block hitBlock = BlockUtils.getBlock(hitPos);
+        Block hitBlock = BlockUtils.getBlockState().getBlock()hitPos);
         boolean isBed = hitBlock instanceof BedBlock;
         boolean isAdjacent = !isBed && BlockUtils.isAdjacentToBed(hitPos);
         boolean priorityOverride = (priorityBed.isToggled() && isBed)
@@ -106,8 +106,8 @@ public class GhostHand extends Module {
         if (!priorityEverything.isToggled() && !priorityOverride) return;
 
         if (!priorityOverride) {
-            Vec3 eyes = viewEntity.getPositionEyes(partialTicks);
-            Vec3 blockHitVec = blockHit.hitVec;
+            Vec3d eyes = viewEntity.getPositionEyes(partialTicks);
+            Vec3d blockHitVec = blockHit.hitVec;
             double blockDist = eyes.distanceTo(blockHitVec);
 
             Box scanBox = new Box(
@@ -153,9 +153,9 @@ public class GhostHand extends Module {
     }
 
     private HitResult findPrioritizedBlock(Entity viewEntity, double reach, float partialTicks) {
-        Vec3 eyes = viewEntity.getPositionEyes(partialTicks);
-        Vec3 look = viewEntity.getLook(partialTicks);
-        Vec3 rayEnd = eyes.addVector(look.xCoord * reach, look.yCoord * reach, look.zCoord * reach);
+        Vec3d eyes = viewEntity.getPositionEyes(partialTicks);
+        Vec3d look = viewEntity.getLook(partialTicks);
+        Vec3d rayEnd = eyes.addVector(look.xCoord * reach, look.yCoord * reach, look.zCoord * reach);
         return BlockUtils.traverseBlocksAlongRay(eyes, rayEnd, priorityBed.isToggled(), priorityBedAdjacent.isToggled());
     }
 
@@ -174,7 +174,7 @@ public class GhostHand extends Module {
 
     private boolean obstructionAllowed(Entity e) {
         if (!(e instanceof PlayerEntity)) return throughNonPlayer.isToggled();
-        PlayerEntity player = (EntityPlayer) e;
+        PlayerEntity player = (PlayerEntity) e;
         if (AntiBot.isBot(player)) return throughBots.isToggled();
         if (Utils.isFriended(player) || Utils.isTeammate(player)) return throughFriendlies.isToggled();
         return throughEnemies.isToggled();
@@ -185,11 +185,11 @@ public class GhostHand extends Module {
     private static HeldCategory classify(ItemStack held) {
         if (held == null) return HeldCategory.FISTS;
         Item item = held.getItem();
-        if (item instanceof ItemSword) return HeldCategory.SWORD;
-        if (item instanceof ItemTool || item instanceof ItemHoe || item instanceof ItemShears) return HeldCategory.TOOL;
+        if (item instanceof SwordItem) return HeldCategory.SWORD;
+        if (item instanceof ItemTool || item instanceof HoeItem || item instanceof ItemShears) return HeldCategory.TOOL;
         if (item instanceof ItemBucket) return HeldCategory.BUCKET;
         if (item instanceof ItemFlintAndSteel) return HeldCategory.FLINT_STEEL;
-        if (item instanceof BlockItem && ((ItemBlock) item).getBlock() == Blocks.web) return HeldCategory.COBWEB;
+        if (item instanceof BlockItem && ((BlockItem) item).getBlockState().getBlock()) == Blocks.web) return HeldCategory.COBWEB;
         return HeldCategory.OTHER;
     }
 }

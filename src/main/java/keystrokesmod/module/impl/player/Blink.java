@@ -11,7 +11,7 @@ import meteordevelopment.orbit.EventHandler;
 import meteordevelopment.orbit.EventPriority;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3dd;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class Blink extends Module {
     private ButtonSetting maxDuration;
     private ButtonSetting disableOnAttack;
     private ButtonSetting initialPosition;
-    private Vec3d pos;
+    private Vec3dd pos;
     private int blinkTicks;
     private long enableTime;
     private final List<Packet<?>> queuedPackets = new ArrayList<>();

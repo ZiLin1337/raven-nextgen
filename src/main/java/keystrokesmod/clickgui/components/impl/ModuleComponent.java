@@ -506,7 +506,7 @@ public class ModuleComponent extends Component {
             GL11.glScissor(ix, iy, iw, ih);
         } else {
             saved[0] = 0;
-            GL11.glEnable(GL11.GL_SCISSOR_TEST);
+            RenderSystem.enableBlend(GL11.GL_SCISSOR_TEST);
             GL11.glScissor(x, y, w, h);
         }
     }
@@ -514,7 +514,7 @@ public class ModuleComponent extends Component {
     private void popScissor() {
         int[] saved = scissorStack[--scissorDepth];
         if (saved[0] == 1) GL11.glScissor(saved[1], saved[2], saved[3], saved[4]);
-        else GL11.glDisable(GL11.GL_SCISSOR_TEST);
+        else RenderSystem.disableBlend(GL11.GL_SCISSOR_TEST);
     }
 
     private boolean isVisibleBase(Component component) { return component.isBaseVisible(); }

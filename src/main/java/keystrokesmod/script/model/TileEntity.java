@@ -4,22 +4,22 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.util.math.BlockPos;
 
 public class TileEntity {
-    public Vec3 position;
+    public Vec3d position;
     public String type;
     public BlockEntity tileEntity;
 
     public TileEntity(BlockEntity tileEntity) {
         this.tileEntity = tileEntity;
-        this.position = Vec3.convert(tileEntity.getPos());
+        this.position = Vec3d.convert(tileEntity.getPos());
         this.type = tileEntity.getType().getName().getString();
     }
 
-    public Vec3 getPosition() { return position; }
+    public Vec3d getPosition() { return position; }
     public String getType() { return type; }
     
     public net.minecraft.block.Block getBlock() {
         if (tileEntity.getWorld() != null) {
-            return tileEntity.getWorld().getBlockState(tileEntity.getPos()).getBlock();
+            return tileEntity.getWorld().getBlockState(tileEntity.getPos()).getBlockState().getBlock());
         }
         return null;
     }

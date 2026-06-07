@@ -51,10 +51,10 @@ public class DuelsStats extends Module {
     @Override
     public void onUpdate() {
         if (this.id() && this.en.isEmpty()) {
-            List<PlayerEntity> players = mc.world.playerEntities;
+            List<PlayerEntity> players = mc.world.getPlayers();
             players.remove(mc.player);
 
-            for (EntityPlayer player : players) {
+            for (PlayerEntity player : players) {
                 String name = player.getName();
                 if (!name.equals(this.ign) && !name.equals(nick) && !this.q.contains(name) && player.getDisplayName().getUnformattedText().contains("§k")) {
                     this.ef(name);

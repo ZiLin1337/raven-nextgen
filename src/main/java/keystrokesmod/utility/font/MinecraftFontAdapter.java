@@ -1,7 +1,7 @@
 package keystrokesmod.utility.font;
 
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.render.GlStateManager;
 
 public final class MinecraftFontAdapter implements RavenFontRenderer {
     private static final String COLOR_CODES = "0123456789abcdef";
@@ -24,11 +24,11 @@ public final class MinecraftFontAdapter implements RavenFontRenderer {
             return fontRenderer.drawString(text, x, y, color, shadow);
         }
 
-        GlStateManager.pushMatrix();
-        GlStateManager.translate(x, y, 0.0f);
-        GlStateManager.scale(scale, scale, 1.0f);
+        RenderSystem.pushMatrix();
+        RenderSystem.translate(x, y, 0.0f);
+        RenderSystem.scale(scale, scale, 1.0f);
         int width = fontRenderer.drawString(text, 0.0f, 0.0f, color, shadow);
-        GlStateManager.popMatrix();
+        RenderSystem.popMatrix();
         return Math.round(width * scale);
     }
 

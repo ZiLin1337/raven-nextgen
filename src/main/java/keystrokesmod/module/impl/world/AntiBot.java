@@ -35,7 +35,7 @@ public class AntiBot extends Module {
     public void onEntityJoin(EntityJoinWorldEvent e) {
         if ((e.entity instanceof PlayerEntity || Raven.DEBUG) && e.entity != mc.player) {
             if (delay.getInput() != -1 && e.entity instanceof PlayerEntity) {
-                entities.put((EntityPlayer) e.entity, System.currentTimeMillis());
+                entities.put((PlayerEntity) e.entity, System.currentTimeMillis());
             }
             if (printWorldJoin.isToggled()) {
                 Utils.sendMessage("&7Entity &b" + e.entity.getEntityId() + " &7joined: &r" + e.entity.getDisplayName().getFormattedText());
@@ -65,7 +65,7 @@ public class AntiBot extends Module {
         if (entity == null || !(entity instanceof PlayerEntity)) {
             return true;
         }
-        final PlayerEntity entityPlayer = (EntityPlayer) entity;
+        final PlayerEntity entityPlayer = (PlayerEntity) entity;
         if (delay.getInput() != -1 && !entities.isEmpty() && entities.containsKey(entityPlayer)) {
             return true;
         }

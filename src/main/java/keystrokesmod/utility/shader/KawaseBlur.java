@@ -2,7 +2,7 @@ package keystrokesmod.utility.shader;
 
 import keystrokesmod.utility.RenderUtils;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.render.GlStateManager;
 import net.minecraft.client.gl.Framebuffer;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
@@ -14,7 +14,7 @@ import java.util.List;
 import static org.lwjgl.opengl.GL11.*;
 
 public class KawaseBlur {
-    private static final Minecraft mc = Minecraft.getMinecraft();
+    private static final Minecraft mc = MinecraftClient.getInstance();
     public static ShaderUtils kawaseDown = new ShaderUtils("kawaseDown");
     public static ShaderUtils kawaseUp = new ShaderUtils("kawaseUp");
     public static Framebuffer framebuffer = new Framebuffer(1, 1, false);
@@ -31,19 +31,19 @@ public class KawaseBlur {
         framebufferList.add(framebuffer = RenderUtils.createFrameBuffer(null));
 
         for (int i = 1; i <= iterations; i++) {
-            Framebuffer currentBuffer = new Framebuffer((int) (mc.displayWidth / Math.pow(3, i)), (int) (mc.displayHeight / Math.pow(3, i)), false);
+            Framebuffer currentBuffer = new Framebuffer((int) (mc.getWindow().getFramebufferWidth() / Math.pow(3, i)), (int) (mc.getWindow().getFramebufferHeight() / Math.pow(3, i)), false);
             currentBuffer.setFramebufferFilter(GL_LINEAR);
-            GlStateManager.bindTexture(currentBuffer.framebufferTexture);
+            RenderSystem.bindTexture(currentBuffer.framebufferTexture);
             GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL14.GL_MIRRORED_REPEAT);
             GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL14.GL_MIRRORED_REPEAT);
-            GlStateManager.bindTexture(0);
+            RenderSystem.bindTexture(0);
 
             framebufferList.add(currentBuffer);
         }
     }
 
     public static void renderBlur(int stencilFrameBufferTexture, int iterations, float offset) {
-        if (currentIterations != iterations || framebuffer.framebufferWidth != mc.displayWidth || framebuffer.framebufferHeight != mc.displayHeight) {
+        if (currentIterations != iterations || framebuffer.framebufferWidth != mc.getWindow().getFramebufferWidth() || framebuffer.framebufferHeight != mc.getWindow().getFramebufferHeight()) {
             initFrameBuffers(iterations);
             currentIterations = iterations;
         }
@@ -80,11 +80,11 @@ public class KawaseBlur {
         mc.getFramebuffer().bindFramebuffer(true);
         RenderUtils.bindTexture(framebufferList.get(0).framebufferTexture);
         RenderUtils.setAlphaLimit(0);
-        GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        RenderSystem.enableBlend();
+        RenderSystem.blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         ShaderUtils.drawQuads();
-        GlStateManager.bindTexture(0);
-        GlStateManager.disableBlend();
+        RenderSystem.bindTexture(0);
+        RenderSystem.disableBlend();
     }
 
     private static void renderFBO(Framebuffer framebuffer, int framebufferTexture, ShaderUtils shader, float offset) {

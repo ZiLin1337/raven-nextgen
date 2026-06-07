@@ -9,8 +9,8 @@ import keystrokesmod.utility.PlayerSkinCache;
 import keystrokesmod.utility.RenderUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.render.GlStateManager;
+import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
@@ -98,7 +98,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
         for (int i = firstRow; i < end; i++) {
             PlayerRelationsManager.PlayerEntry entry = entries.get(i);
             float rowTop = selectedTop - offsetPx + i * ROW_HEIGHT;
-            RenderUtils.drawRect(layout.left, rowTop, layout.right, rowTop + ROW_HEIGHT - 1f, (i % 2 == 0) ? 0xFF1A1A2A : 0xFF1E1E2E);
+            RenderUtils.DrawContextHelper.drawRect(layout.left, rowTop, layout.right, rowTop + ROW_HEIGHT - 1f, (i % 2 == 0) ? 0xFF1A1A2A : 0xFF1E1E2E);
             renderPlayerHead(entry, playerInfoMap.get(entry.getKey()), layout.left + 2f, rowTop + (LIST_ROW_VISUAL_HEIGHT - HEAD_SIZE) / 2f);
             drawScaledText(entry.getDisplayName(), layout.left + 13f, centeredScaledTextY(rowTop, LIST_ROW_VISUAL_HEIGHT, LIST_ROW_TEXT_SCALE) + LIST_ROW_TEXT_Y_OFFSET, 0xFFCCCCCC, LIST_ROW_TEXT_SCALE);
             renderCloseIcon(layout.right, rowTop);
@@ -117,15 +117,15 @@ public class PlayerListComponent extends AbstractTextInputComponent {
     }
 
     private void renderPlayerHead(PlayerRelationsManager.PlayerEntry entry, PlayerListEntry playerInfo, float x, float y) {
-        ResourceLocation skin = PlayerSkinCache.getSkin(entry.getDisplayName(), playerInfo);
+        Identifier skin = PlayerSkinCache.getSkin(entry.getDisplayName(), playerInfo);
         if (skin == null) return;
         boolean depth = GL11.glIsEnabled(GL11.GL_DEPTH_TEST);
         boolean blend = GL11.glIsEnabled(GL11.GL_BLEND);
         boolean depthMask = GL11.glGetBoolean(GL11.GL_DEPTH_WRITEMASK);
         try {
             RenderUtils.prepareGuiTextureRenderState();
-            Minecraft.getMinecraft().getTextureManager().bindTexture(skin);
-            GlStateManager.color(1f, 1f, 1f, 1f);
+            MinecraftClient.getInstance().getTextureManager().bindTexture(skin);
+            RenderSystem.color(1f, 1f, 1f, 1f);
             net.minecraft.client.gui.Gui.drawScaledCustomSizeModalRect((int) x, (int) y, 8f, 8f, 8, 8, (int) HEAD_SIZE, (int) HEAD_SIZE, 64f, 64f);
             net.minecraft.client.gui.Gui.drawScaledCustomSizeModalRect((int) x, (int) y, 40f, 8f, 8, 8, (int) HEAD_SIZE, (int) HEAD_SIZE, 64f, 64f);
         } finally { RenderUtils.restoreGuiRenderState(depth, blend, depthMask); }
@@ -133,8 +133,8 @@ public class PlayerListComponent extends AbstractTextInputComponent {
 
     private Map<String, NetworkPlayerInfo> getPlayerInfoMap() {
         Map<String, NetworkPlayerInfo> map = new HashMap<>();
-        if (Minecraft.getMinecraft().getNetHandler() == null) return map;
-        for (NetworkPlayerInfo info : Minecraft.getMinecraft().getNetHandler().getPlayerInfoMap()) {
+        if (MinecraftClient.getInstance().getNetworkHandler() == null) return map;
+        for (NetworkPlayerInfo info : MinecraftClient.getInstance().getNetworkHandler().getPlayerInfoMap()) {
             if (info == null) continue;
             GameProfile profile = info.getGameProfile();
             if (profile == null || profile.getName() == null) continue;
@@ -147,6 +147,6 @@ public class PlayerListComponent extends AbstractTextInputComponent {
     private boolean isMouseOverSelectedList(float mx, float my) { List<PlayerRelationsManager.PlayerEntry> e = setting.getEntries(); if (e.isEmpty()) return false; Layout l = layout(true); float top = getSelectedTop(l); float h = getSelectedVisibleHeight(e.size()); return mx >= l.left && mx <= l.right && my >= top && my < top + h; }
     private float getSelectedTop(Layout l) { return l.contentTop + SELECTED_LIST_GAP; }
     private float getSelectedVisibleHeight(int c) { return Math.min(MAX_VISIBLE_SELECTED, c) * ROW_HEIGHT; }
-    private void renderCloseIcon(float right, float rowTop) { ResourceLocation close = RenderUtils.getIcon(CLOSE_ICON_PATH); if (close == null) return; float cx = right - CLOSE_SIZE - CLOSE_PAD; float cy = rowTop + (LIST_ROW_VISUAL_HEIGHT - CLOSE_SIZE) / 2f; RenderUtils.drawIcon(close, cx, cy, CLOSE_SIZE, Theme.getGradient(Theme.hiddenBind[0], Theme.hiddenBind[1], 0)); }
+    private void renderCloseIcon(float right, float rowTop) { Identifier close = RenderUtils.getIcon(CLOSE_ICON_PATH); if (close == null) return; float cx = right - CLOSE_SIZE - CLOSE_PAD; float cy = rowTop + (LIST_ROW_VISUAL_HEIGHT - CLOSE_SIZE) / 2f; RenderUtils.drawIcon(close, cx, cy, CLOSE_SIZE, Theme.getGradient(Theme.hiddenBind[0], Theme.hiddenBind[1], 0)); }
     private boolean isOverClose(float mx, float my, float rowTop, float right) { float cx = right - CLOSE_SIZE - CLOSE_PAD; float cy = rowTop + (LIST_ROW_VISUAL_HEIGHT - CLOSE_SIZE) / 2f; return mx >= cx && mx <= cx + CLOSE_SIZE && my >= cy && my <= cy + CLOSE_SIZE; }
 }

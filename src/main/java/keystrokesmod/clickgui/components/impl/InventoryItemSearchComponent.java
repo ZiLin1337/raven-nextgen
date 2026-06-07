@@ -80,7 +80,7 @@ public class InventoryItemSearchComponent extends AbstractItemSearchComponent<In
             InventorySelectedRowData row = selectedRowsCache.get(i);
             float rowTop = getSelectedTop(layout) - offsetPx + i * ROW_HEIGHT;
             int bg = row.storageId.equals(draggingStorageId) ? 0xFF2A2A3C : ((i % 2 == 0) ? 0xFF1A1A2A : 0xFF1E1E2E);
-            RenderUtils.drawRect(layout.left, rowTop, layout.right, rowTop + ROW_HEIGHT - 1f, bg);
+            RenderUtils.DrawContextHelper.drawRect(layout.left, rowTop, layout.right, rowTop + ROW_HEIGHT - 1f, bg);
             renderItemInRow(getPreviewStack(row), layout.left + 2f, rowTop);
             drawListRowText(row.displayName != null ? row.displayName : "", layout.left + 13f, rowTop, 0xFFCCCCCC);
             float closeX = layout.right - CLOSE_SIZE - CLOSE_PAD;
@@ -90,8 +90,8 @@ public class InventoryItemSearchComponent extends AbstractItemSearchComponent<In
             int fill = listening ? 0xFF35557A : 0xFF244966;
             float pillTop = rowTop + 2f;
             float pillBottom = rowTop + ROW_HEIGHT - 3f;
-            RenderUtils.drawRect(slotLeft, pillTop, slotRight, pillBottom, 0xFF11141C);
-            RenderUtils.drawRect(slotLeft + 1f, pillTop + 1f, slotRight - 1f, pillBottom - 1f, fill);
+            RenderUtils.DrawContextHelper.drawRect(slotLeft, pillTop, slotRight, pillBottom, 0xFF11141C);
+            RenderUtils.DrawContextHelper.drawRect(slotLeft + 1f, pillTop + 1f, slotRight - 1f, pillBottom - 1f, fill);
             String label = listening ? "..." : Integer.toString(row.assignedSlot != null ? row.assignedSlot : 1);
             RavenFontRenderer rend = Gui.getClickGuiSettingFontRenderer();
             float tw = rend.getStringWidth(label) * TEXT_SCALE;
@@ -173,9 +173,9 @@ public class InventoryItemSearchComponent extends AbstractItemSearchComponent<In
     }
 
     private int getHotbarSlotForKey(int keyCode) {
-        Minecraft mc = Minecraft.getMinecraft();
-        for (int i = 0; i < mc.gameSettings.keyBindsHotbar.length; i++) {
-            if (keyCode == mc.gameSettings.keyBindsHotbar[i].getKeyCode()) return i + 1;
+        Minecraft mc = MinecraftClient.getInstance();
+        for (int i = 0; i < mc.options.keyBindsHotbar.length; i++) {
+            if (keyCode == mc.options.keyBindsHotbar[i].getKeyCode()) return i + 1;
         }
         return -1;
     }

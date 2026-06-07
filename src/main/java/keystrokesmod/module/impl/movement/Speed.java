@@ -86,7 +86,7 @@ public class Speed extends Module {
     }
 
     private boolean allowedBlocks() {
-        Block block = BlockUtils.getBlock(BlockPos.ofFloored(
+        Block block = BlockUtils.getBlockState().getBlock()BlockPos.ofFloored(
                 mc.player.getX(), mc.player.getY(), mc.player.getZ()));
         if (block instanceof SnowBlock) return true;
         if (block instanceof CarpetBlock) return true;

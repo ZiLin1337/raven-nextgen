@@ -261,7 +261,7 @@ public class FallView extends Module {
         int startY = (int) Math.floor(mc.player.getY());
         for (int y = startY; y > -1; y--) {
             BlockPos pos = new BlockPos(Math.floor(x), y, Math.floor(z));
-            if (mc.world.getBlockState(pos).getBlock().getMaterial() == Material.water) {
+            if (mc.world.getBlockState(pos).getBlockState().getBlock()).getMaterial() == Material.water) {
                 return -1;
             }
             if (!Utils.isPlaceable(pos)) {

@@ -52,12 +52,12 @@ public class ModuleUtils implements IMinecraftInstance {
     public void onSendPacket(SendPacketEvent e) {
         handleAllPacket(e.getPacket());
 
-        if (e.getPacket() instanceof C07PacketPlayerDigging) {
+        if (e.getPacket() instanceof PlayerActionC2SPacket) {
             isBreaking = true;
         }
 
         if (e.getPacket() instanceof PlayerInteractBlockC2SPacket && Utils.holdingFireball()) {
-            if (Utils.isBindDown(mc.gameSettings.keyBindUseItem)) {
+            if (Utils.isBindDown(mc.options.keyBindUseItem)) {
                 fireballTime = System.currentTimeMillis();
                 threwFireball = true;
                 if (mc.player.rotationPitch > 50F) {
@@ -67,8 +67,8 @@ public class ModuleUtils implements IMinecraftInstance {
         }
 
         if (e.getPacket() instanceof PlayerInteractBlockC2SPacket && Utils.scaffoldDiagonal(false)) {
-            if (((C08PacketPlayerBlockPlacement) e.getPacket()).getPlacedBlockDirection() != 1) {
-                int currentFace = ((C08PacketPlayerBlockPlacement) e.getPacket()).getPlacedBlockDirection();
+            if (((PlayerInteractBlockC2SPacket) e.getPacket()).getPlacedBlockDirection() != 1) {
+                int currentFace = ((PlayerInteractBlockC2SPacket) e.getPacket()).getPlacedBlockDirection();
 
                 if (currentFace == lastFace) {
                     lastFaceDifference++;
@@ -87,7 +87,7 @@ public class ModuleUtils implements IMinecraftInstance {
             return;
         }
         if (e.getPacket() instanceof ExplosionS2CPacket) {
-            ExplosionS2CPacket s27 = (S27PacketExplosion) e.getPacket();
+            ExplosionS2CPacket s27 = (ExplosionS2CPacket) e.getPacket();
             if (threwFireball) {
                 if ((mc.player.getPosition().distanceSq(s27.getX(), s27.getY(), s27.getZ()) <= MAX_EXPLOSION_DIST_SQ)) {
                     ModuleManager.velocity.disable = false;
@@ -106,8 +106,8 @@ public class ModuleUtils implements IMinecraftInstance {
         if (packet instanceof PlayerInteractBlockC2SPacket && Utils.holdingSword() && !BlockUtils.isInteractable(mc.objectMouseOver) && !isBlocked) {
             isBlocked = true;
         }
-        else if (packet instanceof C07PacketPlayerDigging && isBlocked) {
-            if (((C07PacketPlayerDigging) packet).getStatus() == C07PacketPlayerDigging.Action.RELEASE_USE_ITEM) {
+        else if (packet instanceof PlayerActionC2SPacket && isBlocked) {
+            if (((PlayerActionC2SPacket) packet).getStatus() == PlayerActionC2SPacket.Action.RELEASE_USE_ITEM) {
                 isBlocked = false;
             }
         }
@@ -208,9 +208,9 @@ public class ModuleUtils implements IMinecraftInstance {
         groundTicks = !mc.player.onGround ? 0 : ++groundTicks;
         stillTicks = Utils.isMoving() ? 0 : ++stillTicks;
 
-        Block blockBelow = BlockUtils.getBlock(new BlockPos(mc.player.getX(), mc.player.getY() - 1, mc.player.getZ()));
-        Block blockBelow2 = BlockUtils.getBlock(new BlockPos(mc.player.getX(), mc.player.getY() - 2, mc.player.getZ()));
-        Block block = BlockUtils.getBlock(new BlockPos(mc.player.getX(), mc.player.getY(), mc.player.getZ()));
+        Block blockBelow = BlockUtils.getBlockState().getBlock()new BlockPos(mc.player.getX(), mc.player.getY() - 1, mc.player.getZ()));
+        Block blockBelow2 = BlockUtils.getBlockState().getBlock()new BlockPos(mc.player.getX(), mc.player.getY() - 2, mc.player.getZ()));
+        Block block = BlockUtils.getBlockState().getBlock()new BlockPos(mc.player.getX(), mc.player.getY(), mc.player.getZ()));
 
         if (ModuleManager.bHop.didMove) {
 

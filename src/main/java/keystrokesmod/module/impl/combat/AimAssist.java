@@ -141,7 +141,7 @@ public class AimAssist extends Module {
         }
 
         List<PlayerEntity> candidates = new ArrayList<>();
-        for (EntityPlayer entityPlayer : mc.world.playerEntities) {
+        for (PlayerEntity entityPlayer : mc.world.getPlayers()) {
             if (entityPlayer == mc.player || entityPlayer.deathTime != 0) {
                 continue;
             }
@@ -206,7 +206,7 @@ public class AimAssist extends Module {
             double rangeVal = range.getInput();
             boolean allowThroughBlocks = !ignoreBehindWalls.isToggled();
             boolean allowThroughEntities = !ignoreBehindEntities.isToggled();
-            for (EntityPlayer candidate : candidates) {
+            for (PlayerEntity candidate : candidates) {
                 if (RotationUtils.hasValidAimPoint(candidate, multipointH, multipointV, rangeVal, allowThroughBlocks, allowThroughEntities)) {
                     return candidate;
                 }

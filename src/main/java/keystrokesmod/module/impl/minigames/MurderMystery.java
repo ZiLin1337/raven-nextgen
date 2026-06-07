@@ -10,12 +10,12 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBow;
+import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.MathHelper;
@@ -47,14 +47,14 @@ public class MurderMystery extends Module {
         addDefaultMurderWeapon(Items.stone_sword);
         addDefaultMurderWeapon(Items.iron_shovel);
         addDefaultMurderWeapon(Items.stick);
-        addDefaultMurderWeapon(Items.wooden_axe);
+        addDefaultMurderWeapon(Items.WOODEN_AXE);
         addDefaultMurderWeapon(Items.wooden_sword);
         addDefaultMurderWeapon(Items.stone_shovel);
         addDefaultMurderWeapon(Items.blaze_rod);
         addDefaultMurderWeapon(Items.diamond_shovel);
         addDefaultMurderWeapon(Items.quartz);
         addDefaultMurderWeapon(Items.pumpkin_pie);
-        addDefaultMurderWeapon(Items.golden_pickaxe);
+        addDefaultMurderWeapon(Items.GOLDEN_PICKAXE);
         addDefaultMurderWeapon(Items.apple);
         addDefaultMurderWeapon(Items.name_tag);
         addDefaultMurderWeapon(Items.carrot_on_a_stick);
@@ -62,7 +62,7 @@ public class MurderMystery extends Module {
         addDefaultMurderWeapon(Items.carrot);
         addDefaultMurderWeapon(Items.golden_carrot);
         addDefaultMurderWeapon(Items.cookie);
-        addDefaultMurderWeapon(Items.diamond_axe);
+        addDefaultMurderWeapon(Items.DIAMOND_AXE);
         addDefaultMurderWeapon(Items.prismarine_shard);
         addDefaultMurderWeapon(Items.cooked_beef);
         addDefaultMurderWeapon(Items.netherbrick);
@@ -99,7 +99,7 @@ public class MurderMystery extends Module {
             }
             else {
                 override = false;
-                for (EntityPlayer en : mc.world.playerEntities) {
+                for (PlayerEntity en : mc.world.getPlayers()) {
                     if (en != mc.player && !en.isInvisible()) {
                         if (AntiBot.isBot(en) && !highlightDead.isToggled()) {
                             continue;
@@ -116,7 +116,7 @@ public class MurderMystery extends Module {
                                     }
                                 }
                             }
-                            else if (heldItem instanceof ItemBow && highlightBow.isToggled() && !hasBow.contains(en)) {
+                            else if (heldItem instanceof BowItem && highlightBow.isToggled() && !hasBow.contains(en)) {
                                 hasBow.add(en);
                             }
                         }
@@ -142,16 +142,16 @@ public class MurderMystery extends Module {
                 }
                 float renderPartialTicks = ((IAccessorMinecraft) mc).getTimer().renderPartialTicks;
                 int n4 = -331703;
-                for (Entity entity : mc.world.loadedEntityList) {
-                    if (entity instanceof EntityItem) {
+                for (Entity entity : mc.world.getEntities()) {
+                    if (entity instanceof ItemEntity) {
                         if (entity.ticksExisted < 3) {
                             continue;
                         }
-                        EntityItem entityItem = (EntityItem) entity;
-                        if (entityItem.getEntityItem().stackSize == 0) {
+                        ItemEntity entityItem = (ItemEntity) entity;
+                        if (entityItem.getItemEntity().stackSize == 0) {
                             continue;
                         }
-                        Item getItem = entityItem.getEntityItem().getItem();
+                        Item getItem = entityItem.getItemEntity().getItem();
                         if (getItem == null || getItem != Items.GOLD_INGOT) {
                             continue;
                         }
@@ -174,23 +174,23 @@ public class MurderMystery extends Module {
         n4 -= mc.getEntityRenderDispatcher().viewerPosX;
         n5 -= mc.getEntityRenderDispatcher().viewerPosY;
         n6 -= mc.getEntityRenderDispatcher().viewerPosZ;
-        GL11.glPushMatrix();
+        RenderSystem.getModelViewStack().pushMatrix();
         GL11.glBlendFunc(770, 771);
-        GL11.glEnable(3042);
-        GL11.glLineWidth(2.0f);
-        GL11.glDisable(3553);
-        GL11.glDisable(2929);
+        RenderSystem.enableBlend(3042);
+        RenderSystem.lineWidth(2.0f);
+        RenderSystem.disableBlend(3553);
+        RenderSystem.disableBlend(2929);
         GL11.glDepthMask(false);
         float n8 = (n >> 16 & 0xFF) / 255.0f;
         float n9 = (n >> 8 & 0xFF) / 255.0f;
         float n10 = (n & 0xFF) / 255.0f;
         float min = Math.min(Math.max(0.2f, (float) (0.009999999776482582 * n7)), 0.4f);
         RenderUtils.drawBoundingBox(new Box(n4 - min, n5, n6 - min, n4 + min, n5 + min * 2.0f, n6 + min), n8, n9, n10, 0.35f);
-        GL11.glEnable(3553);
-        GL11.glEnable(2929);
+        RenderSystem.enableBlend(3553);
+        RenderSystem.enableBlend(2929);
         GL11.glDepthMask(true);
-        GL11.glDisable(3042);
-        GL11.glPopMatrix();
+        RenderSystem.disableBlend(3042);
+        RenderSystem.getModelViewStack().popMatrix();
     }
 
     private boolean isMurderMystery() {

@@ -12,7 +12,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Identifier;
 
 import java.net.Proxy;
 import java.util.Collections;
@@ -40,7 +40,7 @@ public class PlayerSkinCache {
         }
     }
 
-    private static final Map<String, ResourceLocation> SKINS = new ConcurrentHashMap<String, ResourceLocation>();
+    private static final Map<String, Identifier> SKINS = new ConcurrentHashMap<String, Identifier>();
     private static final Map<String, UUID> UUIDS = new ConcurrentHashMap<String, UUID>();
     private static final Map<String, CachedProfile> PROFILES = new ConcurrentHashMap<String, CachedProfile>();
     private static final Set<String> LOOKUP_IN_FLIGHT = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
@@ -51,7 +51,7 @@ public class PlayerSkinCache {
     private PlayerSkinCache() {
     }
 
-    public static ResourceLocation getSkin(String username, PlayerListEntry playerInfo) {
+    public static Identifier getSkin(String username, PlayerListEntry playerInfo) {
         String normalized = normalize(username);
         if (normalized.isEmpty()) {
             return DefaultPlayerSkin.getDefaultSkin(PlayerEntity.getOfflineUUID("Steve"));
@@ -66,14 +66,14 @@ public class PlayerSkinCache {
             if (profile.getName() != null && Raven.playerRelationsManager != null) {
                 Raven.playerRelationsManager.refreshDisplayName(profile.getName());
             }
-            ResourceLocation location = playerInfo.getLocationSkin();
+            Identifier location = playerInfo.getLocationSkin();
             if (location != null) {
                 SKINS.put(normalized, location);
                 return location;
             }
         }
 
-        ResourceLocation cached = SKINS.get(normalized);
+        Identifier cached = SKINS.get(normalized);
         if (cached != null) {
             return cached;
         }
@@ -175,7 +175,7 @@ public class PlayerSkinCache {
         minecraft.addScheduledTask(new Runnable() {
             @Override
             public void run() {
-                ResourceLocation location = MinecraftClient.getInstance().getSkinManager().loadSkin(skinTexture, Type.SKIN);
+                Identifier location = MinecraftClient.getInstance().getSkinManager().loadSkin(skinTexture, Type.SKIN);
                 if (location != null) {
                     SKINS.put(normalized, location);
                     LOOKUP_FAILED.remove(normalized);

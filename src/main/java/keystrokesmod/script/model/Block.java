@@ -9,7 +9,7 @@ import net.minecraft.util.math.BlockPos;
 public class Block {
     public String name;
     public String displayName;
-    public Vec3 position;
+    public Vec3d position;
     public boolean isAir;
     public float hardness;
     public float resistance;
@@ -18,7 +18,7 @@ public class Block {
     public Block(net.minecraft.block.Block block, BlockPos blockPos) {
         this.name = block.getTranslationKey();
         this.displayName = block.getName().getString();
-        this.position = Vec3.convert(blockPos);
+        this.position = Vec3d.convert(blockPos);
         BlockState state = block.getDefaultState();
         this.isAir = state.isAir();
         this.hardness = block.getHardness();
@@ -26,29 +26,29 @@ public class Block {
     }
 
     public Block(BlockState state, BlockPos blockPos) {
-        this(state.getBlock(), blockPos);
+        this(state.getBlockState().getBlock()), blockPos);
     }
 
     public Block(double x, double y, double z) {
-        this(BlockUtils.getBlockState(BlockPos.ofFloored(x, y, z)).getBlock(), BlockPos.ofFloored(x, y, z));
+        this(BlockUtils.getBlockState(BlockPos.ofFloored(x, y, z)).getBlockState().getBlock()), BlockPos.ofFloored(x, y, z));
     }
 
-    public Block(String name, Vec3 position) {
+    public Block(String name, Vec3d position) {
         this.name = name;
         this.position = position;
     }
 
     public Block(String name) {
-        this(name, new Vec3(-1, -1, -1));
+        this(name, new Vec3d(-1, -1, -1));
     }
 
-    public Block(Vec3 position) {
-        this(BlockUtils.getBlock(BlockPos.ofFloored(position.x, position.y, position.z)), BlockPos.ofFloored(position.x, position.y, position.z));
+    public Block(Vec3d position) {
+        this(BlockUtils.getBlockState().getBlock()BlockPos.ofFloored(position.x, position.y, position.z)), BlockPos.ofFloored(position.x, position.y, position.z));
     }
 
     public boolean isAir() { return isAir; }
     public String getName() { return name; }
-    public Vec3 getPosition() { return position; }
+    public Vec3d getPosition() { return position; }
 
     @Override
     public String toString() {

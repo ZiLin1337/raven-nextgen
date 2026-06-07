@@ -9,7 +9,7 @@ import keystrokesmod.utility.BlockUtils;
 import keystrokesmod.utility.StairsUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockStairs;
+import net.minecraft.block.StairsBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.block.BlockDeadBush;
 import net.minecraft.block.BlockDoublePlant;
@@ -140,7 +140,7 @@ public class BlockOverlay extends Module {
             outlineEnd = computeEnd((int) outlineColorMode.getInput(), outlineColor, outlineColor2, outlineFadeSpeed.getInput(), outlineChromaSpeed.getInput());
         }
 
-        GL11.glPushMatrix();
+        RenderSystem.getModelViewStack().pushMatrix();
         RenderSystem.disableCull();
         RenderSystem.enableBlend();
         RenderSystem.tryBlendFuncSeparate(770, 771, 1, 0);
@@ -148,28 +148,28 @@ public class BlockOverlay extends Module {
         RenderSystem.depthMask(false);
         boolean depthDisabled = depthless.isToggled();
         if (depthDisabled) RenderSystem.disableDepth();
-        GL11.glEnable(GL11.GL_LINE_SMOOTH);
+        RenderSystem.enableBlend(GL11.GL_LINE_SMOOTH);
         GL11.glHint(GL11.GL_LINE_SMOOTH_HINT, GL11.GL_NICEST);
-        if (showOutline) GL11.glLineWidth((float) thickness.getInput());
+        if (showOutline) RenderSystem.lineWidth((float) thickness.getInput());
         GL11.glShadeModel(GL11.GL_SMOOTH);
 
         try {
             drawOverlayGeometry(mc, pos, box, side, vx, vy, vz, overlayStart, overlayEnd, outlineStart, outlineEnd, showOverlay, showOutline);
         } finally {
             GL11.glShadeModel(GL11.GL_FLAT);
-            GL11.glLineWidth(2.0f);
-            GL11.glDisable(GL11.GL_LINE_SMOOTH);
+            RenderSystem.lineWidth(2.0f);
+            RenderSystem.disableBlend(GL11.GL_LINE_SMOOTH);
             if (depthDisabled) RenderSystem.enableDepth();
             RenderSystem.depthMask(true);
             RenderSystem.enableTexture2D();
             RenderSystem.enableCull();
             RenderSystem.disableBlend();
-            GL11.glPopMatrix();
+            RenderSystem.getModelViewStack().popMatrix();
         }
     }
 
     public static void renderBlockOutline(BlockPos pos, int outlineArgbStart, int outlineArgbEnd, float lineWidth, boolean depthless) {
-        Minecraft m = Minecraft.getMinecraft();
+        Minecraft m = MinecraftClient.getInstance();
         if (m.theWorld == null || pos == null) {
             return;
         }
@@ -180,7 +180,7 @@ public class BlockOverlay extends Module {
         box = box.expand(PADDING, PADDING, PADDING);
         double vx = m.getEntityRenderDispatcher().viewerPosX, vy = m.getEntityRenderDispatcher().viewerPosY, vz = m.getEntityRenderDispatcher().viewerPosZ;
 
-        GL11.glPushMatrix();
+        RenderSystem.getModelViewStack().pushMatrix();
         RenderSystem.disableCull();
         RenderSystem.enableBlend();
         RenderSystem.tryBlendFuncSeparate(770, 771, 1, 0);
@@ -189,17 +189,17 @@ public class BlockOverlay extends Module {
         if (depthless) {
             RenderSystem.disableDepth();
         }
-        GL11.glEnable(GL11.GL_LINE_SMOOTH);
+        RenderSystem.enableBlend(GL11.GL_LINE_SMOOTH);
         GL11.glHint(GL11.GL_LINE_SMOOTH_HINT, GL11.GL_NICEST);
-        GL11.glLineWidth(lineWidth);
+        RenderSystem.lineWidth(lineWidth);
         GL11.glShadeModel(GL11.GL_SMOOTH);
 
         try {
             drawOverlayGeometry(m, pos, box, null, vx, vy, vz, 0, 0, outlineArgbStart, outlineArgbEnd, false, true);
         } finally {
             GL11.glShadeModel(GL11.GL_FLAT);
-            GL11.glLineWidth(2.0f);
-            GL11.glDisable(GL11.GL_LINE_SMOOTH);
+            RenderSystem.lineWidth(2.0f);
+            RenderSystem.disableBlend(GL11.GL_LINE_SMOOTH);
             if (depthless) {
                 RenderSystem.enableDepth();
             }
@@ -207,14 +207,14 @@ public class BlockOverlay extends Module {
             RenderSystem.enableTexture2D();
             RenderSystem.enableCull();
             RenderSystem.disableBlend();
-            GL11.glPopMatrix();
+            RenderSystem.getModelViewStack().popMatrix();
         }
     }
 
     private static void drawOverlayGeometry(Minecraft mc, BlockPos pos, Box paddedWorldBox, Direction side, double vx, double vy, double vz, int overlayStart, int overlayEnd, int outlineStart, int outlineEnd, boolean showOverlay, boolean showOutline) {
         Box renderBox = paddedWorldBox.offset(-vx, -vy, -vz);
         BlockState state = mc.world.getBlockState(pos);
-        if (state.getBlock() instanceof BlockStairs) {
+        if (state.getBlockState().getBlock()) instanceof StairsBlock) {
             StairsUtils.drawStairs(pos, state, paddedWorldBox, side, vx, vy, vz, overlayStart, overlayEnd, outlineStart, outlineEnd, showOverlay, showOutline, BlockOverlay::drawFace);
         } else if (side != null) {
             drawFace(renderBox, side, overlayStart, overlayEnd, outlineStart, outlineEnd, showOverlay, showOutline);
@@ -226,10 +226,10 @@ public class BlockOverlay extends Module {
     }
 
     private BlockPos getFocusedBlock() {
-        if (mc.objectMouseOver == null || mc.objectMouseOver.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) return null;
+        if (mc.objectMouseOver == null || mc.objectMouseOver.typeOfHit != HitResult.MovingObjectType.BLOCK) return null;
         BlockPos pos = mc.objectMouseOver.getBlockPos();
         if (pos == null) return null;
-        Block block = mc.world.getBlockState(pos).getBlock();
+        Block block = mc.world.getBlockState(pos).getBlockState().getBlock());
         if (block == Blocks.AIR) return null;
         if (block == Blocks.barrier && !barriers.isToggled()) return null;
         if (hidePlants.isToggled() && (block instanceof BlockTallGrass || block instanceof BlockFlower || block instanceof BlockDeadBush || block instanceof BlockDoublePlant)) return null;
@@ -267,7 +267,7 @@ public class BlockOverlay extends Module {
 
     private static void drawFace(Box box, Direction face, int os, int oe, int ls, int le, boolean overlay, boolean outline) {
         Tessellator ts = Tessellator.getInstance();
-        WorldRenderer wr = ts.getWorldRenderer();
+        BufferBuilder wr = ts.getBufferBuilder();
         if (overlay) {
             wr.begin(7, VertexFormats.POSITION_COLOR);
             addFaceVertices(wr, face, box, os, oe);
@@ -280,11 +280,11 @@ public class BlockOverlay extends Module {
         }
     }
 
-    private static void v(WorldRenderer wr, double x, double y, double z, int color) {
+    private static void v(BufferBuilder wr, double x, double y, double z, int color) {
         wr.pos(x, y, z).color((color >> 16) & 0xFF, (color >> 8) & 0xFF, color & 0xFF, (color >> 24) & 0xFF).endVertex();
     }
 
-    private static void addFaceVertices(WorldRenderer wr, Direction face, Box box, int start, int end) {
+    private static void addFaceVertices(BufferBuilder wr, Direction face, Box box, int start, int end) {
         switch (face) {
             case UP:
                 v(wr, box.minX, box.maxY, box.maxZ, start);

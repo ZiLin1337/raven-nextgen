@@ -126,7 +126,7 @@ public final class SharedBlockHighlightCache {
         if (mc.world == null || mc.player == null) {
             return;
         }
-        int rd = mc.gameSettings.renderDistanceChunks;
+        int rd = mc.options.renderDistanceChunks;
         int pcx = (int) mc.player.getX() >> 4;
         int pcz = (int) mc.player.getZ() >> 4;
         for (int cx = pcx - rd; cx <= pcx + rd; cx++) {

@@ -22,7 +22,7 @@ import net.minecraft.block.*;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.client.renderer.ActiveRenderInfo;
+import net.minecraft.client.render.ActiveRenderInfo;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -33,7 +33,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Items;
 import net.minecraft.inventory.ContainerPlayer;
 import net.minecraft.item.*;
-import net.minecraft.network.play.client.C03PacketPlayer.C05PacketPlayerLook;
+import net.minecraft.network.play.client.PlayerMoveC2SPacket.PlayerMoveC2SPacket;
 
 import net.minecraft.potion.Potion;
 import net.minecraft.scoreboard.Score;
@@ -93,9 +93,9 @@ public class Utils implements IMinecraftInstance {
         return (float) Math.toDegrees(Math.acos(ActiveRenderInfo.getRotationXZ()));
     }
 
-    public static Vec3 getCameraPos(double renderPartialTicks) {
-        if (mc.gameSettings.thirdPersonView == 0) {
-            Vec3 firstPersonPos = new Vec3(mc.player.getX(), mc.player.getY() + mc.player.getEyeHeight(), mc.player.getZ());
+    public static Vec3d getCameraPos(double renderPartialTicks) {
+        if (mc.options.thirdPersonView == 0) {
+            Vec3d firstPersonPos = new Vec3d(mc.player.getX(), mc.player.getY() + mc.player.getEyeHeight(), mc.player.getZ());
             return firstPersonPos;
         }
         float cameraDistance = 4.0F;
@@ -125,10 +125,10 @@ public class Utils implements IMinecraftInstance {
                 float cornerOffsetY = (float) ((i >> 1 & 1) * 2 - 1) * 0.1F;
                 float cornerOffsetZ = (float) ((i >> 2 & 1) * 2 - 1) * 0.1F;
 
-                HitResult rayTraceResult = mc.world.rayTraceBlocks(new Vec3(interpolatedX + cornerOffsetX, interpolatedY + cornerOffsetY, interpolatedZ + cornerOffsetZ), new Vec3((interpolatedX - offsetX + cornerOffsetX + cornerOffsetZ), (interpolatedY - offsetY + cornerOffsetY), (interpolatedZ - offsetZ + cornerOffsetZ)));
+                HitResult rayTraceResult = mc.world.rayTraceBlocks(new Vec3d(interpolatedX + cornerOffsetX, interpolatedY + cornerOffsetY, interpolatedZ + cornerOffsetZ), new Vec3d((interpolatedX - offsetX + cornerOffsetX + cornerOffsetZ), (interpolatedY - offsetY + cornerOffsetY), (interpolatedZ - offsetZ + cornerOffsetZ)));
 
                 if (rayTraceResult != null) {
-                    double blockHitDistance = rayTraceResult.hitVec.distanceTo(new Vec3(interpolatedX, interpolatedY, interpolatedZ));
+                    double blockHitDistance = rayTraceResult.hitVec.distanceTo(new Vec3d(interpolatedX, interpolatedY, interpolatedZ));
                     if (blockHitDistance < adjustedDistance) {
                         adjustedDistance = blockHitDistance;
                     }
@@ -140,7 +140,7 @@ public class Utils implements IMinecraftInstance {
         double finalCameraY = interpolatedY - offsetY * (adjustedDistance / cameraDistance);
         double finalCameraZ = interpolatedZ - offsetZ * (adjustedDistance / cameraDistance);
 
-        return new Vec3(finalCameraX, finalCameraY, finalCameraZ);
+        return new Vec3d(finalCameraX, finalCameraY, finalCameraZ);
     }
 
     public static void printInfo(LivingEntity ent) {
@@ -182,7 +182,7 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static double raycastDistanceSq(Entity en, double max_reach, boolean calc_rot) {
-        Vec3 eyeVec = mc.player.getPositionEyes(1.0f);
+        Vec3d eyeVec = mc.player.getPositionEyes(1.0f);
         float yaw;
         float pitch;
         if (calc_rot) {
@@ -198,11 +198,11 @@ public class Utils implements IMinecraftInstance {
         float ff2 = MathHelper.sin(-yaw * 0.017453292f - 3.1415927f);
         float ff3 = -MathHelper.cos(-pitch * 0.017453292f);
         float ff4 = MathHelper.sin(-pitch * 0.017453292f);
-        Vec3 lookVec = new Vec3((double)(ff2 * ff3), (double)ff4, (double)(ff * ff3));
+        Vec3d lookVec = new Vec3d((double)(ff2 * ff3), (double)ff4, (double)(ff * ff3));
         double lookVecX = lookVec.xCoord * max_reach;
         double lookVecY = lookVec.yCoord * max_reach;
         double lookVecZ = lookVec.zCoord * max_reach;
-        Vec3 sumVec = eyeVec.addVector(lookVecX, lookVecY, lookVecZ);
+        Vec3d sumVec = eyeVec.addVector(lookVecX, lookVecY, lookVecZ);
         List list = mc.world.getEntitiesWithinAABBExcludingEntity(mc.getRenderViewEntity(), mc.getRenderViewEntity().getEntityBoundingBox().addCoord(lookVecX, lookVecY, lookVecZ).expand(1.0, 1.0, 1.0));
         for (int i = 0; i < list.size(); ++i) {
             Entity entity = (Entity)list.get(i);
@@ -324,7 +324,7 @@ public class Utils implements IMinecraftInstance {
 
     public static boolean overVoid(double posX, double posY, double posZ) {
         for (int i = (int) posY; i > -1; i--) {
-            if (!(mc.world.getBlockState(new BlockPos(posX, i, posZ)).getBlock() instanceof BlockAir)) {
+            if (!(mc.world.getBlockState(new BlockPos(posX, i, posZ)).getBlockState().getBlock()) instanceof BlockAir)) {
                 return false;
             }
         }
@@ -332,29 +332,29 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static net.minecraft.block.Block getBlockFromName(String name) {
-        return net.minecraft.block.Block.blockRegistry.getObject(new ResourceLocation("minecraft:" + name));
+        return net.minecraft.block.Block.blockRegistry.getObject(new Identifier("minecraft:" + name));
     }
 
     public static boolean canPlayerBeSeen(LivingEntity player) {
         double x = player.posX;
         double y = player.posY;
         double z = player.posZ;
-        Vec3 vecPlayer = mc.player.getPositionEyes(1.0f);
+        Vec3d vecPlayer = mc.player.getPositionEyes(1.0f);
         double shoulderHeight = player.getEyeHeight() - 0.2;
-        if (canSeeVec(vecPlayer, new Vec3(x + 0.3, shoulderHeight, z))) {
+        if (canSeeVec(vecPlayer, new Vec3d(x + 0.3, shoulderHeight, z))) {
             return true;
         }
-        if (canSeeVec(vecPlayer, new Vec3(x - 0.3, shoulderHeight, z))) {
+        if (canSeeVec(vecPlayer, new Vec3d(x - 0.3, shoulderHeight, z))) {
             return true;
         }
-        if (canSeeVec(vecPlayer, new Vec3(x, shoulderHeight, z + 0.3))) {
+        if (canSeeVec(vecPlayer, new Vec3d(x, shoulderHeight, z + 0.3))) {
             return true;
         }
-        if (canSeeVec(vecPlayer, new Vec3(x, shoulderHeight, z - 0.3))) {
+        if (canSeeVec(vecPlayer, new Vec3d(x, shoulderHeight, z - 0.3))) {
             return true;
         }
         for (double d = player.getEyeHeight() + 0.2; d > 0.0; d -= 0.2) {
-            Vec3 vecPoint = new Vec3(x, y + d, z);
+            Vec3d vecPoint = new Vec3d(x, y + d, z);
             if (canSeeVec(vecPlayer, vecPoint)) {
                 return true;
             }
@@ -369,9 +369,9 @@ public class Utils implements IMinecraftInstance {
         return mc.player.getHeldItem().getItem() instanceof ItemFireball;
     }
 
-    public static boolean canSeeVec(Vec3 vecPlayer, Vec3 vecTarget) {
+    public static boolean canSeeVec(Vec3d vecPlayer, Vec3d vecTarget) {
         HitResult mop = mc.world.rayTraceBlocks(vecPlayer, vecTarget, false, false, false);
-        return mop == null || mop.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK;
+        return mop == null || mop.typeOfHit != HitResult.MovingObjectType.BLOCK;
     }
 
     public static List<PlayerListEntry> getTablist(boolean removeSelf) {
@@ -479,19 +479,19 @@ public class Utils implements IMinecraftInstance {
         else return wrapAngleTo180_double > -fov;
     }
 
-    public static Vec3 getLookVec(float yaw, float pitch) {
+    public static Vec3d getLookVec(float yaw, float pitch) {
         float f = MathHelper.cos(-yaw * ((float)Math.PI / 180F) - (float)Math.PI);
         float f1 = MathHelper.sin(-yaw * ((float)Math.PI / 180F) - (float)Math.PI);
         float f2 = -MathHelper.cos(-pitch * ((float)Math.PI / 180F));
         float f3 = MathHelper.sin(-pitch * ((float)Math.PI / 180F));
-        return new Vec3(f1 * f2, f3, f * f2);
+        return new Vec3d(f1 * f2, f3, f * f2);
     }
 
     public static boolean holdingBow() {
         if (mc.player.getHeldItem() == null) {
             return false;
         }
-        return mc.player.getHeldItem().getItem() instanceof ItemBow;
+        return mc.player.getHeldItem().getItem() instanceof BowItem;
     }
 
     public static boolean bowBackwards() {
@@ -511,14 +511,14 @@ public class Utils implements IMinecraftInstance {
     public static void sendMessage(String txt) {
         if (nullCheck()) {
             String m = formatColor("&7[&dR&7]&r " + txt);
-            mc.player.addChatMessage(new ChatComponentText(m));
+            mc.player.sendMessage(Text.literal(new ChatComponentText(m)));
         }
     }
 
     public static void sendMessageStr(String txt) {
         if (nullCheck()) {
             String m = formatColor("&7[&dR&7]&r " + txt);
-            mc.player.addChatMessage(new ChatComponentText(m));
+            mc.player.sendMessage(Text.literal(new ChatComponentText(m)));
         }
     }
 
@@ -529,7 +529,7 @@ public class Utils implements IMinecraftInstance {
 
     public static void sendDebugMessage(String message) {
         if (nullCheck()) {
-            mc.player.addChatMessage(new ChatComponentText("§7[§dR§7]§r " + message));
+            mc.player.sendMessage(Text.literal(new ChatComponentText("§7[§dR§7]§r " + message)));
         }
     }
 
@@ -538,14 +538,14 @@ public class Utils implements IMinecraftInstance {
             mc.player.swingItem();
         }
         else if (silentSwing || (!silentSwing && !clientSwing)) {
-            mc.player.sendQueue.addToSendQueue(new C0APacketAnimation());
+            mc.player.sendQueue.addToSendQueue(new HandSwingC2SPacket());
         }
-        mc.playerController.attackEntity(mc.player, e);
+        mc.interactionManager.attackEntity(mc.player, e);
     }
 
     public static void sendRawMessage(String txt) {
         if (nullCheck()) {
-            mc.player.addChatMessage(new ChatComponentText(formatColor(txt)));
+            mc.player.sendMessage(Text.literal(new ChatComponentText(formatColor(txt))));
         }
     }
 
@@ -590,7 +590,7 @@ public class Utils implements IMinecraftInstance {
         int posY = MathHelper.floor_double(entity.posY - 0.20000000298023224D);
         int posZ = MathHelper.floor_double(entity.posZ);
         BlockPos blockpos = new BlockPos(posX, posY, posZ);
-        Block block1 = mc.world.getBlockState(blockpos).getBlock();
+        Block block1 = mc.world.getBlockState(blockpos).getBlockState().getBlock());
         return block1 instanceof BlockLadder && !entity.onGround;
     }
 
@@ -723,7 +723,7 @@ public class Utils implements IMinecraftInstance {
 
     public static double getHitsToKill(final PlayerEntity target, final ItemStack usedItem) {
         double heldItemDamageLevel = 1.0;
-        if (usedItem != null && (usedItem.getItem() instanceof ItemSword || usedItem.getItem() instanceof ItemAxe)) {
+        if (usedItem != null && (usedItem.getItem() instanceof SwordItem || usedItem.getItem() instanceof AxeItem)) {
             heldItemDamageLevel += getDamageLevel(usedItem);
         }
         double armorProtPercentage = 0.0;
@@ -779,7 +779,7 @@ public class Utils implements IMinecraftInstance {
 
     public static boolean hasArrows(ItemStack stack) {
         final boolean flag = mc.player.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
-        return flag || mc.player.inventory.hasItem(Items.arrow);
+        return flag || mc.player.inventory.hasItem(Items.ARROW);
     }
 
     public static int darkenColor(int color, double percent) {
@@ -980,7 +980,7 @@ public class Utils implements IMinecraftInstance {
                 float y = t[0];
                 float p = t[1] + 4.0F + offset;
                 if (sendPacket) {
-                    mc.getNetHandler().addToSendQueue(new C05PacketPlayerLook(y, p, mc.player.onGround));
+                    mc.getNetHandler().addToSendQueue(new PlayerMoveC2SPacket(y, p, mc.player.onGround));
                 }
                 else {
                     mc.player.rotationYaw = y;
@@ -1039,35 +1039,35 @@ public class Utils implements IMinecraftInstance {
     public static void switchSlot(final int slot, final boolean instant) {
         mc.player.inventory.currentItem = slot;
         if (instant) {
-            ((IAccessorPlayerControllerMP) mc.playerController).callSyncCurrentPlayItem();
+            ((IAccessorPlayerControllerMP) mc.interactionManager).callSyncCurrentPlayItem();
         }
     }
 
     public static HitResult getTarget(final double reach, final float yaw, final float pitch) {
-        Vec3 eyeVec = mc.player.getPositionEyes(1.0f);
+        Vec3d eyeVec = mc.player.getPositionEyes(1.0f);
         float y = -yaw * 0.017453292f;
         float p = -pitch * 0.017453292f;
         float f = MathHelper.cos(y - 3.1415927f);
         float f2 = MathHelper.sin(y - 3.1415927f);
         float f3 = -MathHelper.cos(p);
         float f4 = MathHelper.sin(p);
-        Vec3 lookVec = new Vec3(f2 * f3, f4, f * f3);
-        Vec3 sumVec = eyeVec.addVector(lookVec.xCoord * reach, lookVec.yCoord * reach, lookVec.zCoord * reach);
+        Vec3d lookVec = new Vec3d(f2 * f3, f4, f * f3);
+        Vec3d sumVec = eyeVec.addVector(lookVec.xCoord * reach, lookVec.yCoord * reach, lookVec.zCoord * reach);
         return mc.world.rayTraceBlocks(eyeVec, sumVec, false, false, false);
     }
 
     public static boolean isPossibleToReach(BlockPos pos, double reach) {
         final float[] rot = RotationUtils.getRotations(pos);
-        final Vec3 eyeVec = mc.player.getPositionEyes(1.0f);
+        final Vec3d eyeVec = mc.player.getPositionEyes(1.0f);
         final float y = -rot[0] * 0.017453292f;
         final float p = -rot[1] * 0.017453292f;
         final float f = MathHelper.cos(y - 3.1415927f);
         final float f2 = MathHelper.sin(y - 3.1415927f);
         final float f3 = -MathHelper.cos(p);
         final float f4 = MathHelper.sin(p);
-        final Vec3 lookVec = new Vec3(f2 * f3, f4, f * f3);
-        final Vec3 sumVec = eyeVec.addVector(lookVec.xCoord * reach, lookVec.yCoord * reach, lookVec.zCoord * reach);
-        final Box axis = BlockUtils.getBlock(pos).getCollisionBoundingBox(mc.world, pos, BlockUtils.getBlockState(pos));
+        final Vec3d lookVec = new Vec3d(f2 * f3, f4, f * f3);
+        final Vec3d sumVec = eyeVec.addVector(lookVec.xCoord * reach, lookVec.yCoord * reach, lookVec.zCoord * reach);
+        final Box axis = BlockUtils.getBlockState().getBlock()pos).getCollisionShape(mc.world, pos, BlockUtils.getBlockState(pos));
         if (axis == null) {
             return false;
         }
@@ -1083,11 +1083,11 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static boolean keysDown() {
-        return GLFW.glfwGetKey(mc.gameSettings.keyBindForward.getKeyCode()) || GLFW.glfwGetKey(mc.gameSettings.keyBindBack.getKeyCode()) || GLFW.glfwGetKey(mc.gameSettings.keyBindLeft.getKeyCode()) || GLFW.glfwGetKey(mc.gameSettings.keyBindRight.getKeyCode());
+        return GLFW.glfwGetKey(mc.options.keyBindForward.getKeyCode()) || GLFW.glfwGetKey(mc.options.keyBindBack.getKeyCode()) || GLFW.glfwGetKey(mc.options.keyBindLeft.getKeyCode()) || GLFW.glfwGetKey(mc.options.keyBindRight.getKeyCode());
     }
 
     public static boolean jumpDown() {
-        return GLFW.glfwGetKey(mc.gameSettings.keyBindJump.getKeyCode());
+        return GLFW.glfwGetKey(mc.options.keyBindJump.getKeyCode());
     }
 
     public static double distanceToGround(Entity entity) {
@@ -1253,7 +1253,7 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static boolean blockAbove() {
-        return !(BlockUtils.getBlock(new BlockPos(mc.player.getX(), mc.player.getY() + 2, mc.player.getZ())) instanceof BlockAir);
+        return !(BlockUtils.getBlockState().getBlock()new BlockPos(mc.player.getX(), mc.player.getY() + 2, mc.player.getZ())) instanceof BlockAir);
     }
 
     public static boolean onEdge() {
@@ -1265,7 +1265,7 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static boolean lookingAtBlock() {
-        return mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && mc.objectMouseOver.getBlockPos() != null;
+        return mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == HitResult.MovingObjectType.BLOCK && mc.objectMouseOver.getBlockPos() != null;
     }
 
     public static boolean isDiagonal(boolean strict) {
@@ -1275,7 +1275,7 @@ public class Utils implements IMinecraftInstance {
        if (strict) {
            isYawDiagonal = inBetween(-178.5, 178.5, yaw) && !inBetween(-1.5, 1.5, yaw) && !inBetween(88.5, 91.5, yaw) && !inBetween(-91.5, -88.5, yaw);
        }
-        boolean isStrafing = GLFW.glfwGetKey(mc.gameSettings.keyBindLeft.getKeyCode()) || GLFW.glfwGetKey(mc.gameSettings.keyBindRight.getKeyCode());
+        boolean isStrafing = GLFW.glfwGetKey(mc.options.keyBindLeft.getKeyCode()) || GLFW.glfwGetKey(mc.options.keyBindRight.getKeyCode());
         return isYawDiagonal || isStrafing;
     }
 
@@ -1311,19 +1311,19 @@ public class Utils implements IMinecraftInstance {
      * Uses raw input for attack key (ignores AutoClicker's KeyBinding state).
      */
     public static boolean isMining() {
-        int keyCode = mc.gameSettings.keyBindAttack.getKeyCode();
+        int keyCode = mc.options.keyBindAttack.getKeyCode();
         if (keyCode == 0) return false;
         boolean attackDown = keyCode < 0 ? Mouse.isButtonDown(keyCode + 100) : GLFW.glfwGetKey(keyCode);
         if (!attackDown) return false;
-        double reach = mc.playerController.getBlockReachDistance();
+        double reach = mc.interactionManager.getBlockReachDistance();
         float yaw = mc.player.rotationYaw;
         float pitch = mc.player.rotationPitch;
         HitResult entityHit = RotationUtils.rayTrace(reach, 1.0f, new float[] { yaw, pitch }, null);
-        if (entityHit != null && entityHit.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY) {
+        if (entityHit != null && entityHit.typeOfHit == HitResult.MovingObjectType.ENTITY) {
             return false;
         }
         HitResult blockHit = RotationUtils.rayCastBlock(reach, yaw, pitch);
-        return blockHit != null && blockHit.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && blockHit.getBlockPos() != null;
+        return blockHit != null && blockHit.typeOfHit == HitResult.MovingObjectType.BLOCK && blockHit.getBlockPos() != null;
     }
 
     public static boolean isEdgeOfBlock() {
@@ -1343,15 +1343,15 @@ public class Utils implements IMinecraftInstance {
         Entity entity = null;
         PlayerEntity self = (Freecam.freeEntity == null) ? mc.player : Freecam.freeEntity;
         HitResult rayTrace = self.rayTrace(range, 1.0f);
-        final Vec3 getPositionEyes = self.getPositionEyes(1.0f);
+        final Vec3d getPositionEyes = self.getPositionEyes(1.0f);
         final float rotationYaw = self.rotationYaw;
         final float rotationPitch = self.rotationPitch;
         final float cos = MathHelper.cos(-rotationYaw * 0.017453292f - 3.1415927f);
         final float sin = MathHelper.sin(-rotationYaw * 0.017453292f - 3.1415927f);
         final float n2 = -MathHelper.cos(-rotationPitch * 0.017453292f);
-        final Vec3 vec3 = new Vec3((double)(sin * n2), (double)MathHelper.sin(-rotationPitch * 0.017453292f), cos * n2);
-        final Vec3 addVector = getPositionEyes.addVector(vec3.xCoord * (double)range, vec3.yCoord * (double)range, vec3.zCoord * (double)range);
-        Vec3 vec4 = null;
+        final Vec3d vec3 = new Vec3d((double)(sin * n2), (double)MathHelper.sin(-rotationPitch * 0.017453292f), cos * n2);
+        final Vec3d addVector = getPositionEyes.addVector(vec3.xCoord * (double)range, vec3.yCoord * (double)range, vec3.zCoord * (double)range);
+        Vec3d vec4 = null;
         final List getEntitiesWithinAABBExcludingEntity = mc.world.getEntitiesWithinAABBExcludingEntity(mc.getRenderViewEntity(), mc.getRenderViewEntity().getEntityBoundingBox().addCoord(vec3.xCoord * (double)range, vec3.yCoord * (double)range, vec3.zCoord * (double)range).expand(1.0, 1.0, 1.0));
         double n3 = (double)range;
         for (int i = 0; i < getEntitiesWithinAABBExcludingEntity.size(); ++i) {
@@ -1386,9 +1386,9 @@ public class Utils implements IMinecraftInstance {
             }
         }
         if (entity != null && (n3 < range || rayTrace == null)) {
-            rayTrace = new MovingObjectPosition(entity, vec4);
+            rayTrace = new HitResult(entity, vec4);
         }
-        if (rayTrace != null && rayTrace.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY && rayTrace.entityHit instanceof LivingEntity) {
+        if (rayTrace != null && rayTrace.typeOfHit == HitResult.MovingObjectType.ENTITY && rayTrace.entityHit instanceof LivingEntity) {
             return (LivingEntity)rayTrace.entityHit;
         }
         return null;
@@ -1482,11 +1482,11 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static boolean isPlaceable(BlockPos blockPos) {
-        return BlockUtils.replaceable(blockPos) || BlockUtils.isFluid(BlockUtils.getBlock(blockPos));
+        return BlockUtils.replaceable(blockPos) || BlockUtils.isFluid(BlockUtils.getBlockState().getBlock()blockPos));
     }
 
     public static boolean spectatorCheck() {
-        return mc.player.inventory.getStackInSlot(8) != null && mc.player.inventory.getStackInSlot(8).getDisplayName().contains("Return") || stripString(((IAccessorGuiIngame) mc.ingameGUI).getDisplayedTitle()).contains("YOU DIED");
+        return mc.player.inventory.getStackInSlot(8) != null && mc.player.inventory.getStackInSlot(8).getDisplayName().contains("Return") || stripString(((IAccessorGuiIngame) mc.inGameHud).getDisplayedTitle()).contains("YOU DIED");
     }
 
     public static boolean holdingWeapon() {
@@ -1498,14 +1498,14 @@ public class Utils implements IMinecraftInstance {
             return false;
         }
         Item getItem = entityLivingBase.getHeldItem().getItem();
-        return getItem instanceof ItemSword || (Settings.weaponAxe.isToggled() && getItem instanceof ItemAxe) || (Settings.weaponRod.isToggled() && getItem instanceof ItemFishingRod) || (Settings.weaponStick.isToggled() && getItem == Items.stick) || (Settings.weaponHoe.isToggled() && getItem instanceof ItemHoe) || (Settings.weaponShovel.isToggled() && getItem instanceof ItemSpade);
+        return getItem instanceof SwordItem || (Settings.weaponAxe.isToggled() && getItem instanceof AxeItem) || (Settings.weaponRod.isToggled() && getItem instanceof ItemFishingRod) || (Settings.weaponStick.isToggled() && getItem == Items.stick) || (Settings.weaponHoe.isToggled() && getItem instanceof HoeItem) || (Settings.weaponShovel.isToggled() && getItem instanceof ShovelItem);
     }
 
     public static boolean holdingSword() {
         if (mc.player.getHeldItem() == null) {
             return false;
         }
-        return mc.player.getHeldItem().getItem() instanceof ItemSword;
+        return mc.player.getHeldItem().getItem() instanceof SwordItem;
     }
 
     public static double getDamageLevel(ItemStack itemStack) {
@@ -1538,12 +1538,12 @@ public class Utils implements IMinecraftInstance {
         return yaw * 0.017453292f;
     }
 
-    public static boolean canBePlaced(ItemBlock itemBlock) {
-        Block block = itemBlock.getBlock();
+    public static boolean canBePlaced(BlockItem itemBlock) {
+        Block block = itemBlock.getBlockState().getBlock());
         if (block == null) {
             return false;
         }
-        if (BlockUtils.isInteractable(block) || block instanceof BlockSnow || block instanceof BlockWeb || block instanceof BlockSapling || block instanceof BlockDaylightDetector || block instanceof BlockBeacon || block instanceof BlockBanner || block instanceof BlockEndPortalFrame || block instanceof BlockEndPortal || block instanceof BlockLever || block instanceof BlockButton || block instanceof BlockSkull || block instanceof FluidBlock || block instanceof BlockCactus || block instanceof BlockDoublePlant || block instanceof BlockLilyPad || block instanceof BlockCarpet || block instanceof BlockTripWire || block instanceof BlockTripWireHook || block instanceof BlockTallGrass || block instanceof BlockFlower || block instanceof BlockFlowerPot || block instanceof BlockSign || block instanceof BlockLadder || block instanceof BlockTorch || block instanceof BlockRedstoneTorch || block instanceof BlockStairs || block instanceof BlockSlab || block instanceof BlockFence || block instanceof BlockPane || block instanceof BlockStainedGlassPane || block instanceof BlockGravel || block instanceof BlockClay || block instanceof BlockSand || block instanceof BlockSoulSand || block instanceof BlockRailBase) {
+        if (BlockUtils.isInteractable(block) || block instanceof BlockSnow || block instanceof BlockWeb || block instanceof BlockSapling || block instanceof BlockDaylightDetector || block instanceof BlockBeacon || block instanceof BlockBanner || block instanceof BlockEndPortalFrame || block instanceof BlockEndPortal || block instanceof BlockLever || block instanceof BlockButton || block instanceof BlockSkull || block instanceof FluidBlock || block instanceof BlockCactus || block instanceof BlockDoublePlant || block instanceof BlockLilyPad || block instanceof BlockCarpet || block instanceof BlockTripWire || block instanceof BlockTripWireHook || block instanceof BlockTallGrass || block instanceof BlockFlower || block instanceof BlockFlowerPot || block instanceof BlockSign || block instanceof BlockLadder || block instanceof BlockTorch || block instanceof BlockRedstoneTorch || block instanceof StairsBlock || block instanceof BlockSlab || block instanceof BlockFence || block instanceof BlockPane || block instanceof BlockStainedGlassPane || block instanceof BlockGravel || block instanceof BlockClay || block instanceof BlockSand || block instanceof BlockSoulSand || block instanceof BlockRailBase) {
             return false;
         }
         return true;
@@ -1626,11 +1626,11 @@ public class Utils implements IMinecraftInstance {
         return false;
     }
 
-    public static Vec3 getClosestPlayerPos(double maxDistSq) {
+    public static Vec3d getClosestPlayerPos(double maxDistSq) {
         if (mc.world == null || mc.player == null) return null;
-        Vec3 closest = null;
+        Vec3d closest = null;
         double bestDist = maxDistSq;
-        for (PlayerEntity player : mc.world.playerEntities) {
+        for (PlayerEntity player : mc.world.getPlayers()) {
             if (player == mc.player) continue;
             if (mc.getNetHandler() == null || mc.getNetHandler().getPlayerInfo(player.getUniqueID()) == null)
                 continue;
@@ -1640,7 +1640,7 @@ public class Utils implements IMinecraftInstance {
             double dist = dx * dx + dy * dy + dz * dz;
             if (dist < bestDist) {
                 bestDist = dist;
-                closest = new Vec3(player.posX, player.posY, player.posZ);
+                closest = new Vec3d(player.posX, player.posY, player.posZ);
             }
         }
         return closest;

@@ -30,13 +30,13 @@ public class Matrix4f {
         return result;
     }
 
-    public Vec3 transform(Vec3 v) {
+    public Vec3d transform(Vec3d v) {
         float w = m[3] * (float)v.x + m[7] * (float)v.y + m[11] * (float)v.z + m[15];
         float x = m[0] * (float)v.x + m[4] * (float)v.y + m[8] * (float)v.z + m[12];
         float y = m[1] * (float)v.x + m[5] * (float)v.y + m[9] * (float)v.z + m[13];
         float z = m[2] * (float)v.x + m[6] * (float)v.y + m[10] * (float)v.z + m[14];
         if (w != 0) { x /= w; y /= w; z /= w; }
-        return new Vec3(x, y, z);
+        return new Vec3d(x, y, z);
     }
 
     public static Matrix4f perspective(float fov, float aspect, float near, float far) {
@@ -51,10 +51,10 @@ public class Matrix4f {
         return m;
     }
 
-    public static Matrix4f lookAt(Vec3 eye, Vec3 center, Vec3 up) {
-        Vec3 f = center.subtract(eye).normalize();
-        Vec3 s = f.cross(up).normalize();
-        Vec3 u = s.cross(f);
+    public static Matrix4f lookAt(Vec3d eye, Vec3d center, Vec3d up) {
+        Vec3d f = center.subtract(eye).normalize();
+        Vec3d s = f.cross(up).normalize();
+        Vec3d u = s.cross(f);
         Matrix4f m = new Matrix4f();
         m.m[0] = (float) s.x; m.m[4] = (float) s.y; m.m[8] = (float) s.z;
         m.m[1] = (float) u.x; m.m[5] = (float) u.y; m.m[9] = (float) u.z;

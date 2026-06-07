@@ -13,7 +13,7 @@ import keystrokesmod.utility.font.RavenFontRenderer;
 
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3dd;
 
 
 import org.lwjgl.opengl.GL11;
@@ -88,7 +88,7 @@ public class Arrows extends Module {
             return;
         }
 
-        for (EntityPlayer en : mc.world.playerEntities) {
+        for (PlayerEntity en : mc.world.getPlayers()) {
             if (en == null || en == mc.player) {
                 continue;
             }
@@ -117,7 +117,7 @@ public class Arrows extends Module {
         }
     }
 
-    private void renderIndicatorFor(EntityPlayer en, int color, float partialTicks) {
+    private void renderIndicatorFor(PlayerEntity en, int color, float partialTicks) {
         if (renderOnlyOffScreen.isToggled() && RenderUtils.isInViewFrustum(en)) {
             return;
         }
@@ -129,7 +129,7 @@ public class Arrows extends Module {
         ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(((IAccessorMinecraft) mc).getTimer().renderPartialTicks, 0);
 
          scaledResolution = /* ScaledResolution removed in 1.21.4 */ null;
-        Vec3 vec = RenderUtils.convertTo2D(scaledResolution.getScaleFactor(), x, y, z);
+        Vec3d vec = RenderUtils.convertTo2D(scaledResolution.getScaleFactor(), x, y, z);
 
         if (vec != null) {
             mc.entityRenderer.setupOverlayRendering();
@@ -176,26 +176,26 @@ public class Arrows extends Module {
                     float red = ((rgb >> 16) & 0xFF) / 255.0F;
                     float green = ((rgb >> 8) & 0xFF) / 255.0F;
                     float blue = ( rgb & 0xFF) / 255.0F;
-                    GL11.glColor4f(red, green, blue, 1.0f);
+                    RenderSystem.setShaderColor(red, green, blue, 1.0f);
                 }
 
-                GL11.glEnable(GL11.GL_BLEND);
-                GL11.glDisable(GL11.GL_TEXTURE_2D);
+                RenderSystem.enableBlend(GL11.GL_BLEND);
+                RenderSystem.disableBlend(GL11.GL_TEXTURE_2D);
                 GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                GL11.glEnable(GL11.GL_LINE_SMOOTH);
+                RenderSystem.enableBlend(GL11.GL_LINE_SMOOTH);
 
                 double halfAngle = 0.6108652353286743;
                 double size = 9.0;
                 double offsetY = 5.0;
-                GL11.glLineWidth(3.0f);
-                GL11.glBegin(GL11.GL_LINE_STRIP);
-                GL11.glVertex2d(Math.sin(-halfAngle) * size, Math.cos(-halfAngle) * size - offsetY);
-                GL11.glVertex2d(0.0, -offsetY);
-                GL11.glVertex2d(Math.sin(halfAngle) * size, Math.cos(halfAngle) * size - offsetY);
-                GL11.glEnd();
-                GL11.glEnable(GL11.GL_TEXTURE_2D);
-                GL11.glDisable(GL11.GL_BLEND);
-                GL11.glDisable(GL11.GL_LINE_SMOOTH);
+                RenderSystem.lineWidth(3.0f);
+                // GL11 replaced(GL11.GL_LINE_STRIP);
+                // GL11(Math.sin(-halfAngle) * size, Math.cos(-halfAngle) * size - offsetY);
+                // GL11(0.0, -offsetY);
+                // GL11(Math.sin(halfAngle) * size, Math.cos(halfAngle) * size - offsetY);
+                // GL11 replaced();
+                RenderSystem.enableBlend(GL11.GL_TEXTURE_2D);
+                RenderSystem.disableBlend(GL11.GL_BLEND);
+                RenderSystem.disableBlend(GL11.GL_LINE_SMOOTH);
             }
             else if (arrowInput == 1) {
                 RenderSystem.rotate(-90.0f, 0.0f, 0.0f, 1.0f);
@@ -242,7 +242,7 @@ public class Arrows extends Module {
         private PlayerEntity player;
         private int color;
 
-        private void set(EntityPlayer player, int color) {
+        private void set(PlayerEntity player, int color) {
             this.player = player;
             this.color = color;
         }

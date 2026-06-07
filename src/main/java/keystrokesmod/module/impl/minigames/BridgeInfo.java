@@ -6,8 +6,8 @@ import keystrokesmod.module.setting.impl.DescriptionSetting;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ButtonWidget;
+import net.minecraft.client.gui.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 
 import net.minecraft.entity.Entity;
@@ -19,7 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 // Removed Forge event
 
-import net.minecraftforge.fml.client.config.GuiButtonExt;
+import net.minecraftforge.fml.client.config.ButtonWidgetExt;
 
 // Removed Forge event
 // Removed Forge event
@@ -56,7 +56,7 @@ public class BridgeInfo extends Module {
         super("Bridge Info", category.minigames, 0);
         this.registerSetting(new DescriptionSetting(new String("Only for solos.")));
         this.registerSetting(new ButtonSetting("Edit position", () -> {
-            mc.displayGuiScreen(new EditScreen());
+            mc.displayScreen(new EditScreen());
         }));
     }
 
@@ -69,13 +69,13 @@ public class BridgeInfo extends Module {
     public void onUpdate() {
         if (!this.enemyName.isEmpty() && this.isBridge()) {
             PlayerEntity enem = null;
-            Iterator var2 = mc.world.loadedEntityList.iterator();
+            Iterator var2 = mc.world.getEntities().iterator();
 
             while (var2.hasNext()) {
                 Entity e = (Entity) var2.next();
                 if (e instanceof PlayerEntity) {
                     if (e.getName().equals(this.enemyName)) {
-                        enem = (EntityPlayer) e;
+                        enem = (PlayerEntity) e;
                     }
                 } else if (e instanceof ArmorStandEntity) {
                     if (e.getName().contains(this.start)) {
@@ -103,7 +103,7 @@ public class BridgeInfo extends Module {
 
             for (int i = 0; i < 9; ++i) {
                 ItemStack stack = mc.player.inventory.getStackInSlot(i);
-                if (stack != null && stack.getItem() instanceof BlockItem && ((ItemBlock) stack.getItem()).block.equals(Blocks.stained_hardened_clay)) {
+                if (stack != null && stack.getItem() instanceof BlockItem && ((BlockItem) stack.getItem()).block.equals(Blocks.stained_hardened_clay)) {
                     blc2 += stack.stackSize;
                 }
             }
@@ -115,7 +115,7 @@ public class BridgeInfo extends Module {
     
     public void onRenderTick(RenderTickEvent ev) {
         if (ev.phase == Phase.END && Utils.nullCheck() && this.isBridge()) {
-            if (mc.currentScreen != null || mc.gameSettings.showDebugInfo) {
+            if (mc.currentScreen != null || mc.options.showDebugInfo) {
                 return;
             }
 
@@ -180,9 +180,9 @@ public class BridgeInfo extends Module {
         this.blc = 0;
     }
 
-    private class EditScreen extends GuiScreen {
+    private class EditScreen extends Screen {
         String example = new String("Enemy: Player123-Distance to goal: 17.2-Enemy distance to goal: 16.3-Blocks: 98");
-        GuiButtonExt resetPosition;
+        ButtonWidgetExt resetPosition;
         boolean d = false;
         int miX = 0;
         int miY = 0;
@@ -197,13 +197,13 @@ public class BridgeInfo extends Module {
 
         public void initGui() {
             super.initGui();
-            this.buttonList.add(this.resetPosition = new GuiButtonExt(1, this.width - 90, 5, 85, 20, new String("Reset position")));
+            this.buttonList.add(this.resetPosition = new ButtonWidgetExt(1, this.width - 90, 5, 85, 20, new String("Reset position")));
             this.aX = BridgeInfo.hudX;
             this.aY = BridgeInfo.hudY;
         }
 
         public void drawScreen(int mX, int mY, float pt) {
-            drawRect(0, 0, this.width, this.height, -1308622848);
+            DrawContextHelper.drawRect(0, 0, this.width, this.height, -1308622848);
             int miX = this.aX;
             int miY = this.aY;
             int maX = miX + 140;
@@ -267,7 +267,7 @@ public class BridgeInfo extends Module {
 
         }
 
-        public void actionPerformed(GuiButton b) {
+        public void actionPerformed(ButtonWidget b) {
             if (b == this.resetPosition) {
                 this.aX = BridgeInfo.hudX = 5;
                 this.aY = BridgeInfo.hudY = 70;

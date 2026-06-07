@@ -23,16 +23,16 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemAppleGold;
 import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemAxe;
+import net.minecraft.item.AxeItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemEgg;
 import net.minecraft.item.ItemEnderPearl;
-import net.minecraft.item.ItemPickaxe;
+import net.minecraft.item.PickaxeItem;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemSnowball;
-import net.minecraft.item.ItemSpade;
+import net.minecraft.item.ShovelItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
+import net.minecraft.item.SwordItem;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.util.DamageSource;
 
@@ -415,7 +415,7 @@ public class InvManager extends Module {
                 continue;
             }
 
-            if (item instanceof ItemPickaxe) {
+            if (item instanceof PickaxeItem) {
                 double efficiency = Utils.getEfficiency(itemStack, Blocks.STONE);
                 if (efficiency < data.bestPickaxe || (keptBestPick && efficiency == data.bestPickaxe)) {
                     delayedClick(slotId, 1, 4, inventoryCleaner);
@@ -425,7 +425,7 @@ public class InvManager extends Module {
                 continue;
             }
 
-            if (item instanceof ItemAxe) {
+            if (item instanceof AxeItem) {
                 double efficiency = Utils.getEfficiency(itemStack, Blocks.log);
                 if (efficiency < data.bestAxe || (keptBestAxe && efficiency == data.bestAxe)) {
                     delayedClick(slotId, 1, 4, inventoryCleaner);
@@ -435,7 +435,7 @@ public class InvManager extends Module {
                 continue;
             }
 
-            if (item instanceof ItemSpade) {
+            if (item instanceof ShovelItem) {
                 double efficiency = Utils.getEfficiency(itemStack, Blocks.DIRT);
                 if (efficiency < data.bestShovel || (keptBestShovel && efficiency == data.bestShovel)) {
                     delayedClick(slotId, 1, 4, inventoryCleaner);
@@ -585,12 +585,12 @@ public class InvManager extends Module {
 
         Item item = itemStack.getItem();
         return items.matches(itemStack)
-                || item instanceof ItemBlock
+                || item instanceof BlockItem
                 || item instanceof ItemAppleGold
                 || item instanceof ItemSnowball
                 || item instanceof ItemEgg
                 || item instanceof ItemEnderPearl
-                || item == Items.arrow;
+                || item == Items.ARROW;
     }
 
     private boolean canMergeChestStackIntoInventory(ItemStack chestStack, InventoryData playerData) {
@@ -610,7 +610,7 @@ public class InvManager extends Module {
     }
 
     private boolean isSword(ItemStack itemStack) {
-        return itemStack != null && itemStack.getItem() instanceof ItemSword;
+        return itemStack != null && itemStack.getItem() instanceof SwordItem;
     }
 
     private boolean isArmor(ItemStack itemStack) {
@@ -681,15 +681,15 @@ public class InvManager extends Module {
         if (item == Items.spawn_egg) {
             return true;
         }
-        if (item instanceof ItemPickaxe) {
+        if (item instanceof PickaxeItem) {
             double efficiency = Utils.getEfficiency(stack, Blocks.STONE);
             return playerData.bestPickaxe >= 0 && efficiency <= playerData.bestPickaxe;
         }
-        if (item instanceof ItemAxe) {
+        if (item instanceof AxeItem) {
             double efficiency = Utils.getEfficiency(stack, Blocks.log);
             return playerData.bestAxe >= 0 && efficiency <= playerData.bestAxe;
         }
-        if (item instanceof ItemSpade) {
+        if (item instanceof ShovelItem) {
             double efficiency = Utils.getEfficiency(stack, Blocks.DIRT);
             return playerData.bestShovel >= 0 && efficiency <= playerData.bestShovel;
         }
@@ -1802,7 +1802,7 @@ public class InvManager extends Module {
 
     private void click(int slotId, int button, int mode) {
         inventoryActionPerformed = true;
-        mc.playerController.windowClick(mc.player.openContainer.windowId, slotId, button, mode, mc.player);
+        mc.interactionManager.windowClick(mc.player.openContainer.windowId, slotId, button, mode, mc.player);
     }
 
     private boolean isManagedInventoryOpen() {
@@ -1942,19 +1942,19 @@ public class InvManager extends Module {
                         swordData[0] = i;
                     }
                 }
-                else if (item instanceof ItemPickaxe) {
+                else if (item instanceof PickaxeItem) {
                     double efficiency = Utils.getEfficiency(itemStack, Blocks.STONE);
                     if (efficiency > bestPickaxe) {
                         bestPickaxe = efficiency;
                     }
                 }
-                else if (item instanceof ItemAxe) {
+                else if (item instanceof AxeItem) {
                     double efficiency = Utils.getEfficiency(itemStack, Blocks.log);
                     if (efficiency > bestAxe) {
                         bestAxe = efficiency;
                     }
                 }
-                else if (item instanceof ItemSpade) {
+                else if (item instanceof ShovelItem) {
                     double efficiency = Utils.getEfficiency(itemStack, Blocks.DIRT);
                     if (efficiency > bestShovel) {
                         bestShovel = efficiency;

@@ -5,7 +5,7 @@ import keystrokesmod.event.*;
 // import IMixinItemRenderer removed
 import org.lwjgl.glfw.GLFW;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3dd;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.setting.impl.ButtonSetting;

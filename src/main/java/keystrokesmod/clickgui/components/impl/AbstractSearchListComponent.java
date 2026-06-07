@@ -7,11 +7,11 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Theme;
 import keystrokesmod.utility.Timer;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.render.GlStateManager;
+import net.minecraft.client.render.RenderHelper;
+import net.minecraft.client.render.entity.RenderItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
@@ -159,14 +159,14 @@ public abstract class AbstractSearchListComponent extends AbstractTextInputCompo
     protected final ItemStack getPreviewStack(SelectedRowData row) { if (row == null) return null; if (row.cyclingStacks != null && !row.cyclingStacks.isEmpty()) return row.cyclingStacks.get((int) ((System.currentTimeMillis() / 1000L) % row.cyclingStacks.size())); return row.stack; }
 
     protected final void renderBackRow(float left, float right, float rowTop, int bgColor, String groupName) {
-        RenderUtils.drawRect(left, rowTop, right, rowTop + ROW_HEIGHT - 1f, bgColor);
-        ResourceLocation arrow = RenderUtils.getIcon(ARROW_ICON_PATH);
+        RenderUtils.DrawContextHelper.drawRect(left, rowTop, right, rowTop + ROW_HEIGHT - 1f, bgColor);
+        Identifier arrow = RenderUtils.getIcon(ARROW_ICON_PATH);
         if (arrow != null) RenderUtils.drawIcon(arrow, left + 2f, rowTop + (LIST_ROW_VISUAL_HEIGHT - CLOSE_SIZE) / 2f, CLOSE_SIZE, 0xFFFFFFFF);
         drawListRowText(groupName != null ? groupName : "Back", left + 13f, rowTop, 0xFFCCCCCC);
     }
 
     protected final void renderStandardRow(String label, ItemStack stack, float left, float right, float rowTop, int bgColor, boolean showClose) {
-        RenderUtils.drawRect(left, rowTop, right, rowTop + ROW_HEIGHT - 1f, bgColor);
+        RenderUtils.DrawContextHelper.drawRect(left, rowTop, right, rowTop + ROW_HEIGHT - 1f, bgColor);
         renderItemInRow(stack, left + 2f, rowTop);
         drawListRowText(label != null ? label : "", left + 13f, rowTop, 0xFFCCCCCC);
         if (showClose) renderCloseIcon(right, rowTop);
@@ -177,7 +177,7 @@ public abstract class AbstractSearchListComponent extends AbstractTextInputCompo
     }
 
     protected final void renderCloseIcon(float right, float rowTop) {
-        ResourceLocation close = RenderUtils.getIcon(CLOSE_ICON_PATH);
+        Identifier close = RenderUtils.getIcon(CLOSE_ICON_PATH);
         if (close == null) return;
         float closeX = right - CLOSE_SIZE - CLOSE_PAD;
         float closeY = rowTop + (LIST_ROW_VISUAL_HEIGHT - CLOSE_SIZE) / 2f;
@@ -192,19 +192,19 @@ public abstract class AbstractSearchListComponent extends AbstractTextInputCompo
 
     protected final void renderItemInRow(ItemStack stack, float x, float rowTop) {
         if (stack == null) return;
-        RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
+        RenderItem renderItem = MinecraftClient.getInstance().getRenderItem();
         double scale = 0.55;
         float px = (float) (x / scale);
         float py = (float) ((rowTop + (LIST_ROW_VISUAL_HEIGHT - (float)(16 * scale)) / 2f) / scale);
-        GlStateManager.pushMatrix();
-        GlStateManager.scale(scale, scale, scale);
-        GlStateManager.translate(px, py, 0f);
+        RenderSystem.pushMatrix();
+        RenderSystem.scale(scale, scale, scale);
+        RenderSystem.translate(px, py, 0f);
         RenderHelper.enableGUIStandardItemLighting();
-        GlStateManager.disableBlend();
+        RenderSystem.disableBlend();
         renderItem.renderItemAndEffectIntoGUI(stack, 0, 0);
-        GlStateManager.enableBlend();
+        RenderSystem.enableBlend();
         RenderHelper.disableStandardItemLighting();
-        GlStateManager.popMatrix();
+        RenderSystem.popMatrix();
     }
 
     protected final boolean isMouseOverDropdown(float mouseX, float mouseY) {

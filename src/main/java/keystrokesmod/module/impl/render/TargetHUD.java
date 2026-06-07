@@ -11,12 +11,12 @@ import keystrokesmod.utility.Timer;
 import keystrokesmod.utility.Utils;
 import keystrokesmod.utility.shader.BlurUtils;
 import keystrokesmod.utility.shader.RoundedUtils;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ButtonWidget;
+import net.minecraft.client.gui.Screen;
 
 import net.minecraft.entity.LivingEntity;
 
-import net.minecraftforge.fml.client.config.GuiButtonExt;
+import net.minecraftforge.fml.client.config.ButtonWidgetExt;
 
 
 
@@ -48,7 +48,7 @@ public class TargetHUD extends Module {
         this.registerSetting(mode = new SliderSetting("Mode", 1, modes));
         this.registerSetting(theme = new SliderSetting("Theme", 0, Theme.themes));
         this.registerSetting(new ButtonSetting("Edit position", () -> {
-            mc.displayGuiScreen(new EditScreen());
+            mc.displayScreen(new EditScreen());
         }));
         this.registerSetting(renderEsp = new ButtonSetting("Render ESP", true));
         this.registerSetting(showStatus = new ButtonSetting("Show win or loss", true));
@@ -182,11 +182,11 @@ public class TargetHUD extends Module {
                     RenderUtils.drawRoundedGradientRect((float) n13, (float) n15, lastHealthBar, (float) (n15 + 5), 4.0f, mergedGradientLeft, mergedGradientLeft, mergedGradientRight, mergedGradientRight);
                     break;
             }
-            GL11.glPushMatrix();
-            GL11.glEnable(GL11.GL_BLEND);
+            RenderSystem.getModelViewStack().pushMatrix();
+            RenderSystem.enableBlend(GL11.GL_BLEND);
             mc.textRenderer.drawString(string, (float) x, (float) y, (new Color(220, 220, 220, 255).getRGB() & 0xFFFFFF) | Utils.clamp(alpha + 15) << 24, true);
-            GL11.glDisable(GL11.GL_BLEND);
-            GL11.glPopMatrix();
+            RenderSystem.disableBlend(GL11.GL_BLEND);
+            RenderSystem.getModelViewStack().popMatrix();
         }
         else {
             target = null;
@@ -201,8 +201,8 @@ public class TargetHUD extends Module {
         renderEntity = null;
     }
 
-    class EditScreen extends GuiScreen {
-        GuiButtonExt resetPosition;
+    class EditScreen extends Screen {
+        ButtonWidgetExt resetPosition;
         boolean d = false;
         int miX = 0;
         int miY = 0;
@@ -218,14 +218,14 @@ public class TargetHUD extends Module {
 
         public void initGui() {
             super.initGui();
-            this.buttonList.add(this.resetPosition = new GuiButtonExt(1, this.width - 90, this.height - 25, 85, 20, "Reset position"));
+            this.buttonList.add(this.resetPosition = new ButtonWidgetExt(1, this.width - 90, this.height - 25, 85, 20, "Reset position"));
             this.aX = posX;
             this.aY = posY;
         }
 
         public void drawScreen(int mX, int mY, float pt) {
              res = /* ScaledResolution removed in 1.21.4 */ null;
-            drawRect(0, 0, this.width, this.height, -1308622848);
+            DrawContextHelper.drawRect(0, 0, this.width, this.height, -1308622848);
             int miX = this.aX;
             int miY = this.aY;
             String playerInfo = mc.player.getDisplayName().getFormattedText();
@@ -289,7 +289,7 @@ public class TargetHUD extends Module {
 
         }
 
-        public void actionPerformed(GuiButton b) {
+        public void actionPerformed(ButtonWidget b) {
             if (b == this.resetPosition) {
                 this.aX = posX = 70;
                 this.aY = posY = 30;

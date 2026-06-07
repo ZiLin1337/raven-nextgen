@@ -17,7 +17,7 @@ import net.minecraft.item.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.server.S08PacketPlayerPosLook;
+import net.minecraft.network.play.server.PlayerPositionLookS2CPacket;
 import net.minecraft.util.*;
 // Removed Forge event
 // Removed Forge event
@@ -106,7 +106,7 @@ public class SpeedBuilders extends Module {
                     continue;
                 }
 
-                if (currentState.equals(requiredState) ||(requiredState.getBlock() instanceof BlockLeaves && (currentState.getBlock().equals(requiredState.getBlock())))) {
+                if (currentState.equals(requiredState) ||(requiredState.getBlockState().getBlock()) instanceof BlockLeaves && (currentState.getBlockState().getBlock()).equals(requiredState.getBlockState().getBlock()))))) {
                     entry.getValue().isPlaced = true;
                 }
                 else {
@@ -123,8 +123,8 @@ public class SpeedBuilders extends Module {
                     BuildBlockInfo info = buildInfo.get(facePos);
                     if (info != null && !info.isPlaced) {
                         if (autoSwap.isToggled()) {
-                            int requiredMeta = info.requiredState.getBlock().getMetaFromState(info.requiredState);
-                            int slot = getSlot(info.requiredState.getBlock(), requiredMeta);
+                            int requiredMeta = info.requiredState.getBlockState().getBlock()).getMetaFromState(info.requiredState);
+                            int slot = getSlot(info.requiredState.getBlockState().getBlock()), requiredMeta);
                             if (slot != -1 && slot != mc.player.inventory.currentItem) {
                                 mc.player.inventory.currentItem = slot;
                             }
@@ -189,7 +189,7 @@ public class SpeedBuilders extends Module {
             boolean useWhite = true;
             for (Direction dir : Direction.values()) {
                 BlockPos neighborPos = pos.offset(dir);
-                if (BlockUtils.getBlock(neighborPos) != Blocks.AIR) {
+                if (BlockUtils.getBlockState().getBlock()neighborPos) != Blocks.AIR) {
                     useWhite = false;
                 }
             }
@@ -294,8 +294,8 @@ public class SpeedBuilders extends Module {
 
     
     public void onReceivePacket(ReceivePacketEvent e) {
-        if (listenForPacket && Utils.nullCheck() && e.getPacket() instanceof S08PacketPlayerPosLook) {
-            Vec3 setPos = new Vec3(((S08PacketPlayerPosLook) e.getPacket()).getX(), ((S08PacketPlayerPosLook) e.getPacket()).getY(), ((S08PacketPlayerPosLook) e.getPacket()).getZ());
+        if (listenForPacket && Utils.nullCheck() && e.getPacket() instanceof PlayerPositionLookS2CPacket) {
+            Vec3d setPos = new Vec3d(((PlayerPositionLookS2CPacket) e.getPacket()).getX(), ((PlayerPositionLookS2CPacket) e.getPacket()).getY(), ((PlayerPositionLookS2CPacket) e.getPacket()).getZ());
             if (platformCenter == null) {
                 platformCenter = findCenter(setPos);
             }
@@ -333,7 +333,7 @@ public class SpeedBuilders extends Module {
         return 0;
     }
 
-    public BlockPos findCenter(Vec3 position) {
+    public BlockPos findCenter(Vec3d position) {
         BlockPos closestPos = null;
         double closestDistSq = Double.MAX_VALUE;
         double maxDistance = 30.0;
@@ -368,7 +368,7 @@ public class SpeedBuilders extends Module {
                 for (int y = startY; y <= endY; y++) {
                     BlockPos currentPos = new BlockPos(x, y, z);
                     BlockState state = mc.world.getBlockState(currentPos);
-                    if (state.getBlock() == Blocks.AIR) {
+                    if (state.getBlockState().getBlock()) == Blocks.AIR) {
                         continue;
                     }
                     blockInfo.put(currentPos, new BuildBlockInfo(state));
@@ -394,7 +394,7 @@ public class SpeedBuilders extends Module {
         }
 
         Item item = heldItem.getItem();
-        Block requiredBlock = requiredState.getBlock();
+        Block requiredBlock = requiredState.getBlockState().getBlock());
 
         if ((requiredBlock == Blocks.water || requiredBlock == Blocks.flowing_water) && item == Items.water_bucket) {
             return true;
@@ -404,7 +404,7 @@ public class SpeedBuilders extends Module {
             return false;
         }
 
-        Block heldBlock = ((ItemBlock) item).getBlock();
+        Block heldBlock = ((BlockItem) item).getBlockState().getBlock());
         int heldMeta = heldItem.getItemDamage();
         int requiredMeta = requiredBlock.getMetaFromState(requiredState);
 
@@ -423,7 +423,7 @@ public class SpeedBuilders extends Module {
 
     public HitResult getLookInfo() {
         HitResult movingObjectPosition = mc.objectMouseOver;
-        if (movingObjectPosition == null || movingObjectPosition.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK || movingObjectPosition.getBlockPos() == null) {
+        if (movingObjectPosition == null || movingObjectPosition.typeOfHit != HitResult.MovingObjectType.BLOCK || movingObjectPosition.getBlockPos() == null) {
             return null;
         }
         return mc.objectMouseOver;
@@ -440,7 +440,7 @@ public class SpeedBuilders extends Module {
         for (int i = 0; i < 9; ++i) {
             ItemStack itemStack = mc.player.inventory.mainInventory[i];
             if (itemStack != null && itemStack.getItem() instanceof BlockItem && itemStack.stackSize > 0) {
-                Block invBlock = ((ItemBlock) itemStack.getItem()).getBlock();
+                Block invBlock = ((BlockItem) itemStack.getItem()).getBlockState().getBlock());
                 int invMeta = itemStack.getItemDamage();
 
                 if (removeMeta(block)) {
@@ -460,23 +460,23 @@ public class SpeedBuilders extends Module {
     }
 
     private boolean removeMeta(Block block) {
-        return (block instanceof BlockStairs || block instanceof BlockDoublePlant || block instanceof BlockFlower || block instanceof BlockSkull || block instanceof BlockLadder || block instanceof BlockPumpkin || block instanceof BlockCauldron || block instanceof BlockRail || block instanceof BlockRailBase || block instanceof BlockTripWireHook || block instanceof BlockTripWire || block instanceof BlockDispenser || block instanceof BlockDropper || block instanceof BlockHopper || block instanceof BlockTorch || block instanceof BlockButton || block instanceof BlockLever || block instanceof BlockTrapDoor || block instanceof BlockSlab);
+        return (block instanceof StairsBlock || block instanceof BlockDoublePlant || block instanceof BlockFlower || block instanceof BlockSkull || block instanceof BlockLadder || block instanceof BlockPumpkin || block instanceof BlockCauldron || block instanceof BlockRail || block instanceof BlockRailBase || block instanceof BlockTripWireHook || block instanceof BlockTripWire || block instanceof BlockDispenser || block instanceof BlockDropper || block instanceof BlockHopper || block instanceof BlockTorch || block instanceof BlockButton || block instanceof BlockLever || block instanceof BlockTrapDoor || block instanceof BlockSlab);
     }
 
-    private boolean correctPlaceState(BlockState requiredState, BlockPos blockPos, Direction enumFacing, Vec3 hitVec, ItemStack heldItem) {
+    private boolean correctPlaceState(BlockState requiredState, BlockPos blockPos, Direction enumFacing, Vec3d hitVec, ItemStack heldItem) {
         if (requiredState == null || blockPos == null || enumFacing == null || hitVec == null || heldItem == null || !(heldItem.getItem() instanceof BlockItem)) {
             return false;
         }
 
-        if (requiredState.getBlock() instanceof BlockLeaves || requiredState.getBlock() instanceof BlockButton) {
+        if (requiredState.getBlockState().getBlock()) instanceof BlockLeaves || requiredState.getBlockState().getBlock()) instanceof BlockButton) {
             return true;
         }
 
-        BlockItem itemBlock = (ItemBlock) heldItem.getItem();
-        Block block = itemBlock.getBlock();
+        BlockItem itemBlock = (BlockItem) heldItem.getItem();
+        Block block = itemBlock.getBlockState().getBlock());
         int meta = heldItem.getItemDamage();
 
-        Vec3 relativeHitVec = hitVec.subtract(new Vec3(blockPos.getX(), blockPos.getY(), blockPos.getZ()));
+        Vec3d relativeHitVec = hitVec.subtract(new Vec3d(blockPos.getX(), blockPos.getY(), blockPos.getZ()));
 
         BlockState simulatedState = block.onBlockPlaced(mc.world, blockPos, enumFacing,
                 (float) relativeHitVec.xCoord, (float) relativeHitVec.yCoord, (float) relativeHitVec.zCoord, meta, mc.player);
@@ -485,12 +485,12 @@ public class SpeedBuilders extends Module {
             return false;
         }
 
-        if (simulatedState.getBlock() != requiredState.getBlock()) {
+        if (simulatedState.getBlockState().getBlock()) != requiredState.getBlockState().getBlock())) {
             return false;
         }
 
-        int simulatedMeta = simulatedState.getBlock().getMetaFromState(simulatedState);
-        int requiredMeta = requiredState.getBlock().getMetaFromState(requiredState);
+        int simulatedMeta = simulatedState.getBlockState().getBlock()).getMetaFromState(simulatedState);
+        int requiredMeta = requiredState.getBlockState().getBlock()).getMetaFromState(requiredState);
         if (simulatedMeta != requiredMeta) {
             return false;
         }
@@ -501,11 +501,11 @@ public class SpeedBuilders extends Module {
                 return false;
             }
         }
-        if (simulatedState.getBlock() instanceof BlockStairs && requiredState.getBlock() instanceof BlockStairs) {
-            Direction simulatedFacing = simulatedState.getValue(BlockStairs.FACING);
-            Direction requiredFacing = requiredState.getValue(BlockStairs.FACING);
-            BlockStairs.EnumHalf simulatedHalf = simulatedState.getValue(BlockStairs.HALF);
-            BlockStairs.EnumHalf requiredHalf = requiredState.getValue(BlockStairs.HALF);
+        if (simulatedState.getBlockState().getBlock()) instanceof StairsBlock && requiredState.getBlockState().getBlock()) instanceof StairsBlock) {
+            Direction simulatedFacing = simulatedState.getValue(StairsBlock.FACING);
+            Direction requiredFacing = requiredState.getValue(StairsBlock.FACING);
+            StairsBlock.EnumHalf simulatedHalf = simulatedState.getValue(StairsBlock.HALF);
+            StairsBlock.EnumHalf requiredHalf = requiredState.getValue(StairsBlock.HALF);
 
             if (simulatedFacing != requiredFacing || simulatedHalf != requiredHalf) {
                 return false;

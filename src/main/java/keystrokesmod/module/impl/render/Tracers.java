@@ -37,21 +37,21 @@ public class Tracers extends Module {
 
     @Override
     public void onEnable() {
-        this.viewBobbingEnabled = mc.gameSettings.viewBobbing;
+        this.viewBobbingEnabled = mc.options.viewBobbing;
         if (this.viewBobbingEnabled) {
-            mc.gameSettings.viewBobbing = false;
+            mc.options.viewBobbing = false;
         }
     }
 
     @Override
     public void onDisable() {
-        mc.gameSettings.viewBobbing = this.viewBobbingEnabled;
+        mc.options.viewBobbing = this.viewBobbingEnabled;
     }
 
     @Override
     public void onUpdate() {
-        if (mc.gameSettings.viewBobbing) {
-            mc.gameSettings.viewBobbing = false;
+        if (mc.options.viewBobbing) {
+            mc.options.viewBobbing = false;
         }
     }
 
@@ -85,7 +85,7 @@ public class Tracers extends Module {
         }
 
         if (Raven.DEBUG) {
-            for (Entity entity : mc.world.loadedEntityList) {
+            for (Entity entity : mc.world.getEntities()) {
                 if (entity instanceof LivingEntity && entity != mc.player) {
                     addTrackedEntity(entity);
                 }
@@ -93,7 +93,7 @@ public class Tracers extends Module {
             return;
         }
 
-        for (EntityPlayer player : mc.world.playerEntities) {
+        for (PlayerEntity player : mc.world.getPlayers()) {
             if (player == mc.player) {
                 continue;
             }

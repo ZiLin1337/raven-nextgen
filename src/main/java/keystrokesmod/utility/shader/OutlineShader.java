@@ -37,8 +37,8 @@ public class OutlineShader extends OutlineESPShader {
         if (u >= 0) GL20.glUniform1i(u, 0);
         u = uniform("texelSize");
         if (u >= 0) {
-            Minecraft mc = Minecraft.getMinecraft();
-            GL20.glUniform2f(u, 1.0f / mc.displayWidth, 1.0f / mc.displayHeight);
+            Minecraft mc = MinecraftClient.getInstance();
+            GL20.glUniform2f(u, 1.0f / mc.getWindow().getFramebufferWidth(), 1.0f / mc.getWindow().getFramebufferHeight());
         }
         u = uniform("kernel");
         if (u >= 0) GL20.glUniform1f(u, 2.0f);

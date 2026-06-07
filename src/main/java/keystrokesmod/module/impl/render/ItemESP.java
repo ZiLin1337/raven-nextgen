@@ -8,7 +8,7 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 
@@ -60,8 +60,8 @@ public class ItemESP extends Module {
 
         for (int i = 0; i < renderStateCount; i++) {
             ItemRenderState renderState = renderStates.get(i);
-            EntityItem entityItem = renderState.entityItem;
-            if (entityItem == null || entityItem.isDead || entityItem.getEntityItem() == null || entityItem.getEntityItem().stackSize == 0) {
+            ItemEntity entityItem = renderState.entityItem;
+            if (entityItem == null || entityItem.isDead || entityItem.getItemEntity() == null || entityItem.getItemEntity().stackSize == 0) {
                 continue;
             }
 
@@ -93,8 +93,8 @@ public class ItemESP extends Module {
         }
 
         double maxDistSq = maxDistance.getInput() * maxDistance.getInput();
-        for (Entity entity : mc.world.loadedEntityList) {
-            if (!(entity instanceof EntityItem)) {
+        for (Entity entity : mc.world.getEntities()) {
+            if (!(entity instanceof ItemEntity)) {
                 continue;
             }
             if (!RenderUtils.isWithinDistanceSqToRenderView(entity, maxDistSq)) {
@@ -104,12 +104,12 @@ public class ItemESP extends Module {
                 continue;
             }
 
-            EntityItem entityItem = (EntityItem) entity;
-            if (entityItem.getEntityItem() == null || entityItem.getEntityItem().stackSize == 0) {
+            ItemEntity entityItem = (ItemEntity) entity;
+            if (entityItem.getItemEntity() == null || entityItem.getItemEntity().stackSize == 0) {
                 continue;
             }
 
-            Item item = entityItem.getEntityItem().getItem();
+            Item item = entityItem.getItemEntity().getItem();
             if (item == null) {
                 continue;
             }
@@ -138,7 +138,7 @@ public class ItemESP extends Module {
 
             double groupKey = getColorForItem(item, entity.posX, entity.posY, entity.posZ);
             Integer existingStackCount = stackCounts.get(groupKey);
-            stackCounts.put(groupKey, (existingStackCount == null ? 0 : existingStackCount) + entityItem.getEntityItem().stackSize);
+            stackCounts.put(groupKey, (existingStackCount == null ? 0 : existingStackCount) + entityItem.getItemEntity().stackSize);
 
             if (renderStateCount >= renderStates.size()) {
                 renderStates.add(new ItemRenderState());
@@ -181,12 +181,12 @@ public class ItemESP extends Module {
         posY -= mc.getEntityRenderDispatcher().viewerPosX;
         posX -= mc.getEntityRenderDispatcher().viewerPosY;
         posZ -= mc.getEntityRenderDispatcher().viewerPosZ;
-        GL11.glPushMatrix();
+        RenderSystem.getModelViewStack().pushMatrix();
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glLineWidth(2.0f);
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        RenderSystem.enableBlend(GL11.GL_BLEND);
+        RenderSystem.lineWidth(2.0f);
+        RenderSystem.disableBlend(GL11.GL_TEXTURE_2D);
+        RenderSystem.disableBlend(GL11.GL_DEPTH_TEST);
         GL11.glDepthMask(false);
         float r = (boxColor >> 16 & 0xFF) / 255.0f;
         float g = (boxColor >> 8 & 0xFF) / 255.0f;
@@ -194,15 +194,15 @@ public class ItemESP extends Module {
 
         float radius = Math.min(Math.max(0.2f, (float) (0.009999999776482582 * dist)), 0.4f);
         RenderUtils.drawBoundingBox(new Box(posY - radius, posX, posZ - radius, posY + radius, posX + radius * 2.0f, posZ + radius), r, g, b, 0.35f);
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        RenderSystem.enableBlend(GL11.GL_TEXTURE_2D);
+        RenderSystem.enableBlend(GL11.GL_DEPTH_TEST);
         GL11.glDepthMask(true);
-        GL11.glDisable(GL11.GL_BLEND);
-        GL11.glPopMatrix();
+        RenderSystem.disableBlend(GL11.GL_BLEND);
+        RenderSystem.getModelViewStack().popMatrix();
         RenderSystem.pushMatrix();
         RenderSystem.translate((float) posY, (float) posX + 0.3, (float) posZ);
         RenderSystem.rotate(-mc.getEntityRenderDispatcher().playerViewY, 0.0f, 1.0f, 0.0f);
-        RenderSystem.rotate((mc.gameSettings.thirdPersonView == 2 ? -1 : 1) * mc.getEntityRenderDispatcher().playerViewX, 1.0f, 0.0f, 0.0f);
+        RenderSystem.rotate((mc.options.thirdPersonView == 2 ? -1 : 1) * mc.getEntityRenderDispatcher().playerViewX, 1.0f, 0.0f, 0.0f);
         float scale = Math.min(Math.max(0.02266667f, (float) (0.001500000013038516 * dist)), 0.07f);
         RenderSystem.scale(-scale, -scale, -scale);
         RenderSystem.depthMask(false);
@@ -216,12 +216,12 @@ public class ItemESP extends Module {
     }
 
     private static final class ItemRenderState {
-        private EntityItem entityItem;
+        private ItemEntity entityItem;
         private int boxColor;
         private int textColor;
         private double groupKey;
 
-        private void set(EntityItem entityItem, int boxColor, int textColor, double groupKey) {
+        private void set(ItemEntity entityItem, int boxColor, int textColor, double groupKey) {
             this.entityItem = entityItem;
             this.boxColor = boxColor;
             this.textColor = textColor;

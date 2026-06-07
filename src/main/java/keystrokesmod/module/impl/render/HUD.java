@@ -218,11 +218,11 @@ public class HUD extends Module {
                 int color = getHudColor(wavePhase);
 
                 if (drawBackground.isToggled()) {
-                    RenderUtils.drawRect(backgroundLeft, backgroundTop, backgroundRight, backgroundBottom, BACKGROUND_COLOR);
+                    RenderUtils.DrawContextHelper.drawRect(backgroundLeft, backgroundTop, backgroundRight, backgroundBottom, BACKGROUND_COLOR);
                 }
 
                 if (outline.getInput() == 1 && firstVisibleRow) {
-                    RenderUtils.drawRect(outlineLeft, outlineTop, outlineRight, backgroundTop, color);
+                    RenderUtils.DrawContextHelper.drawRect(outlineLeft, outlineTop, outlineRight, backgroundTop, color);
                 }
 
                 if (hudWaveIsVertical()) {
@@ -233,31 +233,31 @@ public class HUD extends Module {
                 if (outline.getInput() == 1 && !previousModule.isEmpty()) {
                     double difference = hudFont.getStringWidth(previousModule) - moduleWidth;
                     if (alphabeticalSort.isToggled() && difference < 0) {
-                        RenderUtils.drawRect(outlineLeft, outlineTop, xPos - difference + horizontalTextPadding + outlineThickness, backgroundTop, color);
+                        RenderUtils.DrawContextHelper.drawRect(outlineLeft, outlineTop, xPos - difference + horizontalTextPadding + outlineThickness, backgroundTop, color);
                     }
                     else if (alignRight.isToggled()) {
-                        RenderUtils.drawRect(xPos - difference - horizontalTextPadding - outlineThickness, outlineTop, backgroundLeft, backgroundTop, color);
+                        RenderUtils.DrawContextHelper.drawRect(xPos - difference - horizontalTextPadding - outlineThickness, outlineTop, backgroundLeft, backgroundTop, color);
                     }
                     else {
-                        RenderUtils.drawRect(backgroundRight, outlineTop, xPos + difference + moduleWidth + horizontalTextPadding + outlineThickness, backgroundTop, color);
+                        RenderUtils.DrawContextHelper.drawRect(backgroundRight, outlineTop, xPos + difference + moduleWidth + horizontalTextPadding + outlineThickness, backgroundTop, color);
                     }
                 }
 
                 if (outline.getInput() > 0) {
                     if (alignRight.isToggled()) {
-                        RenderUtils.drawRect(backgroundRight, backgroundTop, outlineRight, backgroundBottom, color);
+                        RenderUtils.DrawContextHelper.drawRect(backgroundRight, backgroundTop, outlineRight, backgroundBottom, color);
                     }
                     else {
-                        RenderUtils.drawRect(outlineLeft, backgroundTop, backgroundLeft, backgroundBottom, color);
+                        RenderUtils.DrawContextHelper.drawRect(outlineLeft, backgroundTop, backgroundLeft, backgroundBottom, color);
                     }
                 }
 
                 if (outline.getInput() == 1) {
                     if (alignRight.isToggled()) {
-                        RenderUtils.drawRect(outlineLeft, backgroundTop, backgroundLeft, backgroundBottom, color);
+                        RenderUtils.DrawContextHelper.drawRect(outlineLeft, backgroundTop, backgroundLeft, backgroundBottom, color);
                     }
                     else {
-                        RenderUtils.drawRect(backgroundRight, backgroundTop, outlineRight, backgroundBottom, color);
+                        RenderUtils.DrawContextHelper.drawRect(backgroundRight, backgroundTop, outlineRight, backgroundBottom, color);
                     }
                 }
 
@@ -277,7 +277,7 @@ public class HUD extends Module {
         if (outline.getInput() == 1 && !previousModule.isEmpty()) {
             double bottomCenterX = (lastOutlineLeft + lastOutlineRight) * 0.5;
             double bottomPhase = hudWavePhase(verticalWaveAccum, bottomCenterX);
-            RenderUtils.drawRect(lastOutlineLeft, lastBackgroundBottom, lastOutlineRight, lastBackgroundBottom + outlineThickness, getHudColor(bottomPhase));
+            RenderUtils.DrawContextHelper.drawRect(lastOutlineLeft, lastBackgroundBottom, lastOutlineRight, lastBackgroundBottom + outlineThickness, getHudColor(bottomPhase));
         }
     }
 
@@ -465,7 +465,7 @@ public class HUD extends Module {
                     int color = getHudColor(wavePhase);
 
                     if (outline.getInput() == 1 && firstVisibleRow) {
-                        RenderUtils.drawRect(outlineLeft, outlineTop, outlineRight, backgroundTop, color);
+                        RenderUtils.DrawContextHelper.drawRect(outlineLeft, outlineTop, outlineRight, backgroundTop, color);
                     }
 
                     if (hudWaveIsVertical()) {
@@ -474,37 +474,37 @@ public class HUD extends Module {
                     firstVisibleRow = false;
 
                     if (drawBackground.isToggled()) {
-                        RenderUtils.drawRect(backgroundLeft, backgroundTop, backgroundRight, backgroundBottom, BACKGROUND_COLOR);
+                        RenderUtils.DrawContextHelper.drawRect(backgroundLeft, backgroundTop, backgroundRight, backgroundBottom, BACKGROUND_COLOR);
                     }
 
                     if (outline.getInput() == 1 && !previousModule.isEmpty()) {
                         double difference = hudFont.getStringWidth(previousModule) - moduleWidth;
                         if (alphabeticalSort.isToggled() && difference < 0) {
-                            RenderUtils.drawRect(outlineLeft, outlineTop, xPos - difference + horizontalTextPadding + outlineThickness, backgroundTop, color);
+                            RenderUtils.DrawContextHelper.drawRect(outlineLeft, outlineTop, xPos - difference + horizontalTextPadding + outlineThickness, backgroundTop, color);
                         }
                         else if (alignRight.isToggled()) {
-                            RenderUtils.drawRect(xPos - difference - horizontalTextPadding - outlineThickness, outlineTop, backgroundLeft, backgroundTop, color);
+                            RenderUtils.DrawContextHelper.drawRect(xPos - difference - horizontalTextPadding - outlineThickness, outlineTop, backgroundLeft, backgroundTop, color);
                         }
                         else {
-                            RenderUtils.drawRect(backgroundRight, outlineTop, xPos + difference + moduleWidth + horizontalTextPadding + outlineThickness, backgroundTop, color);
+                            RenderUtils.DrawContextHelper.drawRect(backgroundRight, outlineTop, xPos + difference + moduleWidth + horizontalTextPadding + outlineThickness, backgroundTop, color);
                         }
                     }
 
                     if (outline.getInput() > 0) {
                         if (alignRight.isToggled()) {
-                            RenderUtils.drawRect(backgroundRight, backgroundTop, outlineRight, backgroundBottom, color);
+                            RenderUtils.DrawContextHelper.drawRect(backgroundRight, backgroundTop, outlineRight, backgroundBottom, color);
                         }
                         else {
-                            RenderUtils.drawRect(outlineLeft, backgroundTop, backgroundLeft, backgroundBottom, color);
+                            RenderUtils.DrawContextHelper.drawRect(outlineLeft, backgroundTop, backgroundLeft, backgroundBottom, color);
                         }
                     }
 
                     if (outline.getInput() == 1) {
                         if (alignRight.isToggled()) {
-                            RenderUtils.drawRect(outlineLeft, backgroundTop, backgroundLeft, backgroundBottom, color);
+                            RenderUtils.DrawContextHelper.drawRect(outlineLeft, backgroundTop, backgroundLeft, backgroundBottom, color);
                         }
                         else {
-                            RenderUtils.drawRect(backgroundRight, backgroundTop, outlineRight, backgroundBottom, color);
+                            RenderUtils.DrawContextHelper.drawRect(backgroundRight, backgroundTop, outlineRight, backgroundBottom, color);
                         }
                     }
 
@@ -524,7 +524,7 @@ public class HUD extends Module {
             if (outline.getInput() == 1 && !previousModule.isEmpty()) {
                 double bottomCenterX = (lastOutlineLeft + lastOutlineRight) * 0.5;
                 double bottomPhase = hudWavePhase(verticalWaveAccum, bottomCenterX);
-                RenderUtils.drawRect(lastOutlineLeft, lastBackgroundBottom, lastOutlineRight, lastBackgroundBottom + outlineThickness, getHudColor(bottomPhase));
+                RenderUtils.DrawContextHelper.drawRect(lastOutlineLeft, lastBackgroundBottom, lastOutlineRight, lastBackgroundBottom + outlineThickness, getHudColor(bottomPhase));
             }
 
             return new float[]{this.minX + longestModule, (float) Math.ceil(Math.max(y, lastBackgroundBottom)), this.minX - longestModule};

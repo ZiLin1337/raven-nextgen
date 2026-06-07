@@ -8,13 +8,13 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import keystrokesmod.utility.font.FontManager;
 import keystrokesmod.utility.font.RavenFontRenderer;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ButtonWidget;
+import net.minecraft.client.gui.Screen;
 
 import net.minecraft.potion.Potion;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.util.StatCollector;
-import net.minecraftforge.fml.client.config.GuiButtonExt;
+import net.minecraftforge.fml.client.config.ButtonWidgetExt;
 
 
 
@@ -66,7 +66,7 @@ public class PotionHUD extends Module {
         this.registerSetting(verticalAlignment = new SliderSetting("Vertical Alignment", 0, VERTICAL_ALIGNMENT_OPTIONS, "Direction"));
         this.registerSetting(font = new SliderSetting("Font", 0, FONT_OPTIONS));
         this.registerSetting(scale = new SliderSetting("Scale", 1.0, 0.5, 2.0, 0.1));
-        this.registerSetting(new ButtonSetting("Edit position", () -> mc.displayGuiScreen(new EditScreen())));
+        this.registerSetting(new ButtonSetting("Edit position", () -> mc.displayScreen(new EditScreen())));
         this.registerSetting(excludePermanent = new ButtonSetting("Exclude permanent", false));
         this.registerSetting(drawBackground = new ButtonSetting("Draw background", false));
         this.registerSetting(textShadow = new ButtonSetting("Text shadow", true));
@@ -79,7 +79,7 @@ public class PotionHUD extends Module {
             return;
         }
 
-        if (mc.currentScreen != null || mc.gameSettings.showDebugInfo) {
+        if (mc.currentScreen != null || mc.options.showDebugInfo) {
             return;
         }
 
@@ -238,7 +238,7 @@ public class PotionHUD extends Module {
             float timerX = rowLeft + entry.labelWidth + entry.gapWidth;
 
             if (drawBackground.isToggled()) {
-                RenderUtils.drawRect(backgroundLeft, rowTop, backgroundRight, backgroundBottom, BACKGROUND_COLOR);
+                RenderUtils.DrawContextHelper.drawRect(backgroundLeft, rowTop, backgroundRight, backgroundBottom, BACKGROUND_COLOR);
             }
 
             state.renderer.drawString(entry.label, rowLeft, textY, entry.color, textShadow.isToggled());
@@ -260,10 +260,10 @@ public class PotionHUD extends Module {
         float top = bounds.top - 1.0f;
         float right = bounds.right + 1.0f;
         float bottom = bounds.bottom + 1.0f;
-        RenderUtils.drawRect(left, top, right, top + 1.0f, EDIT_OUTLINE_COLOR);
-        RenderUtils.drawRect(left, bottom - 1.0f, right, bottom, EDIT_OUTLINE_COLOR);
-        RenderUtils.drawRect(left, top, left + 1.0f, bottom, EDIT_OUTLINE_COLOR);
-        RenderUtils.drawRect(right - 1.0f, top, right, bottom, EDIT_OUTLINE_COLOR);
+        RenderUtils.DrawContextHelper.drawRect(left, top, right, top + 1.0f, EDIT_OUTLINE_COLOR);
+        RenderUtils.DrawContextHelper.drawRect(left, bottom - 1.0f, right, bottom, EDIT_OUTLINE_COLOR);
+        RenderUtils.DrawContextHelper.drawRect(left, top, left + 1.0f, bottom, EDIT_OUTLINE_COLOR);
+        RenderUtils.DrawContextHelper.drawRect(right - 1.0f, top, right, bottom, EDIT_OUTLINE_COLOR);
     }
 
     private void adjustAnchorForLayoutChanges(int resolution, RenderState state) {
@@ -443,8 +443,8 @@ public class PotionHUD extends Module {
         return builder.toString();
     }
 
-    private class EditScreen extends GuiScreen {
-        private GuiButtonExt resetPosition;
+    private class EditScreen extends Screen {
+        private ButtonWidgetExt resetPosition;
         private boolean dragging;
         private float minX;
         private float minY;
@@ -460,7 +460,7 @@ public class PotionHUD extends Module {
         @Override
         public void initGui() {
             super.initGui();
-            this.buttonList.add(this.resetPosition = new GuiButtonExt(1, this.width - 90, this.height - 25, 85, 20, "Reset position"));
+            this.buttonList.add(this.resetPosition = new ButtonWidgetExt(1, this.width - 90, this.height - 25, 85, 20, "Reset position"));
             syncPositionToResolution(/* ScaledResolution removed in 1.21.4 */ null);
             this.actualX = posX;
             this.actualY = posY;
@@ -475,7 +475,7 @@ public class PotionHUD extends Module {
                 this.actualY = posY;
             }
 
-            drawRect(0, 0, this.width, this.height, -1308622848);
+            DrawContextHelper.drawRect(0, 0, this.width, this.height, -1308622848);
             setAbsolutePosition(this.actualX, this.actualY, resolution);
 
             RenderState state = buildRenderState(true);
@@ -533,7 +533,7 @@ public class PotionHUD extends Module {
         }
 
         @Override
-        public void actionPerformed(GuiButton button) {
+        public void actionPerformed(ButtonWidget button) {
             if (button == this.resetPosition) {
                 resetPosition();
                 this.actualX = posX;

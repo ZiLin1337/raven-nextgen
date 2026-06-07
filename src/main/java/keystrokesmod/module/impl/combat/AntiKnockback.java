@@ -46,7 +46,7 @@ public class AntiKnockback extends Module {
             return;
         }
         if (e.getPacket() instanceof EntityVelocityUpdateS2CPacket) {
-            if (((S12PacketEntityVelocity) e.getPacket()).getEntityID() == mc.player.getEntityId() && !disable) {
+            if (((EntityVelocityUpdateS2CPacket) e.getPacket()).getEntityID() == mc.player.getEntityId() && !disable) {
                 if (!cancelBurning.isToggled() && mc.player.isBurning()) {
                     return;
                 }
@@ -60,7 +60,7 @@ public class AntiKnockback extends Module {
                 if (cancelConditions()) {
                     return;
                 }
-                EntityVelocityUpdateS2CPacket s12PacketEntityVelocity = (S12PacketEntityVelocity) e.getPacket();
+                EntityVelocityUpdateS2CPacket s12PacketEntityVelocity = (EntityVelocityUpdateS2CPacket) e.getPacket();
                 if (horizontal.getInput() == 0 && vertical.getInput() > 0) {
                     mc.player.motionY = ((double) s12PacketEntityVelocity.getMotionY() / 8000) * vertical.getInput() / 100.0;
                 }
@@ -92,7 +92,7 @@ public class AntiKnockback extends Module {
             if (cancelConditions()) {
                 return;
             }
-            ExplosionS2CPacket s27PacketExplosion = (S27PacketExplosion) e.getPacket();
+            ExplosionS2CPacket s27PacketExplosion = (ExplosionS2CPacket) e.getPacket();
             if (horizontal.getInput() == 0 && vertical.getInput() > 0) {
                 mc.player.motionY += s27PacketExplosion.func_149144_d() * vertical.getInput() / 100.0;
             }

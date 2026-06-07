@@ -51,7 +51,7 @@ public class AutoSwap extends Module {
             return;
         }
 
-        PlayerInteractBlockC2SPacket packet = (C08PacketPlayerBlockPlacement) e.getPacket();
+        PlayerInteractBlockC2SPacket packet = (PlayerInteractBlockC2SPacket) e.getPacket();
         if (packet.getPlacedBlockDirection() == 255) {
             return;
         }
@@ -73,7 +73,7 @@ public class AutoSwap extends Module {
             return;
         }
 
-        if (!mc.inGameHasFocus || mc.currentScreen != null || !Utils.isBindDown(mc.gameSettings.keyBindUseItem)) {
+        if (!mc.inGameHasFocus || mc.currentScreen != null || !Utils.isBindDown(mc.options.keyBindUseItem)) {
             return;
         }
 
@@ -117,7 +117,7 @@ public class AutoSwap extends Module {
             return false;
         }
 
-        Block block = ((ItemBlock) stack.getItem()).getBlock();
+        Block block = ((BlockItem) stack.getItem()).getBlockState().getBlock());
         Object registryName = Block.blockRegistry.getNameForObject(block);
         if (block == null || registryName == null) {
             return false;
@@ -147,7 +147,7 @@ public class AutoSwap extends Module {
         }
 
         mc.player.inventory.currentItem = slot;
-        ((IAccessorPlayerControllerMP) mc.playerController).callSyncCurrentPlayItem();
+        ((IAccessorPlayerControllerMP) mc.interactionManager).callSyncCurrentPlayItem();
     }
 
     private void resetState() {

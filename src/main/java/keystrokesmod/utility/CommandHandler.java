@@ -468,16 +468,16 @@ public class CommandHandler implements IMinecraftInstance {
         int startY = height - COMMAND_PANEL_START_Y;
         int panelHeight = COMMAND_PANEL_HEIGHT;
 
-        GL11.glEnable(GL_SCISSOR_TEST);
+        RenderSystem.enableBlend(GL_SCISSOR_TEST);
         double maxWidth = width * scale;
         int scissorWidth = (int) (maxWidth - (maxWidth < MIN_SCISSOR_WIDTH ? 0 : MIN_SCISSOR_WIDTH));
         int scissorHeight = (int) (panelHeight * scale - MIN_SCISSOR_WIDTH);
-        int scissorY = (int) (mc.displayHeight - (startY + panelHeight) * scale);
+        int scissorY = (int) (mc.getWindow().getFramebufferHeight() - (startY + panelHeight) * scale);
 
         GL11.glScissor(0, scissorY, scissorWidth, scissorHeight);
         RenderUtils.db(1000, 1000, currentBackgroundColor);
         renderResponseStrings(fontRenderer, responseLines, x, y);
-        GL11.glDisable(GL_SCISSOR_TEST);
+        RenderSystem.disableBlend(GL_SCISSOR_TEST);
     }
 
     private static void renderResponseStrings(TextRenderer fontRenderer, List<String> responseLines, int x, int y) {

@@ -21,9 +21,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 
 import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemBow;
+import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
+import net.minecraft.item.SwordItem;
 import net.minecraft.item.ItemTool;
 import net.minecraftforge.client.event.RenderLivingEvent;
 
@@ -86,7 +86,7 @@ public class Nametags extends Module {
         private ItemStack helmet;
         private int totalItems;
 
-        private void set(EntityPlayer player, String displayName, int stringHalfWidth, int teamColor, int relationshipColor,
+        private void set(PlayerEntity player, String displayName, int stringHalfWidth, int teamColor, int relationshipColor,
                          int playerNameStart, int playerNameEnd,
                          double distanceSq, float baseScale, float yOffset,
                          ItemStack heldItem, ItemStack boots, ItemStack leggings, ItemStack chestplate, ItemStack helmet,
@@ -171,7 +171,7 @@ public class Nametags extends Module {
         }
 
         if (event.entity instanceof PlayerEntity) {
-            PlayerEntity player = (EntityPlayer) event.entity;
+            PlayerEntity player = (PlayerEntity) event.entity;
             if (shouldRenderNametag(player)) {
                 event.setCanceled(true);
             }
@@ -191,7 +191,7 @@ public class Nametags extends Module {
         float baseScale = computeBaseScaleValue();
         renderStateCount = 0;
 
-        for (EntityPlayer player : mc.world.playerEntities) {
+        for (PlayerEntity player : mc.world.getPlayers()) {
             if (!shouldRenderNametag(player)) {
                 continue;
             }
@@ -285,17 +285,17 @@ public class Nametags extends Module {
         RenderSystem.color(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
-    private boolean shouldRenderNametag(EntityPlayer player) {
+    private boolean shouldRenderNametag(PlayerEntity player) {
         if (player == null) return false;
         if (player == mc.player) {
-            return showYourself.isToggled() && mc.gameSettings.thirdPersonView != 0;
+            return showYourself.isToggled() && mc.options.thirdPersonView != 0;
         }
         if (player.isDead || player.deathTime > 0) return false;
         if (!showInvis.isToggled() && player.isInvisible()) return false;
         return !AntiBot.isBot(player);
     }
 
-    private String buildDisplayName(EntityPlayer entity, boolean showDist, float distance) {
+    private String buildDisplayName(PlayerEntity entity, boolean showDist, float distance) {
         String name;
 
         if (onlyRenderName.isToggled()) {
@@ -320,7 +320,7 @@ public class Nametags extends Module {
         return name;
     }
 
-    private int resolveRelationshipColor(EntityPlayer entity) {
+    private int resolveRelationshipColor(PlayerEntity entity) {
         if (Utils.isFriended(entity)) {
             return friendColor.getColor();
         }
@@ -446,7 +446,7 @@ public class Nametags extends Module {
     private void renderBackground(int stringWidth, float textY, int teamColor, int relationshipColor, RavenTextRenderer fontRenderer) {
         RenderSystem.disableTexture2D();
         Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder worldRenderer = tessellator.getWorldRenderer();
+        BufferBuilder worldRenderer = tessellator.getBufferBuilder();
         float alpha = (float) bgOpacity.getInput();
         float innerLeft = -stringWidth - 3.0f;
         float innerRight = stringWidth + 3.0f;
@@ -636,11 +636,11 @@ public class Nametags extends Module {
             ids = ARMOR_ENCHANT_IDS;
             abbreviations = ARMOR_ENCHANT_ABBR;
         }
-        else if (item instanceof ItemSword) {
+        else if (item instanceof SwordItem) {
             ids = SWORD_ENCHANT_IDS;
             abbreviations = SWORD_ENCHANT_ABBR;
         }
-        else if (item instanceof ItemBow) {
+        else if (item instanceof BowItem) {
             ids = BOW_ENCHANT_IDS;
             abbreviations = BOW_ENCHANT_ABBR;
         }

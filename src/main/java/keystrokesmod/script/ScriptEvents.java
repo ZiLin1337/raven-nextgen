@@ -5,7 +5,7 @@ import keystrokesmod.Raven;
 import keystrokesmod.event.PreMotionEvent;
 import keystrokesmod.event.PrePlayerInputEvent;
 import keystrokesmod.module.impl.client.Settings;
-import keystrokesmod.script.model.Vec3;
+import keystrokesmod.script.model.Vec3d;
 import keystrokesmod.utility.Utils;
 import net.minecraft.client.MinecraftClient;
 

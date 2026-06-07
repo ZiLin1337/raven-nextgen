@@ -9,7 +9,7 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Theme;
 import keystrokesmod.utility.font.RavenFontRenderer;
 import keystrokesmod.utility.profile.ProfileModule;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
@@ -50,7 +50,7 @@ public class BindComponent extends Component {
 
     public void render() {
         RavenFontRenderer renderer = Gui.getClickGuiSettingFontRenderer();
-        GL11.glPushMatrix();
+        RenderSystem.getModelViewStack().pushMatrix();
         GL11.glScaled(0.5D, 0.5D, 0.5D);
         if (keySetting == null) {
             this.drawString(renderer, !this.moduleComponent.mod.canBeEnabled() && this.moduleComponent.mod.script == null ? "Module cannot be bound." : this.isBinding ? "Press a key..." : "Current bind: '\u00a7e" + getKeyAsStr(false) + "\u00a7r'");
@@ -58,7 +58,7 @@ public class BindComponent extends Component {
         else {
             renderer.drawString(this.isBinding ? "Press a key..." : this.keySetting.getName() + ": '\u00a7e" + getKeyAsStr(true) + "\u00a7r'", (float) ((this.moduleComponent.categoryComponent.getX() + 4) * 2) + xOffset, (float) ((this.moduleComponent.categoryComponent.getY() + this.o + (this.keySetting == null ? 3 : 4)) * 2), Theme.getGradient(Theme.descriptor[0], Theme.descriptor[1], 0), true);
         }
-        GL11.glPopMatrix();
+        RenderSystem.getModelViewStack().popMatrix();
 
         if (keySetting == null && moduleComponent.mod.moduleCategory() != Module.category.profiles) {
             int iconSize = getEyeIconSize();
