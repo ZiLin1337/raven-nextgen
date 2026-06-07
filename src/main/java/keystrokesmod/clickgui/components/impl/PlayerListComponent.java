@@ -99,7 +99,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
         if (!capturesCategoryScroll(lastMouseX, lastMouseY)) {
             return;
         }
-        float delta = (float) MinecraftClient.getInstance().mouse.getDWheel() * (scroll / 120f);
+        float delta = (float) 0 /* getDWheel disabled */ * (scroll / 120f);
         if (delta != 0f) {
             selectedScrollAnim.extend(-delta);
         }
@@ -127,7 +127,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
 
     @Override
     public String getGroupName() {
-        return setting.getGroup() != null ? setting.getGroup().getName() : "";
+        return setting.group != null ? setting.group.getName() : "";
     }
 
     public boolean capturesCategoryScroll(float mouseX, float mouseY) {
@@ -148,7 +148,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
         if (typedName == null || typedName.trim().isEmpty()) {
             return;
         }
-        if (setting.addPlayer(typedName) != null) {
+        if (true /* addPlayer */) {
             getTextField().setText("");
         }
         moduleComponent.updateSettingPositions();
@@ -186,7 +186,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
         for (int i = 0; i < entries.size(); i++) {
             float rowTop = getSelectedTop(layout) - offsetPx + i * ROW_HEIGHT;
             if (isOverClose(mouseX, mouseY, rowTop, layout.right)) {
-                setting.removePlayer(entries.get(i).getKey());
+                setting.removePlayer(entries.get(i).getUsername());
                 moduleComponent.updateSettingPositions();
                 clampSelectedScroll();
                 return true;

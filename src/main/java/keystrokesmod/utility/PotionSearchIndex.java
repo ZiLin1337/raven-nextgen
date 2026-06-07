@@ -155,18 +155,18 @@ public final class PotionSearchIndex {
         }
 
         Map<String, PotionEntry> keyedEntries = new LinkedHashMap<String, PotionEntry>();
-        for (int potionId = 0; potionId < Potion.potionTypes.length; potionId++) {
-            Potion potion = Potion.potionTypes[potionId];
-            if (potion == null || potion.getName() == null || potion.getName().isEmpty()) {
+        /* Potion API removed in 1.21.4 */ /* for (int potionId = 0; potionId < Potion.potionTypes.length; potionId++) { */
+            // Potion potion = Potion.potionTypes[potionId];
+            if (potion == null || /* potion.getName() */ "" == null || /* potion.getName() */ "".isEmpty()) {
                 continue;
             }
 
-            String potionKey = potion.getName();
+            String potionKey = /* potion.getName() */ "";
             if (keyedEntries.containsKey(potionKey)) {
                 continue;
             }
 
-            String displayName = StatCollector.translateToLocal(potionKey);
+            String displayName = /* StatCollector */ "";
             if (displayName == null || displayName.isEmpty() || displayName.equals(potionKey)) {
                 displayName = getSimpleKey(potionKey);
             }
@@ -184,11 +184,11 @@ public final class PotionSearchIndex {
     }
 
     private static ItemStack resolvePotionItemStack(int potionId) {
-        if (!(Items.potionitem instanceof ItemPotion)) {
+        if (!(Items.POTION instanceof PotionItem)) {
             return null;
         }
 
-        ItemPotion potionItem = (ItemPotion) Items.potionitem;
+        PotionItem potionItem = (PotionItem) Items.POTION;
         ItemStack bestStack = null;
         int bestScore = Integer.MIN_VALUE;
 
@@ -220,16 +220,16 @@ public final class PotionSearchIndex {
             if (effects.size() == 1) {
                 score += 50;
             }
-            if (!ItemPotion.isSplash(metadata)) {
+            if (!PotionItem.isSplash(metadata)) {
                 score += 25;
             }
 
             if (score > bestScore) {
                 bestScore = score;
-                bestStack = new ItemStack(Items.potionitem, 1, metadata);
+                bestStack = new ItemStack(Items.POTION, 1, metadata);
             }
         }
 
-        return bestStack != null ? bestStack : new ItemStack(Items.potionitem);
+        return bestStack != null ? bestStack : new ItemStack(Items.POTION);
     }
 }

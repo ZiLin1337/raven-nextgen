@@ -439,11 +439,11 @@ public class NameHider extends Module {
     }
 
     private static PlayerListEntry getSelfPlayerInfo() {
-        return mc.getNetworkHandler() == null || mc.player == null ? null : mc.getNetworkHandler().getPlayerList().get(mc.player.getUuid());
+        return mc.getNetworkHandler() == null || mc.player == null ? null : mc.getNetworkHandler().getPlayerList().stream().filter(e -> e.getProfile().getId().equals(mc.player.getUuid())).findFirst().orElse(null);
     }
 
     private static PlayerListEntry getPlayerInfo(PlayerEntity player) {
-        return mc.getNetworkHandler() == null || player == null ? null : mc.getNetworkHandler().getPlayerList().get(player.getUuid());
+        return mc.getNetworkHandler() == null || player == null ? null : mc.getNetworkHandler().getPlayerList().stream().filter(e -> e.getProfile().getId().equals(player.getUuid())).findFirst().orElse(null);
     }
 
     private static String getSelfKey() {

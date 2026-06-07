@@ -193,7 +193,7 @@ public abstract class AbstractSearchListComponent extends AbstractTextInputCompo
 
     protected final void renderItemInRow(ItemStack stack, float x, float rowTop) {
         if (stack == null) return;
-        net.minecraft.client.render.item.ItemRenderer renderItem = MinecraftClient.getInstance().gameRenderer.getItemRenderer();
+        net.minecraft.client.render.item.ItemRenderer renderItem = MinecraftClient.getInstance().gameRenderer;
         double scale = 0.55;
         float px = (float) (x / scale);
         float py = (float) ((rowTop + (LIST_ROW_VISUAL_HEIGHT - (float)(16 * scale)) / 2f) / scale);

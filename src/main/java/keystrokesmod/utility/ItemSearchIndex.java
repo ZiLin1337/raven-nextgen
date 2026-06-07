@@ -37,7 +37,7 @@ public final class ItemSearchIndex {
         private final ItemStack previewStack;
 
         ItemEntry(Item item, int meta, String displayName, String storageId) {
-            this(item, meta, displayName, storageId, item != null ? new ItemStack(item, 1, meta) : null);
+            this(item, meta, displayName, storageId, item != null ? new ItemStack(item, 1) : null);
         }
 
         ItemEntry(Item item, int meta, String displayName, String storageId, ItemStack previewStack) {
@@ -110,49 +110,49 @@ public final class ItemSearchIndex {
         SWORD("@category:sword", "Sword", new ItemStack(Items.DIAMOND_SWORD)) {
             @Override
             boolean matches(ItemStack stack) {
-                return stack != null && stack.getItem() instanceof ItemSword;
+                return stack != null && stack.getItem() instanceof SwordItem;
             }
         },
-        BOW("@category:bow", "Bow", new ItemStack(Items.bow)) {
+        BOW("@category:bow", "Bow", new ItemStack(Items.BOW)) {
             @Override
             boolean matches(ItemStack stack) {
-                return stack != null && stack.getItem() instanceof ItemBow;
+                return stack != null && stack.getItem() instanceof BowItem;
             }
         },
-        TOOL("@category:tool", "Tool", new ItemStack(Items.diamond_pickaxe)) {
+        TOOL("@category:tool", "Tool", new ItemStack(Items.DIAMOND_PICKAXE)) {
             @Override
             boolean matches(ItemStack stack) {
                 return stack != null && isToolLike(stack.getItem());
             }
         },
-        AXE("@category:axe", "Axe", new ItemStack(Items.diamond_axe)) {
+        AXE("@category:axe", "Axe", new ItemStack(Items.DIAMOND_AXE)) {
             @Override
             boolean matches(ItemStack stack) {
-                return stack != null && stack.getItem() instanceof ItemAxe;
+                return stack != null && stack.getItem() instanceof AxeItem;
             }
         },
-        PICKAXE("@category:pickaxe", "Pickaxe", new ItemStack(Items.diamond_pickaxe)) {
+        PICKAXE("@category:pickaxe", "Pickaxe", new ItemStack(Items.DIAMOND_PICKAXE)) {
             @Override
             boolean matches(ItemStack stack) {
-                return stack != null && stack.getItem() instanceof ItemPickaxe;
+                return stack != null && stack.getItem() instanceof PickaxeItem;
             }
         },
-        SHOVEL("@category:shovel", "Shovel", new ItemStack(Items.diamond_shovel)) {
+        SHOVEL("@category:shovel", "Shovel", new ItemStack(Items.DIAMOND_SHOVEL)) {
             @Override
             boolean matches(ItemStack stack) {
-                return stack != null && stack.getItem() instanceof ItemSpade;
+                return stack != null && stack.getItem() instanceof ShovelItem;
             }
         },
-        HOE("@category:hoe", "Hoe", new ItemStack(Items.diamond_hoe)) {
+        HOE("@category:hoe", "Hoe", new ItemStack(Items.DIAMOND_HOE)) {
             @Override
             boolean matches(ItemStack stack) {
-                return stack != null && stack.getItem() instanceof ItemHoe;
+                return stack != null && stack.getItem() instanceof HoeItem;
             }
         },
-        SHEARS("@category:shears", "Shears", new ItemStack(Items.shears)) {
+        SHEARS("@category:shears", "Shears", new ItemStack(Items.SHEARS)) {
             @Override
             boolean matches(ItemStack stack) {
-                return stack != null && stack.getItem() instanceof ItemShears;
+                return stack != null && stack.getItem() instanceof ShearsItem;
             }
         };
 
@@ -327,10 +327,10 @@ public final class ItemSearchIndex {
     }
 
     public static String getRegistryId(Item item) {
-        if (item == null || net.minecraft.registry.Registries.ITEM.getNameForObject(item) == null) {
+        if (item == null || net.minecraft.registry.Registries.ITEM.getKey(item) == null) {
             return null;
         }
-        return net.minecraft.registry.Registries.ITEM.getNameForObject(item).toString();
+        return net.minecraft.registry.Registries.ITEM.getKey(item).toString();
     }
 
     public static boolean hasMultipleVariants(Item item) {
@@ -511,7 +511,7 @@ public final class ItemSearchIndex {
         }
 
         ItemStack stack = getItemStack(storageId);
-        return stack != null ? stack.getDisplayName() : storageId;
+        return stack != null ? stack.getName().getString() : storageId;
     }
 
     private static void ensureItemList() {
@@ -546,7 +546,7 @@ public final class ItemSearchIndex {
                     continue;
                 }
 
-                String displayName = stack.getDisplayName();
+                String displayName = stack.getName().getString();
                 if (displayName == null || displayName.isEmpty()) {
                     continue;
                 }
@@ -627,7 +627,7 @@ public final class ItemSearchIndex {
 
     private static void collectSubItems(Item item, List<ItemStack> subItems) {
         try {
-            item.getSubItems(item, CreativeTabs.tabAllSearch, subItems);
+            item.getSubItems(item, ItemGroup.HAND_SEARCH, subItems);
         }
         catch (Exception ignored) {
         }
@@ -636,13 +636,13 @@ public final class ItemSearchIndex {
             return;
         }
 
-        CreativeTabs creativeTab = item.getCreativeTab();
+        ItemGroup creativeTab = item.getGroup();
         if (creativeTab == null) {
             return;
         }
 
         try {
-            item.getSubItems(item, creativeTab, subItems);
+            item.getSubItems(ItemStack.EMPTY, creativeTab, subItems);
         }
         catch (Exception ignored) {
         }
@@ -667,7 +667,7 @@ public final class ItemSearchIndex {
 
     private static Item getItemForName(String registryId) {
         try {
-            return (Item) net.minecraft.registry.Registries.ITEM.getObject(new Identifier(registryId));
+            return (Item) net.minecraft.registry.Registries.ITEM.getObject(Identifier.of(registryId));
         }
         catch (Exception ignored) {
             return null;
@@ -675,10 +675,10 @@ public final class ItemSearchIndex {
     }
 
     private static boolean shouldStoreMeta(Item item) {
-        return item != null && item.getHasSubtypes() && !item.isDamageable();
+        return item != null && item.getMaxCount() == 1 && !item.getMaxDamage() > 0;
     }
 
     private static boolean isToolLike(Item item) {
-        return item instanceof ItemTool || item instanceof ItemHoe || item instanceof ItemShears;
+        return item instanceof ToolItem || item instanceof HoeItem || item instanceof ShearsItem;
     }
 }

@@ -1,10 +1,12 @@
 package keystrokesmod.module.setting.impl;
 import keystrokesmod.module.setting.Setting;
+import keystrokesmod.module.setting.impl.GroupSetting;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerListSetting extends Setting {
+    public GroupSetting group;
     private final List<String> players = new ArrayList<>();
     public PlayerListSetting(String name) { super(name); }
     public List<String> getPlayers() { return players; }

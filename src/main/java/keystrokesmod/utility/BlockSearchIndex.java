@@ -24,7 +24,7 @@ public final class BlockSearchIndex {
     private static final Map<Block, Item> BLOCK_TO_ITEM_FALLBACK = new HashMap<Block, Item>();
 
     static {
-        BLOCK_TO_ITEM_FALLBACK.put(Blocks.bed, Items.bed);
+        BLOCK_TO_ITEM_FALLBACK.put(Blocks.RED_BED, Items.RED_BED);
     }
 
     public static final class BlockEntry {
@@ -48,7 +48,7 @@ public final class BlockSearchIndex {
 
         public ItemStack toItemStack() {
             if (displayItem != null) return new ItemStack(displayItem, 1, meta);
-            return new ItemStack(block, 1, meta);
+            return new ItemStack(block);
         }
     }
 
@@ -195,7 +195,7 @@ public final class BlockSearchIndex {
         int meta = isWildcard(storageId) ? 0 : getMetaFromStorageId(storageId);
         Item fallback = BLOCK_TO_ITEM_FALLBACK.get(block);
         if (fallback != null) return new ItemStack(fallback, 1, meta);
-        return new ItemStack(block, 1, meta);
+        return new ItemStack(block);
     }
 
     public static String getDisplayName(String storageId) {

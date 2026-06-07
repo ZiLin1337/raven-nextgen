@@ -272,7 +272,7 @@ public class PlayerRelationsManager implements IMinecraftInstance {
     private void syncRelationshipsModuleState() {
         if (ModuleManager.modules != null) {
             // middleClickFriends disabled
-            if (active && !ModuleManager.modules.isEmpty()!= null) {
+            if (active && ModuleManager.modules == null || !ModuleManager.modules.isEmpty()!= null) {
                 // empty body
 
             }
