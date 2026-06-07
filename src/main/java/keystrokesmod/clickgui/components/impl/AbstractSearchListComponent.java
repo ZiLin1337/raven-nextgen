@@ -106,7 +106,7 @@ public abstract class AbstractSearchListComponent extends AbstractTextInputCompo
     @Override
     public void onScroll(int scroll) {
         if (!moduleComponent.isOpened || !moduleComponent.isVisible(this)) return;
-        float scrollSpeed = (float) 0.getInput();
+        float scrollSpeed = 1.0f;
         float delta = scrollSpeed * (scroll / 120f);
         if (isMouseOverDropdown()) { if (delta != 0f) dropdownScrollAnim.extend(-delta); clampDropdownScroll(); return; }
         if (isMouseOverSelectedList() && getSelectedEntryCount() > MAX_VISIBLE_SELECTED) { if (delta != 0f) selectedScrollAnim.extend(-delta); clampSelectedScroll(); }
