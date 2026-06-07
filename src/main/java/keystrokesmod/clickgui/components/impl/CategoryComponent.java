@@ -32,7 +32,10 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
+import net.minecraft.client.MinecraftClient;
+
 public class CategoryComponent {
+    private MinecraftClient mc = MinecraftClient.getInstance();
     private static long interactionSequence;
     private static final Map<Module.category, CategoryIconStacks> CATEGORY_ICON_STACKS = buildCategoryIconStacks();
 
@@ -137,14 +140,11 @@ public class CategoryComponent {
             this.modules.add(manager);
             if ((Raven.profileManager == null && isProfile) || (Raven.scriptManager == null && !isProfile)) return;
             if (isProfile) {
-                for (Profile profile : Raven.profileManager.profiles) {
-                    moduleRenderY += 16;
-                    ModuleComponent b = new ModuleComponent(profile.getModule(), this, moduleRenderY);
-                    b.restoreOpenState(Boolean.TRUE.equals(openStates.get(profile.getModule().getName())));
-                    this.modules.add(b);
-                }
+                // TODO: Profile system not implemented yet
+                // for (Profile profile : Raven.profileManager.profiles) { ... }
             } else {
-                Collection<Module> mods = Raven.scriptManager.scripts.values();
+                // TODO: Script system not implemented yet
+                Collection<Module> mods = new ArrayList<>();
                 List<Module> sorted = mods.stream().sorted(Comparator.comparing(Module::getName, String.CASE_INSENSITIVE_ORDER)).collect(Collectors.toList());
                 for (Module m : sorted) {
                     moduleRenderY += 16;
@@ -429,7 +429,7 @@ public class CategoryComponent {
             default: return null;
         }
         if (active) {
-            stack.addEnchantment(Registries.ENCHANTMENT.getEntry(Enchantments.UNBREAKING), 2);
+            stack.addEnchantment(Registries.ENTITY_TYPE.entryOf(Registries.ENTITY_TYPE.getKey(Enchantments.UNBREAKING).orElseThrow()), 2);
         }
         return stack;
     }

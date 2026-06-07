@@ -7,7 +7,10 @@ import keystrokesmod.utility.Timer;
 import keystrokesmod.utility.font.RavenFontRenderer;
 import org.lwjgl.opengl.GL11;
 
+import net.minecraft.client.MinecraftClient;
+
 public class GroupComponent extends Component {
+    private MinecraftClient mc = MinecraftClient.getInstance();
     public GroupSetting setting;
     private ModuleComponent component;
     public float o;

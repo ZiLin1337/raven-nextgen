@@ -14,6 +14,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class ClickGui extends Screen {
+    public static double getActiveRenderScale() { return 1.0; }
     public static ArrayList<CategoryComponent> categories;
     private CategoryComponent draggedCategory;
     private static boolean isInitialized;
@@ -60,7 +61,7 @@ public class ClickGui extends Screen {
         sorted.sort(Comparator.comparingLong(c -> c.lastInteractedTime));
         
         for (CategoryComponent category : sorted) {
-            category.render(context, mouseX, mouseY);
+            category.render();
         }
     }
 
