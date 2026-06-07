@@ -28,7 +28,7 @@ public class BlockSearchComponent extends AbstractSearchListComponent {
 
     @Override
     protected void renderDropdownRows(Layout layout, float offsetPx, int firstRow, int end, int rowUnderMouse) {
-        if (expandedGroupId != null)) {
+        if (expandedGroupId != null) {
             String groupName = !expandedVariants.isEmpty() ? expandedVariants.get(0).displayName : expandedGroupId;
             for (int i = firstRow; i < end; i++) {
                 float rowTop = layout.contentTop - offsetPx + i * ROW_HEIGHT;
@@ -78,9 +78,9 @@ public class BlockSearchComponent extends AbstractSearchListComponent {
         float rowTop = layout.contentTop - offsetPx + rowIndex * ROW_HEIGHT;
         if (mouseY < rowTop || mouseY >= rowTop + ROW_HEIGHT) return false;
 
-        if (expandedGroupId != null)) {
-            if (rowIndex == 0)) { collapseExpandedGroup(); return true; }
-            if (rowIndex == 1)) { setting.addBlock(expandedGroupId + ":*"); afterBlockSelectionAdded(); return true; }
+        if (expandedGroupId != null) {
+            if (rowIndex == 0) { collapseExpandedGroup(); return true; }
+            if (rowIndex == 1) { setting.addBlock(expandedGroupId + ":*"); afterBlockSelectionAdded(); return true; }
             int vi = rowIndex - 2;
             if (vi >= 0 && vi < expandedVariants.size() { setting.addBlock(expandedVariants.get(vi).storageId); afterBlockSelectionAdded(); return true; }
             return true;
@@ -100,13 +100,13 @@ public class BlockSearchComponent extends AbstractSearchListComponent {
         List<String> blocks = new ArrayList<String>(setting.getBlocks());
         for (int i = 0; i < blocks.size(); i++) {
             float rowTop = getSelectedTop(layout) - offsetPx + i * ROW_HEIGHT;
-            if (isOverClose(mouseX, mouseY, rowTop, layout.right)) { setting.removeBlock(blocks.get(i)); selectedRowsCache = null; notifySelectionListChanged(); return true; }
+            if (isOverClose(mouseX, mouseY, rowTop, layout.right) { setting.removeBlock(blocks.get(i)); selectedRowsCache = null; notifySelectionListChanged(); return true; }
         }
         return false;
     }
 
     @Override protected void onSearchTextChanged(String text) { expandedGroupId = null; expandedVariants = Collections.emptyList(); cachedResults = BlockSearchIndex.searchGrouped(text, setting); }
-    @Override protected boolean handleSearchEscape() { if (expandedGroupId != null)) { collapseExpandedGroup(); return true; } return false; }
+    @Override protected boolean handleSearchEscape() { if (expandedGroupId != null) { collapseExpandedGroup(); return true; } return false; }
     @Override protected void onSearchFieldFocused() { if (!getTextField().getText().isEmpty() && cachedResults.isEmpty()) cachedResults = BlockSearchIndex.searchGrouped(getTextField().getText(), setting); }
     @Override protected void resetSearchState() { cachedResults = Collections.emptyList(); expandedGroupId = null; expandedVariants = Collections.emptyList(); selectedRowsCache = null; }
 

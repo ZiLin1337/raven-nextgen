@@ -143,7 +143,7 @@ public class Nametags extends Module {
 
     
     public void onClientTick(TickEvent.ClientTickEvent event) {
-        if (event.phase != TickEvent.Phase.END)) {
+        if (event.phase != TickEvent.Phase.END) {
             return;
         }
 
@@ -170,7 +170,7 @@ public class Nametags extends Module {
             return;
         }
 
-        if (event.entity instanceof PlayerEntity)) {
+        if (event.entity instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) event.entity;
             if (shouldRenderNametag(player)) {
                 event.setCanceled(true);
@@ -181,7 +181,7 @@ public class Nametags extends Module {
     private void updateRenderStates() {
         RavenTextRenderer fontRenderer = getNametagFontRenderer();
         Entity viewer = mc.getRenderViewEntity();
-        if (viewer == null)) {
+        if (viewer == null) {
             renderStateCount = 0;
             return;
         }
@@ -214,7 +214,7 @@ public class Nametags extends Module {
             ItemStack helmet = null;
             int totalItems = 0;
 
-            if (renderArmor)) {
+            if (renderArmor) {
                 heldItem = player.getEquipmentInSlot(0);
                 if (heldItem != null) totalItems++;
                 boots = player.getEquipmentInSlot(1);
@@ -251,7 +251,7 @@ public class Nametags extends Module {
             );
         }
 
-        if (renderStateCount > 1)) {
+        if (renderStateCount > 1) {
             renderStates.subList(0, renderStateCount).sort(FAR_TO_NEAR);
         }
     }
@@ -260,7 +260,7 @@ public class Nametags extends Module {
         EntityRenderDispatcher renderManager = mc.getEntityRenderDispatcher();
         FontRenderer itemFontRenderer = mc.textRenderer;
         RavenFontRenderer textRenderer = getNametagFontRenderer();
-        if (renderManager == null || itemFontRenderer == null || renderStateCount == 0)) {
+        if (renderManager == null || itemFontRenderer == null || renderStateCount == 0) {
             return;
         }
 
@@ -287,7 +287,7 @@ public class Nametags extends Module {
 
     private boolean shouldRenderNametag(PlayerEntity player) {
         if (player == null) return false;
-        if (player == mc.player)) {
+        if (player == mc.player) {
             return showYourself.isToggled() && mc.options.thirdPersonView != 0;
         }
         if (player.isDead || player.deathTime > 0) return false;
@@ -311,7 +311,7 @@ public class Nametags extends Module {
             name = appendHealth(name, entity);
         }
 
-        if (showDist)) {
+        if (showDist) {
             int dist = (int) distance;
             String distColor = dist <= 8 ? "\u00a7c" : (dist <= 15 ? "\u00a76" : (dist <= 25 ? "\u00a7e" : "\u00a77"));
             name = distColor + dist + "m\u00a7r " + name;
@@ -336,7 +336,7 @@ public class Nametags extends Module {
 
     private float computeScaleValue(float distance, boolean scaleByDistance) {
         float scaleValue = computeBaseScaleValue();
-        if (!scaleByDistance)) {
+        if (!scaleByDistance) {
             return scaleValue;
         }
 
@@ -347,7 +347,7 @@ public class Nametags extends Module {
 
     private void renderCustomName(NametagRenderState state, float partialTicks, EntityRenderDispatcher renderManager, RavenFontRenderer textRenderer, FontRenderer itemFontRenderer) {
         PlayerEntity entity = state.player;
-        if (entity == null || entity.isDead || entity.deathTime > 0)) {
+        if (entity == null || entity.isDead || entity.deathTime > 0) {
             return;
         }
 
@@ -380,27 +380,27 @@ public class Nametags extends Module {
         drawDisplayName(state, textRenderer);
         applyNametagTextState();
 
-        if (state.totalItems > 0)) {
+        if (state.totalItems > 0) {
             int iconX = -(state.totalItems * ITEM_SPACING) / 2;
             int iconY = -20;
 
-            if (state.heldItem != null)) {
+            if (state.heldItem != null) {
                 renderItemStack(state.heldItem, iconX, iconY, itemFontRenderer);
                 iconX += ITEM_SPACING;
             }
-            if (state.helmet != null)) {
+            if (state.helmet != null) {
                 renderItemStack(state.helmet, iconX, iconY, itemFontRenderer);
                 iconX += ITEM_SPACING;
             }
-            if (state.chestplate != null)) {
+            if (state.chestplate != null) {
                 renderItemStack(state.chestplate, iconX, iconY, itemFontRenderer);
                 iconX += ITEM_SPACING;
             }
-            if (state.leggings != null)) {
+            if (state.leggings != null) {
                 renderItemStack(state.leggings, iconX, iconY, itemFontRenderer);
                 iconX += ITEM_SPACING;
             }
-            if (state.boots != null)) {
+            if (state.boots != null) {
                 renderItemStack(state.boots, iconX, iconY, itemFontRenderer);
             }
         }
@@ -428,7 +428,7 @@ public class Nametags extends Module {
     }
 
     private void drawDisplayName(NametagRenderState state, RavenFontRenderer textRenderer) {
-        if (state.relationshipColor == -1 || state.playerNameStart < 0 || state.playerNameEnd <= state.playerNameStart)) {
+        if (state.relationshipColor == -1 || state.playerNameStart < 0 || state.playerNameEnd <= state.playerNameStart) {
             textRenderer.drawString(state.displayName, -state.stringHalfWidth, 0.0f, 0xFFFFFFFF, textShadow.isToggled());
             return;
         }
@@ -436,7 +436,7 @@ public class Nametags extends Module {
         final int[] visibleIndex = {0};
         textRenderer.drawGlyphString(state.displayName, -state.stringHalfWidth, 0.0f, (character, xOffset, width, formattingColor) -> {
             int glyphIndex = visibleIndex[0]++;
-            if (glyphIndex >= state.playerNameStart && glyphIndex < state.playerNameEnd)) {
+            if (glyphIndex >= state.playerNameStart && glyphIndex < state.playerNameEnd) {
                 return state.relationshipColor;
             }
             return formattingColor != null ? formattingColor : 0xFFFFFFFF;
@@ -454,7 +454,7 @@ public class Nametags extends Module {
         float innerBottom = textY + fontRenderer.getTextBottomOffset() + 2.0f;
         boolean renderBaseFill = showRect.isToggled() && alpha > 0.01F;
 
-        if (renderBaseFill)) {
+        if (renderBaseFill) {
             worldRenderer.begin(7, VertexFormats.POSITION_COLOR);
             worldRenderer.pos(innerLeft, innerTop, 0).color(0.0F, 0.0F, 0.0F, alpha).endVertex();
             worldRenderer.pos(innerLeft, innerBottom, 0).color(0.0F, 0.0F, 0.0F, alpha).endVertex();
@@ -468,7 +468,7 @@ public class Nametags extends Module {
             float red;
             float green;
             float blue;
-            if (borderColor != -1)) {
+            if (borderColor != -1) {
                 red = ((borderColor >> 16) & 255) / 255.0F;
                 green = ((borderColor >> 8) & 255) / 255.0F;
                 blue = (borderColor & 255) / 255.0F;
@@ -516,7 +516,7 @@ public class Nametags extends Module {
     private int[] findVisiblePlayerNameRange(String formattedText, String playerName) {
         String strippedText = stripFormattingCodes(formattedText);
         int nameStart = strippedText.indexOf(playerName);
-        if (nameStart < 0)) {
+        if (nameStart < 0) {
             return new int[] {-1, -1};
         }
         return new int[] {nameStart, nameStart + playerName.length()};
@@ -536,7 +536,7 @@ public class Nametags extends Module {
     }
 
     private String getSelectedFontName() {
-        if (font == null)) {
+        if (font == null) {
             return FONT_OPTIONS[0];
         }
 
@@ -563,7 +563,7 @@ public class Nametags extends Module {
         name = name + " " + color + valueStr + heartSuffix;
 
         float absorption = entity.getAbsorptionAmount();
-        if (absorption > 0)) {
+        if (absorption > 0) {
             float absDisplay = heartsMode ? absorption / 2.0f : absorption;
             String absStr = fastOneDecimal(absDisplay);
             String absSuffix = heartsMode && showHeartSymbol.isToggled() ? " \u2764" : "";
@@ -575,7 +575,7 @@ public class Nametags extends Module {
 
     private String fastOneDecimal(float value) {
         int whole = (int) value;
-        if (value == whole)) {
+        if (value == whole) {
             return String.valueOf(whole);
         }
         int tenths = Math.round(value * 10.0F);
@@ -585,7 +585,7 @@ public class Nametags extends Module {
     }
 
     private void renderItemStack(ItemStack stack, int xPos, int yPos, TextRenderer fontRenderer) {
-        if (stack == null)) {
+        if (stack == null) {
             return;
         }
 
@@ -601,7 +601,7 @@ public class Nametags extends Module {
 
         RenderSystem.disableDepth();
 
-        if (stack.stackSize > 1)) {
+        if (stack.stackSize > 1) {
             String countStr = String.valueOf(stack.stackSize);
             fontRenderer.drawStringWithShadow(countStr, xPos + 17 - fontRenderer.getStringWidth(countStr), yPos + 9, 0xFFFFFF);
         }
@@ -632,19 +632,19 @@ public class Nametags extends Module {
         String[] abbreviations;
         Item item = stack.getItem();
 
-        if (item instanceof ItemArmor)) {
+        if (item instanceof ItemArmor) {
             ids = ARMOR_ENCHANT_IDS;
             abbreviations = ARMOR_ENCHANT_ABBR;
         }
-        else if (item instanceof SwordItem)) {
+        else if (item instanceof SwordItem) {
             ids = SWORD_ENCHANT_IDS;
             abbreviations = SWORD_ENCHANT_ABBR;
         }
-        else if (item instanceof BowItem)) {
+        else if (item instanceof BowItem) {
             ids = BOW_ENCHANT_IDS;
             abbreviations = BOW_ENCHANT_ABBR;
         }
-        else if (item instanceof ItemTool)) {
+        else if (item instanceof ItemTool) {
             ids = TOOL_ENCHANT_IDS;
             abbreviations = TOOL_ENCHANT_ABBR;
         }
@@ -658,7 +658,7 @@ public class Nametags extends Module {
 
         for (int i = 0; i < ids.length; i++) {
             int level = EnchantmentHelper.getEnchantmentLevel(ids[i], stack);
-            if (level <= 0)) {
+            if (level <= 0) {
                 continue;
             }
 
@@ -674,7 +674,7 @@ public class Nametags extends Module {
     }
 
     private int colorForEnchantLevel(int level) {
-        if (level <= 5)) {
+        if (level <= 5) {
             if (level == 1) return 0xFFFFFF;
             if (level == 2) return 0x55FFFF;
             if (level == 3) return 0x00AAAA;

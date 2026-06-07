@@ -25,8 +25,8 @@ public class Holdlook extends Module {
     public void onClientTick(TickEvent.ClientTickEvent e) {
         if (e.phase != TickEvent.Phase.START || !Utils.nullCheck()) return;
 
-        if (mc.currentScreen != null)) {
-            if (rearActive || frontActive)) {
+        if (mc.currentScreen != null) {
+            if (rearActive || frontActive) {
                 applyThirdPersonView(0);
                 rearActive = false;
                 frontActive = false;
@@ -37,22 +37,22 @@ public class Holdlook extends Module {
         boolean rearDown = rearCamKey.isPressed();
         boolean frontDown = frontCamKey.isPressed();
 
-        if (rearDown && !rearActive)) {
+        if (rearDown && !rearActive) {
             savedPerspective = mc.options.thirdPersonView;
             applyThirdPersonView(1);
             rearActive = true;
-        } else if (!rearDown && rearActive)) {
+        } else if (!rearDown && rearActive) {
             applyThirdPersonView(frontActive ? 2 : 0);
             rearActive = false;
         }
 
-        if (frontDown && !frontActive)) {
-            if (!rearActive)) {
+        if (frontDown && !frontActive) {
+            if (!rearActive) {
                 savedPerspective = mc.options.thirdPersonView;
             }
             applyThirdPersonView(2);
             frontActive = true;
-        } else if (!frontDown && frontActive)) {
+        } else if (!frontDown && frontActive) {
             applyThirdPersonView(rearActive ? 1 : 0);
             frontActive = false;
         }
@@ -60,7 +60,7 @@ public class Holdlook extends Module {
 
     @Override
     public void onDisable() {
-        if (rearActive || frontActive)) {
+        if (rearActive || frontActive) {
             applyThirdPersonView(0);
             rearActive = false;
             frontActive = false;
@@ -68,21 +68,21 @@ public class Holdlook extends Module {
     }
 
     private void applyThirdPersonView(int view) {
-        if (view < 0)) {
+        if (view < 0) {
             view = 0;
-        } else if (view > 2)) {
+        } else if (view > 2) {
             view = 2;
         }
 
         mc.options.thirdPersonView = view;
-        if (mc.entityRenderer != null)) {
-            if (view == 0)) {
+        if (mc.entityRenderer != null) {
+            if (view == 0) {
                 mc.entityRenderer.loadEntityShader(mc.getRenderViewEntity());
-            } else if (view == 1)) {
+            } else if (view == 1) {
                 mc.entityRenderer.loadEntityShader((Entity) null);
             }
         }
-        if (mc.renderGlobal != null)) {
+        if (mc.renderGlobal != null) {
             mc.renderGlobal.setDisplayListEntitiesDirty();
         }
     }

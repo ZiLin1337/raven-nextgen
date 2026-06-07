@@ -70,7 +70,7 @@ public class ShaderUtils {
                                       "#define offset direction * texelSize\n" +
                                       "\n" +
                                       "void main() {\n" +
-                                      "    if (direction.y == 1 && avoidTexture)) {\n" +
+                                      "    if (direction.y == 1 && avoidTexture) {\n" +
                                       "        if (texture2D(textureToCheck, gl_TexCoord[0].st).a != 0.0) discard;\n" +
                                       "    }\n" +
                                       "    vec4 innerColor = texture2D(textureIn, gl_TexCoord[0].st);\n" +
@@ -342,7 +342,7 @@ public class ShaderUtils {
                                             "    if (tex_coord.x < 0.5 && tex_coord.y > 0.5 && u_edges.x == 0.0 ||\n" +
                                             "        tex_coord.x > 0.5 && tex_coord.y > 0.5 && u_edges.y == 0.0 ||\n" +
                                             "        tex_coord.x > 0.5 && tex_coord.y < 0.5 && u_edges.z == 0.0 ||\n" +
-                                            "        tex_coord.x < 0.5 && tex_coord.y < 0.5 && u_edges.w == 0.0)) {\n" +
+                                            "        tex_coord.x < 0.5 && tex_coord.y < 0.5 && u_edges.w == 0.0) {\n" +
                                             "        gl_FragColor = u_color;\n" +
                                             "    } else {\n" +
                                             "        gl_FragColor = vec4(u_color.rgb, u_color.a * smoothstep(1.0, 0.0, length(max((abs(tex_coord - 0.5) + 0.5) * u_size - u_size + u_radius, 0.0)) - u_radius + 0.5));\n" +
@@ -412,7 +412,7 @@ public class ShaderUtils {
         glLinkProgram(program);
         int status = glGetProgrami(program, GL_LINK_STATUS);
 
-        if (status == 0)) {
+        if (status == 0) {
             throw new IllegalStateException("Shader failed to link!");
         }
         this.programID = program;
@@ -461,7 +461,7 @@ public class ShaderUtils {
 
     public void setUniformf(String name, float... args) {
         int loc = getUniformLocation(name);
-        if (loc == -1)) {
+        if (loc == -1) {
             return;
         }
         switch (args.length) {
@@ -482,7 +482,7 @@ public class ShaderUtils {
 
     public void setUniformi(String name, int... args) {
         int loc = getUniformLocation(name);
-        if (loc == -1)) {
+        if (loc == -1) {
             return;
         }
         if (args.length > 1) glUniform2i(loc, args[0], args[1]);
@@ -491,7 +491,7 @@ public class ShaderUtils {
 
     private int getUniformLocation(String name) {
         Integer cachedLocation = uniformLocations.get(name);
-        if (cachedLocation != null)) {
+        if (cachedLocation != null) {
             return cachedLocation;
         }
 

@@ -44,7 +44,7 @@ public class SumoFences extends Module {
     }
 
     public void onDisable() {
-        if (this.timer != null)) {
+        if (this.timer != null) {
             this.timer.cancel();
             this.timer.purge();
             this.timer = null;
@@ -64,14 +64,14 @@ public class SumoFences extends Module {
     public void onMouse(MouseEvent e) {
         if (e.buttonstate && (e.button == 0 || e.button == 1) && Utils.nullCheck() && this.isSumo()) {
             HitResult over = mc.objectMouseOver;
-            if (over != null && over.typeOfHit == MovingObjectType.BLOCK)) {
+            if (over != null && over.typeOfHit == MovingObjectType.BLOCK) {
                 int x = over.getBlockPos().getX();
                 int z = over.getBlockPos().getZ();
 
                 for (BlockPos pos : f_p) {
                     if (pos.getX() == x && pos.getZ() == z) {
                         e.setCanceled(true);
-                        if (e.button == 0)) {
+                        if (e.button == 0) {
                             Utils.setSwinging();
                         }
                         Mouse.poll();

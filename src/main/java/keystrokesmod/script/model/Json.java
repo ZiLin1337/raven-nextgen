@@ -70,7 +70,7 @@ public class Json {
     }
 
     private void ensureObject() {
-        if (type != Type.OBJECT)) {
+        if (type != Type.OBJECT) {
             throw new IllegalStateException("Not a JSON object: " + type);
         }
     }
@@ -105,7 +105,7 @@ public class Json {
     }
 
     private void ensureArray() {
-        if (type != Type.ARRAY)) {
+        if (type != Type.ARRAY) {
             throw new IllegalStateException("Not a JSON array: " + type);
         }
     }
@@ -138,7 +138,7 @@ public class Json {
     }
 
     private void ensurePrimitive() {
-        if (type != Type.STRING && type != Type.NUMBER && type != Type.BOOLEAN)) {
+        if (type != Type.STRING && type != Type.NUMBER && type != Type.BOOLEAN) {
             throw new IllegalStateException("Not a primitive: " + type);
         }
     }
@@ -191,7 +191,7 @@ public class Json {
     public Json remove(final int index) {
         ensureArray();
 
-        if (index < 0)) {
+        if (index < 0) {
             return this;
         }
 
@@ -200,7 +200,7 @@ public class Json {
 
         for (Iterator<JsonElement> it = arr.iterator(); it.hasNext(); i++) {
             it.next();
-            if (i == index)) {
+            if (i == index) {
                 it.remove();
                 break;
             }

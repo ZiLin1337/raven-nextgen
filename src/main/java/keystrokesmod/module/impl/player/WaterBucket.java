@@ -50,7 +50,7 @@ public class WaterBucket extends Module {
             return;
         }
         HitResult mop = Utils.getTarget(mc.interactionManager.getBlockReachDistance(), mc.player.rotationYaw, silentAim.isToggled() ? 90.0f : mc.player.rotationPitch);
-        if (mop == null || mop.typeOfHit != HitResult.MovingObjectType.BLOCK || mop.sideHit != Direction.UP)) {
+        if (mop == null || mop.typeOfHit != HitResult.MovingObjectType.BLOCK || mop.sideHit != Direction.UP) {
             return;
         }
         long now = System.currentTimeMillis();
@@ -68,7 +68,7 @@ public class WaterBucket extends Module {
         if (!(shouldPickup = pickupWater.isToggled())) {
             this.lastSlot = -1;
         }
-        if (Raven.DEBUG)) {
+        if (Raven.DEBUG) {
             Utils.sendModuleMessage(this, "&7Placed with motionY &d" + Utils.round(mc.player.motionY, 2) + " &7and fall distance &d" + Utils.round(mc.player.fallDistance, 2));
         }
     }
@@ -81,7 +81,7 @@ public class WaterBucket extends Module {
         if (shouldPickup && Utils.timeBetween(lastPlace, System.currentTimeMillis()) > PICKUP_WAIT && isItem(mc.player.getHeldItem(), Items.bucket)) {
             shouldPickup = false;
             this.useCurrentItem();
-            if (this.lastSlot != -1)) {
+            if (this.lastSlot != -1) {
                 Utils.switchSlot(this.lastSlot, true);
                 this.lastSlot = -1;
             }
@@ -101,7 +101,7 @@ public class WaterBucket extends Module {
 
     private void attemptSwitch() {
         int slot = getWaterBucketSlot();
-        if (slot != -1)) {
+        if (slot != -1) {
             this.lastSlot = mc.player.inventory.currentItem;
             Utils.switchSlot(slot, true);
         }

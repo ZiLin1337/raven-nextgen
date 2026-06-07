@@ -29,7 +29,7 @@ public class SlyPort extends Module {
     @Override
     public void onEnable() {
         Entity en = this.getNearestTarget();
-        if (en != null)) {
+        if (en != null) {
             this.teleport(en);
         }
 
@@ -57,7 +57,7 @@ public class SlyPort extends Module {
         double dist = range + 1.0D;
 
         for (Entity entities : mc.world.getEntities()) {
-            if (entities == mc.player)) {
+            if (entities == mc.player) {
                 continue;
             }
             if (!(entities instanceof LivingEntity)) {
@@ -73,7 +73,7 @@ public class SlyPort extends Module {
                 continue;
             }
             double distance = mc.player.getDistanceSqToEntity(entities);
-            if (distance <= range && dist >= distance)) {
+            if (distance <= range && dist >= distance) {
                 dist = distance;
                 en = entities;
             }

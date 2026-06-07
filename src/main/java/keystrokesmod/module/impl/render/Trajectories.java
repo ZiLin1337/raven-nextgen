@@ -153,23 +153,23 @@ public class Trajectories extends Module {
     }
 
     private TrajectoryProps getProjectileProperties(Item item, PlayerEntity player, float partialTicks) {
-        if (item == Items.BOW)) {
+        if (item == Items.BOW) {
             float vel = getBowVelocity(partialTicks);
             return new TrajectoryProps(PhysicsModel.ARROW, 0.05, 0.99, ARROW_WATER_DRAG, 0.5, 0.5, 0.5, vel, false, true);
         }
-        if (item == Items.ender_pearl)) {
+        if (item == Items.ender_pearl) {
             return new TrajectoryProps(PhysicsModel.THROWABLE, 0.03, 0.99, THROWABLE_WATER_DRAG, 0.25, 0.25, 0.25, 1.5, true, false);
         }
-        if (item == Items.snowball || item == Items.egg)) {
+        if (item == Items.snowball || item == Items.egg) {
             return new TrajectoryProps(PhysicsModel.THROWABLE, 0.03, 0.99, THROWABLE_WATER_DRAG, 0.25, 0.25, 0.25, 1.5, true, false);
         }
-        if (item == Items.experience_bottle)) {
+        if (item == Items.experience_bottle) {
             return new TrajectoryProps(PhysicsModel.THROWABLE, 0.07, 0.99, THROWABLE_WATER_DRAG, 0.25, 0.25, 0.25, 0.7, true, false);
         }
-        if (item == Items.POTION)) {
+        if (item == Items.POTION) {
             return new TrajectoryProps(PhysicsModel.THROWABLE, 0.05, 0.99, THROWABLE_WATER_DRAG, 0.25, 0.25, 0.25, 0.5, true, false);
         }
-        if (item == Items.fishing_rod)) {
+        if (item == Items.fishing_rod) {
             return new TrajectoryProps(PhysicsModel.FISH_HOOK, 0.04, FISH_HOOK_DRAG, FISH_HOOK_DRAG, 0.25, 0.25, 0.25, 1.5, false, false);
         }
         return null;
@@ -306,7 +306,7 @@ public class Trajectories extends Module {
 
         mot[1] += FISH_HOOK_BUOYANCY_ACCELERATION * buoyancy;
 
-        if (waterSubmersion > 0.0D)) {
+        if (waterSubmersion > 0.0D) {
             drag *= FISH_HOOK_WATER_DRAG_MULTIPLIER;
             mot[1] *= FISH_HOOK_WATER_VERTICAL_DAMPING;
         }
@@ -317,12 +317,12 @@ public class Trajectories extends Module {
     }
 
     private void tickPostMoveVelocity(double posX, double posY, double posZ, TrajectoryProps props, FluidState fluidState, double[] mot) {
-        if (props.physicsModel == PhysicsModel.FISH_HOOK)) {
+        if (props.physicsModel == PhysicsModel.FISH_HOOK) {
             tickFishingHookVelocity(posX, posY, posZ, props, mot);
             return;
         }
 
-        if (fluidState.inLava && !fluidState.inWater)) {
+        if (fluidState.inLava && !fluidState.inWater) {
             // Vanilla 1.8.9 projectiles still use air drag in lava; lava only affects burning state.
         }
         tickVelocity(props, fluidState, mot);
@@ -356,7 +356,7 @@ public class Trajectories extends Module {
         double maxY = Math.min(first.maxY, second.maxY);
         double maxZ = Math.min(first.maxZ, second.maxZ);
 
-        if (maxX - minX <= 1.0E-7D || maxY - minY <= 1.0E-7D || maxZ - minZ <= 1.0E-7D)) {
+        if (maxX - minX <= 1.0E-7D || maxY - minY <= 1.0E-7D || maxZ - minZ <= 1.0E-7D) {
             return null;
         }
 
@@ -397,17 +397,17 @@ public class Trajectories extends Module {
 
                         for (Box collisionBox : collisionBoxes) {
                             Box projectileCollisionBox = intersectBoxes(collisionBox, vanillaProjectileBounds);
-                            if (projectileCollisionBox == null)) {
+                            if (projectileCollisionBox == null) {
                                 continue;
                             }
 
                             HitResult hit = projectileCollisionBox.calculateIntercept(start, end);
-                            if (hit == null)) {
+                            if (hit == null) {
                                 continue;
                             }
 
                             double distanceSq = start.squareDistanceTo(hit.hitVec);
-                            if (distanceSq + COLLISION_EPSILON_SQ < bestDistanceSq)) {
+                            if (distanceSq + COLLISION_EPSILON_SQ < bestDistanceSq) {
                                 bestDistanceSq = distanceSq;
                                 bestHit = new HitResult(hit.hitVec, hit.sideHit, new BlockPos(mutablePos));
                             }
@@ -425,7 +425,7 @@ public class Trajectories extends Module {
         double vanillaDistanceSq = vanillaHit != null ? start.squareDistanceTo(vanillaHit.hitVec) : Double.MAX_VALUE;
 
         BlockCollisionResult collisionBoxHit = rayTraceBlockCollisionBoxes(start, end, props);
-        if (collisionBoxHit.hit != null && collisionBoxHit.distanceSq + COLLISION_EPSILON_SQ < vanillaDistanceSq)) {
+        if (collisionBoxHit.hit != null && collisionBoxHit.distanceSq + COLLISION_EPSILON_SQ < vanillaDistanceSq) {
             return collisionBoxHit;
         }
 
@@ -448,13 +448,13 @@ public class Trajectories extends Module {
             double deltaZ = currentPoint[2] - previousPoint[2];
             double segmentLength = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
 
-            if (remainingDistance > 0.0D)) {
-                if (segmentLength <= 1.0E-7D)) {
+            if (remainingDistance > 0.0D) {
+                if (segmentLength <= 1.0E-7D) {
                     previousPoint = currentPoint;
                     continue;
                 }
 
-                if (segmentLength <= remainingDistance)) {
+                if (segmentLength <= remainingDistance) {
                     remainingDistance -= segmentLength;
                     previousPoint = currentPoint;
                     continue;
@@ -482,19 +482,19 @@ public class Trajectories extends Module {
         ItemStack held = player.getHeldItem();
         if (held == null) return null;
         Item item = held.getItem();
-        if (item == Items.ender_pearl || item == Items.snowball || item == Items.egg || item == Items.experience_bottle)) {
+        if (item == Items.ender_pearl || item == Items.snowball || item == Items.egg || item == Items.experience_bottle) {
             return held;
         }
-        if (item == Items.POTION)) {
+        if (item == Items.POTION) {
             if (ItemPotion.isSplash(held.getMetadata())) {
                 return held;
             }
             return null;
         }
-        if (item instanceof BowItem)) {
+        if (item instanceof BowItem) {
             return held;
         }
-        if (item == Items.fishing_rod)) {
+        if (item == Items.fishing_rod) {
             return held;
         }
         return null;
@@ -547,7 +547,7 @@ public class Trajectories extends Module {
         }
 
         double[] mot = new double[]{motX, motY, motZ};
-        if (props.requiresInitialTickCorrection)) {
+        if (props.requiresInitialTickCorrection) {
             FluidState fluidState = sampleFluidState(posX, posY, posZ, props);
             applyWaterFlowAcceleration(fluidState, mot);
             tickVelocity(props, fluidState, mot);
@@ -611,14 +611,14 @@ public class Trajectories extends Module {
                 if (mop == null) continue;
 
                 double dSq = start.squareDistanceTo(mop.hitVec);
-                if (dSq + COLLISION_EPSILON_SQ < bestDistSq)) {
+                if (dSq + COLLISION_EPSILON_SQ < bestDistSq) {
                     bestDistSq = dSq;
                     bestEntity = en;
                     bestHitVec = mop.hitVec;
                     bestBox = expandedEntityBox;
                 }
             }
-            if (bestEntity != null)) {
+            if (bestEntity != null) {
                 double hitT = Math.sqrt(bestDistSq) / Math.sqrt(motX * motX + motY * motY + motZ * motZ);
                 hitT = Math.max(0, Math.min(1, hitT));
                 int subCount = (int) Math.ceil(hitT * SUB);
@@ -633,7 +633,7 @@ public class Trajectories extends Module {
                 hitPos = bestHitVec;
                 break outer;
             }
-            if (blockMop != null)) {
+            if (blockMop != null) {
                 Vec3d hitVec = blockMop.hitVec;
                 int side = blockMop.sideHit.getIndex();
                 hitType = (side == 0 || side == 1) ? HIT_GROUND : HIT_WALL;
@@ -673,7 +673,7 @@ public class Trajectories extends Module {
             if (posY < -64) break;
         }
 
-        if (hitPos == null && props.physicsModel == PhysicsModel.FISH_HOOK && terminalPos != null)) {
+        if (hitPos == null && props.physicsModel == PhysicsModel.FISH_HOOK && terminalPos != null) {
             hitPos = terminalPos;
         }
 
@@ -720,7 +720,7 @@ public class Trajectories extends Module {
         } else if (hitBlock != null && !showLanding.isToggled()) {
             BlockPos bpos = hitBlock.getBlockPos();
             Box selBox = BlockUtils.getBlockSelectionBox(bpos);
-            if (selBox != null)) {
+            if (selBox != null) {
                 RenderSystem.setShaderColor(r, g, b, 1.0f);
                 RenderUtils.drawOutlinedBox(selBox, rm.viewerPosX, rm.viewerPosY, rm.viewerPosZ);
             }

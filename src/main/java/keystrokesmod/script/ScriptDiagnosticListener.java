@@ -18,7 +18,7 @@ public class ScriptDiagnosticListener implements DiagnosticListener<JavaFileObje
             Utils.sendDebugMessage("§cError loading script §b" + Utils.extractFileName(((JavaSourceFromString) diagnostic.getSource()).name));
         }
         final JavaFileObject javaFileObject = diagnostic.getSource();
-        if (javaFileObject != null)) {
+        if (javaFileObject != null) {
             int indentIndex = message.indexOf("\n");
             String error = diagnostic.getMessage(Locale.getDefault());
             Utils.sendDebugMessage(" §7err: §c" + (indentIndex == -1 ? error : error.substring(0, indentIndex)));
@@ -27,7 +27,7 @@ public class ScriptDiagnosticListener implements DiagnosticListener<JavaFileObje
             int startPos = (int) diagnostic.getStartPosition();
             int endPos = (int) diagnostic.getEndPosition();
             int srcIndentIndex = sourceContent.indexOf("\n", startPos);
-            if (srcIndentIndex != -1)) {
+            if (srcIndentIndex != -1) {
                 Utils.sendDebugMessage(" §7src: §c" + sourceContent.substring(startPos, srcIndentIndex));
             }
             else {

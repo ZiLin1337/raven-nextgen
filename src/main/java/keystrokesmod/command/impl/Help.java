@@ -15,7 +15,7 @@ public class Help extends Command {
         if (input.argumentCount() > 0) {
             String query = input.getArgument(0);
             Module module = Raven.moduleManager.getModule(query);
-            if (module != null)) {
+            if (module != null) {
                 Utils.sendMessage("&7Module: &b" + module.getName());
                 Utils.sendMessage("&7  Keybind: &b" + module.getBind());
                 Utils.sendMessage("&7  Category: &b" + module.moduleCategory().name());

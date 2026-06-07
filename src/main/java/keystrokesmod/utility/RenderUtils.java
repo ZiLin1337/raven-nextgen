@@ -98,11 +98,11 @@ public class RenderUtils implements IMinecraftInstance {
             double yPos = blockPos.getY() - vy;
             double zPos = blockPos.getZ() + 0.0625 - vz;
             Box axisAlignedBB = new Box(xPos, yPos, zPos, xPos + 0.875, yPos + 0.875, zPos + 0.875);
-            if (outline)) {
+            if (outline) {
                 RenderSystem.setShaderColor(outlineR, outlineG, outlineB, outlineA);
                 // drawSelectionBoundingBox moved: axisAlignedBB);
             }
-            if (shade)) {
+            if (shade) {
                 drawBoundingBox(axisAlignedBB);
             }
         }
@@ -142,7 +142,7 @@ public class RenderUtils implements IMinecraftInstance {
         int glTop = (int) Math.ceil((screenH - y) * scale);
         int scaledHeight = Math.max(0, glTop - glBottom);
 
-        if (scaledWidth < 0 || scaledHeight < 0)) {
+        if (scaledWidth < 0 || scaledHeight < 0) {
             return;
         }
 
@@ -174,7 +174,7 @@ public class RenderUtils implements IMinecraftInstance {
         boolean wasEnabled = // GL11.isEnabled replaced(// // GL11 constant);
         int[] saved = scissorPushStack[scissorPushDepth++];
         if (scissorPushDepth > SCISSOR_PUSH_STACK_DEPTH) throw new IllegalStateException("Scissor stack overflow");
-        if (wasEnabled)) {
+        if (wasEnabled) {
             SCISSOR_PUSH_BUF.clear();
             // GL11.getInteger replaced(// // GL11 constant, SCISSOR_PUSH_BUF);
             saved[0] = 1;
@@ -196,7 +196,7 @@ public class RenderUtils implements IMinecraftInstance {
 
     public static void scissorPop() {
         int[] saved = scissorPushStack[--scissorPushDepth];
-        if (saved[0] == 1)) {
+        if (saved[0] == 1) {
             RenderSystem.scissor(saved[1], saved[2], saved[3], saved[4]);
         } else {
             // GL_SCISSOR_TEST (removed);
@@ -330,10 +330,10 @@ public class RenderUtils implements IMinecraftInstance {
         float n11 = (color & 0xFF) / 255.0f;
         RenderSystem.setShaderColor(n9, n10, n11, n8);
         Box axisAlignedBB = new Box(xPos, yPos, zPos, xPos + x2, yPos + y2, zPos + z2);
-        if (outline)) {
+        if (outline) {
             // drawSelectionBoundingBox moved: axisAlignedBB);
         }
-        if (shade)) {
+        if (shade) {
             drawBoundingBox(axisAlignedBB);
         }
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -371,7 +371,7 @@ public class RenderUtils implements IMinecraftInstance {
         RenderSystem.depthMask(false);
         Tessellator ts = Tessellator.getInstance();
         BufferBuilder vb = ts.getBuffer();
-        if (shade)) {
+        if (shade) {
             vb.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
             if (faces.contains(Direction.DOWN)) {
                 vb.pos(xPos, yPos, zPos).color(r, g, b, shadeA).next();
@@ -411,7 +411,7 @@ public class RenderUtils implements IMinecraftInstance {
             }
             ts.draw();
         }
-        if (outline)) {
+        if (outline) {
             RenderSystem.setShaderColor(r, g, b, outlineA);
             vb.begin(VertexFormat.DrawMode.LINES, VertexFormats.POSITION);
             if (faces.contains(Direction.DOWN)) {
@@ -511,12 +511,12 @@ public class RenderUtils implements IMinecraftInstance {
     public static void drawBoxFace(Box box, Direction face, int overlayColor, int outlineColor, boolean overlay, boolean outline) {
         Tessellator ts = Tessellator.getInstance();
         BufferBuilder wr = ts.getBuffer();
-        if (overlay)) {
+        if (overlay) {
             wr.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
             drawBoxFaceVertices(wr, face, box, overlayColor, overlayColor);
             ts.draw();
         }
-        if (outline)) {
+        if (outline) {
             wr.begin(VertexFormat.DrawMode.LINES, VertexFormats.POSITION_COLOR);
             drawBoxFaceVertices(wr, face, box, outlineColor, outlineColor);
             ts.draw();
@@ -558,18 +558,18 @@ public class RenderUtils implements IMinecraftInstance {
         final ScaledResolution scaledResolution = new ScaledResolution(mc);
         String s = "";
         int n = -1;
-        if (b)) {
+        if (b) {
             final double t = Utils.gbps((Freecam.freeEntity == null) ? mc.player : Freecam.freeEntity, 2);
-            if (t < 10.0)) {
+            if (t < 10.0) {
                 n = Color.green.getRGB();
             }
-            else if (t < 30.0)) {
+            else if (t < 30.0) {
                 n = Color.yellow.getRGB();
             }
-            else if (t < 60.0)) {
+            else if (t < 60.0) {
                 n = Color.orange.getRGB();
             }
-            else if (t < 160.0)) {
+            else if (t < 160.0) {
                 n = Color.red.getRGB();
             }
             else {
@@ -577,7 +577,7 @@ public class RenderUtils implements IMinecraftInstance {
             }
             s = s + t + "bps";
         }
-        if (b2)) {
+        if (b2) {
             final double h = Utils.getHorizontalSpeed();
             if (!s.isEmpty()) {
                 s += " ";
@@ -588,7 +588,7 @@ public class RenderUtils implements IMinecraftInstance {
     }
 
     public static void renderEntity(Entity e, int type, double expand, double shift, int color, boolean damage) {
-        if (e instanceof LivingEntity)) {
+        if (e instanceof LivingEntity) {
             float partialTicks = ((IAccessorMinecraft) mc).getLastFrameDuration();
             double x = e.prevX + (e.getX() - e.prevX) * (double) partialTicks - mc.getEntityRenderDispatcher().camera.getPos().x;
             double y = e.prevY + (e.getY() - e.prevY) * (double) partialTicks - mc.getEntityRenderDispatcher().camera.getPos().y;
@@ -599,7 +599,7 @@ public class RenderUtils implements IMinecraftInstance {
             }
 
             RenderSystem.getModelViewStack().pushMatrix();
-            if (type == 3)) {
+            if (type == 3) {
                 RenderSystem.translate(x, y - 0.2D, z);
                 RenderSystem.rotate((double) (-mc.getEntityRenderDispatcher().camera.getYaw()), 0.0D, 1.0D, 0.0D);
                 RenderSystem.disableDepth();
@@ -609,7 +609,7 @@ public class RenderUtils implements IMinecraftInstance {
                 DrawContextHelper.drawRect(20, -1, 26, 75, outline);
                 DrawContextHelper.drawRect(-20, -1, 21, 5, outline);
                 DrawContextHelper.drawRect(-20, 70, 21, 75, outline);
-                if (color != 0)) {
+                if (color != 0) {
                     DrawContextHelper.drawRect(-21, 0, -25, 74, color);
                     DrawContextHelper.drawRect(21, 0, 25, 74, color);
                     DrawContextHelper.drawRect(-21, 0, 24, 4, color);
@@ -628,7 +628,7 @@ public class RenderUtils implements IMinecraftInstance {
             }
             else {
                 int i;
-                if (type == 4)) {
+                if (type == 4) {
                     LivingEntity en = (LivingEntity) e;
                     double health = en.getHealth() / en.getMaxHealth();
                     int barHeight = (int) (74.0D * health);
@@ -643,11 +643,11 @@ public class RenderUtils implements IMinecraftInstance {
                     DrawContextHelper.drawRect(i + 1, 0, i + 3, barHeight, healthColor);
                     RenderSystem.enableDepth();
                 }
-                else if (type == 6)) {
+                else if (type == 6) {
                     DrawContextHelper.drawCircle(x, y, z, 0.699999988079071D, 45, 1.5F, color, color == 0);
                 }
                 else {
-                    if (color == 0)) {
+                    if (color == 0) {
                         color = Utils.getChroma(2L, 0L);
                     }
 
@@ -664,9 +664,9 @@ public class RenderUtils implements IMinecraftInstance {
                     RenderSystem.depthMask(false);
                     RenderSystem.lineWidth(2.0F);
                     RenderSystem.setShaderColor(r, g, b, a);
-                    if (type == 1)) {
+                    if (type == 1) {
                         // drawSelectionBoundingBox moved: axis);
-                    } else if (type == 2)) {
+                    } else if (type == 2) {
                         drawBoundingBox(axis);
                     }
                     RenderSystem.enableTexture();
@@ -680,7 +680,7 @@ public class RenderUtils implements IMinecraftInstance {
     }
 
     public static void drawPolygon(final double n, final double n2, final double n3, final int n4, final int n5) {
-        if (n4 < 3)) {
+        if (n4 < 3) {
             return;
         }
         final float n6 = (n5 >> 24 & 0xFF) / 255.0f;
@@ -856,10 +856,10 @@ public class RenderUtils implements IMinecraftInstance {
         }
 
         Entity viewEntity = mc.getRenderViewEntity();
-        if (viewEntity == null)) {
+        if (viewEntity == null) {
             viewEntity = mc.player;
         }
-        if (viewEntity == null)) {
+        if (viewEntity == null) {
             return;
         }
 
@@ -871,7 +871,7 @@ public class RenderUtils implements IMinecraftInstance {
         double startX = 0.0D;
         double startY = viewEntity.getEyeHeight();
         double startZ = 0.0D;
-        if (viewEntity == mc.player && mc.options.thirdPersonView == 0)) {
+        if (viewEntity == mc.player && mc.options.thirdPersonView == 0) {
             float yaw = viewEntity.rotationYaw;
             float pitch = viewEntity.rotationPitch;
             double dirX = -Math.sin(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch));
@@ -912,13 +912,13 @@ public class RenderUtils implements IMinecraftInstance {
 
     public static void drawGradientRect(int left, int top, int right, int bottom, int startColor, int endColor) {
         int j;
-        if (left < right)) {
+        if (left < right) {
             j = left;
             left = right;
             right = j;
         }
 
-        if (top < bottom)) {
+        if (top < bottom) {
             j = top;
             top = bottom;
             bottom = j;
@@ -963,7 +963,7 @@ public class RenderUtils implements IMinecraftInstance {
 
         for (int i = 0; i < text.length(); ++i) {
             char c = text.charAt(i);
-            if (c == lineSplit)) {
+            if (c == lineSplit) {
                 ++l;
                 x = bX;
                 y += fontRenderer.FONT_HEIGHT + 5;
@@ -972,7 +972,7 @@ public class RenderUtils implements IMinecraftInstance {
             else {
                 fontRenderer.draw(String.valueOf(c), (float) x, (float) y, Utils.getChroma(s, r), rect);
                 x += fontRenderer.getCharWidth(c);
-                if (c != ' ')) {
+                if (c != ' ') {
                     r -= 90L;
                 }
             }
@@ -993,7 +993,7 @@ public class RenderUtils implements IMinecraftInstance {
         // glEnable(2848);
         RenderSystem.depthMask(false);
         RenderSystem.lineWidth(lineWidth);
-        if (!chroma)) {
+        if (!chroma) {
             RenderSystem.setShaderColor(r, g, b, a);
         }
 
@@ -1003,9 +1003,9 @@ public class RenderUtils implements IMinecraftInstance {
         long hed = ed / 2L;
 
         for (int i = 0; i < sides * 2; ++i) {
-            if (chroma)) {
-                if (i % 2 != 0)) {
-                    if (i == 47)) {
+            if (chroma) {
+                if (i % 2 != 0) {
+                    if (i == 47) {
                         d = hed;
                     }
 
@@ -1078,7 +1078,7 @@ public class RenderUtils implements IMinecraftInstance {
         // GL11 replaced();
         RenderSystem.getModelViewStack().popMatrix();
         RenderSystem.enableTexture();
-        if (!blend)) {
+        if (!blend) {
             RenderSystem.disableBlend();
         }
         RenderSystem.disableBlend(2848);
@@ -1122,7 +1122,7 @@ public class RenderUtils implements IMinecraftInstance {
         GL11.glShadeModel(7425);
         RenderSystem.lineWidth(2.0f);
         // GL11 replaced(2);
-        if (n7 != 0L)) {
+        if (n7 != 0L) {
             glColor(n7);
         }
         for (int n13 = 0; n13 <= 90; n13 += 3) {
@@ -1133,7 +1133,7 @@ public class RenderUtils implements IMinecraftInstance {
             final double n16 = (double) (n15 * 0.017453292f);
             // GL11((double) (x + radius) + Math.sin(n16) * radius * -1.0, (double) (y2 - radius) + Math.cos(n16) * radius * -1.0);
         }
-        if (n8 != 0)) {
+        if (n8 != 0) {
             glColor(n8);
         }
         for (int n17 = 0; n17 <= 90; n17 += 3) {
@@ -1158,7 +1158,7 @@ public class RenderUtils implements IMinecraftInstance {
     }
 
     public static void draw2DPolygon(final double x, final double y, final double radius, final int sides, final int color) {
-        if (sides < 3)) {
+        if (sides < 3) {
             return;
         }
         final float a = (color >> 24 & 0xFF) / 255.0f;
@@ -1189,7 +1189,7 @@ public class RenderUtils implements IMinecraftInstance {
 
     public static Framebuffer createFrameBuffer(Framebuffer framebuffer, boolean depth) {
         if (needsNewFramebuffer(framebuffer)) {
-            if (framebuffer != null)) {
+            if (framebuffer != null) {
                 framebuffer.deleteFramebuffer();
             }
             return new Framebuffer(mc.getWindow().getFramebufferWidth(), mc.getWindow().getFramebufferHeight(), depth);
@@ -1261,7 +1261,7 @@ public class RenderUtils implements IMinecraftInstance {
                 SCREEN_COORDS
         );
 
-        if (result)) {
+        if (result) {
             return new Vec3d(SCREEN_COORDS.get(0) / scaleFactor, (Display.getHeight() - SCREEN_COORDS.get(1)) / scaleFactor, SCREEN_COORDS.get(2));
         }
 
@@ -1269,7 +1269,7 @@ public class RenderUtils implements IMinecraftInstance {
     }
 
     public static ProjectionContext captureProjectionContext(ProjectionContext context, int scaleFactor) {
-        if (context == null)) {
+        if (context == null) {
             context = new ProjectionContext();
         }
 
@@ -1287,7 +1287,7 @@ public class RenderUtils implements IMinecraftInstance {
     }
 
     public static boolean projectTo2D(ProjectionContext context, double x, double y, double z, double[] output) {
-        if (context == null || output == null || output.length < 3)) {
+        if (context == null || output == null || output.length < 3) {
             return false;
         }
 
@@ -1302,7 +1302,7 @@ public class RenderUtils implements IMinecraftInstance {
                 context.screenCoords
         );
 
-        if (!result)) {
+        if (!result) {
             return false;
         }
 
@@ -1313,13 +1313,13 @@ public class RenderUtils implements IMinecraftInstance {
     }
 
     public static void drawRoundedRectangle(float x, float y, float x2, float y2, float radius, final int color) {
-        if (x2 <= x)) {
+        if (x2 <= x) {
             return;
         }
 
         float width = x2 - x;
 
-        if (width < 3)) {
+        if (width < 3) {
             radius = Math.min(radius, width / 2.0f);
         }
 
@@ -1343,7 +1343,7 @@ public class RenderUtils implements IMinecraftInstance {
             final double n8 = (double) (j * 0.017453292f);
             // GL11((double) (x + radius) + Math.sin(n8) * radius * -1.0, (double) (y2 - radius) + Math.cos(n8) * radius * -1.0);
         }
-        if (x2 - x >= 4.5)) {
+        if (x2 - x >= 4.5) {
             for (int k = 0; k <= 90; k += 1) {
                 final double n9 = (double) (k * 0.017453292f);
                 // GL11((double) (x2 - radius) + Math.sin(n9) * radius, (double) (y2 - radius) + Math.cos(n9) * radius);
@@ -1385,13 +1385,13 @@ public class RenderUtils implements IMinecraftInstance {
     }
 
     public static void drawRoundedGradientRect(float x, float y, float x2, float y2, float radius, final int n6, final int n7, final int n8, final int n9) {
-        if (x2 <= x)) {
+        if (x2 <= x) {
             return;
         }
 
         float width = x2 - x;
 
-        if (width < 3)) {
+        if (width < 3) {
             radius = Math.min(radius, width / 2.0f);
         }
 
@@ -1422,7 +1422,7 @@ public class RenderUtils implements IMinecraftInstance {
             final double n11 = j * 0.017453292f;
             // GL11((double) (x + radius) + Math.sin(n11) * radius * -1.0, (double) (y2 - radius) + Math.cos(n11) * radius * -1.0);
         }
-        if (x2 - x >= 4.5)) {
+        if (x2 - x >= 4.5) {
             glColor(n8);
             for (int k = 0; k <= 90; k += 3) {
                 final double n12 = k * 0.017453292f;
@@ -1450,7 +1450,7 @@ public class RenderUtils implements IMinecraftInstance {
     }
 
     public static int setAlpha(int rgb, double alpha) {
-        if (alpha < 0 || alpha > 1)) {
+        if (alpha < 0 || alpha > 1) {
             alpha = 0.5;
         }
 
@@ -1749,12 +1749,12 @@ public class RenderUtils implements IMinecraftInstance {
      */
     public static Identifier getIcon(String resourcePath) {
         Identifier cached = iconCache.get(resourcePath);
-        if (cached != null)) {
+        if (cached != null) {
             return cached;
         }
         String registryName = "raven_icon_" + resourcePath.hashCode();
         Identifier icon = buildWhiteMaskedTexture(resourcePath, registryName, null);
-        if (icon != null)) {
+        if (icon != null) {
             iconCache.put(resourcePath, icon);
         }
         return icon;
@@ -1765,7 +1765,7 @@ public class RenderUtils implements IMinecraftInstance {
      * Saves and restores depth/blend state automatically.
      */
     public static void drawIcon(Identifier texture, float x, float y, int size, int argbColor) {
-        if (texture == null)) {
+        if (texture == null) {
             return;
         }
         boolean depthEnabled = // GL11.isEnabled replaced(// // GL11 constant);
@@ -1790,12 +1790,12 @@ public class RenderUtils implements IMinecraftInstance {
 
     public static void restoreGuiRenderState(boolean depthEnabled, boolean blendEnabled, boolean depthMask) {
         RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
-        if (blendEnabled)) {
+        if (blendEnabled) {
             RenderSystem.enableBlend();
         } else {
             RenderSystem.disableBlend();
         }
-        if (depthEnabled)) {
+        if (depthEnabled) {
             RenderSystem.enableDepth();
         } else {
             RenderSystem.disableDepth();

@@ -77,12 +77,12 @@ public class AutoSwap extends Module {
             return;
         }
 
-        if (trackedStack == null || lastPlaceSlot == -1 || mc.player.inventory.currentItem != lastPlaceSlot)) {
+        if (trackedStack == null || lastPlaceSlot == -1 || mc.player.inventory.currentItem != lastPlaceSlot) {
             return;
         }
 
         ItemStack held = mc.player.getHeldItem();
-        if (held != null && held.stackSize > 0)) {
+        if (held != null && held.stackSize > 0) {
             return;
         }
 
@@ -92,7 +92,7 @@ public class AutoSwap extends Module {
 
         long now = System.currentTimeMillis();
         for (int slot = 8; slot >= 0; --slot) {
-            if (slot == lastSwapSlot && now - lastSwapTime < 300L)) {
+            if (slot == lastSwapSlot && now - lastSwapTime < 300L) {
                 continue;
             }
 
@@ -119,7 +119,7 @@ public class AutoSwap extends Module {
 
         Block block = ((BlockItem) stack.getItem()).getBlock();
         Object registryName = Registries.BLOCK.getNameForObject(block);
-        if (block == null || registryName == null)) {
+        if (block == null || registryName == null) {
             return false;
         }
 
@@ -142,7 +142,7 @@ public class AutoSwap extends Module {
     }
 
     private void swapToSlot(int slot) {
-        if (slot == -1 || slot == mc.player.inventory.currentItem)) {
+        if (slot == -1 || slot == mc.player.inventory.currentItem) {
             return;
         }
 

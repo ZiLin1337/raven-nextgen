@@ -71,12 +71,12 @@ public class FallView extends Module {
 
     
     public void onClientTick(TickEvent.ClientTickEvent ev) {
-        if (ev.phase != TickEvent.Phase.END)) {
+        if (ev.phase != TickEvent.Phase.END) {
             return;
         }
 
         clearOverlayState();
-        if (mc.currentScreen != null)) {
+        if (mc.currentScreen != null) {
             return;
         }
         if (!Utils.nullCheck() || mc.player.capabilities.isCreativeMode) {
@@ -90,25 +90,25 @@ public class FallView extends Module {
         }
 
         boolean onGround = mc.player.onGround;
-        if (onGround)) {
+        if (onGround) {
             fallStartY = -1;
             groundY = -1;
             cachedFallDistance = 0;
         }
-        else if (fallStartY == -1)) {
+        else if (fallStartY == -1) {
             fallStartY = mc.player.getY();
             groundY = findGroundY(mc.player.getX(), mc.player.getZ());
         }
         else {
             double newGroundY = findGroundY(mc.player.getX(), mc.player.getZ());
-            if (newGroundY != groundY)) {
+            if (newGroundY != groundY) {
                 groundY = newGroundY;
                 cachedFallDistance = 0;
             }
         }
 
         float fallDistance = calculateFallDistance();
-        if (fallDistance <= 2.5f)) {
+        if (fallDistance <= 2.5f) {
             return;
         }
 
@@ -126,10 +126,10 @@ public class FallView extends Module {
         for (int i = 0; i < 4; i++) {
             ItemStack currentArmor = mc.player.inventory.armorItemInSlot(i);
             armorInventory[i] = currentArmor;
-            if (cachedArmorInventory[i] != currentArmor)) {
+            if (cachedArmorInventory[i] != currentArmor) {
                 armorChanged = true;
             }
-            if (currentArmor != null)) {
+            if (currentArmor != null) {
                 armorHash = armorHash * 31 + (currentArmor.getItem() != null ? currentArmor.getItem().hashCode() : 0);
                 armorHash = armorHash * 31 + currentArmor.getItemDamage();
                 armorHash = armorHash * 31 + EnchantmentHelper.getEnchantmentLevel(
@@ -140,11 +140,11 @@ public class FallView extends Module {
         }
 
         int enchantmentModifier = cachedEnchantmentModifier;
-        if (armorChanged || !armorCacheValid)) {
+        if (armorChanged || !armorCacheValid) {
             long totalModifier = 0;
             for (int i = 0; i < 100; i++) {
                 int mod = EnchantmentHelper.getEnchantmentModifierDamage(armorInventory, DamageSource.fall);
-                if (mod > 20)) {
+                if (mod > 20) {
                     mod = 20;
                 }
                 totalModifier += mod;
@@ -161,20 +161,20 @@ public class FallView extends Module {
         DamageCacheKey cacheKey = new DamageCacheKey(armorHash, fallDistance, jumpBoostLevel, resistanceLevel);
         Integer cachedFinalDamage = damageCache.get(cacheKey);
         int finalDamage;
-        if (cachedFinalDamage != null)) {
+        if (cachedFinalDamage != null) {
             finalDamage = cachedFinalDamage;
         }
         else {
             float damagePoints = fallDistance - 3.0f - jumpAmplifier;
             double damage = Math.max(0, MathHelper.ceiling_double_int(damagePoints));
 
-            if (hasResistance && damage > 0)) {
+            if (hasResistance && damage > 0) {
                 int resistanceReduction = resistanceLevel * 5;
                 int damageMultiplier = 25 - resistanceReduction;
                 damage = damageMultiplier * damage / 25.0;
             }
 
-            if (damage > 0 && enchantmentModifier > 0)) {
+            if (damage > 0 && enchantmentModifier > 0) {
                 damage = (25 - enchantmentModifier) * damage / 25.0;
             }
 
@@ -217,12 +217,12 @@ public class FallView extends Module {
         if (ev.phase != TickEvent.Phase.END || mc.currentScreen != null || !Utils.nullCheck()) {
             return;
         }
-        if (!showDamageText && !showDistanceText)) {
+        if (!showDamageText && !showDistanceText) {
             return;
         }
 
          scaledResolution = /* ScaledResolution removed in 1.21.4 */ null;
-        if (showDamageText && damageText != null)) {
+        if (showDamageText && damageText != null) {
             mc.textRenderer.drawStringWithShadow(
                     damageText,
                     scaledResolution.getScaledWidth() / 2 - mc.textRenderer.getStringWidth(damageText) / 2,
@@ -231,7 +231,7 @@ public class FallView extends Module {
             );
         }
 
-        if (showDistanceText && distanceText != null)) {
+        if (showDistanceText && distanceText != null) {
             mc.textRenderer.drawStringWithShadow(
                     distanceText,
                     scaledResolution.getScaledWidth() / 2 - mc.textRenderer.getStringWidth(distanceText) / 2,
@@ -242,16 +242,16 @@ public class FallView extends Module {
     }
 
     private float calculateFallDistance() {
-        if (fallStartY == -1 || groundY == -1)) {
+        if (fallStartY == -1 || groundY == -1) {
             double currentY = mc.player.getY();
             double ground = findGroundY(mc.player.getX(), mc.player.getZ());
-            if (ground == -1)) {
+            if (ground == -1) {
                 return 0;
             }
             return (float) Math.max(0, currentY - ground);
         }
 
-        if (cachedFallDistance == 0)) {
+        if (cachedFallDistance == 0) {
             cachedFallDistance = (float) Math.max(0, fallStartY - groundY);
         }
         return cachedFallDistance;
@@ -305,7 +305,7 @@ public class FallView extends Module {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o)) {
+            if (this == o) {
                 return true;
             }
             if (o == null || getClass() != o.getClass()) {

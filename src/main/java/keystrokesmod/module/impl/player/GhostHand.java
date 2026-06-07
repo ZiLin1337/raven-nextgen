@@ -105,7 +105,7 @@ public class GhostHand extends Module {
 
         if (!priorityEverything.isToggled() && !priorityOverride) return;
 
-        if (!priorityOverride)) {
+        if (!priorityOverride) {
             Vec3d eyes = viewEntity.getPositionEyes(partialTicks);
             Vec3d blockHitVec = blockHit.hitVec;
             double blockDist = eyes.distanceTo(blockHitVec);
@@ -134,7 +134,7 @@ public class GhostHand extends Module {
                 double dist = inside ? 0.0 : eyes.distanceTo(intercept.hitVec);
                 if (dist >= blockDist) continue;
                 if (e == viewEntity.ridingEntity && !viewEntity.canRiderInteract()) continue;
-                if (dist < closestDist)) {
+                if (dist < closestDist) {
                     closestDist = dist;
                     closest = e;
                 }
@@ -147,7 +147,7 @@ public class GhostHand extends Module {
         mc.pointedEntity = null;
 
         EntityRenderer renderer = mc.entityRenderer;
-        if (renderer instanceof IAccessorEntityRenderer)) {
+        if (renderer instanceof IAccessorEntityRenderer) {
             ((IAccessorEntityRenderer) renderer).setPointedEntity(null);
         }
     }

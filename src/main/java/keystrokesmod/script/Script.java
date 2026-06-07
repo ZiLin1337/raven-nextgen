@@ -30,14 +30,14 @@ public class Script {
 
     public boolean run() {
         try {
-            if (this.scriptName == null || this.codeStr == null)) {
+            if (this.scriptName == null || this.codeStr == null) {
                 return false;
             }
             final File file = new File(Raven.scriptManager.COMPILED_DIR);
             if (!file.exists() || !file.isDirectory()) {
                 file.mkdir();
             }
-            if (Raven.scriptManager.compiler == null)) {
+            if (Raven.scriptManager.compiler == null) {
                 return false;
             }
             final ScriptDiagnosticListener bp = new ScriptDiagnosticListener();
@@ -56,7 +56,7 @@ public class Script {
                 compilationOptions.add(s);
             }
             boolean success = Raven.scriptManager.compiler.getTask(null, fileManager, bp, compilationOptions, null, Arrays.asList(new JavaSourceFromString(this.scriptName, this.codeStr, this.STARTING_LINE))).call();
-            if (!success)) {
+            if (!success) {
                 this.error = true;
                 return false;
             }
@@ -82,7 +82,7 @@ public class Script {
     }
 
     public int getBoolean(final String s, final Object... array) {
-        if (this.clazz == null || this.instance == null)) {
+        if (this.clazz == null || this.instance == null) {
             return -1;
         }
         Method method = null;
@@ -92,11 +92,11 @@ public class Script {
                 break;
             }
         }
-        if (method != null)) {
+        if (method != null) {
             try {
                 method.setAccessible(true);
                 final Object invoke = method.invoke(this.instance, array);
-                if (invoke instanceof Boolean)) {
+                if (invoke instanceof Boolean) {
                     return ((boolean)invoke) ? 1 : 0;
                 }
             }
@@ -109,7 +109,7 @@ public class Script {
                 else {
                     Utils.sendMessage(" &7err: &c" + er.getCause().getClass().getSimpleName());
                     final StackTraceElement[] stArr = er.getCause().getStackTrace();
-                    if (stArr.length > 0)) {
+                    if (stArr.length > 0) {
                         StackTraceElement st = stArr[0];
                         for (final StackTraceElement element : er.getCause().getStackTrace()) {
                             if (element.getClassName().equalsIgnoreCase(this.scriptName)) {
@@ -127,7 +127,7 @@ public class Script {
     }
 
     public Float[] getFloatArray(String methodName, Object... args) {
-        if (this.clazz == null || this.instance == null)) {
+        if (this.clazz == null || this.instance == null) {
             return null;
         }
         Method method = null;
@@ -137,11 +137,11 @@ public class Script {
                 break;
             }
         }
-        if (method != null)) {
+        if (method != null) {
             try {
                 method.setAccessible(true);
                 Object result = method.invoke(this.instance, args);
-                if (result instanceof Float[])) {
+                if (result instanceof Float[]) {
                     return (Float[])result;
                 }
             }
@@ -154,7 +154,7 @@ public class Script {
                 else {
                     Utils.sendMessage(" &7err: &c" + er.getCause().getClass().getSimpleName());
                     StackTraceElement[] stArr = er.getCause().getStackTrace();
-                    if (stArr.length > 0)) {
+                    if (stArr.length > 0) {
                         StackTraceElement st = stArr[0];
                         for (StackTraceElement element : er.getCause().getStackTrace()) {
                             if (element.getClassName().equalsIgnoreCase(this.scriptName)) {
@@ -197,7 +197,7 @@ public class Script {
     }
 
     public boolean invoke(final String s, final Object... array) {
-        if (this.clazz == null || this.instance == null)) {
+        if (this.clazz == null || this.instance == null) {
             return false;
         }
         Method method = null;
@@ -207,7 +207,7 @@ public class Script {
                 break;
             }
         }
-        if (method != null)) {
+        if (method != null) {
             try {
                 method.setAccessible(true);
                 method.invoke(this.instance, array);
@@ -222,7 +222,7 @@ public class Script {
                 else {
                     Utils.sendMessage(" &7err: &c" + er.getCause().getClass().getSimpleName());
                     final StackTraceElement[] stArr = er.getCause().getStackTrace();
-                    if (stArr.length > 0)) {
+                    if (stArr.length > 0) {
                         StackTraceElement st = stArr[0];
                         for (final StackTraceElement element : er.getCause().getStackTrace()) {
                             if (element.getClassName().equalsIgnoreCase(this.scriptName)) {

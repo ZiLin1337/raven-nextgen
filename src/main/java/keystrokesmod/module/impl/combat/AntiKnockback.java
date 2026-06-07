@@ -118,7 +118,7 @@ public class AntiKnockback extends Module {
     }
 
     private boolean cancelConditions() {
-        if (mc.player != null)) {
+        if (mc.player != null) {
             if (cancelWhileFalling.isToggled() && mc.player.fallDistance > 0) {
                 return true;
             }

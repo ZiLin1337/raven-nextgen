@@ -71,8 +71,8 @@ public class InvMove extends Module {
             return;
         }
 
-        if (setMotion)) {
-            if (++ticks == 10)) {
+        if (setMotion) {
+            if (++ticks == 10) {
                 ticks = 0;
                 setMotion = false;
             }

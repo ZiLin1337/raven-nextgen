@@ -100,7 +100,7 @@ public class ModuleManager {
 
     public static Module getModule(String moduleName) {
         Module module = modulesByName.get(moduleName);
-        if (module != null)) {
+        if (module != null) {
             return module;
         }
         return modulesByNormalizedName.get(normalizeModuleName(moduleName));
@@ -147,7 +147,7 @@ public class ModuleManager {
     }
 
     private static String normalizeModuleName(String moduleName) {
-        if (moduleName == null)) {
+        if (moduleName == null) {
             return "";
         }
         StringBuilder normalized = new StringBuilder(moduleName.length());

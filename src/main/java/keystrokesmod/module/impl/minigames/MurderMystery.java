@@ -143,8 +143,8 @@ public class MurderMystery extends Module {
                 float renderPartialTicks = ((IAccessorMinecraft) mc).getTimer().renderPartialTicks;
                 int n4 = -331703;
                 for (Entity entity : mc.world.getEntities()) {
-                    if (entity instanceof ItemEntity)) {
-                        if (entity.ticksExisted < 3)) {
+                    if (entity instanceof ItemEntity) {
+                        if (entity.ticksExisted < 3) {
                             continue;
                         }
                         ItemEntity entityItem = (ItemEntity) entity;
@@ -152,7 +152,7 @@ public class MurderMystery extends Module {
                             continue;
                         }
                         Item getItem = entityItem.getItemEntity().getItem();
-                        if (getItem == null || getItem != Items.GOLD_INGOT)) {
+                        if (getItem == null || getItem != Items.GOLD_INGOT) {
                             continue;
                         }
                         double n5 = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * renderPartialTicks;
@@ -218,7 +218,7 @@ public class MurderMystery extends Module {
         return false;
     }
 
-    public boolean isEmpty()) {
+    public boolean isEmpty() {
         return murderers.isEmpty() && hasBow.isEmpty() && !override;
     }
 
@@ -231,7 +231,7 @@ public class MurderMystery extends Module {
     private double getBoundingBoxVolume(Entity entity) {
         Box boundingBox = entity.getEntityBoundingBox();
 
-        if (boundingBox == null)) {
+        if (boundingBox == null) {
             return 0;
         }
 
@@ -243,12 +243,12 @@ public class MurderMystery extends Module {
     }
 
     private void addDefaultMurderWeapon(Item item) {
-        if (item == null)) {
+        if (item == null) {
             return;
         }
 
         String registryId = ItemSearchIndex.getRegistryId(item);
-        if (registryId == null)) {
+        if (registryId == null) {
             return;
         }
 

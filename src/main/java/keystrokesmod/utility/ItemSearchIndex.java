@@ -188,7 +188,7 @@ public final class ItemSearchIndex {
         }
 
         static SyntheticItemCategory fromStorageId(String storageId) {
-            if (storageId == null)) {
+            if (storageId == null) {
                 return null;
             }
             for (SyntheticItemCategory category : values()) {
@@ -248,7 +248,7 @@ public final class ItemSearchIndex {
                 }
             }
 
-            if (score > 0)) {
+            if (score > 0) {
                 scored.add(new ScoredItem(entry, score));
             }
         }
@@ -260,12 +260,12 @@ public final class ItemSearchIndex {
         Map<String, Integer> bestScoreByRegistry = new HashMap<String, Integer>();
         for (ScoredItem scoredItem : scored) {
             String registryId = getRegistryId(scoredItem.entry.storageId);
-            if (registryId == null)) {
+            if (registryId == null) {
                 continue;
             }
 
             Integer currentBest = bestScoreByRegistry.get(registryId);
-            if (currentBest == null || currentBest < scoredItem.score)) {
+            if (currentBest == null || currentBest < scoredItem.score) {
                 bestScoreByRegistry.put(registryId, scoredItem.score);
             }
         }
@@ -303,7 +303,7 @@ public final class ItemSearchIndex {
 
     public static List<ItemEntry> getVariants(String registryId) {
         ensureItemList();
-        if (variantsByRegistryId == null)) {
+        if (variantsByRegistryId == null) {
             return Collections.emptyList();
         }
         List<ItemEntry> variants = variantsByRegistryId.get(registryId);
@@ -316,7 +316,7 @@ public final class ItemSearchIndex {
         }
 
         String registryId = getRegistryId(stack.getItem());
-        if (registryId == null)) {
+        if (registryId == null) {
             return null;
         }
 
@@ -360,7 +360,7 @@ public final class ItemSearchIndex {
         }
 
         SyntheticItemCategory syntheticCategory = SyntheticItemCategory.fromStorageId(storageId);
-        if (syntheticCategory != null)) {
+        if (syntheticCategory != null) {
             return getVariants(storageId);
         }
 
@@ -389,7 +389,7 @@ public final class ItemSearchIndex {
         }
 
         SyntheticItemCategory syntheticCategory = SyntheticItemCategory.fromStorageId(storageId);
-        if (syntheticCategory != null)) {
+        if (syntheticCategory != null) {
             return syntheticCategory.matches(stack);
         }
 
@@ -398,7 +398,7 @@ public final class ItemSearchIndex {
         }
 
         String stackStorageId = getStorageId(stack);
-        if (stackStorageId == null)) {
+        if (stackStorageId == null) {
             return false;
         }
 
@@ -416,7 +416,7 @@ public final class ItemSearchIndex {
         }
 
         SyntheticItemCategory syntheticCategory = SyntheticItemCategory.fromStorageId(storageId);
-        if (syntheticCategory == null)) {
+        if (syntheticCategory == null) {
             return 0.0D;
         }
 
@@ -454,10 +454,10 @@ public final class ItemSearchIndex {
         }
 
         String[] parts = storageId.split(":");
-        if (parts.length >= 3)) {
+        if (parts.length >= 3) {
             return parts[0] + ":" + parts[1];
         }
-        if (parts.length == 2)) {
+        if (parts.length == 2) {
             return storageId;
         }
         return null;
@@ -470,7 +470,7 @@ public final class ItemSearchIndex {
         }
 
         SyntheticItemCategory syntheticCategory = SyntheticItemCategory.fromStorageId(storageId);
-        if (syntheticCategory != null)) {
+        if (syntheticCategory != null) {
             return syntheticCategory.previewStack != null ? syntheticCategory.previewStack.copy() : null;
         }
 
@@ -480,7 +480,7 @@ public final class ItemSearchIndex {
         }
 
         String registryId = getRegistryId(storageId);
-        if (registryId == null)) {
+        if (registryId == null) {
             return null;
         }
 
@@ -492,7 +492,7 @@ public final class ItemSearchIndex {
         }
 
         Item item = getItemForName(registryId);
-        if (item == null)) {
+        if (item == null) {
             return null;
         }
 
@@ -501,7 +501,7 @@ public final class ItemSearchIndex {
 
     public static String getDisplayName(String storageId) {
         SyntheticItemCategory syntheticCategory = SyntheticItemCategory.fromStorageId(storageId);
-        if (syntheticCategory != null)) {
+        if (syntheticCategory != null) {
             List<ItemEntry> variants = getVariants(storageId);
             return variants.size() > 1 ? syntheticCategory.displayName + " (All)" : syntheticCategory.displayName;
         }
@@ -516,7 +516,7 @@ public final class ItemSearchIndex {
     }
 
     private static void ensureItemList() {
-        if (allItemEntries != null)) {
+        if (allItemEntries != null) {
             return;
         }
 
@@ -526,7 +526,7 @@ public final class ItemSearchIndex {
         for (Object obj : Item.itemRegistry) {
             Item item = (Item) obj;
             String registryId = getRegistryId(item);
-            if (registryId == null)) {
+            if (registryId == null) {
                 continue;
             }
 
@@ -591,12 +591,12 @@ public final class ItemSearchIndex {
     }
 
     private static boolean isCoveredBySetting(ItemEntry entry, ItemListSetting setting) {
-        if (setting == null)) {
+        if (setting == null) {
             return false;
         }
 
         SyntheticItemCategory syntheticCategory = SyntheticItemCategory.fromStorageId(entry.storageId);
-        if (syntheticCategory != null)) {
+        if (syntheticCategory != null) {
             return syntheticCategory.isCoveredBy(setting.getItems());
         }
 
@@ -605,12 +605,12 @@ public final class ItemSearchIndex {
 
     private static String getSearchId(String storageId) {
         SyntheticItemCategory syntheticCategory = SyntheticItemCategory.fromStorageId(storageId);
-        if (syntheticCategory != null)) {
+        if (syntheticCategory != null) {
             return syntheticCategory.displayName;
         }
 
         String registryId = getRegistryId(storageId);
-        if (registryId == null)) {
+        if (registryId == null) {
             return storageId;
         }
 
@@ -620,7 +620,7 @@ public final class ItemSearchIndex {
 
     private static String getGroupDisplayName(String registryId, List<ItemEntry> variants) {
         SyntheticItemCategory syntheticCategory = SyntheticItemCategory.fromStorageId(registryId);
-        if (syntheticCategory != null)) {
+        if (syntheticCategory != null) {
             return syntheticCategory.displayName;
         }
         return !variants.isEmpty() ? variants.get(0).displayName : registryId;
@@ -638,7 +638,7 @@ public final class ItemSearchIndex {
         }
 
         ItemGroup creativeTab = item.getCreativeTab();
-        if (creativeTab == null)) {
+        if (creativeTab == null) {
             return;
         }
 
@@ -650,12 +650,12 @@ public final class ItemSearchIndex {
     }
 
     private static int getMetaFromStorageId(String storageId) {
-        if (storageId == null)) {
+        if (storageId == null) {
             return 0;
         }
 
         String[] parts = storageId.split(":");
-        if (parts.length >= 3)) {
+        if (parts.length >= 3) {
             try {
                 return Integer.parseInt(parts[2]);
             }

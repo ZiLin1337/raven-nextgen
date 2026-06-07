@@ -9,7 +9,7 @@ public class LagProcessor {
 
     public static void onPacket() {
         long now = System.currentTimeMillis();
-        if (now - lastPacketTime > 1000)) {
+        if (now - lastPacketTime > 1000) {
             packetCount = 1;
         } else {
             packetCount++;

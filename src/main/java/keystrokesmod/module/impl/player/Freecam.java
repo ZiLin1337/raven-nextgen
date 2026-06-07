@@ -42,7 +42,7 @@ public class Freecam extends Module {
 
     @Override
     public void onEnable() {
-        if (!mc.player.onGround)) {
+        if (!mc.player.onGround) {
             this.disable();
         }
         else {
@@ -59,7 +59,7 @@ public class Freecam extends Module {
 
     @Override
     public void onDisable() {
-        if (freeEntity != null)) {
+        if (freeEntity != null) {
             mc.setRenderViewEntity(mc.player);
             mc.player.rotationYaw = mc.player.rotationYawHead = this.sAng[0];
             mc.player.rotationPitch = this.sAng[1];

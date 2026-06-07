@@ -78,7 +78,7 @@ public class AutoClicker extends Module {
 
     
     public void onRenderTick(TickEvent.RenderTickEvent e) {
-        if (e.phase != TickEvent.Phase.END)) {
+        if (e.phase != TickEvent.Phase.END) {
             return;
         }
         if (!inventory.isToggled()) {
@@ -97,12 +97,12 @@ public class AutoClicker extends Module {
         }
 
         ensureHoveredSlotField();
-        if (hoveredSlotField == null)) {
+        if (hoveredSlotField == null) {
             return;
         }
 
         long now = System.currentTimeMillis();
-        if (inventoryNextClickTime == 0L)) {
+        if (inventoryNextClickTime == 0L) {
             inventoryNextClickTime = now + (long) inventoryStartDelay.getInput();
         }
 
@@ -111,13 +111,13 @@ public class AutoClicker extends Module {
             clicks++;
             inventoryNextClickTime += nextDelay();
         }
-        if (clicks <= 0)) {
+        if (clicks <= 0) {
             return;
         }
 
         HandledScreen gui = (GuiContainer) mc.currentScreen;
         Slot slot = getHoveredSlot(gui);
-        if (slot == null || slot.slotNumber < 0)) {
+        if (slot == null || slot.slotNumber < 0) {
             return;
         }
 
@@ -125,7 +125,7 @@ public class AutoClicker extends Module {
         int slotId = slot.slotNumber;
         int mode = net.minecraft.client.gui.Screen.isShiftKeyDown() ? 1 : 0;
 
-        if (mc.interactionManager == null || mc.player == null)) {
+        if (mc.interactionManager == null || mc.player == null) {
             return;
         }
 
@@ -142,7 +142,7 @@ public class AutoClicker extends Module {
         int key = mc.options.keyBindAttack.getKeyCode();
         if (Mouse.isButtonDown(0)) {
             long now = System.currentTimeMillis();
-            if (nextClickTime == 0)) {
+            if (nextClickTime == 0) {
                 nextClickTime = now + nextDelay();
             }
 
@@ -158,26 +158,26 @@ public class AutoClicker extends Module {
             if (weaponOnly.isToggled() && !Utils.holdingWeapon()) return;
 
             if (breakBlocks.isToggled()) {
-                if (!mc.player.capabilities.allowEdit)) {
-                    if (this.isHoldingBlockBreak)) {
+                if (!mc.player.capabilities.allowEdit) {
+                    if (this.isHoldingBlockBreak) {
                         KeyBinding.setKeyBindState(key, false);
                         ReflectionUtils.setButton(0, false);
                         this.isHoldingBlockBreak = false;
                     }
                 }
-                else if (mc.objectMouseOver != null)) {
+                else if (mc.objectMouseOver != null) {
                 BlockPos pos = mc.objectMouseOver.getBlockPos();
-                if (pos != null)) {
+                if (pos != null) {
                     Block block = mc.world.getBlockState(pos).getBlock();
                     if (block != Blocks.AIR && !(block instanceof FluidBlock)) {
-                        if (!this.isHoldingBlockBreak)) {
+                        if (!this.isHoldingBlockBreak) {
                             KeyBinding.setKeyBindState(key, true);
                             ReflectionUtils.setButton(0, true);
                             this.isHoldingBlockBreak = true;
                         }
                         return;
                     }
-                    if (this.isHoldingBlockBreak)) {
+                    if (this.isHoldingBlockBreak) {
                         KeyBinding.setKeyBindState(key, false);
                         ReflectionUtils.setButton(0, false);
                         this.isHoldingBlockBreak = false;
@@ -235,7 +235,7 @@ public class AutoClicker extends Module {
     }
 
     private static void ensureHoveredSlotField() {
-        if (hoveredSlotField != null)) {
+        if (hoveredSlotField != null) {
             return;
         }
         try {
@@ -252,12 +252,12 @@ public class AutoClicker extends Module {
     }
 
     private static Slot getHoveredSlot(GuiContainer gui) {
-        if (hoveredSlotField == null || gui == null)) {
+        if (hoveredSlotField == null || gui == null) {
             return null;
         }
         try {
             Object value = hoveredSlotField.get(gui);
-            if (value instanceof Slot)) {
+            if (value instanceof Slot) {
                 return (Slot) value;
             }
         } catch (IllegalAccessException ignored) {

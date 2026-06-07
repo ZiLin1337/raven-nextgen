@@ -72,7 +72,7 @@ public class Xray extends Module {
                 for (int x = -n; x <= n; ++x) {
                     for (int z = -n; z <= n; ++z) {
                         int blockY = playerY + y;
-                        if (blockY < 0)) {
+                        if (blockY < 0) {
                             continue;
                         }
                         mutablePos.set(playerX + x, blockY, playerZ + z);
@@ -91,7 +91,7 @@ public class Xray extends Module {
 
     
     public void onEntityJoin(EntityJoinWorldEvent e) {
-        if (e.entity == mc.player)) {
+        if (e.entity == mc.player) {
             this.blocks.clear();
         }
     }
@@ -116,11 +116,11 @@ public class Xray extends Module {
     }
 
     private void drawBox(BlockPos p) {
-        if (p == null)) {
+        if (p == null) {
             return;
         }
         int[] rgb = this.getColor(BlockUtils.getBlockState(p).getBlock());
-        if (rgb[0] + rgb[1] + rgb[2] != 0)) {
+        if (rgb[0] + rgb[1] + rgb[2] != 0) {
             RenderUtils.renderBlock(p, (new Color(rgb[0], rgb[1], rgb[2])).getRGB(), false, true);
         }
     }

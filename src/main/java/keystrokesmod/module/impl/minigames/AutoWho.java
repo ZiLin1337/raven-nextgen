@@ -36,7 +36,7 @@ public class AutoWho extends Module {
         }
 
         int trackedGameStatus = getTrackedGameStatus();
-        if (trackedGameStatus == 2 && lastTrackedGameStatus != 2)) {
+        if (trackedGameStatus == 2 && lastTrackedGameStatus != 2) {
             this.artificial();
         }
         lastTrackedGameStatus = trackedGameStatus;
@@ -59,12 +59,12 @@ public class AutoWho extends Module {
 
     private int getTrackedGameStatus() {
         int bedwarsStatus = Utils.getBedwarsStatus();
-        if (bedwarsStatus != -1)) {
+        if (bedwarsStatus != -1) {
             return bedwarsStatus;
         }
 
         int skywarsStatus = Utils.getSkyWarsStatus();
-        if (skywarsStatus != -1)) {
+        if (skywarsStatus != -1) {
             return skywarsStatus;
         }
 

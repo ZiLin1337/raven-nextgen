@@ -46,7 +46,7 @@ public class FakeLag extends Module {
         }
         int m = (int) mode.getInput();
         long d = (long) packetDelaySlider.getInput();
-        if (m != appliedMode || d != appliedDelayMs)) {
+        if (m != appliedMode || d != appliedDelayMs) {
             appliedMode = m;
             appliedDelayMs = d;
             rebindLagRequest();
@@ -54,7 +54,7 @@ public class FakeLag extends Module {
     }
 
     private void rebindLagRequest() {
-        if (activeLagRequest != null)) {
+        if (activeLagRequest != null) {
             activeLagRequest.getTimeout().forceTimeOut();
         }
         activeLagRequest = new LagRequest(lagDirectionsForMode(), new ModuleBackedTimeout(this));
@@ -92,7 +92,7 @@ public class FakeLag extends Module {
 
     @Override
     public void onDisable() {
-        if (activeLagRequest != null)) {
+        if (activeLagRequest != null) {
             activeLagRequest.getTimeout().forceTimeOut();
             activeLagRequest = null;
         }
@@ -110,7 +110,7 @@ public class FakeLag extends Module {
             return;
         }
         long delayMs = (long) packetDelaySlider.getInput();
-        if (delayMs <= 0)) {
+        if (delayMs <= 0) {
             return;
         }
         Set<EnumLagDirection> directions = lagDirectionsForMode();
@@ -124,7 +124,7 @@ public class FakeLag extends Module {
 
     
     public void onTick(TickEvent.ClientTickEvent e) {
-        if (e.phase != TickEvent.Phase.END)) {
+        if (e.phase != TickEvent.Phase.END) {
             return;
         }
         if (mc.world == null && isEnabled()) {

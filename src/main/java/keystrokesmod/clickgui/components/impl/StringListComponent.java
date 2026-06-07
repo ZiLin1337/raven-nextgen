@@ -50,7 +50,7 @@ public class StringListComponent extends AbstractTextInputComponent {
     public boolean onClick(int mouseX, int mouseY, int button) {
         if (!moduleComponent.isOpened || !moduleComponent.isVisible(this)) return false;
         Layout layout = layout(true);
-        if (button == 0 && isTextFieldClicked(mouseX, mouseY, layout)) { setTextFieldFocused(true); return true; }
+        if (button == 0 && isTextFieldClicked(mouseX, mouseY, layout) { setTextFieldFocused(true); return true; }
         if (button == 0 && handleSelectedEntryClick(mouseX, mouseY, layout)) return true;
         if (isTextFieldFocused() { getTextField().setText(""); setTextFieldFocused(false); }
         return false;
@@ -59,8 +59,8 @@ public class StringListComponent extends AbstractTextInputComponent {
     @Override
     public void keyTyped(char typedChar, int keyCode) {
         if (!moduleComponent.isOpened || !isTextFieldFocused()) return;
-        if (keyCode == GLFW.GLFW_KEY_ESCAPE)) { getTextField().setText(""); setTextFieldFocused(false); return; }
-        if (keyCode == GLFW.GLFW_KEY_RETURN || keyCode == GLFW.GLFW_KEY_NUMPADENTER)) { submitText(); setTextFieldFocused(false); return; }
+        if (keyCode == GLFW.GLFW_KEY_ESCAPE) { getTextField().setText(""); setTextFieldFocused(false); return; }
+        if (keyCode == GLFW.GLFW_KEY_RETURN || keyCode == GLFW.GLFW_KEY_NUMPADENTER) { submitText(); setTextFieldFocused(false); return; }
         getTextField().textboxKeyTyped(typedChar, keyCode);
     }
 

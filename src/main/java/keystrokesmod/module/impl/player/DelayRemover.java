@@ -14,7 +14,7 @@ public class DelayRemover extends Module {
     }
 
     public void onUpdate() {
-        if (mc.player != null && mc.interactionManager != null)) {
+        if (mc.player != null && mc.interactionManager != null) {
             if (attackDelay.isToggled()) mc.player.resetLastAttackedTicks();
             if (useDelay.isToggled()) mc.itemUseCooldown = 0;
         }

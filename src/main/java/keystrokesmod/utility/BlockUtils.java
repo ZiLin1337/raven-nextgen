@@ -63,21 +63,21 @@ public class BlockUtils implements IMinecraftInstance {
 
     public static float getBlockHardness(final Block block, final ItemStack itemStack, boolean ignoreSlow, boolean ignoreGround) {
         final float getBlockHardness = block.getBlockHardness(mc.world, null);
-        if (getBlockHardness < 0.0f)) {
+        if (getBlockHardness < 0.0f) {
             return 0.0f;
         }
         return (block.getMaterial().isToolNotRequired() || (itemStack != null && itemStack.canHarvestBlock(block))) ? (getToolDigEfficiency(itemStack, block, ignoreSlow, ignoreGround) / getBlockHardness / 30.0f) : (getToolDigEfficiency(itemStack, block, ignoreSlow, ignoreGround) / getBlockHardness / 100.0f);
     }
 
     public static float maxDigRateAcrossSlots(Block block, int slotCount) {
-        if (mc.player == null || slotCount <= 0)) {
+        if (mc.player == null || slotCount <= 0) {
             return 0f;
         }
         int n = Math.min(slotCount, mc.player.inventory.getSizeInventory());
         float best = 0f;
         for (int i = 0; i < n; i++) {
             float h = getBlockHardness(block, mc.player.inventory.getStackInSlot(i), false, false);
-            if (h > best)) {
+            if (h > best) {
                 best = h;
             }
         }
@@ -86,16 +86,16 @@ public class BlockUtils implements IMinecraftInstance {
 
     public static float getToolDigEfficiency(ItemStack itemStack, Block block, boolean ignoreSlow, boolean ignoreGround) {
         float n = (itemStack == null) ? 1.0f : itemStack.getItem().getStrVsBlock(itemStack, block);
-        if (n > 1.0f)) {
+        if (n > 1.0f) {
             final int getEnchantmentLevel = EnchantmentHelper.getEnchantmentLevel(Enchantment.efficiency.effectId, itemStack);
-            if (getEnchantmentLevel > 0 && itemStack != null)) {
+            if (getEnchantmentLevel > 0 && itemStack != null) {
                 n += getEnchantmentLevel * getEnchantmentLevel + 1;
             }
         }
         if (mc.player.isPotionActive(Potion.digSpeed)) {
             n *= 1.0f + (mc.player.getActivePotionEffect(Potion.digSpeed).getAmplifier() + 1) * 0.2f;
         }
-        if (!ignoreSlow)) {
+        if (!ignoreSlow) {
             if (mc.player.isPotionActive(Potion.digSlowdown)) {
                 float n2;
                 switch (mc.player.getActivePotionEffect(Potion.digSlowdown).getAmplifier() {
@@ -121,7 +121,7 @@ public class BlockUtils implements IMinecraftInstance {
             if (mc.player.isInsideOfMaterial(Material.water) && !EnchantmentHelper.getAquaAffinityModifier(mc.player)) {
                 n /= 5.0f;
             }
-            if (!mc.player.onGround && !ignoreGround)) {
+            if (!mc.player.onGround && !ignoreGround) {
                 n /= 5.0f;
             }
         }
@@ -141,7 +141,7 @@ public class BlockUtils implements IMinecraftInstance {
     }
 
     public static BlockState getBlockState(BlockPos blockPos) {
-        if (mc.world == null || blockPos == null)) {
+        if (mc.world == null || blockPos == null) {
             return Blocks.AIR.getDefaultState();
         }
         return mc.world.getBlockState(blockPos);
@@ -153,7 +153,7 @@ public class BlockUtils implements IMinecraftInstance {
         Block block = state.getBlock();
         block.setBlockBoundsBasedOnState(mc.world, pos);
         Box box = block.getSelectedBoundingBox(mc.world, pos);
-        if (box == null)) {
+        if (box == null) {
             box = new Box(pos.getX(), pos.getY(), pos.getZ(),
                     pos.getX() + 1.0, pos.getY() + 1.0, pos.getZ() + 1.0);
         }
@@ -161,16 +161,16 @@ public class BlockUtils implements IMinecraftInstance {
     }
 
     public static Box getCollisionOrSelectionBox(BlockPos pos) {
-        if (mc.world == null || pos == null)) {
+        if (mc.world == null || pos == null) {
             return null;
         }
         BlockState st = mc.world.getBlockState(pos);
         Block block = st.getBlock();
         Box bb = block.getCollisionShape(mc.world, pos, st);
-        if (bb == null)) {
+        if (bb == null) {
             bb = block.getSelectedBoundingBox(mc.world, pos);
         }
-        if (bb == null)) {
+        if (bb == null) {
             bb = new Box(pos.getX(), pos.getY(), pos.getZ(),
                     pos.getX() + 1.0, pos.getY() + 1.0, pos.getZ() + 1.0);
         }
@@ -178,13 +178,13 @@ public class BlockUtils implements IMinecraftInstance {
     }
 
     public static Box getCollisionOrSelectedOnly(BlockPos pos) {
-        if (mc.world == null || pos == null)) {
+        if (mc.world == null || pos == null) {
             return null;
         }
         BlockState st = mc.world.getBlockState(pos);
         Block block = st.getBlock();
         Box bb = block.getCollisionShape(mc.world, pos, st);
-        if (bb == null)) {
+        if (bb == null) {
             bb = block.getSelectedBoundingBox(mc.world, pos);
         }
         return bb;
@@ -203,10 +203,10 @@ public class BlockUtils implements IMinecraftInstance {
         double ax = Math.abs(px);
         double ay = Math.abs(py);
         double az = Math.abs(pz);
-        if (ax > ay && ax > az)) {
+        if (ax > ay && ax > az) {
             return px > 0 ? Direction.EAST : Direction.WEST;
         }
-        if (ay > az)) {
+        if (ay > az) {
             return py > 0 ? Direction.UP : Direction.DOWN;
         }
         return pz > 0 ? Direction.SOUTH : Direction.NORTH;
@@ -225,10 +225,10 @@ public class BlockUtils implements IMinecraftInstance {
 
     public static boolean canSeeVecBlock(final BlockPos pos, final Vec3d vecPlayer, final Vec3d vecBlockPoint) {
         final HitResult mop = mc.world.rayTraceBlocks(vecPlayer, vecBlockPoint, false, false, false);
-        if (mop == null)) {
+        if (mop == null) {
             return true;
         }
-        if (mop.typeOfHit == HitResult.MovingObjectType.BLOCK)) {
+        if (mop.typeOfHit == HitResult.MovingObjectType.BLOCK) {
             final BlockPos mopPos = mop.getBlockPos();
             if (mopPos.getX() == pos.getX() && mopPos.getY() == pos.getY() && mopPos.getZ() == pos.getZ()) {
                 return true;
@@ -323,7 +323,7 @@ public class BlockUtils implements IMinecraftInstance {
             if (mc.world.getBlockState(n).getBlock() != Blocks.AIR) continue;
             boolean excluded = false;
             for (BlockPos ex : exclude) {
-                if (n.equals(ex)) { excluded = true; break; }
+                if (n.equals(ex) { excluded = true; break; }
             }
             if (!excluded) return true;
         }
@@ -353,7 +353,7 @@ public class BlockUtils implements IMinecraftInstance {
         HitResult firstHit = null;
 
         HitResult candidate = getBlockCollisionHit(curX, curY, curZ, start, end);
-        if (candidate != null)) {
+        if (candidate != null) {
             if (isBedOrAdjacentMatch(candidate.getBlockPos(), wantBed, wantAdjacent)) return candidate;
             firstHit = candidate;
         }
@@ -391,10 +391,10 @@ public class BlockUtils implements IMinecraftInstance {
             if (tZ == -0.0) tZ = -1.0E-4;
 
             Direction face;
-            if (tX < tY && tX < tZ)) {
+            if (tX < tY && tX < tZ) {
                 face = destX > curX ? Direction.WEST : Direction.EAST;
                 tracePos = new Vec3d(boundX, tracePos.yCoord + dy * tX, tracePos.zCoord + dz * tX);
-            } else if (tY < tZ)) {
+            } else if (tY < tZ) {
                 face = destY > curY ? Direction.DOWN : Direction.UP;
                 tracePos = new Vec3d(tracePos.xCoord + dx * tY, boundY, tracePos.zCoord + dz * tY);
             } else {
@@ -407,7 +407,7 @@ public class BlockUtils implements IMinecraftInstance {
             curZ = MathHelper.floor_double(tracePos.zCoord) - (face == Direction.SOUTH ? 1 : 0);
 
             candidate = getBlockCollisionHit(curX, curY, curZ, start, end);
-            if (candidate != null)) {
+            if (candidate != null) {
                 if (isBedOrAdjacentMatch(candidate.getBlockPos(), wantBed, wantAdjacent)) return candidate;
                 if (firstHit == null) firstHit = candidate;
             }

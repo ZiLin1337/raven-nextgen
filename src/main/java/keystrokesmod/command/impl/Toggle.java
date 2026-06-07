@@ -17,7 +17,7 @@ public class Toggle extends Command {
         }
         String moduleName = input.joinArguments(0);
         Module module = Raven.moduleManager.getModule(moduleName);
-        if (module == null)) {
+        if (module == null) {
             reply("&cModule not found: " + moduleName);
             return;
         }

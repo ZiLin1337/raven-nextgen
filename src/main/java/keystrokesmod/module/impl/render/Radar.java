@@ -37,10 +37,10 @@ public class Radar extends Module {
         if (e.phase != TickEvent.Phase.END || !Utils.nullCheck()) {
             return;
         }
-        if (mc.currentScreen instanceof ClickGui)) {
+        if (mc.currentScreen instanceof ClickGui) {
             return;
         }
-        if (mc.currentScreen != null || mc.options.showDebugInfo)) {
+        if (mc.currentScreen != null || mc.options.showDebugInfo) {
             return;
         }
         int x = 5;
@@ -59,12 +59,12 @@ public class Radar extends Module {
         RenderSystem.enableBlend(GL11.GL_SCISSOR_TEST);
         GL11.glScissor(x * this.scale, mc.getWindow().getFramebufferHeight() - this.scale * 170, rightX * this.scale - this.scale * 5, this.scale * 100);
         for (PlayerEntity player : mc.world.getPlayers()) {
-            if (player != mc.player && player.deathTime == 0)) {
+            if (player != mc.player && player.deathTime == 0) {
                 if (AntiBot.isBot(player)) {
                     continue;
                 }
                 double distanceSquared = player.getDistanceSqToEntity(mc.player);
-                if (distanceSquared > 360.0)) {
+                if (distanceSquared > 360.0) {
                     continue;
                 }
                 double playerAngle = (mc.player.rotationYaw + Math.atan2(player.posX - mc.player.getX(), player.posZ - mc.player.getZ()) * 57.295780181884766) % 360.0;

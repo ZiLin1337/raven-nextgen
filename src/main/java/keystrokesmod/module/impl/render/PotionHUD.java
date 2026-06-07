@@ -79,7 +79,7 @@ public class PotionHUD extends Module {
             return;
         }
 
-        if (mc.currentScreen != null || mc.options.showDebugInfo)) {
+        if (mc.currentScreen != null || mc.options.showDebugInfo) {
             return;
         }
 
@@ -131,7 +131,7 @@ public class PotionHUD extends Module {
 
         adjustAnchorForLayoutChanges(resolution, state);
         Bounds bounds = renderState(state);
-        if (editing)) {
+        if (editing) {
             drawBounds(bounds);
         }
     }
@@ -142,10 +142,10 @@ public class PotionHUD extends Module {
         ArrayList<PotionEntry> entries = new ArrayList<PotionEntry>();
         Collection<StatusEffectInstance> activeEffects = mc.player.getActivePotionEffects();
 
-        if (activeEffects != null)) {
+        if (activeEffects != null) {
             for (PotionEffect effect : activeEffects) {
                 PotionEntry entry = buildEntry(effect, renderer);
-                if (entry != null)) {
+                if (entry != null) {
                     entries.add(entry);
                 }
             }
@@ -166,7 +166,7 @@ public class PotionHUD extends Module {
     }
 
     private PotionEntry buildEntry(PotionEffect effect, RavenFontRenderer renderer) {
-        if (effect == null)) {
+        if (effect == null) {
             return null;
         }
 
@@ -176,7 +176,7 @@ public class PotionHUD extends Module {
         }
 
         Potion potion = Potion.potionTypes[effect.getPotionID()];
-        if (potion == null)) {
+        if (potion == null) {
             return null;
         }
 
@@ -333,7 +333,7 @@ public class PotionHUD extends Module {
 
         int minutes = totalSeconds / 60;
         int seconds = totalSeconds % 60;
-        if (minutes > 0 && seconds == 0)) {
+        if (minutes > 0 && seconds == 0) {
             return minutes + "m";
         }
         return (minutes > 0 ? minutes + "m" : "") + seconds + "s";
@@ -424,7 +424,7 @@ public class PotionHUD extends Module {
     }
 
     private static String toRomanNumeral(int value) {
-        if (value <= 0)) {
+        if (value <= 0) {
             return Integer.toString(value);
         }
 
@@ -469,7 +469,7 @@ public class PotionHUD extends Module {
         @Override
         public void drawScreen(int mouseX, int mouseY, float partialTicks) {
              resolution = /* ScaledResolution removed in 1.21.4 */ null;
-            if (!this.dragging)) {
+            if (!this.dragging) {
                 syncPositionToResolution(resolution);
                 this.actualX = posX;
                 this.actualY = posY;
@@ -507,15 +507,15 @@ public class PotionHUD extends Module {
         @Override
         protected void mouseClickMove(int mouseX, int mouseY, int button, long timeSinceLastClick) {
             super.mouseClickMove(mouseX, mouseY, button, timeSinceLastClick);
-            if (button != 0)) {
+            if (button != 0) {
                 return;
             }
 
-            if (this.dragging)) {
+            if (this.dragging) {
                 this.actualX = this.lastActualX + (mouseX - this.lastMouseX);
                 this.actualY = this.lastActualY + (mouseY - this.lastMouseY);
             }
-            else if (mouseX >= this.minX && mouseX <= this.maxX && mouseY >= this.minY && mouseY <= this.maxY)) {
+            else if (mouseX >= this.minX && mouseX <= this.maxX && mouseY >= this.minY && mouseY <= this.maxY) {
                 this.dragging = true;
                 this.lastMouseX = mouseX;
                 this.lastMouseY = mouseY;
@@ -527,14 +527,14 @@ public class PotionHUD extends Module {
         @Override
         protected void mouseReleased(int mouseX, int mouseY, int state) {
             super.mouseReleased(mouseX, mouseY, state);
-            if (state == 0)) {
+            if (state == 0) {
                 this.dragging = false;
             }
         }
 
         @Override
         public void actionPerformed(ButtonWidget button) {
-            if (button == this.resetPosition)) {
+            if (button == this.resetPosition) {
                 resetPosition();
                 this.actualX = posX;
                 this.actualY = posY;

@@ -60,21 +60,21 @@ public class PlayerSkinCache {
         if (playerInfo != null && playerInfo.getGameProfile() != null) {
             GameProfile profile = playerInfo.getGameProfile();
             UUID uuid = profile.getId();
-            if (uuid != null)) {
+            if (uuid != null) {
                 UUIDS.put(normalized, uuid);
             }
             if (profile.getName() != null && Raven.playerRelationsManager != null) {
                 Raven.playerRelationsManager.refreshDisplayName(profile.getName());
             }
             Identifier location = playerInfo.getLocationSkin();
-            if (location != null)) {
+            if (location != null) {
                 SKINS.put(normalized, location);
                 return location;
             }
         }
 
         Identifier cached = SKINS.get(normalized);
-        if (cached != null)) {
+        if (cached != null) {
             return cached;
         }
 
@@ -83,7 +83,7 @@ public class PlayerSkinCache {
         }
 
         UUID fallbackUuid = UUIDS.get(normalized);
-        if (fallbackUuid == null)) {
+        if (fallbackUuid == null) {
             fallbackUuid = PlayerEntity.getOfflineUUID(username);
             UUIDS.put(normalized, fallbackUuid);
         }
@@ -94,7 +94,7 @@ public class PlayerSkinCache {
         long now = System.currentTimeMillis();
         CachedProfile cachedProfile = PROFILES.get(normalized);
         if (cachedProfile != null && !cachedProfile.isExpired(now)) {
-            if (cachedProfile.profile == null)) {
+            if (cachedProfile.profile == null) {
                 LOOKUP_FAILED.add(normalized);
                 return;
             }
@@ -123,7 +123,7 @@ public class PlayerSkinCache {
                     });
 
                     GameProfile profile = holder[0];
-                    if (profile == null)) {
+                    if (profile == null) {
                         cacheProfile(normalized, null);
                         LOOKUP_FAILED.add(normalized);
                         return;
@@ -131,7 +131,7 @@ public class PlayerSkinCache {
 
                     Minecraft minecraft = MinecraftClient.getInstance();
                     GameProfile filledProfile = minecraft.getSessionService().fillProfileProperties(profile, false);
-                    if (filledProfile == null)) {
+                    if (filledProfile == null) {
                         cacheProfile(normalized, null);
                         LOOKUP_FAILED.add(normalized);
                         return;
@@ -152,7 +152,7 @@ public class PlayerSkinCache {
     }
 
     private static void resolveSkinFromProfile(final String normalized, final GameProfile profile) {
-        if (profile == null)) {
+        if (profile == null) {
             LOOKUP_FAILED.add(normalized);
             return;
         }
@@ -167,7 +167,7 @@ public class PlayerSkinCache {
         Minecraft minecraft = MinecraftClient.getInstance();
         Map<Type, MinecraftProfileTexture> textures = minecraft.getSkinManager().loadSkinFromCache(profile);
         final MinecraftProfileTexture skinTexture = textures == null ? null : textures.get(Type.SKIN);
-        if (skinTexture == null)) {
+        if (skinTexture == null) {
             LOOKUP_FAILED.add(normalized);
             return;
         }
@@ -176,7 +176,7 @@ public class PlayerSkinCache {
             @Override
             public void run() {
                 Identifier location = MinecraftClient.getInstance().getSkinManager().loadSkin(skinTexture, Type.SKIN);
-                if (location != null)) {
+                if (location != null) {
                     SKINS.put(normalized, location);
                     LOOKUP_FAILED.remove(normalized);
                 }

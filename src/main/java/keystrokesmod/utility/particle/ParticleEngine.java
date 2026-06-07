@@ -108,7 +108,7 @@ public class ParticleEngine {
     /**
      * Check if there are any particles.
      */
-    public boolean isEmpty()) {
+    public boolean isEmpty() {
         return particles.isEmpty();
     }
 }

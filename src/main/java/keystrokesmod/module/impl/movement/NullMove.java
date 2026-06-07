@@ -34,7 +34,7 @@ public class NullMove extends Module {
         if (!this.isEnabled() || !Utils.nullCheck()) {
             return;
         }
-        if (mc.currentScreen != null)) {
+        if (mc.currentScreen != null) {
             return;
         }
 
@@ -43,23 +43,23 @@ public class NullMove extends Module {
         boolean a = mc.options.keyBindLeft.isKeyDown();
         boolean d = mc.options.keyBindRight.isKeyDown();
 
-        if (w && !this.prevW)) {
+        if (w && !this.prevW) {
             this.lastForwardSign = 1;
         }
-        if (s && !this.prevS)) {
+        if (s && !this.prevS) {
             this.lastForwardSign = -1;
         }
-        if (a && !this.prevA)) {
+        if (a && !this.prevA) {
             this.lastStrafeSign = 1;
         }
-        if (d && !this.prevD)) {
+        if (d && !this.prevD) {
             this.lastStrafeSign = -1;
         }
 
-        if (w && s)) {
+        if (w && s) {
             e.setForward(this.lastForwardSign >= 0 ? 1.0F : -1.0F);
         }
-        if (a && d)) {
+        if (a && d) {
             e.setStrafe(this.lastStrafeSign >= 0 ? 1.0F : -1.0F);
         }
 

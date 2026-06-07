@@ -91,7 +91,7 @@ public class WebSocket {
             Utils.sendMessage("&cFailed to connect to websockets, websockets are not enabled.");
             return false;
         }
-        if (block)) {
+        if (block) {
             try {
                 return client.connectBlocking();
             }
@@ -110,7 +110,7 @@ public class WebSocket {
     }
 
     public void close(boolean block) {
-        if (block)) {
+        if (block) {
             try {
                 client.closeBlocking();
             }

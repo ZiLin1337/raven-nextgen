@@ -144,7 +144,7 @@ public class ClickTextFieldWidget {
 
     public void setFocused(boolean focused) {
         textField.setFocused(focused);
-        if (focused)) {
+        if (focused) {
             cursorVisible = true;
             lastCursorTick = System.currentTimeMillis();
         }
@@ -185,7 +185,7 @@ public class ClickTextFieldWidget {
         int selectionStart = Math.min(cursorPosition, selectionEnd);
         int selectionStop = Math.max(cursorPosition, selectionEnd);
 
-        if (selectionStart == selectionStop || selectionStop <= visibleStart || selectionStart >= visibleEnd)) {
+        if (selectionStart == selectionStop || selectionStop <= visibleStart || selectionStart >= visibleEnd) {
             return;
         }
 
@@ -194,7 +194,7 @@ public class ClickTextFieldWidget {
         float selectionLeft = textLeft + renderer.getStringWidth(visibleText.substring(0, localStart)) * textScale;
         float selectionRight = textLeft + renderer.getStringWidth(visibleText.substring(0, localEnd)) * textScale;
 
-        if (selectionRight > selectionLeft)) {
+        if (selectionRight > selectionLeft) {
             RenderUtils.DrawContextHelper.drawRect(selectionLeft, top + 1.0f, selectionRight, bottom - 1.0f, SELECTION_COLOR);
         }
     }
@@ -210,9 +210,9 @@ public class ClickTextFieldWidget {
         int visibleEnd
     ) {
         float cursorX;
-        if (cursorPosition <= visibleStart)) {
+        if (cursorPosition <= visibleStart) {
             cursorX = textLeft;
-        } else if (cursorPosition >= visibleEnd)) {
+        } else if (cursorPosition >= visibleEnd) {
             cursorX = textLeft + renderer.getStringWidth(visibleText) * textScale;
         } else {
             cursorX = textLeft + renderer.getStringWidth(visibleText.substring(0, cursorPosition - visibleStart)) * textScale;

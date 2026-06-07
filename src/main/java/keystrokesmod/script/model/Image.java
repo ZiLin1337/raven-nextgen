@@ -22,14 +22,14 @@ public class Image {
         this.url = url;
         this.cached = cached;
         final BufferedImage cachedImage = cached ? imageCache.get(url) : null;
-        if (cachedImage == null)) {
+        if (cachedImage == null) {
             ScriptDefaults.client.async(() -> {
                 BufferedImage newImage = NetworkUtils.getImageFromURL(url);
-                if (newImage != null)) {
+                if (newImage != null) {
                     this.bufferedImage = newImage;
                     this.height = newImage.getHeight();
                     this.width = newImage.getWidth();
-                    if (cached)) {
+                    if (cached) {
                         imageCache.put(url, newImage);
                     }
                 }

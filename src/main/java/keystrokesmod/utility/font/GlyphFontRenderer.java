@@ -67,7 +67,7 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
         }
 
         int width = 0;
-        if (shadow)) {
+        if (shadow) {
             width = drawInternal(text, x + 0.5f, y + 0.5f, color, true);
         }
 
@@ -81,7 +81,7 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
         }
 
         int width = 0;
-        if (shadow)) {
+        if (shadow) {
             width = drawGlyphInternal(text, x + 0.5f, y + 0.5f, colorProvider, true);
         }
 
@@ -106,7 +106,7 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
                 continue;
             }
 
-            if (character == '\n')) {
+            if (character == '\n') {
                 continue;
             }
 
@@ -138,7 +138,7 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
 
     @Override
     public void destroy() {
-        if (destroyed)) {
+        if (destroyed) {
             return;
         }
 
@@ -152,7 +152,7 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
 
     private int drawInternal(String text, float x, float y, int color, boolean shadowPass) {
         int alpha = (color >>> 24) & 0xFF;
-        if (alpha == 0)) {
+        if (alpha == 0) {
             alpha = 0xFF;
         }
 
@@ -181,11 +181,11 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
                     char formatCode = Character.toLowerCase(text.charAt(++i));
                     int colorIndex = COLOR_CODES.indexOf(formatCode);
 
-                    if (colorIndex >= 0)) {
-                        if (colorIndex < 16)) {
+                    if (colorIndex >= 0) {
+                        if (colorIndex < 16) {
                             activeColor = getMinecraftColor(colorIndex, alpha, shadowPass);
                         }
-                        else if (formatCode == 'r')) {
+                        else if (formatCode == 'r') {
                             activeColor = shadowPass ? applyShadowColor(color) : withAlpha(color, alpha);
                         }
                     }
@@ -193,14 +193,14 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
                     continue;
                 }
 
-                if (character == '\n')) {
+                if (character == '\n') {
                     drawX = startX;
                     drawY += lineHeight * rawScale;
                     continue;
                 }
 
                 GlyphData glyph = getGlyph(character);
-                if (glyph.textureId != 0 && glyph.textureWidth > 0.0f && glyph.textureHeight > 0.0f)) {
+                if (glyph.textureId != 0 && glyph.textureWidth > 0.0f && glyph.textureHeight > 0.0f) {
                     renderGlyph(glyph, drawX - GLYPH_MARGIN, drawY, activeColor);
                 }
                 drawX += glyph.rawAdvance;
@@ -241,17 +241,17 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
                     char formatCode = Character.toLowerCase(text.charAt(++i));
                     int colorIndex = COLOR_CODES.indexOf(formatCode);
 
-                    if (colorIndex >= 0 && colorIndex < 16)) {
+                    if (colorIndex >= 0 && colorIndex < 16) {
                         formattingColor = getMinecraftColor(colorIndex, 0xFF, false);
                     }
-                    else if (formatCode == 'r')) {
+                    else if (formatCode == 'r') {
                         formattingColor = null;
                     }
 
                     continue;
                 }
 
-                if (character == '\n')) {
+                if (character == '\n') {
                     drawX = startX;
                     drawY += lineHeight * rawScale;
                     continue;
@@ -260,15 +260,15 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
                 GlyphData glyph = getGlyph(character);
                 int glyphColor = colorProvider.colorForGlyph(character, (drawX - startX) * drawScale, glyph.advance, formattingColor);
                 int alpha = (glyphColor >>> 24) & 0xFF;
-                if (alpha == 0)) {
+                if (alpha == 0) {
                     alpha = 0xFF;
                 }
                 glyphColor = withAlpha(glyphColor, alpha);
-                if (shadowPass)) {
+                if (shadowPass) {
                     glyphColor = applyShadowColor(glyphColor);
                 }
 
-                if (glyph.textureId != 0 && glyph.textureWidth > 0.0f && glyph.textureHeight > 0.0f)) {
+                if (glyph.textureId != 0 && glyph.textureWidth > 0.0f && glyph.textureHeight > 0.0f) {
                     renderGlyph(glyph, drawX - GLYPH_MARGIN, drawY, glyphColor);
                 }
                 drawX += glyph.rawAdvance;
@@ -305,9 +305,9 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
     }
 
     private GlyphData getGlyph(char character) {
-        if (character >= FIRST_GLYPH && character <= LAST_GLYPH)) {
+        if (character >= FIRST_GLYPH && character <= LAST_GLYPH) {
             GlyphData glyph = defaultGlyphs[character];
-            if (glyph != null)) {
+            if (glyph != null) {
                 return glyph;
             }
         }
@@ -316,7 +316,7 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
     }
 
     private GlyphData createGlyph(char character) {
-        if (destroyed)) {
+        if (destroyed) {
             return new GlyphData(0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 0);
         }
 
@@ -409,7 +409,7 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
             maxBottom = Math.max(maxBottom, glyph.visibleBottom);
         }
 
-        if (maxBottom <= 0.0f)) {
+        if (maxBottom <= 0.0f) {
             return Math.max(1.0f, renderFont.getSize2D());
         }
 
@@ -429,7 +429,7 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 if (((image.getRGB(x, y) >>> 24) & CHANNEL_MASK) != 0) {
-                    if (top == -1)) {
+                    if (top == -1) {
                         top = y;
                     }
                     bottom = y + 1;
@@ -438,7 +438,7 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
             }
         }
 
-        if (top == -1)) {
+        if (top == -1) {
             return new int[]{0, 0};
         }
 
@@ -475,7 +475,7 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
     }
 
     private static void deleteGlyphTexture(GlyphData glyph) {
-        if (glyph != null && glyph.textureId != 0)) {
+        if (glyph != null && glyph.textureId != 0) {
             GL11.glDeleteTextures(glyph.textureId);
         }
     }
@@ -486,11 +486,11 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
         int green = (colorIndex >> 1 & 1) * 170 + offset;
         int blue = (colorIndex & 1) * 170 + offset;
 
-        if (colorIndex == 6)) {
+        if (colorIndex == 6) {
             red += 85;
         }
 
-        if (shadow)) {
+        if (shadow) {
             red /= 4;
             green /= 4;
             blue /= 4;
@@ -501,7 +501,7 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
 
     private static int applyShadowColor(int color) {
         int alpha = (color >>> 24) & 0xFF;
-        if (alpha == 0)) {
+        if (alpha == 0) {
             alpha = 0xFF;
         }
 
@@ -522,7 +522,7 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
 
         for (int i = index + 1; i < text.length(); i++) {
             char next = text.charAt(i);
-            if (next == '\u00a7')) {
+            if (next == '\u00a7') {
                 return true;
             }
             if (!isFormattingArtifact(next)) {

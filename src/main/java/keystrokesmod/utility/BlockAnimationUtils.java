@@ -15,18 +15,18 @@ public final class BlockAnimationUtils {
 
     public static void beginRender(PlayerEntity player) {
         if (player == MinecraftClient.getInstance().thePlayer) {
-            if (renderingDepth++ == 0)) {
+            if (renderingDepth++ == 0) {
                 renderingPlayer = player;
             }
         }
     }
 
     public static void endRender(PlayerEntity player) {
-        if (player != renderingPlayer || renderingDepth <= 0)) {
+        if (player != renderingPlayer || renderingDepth <= 0) {
             return;
         }
 
-        if (--renderingDepth == 0)) {
+        if (--renderingDepth == 0) {
             renderingPlayer = null;
         }
     }

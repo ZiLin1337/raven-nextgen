@@ -36,7 +36,7 @@ public class ClickGui extends Screen {
             categoryComponent.y = y;
             categories.add(categoryComponent);
             x += 105;
-            if (x + 100 > width)) {
+            if (x + 100 > width) {
                 x = 5;
                 y += 20;
             }
@@ -86,7 +86,7 @@ public class ClickGui extends Screen {
 
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        if (draggedCategory != null)) {
+        if (draggedCategory != null) {
             draggedCategory.onMouseRelease();
             draggedCategory = null;
         }
@@ -122,7 +122,7 @@ public class ClickGui extends Screen {
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (keyCode == 256)) { // ESC
+        if (keyCode == 256) { // ESC
             close();
             return true;
         }

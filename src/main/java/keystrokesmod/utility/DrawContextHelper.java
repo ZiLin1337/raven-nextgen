@@ -15,7 +15,7 @@ public class DrawContextHelper {
     private static final MinecraftClient mc = MinecraftClient.getInstance();
 
     public static DrawContext getContext() {
-        if (mc.currentScreen != null)) {
+        if (mc.currentScreen != null) {
             return null; // 大部分使用场景是在HUD渲染中，通过Render2DEvent的DrawContext
         }
         return null;

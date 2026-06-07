@@ -99,7 +99,7 @@ public class Request {
             catch (IOException er1) {
                 InputStream es = con.getErrorStream();
                 if (es != null) {
-                    try (BufferedReader br = new BufferedReader(new InputStreamReader(es))) {
+                    try (BufferedReader br = new BufferedReader(new InputStreamReader(es)) {
                         StringBuilder sb = new StringBuilder();
                         String line;
                         while ((line = br.readLine()) != null) {
@@ -124,7 +124,7 @@ public class Request {
         }
         catch (IOException ignored) {}
         finally {
-            if (con != null)) {
+            if (con != null) {
                 con.disconnect();
             }
         }

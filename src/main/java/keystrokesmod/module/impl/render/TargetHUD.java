@@ -65,16 +65,16 @@ public class TargetHUD extends Module {
             reset();
             return;
         }
-        if (ev.phase == TickEvent.Phase.END)) {
-            if (mc.currentScreen != null)) {
+        if (ev.phase == TickEvent.Phase.END) {
+            if (mc.currentScreen != null) {
                 reset();
                 return;
             }
-            if (KillAura.attackingEntity != null)) {
+            if (KillAura.attackingEntity != null) {
                 target = KillAura.attackingEntity;
                 lastAliveMS = System.currentTimeMillis();
                 fadeTimer = null;
-            } else if (target != null)) {
+            } else if (target != null) {
                 if (System.currentTimeMillis() - lastAliveMS >= 400 && fadeTimer == null) {
                     (fadeTimer = new Timer(400)).start();
                 }
@@ -84,10 +84,10 @@ public class TargetHUD extends Module {
             }
             String playerInfo = target.getDisplayName().getFormattedText();
             double health = target.getHealth() / target.getMaxHealth();
-            if (target.isDead)) {
+            if (target.isDead) {
                 health = 0;
             }
-            if (health != lastHealth)) {
+            if (health != lastHealth) {
                 (healthBarTimer = new Timer(mode.getInput() == 0 ? 500 : 350)).start();
             }
             lastHealth = health;
@@ -101,10 +101,10 @@ public class TargetHUD extends Module {
         if (!renderEsp.isToggled() || !Utils.nullCheck()) {
             return;
         }
-        if (KillAura.target != null)) {
+        if (KillAura.target != null) {
             RenderUtils.renderEntity(KillAura.target, 2, 0.0, 0.0, Theme.getGradient((int) theme.getInput(), 0), false);
         }
-        else if (renderEntity != null)) {
+        else if (renderEntity != null) {
             RenderUtils.renderEntity(renderEntity, 2, 0.0, 0.0, Theme.getGradient((int) theme.getInput(), 0), false);
         }
     }
@@ -123,7 +123,7 @@ public class TargetHUD extends Module {
         final int n8 = x + targetStrWithPadding;
         final int n9 = y + (mc.textRenderer.FONT_HEIGHT + 5) - 6 + padding;
         final int alpha = (fadeTimer == null) ? 255 : (255 - fadeTimer.getValueInt(0, 255, 1));
-        if (alpha > 0)) {
+        if (alpha > 0) {
             final int maxAlphaOutline = (alpha > 110) ? 110 : alpha;
             final int maxAlphaBackground = (alpha > 210) ? 210 : alpha;
             final int[] gradientColors = Theme.getGradients((int) theme.getInput());
@@ -152,10 +152,10 @@ public class TargetHUD extends Module {
             int mergedGradientRight = Utils.mergeAlpha(gradientColors[1], maxAlphaBackground);
             float healthBar = (float) (int) (n14 + (n13 - n14) * (1 - health));
             boolean smoothBack = false;
-            if (healthBar != lastHealthBar && lastHealthBar - n13 >= 3 && healthBarTimer != null )) {
+            if (healthBar != lastHealthBar && lastHealthBar - n13 >= 3 && healthBarTimer != null ) {
                 int type = mode.getInput() == 0 ? 4 : 1;
                 float diff = lastHealthBar - healthBar;
-                if (diff > 0)) {
+                if (diff > 0) {
                     lastHealthBar = lastHealthBar - healthBarTimer.getValueFloat(0, diff, type);
                 }
                 else {
@@ -169,7 +169,7 @@ public class TargetHUD extends Module {
             if (healthColor.isToggled()) {
                 mergedGradientLeft = mergedGradientRight = Utils.mergeAlpha(Utils.getColorForHealth(health), maxAlphaBackground);
             }
-            if (lastHealthBar > n14)) { // exceeds total width then clamp
+            if (lastHealthBar > n14) { // exceeds total width then clamp
                 lastHealthBar = n14;
             }
 
@@ -230,7 +230,7 @@ public class TargetHUD extends Module {
             int miY = this.aY;
             String playerInfo = mc.player.getDisplayName().getFormattedText();
             double health = mc.player.getHealth() / mc.player.getMaxHealth();
-            if (mc.player.isDead)) {
+            if (mc.player.isDead) {
                 health = 0;
             }
             lastHealth = health;
@@ -265,12 +265,12 @@ public class TargetHUD extends Module {
 
         protected void mouseClickMove(int mX, int mY, int b, long t) {
             super.mouseClickMove(mX, mY, b, t);
-            if (b == 0)) {
-                if (this.d)) {
+            if (b == 0) {
+                if (this.d) {
                     this.aX = this.laX + (mX - this.lmX);
                     this.aY = this.laY + (mY - this.lmY);
                 }
-                else if (mX > this.clickMinX && mX < this.maX && mY > this.miY && mY < this.maY)) {
+                else if (mX > this.clickMinX && mX < this.maX && mY > this.miY && mY < this.maY) {
                     this.d = true;
                     this.lmX = mX;
                     this.lmY = mY;
@@ -283,14 +283,14 @@ public class TargetHUD extends Module {
 
         protected void mouseReleased(int mX, int mY, int s) {
             super.mouseReleased(mX, mY, s);
-            if (s == 0)) {
+            if (s == 0) {
                 this.d = false;
             }
 
         }
 
         public void actionPerformed(ButtonWidget b) {
-            if (b == this.resetPosition)) {
+            if (b == this.resetPosition) {
                 this.aX = posX = 70;
                 this.aY = posY = 30;
             }

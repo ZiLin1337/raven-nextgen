@@ -83,25 +83,25 @@ public class SpeedBuilders extends Module {
     
     public void onPreUpdate(PreUpdateEvent e) {
         int gameStatus = getGameStatus();
-        if (gameStatus == -1 || platformCenter == null)) {
+        if (gameStatus == -1 || platformCenter == null) {
             return;
         }
-        if (gameStatus == 4)) {
+        if (gameStatus == 4) {
             doneCollecting = true;
         }
-        if (gameStatus == 1 && !doneCollecting)) {
+        if (gameStatus == 1 && !doneCollecting) {
             buildInfo = getBuildInfo(platformCenter);
             if (!buildInfo.isEmpty()) {
                 blockCount = buildInfo.size();
             }
         }
-        if (gameStatus == 2)) {
+        if (gameStatus == 2) {
             doneCollecting = false;
             for (Map.Entry<BlockPos, BuildBlockInfo> entry : buildInfo.entrySet()) {
                 BlockState currentState = mc.world.getBlockState(entry.getKey());
                 BlockState requiredState = entry.getValue().requiredState;
 
-                if (currentState == null || requiredState == null)) {
+                if (currentState == null || requiredState == null) {
                     entry.getValue().isPlaced = false;
                     continue;
                 }
@@ -116,16 +116,16 @@ public class SpeedBuilders extends Module {
 
             if (getLookInfo() != null) {
                 HitResult mop = getLookInfo();
-                if (mop.sideHit != null)) {
+                if (mop.sideHit != null) {
                     BlockPos targetPos = mop.getBlockPos();
                     BlockPos facePos = targetPos.offset(mop.sideHit);
 
                     BuildBlockInfo info = buildInfo.get(facePos);
-                    if (info != null && !info.isPlaced)) {
+                    if (info != null && !info.isPlaced) {
                         if (autoSwap.isToggled()) {
                             int requiredMeta = info.requiredState.getBlock().getMetaFromState(info.requiredState);
                             int slot = getSlot(info.requiredState.getBlock(), requiredMeta);
-                            if (slot != -1 && slot != mc.player.inventory.currentItem)) {
+                            if (slot != -1 && slot != mc.player.inventory.currentItem) {
                                 mc.player.inventory.currentItem = slot;
                             }
                         }
@@ -149,7 +149,7 @@ public class SpeedBuilders extends Module {
         }
         if (e.button == 1 && antiMiss.isToggled() && getLookInfo() != null && getGameStatus() == 2) {
             HitResult mop = getLookInfo();
-            if (mop.sideHit != null)) {
+            if (mop.sideHit != null) {
                 BlockPos targetPos = mop.getBlockPos();
                 BlockPos facePos = targetPos.offset(mop.sideHit);
 
@@ -159,7 +159,7 @@ public class SpeedBuilders extends Module {
                 }
             }
         }
-        else if (e.button == 2)) {
+        else if (e.button == 2) {
             if (autoSwap.isToggled()) {
                 autoSwap.disable();
                 hoverPlace.disable();
@@ -179,7 +179,7 @@ public class SpeedBuilders extends Module {
 
         for (Map.Entry<BlockPos, BuildBlockInfo> buildData : buildInfo.entrySet()) {
             BuildBlockInfo info = buildData.getValue();
-            if (info.isPlaced)) {
+            if (info.isPlaced) {
                 continue;
             }
             if (!holdingSameBlock(info.requiredState)) {
@@ -213,7 +213,7 @@ public class SpeedBuilders extends Module {
                     ? "Showing" : (gameStatus == 2)
                     ? "Building" : (gameStatus == 3)
                     ? "Judging" : "§cDisabled"));
-            if (gameStatus == 2 && !eliminated)) {
+            if (gameStatus == 2 && !eliminated) {
                 double placedCount = 0;
                 for (BuildBlockInfo info : buildInfo.values()) {
                     if (info.isPlaced) placedCount++;
@@ -222,7 +222,7 @@ public class SpeedBuilders extends Module {
                 if (buildInfo.isEmpty()) {
                     percentage = 100.0;
                     placedCount = blockCount;
-                } else if (blockCount > 0)) {
+                } else if (blockCount > 0) {
                     percentage = ((placedCount) / blockCount) * 100.0;
                 }
                 lines.add("§7Progress: §b" + (int) placedCount + "§7/§b" + (int) blockCount + " " + Math.round(percentage) + "%");
@@ -233,7 +233,7 @@ public class SpeedBuilders extends Module {
             int maxWidth = 0;
             for (String line : lines) {
                 int lineWidth = mc.textRenderer.getStringWidth(line);
-                if (lineWidth > maxWidth)) {
+                if (lineWidth > maxWidth) {
                     maxWidth = lineWidth;
                 }
             }
@@ -262,7 +262,7 @@ public class SpeedBuilders extends Module {
         if (!Utils.nullCheck() || e.entity == null) {
             return;
         }
-        if (e.entity == mc.player)) {
+        if (e.entity == mc.player) {
             buildInfo.clear();
             platformCenter = null;
             listenForPacket = false;
@@ -296,7 +296,7 @@ public class SpeedBuilders extends Module {
     public void onReceivePacket(ReceivePacketEvent e) {
         if (listenForPacket && Utils.nullCheck() && e.getPacket() instanceof PlayerPositionLookS2CPacket) {
             Vec3d setPos = new Vec3d(((PlayerPositionLookS2CPacket) e.getPacket()).getX(), ((PlayerPositionLookS2CPacket) e.getPacket()).getY(), ((PlayerPositionLookS2CPacket) e.getPacket()).getZ());
-            if (platformCenter == null)) {
+            if (platformCenter == null) {
                 platformCenter = findCenter(setPos);
             }
             listenForPacket = false;
@@ -345,7 +345,7 @@ public class SpeedBuilders extends Module {
             double dz = pos.getZ() - position.zCoord;
             double distSq = Math.abs(dx * dx + dy * dy + dz * dz);
 
-            if (distSq <= maxDistSq && distSq < closestDistSq)) {
+            if (distSq <= maxDistSq && distSq < closestDistSq) {
                 closestDistSq = distSq;
                 closestPos = pos;
             }
@@ -384,12 +384,12 @@ public class SpeedBuilders extends Module {
     }
 
     public boolean holdingSameBlock(BlockState requiredState) {
-        if (mc.player == null || requiredState == null)) {
+        if (mc.player == null || requiredState == null) {
             return false;
         }
 
         ItemStack heldItem = mc.player.getHeldItem();
-        if (heldItem == null)) {
+        if (heldItem == null) {
             return false;
         }
 
@@ -408,7 +408,7 @@ public class SpeedBuilders extends Module {
         int heldMeta = heldItem.getItemDamage();
         int requiredMeta = requiredBlock.getMetaFromState(requiredState);
 
-        if (requiredBlock == Blocks.leaves || requiredBlock == Blocks.leaves2)) {
+        if (requiredBlock == Blocks.leaves || requiredBlock == Blocks.leaves2) {
             requiredMeta = requiredMeta & 3;
             heldMeta = heldMeta & 3;
         }
@@ -433,7 +433,7 @@ public class SpeedBuilders extends Module {
         if (removeMeta(block)) {
             meta = 0;
         }
-        if (block == Blocks.leaves || block == Blocks.leaves2)) {
+        if (block == Blocks.leaves || block == Blocks.leaves2) {
             meta &= 3;
         }
 
@@ -447,11 +447,11 @@ public class SpeedBuilders extends Module {
                     invMeta = 0;
                 }
 
-                if (invBlock == Blocks.leaves || invBlock == Blocks.leaves2)) {
+                if (invBlock == Blocks.leaves || invBlock == Blocks.leaves2) {
                     invMeta &= 3;
                 }
 
-                if (invBlock == block && invMeta == meta)) {
+                if (invBlock == block && invMeta == meta) {
                     return i;
                 }
             }
@@ -481,7 +481,7 @@ public class SpeedBuilders extends Module {
         BlockState simulatedState = block.onBlockPlaced(mc.world, blockPos, enumFacing,
                 (float) relativeHitVec.xCoord, (float) relativeHitVec.yCoord, (float) relativeHitVec.zCoord, meta, mc.player);
 
-        if (simulatedState == null)) {
+        if (simulatedState == null) {
             return false;
         }
 
@@ -491,13 +491,13 @@ public class SpeedBuilders extends Module {
 
         int simulatedMeta = simulatedState.getBlock().getMetaFromState(simulatedState);
         int requiredMeta = requiredState.getBlock().getMetaFromState(requiredState);
-        if (simulatedMeta != requiredMeta)) {
+        if (simulatedMeta != requiredMeta) {
             return false;
         }
         if (simulatedState.getProperties().containsKey(BlockDirectional.FACING) && requiredState.getProperties().containsKey(BlockDirectional.FACING)) {
             Direction simulatedFacing = simulatedState.getValue(BlockDirectional.FACING);
             Direction requiredFacing = requiredState.getValue(BlockDirectional.FACING);
-            if (simulatedFacing != requiredFacing)) {
+            if (simulatedFacing != requiredFacing) {
                 return false;
             }
         }
@@ -507,7 +507,7 @@ public class SpeedBuilders extends Module {
             StairsBlock.EnumHalf simulatedHalf = simulatedState.getValue(StairsBlock.HALF);
             StairsBlock.EnumHalf requiredHalf = requiredState.getValue(StairsBlock.HALF);
 
-            if (simulatedFacing != requiredFacing || simulatedHalf != requiredHalf)) {
+            if (simulatedFacing != requiredFacing || simulatedHalf != requiredHalf) {
                 return false;
             }
         }

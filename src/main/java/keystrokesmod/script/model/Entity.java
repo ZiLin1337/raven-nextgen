@@ -60,7 +60,7 @@ public class Entity {
     public Box getBoundingBox() { return entity.getBoundingBox(); }
 
     public ItemStack getHeldItem() {
-        if (entity instanceof LivingEntity)) {
+        if (entity instanceof LivingEntity) {
             return ((LivingEntity) entity).getMainHandStack();
         }
         return ItemStack.EMPTY;
@@ -96,7 +96,7 @@ public class Entity {
     }
 
     public NetworkPlayer getNetworkPlayer() {
-        if (entity instanceof PlayerEntity)) {
+        if (entity instanceof PlayerEntity) {
             return NetworkPlayer.convert(Raven.mc.getNetworkHandler().getPlayerListEntry(entity.getUuid()));
         }
         return null;

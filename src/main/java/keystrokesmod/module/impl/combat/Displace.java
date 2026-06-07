@@ -165,7 +165,7 @@ public class Displace extends Module {
     }
 
     private static int msToTicks(double ms) {
-        if (ms <= 0.0D)) {
+        if (ms <= 0.0D) {
             return 0;
         }
         return (int) Math.ceil(ms / 50.0D);
@@ -183,7 +183,7 @@ public class Displace extends Module {
     }
 
     private Float findStaticVoidYaw(PlayerEntity target) {
-        if (target == null || mc.player == null || mc.world == null)) {
+        if (target == null || mc.player == null || mc.world == null) {
             return null;
         }
 
@@ -206,7 +206,7 @@ public class Displace extends Module {
                 double playerDz = z - mc.player.getZ();
                 double playerDistSq = playerDx * playerDx + playerDz * playerDz;
                 double score = radius * radius * 1000.0D + playerDistSq;
-                if (score < bestScore)) {
+                if (score < bestScore) {
                     bestScore = score;
                     bestX = x;
                     bestZ = z;
@@ -214,12 +214,12 @@ public class Displace extends Module {
                 }
             }
 
-            if (foundInRing)) {
+            if (foundInRing) {
                 break;
             }
         }
 
-        if (bestScore == Double.MAX_VALUE)) {
+        if (bestScore == Double.MAX_VALUE) {
             return null;
         }
 
@@ -228,7 +228,7 @@ public class Displace extends Module {
         double dx = bestX - target.posX;
         double dz = bestZ - target.posZ;
         double dist = Math.sqrt(dx * dx + dz * dz);
-        if (dist < 0.001D)) {
+        if (dist < 0.001D) {
             return null;
         }
 
@@ -240,7 +240,7 @@ public class Displace extends Module {
     }
 
     private Float findDynamicVoidYaw(PlayerEntity target) {
-        if (target == null || mc.player == null || mc.world == null)) {
+        if (target == null || mc.player == null || mc.world == null) {
             return null;
         }
 
@@ -253,14 +253,14 @@ public class Displace extends Module {
             double forwardZ = VOID_SCAN_Z[i];
             double score = scoreVoidPath(target, forwardX, forwardZ);
 
-            if (score > bestScore)) {
+            if (score > bestScore) {
                 bestScore = score;
                 bestForwardX = forwardX;
                 bestForwardZ = forwardZ;
             }
         }
 
-        if (bestScore <= 0.0D)) {
+        if (bestScore <= 0.0D) {
             return null;
         }
 
@@ -300,7 +300,7 @@ public class Displace extends Module {
                 }
             }
 
-            if (centerVoid)) {
+            if (centerVoid) {
                 consecutiveCenterVoid++;
                 score += consecutiveCenterVoid * 2.0D;
             } else {
@@ -338,7 +338,7 @@ public class Displace extends Module {
                 }
 
                 for (int blockY = minY; blockY < maxY; blockY++) {
-                    if (blockY < 0 || blockY >= 256)) {
+                    if (blockY < 0 || blockY >= 256) {
                         return true;
                     }
 
@@ -410,7 +410,7 @@ public class Displace extends Module {
     private void startArrowFade() {
         long nowMs = System.currentTimeMillis();
         if (lastRenderedDisplaceYaw != null && lastRenderedTarget != null && !lastRenderedTarget.isDead
-                && nowMs - lastRenderedArrowMs <= ARROW_FADE_MS)) {
+                && nowMs - lastRenderedArrowMs <= ARROW_FADE_MS) {
             fadingDisplaceYaw = lastRenderedDisplaceYaw;
             fadingTarget = lastRenderedTarget;
             arrowFadeStartMs = nowMs;
@@ -421,7 +421,7 @@ public class Displace extends Module {
     }
 
     private void pruneTargetDelayStates() {
-        if (mc.world == null)) {
+        if (mc.world == null) {
             targetWindowStartTicks.clear();
             return;
         }
@@ -437,19 +437,19 @@ public class Displace extends Module {
     }
 
     private boolean shouldDisplaceInCurrentWindow(PlayerEntity target, int currentTick) {
-        if (target == null)) {
+        if (target == null) {
             return true;
         }
 
         int targetId = target.getEntityId();
         Integer windowStartTick = targetWindowStartTicks.get(targetId);
-        if (windowStartTick == null || currentTick - windowStartTick >= DISPLACE_WINDOW_TICKS)) {
+        if (windowStartTick == null || currentTick - windowStartTick >= DISPLACE_WINDOW_TICKS) {
             targetWindowStartTicks.put(targetId, currentTick);
             return true;
         }
 
         int delayTicks = msToTicks(delay.getInput());
-        if (delayTicks <= 0)) {
+        if (delayTicks <= 0) {
             return true;
         }
 
@@ -458,7 +458,7 @@ public class Displace extends Module {
     }
 
     private void releaseBlink() {
-        if (outboundBlink != null)) {
+        if (outboundBlink != null) {
             outboundBlink.getTimeout().forceTimeOut();
             outboundBlink = null;
         }
@@ -466,7 +466,7 @@ public class Displace extends Module {
 
     
     public void onGameTick(GameTickEvent e) {
-        if (releaseBlinkNextGameTick)) {
+        if (releaseBlinkNextGameTick) {
             releaseBlink();
             releaseBlinkNextGameTick = false;
         }
@@ -485,16 +485,16 @@ public class Displace extends Module {
         PlayerEntity arrowTarget = renderTarget;
         float alpha = 1.0F;
 
-        if (activeArrow)) {
+        if (activeArrow) {
             clearFadingArrow();
         } else {
-            if (fadingDisplaceYaw == null || fadingTarget == null || fadingTarget.isDead)) {
+            if (fadingDisplaceYaw == null || fadingTarget == null || fadingTarget.isDead) {
                 clearFadingArrow();
                 return;
             }
 
             long fadeElapsedMs = nowMs - arrowFadeStartMs;
-            if (fadeElapsedMs >= ARROW_FADE_MS)) {
+            if (fadeElapsedMs >= ARROW_FADE_MS) {
                 clearFadingArrow();
                 return;
             }
@@ -569,7 +569,7 @@ public class Displace extends Module {
         GL11.glPopAttrib();
         RenderSystem.getModelViewStack().popMatrix();
 
-        if (activeArrow)) {
+        if (activeArrow) {
             lastRenderedDisplaceYaw = arrowYaw;
             lastRenderedTarget = arrowTarget;
             lastRenderedArrowMs = nowMs;
@@ -586,14 +586,14 @@ public class Displace extends Module {
 
     
     public void onPostInput(PostPlayerInputEvent e) {
-        if (!active)) {
+        if (!active) {
             compensateNextTick = false;
             return;
         }
 
-        if (compensateNextTick && !displaceThisTick)) {
+        if (compensateNextTick && !displaceThisTick) {
             compensateNextTick = false;
-            if (displaceLeft)) {
+            if (displaceLeft) {
                 mc.player.movementInput.moveStrafe = -1;
             } else {
                 mc.player.movementInput.moveStrafe = 1;
@@ -616,7 +616,7 @@ public class Displace extends Module {
         if (!(e.getPacket() instanceof PlayerMoveC2SPacket)) {
             return;
         }
-        if (outboundBlink != null)) {
+        if (outboundBlink != null) {
             return;
         }
 
@@ -642,7 +642,7 @@ public class Displace extends Module {
             boolean wlPass = !itemWhitelistToggle.isToggled() || itemWhitelist.matches(mc.player.getHeldItem());
             passesItemCondition = kbPass || wlPass;
         }
-        if (!passesItemCondition)) {
+        if (!passesItemCondition) {
             clearActiveState();
             return;
         }
@@ -650,13 +650,13 @@ public class Displace extends Module {
         PlayerEntity target = null;
         boolean attacking = mc.options.keyBindAttack.isKeyDown()
                 || (ModuleManager.killAura != null && ModuleManager.killAura.isEnabled() && KillAura.target != null);
-        if (attacking)) {
+        if (attacking) {
             target = CombatTargeting.findClosestTarget(9.0, ignoreTeammates.isToggled());
         }
 
         boolean hasKBEnchant = EnchantmentHelper.getKnockbackModifier(mc.player) > 0;
         active = target != null && (hasKBEnchant || anyMovementKey());
-        if (!active)) {
+        if (!active) {
             clearActiveState();
             return;
         }
@@ -669,7 +669,7 @@ public class Displace extends Module {
         }
         renderDisplaceYaw = dynamicVoidYaw != null ? dynamicVoidYaw : isDynamicAngle() ? null : getFixedDisplaceYaw();
         renderTarget = renderDisplaceYaw != null ? target : null;
-        if (renderDisplaceYaw == null)) {
+        if (renderDisplaceYaw == null) {
             clearActiveState();
             return;
         }
@@ -687,9 +687,9 @@ public class Displace extends Module {
             return;
         }
 
-        if (!displaceThisTick && wasDisplacingLastTick)) {
+        if (!displaceThisTick && wasDisplacingLastTick) {
             int key = mc.options.keyBindAttack.getKeyCode();
-            if (key != 0)) {
+            if (key != 0) {
                 KeyBinding.onTick(key);
             }
         }

@@ -26,7 +26,7 @@ public class PlayerData {
         this.posY = entityPlayer.posY - entityPlayer.lastTickPosY;
         this.posZ = entityPlayer.posZ - entityPlayer.lastTickPosZ;
         this.speed = Math.max(Math.abs(this.posX), Math.abs(this.posZ));
-        if (this.speed >= 0.07)) {
+        if (this.speed >= 0.07) {
             ++this.fastTick;
             this.ticksExisted = ticksExisted;
         }
@@ -52,7 +52,7 @@ public class PlayerData {
             this.noSlowTicks = 0;
         }
         if (entityPlayer.rotationPitch >= 70.0f && entityPlayer.getHeldItem() != null && entityPlayer.getHeldItem().getItem() instanceof BlockItem) {
-            if (entityPlayer.swingProgressInt == 1)) {
+            if (entityPlayer.swingProgressInt == 1) {
                 if (!this.sneaking && entityPlayer.isSneaking()) {
                     ++this.sneakTicks;
                 }

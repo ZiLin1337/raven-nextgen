@@ -73,11 +73,11 @@ public class BridgeInfo extends Module {
 
             while (var2.hasNext()) {
                 Entity e = (Entity) var2.next();
-                if (e instanceof PlayerEntity)) {
+                if (e instanceof PlayerEntity) {
                     if (e.getName().equals(this.enemyName)) {
                         enem = (PlayerEntity) e;
                     }
-                } else if (e instanceof ArmorStandEntity)) {
+                } else if (e instanceof ArmorStandEntity) {
                     if (e.getName().contains(this.start)) {
                         this.g1p = e.getPosition();
                     }
@@ -87,14 +87,14 @@ public class BridgeInfo extends Module {
                 }
             }
 
-            if (this.g1p != null && this.g2p != null)) {
+            if (this.g1p != null && this.g2p != null) {
                 this.d1 = Utils.round(mc.player.getDistance((double) this.g2p.getX(), (double) this.g2p.getY(), (double) this.g2p.getZ()) - 1.4D, 1);
-                if (this.d1 < 0.0D)) {
+                if (this.d1 < 0.0D) {
                     this.d1 = 0.0D;
                 }
 
                 this.d2 = enem == null ? 0.0D : Utils.round(enem.getDistance((double) this.g1p.getX(), (double) this.g1p.getY(), (double) this.g1p.getZ()) - 1.4D, 1);
-                if (this.d2 < 0.0D)) {
+                if (this.d2 < 0.0D) {
                     this.d2 = 0.0D;
                 }
             }
@@ -115,7 +115,7 @@ public class BridgeInfo extends Module {
     
     public void onRenderTick(RenderTickEvent ev) {
         if (ev.phase == Phase.END && Utils.nullCheck() && this.isBridge()) {
-            if (mc.currentScreen != null || mc.options.showDebugInfo)) {
+            if (mc.currentScreen != null || mc.options.showDebugInfo) {
                 return;
             }
 
@@ -150,7 +150,7 @@ public class BridgeInfo extends Module {
 
     
     public void onWorldJoin(EntityJoinWorldEvent e) {
-        if (e.entity == mc.player)) {
+        if (e.entity == mc.player) {
             this.reset();
         }
     }
@@ -244,11 +244,11 @@ public class BridgeInfo extends Module {
 
         protected void mouseClickMove(int mX, int mY, int b, long t) {
             super.mouseClickMove(mX, mY, b, t);
-            if (b == 0)) {
-                if (this.d)) {
+            if (b == 0) {
+                if (this.d) {
                     this.aX = this.laX + (mX - this.lmX);
                     this.aY = this.laY + (mY - this.lmY);
-                } else if (mX > this.miX && mX < this.maX && mY > this.miY && mY < this.maY)) {
+                } else if (mX > this.miX && mX < this.maX && mY > this.miY && mY < this.maY) {
                     this.d = true;
                     this.lmX = mX;
                     this.lmY = mY;
@@ -261,14 +261,14 @@ public class BridgeInfo extends Module {
 
         protected void mouseReleased(int mX, int mY, int s) {
             super.mouseReleased(mX, mY, s);
-            if (s == 0)) {
+            if (s == 0) {
                 this.d = false;
             }
 
         }
 
         public void actionPerformed(ButtonWidget b) {
-            if (b == this.resetPosition)) {
+            if (b == this.resetPosition) {
                 this.aX = BridgeInfo.hudX = 5;
                 this.aY = BridgeInfo.hudY = 70;
             }

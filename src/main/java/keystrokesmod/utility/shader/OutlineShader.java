@@ -10,7 +10,7 @@ public class OutlineShader extends OutlineESPShader {
             "uniform float kernel;\n" +
             "void main() {\n" +
             "  vec4 c = texture2D(tex, gl_TexCoord[0].xy);\n" +
-            "  if (c.a > 0.0)) { gl_FragColor = vec4(0.0); return; }\n" +
+            "  if (c.a > 0.0) { gl_FragColor = vec4(0.0); return; }\n" +
             "  gl_FragColor = vec4(0.0);\n" +
             "  for (float dx = -kernel; dx <= kernel; dx += 1.0)\n" +
             "    for (float dy = -kernel; dy <= kernel; dy += 1.0) {\n" +
@@ -36,7 +36,7 @@ public class OutlineShader extends OutlineESPShader {
         int u = uniform("tex");
         if (u >= 0) GL20.glUniform1i(u, 0);
         u = uniform("texelSize");
-        if (u >= 0)) {
+        if (u >= 0) {
             Minecraft mc = MinecraftClient.getInstance();
             GL20.glUniform2f(u, 1.0f / mc.getWindow().getFramebufferWidth(), 1.0f / mc.getWindow().getFramebufferHeight());
         }

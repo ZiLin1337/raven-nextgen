@@ -27,7 +27,7 @@ public class JumpReset extends Module {
         if (!Utils.nullCheck() || mc.player == null) return;
         if (!shouldReset) return;
 
-        if (mc.player.hurtTime > 0)) {
+        if (mc.player.hurtTime > 0) {
             mc.player.setVelocity(0, 0.42f, 0);
             mc.player.jump();
             shouldReset = false;

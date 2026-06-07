@@ -65,7 +65,7 @@ public class NoSlow extends Module {
 
     @EventHandler
     public void onPostPlayerInput(PostPlayerInputEvent e) {
-        if (noSlowing && mc.player != null)) {
+        if (noSlowing && mc.player != null) {
             mc.player.input.jumping = true;
             noSlowing = false;
         }

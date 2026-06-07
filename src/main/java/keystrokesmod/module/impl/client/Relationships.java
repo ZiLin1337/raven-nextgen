@@ -37,21 +37,21 @@ public class Relationships extends Module {
 
     @Override
     public void guiButtonToggled(ButtonSetting buttonSetting) {
-        if (buttonSetting == middleClickFriends && Raven.playerRelationsManager != null)) {
+        if (buttonSetting == middleClickFriends && Raven.playerRelationsManager != null) {
             Raven.playerRelationsManager.setMiddleClickFriends(buttonSetting.isToggled());
         }
     }
 
     @Override
     public void onEnable() {
-        if (Raven.playerRelationsManager != null)) {
+        if (Raven.playerRelationsManager != null) {
             Raven.playerRelationsManager.setActive(true);
         }
     }
 
     @Override
     public void onDisable() {
-        if (Raven.playerRelationsManager != null)) {
+        if (Raven.playerRelationsManager != null) {
             Raven.playerRelationsManager.setActive(false);
         }
     }

@@ -64,7 +64,7 @@ public class ClickAssist extends Module {
             if (mc.currentScreen == null && !Utils.isConsuming(mc.player)) {
                 double ch;
                 if (ev.button == 0 && leftClick.isToggled() && chanceLeft.getInput() != 0.0D) {
-                    if (this.ignNL)) {
+                    if (this.ignNL) {
                         this.ignNL = false;
                     }
                     else {
@@ -91,7 +91,7 @@ public class ClickAssist extends Module {
                     }
                 }
                 else if (ev.button == 1 && rightClick.isToggled()) {
-                    if (this.ignNR)) {
+                    if (this.ignNR) {
                         this.ignNR = false;
                     }
                     else {
@@ -131,7 +131,7 @@ public class ClickAssist extends Module {
     }
 
     private void fix(int t) {
-        if (t == 0)) {
+        if (t == 0) {
             if (this.ignNL && !Mouse.isButtonDown(0)) {
                 this.bot.mouseRelease(16);
             }

@@ -20,7 +20,7 @@ public final class MinecraftFontAdapter implements RavenFontRenderer {
 
     @Override
     public int drawString(String text, float x, float y, int color, boolean shadow) {
-        if (scale == 1.0f)) {
+        if (scale == 1.0f) {
             return fontRenderer.drawString(text, x, y, color, shadow);
         }
 
@@ -47,11 +47,11 @@ public final class MinecraftFontAdapter implements RavenFontRenderer {
             if (character == SECTION_SIGN && i + 1 < text.length()) {
                 char formatCode = Character.toLowerCase(text.charAt(++i));
                 int colorIndex = COLOR_CODES.indexOf(formatCode);
-                if (colorIndex >= 0)) {
+                if (colorIndex >= 0) {
                     formattingColor = 0xFF000000 | fontRenderer.getColorCode(formatCode);
                     activeFormats.setLength(0);
                 }
-                else if (formatCode == 'r')) {
+                else if (formatCode == 'r') {
                     formattingColor = null;
                     activeFormats.setLength(0);
                 }
@@ -61,12 +61,12 @@ public final class MinecraftFontAdapter implements RavenFontRenderer {
                 continue;
             }
 
-            if (character == '\n')) {
+            if (character == '\n') {
                 continue;
             }
 
             int rawGlyphWidth = fontRenderer.getCharWidth(character);
-            if (rawGlyphWidth < 0)) {
+            if (rawGlyphWidth < 0) {
                 continue;
             }
             if (hasFormat(activeFormats, 'l') && rawGlyphWidth > 0) {

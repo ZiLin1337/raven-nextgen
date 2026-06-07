@@ -44,7 +44,7 @@ public class Piercing extends Module {
         if (!this.isEnabled()) {
             return false;
         }
-        if (mc == null || mc.player == null || mc.world == null)) {
+        if (mc == null || mc.player == null || mc.world == null) {
             return false;
         }
         if (this.weaponOnly.isToggled() && !Utils.holdingWeapon()) {
@@ -62,7 +62,7 @@ public class Piercing extends Module {
 
     private void keystrokesmod$modifyMouseOverVanillaLook(final float partialTicks) {
         final Entity viewEntity = mc.getRenderViewEntity();
-        if (viewEntity == null || mc.world == null)) {
+        if (viewEntity == null || mc.world == null) {
             return;
         }
 
@@ -110,35 +110,35 @@ public class Piercing extends Module {
             float hp = living ? ((LivingEntity) e).getHealth() : Float.POSITIVE_INFINITY;
 
             boolean take = false;
-            if (best == null)) {
+            if (best == null) {
                 take = true;
             }
-            else if (living && !bestLiving)) {
+            else if (living && !bestLiving) {
                 take = true;
             }
-            else if (living == bestLiving)) {
-                if (!living)) {
+            else if (living == bestLiving) {
+                if (!living) {
                     take = dist < bestDist;
                 }
-                else if (modeSel == 0)) {
-                    if (hurt < bestHurt)) {
+                else if (modeSel == 0) {
+                    if (hurt < bestHurt) {
                         take = true;
                     }
-                    else if (hurt == bestHurt && dist < bestDist)) {
+                    else if (hurt == bestHurt && dist < bestDist) {
                         take = true;
                     }
                 }
                 else {
-                    if (hp < bestHp)) {
+                    if (hp < bestHp) {
                         take = true;
                     }
-                    else if (hp == bestHp && dist < bestDist)) {
+                    else if (hp == bestHp && dist < bestDist) {
                         take = true;
                     }
                 }
             }
 
-            if (take)) {
+            if (take) {
                 best = e;
                 bestHit = inside ? (hit == null ? eyes : hit.hitVec) : hit.hitVec;
                 bestDist = dist;
@@ -155,9 +155,9 @@ public class Piercing extends Module {
             return;
         }
 
-        if (best != null)) {
+        if (best != null) {
             mc.objectMouseOver = new HitResult(best, bestHit);
-            if (best instanceof LivingEntity || best instanceof ItemEntityFrame)) {
+            if (best instanceof LivingEntity || best instanceof ItemEntityFrame) {
                 mc.pointedEntity = best;
             }
         }

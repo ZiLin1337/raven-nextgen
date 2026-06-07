@@ -65,7 +65,7 @@ public class ButtonSetting extends Setting {
         return group == null ? getName() : group.getName() + "." + getName();
     }
 
-    public boolean isToggled()) { return this.isEnabled; }
+    public boolean isToggled() { return this.isEnabled; }
     public void toggle() { this.isEnabled = !this.isEnabled; }
     public void enable() { this.isEnabled = true; }
     public void disable() { this.isEnabled = false; }
@@ -80,7 +80,7 @@ public class ButtonSetting extends Setting {
         else if (data.has(legacyKey)) key = legacyKey;
         else {
             for (String legacyProfileKey : legacyProfileKeys) {
-                if (data.has(legacyProfileKey)) { key = legacyProfileKey; break; }
+                if (data.has(legacyProfileKey) { key = legacyProfileKey; break; }
             }
         }
         if (key != null && data.get(key).isJsonPrimitive() && !this.isMethodButton) {

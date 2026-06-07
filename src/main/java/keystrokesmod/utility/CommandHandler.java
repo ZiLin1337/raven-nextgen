@@ -85,7 +85,7 @@ public class CommandHandler implements IMinecraftInstance {
     }
 
     private static void handleNameHiderCommand(String[] args) {
-        if (args == null || args.length < 2)) {
+        if (args == null || args.length < 2) {
             print(INVALID_SYNTAX, 1);
             return;
         }
@@ -122,8 +122,8 @@ public class CommandHandler implements IMinecraftInstance {
         print("Retrieving data...", 1);
         Raven.getScheduledExecutor().execute(() -> {
             int[] stats = ProfileUtils.getHypixelStats(playerName, ProfileUtils.DM.OVERALL);
-            if (stats != null)) {
-                if (stats[0] == -1)) {
+            if (stats != null) {
+                if (stats[0] == -1) {
                     String displayName = playerName.length() > 16 ? playerName.substring(0, 16) + "..." : playerName;
                     print("&c" + displayName + " does not exist!", 0);
                 }
@@ -144,7 +144,7 @@ public class CommandHandler implements IMinecraftInstance {
     }
 
     private static void handleSetSpeedCommand(String[] args) {
-        if (args == null || args.length != 3)) {
+        if (args == null || args.length != 3) {
             print(INVALID_SYNTAX, 1);
             return;
         }
@@ -157,7 +157,7 @@ public class CommandHandler implements IMinecraftInstance {
             return;
         }
 
-        if (value > 100 || value < 0)) {
+        if (value > 100 || value < 0) {
             print("&cInvalid value. [0 - 100]", 1);
             return;
         }
@@ -181,7 +181,7 @@ public class CommandHandler implements IMinecraftInstance {
     }
 
     private static void handleSetVelocityCommand(String[] args) {
-        if (args == null || args.length != 3)) {
+        if (args == null || args.length != 3) {
             print(INVALID_SYNTAX, 1);
             return;
         }
@@ -194,7 +194,7 @@ public class CommandHandler implements IMinecraftInstance {
             return;
         }
 
-        if (value > 300 || value < -100)) {
+        if (value > 300 || value < -100) {
             print("&cInvalid value. [-100 - 300]", 1);
             return;
         }
@@ -218,7 +218,7 @@ public class CommandHandler implements IMinecraftInstance {
     }
 
     private static void handleHideCommand(String[] args) {
-        if (args == null || args.length != 2)) {
+        if (args == null || args.length != 2) {
             print(INVALID_SYNTAX, 1);
             return;
         }
@@ -260,7 +260,7 @@ public class CommandHandler implements IMinecraftInstance {
         }
 
         boolean added = Utils.addFriend(args[1]);
-        if (added)) {
+        if (added) {
             print("&aAdded friend: " + args[1], 1);
         }
         else {
@@ -282,7 +282,7 @@ public class CommandHandler implements IMinecraftInstance {
         }
 
         boolean added = Utils.addEnemy(args[1]);
-        if (!added)) {
+        if (!added) {
             print("&aRemoved enemy: " + args[1], 1);
             Utils.removeEnemy(args[1]);
         }
@@ -292,7 +292,7 @@ public class CommandHandler implements IMinecraftInstance {
     }
 
     private static void handleProfilesCommand(String[] args, boolean hasArgs) {
-        if (!hasArgs)) {
+        if (!hasArgs) {
             print("&aAvailable profiles:", 1);
             if (Raven.profileManager.profiles.isEmpty()) {
                 print("None", 0);
@@ -302,11 +302,11 @@ public class CommandHandler implements IMinecraftInstance {
                 print(i + 1 + ". " + Raven.profileManager.profiles.get(i).getName(), 0);
             }
         }
-        else if (args != null && args.length > 1)) {
+        else if (args != null && args.length > 1) {
             switch (args[1]) {
                 case "save":
                 case "s": {
-                    if (args.length != 3)) {
+                    if (args.length != 3) {
                         print(INVALID_SYNTAX, 1);
                         return;
                     }
@@ -323,7 +323,7 @@ public class CommandHandler implements IMinecraftInstance {
                 }
                 case "load":
                 case "l": {
-                    if (args.length != 3)) {
+                    if (args.length != 3) {
                         print(INVALID_SYNTAX, 1);
                         return;
                     }
@@ -344,7 +344,7 @@ public class CommandHandler implements IMinecraftInstance {
                 }
                 case "remove":
                 case "r": {
-                    if (args.length != 3)) {
+                    if (args.length != 3) {
                         print(INVALID_SYNTAX, 1);
                         return;
                     }
@@ -453,11 +453,11 @@ public class CommandHandler implements IMinecraftInstance {
     }
 
     public static void print(String message, int type) {
-        if (type == 1 || type == 2)) {
+        if (type == 1 || type == 2) {
             responseLines.add("");
         }
         responseLines.add(message);
-        if (type == 2 || type == 3)) {
+        if (type == 2 || type == 3) {
             responseLines.add("");
         }
     }
@@ -481,7 +481,7 @@ public class CommandHandler implements IMinecraftInstance {
     }
 
     private static void renderResponseStrings(TextRenderer fontRenderer, List<String> responseLines, int x, int y) {
-        if (hasShownWelcome)) {
+        if (hasShownWelcome) {
             hasShownWelcome = false;
             print("Welcome,", 0);
             print("Use \"help\" for help.", 0);
@@ -513,7 +513,7 @@ public class CommandHandler implements IMinecraftInstance {
 
     public static void setBackgroundColor() {
         int randomIndex = Utils.getRandom().nextInt(backgroundColors.size());
-        if (randomIndex == lastBackgroundColorIndex)) {
+        if (randomIndex == lastBackgroundColorIndex) {
             randomIndex += randomIndex == 3 ? -3 : 1;
         }
         lastBackgroundColorIndex = randomIndex;

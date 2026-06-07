@@ -54,12 +54,12 @@ public class WTap extends Module {
         long now = System.currentTimeMillis();
         boolean sprintingNow = mc.player.isSprinting();
 
-        if (waitingForSprintRestart && sprintingNow && !wasSprinting)) {
+        if (waitingForSprintRestart && sprintingNow && !wasSprinting) {
             lastResetStartMs = now;
             waitingForSprintRestart = false;
         }
 
-        if (pendingResetAtMs > 0L && now >= pendingResetAtMs)) {
+        if (pendingResetAtMs > 0L && now >= pendingResetAtMs) {
             stopSprint = true;
             pendingResetAtMs = 0L;
             waitingForSprintRestart = true;

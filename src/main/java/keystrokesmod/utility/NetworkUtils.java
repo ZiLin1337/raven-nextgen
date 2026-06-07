@@ -34,13 +34,13 @@ public class NetworkUtils {
         try {
             URL url = new URL(_url);
             con = (HttpURLConnection) url.openConnection();
-            if (sendHardwareId)) {
+            if (sendHardwareId) {
                 con.setRequestProperty("id", SystemUtils.getHardwareIdForLoad(_url));
             }
             contents = getTextFromConnection(con, appendNewline);
         } catch (IOException ignored) {
         } finally {
-            if (con != null)) {
+            if (con != null) {
                 con.disconnect();
             }
 
@@ -49,7 +49,7 @@ public class NetworkUtils {
     }
 
     public static String getTextFromConnection(HttpURLConnection connection, boolean appendIndent) {
-        if (connection != null)) {
+        if (connection != null) {
             try {
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
@@ -97,7 +97,7 @@ public class NetworkUtils {
 
                 int responseCode = connection.getResponseCode();
 
-                if (responseCode >= 300 && responseCode < 400)) {
+                if (responseCode >= 300 && responseCode < 400) {
                     String newLocation = connection.getHeaderField("Location");
                     if (newLocation == null || newLocation.isEmpty()) {
                         return null;

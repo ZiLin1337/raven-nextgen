@@ -87,7 +87,7 @@ public class FrozenEntitySync {
             steps++;
             tickNonLocalEntities(mc);
         }
-        if (steps >= MAX_STEPS_PER_FRAME)) {
+        if (steps >= MAX_STEPS_PER_FRAME) {
             frozenTickAccumulator = 0;
         }
 
@@ -144,15 +144,15 @@ public class FrozenEntitySync {
                 ++entity.ticksExisted;
                 entity.onUpdate();
             } catch (Throwable ignored) {}
-            if (entity.isDead)) {
+            if (entity.isDead) {
                 mc.world.weatherEffects.remove(i--);
             }
         }
 
         for (Entity entity : mc.world.getEntities()) {
             if (entity == null || entity.isDead || entity == local) continue;
-            if (entity.ridingEntity != null)) {
-                if (!entity.ridingEntity.isDead && entity.ridingEntity.riddenByEntity == entity)) {
+            if (entity.ridingEntity != null) {
+                if (!entity.ridingEntity.isDead && entity.ridingEntity.riddenByEntity == entity) {
                     continue;
                 }
                 entity.ridingEntity.riddenByEntity = null;

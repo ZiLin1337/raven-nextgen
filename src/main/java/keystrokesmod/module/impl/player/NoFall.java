@@ -48,30 +48,30 @@ public class NoFall extends Module {
         }
         double predictedY = mc.player.getY() + mc.player.motionY;
         double distanceFallen = initialY - predictedY;
-        if (mc.player.motionY >= -1.0)) {
+        if (mc.player.motionY >= -1.0) {
             dynamic = 3.0;
         }
-        if (mc.player.motionY < -1.0)) {
+        if (mc.player.motionY < -1.0) {
             dynamic = 4.0;
         }
-        if (mc.player.motionY < -2.0)) {
+        if (mc.player.motionY < -2.0) {
             dynamic = 5.0;
         }
         if (isFalling && mode.getInput() == 2) {
-            if (distanceFallen >= dynamic)) {
+            if (distanceFallen >= dynamic) {
                 ((IAccessorMinecraft) mc).getTimer().timerSpeed = (0.7399789F + (float) Utils.randomizeDouble(-0.012, 0.012));
                 mc.getNetHandler().addToSendQueue(new PlayerMoveC2SPacket(true));
                 initialY = mc.player.getY();
             }
         }
         if (isFalling && mode.getInput() == 3) {
-            if (mc.player.ticksExisted % 2 == 0)) {
+            if (mc.player.ticksExisted % 2 == 0) {
                 ((IAccessorMinecraft) mc).getTimer().timerSpeed = (float) Utils.randomizeDouble(0.5, 0.50201);
             }
             else {
                 ((IAccessorMinecraft) mc).getTimer().timerSpeed = (float) 1;
             }
-            if (distanceFallen >= 3)) {
+            if (distanceFallen >= 3) {
                 mc.getNetHandler().addToSendQueue(new PlayerMoveC2SPacket(true));
                 initialY = mc.player.getY();
             }
@@ -112,22 +112,22 @@ public class NoFall extends Module {
         if (Utils.spectatorCheck()) {
             return true;
         }
-        if (mc.player.onGround)) {
+        if (mc.player.onGround) {
             return true;
         }
         if (BlockUtils.getBlockState(new BlockPos(mc.player.getX(), mc.player.getY() - 1, mc.player.getZ())) != Blocks.AIR) {
             return true;
         }
-        if (mc.player.motionY > -0.0784)) {
+        if (mc.player.motionY > -0.0784) {
             return true;
         }
-        if (mc.player.capabilities.isCreativeMode)) {
+        if (mc.player.capabilities.isCreativeMode) {
             return true;
         }
         if (isVoid() && mc.player.getY() <= 41) {
             return true;
         }
-        if (mc.player.capabilities.isFlying)) {
+        if (mc.player.capabilities.isFlying) {
             return true;
         }
         return false;

@@ -17,7 +17,7 @@ public class InstantStop extends Module {
     @EventHandler
     public void onPreMotion(PreMotionEvent e) {
         if (mc.player == null) return;
-        if (mc.player.input.movementForward == 0 && mc.player.input.movementSideways == 0)) {
+        if (mc.player.input.movementForward == 0 && mc.player.input.movementSideways == 0) {
             mc.player.setVelocity(0, mc.player.getVelocity().y, 0);
         }
     }

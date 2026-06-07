@@ -55,7 +55,7 @@ public final class UnifiedLagHandler extends AbstractFastTrackProvider {
             return;
         }
 
-        if (fastTracked)) {
+        if (fastTracked) {
             updateServerPosition(packet);
             return;
         }
@@ -83,7 +83,7 @@ public final class UnifiedLagHandler extends AbstractFastTrackProvider {
             return;
         }
 
-        if (fastTracked)) {
+        if (fastTracked) {
             return;
         }
 

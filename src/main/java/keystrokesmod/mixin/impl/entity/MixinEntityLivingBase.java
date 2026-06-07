@@ -45,7 +45,7 @@ public abstract class MixinLivingEntity {
         if (Settings.fullBody != null && Settings.rotateBody != null
                 && !Settings.fullBody.isToggled() && Settings.rotateBody.isToggled()
                 && self instanceof ClientPlayerEntity && PreMotionEvent.setRenderYaw() {
-            if (this.handSwingProgress > 0F)) {
+            if (this.handSwingProgress > 0F) {
                 rotationYaw = RotationUtils.renderYaw;
             }
             rotationYaw = RotationUtils.renderYaw;
@@ -104,7 +104,7 @@ public abstract class MixinLivingEntity {
     // ===== travel (PrePlayerMovementInputEvent) =====
     @Redirect(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;travel(Lnet/minecraft/util/math/Vec3dd;)V"))
     private void onTravelRedirect(LivingEntity self, Vec3dd movementInput) {
-        if (self instanceof ClientPlayerEntity)) {
+        if (self instanceof ClientPlayerEntity) {
             PrePlayerMovementInputEvent event = new PrePlayerMovementInputEvent(
                     (float) movementInput.z, // forward is on z
                     (float) movementInput.x  // strafe is on x

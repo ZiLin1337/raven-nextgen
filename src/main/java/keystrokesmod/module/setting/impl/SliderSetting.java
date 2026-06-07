@@ -157,7 +157,7 @@ public class SliderSetting extends Setting {
     }
 
     public static double roundToInterval(double v, int p) {
-        if (p < 0)) {
+        if (p < 0) {
             return 0.0D;
         } else {
             BigDecimal bd = new BigDecimal(v);

@@ -34,7 +34,7 @@ public class ProfileModule extends Module {
 
     @Override
     public void toggle() {
-        if (mc.currentScreen instanceof ClickGui || mc.currentScreen == null)) {
+        if (mc.currentScreen instanceof ClickGui || mc.currentScreen == null) {
             Raven.profileManager.loadProfile(this.getName());
 
             Raven.currentProfile = profile;
@@ -48,7 +48,7 @@ public class ProfileModule extends Module {
 
     @Override
     public boolean isEnabled() {
-        if (Raven.currentProfile == null)) {
+        if (Raven.currentProfile == null) {
             return false;
         }
         return Raven.currentProfile.getModule() == this;
@@ -65,7 +65,7 @@ public class ProfileModule extends Module {
     }
 
     private void renameProfile() {
-        if (Raven.profileManager == null)) {
+        if (Raven.profileManager == null) {
             return;
         }
 

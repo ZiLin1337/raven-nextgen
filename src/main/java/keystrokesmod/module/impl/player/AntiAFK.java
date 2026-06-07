@@ -58,7 +58,7 @@ public class AntiAFK extends Module {
         --this.ticks;
         switch ((int) afk.getInput() {
             case 1: {
-                if (this.random)) {
+                if (this.random) {
                     mc.options.forwardKey.setPressed(Utils.getRandom().nextBoolean());
                     mc.options.rightKey.setPressed(Utils.getRandom().nextBoolean());
                 } else {
@@ -104,7 +104,7 @@ public class AntiAFK extends Module {
             mc.player.jump();
         }
 
-        if (this.ticks == 0)) {
+        if (this.ticks == 0) {
             if (swapItem.isToggled()) {
                 mc.player.getInventory().selectedSlot = Utils.randomizeInt(0, 8);
             }

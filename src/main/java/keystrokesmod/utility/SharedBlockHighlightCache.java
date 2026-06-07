@@ -88,13 +88,13 @@ public final class SharedBlockHighlightCache {
     }
 
     public void addUpdateListener(UpdateListener listener) {
-        if (listener != null)) {
+        if (listener != null) {
             updateListeners.add(listener);
         }
     }
 
     public void removeUpdateListener(UpdateListener listener) {
-        if (listener != null)) {
+        if (listener != null) {
             updateListeners.remove(listener);
         }
     }
@@ -123,7 +123,7 @@ public final class SharedBlockHighlightCache {
             return;
         }
         scanQueue.clear();
-        if (mc.world == null || mc.player == null)) {
+        if (mc.world == null || mc.player == null) {
             return;
         }
         int rd = mc.options.renderDistanceChunks;
@@ -143,7 +143,7 @@ public final class SharedBlockHighlightCache {
         if (mc.world == null || !anyConsumerActive()) {
             return;
         }
-        if (blockListMatcher != null)) {
+        if (blockListMatcher != null) {
             blockListMatcher.beginScanPass();
         }
         int remaining = maxSections;
@@ -151,7 +151,7 @@ public final class SharedBlockHighlightCache {
             long[] cpos = scanQueue.pollFirst();
             int cx = (int) cpos[0], cz = (int) cpos[1];
             Chunk chunk = mc.world.getChunkFromChunkCoords(cx, cz);
-            if (chunk == null || chunk instanceof EmptyChunk)) {
+            if (chunk == null || chunk instanceof EmptyChunk) {
                 continue;
             }
             remaining -= scanChunk(chunk);
@@ -159,7 +159,7 @@ public final class SharedBlockHighlightCache {
     }
 
     public void onBlockChange(BlockPos pos, BlockState newState) {
-        if (blockListMatcher != null)) {
+        if (blockListMatcher != null) {
             blockListMatcher.beginScanPass();
         }
         long ck = key(pos.getX() >> 4, pos.getZ() >> 4);
@@ -170,7 +170,7 @@ public final class SharedBlockHighlightCache {
                 blockListByChunk.computeIfAbsent(ck, k -> ConcurrentHashMap.newKeySet()).add(immutablePos);
             } else {
                 Set<BlockPos> set = blockListByChunk.get(ck);
-                if (set != null)) {
+                if (set != null) {
                     set.remove(pos);
                 }
             }
@@ -181,7 +181,7 @@ public final class SharedBlockHighlightCache {
                 bedFootByChunk.computeIfAbsent(ck, k -> ConcurrentHashMap.newKeySet()).add(immutablePos);
             } else {
                 Set<BlockPos> set = bedFootByChunk.get(ck);
-                if (set != null)) {
+                if (set != null) {
                     set.remove(pos);
                 }
             }
@@ -193,7 +193,7 @@ public final class SharedBlockHighlightCache {
     }
 
     public void onBlockListSettingsChanged() {
-        if (blockListMatcher != null)) {
+        if (blockListMatcher != null) {
             blockListMatcher.beginScanPass();
         }
         rescanBlockListLayer();
@@ -233,7 +233,7 @@ public final class SharedBlockHighlightCache {
     }
 
     public boolean containsBlockList(BlockPos pos) {
-        if (pos == null)) {
+        if (pos == null) {
             return false;
         }
         long ck = key(pos.getX() >> 4, pos.getZ() >> 4);
@@ -280,7 +280,7 @@ public final class SharedBlockHighlightCache {
 
         for (int si = 0; si < sections.length; si++) {
             ExtendedBlockStorage section = sections[si];
-            if (section == null)) {
+            if (section == null) {
                 continue;
             }
             scanned++;
@@ -290,7 +290,7 @@ public final class SharedBlockHighlightCache {
                     for (int x = 0; x < 16; x++) {
                         BlockPos pos = new BlockPos(baseX + x, baseY + y, baseZ + z);
                         BlockState state = section.get(x, y, z);
-                        if (state == null)) {
+                        if (state == null) {
                             continue;
                         }
                         if (isBlockListActive() && blockListMatcher.matchesBlock(state) && blockListMatcher.shouldIndexAt(pos, state)) {

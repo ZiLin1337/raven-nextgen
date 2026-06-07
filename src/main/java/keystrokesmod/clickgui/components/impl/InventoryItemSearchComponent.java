@@ -44,10 +44,10 @@ public class InventoryItemSearchComponent extends AbstractItemSearchComponent<In
     @Override
     public void keyTyped(char typedChar, int keyCode) {
         if (!moduleComponent.isOpened) return;
-        if (listeningStorageId != null)) {
-            if (keyCode == GLFW.GLFW_KEY_ESCAPE)) { listeningStorageId = null; return; }
+        if (listeningStorageId != null) {
+            if (keyCode == GLFW.GLFW_KEY_ESCAPE) { listeningStorageId = null; return; }
             int slot = getHotbarSlotForKey(keyCode);
-            if (slot != -1)) {
+            if (slot != -1) {
                 setting.setAssignedSlot(listeningStorageId, slot);
                 listeningStorageId = null;
                 invalidateSelectedRows();
@@ -105,7 +105,7 @@ public class InventoryItemSearchComponent extends AbstractItemSearchComponent<In
     @Override
     protected boolean handleSelectedEntryClick(int mouseX, int mouseY, Layout layout) {
         int rowIndex = getSelectedRowIndex(mouseX, mouseY, layout);
-        if (rowIndex < 0)) { draggingStorageId = null; return false; }
+        if (rowIndex < 0) { draggingStorageId = null; return false; }
         String sid = setting.getItems().get(rowIndex);
         float rowTop = getSelectedTop(layout) - selectedScrollAnim.getValue() + rowIndex * ROW_HEIGHT;
         if (isOverClose(mouseX, mouseY, rowTop, layout.right)) {
@@ -114,7 +114,7 @@ public class InventoryItemSearchComponent extends AbstractItemSearchComponent<In
         }
         float sr = layout.right - CLOSE_SIZE - CLOSE_PAD - SLOT_BOX_GAP;
         float sl = sr - getSlotPillWidth(sid);
-        if (mouseX >= sl && mouseX <= sr && mouseY >= rowTop + 1f && mouseY <= rowTop + ROW_HEIGHT - 1f)) {
+        if (mouseX >= sl && mouseX <= sr && mouseY >= rowTop + 1f && mouseY <= rowTop + ROW_HEIGHT - 1f) {
             listeningStorageId = sid; draggingStorageId = null; return true;
         }
         draggingStorageId = sid; dragGrabOffsetY = mouseY - rowTop;
@@ -130,18 +130,18 @@ public class InventoryItemSearchComponent extends AbstractItemSearchComponent<In
         Layout layout = layout(true);
         float selectedTop = getSelectedTop(layout);
         float selectedHeight = getSelectedVisibleHeight();
-        if (selectedHeight <= 0f)) { draggingStorageId = null; return; }
+        if (selectedHeight <= 0f) { draggingStorageId = null; return; }
         if (setting.getItems().size() > MAX_VISIBLE_SELECTED && lastMouseX >= layout.left && lastMouseX <= layout.right) {
-            if (lastMouseY < selectedTop + DRAG_SCROLL_EDGE)) { selectedScrollAnim.extend(DRAG_SCROLL_SPEED); clampSelectedScroll(); }
-            else if (lastMouseY > selectedTop + selectedHeight - DRAG_SCROLL_EDGE)) { selectedScrollAnim.extend(-DRAG_SCROLL_SPEED); clampSelectedScroll(); }
+            if (lastMouseY < selectedTop + DRAG_SCROLL_EDGE) { selectedScrollAnim.extend(DRAG_SCROLL_SPEED); clampSelectedScroll(); }
+            else if (lastMouseY > selectedTop + selectedHeight - DRAG_SCROLL_EDGE) { selectedScrollAnim.extend(-DRAG_SCROLL_SPEED); clampSelectedScroll(); }
         }
         List<String> ordered = setting.getItems();
         int curIdx = ordered.indexOf(draggingStorageId);
-        if (curIdx < 0)) { draggingStorageId = null; return; }
+        if (curIdx < 0) { draggingStorageId = null; return; }
         float draggedRowCenter = (lastMouseY - dragGrabOffsetY) + ROW_HEIGHT / 2f;
         int desired = (int) Math.floor((draggedRowCenter - selectedTop + selectedScrollAnim.getValue()) / ROW_HEIGHT);
         desired = Math.max(0, Math.min(desired, ordered.size() - 1));
-        if (desired != curIdx)) { setting.moveItem(draggingStorageId, desired); invalidateSelectedRows(); markUnsaved(); }
+        if (desired != curIdx) { setting.moveItem(draggingStorageId, desired); invalidateSelectedRows(); markUnsaved(); }
     }
 
     private int getSelectedRowIndex(int mx, int my, Layout layout) {

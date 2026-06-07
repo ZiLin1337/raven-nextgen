@@ -26,7 +26,7 @@ public class MixinItemRenderer {
 
     @Inject(method = "updateHeldItems", at = @At("HEAD"), cancellable = true)
     private void onUpdateHeldItems(CallbackInfo ci) {
-        if (cancelUpdate)) {
+        if (cancelUpdate) {
             cancelUpdate = false;
             equipProgressMainHand = 1.0F;
             prevEquipProgressMainHand = 1.0F;
@@ -36,7 +36,7 @@ public class MixinItemRenderer {
 
     @Inject(method = "resetEquipProgress", at = @At("HEAD"), cancellable = true)
     private void onResetEquipProgress(Hand hand, CallbackInfo ci) {
-        if (cancelReset)) {
+        if (cancelReset) {
             cancelReset = false;
             equipProgressMainHand = 1.0F;
             prevEquipProgressMainHand = 1.0F;

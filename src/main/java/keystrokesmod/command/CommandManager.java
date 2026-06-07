@@ -55,7 +55,7 @@ public class CommandManager {
         System.arraycopy(parts, 1, args, 0, parts.length - 1);
 
         Command command = findCommand(label);
-        if (command == null)) {
+        if (command == null) {
             Utils.sendMessage("&7Unknown command. Use &b" + prefix + "help &7for a list of commands.");
             return false;
         }

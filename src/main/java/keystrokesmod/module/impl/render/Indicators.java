@@ -189,7 +189,7 @@ public class Indicators extends Module {
     @Override
     public void guiButtonToggled(ButtonSetting buttonSetting) {
         if (buttonSetting == renderFireballs || buttonSetting == renderArrows || buttonSetting == renderPearls
-                || buttonSetting == drawFireballTrajectory)) {
+                || buttonSetting == drawFireballTrajectory) {
             updateTrajectoryVisibility();
         }
     }
@@ -205,14 +205,14 @@ public class Indicators extends Module {
             return;
         }
         tickCounter++;
-        if (tickCounter % APPROACH_INTERVAL_TICKS != 0)) {
+        if (tickCounter % APPROACH_INTERVAL_TICKS != 0) {
             return;
         }
         Set<Entity> seen = new HashSet<>();
         entitiesToRender.clear();
         double px = mc.player.getX(), py = mc.player.getY(), pz = mc.player.getZ();
         for (Entity en : mc.world.getEntities()) {
-            if (en == null || en == mc.player)) {
+            if (en == null || en == mc.player) {
                 continue;
             }
             ItemStack itemStack = getTrackedItemStack(en);
@@ -222,7 +222,7 @@ public class Indicators extends Module {
             seen.add(en);
             Vec3d posThen = lastPosition.get(en);
             if (onlyWhenApproaching.isToggled()) {
-                if (posThen == null)) {
+                if (posThen == null) {
                     lastPosition.put(en, new Vec3d(en.posX, en.posY, en.posZ));
                     continue;
                 }
@@ -231,7 +231,7 @@ public class Indicators extends Module {
                                 (py - posThen.yCoord) * (py - posThen.yCoord) +
                                 (pz - posThen.zCoord) * (pz - posThen.zCoord));
                 double distanceNow = mc.player.getDistanceToEntity(en);
-                if (distanceThen - distanceNow <= MIN_NET_TOWARD_BLOCKS)) {
+                if (distanceThen - distanceNow <= MIN_NET_TOWARD_BLOCKS) {
                     lastPosition.put(en, new Vec3d(en.posX, en.posY, en.posZ));
                     continue;
                 }
@@ -244,7 +244,7 @@ public class Indicators extends Module {
 
     
     public void onRenderTick(TickEvent.RenderTickEvent event) {
-        if (event.phase != TickEvent.Phase.END)) {
+        if (event.phase != TickEvent.Phase.END) {
             return;
         }
         if (mc.currentScreen != null || !Utils.nullCheck()) {
@@ -253,7 +253,7 @@ public class Indicators extends Module {
         try {
             for (Entity en : entitiesToRender) {
                 ItemStack itemStack = getTrackedItemStack(en);
-                if (itemStack == null)) {
+                if (itemStack == null) {
                     continue;
                 }
                 this.renderIndicatorFor(en, itemStack, event.renderTickTime);
@@ -290,25 +290,25 @@ public class Indicators extends Module {
     }
 
     private ItemStack getTrackedItemStack(Entity en) {
-        if (en == null)) {
+        if (en == null) {
             return null;
         }
-        if (en instanceof EntityArrow)) {
+        if (en instanceof EntityArrow) {
             if (((IAccessorEntityArrow) en).getInGround()) {
                 return null;
             }
             return new ItemStack(Items.ARROW);
         }
-        if (en instanceof ExplosiveProjectileEntity)) {
+        if (en instanceof ExplosiveProjectileEntity) {
             return new ItemStack(Items.fire_charge);
         }
-        if (en instanceof EntityEnderPearl)) {
+        if (en instanceof EntityEnderPearl) {
             return new ItemStack(Items.ender_pearl);
         }
-        if (en instanceof EntityEgg)) {
+        if (en instanceof EntityEgg) {
             return new ItemStack(Items.egg);
         }
-        if (en instanceof SnowballEntity)) {
+        if (en instanceof SnowballEntity) {
             return new ItemStack(Items.snowball);
         }
         return null;
@@ -355,7 +355,7 @@ public class Indicators extends Module {
          scaledResolution = /* ScaledResolution removed in 1.21.4 */ null;
         Vec3d vec = RenderUtils.convertTo2D(scaledResolution.getScaleFactor(), x, y, z);
 
-        if (vec != null)) {
+        if (vec != null) {
             mc.entityRenderer.setupOverlayRendering();
              res = /* ScaledResolution removed in 1.21.4 */ null;
 
@@ -363,7 +363,7 @@ public class Indicators extends Module {
             double dy = vec.yCoord - res.getScaledHeight() / 2.0;
             boolean inFrustum = vec.zCoord < 1.0003684;
 
-            if (!inFrustum)) {
+            if (!inFrustum) {
                 dx *= -1.0;
                 dy *= -1.0;
             }
@@ -377,7 +377,7 @@ public class Indicators extends Module {
                 radiusInput += 20.0;
             }
 
-            if (inFrustum && hypotenuse < radiusInput + 15.0)) {
+            if (inFrustum && hypotenuse < radiusInput + 15.0) {
                 return;
             }
 
@@ -395,8 +395,8 @@ public class Indicators extends Module {
 
             int arrowInput = (int) arrow.getInput();
 
-            if (arrowInput == 0)) {
-                if (color == -1)) {
+            if (arrowInput == 0) {
+                if (color == -1) {
                     GL11.glColor3d(1.0, 1.0, 1.0);
                 }
                 else {
@@ -421,13 +421,13 @@ public class Indicators extends Module {
                 RenderSystem.disableBlend(GL11.GL_BLEND);
                 RenderSystem.disableBlend(GL11.GL_LINE_SMOOTH);
             }
-            else if (arrowInput == 1)) {
+            else if (arrowInput == 1) {
                 RenderSystem.rotate(-90.0f, 0.0f, 0.0f, 1.0f);
                 RenderSystem.scale(1.5, 1.5, 1.5);
                 RavenFontRenderer fr = getIndicatorFontRenderer();
                 fr.drawString(">", -2.0f, -4.0f, color, false);
             }
-            else if (arrowInput == 2)) {
+            else if (arrowInput == 2) {
                 RenderUtils.draw2DPolygon(0.0, 0.0, 5.0, 3, Utils.mergeAlpha(color, 255));
             }
 
@@ -471,7 +471,7 @@ public class Indicators extends Module {
     }
 
     private Color getColorForItem(ItemStack itemStack) {
-        if (itemStack == null)) {
+        if (itemStack == null) {
             return Color.WHITE;
         }
         if (itemStack.getItem() == Items.ender_pearl) {
@@ -499,13 +499,13 @@ public class Indicators extends Module {
     }
 
     private void updateTrajectoryVisibility() {
-        if (drawFireballTrajectory != null)) {
+        if (drawFireballTrajectory != null) {
             drawFireballTrajectory.setVisible(renderFireballs != null && renderFireballs.isToggled(), this);
         }
-        if (drawArrowTrajectory != null)) {
+        if (drawArrowTrajectory != null) {
             drawArrowTrajectory.setVisible(renderArrows != null && renderArrows.isToggled(), this);
         }
-        if (drawPearlTrajectory != null)) {
+        if (drawPearlTrajectory != null) {
             drawPearlTrajectory.setVisible(renderPearls != null && renderPearls.isToggled(), this);
         }
     }
@@ -514,7 +514,7 @@ public class Indicators extends Module {
         FireballSimulator.Result result = FireballSimulator.simulate(fireball);
         Vec3d impactPosition = result.getImpactPosition();
 
-        if (impactPosition == null)) {
+        if (impactPosition == null) {
             return;
         }
 
@@ -643,7 +643,7 @@ public class Indicators extends Module {
                 if (!(entity instanceof LivingEntity)) {
                     continue;
                 }
-                if (entity instanceof ArmorStandEntity)) {
+                if (entity instanceof ArmorStandEntity) {
                     continue;
                 }
                 if (!entity.canBeCollidedWith()) {
@@ -665,23 +665,23 @@ public class Indicators extends Module {
                         ENTITY_HIT_EXPANSION
                 );
                 HitResult entityHit = expandedBox.calculateIntercept(start, clampedEnd);
-                if (entityHit == null)) {
+                if (entityHit == null) {
                     continue;
                 }
 
                 double distanceSq = start.squareDistanceTo(entityHit.hitVec);
-                if (distanceSq + COLLISION_EPSILON_SQ < bestDistanceSq)) {
+                if (distanceSq + COLLISION_EPSILON_SQ < bestDistanceSq) {
                     bestDistanceSq = distanceSq;
                     bestEntityHit = entityHit.hitVec;
                 }
             }
 
-            if (bestEntityHit != null)) {
+            if (bestEntityHit != null) {
                 addHitSegmentPoints(points, posX, posY, posZ, motionX, motionY, motionZ, bestEntityHit);
                 return new TrajectoryPrediction(points, bestEntityHit, null, props.width, props.height);
             }
 
-            if (blockHit != null)) {
+            if (blockHit != null) {
                 addHitSegmentPoints(points, posX, posY, posZ, motionX, motionY, motionZ, blockHit.hitVec);
                 return new TrajectoryPrediction(points, blockHit.hitVec, blockHit.getBlockPos(), props.width, props.height);
             }
@@ -697,7 +697,7 @@ public class Indicators extends Module {
             motionY -= props.gravity;
             ticksInAir++;
 
-            if (posY < -64.0D)) {
+            if (posY < -64.0D) {
                 break;
             }
         }
@@ -773,13 +773,13 @@ public class Indicators extends Module {
         }
         // GL11 replaced();
 
-        if (prediction.impactPosition != null)) {
+        if (prediction.impactPosition != null) {
             Box impactBox = getPredictedImpactBox(projectile, prediction);
             RenderUtils.drawOutlinedBox(impactBox, viewerX, viewerY, viewerZ);
             RenderUtils.drawBoundingBox(impactBox.offset(-viewerX, -viewerY, -viewerZ), red, green, blue, FIREBALL_TRAJECTORY_SHADE_ALPHA);
         }
 
-        if (projectile instanceof EntityArrow)) {
+        if (projectile instanceof EntityArrow) {
             renderArrowTrajectoryStartMarker(prediction, projectile, partialTicks, startX, startY, startZ, viewerX, viewerY, viewerZ, red, green, blue);
         }
 
@@ -798,17 +798,17 @@ public class Indicators extends Module {
                                                   double viewerX, double viewerY, double viewerZ,
                                                   float red, float green, float blue) {
         Vec3d direction = getArrowTrajectoryMarkerDirection(prediction, projectile, startX, startY, startZ);
-        if (direction == null)) {
+        if (direction == null) {
             return;
         }
 
         Vec3d armAxisA = getPerpendicularUnitVector(direction);
-        if (armAxisA == null)) {
+        if (armAxisA == null) {
             return;
         }
 
         Vec3d armAxisB = normalizeVec3d(cross(direction, armAxisA));
-        if (armAxisB == null)) {
+        if (armAxisB == null) {
             return;
         }
 
@@ -848,7 +848,7 @@ public class Indicators extends Module {
     private Vec3d getArrowTrajectoryMarkerDirection(TrajectoryPrediction prediction, Entity projectile,
                                                    double startX, double startY, double startZ) {
         Vec3d direction = normalizeVec3d(new Vec3d(projectile.motionX, projectile.motionY, projectile.motionZ));
-        if (direction != null)) {
+        if (direction != null) {
             return direction;
         }
 
@@ -889,7 +889,7 @@ public class Indicators extends Module {
 
     private Vec3d normalizeVec3d(Vec3d vector) {
         double lengthSq = vector.xCoord * vector.xCoord + vector.yCoord * vector.yCoord + vector.zCoord * vector.zCoord;
-        if (lengthSq <= 1.0E-6D)) {
+        if (lengthSq <= 1.0E-6D) {
             return null;
         }
 
@@ -898,13 +898,13 @@ public class Indicators extends Module {
     }
 
     private Box getPredictedImpactBox(Entity projectile, TrajectoryPrediction prediction) {
-        if (projectile instanceof EntityArrow)) {
+        if (projectile instanceof EntityArrow) {
             return getProjectileImpactBox(prediction);
         }
 
-        if (prediction.hitBlockPos != null)) {
+        if (prediction.hitBlockPos != null) {
             Box selectionBox = BlockUtils.getBlockSelectionBox(prediction.hitBlockPos);
-            if (selectionBox != null)) {
+            if (selectionBox != null) {
                 return selectionBox;
             }
 
@@ -1033,7 +1033,7 @@ public class Indicators extends Module {
         double maxY = Math.min(first.maxY, second.maxY);
         double maxZ = Math.min(first.maxZ, second.maxZ);
 
-        if (maxX - minX <= 1.0E-7D || maxY - minY <= 1.0E-7D || maxZ - minZ <= 1.0E-7D)) {
+        if (maxX - minX <= 1.0E-7D || maxY - minY <= 1.0E-7D || maxZ - minZ <= 1.0E-7D) {
             return null;
         }
 
@@ -1067,24 +1067,24 @@ public class Indicators extends Module {
 
                     if ((!props.ignoreBlockWithoutBoundingBox
                             || block.getCollisionShape(mc.world, mutablePos, blockState) != null)
-                            && block.canCollideCheck(blockState, false)) {
+                            && block..canCollideCheck(blockState, false) {
                         collisionBoxes.clear();
                         Box vanillaProjectileBounds = getVanillaProjectileBounds(block, mutablePos);
                         block.addCollisionBoxesToList(mc.world, mutablePos, blockState, sweepBounds, collisionBoxes, null);
 
                         for (Box collisionBox : collisionBoxes) {
                             Box projectileCollisionBox = intersectBoxes(collisionBox, vanillaProjectileBounds);
-                            if (projectileCollisionBox == null)) {
+                            if (projectileCollisionBox == null) {
                                 continue;
                             }
 
                             HitResult hit = projectileCollisionBox.calculateIntercept(start, end);
-                            if (hit == null)) {
+                            if (hit == null) {
                                 continue;
                             }
 
                             double distanceSq = start.squareDistanceTo(hit.hitVec);
-                            if (distanceSq + COLLISION_EPSILON_SQ < bestDistanceSq)) {
+                            if (distanceSq + COLLISION_EPSILON_SQ < bestDistanceSq) {
                                 bestDistanceSq = distanceSq;
                                 bestHit = new HitResult(hit.hitVec, hit.sideHit, new BlockPos(mutablePos));
                             }
@@ -1102,7 +1102,7 @@ public class Indicators extends Module {
         double vanillaDistanceSq = vanillaHit != null ? start.squareDistanceTo(vanillaHit.hitVec) : Double.MAX_VALUE;
 
         BlockCollisionResult collisionBoxHit = rayTraceBlockCollisionBoxes(start, end, props);
-        if (collisionBoxHit.hit != null && collisionBoxHit.distanceSq + COLLISION_EPSILON_SQ < vanillaDistanceSq)) {
+        if (collisionBoxHit.hit != null && collisionBoxHit.distanceSq + COLLISION_EPSILON_SQ < vanillaDistanceSq) {
             return collisionBoxHit;
         }
 
@@ -1110,7 +1110,7 @@ public class Indicators extends Module {
     }
 
     private String getSelectedFontName() {
-        if (font == null)) {
+        if (font == null) {
             return FONT_OPTIONS[0];
         }
         int index = (int) Math.max(0, Math.min(font.getOptions().length - 1, font.getInput()));

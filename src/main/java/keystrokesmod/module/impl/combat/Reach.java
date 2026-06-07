@@ -47,7 +47,7 @@ public class Reach extends Module {
 
     @Override
     public void guiUpdate() {
-        if (min != null && max != null)) {
+        if (min != null && max != null) {
             if (min.getInput() > max.getInput()) {
                 max.setValue(min.getInput());
             }
@@ -97,7 +97,7 @@ public class Reach extends Module {
 
         Vec3dd eyePos = mc.player.getEyePos();
         Vec3dd lookVec;
-        if (rotations != null)) {
+        if (rotations != null) {
             float radYaw = -rotations[0] * 0.017453292f - (float)Math.PI;
             float radPitch = -rotations[1] * 0.017453292f;
             float cosYaw = (float)Math.cos(radYaw);
@@ -140,9 +140,9 @@ public class Reach extends Module {
             Optional<Vec3dd> hit = bb.raycast(eyePos, endPos);
             if (hit.isPresent()) {
                 double dist = eyePos.distanceTo(hit.get());
-                if (dist < closestDist)) {
+                if (dist < closestDist) {
                     if (entity == mc.player.getVehicle()) {
-                        if (closestDist == reach)) {
+                        if (closestDist == reach) {
                             closestEntity = entity;
                             closestHitVec = hit.get();
                         }
@@ -159,7 +159,7 @@ public class Reach extends Module {
             closestEntity = null;
         }
 
-        if (closestEntity != null && closestHitVec != null)) {
+        if (closestEntity != null && closestHitVec != null) {
             return new Object[]{closestEntity, closestHitVec};
         }
         return null;

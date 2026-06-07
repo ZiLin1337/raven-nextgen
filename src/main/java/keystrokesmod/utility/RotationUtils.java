@@ -107,7 +107,7 @@ public class RotationUtils implements IMinecraftInstance {
 
     public static float[] getRotations(Entity entity, final float yaw, final float pitch) {
         final float[] array = getRotations(entity);
-        if (array == null)) {
+        if (array == null) {
             return null;
         }
         return fixRotation(array[0], array[1], yaw, pitch);
@@ -117,7 +117,7 @@ public class RotationUtils implements IMinecraftInstance {
         double diffX = pos.getX() + 0.45 - mc.player.getX();
         double diffY = pos.getY() + 0.45 - (mc.player.getY() + mc.player.getEyeHeight());
         double diffZ = pos.getZ() + 0.45 - mc.player.getZ();
-        if (facing != null)) {
+        if (facing != null) {
             diffX += facing.getDirectionVec().getX() * 0.5;
             diffY += facing.getDirectionVec().getY() * 0.5;
             diffZ += facing.getDirectionVec().getZ() * 0.5;
@@ -193,12 +193,12 @@ public class RotationUtils implements IMinecraftInstance {
         final Vec3d vec3 = new Vec3d(sin * n4, MathHelper.sin(n3), cos * n4);
         Block block = BlockUtils.getBlockState(blockPos);
         BlockState blockState = BlockUtils.getBlockState(blockPos);
-        if (block != null && blockState != null)) {
+        if (block != null && blockState != null) {
             Box boundingBox = block.getCollisionShape(mc.world, blockPos, blockState);
-            if (boundingBox != null)) {
+            if (boundingBox != null) {
                 Vec3d targetVec = getPositionEyes.addVector(vec3.xCoord * n, vec3.yCoord * n, vec3.zCoord * n);
                 HitResult intercept = boundingBox.calculateIntercept(getPositionEyes, targetVec);
-                if (intercept != null)) {
+                if (intercept != null) {
                     return true;
                 }
             }
@@ -211,13 +211,13 @@ public class RotationUtils implements IMinecraftInstance {
     }
 
     public static float[] getRotations(final Entity entity, PLAYER_OFFSETS playerOffset) {
-        if (entity == null)) {
+        if (entity == null) {
             return null;
         }
         double deltaX = entity.posX - mc.player.getX();
         double deltaZ = entity.posZ - mc.player.getZ();
         double deltaY;
-        if (entity instanceof LivingEntity)) {
+        if (entity instanceof LivingEntity) {
             final LivingEntity entityLivingBase = (LivingEntity) entity;
             deltaY = entityLivingBase.posY + playerOffset.getHeightOffset(entityLivingBase) * 0.9 - (mc.player.getY() + mc.player.getEyeHeight());
         }
@@ -243,7 +243,7 @@ public class RotationUtils implements IMinecraftInstance {
 
         float yaw;
         float targetPitch;
-        if (horizDistSq < 1.0E-12)) {
+        if (horizDistSq < 1.0E-12) {
             yaw = baseYaw;
             targetPitch = (float) (-(Math.atan2(deltaY, 0) * 57.295780181884766));
         } else {
@@ -259,7 +259,7 @@ public class RotationUtils implements IMinecraftInstance {
 
     public static float[] getRotations(final Entity entity, double horizontalMultipoint, double verticalMultipoint, final float baseYaw, final float basePitch) {
         Vec3d aimPoint = getAimPoint(entity, horizontalMultipoint, verticalMultipoint);
-        if (aimPoint == null)) {
+        if (aimPoint == null) {
             return null;
         }
         return getRotationsToPoint(aimPoint.xCoord, aimPoint.yCoord, aimPoint.zCoord, baseYaw, basePitch);
@@ -275,7 +275,7 @@ public class RotationUtils implements IMinecraftInstance {
         Box bb = entity.getEntityBoundingBox().expand(borderSize, borderSize, borderSize);
         double centerX = (bb.minX + bb.maxX) / 2.0;
         double centerY;
-        if (entity instanceof LivingEntity)) {
+        if (entity instanceof LivingEntity) {
             centerY = entity.posY + ((LivingEntity) entity).getEyeHeight();
         } else {
             centerY = (bb.minY + bb.maxY) / 2.0;
@@ -326,7 +326,7 @@ public class RotationUtils implements IMinecraftInstance {
         int pointsPerFace = BACKUP_TARGET_TOTAL / visibleFaceCount;
         List<Vec3d> points = new ArrayList<>(BACKUP_TARGET_TOTAL + 6);
 
-        if (xPos || xNeg)) {
+        if (xPos || xNeg) {
             double fixedX = xPos ? bb.maxX - BACKUP_FACE_INSET : bb.minX + BACKUP_FACE_INSET;
             addFaceGrid(points, 0, fixedX,
                     bb.minY + BACKUP_FACE_INSET, bb.maxY - BACKUP_FACE_INSET,
@@ -334,7 +334,7 @@ public class RotationUtils implements IMinecraftInstance {
                     pointsPerFace, sizeY, sizeZ);
         }
 
-        if (yPos || yNeg)) {
+        if (yPos || yNeg) {
             double fixedY = yPos ? bb.maxY - BACKUP_FACE_INSET : bb.minY + BACKUP_FACE_INSET;
             addFaceGrid(points, 1, fixedY,
                     bb.minX + BACKUP_FACE_INSET, bb.maxX - BACKUP_FACE_INSET,
@@ -342,7 +342,7 @@ public class RotationUtils implements IMinecraftInstance {
                     pointsPerFace, sizeX, sizeZ);
         }
 
-        if (zPos || zNeg)) {
+        if (zPos || zNeg) {
             double fixedZ = zPos ? bb.maxZ - BACKUP_FACE_INSET : bb.minZ + BACKUP_FACE_INSET;
             addFaceGrid(points, 2, fixedZ,
                     bb.minX + BACKUP_FACE_INSET, bb.maxX - BACKUP_FACE_INSET,
@@ -356,7 +356,7 @@ public class RotationUtils implements IMinecraftInstance {
     private static void addFaceGrid(List<Vec3d> out, int fixedAxis, double fixedVal,
                                      double uMin, double uMax, double vMin, double vMax,
                                      int targetPoints, double dimU, double dimV) {
-        if (dimU < 1e-4 || dimV < 1e-4)) {
+        if (dimU < 1e-4 || dimV < 1e-4) {
             double uMid = (uMin + uMax) / 2.0;
             double vMid = (vMin + vMax) / 2.0;
             switch (fixedAxis) {
@@ -427,9 +427,9 @@ public class RotationUtils implements IMinecraftInstance {
         if (entityHit == null) return false;
 
         double entityDistSq = eye.squareDistanceTo(entityHit.hitVec);
-        if (!allowThroughBlocks)) {
+        if (!allowThroughBlocks) {
             HitResult blockHit = mc.world.rayTraceBlocks(eye, end, false, false, false);
-            if (blockHit != null && blockHit.typeOfHit == HitResult.MovingObjectType.BLOCK)) {
+            if (blockHit != null && blockHit.typeOfHit == HitResult.MovingObjectType.BLOCK) {
                 double blockDistSq = eye.squareDistanceTo(blockHit.hitVec);
                 if (blockDistSq < entityDistSq) return false;
             }
@@ -448,7 +448,7 @@ public class RotationUtils implements IMinecraftInstance {
                 .expand(1.0, 1.0, 1.0);
         List<Entity> entities = mc.world.getEntitiesInAABBexcluding(mc.player, searchBox, Predicates.and(EntitySelectors.NOT_SPECTATING, Entity::canBeCollidedWith));
         for (Entity entity : entities) {
-            if (entity == null || entity == target || entity.isDead)) {
+            if (entity == null || entity == target || entity.isDead) {
                 continue;
             }
             float border = entity.getCollisionBorderSize();
@@ -457,9 +457,9 @@ public class RotationUtils implements IMinecraftInstance {
             if (bb.isVecInside(eye)) {
                 return true;
             }
-            if (hit != null)) {
+            if (hit != null) {
                 double entityDistSq = eye.squareDistanceTo(hit.hitVec);
-                if (entityDistSq < targetDistSq - 1.0E-7)) {
+                if (entityDistSq < targetDistSq - 1.0E-7) {
                     return true;
                 }
             }
@@ -571,10 +571,10 @@ public class RotationUtils implements IMinecraftInstance {
     }
 
     public static float[] getRotationsPredicated(final Entity entity, final int ticks) {
-        if (entity == null)) {
+        if (entity == null) {
             return null;
         }
-        if (ticks == 0)) {
+        if (ticks == 0) {
             return getRotations(entity);
         }
         double posX = entity.posX;
@@ -588,7 +588,7 @@ public class RotationUtils implements IMinecraftInstance {
         }
         final double n4 = posX - mc.player.getX();
         double n5;
-        if (entity instanceof LivingEntity)) {
+        if (entity instanceof LivingEntity) {
             n5 = posY + entity.getEyeHeight() * 0.9 - (mc.player.getY() + mc.player.getEyeHeight());
         }
         else {
@@ -620,16 +620,16 @@ public class RotationUtils implements IMinecraftInstance {
     public static float[] smoothRotation(float baseYaw, float basePitch,
                                           float targetYaw, float targetPitch,
                                           int speed, float randomizationPercent) {
-        if (speed <= 0)) {
+        if (speed <= 0) {
             return new float[] { baseYaw, clampPitch(basePitch) };
         }
-        if (speed >= 30)) {
+        if (speed >= 30) {
             return new float[] { targetYaw, clampPitch(targetPitch) };
         }
         float deltaYaw = MathHelper.wrapAngleTo180_float(targetYaw - baseYaw);
         float deltaPitch = targetPitch - basePitch;
         float magnitude = (float) MathHelper.sqrt_double(deltaYaw * deltaYaw + deltaPitch * deltaPitch);
-        if (magnitude < 0.001f)) {
+        if (magnitude < 0.001f) {
             return new float[] { targetYaw, clampPitch(targetPitch) };
         }
         float t = speed / 30f;
@@ -695,7 +695,7 @@ public class RotationUtils implements IMinecraftInstance {
         Vec3d lookVec = Utils.getLookVec(yaw, pitch);
         Vec3d sumVec = eyeVec.addVector(lookVec.xCoord * distance, lookVec.yCoord * distance, lookVec.zCoord * distance);
         HitResult mop = mc.world.rayTraceBlocks(eyeVec, sumVec, false, false, false);
-        if (mop == null || mop.typeOfHit != HitResult.MovingObjectType.BLOCK)) {
+        if (mop == null || mop.typeOfHit != HitResult.MovingObjectType.BLOCK) {
             return null;
         }
         return mop;
@@ -716,7 +716,7 @@ public class RotationUtils implements IMinecraftInstance {
         HitResult blockHit = rayTraceCustom(reach, yaw, pitch);
         Vec3d eyes = mc.player.getPositionEyes(1.0F);
         double blockDist = reach;
-        if (blockHit != null && blockHit.typeOfHit == HitResult.MovingObjectType.BLOCK)) {
+        if (blockHit != null && blockHit.typeOfHit == HitResult.MovingObjectType.BLOCK) {
             blockDist = blockHit.hitVec.distanceTo(eyes);
         } else {
             return null;
@@ -731,9 +731,9 @@ public class RotationUtils implements IMinecraftInstance {
             if (aabb.isVecInside(eyes)) {
                 return null;
             }
-            if (entityHit != null)) {
+            if (entityHit != null) {
                 double entityDist = eyes.distanceTo(entityHit.hitVec);
-                if (entityDist < blockDist)) {
+                if (entityDist < blockDist) {
                     return null;
                 }
             }
@@ -750,15 +750,15 @@ public class RotationUtils implements IMinecraftInstance {
     }
 
     public static float applyVanilla(float yaw, boolean stop) {
-        if (stop)) {
+        if (stop) {
             return yaw;
         }
         int scaleFactor = (int) Math.floor(serverRotations[0] / 360);
         float unwrappedYaw = yaw + 360 * scaleFactor;
-        if (unwrappedYaw < serverRotations[0] - 180)) {
+        if (unwrappedYaw < serverRotations[0] - 180) {
             unwrappedYaw += 360;
         }
-        else if (unwrappedYaw > serverRotations[0] + 180)) {
+        else if (unwrappedYaw > serverRotations[0] + 180) {
             unwrappedYaw -= 360;
         }
 
@@ -767,16 +767,16 @@ public class RotationUtils implements IMinecraftInstance {
     }
 
     public static HitResult rayTrace(double range, float partialTicks, float[] rotations, LivingEntity ignoreCollision) {
-        if (ignoreCollision != null)) {
+        if (ignoreCollision != null) {
             HitResult target = rayTraceIgnore(range, partialTicks, rotations, ignoreCollision);
-            if (target != null)) {
+            if (target != null) {
                 return target;
             }
         }
         Entity targetEntity = null;
         HitResult hitObject;
         double d0 = range;
-        if (rotations == null)) {
+        if (rotations == null) {
             rotations = new float[] { mc.player.rotationYaw, mc.player.rotationPitch };
         }
         hitObject = rayTraceCustom(d0, rotations[0], rotations[1]);
@@ -787,7 +787,7 @@ public class RotationUtils implements IMinecraftInstance {
             distanceTo = 6.0;
         }
 
-        if (hitObject != null)) {
+        if (hitObject != null) {
             distanceTo = hitObject.hitVec.distanceTo(vec3);
         }
 
@@ -804,17 +804,17 @@ public class RotationUtils implements IMinecraftInstance {
             Box axisalignedbb = entity1.getEntityBoundingBox().expand(f1, f1, f1);
             HitResult movingobjectposition = axisalignedbb.calculateIntercept(vec3, vec32);
             if (axisalignedbb.isVecInside(vec3)) {
-                if (d2 >= 0.0)) {
+                if (d2 >= 0.0) {
                     targetEntity = entity1;
                     vec33 = movingobjectposition == null ? vec3 : movingobjectposition.hitVec;
                     d2 = 0.0;
                 }
             }
-            else if (movingobjectposition != null)) {
+            else if (movingobjectposition != null) {
                 double d3 = vec3.distanceTo(movingobjectposition.hitVec);
-                if (d3 < d2 || d2 == 0.0)) {
+                if (d3 < d2 || d2 == 0.0) {
                     if (entity1 == mc.player.ridingEntity && !mc.player.canRiderInteract()) {
-                        if (d2 == 0.0)) {
+                        if (d2 == 0.0) {
                             targetEntity = entity1;
                             vec33 = movingobjectposition.hitVec;
                         }
@@ -828,7 +828,7 @@ public class RotationUtils implements IMinecraftInstance {
             }
         }
 
-        if (targetEntity != null && d2 < distanceTo)) {
+        if (targetEntity != null && d2 < distanceTo) {
             return new HitResult(targetEntity, vec33);
         }
         return null;
@@ -841,12 +841,12 @@ public class RotationUtils implements IMinecraftInstance {
 
         Vec3d start = mc.player.getPositionEyes(partialTicks);
         double blockDistance = range;
-        if (blockHit != null)) {
+        if (blockHit != null) {
             blockDistance = blockHit.hitVec.distanceTo(start);
         }
 
-        if (ignoreCollision != null)) {
-            if (rotations == null)) {
+        if (ignoreCollision != null) {
+            if (rotations == null) {
                 rotations = new float[]{
                         mc.player.rotationYaw,
                         mc.player.rotationPitch
@@ -870,9 +870,9 @@ public class RotationUtils implements IMinecraftInstance {
             if (aabb.isVecInside(start)) {
                 return new HitResult(ignoreCollision, start);
             }
-            if (ignoreMOP != null)) {
+            if (ignoreMOP != null) {
                 double ignoreDist = start.distanceTo(ignoreMOP.hitVec);
-                if (ignoreDist < blockDistance)) {
+                if (ignoreDist < blockDistance) {
                     return new HitResult(
                             ignoreCollision,
                             ignoreMOP.hitVec
@@ -880,7 +880,7 @@ public class RotationUtils implements IMinecraftInstance {
                 }
             }
         }
-        if (blockHit != null)) {
+        if (blockHit != null) {
             return blockHit;
         }
         return null;

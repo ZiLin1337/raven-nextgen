@@ -107,8 +107,8 @@ public class Autoblock extends Module {
             shouldBlock = false;
         }
 
-        if (shouldBlock)) {
-            if (!blocking)) {
+        if (shouldBlock) {
+            if (!blocking) {
                 startBlocking(player);
             }
             blockingTicks++;
@@ -118,10 +118,10 @@ public class Autoblock extends Module {
                 interactItem(player, Hand.MAIN_HAND);
             }
         } else {
-            if (blocking)) {
+            if (blocking) {
                 if (keepBlock.isToggled() && currentTarget == null) {
                     // Keep blocking when no target but still holding sword
-                    if (!blocking)) {
+                    if (!blocking) {
                         startBlocking(player);
                     }
                 } else {
@@ -138,9 +138,9 @@ public class Autoblock extends Module {
         // When attack packet is sent, we may want to unblock briefly
         if (e.getPacket() instanceof net.minecraft.network.packet.c2s.play.PlayerInteractEntityC2SPacket) {
             int um = (int) unblockMode.getInput();
-            if (um == 1)) { // SwitchSlot
+            if (um == 1) { // SwitchSlot
                 unblockBySwitchSlot();
-            } else if (um == 2)) { // None
+            } else if (um == 2) { // None
                 // Don't unblock
             } else { // StopUsingItem (default)
                 stopBlocking(false);
@@ -150,9 +150,9 @@ public class Autoblock extends Module {
 
     @EventHandler
     public void onPrePlayerInput(PrePlayerInputEvent e) {
-        if (unblockTimer > 0)) {
+        if (unblockTimer > 0) {
             unblockTimer--;
-            if (unblockTimer == 0 && blocking)) {
+            if (unblockTimer == 0 && blocking) {
                 startBlocking(mc.player);
             }
         }
@@ -164,7 +164,7 @@ public class Autoblock extends Module {
         // Check if we have a shield in offhand or mainhand
         boolean canBlock = canBlockWithCurrentItems(player);
 
-        if (!canBlock)) {
+        if (!canBlock) {
             // Try to auto-switch a shield from inventory to offhand
             if (autoSwitchShield.isToggled() && tryEquipShield(player)) {
                 canBlock = true;
@@ -185,7 +185,7 @@ public class Autoblock extends Module {
                 break;
             case "Hypixel":
                 // Interact with entity first, then block
-                if (currentTarget != null)) {
+                if (currentTarget != null) {
                     mc.interactionManager.interactEntity(player, currentTarget, Hand.MAIN_HAND);
                 }
                 interactItem(player, blockHand);
@@ -206,7 +206,7 @@ public class Autoblock extends Module {
         if (!blocking && !force) return;
 
         ClientPlayerEntity player = mc.player;
-        if (player != null)) {
+        if (player != null) {
             String um = unblockModes[(int) unblockMode.getInput()];
             switch (um) {
                 case "StopUsingItem":
@@ -222,7 +222,7 @@ public class Autoblock extends Module {
         }
 
         // Force stop using item
-        if (player != null)) {
+        if (player != null) {
             player.clearActiveItem();
         }
 
@@ -314,7 +314,7 @@ public class Autoblock extends Module {
             ItemStack stack = player.getInventory().getStack(i);
             if (stack.getItem() instanceof ShieldItem) {
                 // Swap mainhand with offhand (shield goes to offhand)
-                if (mc.interactionManager != null)) {
+                if (mc.interactionManager != null) {
                     mc.interactionManager.clickCreativeStack(stack, 40); // 40 = offhand slot
                 }
                 return true;
@@ -326,7 +326,7 @@ public class Autoblock extends Module {
             ItemStack stack = player.getInventory().getStack(i);
             if (stack.getItem() instanceof ShieldItem) {
                 // Quick move to hotbar first
-                if (mc.interactionManager != null)) {
+                if (mc.interactionManager != null) {
                     mc.interactionManager.clickSlot(
                             player.playerScreenHandler.syncId,
                             i,

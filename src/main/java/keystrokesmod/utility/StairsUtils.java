@@ -34,7 +34,7 @@ public final class StairsUtils {
         GL11.glTranslated(0.0, 0.5, 0.0);
         GL11.glRotated(angleX, 1.0, 0.0, 0.0);
         GL11.glTranslated(-blockX - 0.5, -blockY - 0.5, -blockZ - 0.5);
-        if (side == null)) {
+        if (side == null) {
             drawStairsFull(box, overlayStartColor, overlayEndColor, outlineStartColor, outlineEndColor, overlay, outline, drawer);
         } else {
             drawStairsSide(box, blockHalf, blockFacing, side, overlayStartColor, overlayEndColor, outlineStartColor, outlineEndColor, overlay, outline, drawer);
@@ -94,7 +94,7 @@ public final class StairsUtils {
     }
 
     private static Direction getSide(StairsBlock.EnumHalf blockHalf, Direction blockFacing, Direction side) {
-        if (blockHalf == StairsBlock.EnumHalf.TOP)) {
+        if (blockHalf == StairsBlock.EnumHalf.TOP) {
             switch (blockFacing) {
                 case NORTH:
                     side = side.rotateAround(Direction.Axis.X);
@@ -118,7 +118,7 @@ public final class StairsUtils {
                     break;
                 default: break;
             }
-        } else if (side != Direction.UP && side != Direction.DOWN)) {
+        } else if (side != Direction.UP && side != Direction.DOWN) {
             switch (blockFacing) {
                 case NORTH: side = side.getOpposite(); break;
                 case EAST: side = side.rotateYCCW(); break;

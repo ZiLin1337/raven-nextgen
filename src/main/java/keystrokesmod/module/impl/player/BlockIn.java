@@ -126,7 +126,7 @@ public class BlockIn extends Module {
         double r = REACH;
         HitResult mop = RotationUtils.rayCastBlock(r, sm[0], sm[1]);
 
-        if (mop != null)) {
+        if (mop != null) {
             BlockPos hitBlock = mop.getBlockPos();
             Direction side = mop.sideHit;
             if (hitBlock.equals(targetHitPos) && side == targetSide) {
@@ -157,7 +157,7 @@ public class BlockIn extends Module {
 
         int strongSlot = pickBlockSlot(true);
         int weakSlot = pickBlockSlot(false);
-        if (strongSlot == -1 && weakSlot == -1)) {
+        if (strongSlot == -1 && weakSlot == -1) {
             disablePlacing();
             return;
         }
@@ -187,9 +187,9 @@ public class BlockIn extends Module {
     public void onPreUpdate(PreUpdateEvent e) {
         if (!Utils.nullCheck()) return;
 
-        if (placeQueued)) {
+        if (placeQueued) {
             placeQueued = false;
-            if (hitAt != null && hitSide != null && placeAt != null)) {
+            if (hitAt != null && hitSide != null && placeAt != null) {
                 if (mc.interactionManager.onPlayerRightClick(
                         mc.player, mc.world, mc.player.getHeldItem(),
                         hitAt, hitSide, placeAt) {
@@ -214,7 +214,7 @@ public class BlockIn extends Module {
                 if (!BlockUtils.replaceable(side.up())) fillCount++;
             }
 
-            if (fillCount != lastFillCount)) {
+            if (fillCount != lastFillCount) {
                 animStartProgress = circleProgress;
                 animTargetProgress = Math.max(0f, Math.min(1f, fillCount / 9f));
                 animStartTime = System.currentTimeMillis();
@@ -229,7 +229,7 @@ public class BlockIn extends Module {
         if (fillCount <= 0) return;
 
         long elapsed = System.currentTimeMillis() - animStartTime;
-        if (elapsed < 50L)) {
+        if (elapsed < 50L) {
             float t = (float) elapsed / 50f;
             circleProgress = lerp(animStartProgress, animTargetProgress, quadInOutEasing(t));
         } else {
@@ -244,7 +244,7 @@ public class BlockIn extends Module {
 
         RenderUtils.draw2DCircle(cx, cy, radius, 100, thickness, 0f, 0f, 0f, 0.5f);
 
-        if (circleProgress >= 0.999f)) {
+        if (circleProgress >= 0.999f) {
             RenderUtils.draw2DCircle(cx, cy, radius, 100, thickness, 0f, 1f, 0f, 1f);
             return;
         }
@@ -262,7 +262,7 @@ public class BlockIn extends Module {
 
     
     public void onMouse(MouseEvent e) {
-        if (placing && e.button > -1)) {
+        if (placing && e.button > -1) {
             e.setCanceled(true);
         }
     }
@@ -281,7 +281,7 @@ public class BlockIn extends Module {
     private void disablePlacing() {
         if (!placing) return;
 
-        if (slotWasSwapped && prevSlot != -1 && prevSlot != mc.player.inventory.currentItem)) {
+        if (slotWasSwapped && prevSlot != -1 && prevSlot != mc.player.inventory.currentItem) {
             mc.player.inventory.currentItem = prevSlot;
         }
 
@@ -290,7 +290,7 @@ public class BlockIn extends Module {
         prevSlot = -1;
         plannedSlot = -1;
 
-        if (mc.currentScreen == null)) {
+        if (mc.currentScreen == null) {
             KeyBinding.setKeyBindState(mc.options.keyBindAttack.getKeyCode(), Mouse.isButtonDown(0));
             KeyBinding.setKeyBindState(mc.options.keyBindUseItem.getKeyCode(), Mouse.isButtonDown(1));
         }
@@ -303,7 +303,7 @@ public class BlockIn extends Module {
 
     private void equipPlannedSlot() {
         int cur = mc.player.inventory.currentItem;
-        if (plannedSlot != -1 && plannedSlot != cur)) {
+        if (plannedSlot != -1 && plannedSlot != cur) {
             mc.player.inventory.currentItem = plannedSlot;
             slotWasSwapped = true;
         }
@@ -322,7 +322,7 @@ public class BlockIn extends Module {
             Block block = ((BlockItem) s.getItem()).getBlock();
             float score = BlockUtils.getFistBreakTicks(block);
 
-            if (preferStrong ? score > bestScore : score < bestScore)) {
+            if (preferStrong ? score > bestScore : score < bestScore) {
                 bestScore = score;
                 best = slot;
             }
@@ -480,7 +480,7 @@ public class BlockIn extends Module {
         if (primaryGoals.isEmpty()) return null;
 
         Vec3d enemyPos = Utils.getClosestPlayerPos(100);
-        if (enemyPos != null)) {
+        if (enemyPos != null) {
             baseline.sort((a, b) -> {
                 double da = sq(a.getX() + 0.5 - enemyPos.xCoord)
                         + sq(a.getY() + 0.5 - enemyPos.yCoord)
@@ -539,7 +539,7 @@ public class BlockIn extends Module {
         float curPitch = RotationUtils.serverRotations[1];
 
         HitResult now = RotationUtils.rayCastBlock(reachVal, curYaw, curPitch);
-        if (now != null)) {
+        if (now != null) {
             BlockPos support = now.getBlockPos();
             Direction faceHit = now.sideHit;
 
@@ -574,10 +574,10 @@ public class BlockIn extends Module {
                         double u = ltr ? cu : 1.0 - cu;
 
                         double px, py, pz;
-                        if (s.dy != 0)) {
+                        if (s.dy != 0) {
                             px = sx + u; pz = sz + v;
                             py = sy + (s.dy < 0 ? insetTop : insetBot);
-                        } else if (s.dz != 0)) {
+                        } else if (s.dz != 0) {
                             px = sx + u; py = sy + v;
                             pz = sz + (s.dz < 0 ? insetTop : insetBot);
                         } else {

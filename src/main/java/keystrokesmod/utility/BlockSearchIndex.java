@@ -104,7 +104,7 @@ public final class BlockSearchIndex {
             else {
                 String[] tokens = locLower.split("\\s+");
                 for (String t : tokens) {
-                    if (t.startsWith(lq)) { score = 600; break; }
+                    if (t.startsWith(lq) { score = 600; break; }
                 }
                 if (score == 0 && locLower.contains(lq)) score = 500;
                 else if (score == 0 && regPath.contains(lq)) score = 400;
@@ -138,7 +138,7 @@ public final class BlockSearchIndex {
             else {
                 String[] tokens = locLower.split("\\s+");
                 for (String t : tokens) {
-                    if (t.startsWith(lq)) { score = 600; break; }
+                    if (t.startsWith(lq) { score = 600; break; }
                 }
                 if (score == 0 && locLower.contains(lq)) score = 500;
                 else if (score == 0 && regPath.contains(lq)) score = 400;
@@ -217,9 +217,9 @@ public final class BlockSearchIndex {
             if (registryId == null) continue;
 
             Item item = Item.getItemFromBlock(block);
-            if (item == null)) {
+            if (item == null) {
                 Item fallback = BLOCK_TO_ITEM_FALLBACK.get(block);
-                if (fallback != null)) {
+                if (fallback != null) {
                     ItemStack displayStack = new ItemStack(fallback, 1);
                     String displayName = displayStack.getDisplayName();
                     if (displayName != null && !displayName.isEmpty()) {

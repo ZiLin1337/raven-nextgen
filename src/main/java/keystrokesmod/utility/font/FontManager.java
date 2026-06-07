@@ -66,7 +66,7 @@ public final class FontManager {
         }
 
         bundledFont = BUNDLED_FONT_MAP.get(family);
-        if (bundledFont == null)) {
+        if (bundledFont == null) {
             return getMinecraftRenderer(safeFontSize);
         }
 
@@ -75,7 +75,7 @@ public final class FontManager {
             @Override
             public RavenFontRenderer get() {
             Font baseFont = BASE_FONT_CACHE.computeIfAbsent(bundledFont.fileName, FontManager::loadBaseFont);
-            if (baseFont == null)) {
+            if (baseFont == null) {
                 return getMinecraftRenderer(safeFontSize);
             }
 
@@ -93,7 +93,7 @@ public final class FontManager {
         }
 
         bundledFont = BUNDLED_FONT_MAP.get(family);
-        if (bundledFont == null)) {
+        if (bundledFont == null) {
             return getMinecraftRenderer(safeTargetHeight);
         }
 
@@ -102,7 +102,7 @@ public final class FontManager {
             @Override
             public RavenFontRenderer get() {
             Font baseFont = BASE_FONT_CACHE.computeIfAbsent(bundledFont.fileName, FontManager::loadBaseFont);
-            if (baseFont == null)) {
+            if (baseFont == null) {
                 return getMinecraftRenderer(safeTargetHeight);
             }
 
@@ -118,7 +118,7 @@ public final class FontManager {
         for (int i = 0; i < 2; i++) {
             float measuredHeight = Math.max(1.0f, renderer.getFontHeight());
             float difference = Math.abs(measuredHeight - targetHeight);
-            if (difference <= 0.5f)) {
+            if (difference <= 0.5f) {
                 break;
             }
 
@@ -166,7 +166,7 @@ public final class FontManager {
 
     private static Font loadBaseFont(String fileName) {
         byte[] fontData = readFontData(fileName);
-        if (fontData == null)) {
+        if (fontData == null) {
             return null;
         }
 
@@ -198,7 +198,7 @@ public final class FontManager {
     }
 
     private static byte[] readFontData(String fileName) {
-        try (InputStream inputStream = FontManager.class.getResourceAsStream(RESOURCE_ROOT + fileName)) {
+        try (InputStream inputStream = FontManager.class.getResourceAsStream(RESOURCE_ROOT + fileName) {
             if (inputStream == null) {
                 return null;
             }
@@ -220,7 +220,7 @@ public final class FontManager {
 
     private static synchronized RavenFontRenderer getCachedRenderer(String key, Supplier<RavenFontRenderer> rendererSupplier) {
         RavenFontRenderer renderer = FONT_CACHE.get(key);
-        if (renderer != null)) {
+        if (renderer != null) {
             return renderer;
         }
 
