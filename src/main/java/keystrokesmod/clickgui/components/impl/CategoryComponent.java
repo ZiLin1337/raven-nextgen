@@ -429,7 +429,7 @@ public class CategoryComponent {
             default: return null;
         }
         if (active) {
-            stack.addEnchantment(Registries.ENCHANTMENT.entryOf(Registries.ENCHANTMENT.getKey(Enchantments.UNBREAKING).orElseThrow()), 2);
+            // TODO: Fix enchantment API for 1.21.4 - stack.addEnchantment(...);
         }
         return stack;
     }

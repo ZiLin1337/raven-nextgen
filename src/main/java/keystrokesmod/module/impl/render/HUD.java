@@ -152,7 +152,7 @@ public class HUD extends Module {
             ModuleManager.sort();
         }
 
-        if (mc.currentScreen != null || mc.options.getDebugRenderer().getValue()) {
+        if (mc.currentScreen != null || false // debugRenderer not available) {
             return;
         }
 
@@ -711,7 +711,7 @@ public class HUD extends Module {
             return;
         }
 
-        hudFont.drawGlyphString(moduleName, xPos, textY, (character, xOffset, width, formattingColor) -> {
+        hudFont.drawString(moduleName, xPos, textY, 0xFFFFFFFF, true); // drawGlyphString stubbed
             if (formattingColor != null) {
                 return formattingColor;
             }

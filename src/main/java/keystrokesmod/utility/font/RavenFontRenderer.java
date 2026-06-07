@@ -6,12 +6,15 @@ import net.minecraft.text.Text;
 public interface RavenFontRenderer {
     
     default int drawString(String text, float x, float y, int color, boolean shadow) {
+        MinecraftClient mc = MinecraftClient.getInstance();
+        if (mc.textRenderer == null) return 0;
+        
+        Text textObj = Text.literal(text);
         if (shadow) {
-            // 1.21.4 的正确签名: drawWithShadow(Text, float, float, int)
-            return MinecraftClient.getInstance().textRenderer.drawWithShadow(Text.literal(text), x, y, color);
+            // Use DrawContext for shadow rendering in 1.21.4
+            return mc.textRenderer.drawWithShadow(textObj, x, y, color);
         } else {
-            // 非阴影绘制暂时返回0
-            return 0;
+            return mc.textRenderer.draw(textObj, x, y, color);
         }
     }
     
@@ -20,10 +23,20 @@ public interface RavenFontRenderer {
     }
     
     default int getStringWidth(String text) {
-        return MinecraftClient.getInstance().textRenderer.getWidth(text);
+        MinecraftClient mc = MinecraftClient.getInstance();
+        return mc.textRenderer != null ? mc.textRenderer.getWidth(text) : 0;
     }
     
     default int getFontHeight() {
-        return MinecraftClient.getInstance().textRenderer.fontHeight;
+        MinecraftClient mc = MinecraftClient.getInstance();
+        return mc.textRenderer != null ? mc.textRenderer.fontHeight : 9;
+    }
+    
+    default int getTextTopOffset() {
+        return 2;
+    }
+    
+    default int getTextBottomOffset() {
+        return 2;
     }
 }
