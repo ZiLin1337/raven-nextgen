@@ -132,7 +132,7 @@ public class NameHider extends Module {
             return original;
         }
 
-        ChatComponentText component = Text.literal(replaced);
+        Object component = Text.literal(replaced);
         component.setChatStyle(original.getStyle().withColor(original.getStyle().getColor()));
         return component;
     }
