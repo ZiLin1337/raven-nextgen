@@ -176,7 +176,6 @@ public class RenderUtils implements IMinecraftInstance {
         if (scissorPushDepth > SCISSOR_PUSH_STACK_DEPTH) throw new IllegalStateException("Scissor stack overflow");
         if (wasEnabled) {
             SCISSOR_PUSH_BUF.clear();
-            // GL11.getInteger replaced(// // GL11 constant, SCISSOR_PUSH_BUF);
             saved[0] = 1;
             saved[1] = SCISSOR_PUSH_BUF.get(0);
             saved[2] = SCISSOR_PUSH_BUF.get(1);
@@ -250,7 +249,7 @@ public class RenderUtils implements IMinecraftInstance {
         bufferBuilder.pos(right, bottom, 0.0D).next();
         bufferBuilder.pos(right, top, 0.0D).next();
         bufferBuilder.pos(left, top, 0.0D).next();
-        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
+        BufferRenderer.drawWithGlobalProgram(wr.end());
         RenderSystem.enableTexture();
         RenderSystem.disableBlend();
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
@@ -289,28 +288,15 @@ public class RenderUtils implements IMinecraftInstance {
         float f7 = (float) ((color >> 8) & 255) / 255.0F;
         float f8 = (float) (color & 255) / 255.0F;
 
-        // glEnable(// // GL11 constant);
-        RenderSystem.disableBlend(// // GL11 constant);
-        RenderSystem.blendFunc(// // GL11 constant, // // GL11 constant);
-        // glEnable(// // GL11 constant);
+        RenderSystem.disableBlend();
+        RenderSystem.blendFunc(770, 771);
         RenderSystem.getModelViewStack().pushMatrix();
         RenderSystem.setShaderColor(f6, f7, f8, f5);
         RenderSystem.lineWidth(lineWidth);
-        // GL11 replaced(1);
-        // GL11(x, y);
-        // GL11(x, y2);
-        // GL11(x2, y2);
-        // GL11(x2, y);
-        // GL11(x, y);
-        // GL11(x2, y);
-        // GL11(x, y2);
-        // GL11(x2, y2);
-        // GL11 replaced();
         RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
         RenderSystem.getModelViewStack().popMatrix();
-        // glEnable(// // GL11 constant);
-        RenderSystem.disableBlend(// // GL11 constant);
-        RenderSystem.disableBlend(// // GL11 constant);
+        RenderSystem.disableBlend();
+        RenderSystem.disableBlend();
     }
 
     public static void renderBox(double x, double y, double z, double x2, double y2, double z2, int color, boolean outline, boolean shade) {
@@ -803,7 +789,7 @@ public class RenderUtils implements IMinecraftInstance {
         RenderSystem.translate(xPos, yPos, zPos);
 
         RenderSystem.enableBlend();
-        RenderSystem.blendFunc(// // GL11 constant, // // GL11 constant);
+        RenderSystem.blendFunc(770, 771);
         RenderSystem.disableTexture();
         RenderSystem.disableCull();
         RenderSystem.disableDepth();
@@ -838,7 +824,7 @@ public class RenderUtils implements IMinecraftInstance {
         final int vertexCount = 4;
         final int intsPerVertex = vertexData.length / vertexCount;
 
-        wr.begin(// // GL11 constant, VertexFormats.POSITION_COLOR);
+        wr.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
         for (int i = 0; i < vertexCount; i++) {
             int baseIndex = i * intsPerVertex;
             float vx = Float.intBitsToFloat(vertexData[baseIndex]);
@@ -847,7 +833,7 @@ public class RenderUtils implements IMinecraftInstance {
 
             wr.pos(vx, vy, vz).color(r, g, b, a).next();
         }
-        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
+        BufferRenderer.drawWithGlobalProgram(wr.end());
     }
 
     public static void drawTracerLine(Entity e, int color, float lineWidth, float partialTicks) {
@@ -888,25 +874,23 @@ public class RenderUtils implements IMinecraftInstance {
         float b = (float) (color & 255) / 255.0F;
 
         RenderSystem.getModelViewStack().pushMatrix();
-        RenderSystem.enableBlend(// // GL11 constant);
-        RenderSystem.blendFunc(// // GL11 constant, // // GL11 constant);
-        RenderSystem.enableBlend(// // GL11 constant);
-        RenderSystem.disableBlend(// // GL11 constant);
-        RenderSystem.disableBlend(// // GL11 constant);
+        RenderSystem.enableBlend();
+        RenderSystem.blendFunc(770, 771);
+        RenderSystem.enableBlend();
+        RenderSystem.disableBlend();
+        RenderSystem.disableBlend();
         RenderSystem.depthMask(false);
         RenderSystem.lineWidth(lineWidth);
         RenderSystem.setShaderColor(r, g, b, a);
-        // GL11 replaced(// // GL11 constant);
         GL11.glVertex3d(startX, startY, startZ);
         GL11.glVertex3d(targetX, targetY, targetZ);
-        // GL11 replaced();
         RenderSystem.lineWidth(1.0F);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.depthMask(true);
-        RenderSystem.enableBlend(// // GL11 constant);
-        RenderSystem.enableBlend(// // GL11 constant);
-        RenderSystem.disableBlend(// // GL11 constant);
-        RenderSystem.disableBlend(// // GL11 constant);
+        RenderSystem.enableBlend();
+        RenderSystem.enableBlend();
+        RenderSystem.disableBlend();
+        RenderSystem.disableBlend();
         RenderSystem.getModelViewStack().popMatrix();
     }
 
@@ -944,7 +928,7 @@ public class RenderUtils implements IMinecraftInstance {
         bufferBuilder.pos((double) left, (double) top, 0.0D).color(f1, f2, f3, f).next();
         bufferBuilder.pos((double) left, (double) bottom, 0.0D).color(f5, f6, f7, f4).next();
         bufferBuilder.pos((double) right, (double) bottom, 0.0D).color(f5, f6, f7, f4).next();
-        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
+        BufferRenderer.drawWithGlobalProgram(wr.end());
         RenderSystem.shadeModel(7424);
         RenderSystem.disableBlend();
         RenderSystem.enableAlpha();
@@ -990,14 +974,12 @@ public class RenderUtils implements IMinecraftInstance {
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(770, 771);
         RenderSystem.disableDepthTest();
-        // glEnable(2848);
         RenderSystem.depthMask(false);
         RenderSystem.lineWidth(lineWidth);
         if (!chroma) {
             RenderSystem.setShaderColor(r, g, b, a);
         }
 
-        // GL11 replaced(1);
         long d = 0L;
         long ed = 15000L / (long) sides;
         long hed = ed / 2L;
@@ -1023,7 +1005,6 @@ public class RenderUtils implements IMinecraftInstance {
             GL11.glVertex3d(x + Math.cos(angle) * radius, y, z + Math.sin(angle) * radius);
         }
 
-        // GL11 replaced();
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.depthMask(true);
         RenderSystem.disableBlend(2848);
@@ -1035,21 +1016,13 @@ public class RenderUtils implements IMinecraftInstance {
 
     public static void drawCaret(float x, float y, int color, double width, double length) {
         RenderSystem.getModelViewStack().pushMatrix();
-        // glEnable(// // GL11 constant);
-        RenderSystem.disableBlend(// // GL11 constant);
+        RenderSystem.disableBlend();
         RenderUtils.glColor(color);
         RenderSystem.lineWidth((float) width);
         float halfWidth = (float) (width / 2.0);
         float xOffset = halfWidth / 2.0f;
         float yOffset = halfWidth / 2.0f;
-        // GL11 replaced(// // GL11 constant);
-        // GL11(x - xOffset, y + yOffset);
-        // GL11(x + length - xOffset, y - length + yOffset);
-        // GL11(x + length - xOffset, y - length + yOffset);
-        // GL11(x + 2 * length - xOffset, y + yOffset);
-        // GL11 replaced();
-        // glEnable(// // GL11 constant);
-        RenderSystem.disableBlend(// // GL11 constant);
+        RenderSystem.disableBlend();
         RenderSystem.getModelViewStack().popMatrix();
     }
 
@@ -1058,24 +1031,9 @@ public class RenderUtils implements IMinecraftInstance {
         RenderSystem.enableBlend();
         RenderSystem.disableTexture();
         RenderSystem.blendFunc(770, 771);
-        // glEnable(2848);
         RenderSystem.getModelViewStack().pushMatrix();
         glColor(color);
-        // GL11 replaced(7);
-        // GL11(x, y);
-        // GL11((x - size / widthDiv), (y + size));
-        // GL11(x, (y + size / heightDiv));
-        // GL11((x + size / widthDiv), (y + size));
-        // GL11(x, y);
-        // GL11 replaced();
         RenderSystem.setShaderColor(0.0f, 0.0f, 0.0f, 0.8f);
-        // GL11 replaced(2);
-        // GL11(x, y);
-        // GL11((x - size / widthDiv), (y + size));
-        // GL11(x, (y + size / heightDiv));
-        // GL11((x + size / widthDiv), (y + size));
-        // GL11(x, y);
-        // GL11 replaced();
         RenderSystem.getModelViewStack().popMatrix();
         RenderSystem.enableTexture();
         if (!blend) {
@@ -1098,53 +1056,40 @@ public class RenderUtils implements IMinecraftInstance {
         GL11.glScaled(0.5, 0.5, 0.5);
         RenderSystem.enableBlend();
         RenderSystem.disableTexture();
-        // glEnable(2848);
-        // GL11 replaced(9);
         glColor(n6);
         for (int i = 0; i <= 90; i += 3) {
             final double n9 = (double) (i * 0.017453292f);
-            // GL11((double) (x + radius) + Math.sin(n9) * radius * -1.0, (double) (y + radius) + Math.cos(n9) * radius * -1.0);
         }
         for (int j = 90; j <= 180; j += 3) {
             final double n10 = (double) (j * 0.017453292f);
-            // GL11((double) (x + radius) + Math.sin(n10) * radius * -1.0, (double) (y2 - radius) + Math.cos(n10) * radius * -1.0);
         }
         for (int k = 0; k <= 90; k += 3) {
             final double n11 = (double) (k * 0.017453292f);
-            // GL11((double) (x2 - radius) + Math.sin(n11) * radius, (double) (y2 - radius) + Math.cos(n11) * radius);
         }
         for (int l = 90; l <= 180; l += 3) {
             final double n12 = (double) (l * 0.017453292f);
-            // GL11((double) (x2 - radius) + Math.sin(n12) * radius, (double) (y + radius) + Math.cos(n12) * radius);
         }
-        // GL11 replaced();
         RenderSystem.getModelViewStack().pushMatrix();
         GL11.glShadeModel(7425);
         RenderSystem.lineWidth(2.0f);
-        // GL11 replaced(2);
         if (n7 != 0L) {
             glColor(n7);
         }
         for (int n13 = 0; n13 <= 90; n13 += 3) {
             final double n14 = (double) (n13 * 0.017453292f);
-            // GL11((double) (x + radius) + Math.sin(n14) * radius * -1.0, (double) (y + radius) + Math.cos(n14) * radius * -1.0);
         }
         for (int n15 = 90; n15 <= 180; n15 += 3) {
             final double n16 = (double) (n15 * 0.017453292f);
-            // GL11((double) (x + radius) + Math.sin(n16) * radius * -1.0, (double) (y2 - radius) + Math.cos(n16) * radius * -1.0);
         }
         if (n8 != 0) {
             glColor(n8);
         }
         for (int n17 = 0; n17 <= 90; n17 += 3) {
             final double n18 = (double) (n17 * 0.017453292f);
-            // GL11((double) (x2 - radius) + Math.sin(n18) * radius, (double) (y2 - radius) + Math.cos(n18) * radius);
         }
         for (int n19 = 90; n19 <= 180; n19 += 3) {
             final double n20 = (double) (n19 * 0.017453292f);
-            // GL11((double) (x2 - radius) + Math.sin(n20) * radius, (double) (y + radius) + Math.cos(n20) * radius);
         }
-        // GL11 replaced();
         RenderSystem.getModelViewStack().popMatrix();
         RenderSystem.enableTexture();
         RenderSystem.disableBlend();
@@ -1170,7 +1115,7 @@ public class RenderUtils implements IMinecraftInstance {
         RenderSystem.enableBlend();
         RenderSystem.disableTexture();
         RenderSystem.blendFuncSeparate(770, 771, 1, 0);
-        RenderSystem.enableBlend(// // GL11 constant);
+        RenderSystem.enableBlend();
         RenderSystem.setShaderColor(r, g, b, a);
         final double rad180 = Math.toRadians(180.0);
         bufferBuilder.begin(6, VertexFormats.POSITION);
@@ -1178,7 +1123,7 @@ public class RenderUtils implements IMinecraftInstance {
             final double angle = 6.283185307179586 * i / sides + rad180;
             bufferBuilder.pos(x + Math.sin(angle) * radius, y + Math.cos(angle) * radius, 0.0).next();
         }
-        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
+        BufferRenderer.drawWithGlobalProgram(wr.end());
         RenderSystem.enableTexture();
         RenderSystem.disableBlend();
     }
@@ -1205,16 +1150,10 @@ public class RenderUtils implements IMinecraftInstance {
         if (framebuffer == null) return;
         ScaledResolution sr = new ScaledResolution(mc);
         RenderSystem.bindTexture(framebuffer.framebufferTexture);
-        // GL11 replaced(// // GL11 constant);
         GL11.glTexCoord2d(0.0, 1.0);
-        // GL11(0.0, 0.0);
         GL11.glTexCoord2d(0.0, 0.0);
-        // GL11(0.0, mc.getWindow().getScaledHeight());
         GL11.glTexCoord2d(1.0, 0.0);
-        // GL11(mc.getWindow().getScaledWidth(), mc.getWindow().getScaledHeight());
         GL11.glTexCoord2d(1.0, 1.0);
-        // GL11(mc.getWindow().getScaledWidth(), 0.0);
-        // GL11 replaced();
     }
 
     public static void bindTexture(int texture) {
@@ -1249,7 +1188,6 @@ public class RenderUtils implements IMinecraftInstance {
     public static Vec3d convertTo2D(int scaleFactor, double x, double y, double z) {
         GL11.glGetFloat(// // GL11 constant, MODELVIEW);
         GL11.glGetFloat(// // GL11 constant, PROJECTION);
-        // GL11.getInteger replaced(// // GL11 constant, VIEWPORT);
 
         boolean result = GLU.gluProject(
                 (float) x,
@@ -1279,7 +1217,6 @@ public class RenderUtils implements IMinecraftInstance {
         context.viewport.clear();
         GL11.glGetFloat(// // GL11 constant, context.modelView);
         GL11.glGetFloat(// // GL11 constant, context.projection);
-        // GL11.getInteger replaced(// // GL11 constant, context.viewport);
         context.modelView.rewind();
         context.projection.rewind();
         context.viewport.rewind();
@@ -1332,28 +1269,21 @@ public class RenderUtils implements IMinecraftInstance {
         GL11.glScaled(0.5, 0.5, 0.5);
         RenderSystem.enableBlend();
         RenderSystem.disableTexture();
-        // glEnable(2848);
-        // GL11 replaced(9);
         glColor(color);
         for (int i = 0; i <= 90; i += 3) {
             final double n7 = (double) (i * 0.017453292f);
-            // GL11((double) (x + radius) + Math.sin(n7) * radius * -1.0, (double) (y + radius) + Math.cos(n7) * radius * -1.0);
         }
         for (int j = 90; j <= 180; j += 3) {
             final double n8 = (double) (j * 0.017453292f);
-            // GL11((double) (x + radius) + Math.sin(n8) * radius * -1.0, (double) (y2 - radius) + Math.cos(n8) * radius * -1.0);
         }
         if (x2 - x >= 4.5) {
             for (int k = 0; k <= 90; k += 1) {
                 final double n9 = (double) (k * 0.017453292f);
-                // GL11((double) (x2 - radius) + Math.sin(n9) * radius, (double) (y2 - radius) + Math.cos(n9) * radius);
             }
             for (int l = 90; l <= 180; l += 1) {
                 final double n10 = (double) (l * 0.017453292f);
-                // GL11((double) (x2 - radius) + Math.sin(n10) * radius, (double) (y + radius) + Math.cos(n10) * radius);
             }
         }
-        // GL11 replaced();
         RenderSystem.enableTexture();
         RenderSystem.disableBlend();
         RenderSystem.disableBlend(2848);
@@ -1365,20 +1295,14 @@ public class RenderUtils implements IMinecraftInstance {
 
     public static void drawRectangleGL(float x, float y, float x2, float y2, final int color) {
         RenderSystem.getModelViewStack().pushMatrix();
-        RenderSystem.enableBlend(// // GL11 constant);
-        RenderSystem.blendFunc(// // GL11 constant, // // GL11 constant);
-        RenderSystem.disableBlend(// // GL11 constant);
+        RenderSystem.enableBlend();
+        RenderSystem.blendFunc(770, 771);
+        RenderSystem.disableBlend();
 
         glColor(color);
 
-        // GL11 replaced(// // GL11 constant);
-        // GL11(x, y);
-        // GL11(x, y2);
-        // GL11(x2, y2);
-        // GL11(x2, y);
-        // GL11 replaced();
-        RenderSystem.enableBlend(// // GL11 constant);
-        RenderSystem.disableBlend(// // GL11 constant);
+        RenderSystem.enableBlend();
+        RenderSystem.disableBlend();
 
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.getModelViewStack().popMatrix();
@@ -1398,7 +1322,6 @@ public class RenderUtils implements IMinecraftInstance {
         RenderSystem.enableBlend();
         RenderSystem.disableTexture();
         RenderSystem.blendFunc(770, 771);
-        // glEnable(2848);
         GL11.glShadeModel(7425);
         RenderSystem.getModelViewStack().pushMatrix();
         GL11.glPushAttrib(// // GL11 constant);
@@ -1410,31 +1333,24 @@ public class RenderUtils implements IMinecraftInstance {
         RenderSystem.enableBlend();
         RenderSystem.disableTexture();
         glColor(n6);
-        // glEnable(2848);
         GL11.glShadeModel(7425);
-        // GL11 replaced(9);
         for (int i = 0; i <= 90; i += 3) {
             final double n10 = i * 0.017453292f;
-            // GL11((double) (x + radius) + Math.sin(n10) * radius * -1.0, (double) (y + radius) + Math.cos(n10) * radius * -1.0);
         }
         glColor(n7);
         for (int j = 90; j <= 180; j += 3) {
             final double n11 = j * 0.017453292f;
-            // GL11((double) (x + radius) + Math.sin(n11) * radius * -1.0, (double) (y2 - radius) + Math.cos(n11) * radius * -1.0);
         }
         if (x2 - x >= 4.5) {
             glColor(n8);
             for (int k = 0; k <= 90; k += 3) {
                 final double n12 = k * 0.017453292f;
-                // GL11((double) (x2 - radius) + Math.sin(n12) * radius, (double) (y2 - radius) + Math.cos(n12) * radius);
             }
             glColor(n9);
             for (int l = 90; l <= 180; l += 3) {
                 final double n13 = l * 0.017453292f;
-                // GL11((double) (x2 - radius) + Math.sin(n13) * radius, (double) (y + radius) + Math.cos(n13) * radius);
             }
         }
-        // GL11 replaced();
         RenderSystem.enableTexture();
         RenderSystem.disableBlend();
         RenderSystem.disableBlend(2848);
@@ -1468,27 +1384,24 @@ public class RenderUtils implements IMinecraftInstance {
     public static void draw2DCircle(float centerX, float centerY, float radius, int segments,
                                     float lineWidth, float r, float g, float b, float a) {
         RenderSystem.getModelViewStack().pushMatrix();
-        RenderSystem.enableBlend(// // GL11 constant);
-        RenderSystem.enableBlend(// // GL11 constant);
-        RenderSystem.blendFunc(// // GL11 constant, // // GL11 constant);
-        RenderSystem.disableBlend(// // GL11 constant);
-        RenderSystem.enableBlend(// // GL11 constant);
+        RenderSystem.enableBlend();
+        RenderSystem.enableBlend();
+        RenderSystem.blendFunc(770, 771);
+        RenderSystem.disableBlend();
+        RenderSystem.enableBlend();
         RenderSystem.setShaderColor(r, g, b, a);
         RenderSystem.lineWidth(lineWidth);
 
-        // GL11 replaced(// // GL11 constant);
         for (int i = 0; i <= segments; i++) {
             double theta = 2 * Math.PI * i / segments;
             float x = (float) (radius * Math.cos(theta)) + centerX;
             float y = (float) (radius * Math.sin(theta)) + centerY;
-            // GL11(x, y);
         }
-        // GL11 replaced();
 
-        RenderSystem.disableBlend(// // GL11 constant);
-        RenderSystem.disableBlend(// // GL11 constant);
-        RenderSystem.enableBlend(// // GL11 constant);
-        RenderSystem.disableBlend(// // GL11 constant);
+        RenderSystem.disableBlend();
+        RenderSystem.disableBlend();
+        RenderSystem.enableBlend();
+        RenderSystem.disableBlend();
         RenderSystem.setShaderColor(1, 1, 1, 1);
         RenderSystem.lineWidth(1);
         RenderSystem.getModelViewStack().popMatrix();
@@ -1502,27 +1415,24 @@ public class RenderUtils implements IMinecraftInstance {
         float a = ((color >> 24) & 0xFF) / 255f;
 
         RenderSystem.getModelViewStack().pushMatrix();
-        RenderSystem.enableBlend(// // GL11 constant);
-        RenderSystem.enableBlend(// // GL11 constant);
-        RenderSystem.blendFunc(// // GL11 constant, // // GL11 constant);
-        RenderSystem.disableBlend(// // GL11 constant);
-        RenderSystem.enableBlend(// // GL11 constant);
+        RenderSystem.enableBlend();
+        RenderSystem.enableBlend();
+        RenderSystem.blendFunc(770, 771);
+        RenderSystem.disableBlend();
+        RenderSystem.enableBlend();
         RenderSystem.setShaderColor(r, g, b, a);
         RenderSystem.lineWidth(lineWidth);
 
-        // GL11 replaced(// // GL11 constant);
         for (float angle = startAngle; angle <= endAngle; angle += 1) {
             double theta = Math.toRadians(angle + 180);
             float x = (float) (radius * Math.cos(theta)) + centerX;
             float y = (float) (radius * Math.sin(theta)) + centerY;
-            // GL11(x, y);
         }
-        // GL11 replaced();
 
-        RenderSystem.disableBlend(// // GL11 constant);
-        RenderSystem.disableBlend(// // GL11 constant);
-        RenderSystem.enableBlend(// // GL11 constant);
-        RenderSystem.disableBlend(// // GL11 constant);
+        RenderSystem.disableBlend();
+        RenderSystem.disableBlend();
+        RenderSystem.enableBlend();
+        RenderSystem.disableBlend();
         RenderSystem.setShaderColor(1, 1, 1, 1);
         RenderSystem.lineWidth(1);
         RenderSystem.getModelViewStack().popMatrix();
@@ -1549,7 +1459,7 @@ public class RenderUtils implements IMinecraftInstance {
         wr.pos(right, bottom, 0).color(rr, rg, rb, ra).next();
         wr.pos(right, top, 0).color(rr, rg, rb, ra).next();
         wr.pos(left, top, 0).color(lr, lg, lb, la).next();
-        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
+        BufferRenderer.drawWithGlobalProgram(wr.end());
         RenderSystem.shadeModel(7424);
         RenderSystem.disableBlend();
         RenderSystem.enableAlpha();
@@ -1577,7 +1487,7 @@ public class RenderUtils implements IMinecraftInstance {
         wr.pos(left, top, 0).color(tr, tg, tb, ta).next();
         wr.pos(left, bottom, 0).color(br, bg, bb, ba).next();
         wr.pos(right, bottom, 0).color(br, bg, bb, ba).next();
-        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
+        BufferRenderer.drawWithGlobalProgram(wr.end());
         RenderSystem.shadeModel(7424);
         RenderSystem.disableBlend();
         RenderSystem.enableAlpha();
