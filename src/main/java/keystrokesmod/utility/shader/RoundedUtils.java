@@ -153,7 +153,7 @@ public class RoundedUtils {
     private static void setupRoundedRectUniforms(float x, float y, float width, float height, float radius, ShaderUtils roundedTexturedShader) {
         ScaledResolution sr = new ScaledResolution(MinecraftClient.getInstance());
         roundedTexturedShader.setUniformf("location", x * sr.getScaleFactor(),
-                (MinecraftClient.getInstance().getWindow().getFramebufferHeight() - (height * sr.getScaleFactor())) - (y * sr.getScaleFactor());
+                ((MinecraftClient.getInstance().getWindow().getFramebufferHeight() - (height * sr.getScaleFactor())) - (y * sr.getScaleFactor()));
         roundedTexturedShader.setUniformf("rectSize", width * sr.getScaleFactor(), height * sr.getScaleFactor());
         roundedTexturedShader.setUniformf("radius", radius * sr.getScaleFactor());
     }
