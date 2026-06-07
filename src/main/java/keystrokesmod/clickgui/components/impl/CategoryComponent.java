@@ -429,7 +429,7 @@ public class CategoryComponent {
             default: return null;
         }
         if (active) {
-            stack.addEnchantment(Registries.ENTITY_TYPE.entryOf(Registries.ENTITY_TYPE.getKey(Enchantments.UNBREAKING).orElseThrow()), 2);
+            stack.addEnchantment(Registries.ENCHANTMENT.entryOf(Registries.ENCHANTMENT.getKey(Enchantments.UNBREAKING).orElseThrow()), 2);
         }
         return stack;
     }

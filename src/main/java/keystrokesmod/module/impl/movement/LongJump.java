@@ -248,7 +248,7 @@ public class LongJump extends Module {
             if (fireballSlot != -1) {
                 fireballTime = System.currentTimeMillis();
                 if (!manual.isToggled()) {
-                    mc.player.networkHandler.sendPacket(new Object(mc.player.getMainHandStack()));
+                    mc.player.networkHandler.sendPacket(new net.minecraft.network.packet.c2s.play.PlayerInteractItemC2SPacket(net.minecraft.util.Hand.MAIN_HAND, 0));
                     //((IAccessorMinecraft) mc).callRightClickMouse();
                 }
                 mc.player.swingHand(Hand.MAIN_HAND);
@@ -296,8 +296,8 @@ public class LongJump extends Module {
             return;
         }
         Object packet = e.getPacket();
-        if (packet instanceof Object) {
-            Object s27 = (Object) packet;
+        if (packet instanceof net.minecraft.network.packet.s2c.play.ExplosionS2CPacket) {
+            net.minecraft.network.packet.s2c.play.ExplosionS2CPacket s27 = (net.minecraft.network.packet.s2c.play.ExplosionS2CPacket) packet;
             if (fireballTime == 0 || mc.player.getPos().distanceSq(s27.getX(), s27.getY(), s27.getZ()) > MAX_EXPLOSION_DIST_SQ) {
                 e.setCanceled(true);
                 //Utils.sendMessage("0 fb time / out of dist");
@@ -310,7 +310,7 @@ public class LongJump extends Module {
             //Utils.sendMessage("set start vals");
 
             //client.print(client.getPlayer().getTicksExisted() + " s27 " + boostTicks + " " + client.getPlayer().getHurtTime() + " " + client.getPlayer().getSpeed());
-        } else if (packet instanceof Object) {
+        } else if (packet instanceof net.minecraft.network.packet.s2c.play.ExplosionS2CPacket) {
             Utils.sendMessage("&cReceived setback, disabling.");
             disabled();
         }
@@ -380,8 +380,8 @@ public class LongJump extends Module {
     }
 
     private int getSpeedLevel() {
-        for (Object potionEffect : mc.player.getStatusEffects()) {
-            if (potionEffect.getEffectName().equals("potion.moveSpeed")) {
+        for (net.minecraft.entity.effect.StatusEffectInstance potionEffect : mc.player.getStatusEffects()) {
+            if (potionEffect.getTranslationKey().contains("speed")) {
                 return potionEffect.getAmplifier() + 1;
             }
             return 0;

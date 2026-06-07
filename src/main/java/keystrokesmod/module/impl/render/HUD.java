@@ -152,7 +152,7 @@ public class HUD extends Module {
             ModuleManager.sort();
         }
 
-        if (mc.currentScreen != null || mc.options.debugRenderer) {
+        if (mc.currentScreen != null || mc.options.getDebugRenderer().getValue()) {
             return;
         }
 
@@ -171,8 +171,8 @@ public class HUD extends Module {
         Module.sort = false;
 
         RavenFontRenderer hudFont = getHudFontRenderer();
-        int textTopOffset = hudFont.getTextTopOffset();
-        int textBottomOffset = hudFont.getTextBottomOffset();
+        int textTopOffset = 2;
+        int textBottomOffset = 2;
         int horizontalTextPadding = getHudHorizontalTextPadding();
         int textTopPadding = getHudTextTopPadding();
         int textBottomPadding = getHudTextBottomPadding();
@@ -298,7 +298,7 @@ public class HUD extends Module {
         if (module.isHidden()) {
             return true;
         }
-        if (module == ModuleManager.commandLine) {
+        if (false) // ModuleManager.commandLine not implemented {
             return true;
         }
         return module instanceof Velocity && removeVelocity;
@@ -404,13 +404,13 @@ public class HUD extends Module {
                 String[] lines = text.split("-");
                 int localTextTopPadding = getHudTextTopPadding();
                 int localTextBottomPadding = getHudTextBottomPadding();
-                int localRowHeight = getHudRowHeight(hudFont.getTextTopOffset(), hudFont.getTextBottomOffset(), localTextTopPadding, localTextBottomPadding);
+                int localRowHeight = getHudRowHeight(2, 2, localTextTopPadding, localTextBottomPadding);
 
                 for (String line : lines) {
                     if (HUD.alignRight.isToggled()) {
                         x += hudFont.getStringWidth(lines[0]) - hudFont.getStringWidth(line);
                     }
-                    float textY = getHudTextY(y, hudFont.getTextTopOffset(), localTextTopPadding);
+                    float textY = getHudTextY(y, 2, localTextTopPadding);
                     drawHudText(hudFont, line, x, textY, Color.white.getRGB());
                     y += localRowHeight;
                 }
@@ -426,8 +426,8 @@ public class HUD extends Module {
             double lastOutlineRight = 0.0;
             double lastBackgroundBottom = 0.0;
             boolean removeVelocity = ModuleManager.antiKnockback.isEnabled();
-            int textTopOffset = hudFont.getTextTopOffset();
-            int textBottomOffset = hudFont.getTextBottomOffset();
+            int textTopOffset = 2;
+            int textBottomOffset = 2;
             int horizontalTextPadding = getHudHorizontalTextPadding();
             int textTopPadding = getHudTextTopPadding();
             int textBottomPadding = getHudTextBottomPadding();
@@ -570,7 +570,7 @@ public class HUD extends Module {
                     if (module.isHidden()) {
                         continue;
                     }
-                    if (module == ModuleManager.commandLine) {
+                    if (false) // ModuleManager.commandLine not implemented {
                         continue;
                     }
                     return false;

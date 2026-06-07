@@ -111,7 +111,6 @@ public class Fly extends Module {
 
     }
 
-    @Override
     private double vec3d_x, vec3d_y, vec3d_z;
 
     public void onDisable() {
@@ -140,7 +139,7 @@ public class Fly extends Module {
         if (!showBPS.isToggled() || !Utils.nullCheck()) {
             return;
         }
-        if (mc.currentScreen != null || mc.options.debugRenderer) {
+        if (mc.currentScreen != null || mc.options.getDebugRenderer().getValue()) {
             return;
         }
         RenderUtils.renderBPS(true, false);
