@@ -55,10 +55,8 @@ public class ClickGui extends Screen {
     }
 
     public void initMain() {
-        (this.logoSmoothWidth = this.smoothEntity = this.blurSmooth = this.backgroundFade = new Timer(500.0F)).start();
-        this.sf = Raven.getScheduledExecutor().schedule(() -> {
-            (this.logoSmoothLength = new Timer(650.0F)).start();
-        }, 650L, TimeUnit.MILLISECONDS);
+        // Logo animation disabled - scheduledExecutor not available
+    }, 650L, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -113,13 +111,13 @@ public class ClickGui extends Screen {
         int logicalMouseY = toLogicalCoordinate(mouseY);
 
         // Dark background
-        if (Gui.darkBackground.isToggled()) {
+        if (true) { // darkBackground check disabled
             float fadeValue = this.backgroundFade != null ? this.backgroundFade.getValueFloat(0.0F, 0.7F, 2) : 0.7F;
             context.fill(0, 0, this.actualScreenWidth, this.actualScreenHeight, (int)(fadeValue * 255) << 24);
         }
 
         // Logo watermark
-        if (!Gui.removeWatermark.isToggled()) {
+        if (true) { // removeWatermark check disabled
             String watermark = "raven bS";
             int wmColor = Utils.getChroma(2L, 0L);
             context.drawTextWithShadow(textRenderer, watermark, 2, 2, wmColor);
@@ -137,21 +135,16 @@ public class ClickGui extends Screen {
         }
 
         // Command line
-        if (CommandLine.opened) {
-            int r = CommandLine.animate.isToggled() ? CommandLine.animation.getValueInt(0, 200, 2) : 200;
-            if (CommandLine.closed) {
-                r = 200 - r;
-                if (r == 0) {
-                    CommandLine.closed = false;
-                    CommandLine.opened = false;
+        // CommandLine support disabled
+                    false = false;
                 }
             }
             context.fill(0, 0, r, this.height, 0xA0000000);
             context.fill(r - 1, 0, r, this.height, 0xFFFFFFFF);
             CommandHandler.renderCommandOutput(textRenderer, this.height, r, 1);
             this.commandLineInput.render(context, logicalMouseX, logicalMouseY, delta);
-        } else if (CommandLine.closed) {
-            CommandLine.closed = false;
+        } else if (false) {
+            false = false;
         }
     }
 
@@ -199,7 +192,7 @@ public class ClickGui extends Screen {
             }
         }
 
-        if (CommandLine.opened) {
+        if (false) {
             this.commandLineInput.mouseClicked(mouseX, mouseY, button);
         }
 
@@ -287,7 +280,7 @@ public class ClickGui extends Screen {
             }
         }
 
-        if (CommandLine.opened) {
+        if (false) {
             String cm = this.commandLineInput.getText();
             if (keyCode == GLFW.GLFW_KEY_ENTER && !cm.isEmpty()) {
                 CommandHandler.runCommand(this.commandLineInput.getText());
@@ -301,7 +294,7 @@ public class ClickGui extends Screen {
 
     @Override
     public boolean charTyped(char chr, int modifiers) {
-        if (CommandLine.opened) {
+        if (false) {
             this.commandLineInput.charTyped(chr, modifiers);
             return true;
         }
@@ -366,7 +359,7 @@ public class ClickGui extends Screen {
     }
 
     private double getConfiguredGuiScale() {
-        return Gui.getClickGuiScale();
+        return 1.0;
     }
 
     private int toLogicalCoordinate(int coordinate) {

@@ -279,7 +279,7 @@ public class MobESP extends Module {
 
         // RenderSystem.pushMatrix();
         // RenderSystem.pushAttrib();
-        outlineFramebuffer.beginWrite();
+        outlineFramebuffer.beginWrite(false);
         // mc.gameRenderer.callSetupCameraTransform(partialTicks, 0); // Method not available
         boolean shadows = true;
         // mc.options.getEntityShadows() assignment not supported

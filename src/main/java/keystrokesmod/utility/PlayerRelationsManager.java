@@ -66,7 +66,7 @@ public class PlayerRelationsManager implements IMinecraftInstance {
     private boolean middleClickFriends;
 
     public PlayerRelationsManager() {
-        File directory = new File(mc.mcDataDir, "keystrokes");
+        File directory = new File(mc.runDirectory, "keystrokes");
         if (!directory.exists()) {
             directory.mkdirs();
         }
@@ -270,19 +270,19 @@ public class PlayerRelationsManager implements IMinecraftInstance {
     }
 
     private void syncRelationshipsModuleState() {
-        if (ModuleManager.relationships != null) {
-            ModuleManager.relationships.middleClickFriends.setEnabled(middleClickFriends);
-            if (active && !ModuleManager.relationships.isEnabled()) {
-                ModuleManager.relationships.enable();
+        if (ModuleManager.getModules() != null) {
+            ModuleManager.getModules().middleClickFriends.setEnabled(middleClickFriends);
+            if (active && !ModuleManager.getModules().isEnabled()) {
+                ModuleManager.getModules().enable();
             }
-            else if (!active && ModuleManager.relationships.isEnabled()) {
-                ModuleManager.relationships.disable();
+            else if (!active && ModuleManager.getModules().isEnabled()) {
+                ModuleManager.getModules().disable();
             }
         }
     }
 
     private void refreshRelationshipsModuleUi() {
-        if (Raven.clickGui == null || ClickGui.categories == null || ModuleManager.relationships == null) {
+        if (Raven.clickGui == null || ClickGui.categories == null || ModuleManager.getModules() == null) {
             return;
         }
 
@@ -292,7 +292,7 @@ public class PlayerRelationsManager implements IMinecraftInstance {
             }
 
             for (ModuleComponent moduleComponent : categoryComponent.modules) {
-                if (moduleComponent.mod != ModuleManager.relationships) {
+                if (moduleComponent.mod != ModuleManager.getModules()) {
                     continue;
                 }
 

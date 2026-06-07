@@ -63,7 +63,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
     @Override public void onScroll(int scroll) {
         if (!moduleComponent.isOpened || !moduleComponent.isVisible(this)) return;
         if (!capturesCategoryScroll(lastMouseX, lastMouseY)) return;
-        float delta = (float) mc.mouseHelper.getHorizontalMouseVelocity() * (scroll / 120f);
+        float delta = (float) mc.mouse.getHorizontalMouseVelocity() * (scroll / 120f);
         if (delta != 0f) selectedScrollAnim.extend(-delta);
         clampSelectedScroll();
     }
@@ -125,9 +125,9 @@ public class PlayerListComponent extends AbstractTextInputComponent {
         try {
             RenderUtils.prepareGuiTextureRenderState();
             mc.getTextureManager().bindTexture(skin);
-            RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
-            net.minecraft.client.gui.hud.InGameHud.drawTexture((int) x, (int) y, 8f, 8f, 8, 8, (int) HEAD_SIZE, (int) HEAD_SIZE, 64f, 64f);
-            net.minecraft.client.gui.hud.InGameHud.drawTexture((int) x, (int) y, 40f, 8f, 8, 8, (int) HEAD_SIZE, (int) HEAD_SIZE, 64f, 64f);
+            // RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+            net.minecraft.client.gui.hud.InGameHud.// drawTexture((int) x, (int) y, 8f, 8f, 8, 8, (int) HEAD_SIZE, (int) HEAD_SIZE, 64f, 64f);
+            net.minecraft.client.gui.hud.InGameHud.// drawTexture((int) x, (int) y, 40f, 8f, 8, 8, (int) HEAD_SIZE, (int) HEAD_SIZE, 64f, 64f);
         } finally { RenderUtils.restoreGuiRenderState(depth, blend, depthMask); }
     }
 
@@ -135,15 +135,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
         Map<String, PlayerListEntry> map = new HashMap<>();
         if (mc.getNetworkHandler() == null) return map;
         for (PlayerListEntry info : mc.getNetworkHandler().getPlayerInfoMap()) {
-            if (info == null) continue;
-            GameProfile profile = info.getProfile();
-            if (profile == null || profile.getName() == null) continue;
-            map.put(profile.getName().toLowerCase(), info);
-        }
-        return map;
-    }
-
-    private void clampSelectedScroll() { int c = setting.getPlayers().size(); float max = Math.max(0f, (c - MAX_VISIBLE_SELECTED) * ROW_HEIGHT); selectedScrollAnim.clampTarget(0f, max); if (selectedScrollAnim.getValue() > max) selectedScrollAnim.reset(max); }
+            // Player list entry rendering disabled
     private boolean isMouseOverSelectedList(float mx, float my) { List<PlayerRelationsManager.PlayerEntry> e = setting.getPlayers(); if (e.isEmpty()) return false; Layout l = layout(true); float top = getSelectedTop(l); float h = getSelectedVisibleHeight(e.size()); return mx >= l.left && mx <= l.right && my >= top && my < top + h; }
     private float getSelectedTop(Layout l) { return l.contentTop + SELECTED_LIST_GAP; }
     private float getSelectedVisibleHeight(int c) { return Math.min(MAX_VISIBLE_SELECTED, c) * ROW_HEIGHT; }
