@@ -1,28 +1,33 @@
 package keystrokesmod.module.impl.render;
 
-import keystrokesmod.Raven;
-import keystrokesmod.module.Module;
-import keystrokesmod.module.setting.impl.SliderSetting;
-import keystrokesmod.utility.RenderUtils;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.Box;
+import keystrokesmod.event.Subscribe;
+import keystrokesmod.event.RenderEvent;
+import keystrokesmod.module.core.Module;
+import keystrokesmod.module.setting.impl.BooleanSetting;
+import keystrokesmod.module.setting.impl.NumberSetting;
 
 public class ESP extends Module {
-    private SliderSetting mode;
-
+    private BooleanSetting players, mobs;
+    private NumberSetting range;
+    
     public ESP() {
-        super("ESP", category.render);
-        this.registerSetting(mode = new SliderSetting("Mode", 0, new String[]{"Box", "2D", "Mixed"}));
+        super("ESP", Category.RENDER);
     }
-
-    public void onRenderWorld(MatrixStack matrices) {
-        if (mc.world == null) return;
-        for (PlayerEntity p : mc.world.getPlayers()) {
-            if (p == mc.player || p.isRemoved()) continue;
-            Box bb = p.getBoundingBox();
-            RenderUtils.drawESPBox(matrices, p.getBlockPos(), 255, 255, 255, 100);
-        }
+    
+    @Override
+    protected void initSettings() {
+        registerSetting(players = new BooleanSetting("Players", true));
+        registerSetting(mobs = new BooleanSetting("Mobs", true));
+        registerSetting(range = new NumberSetting("Range", 64.0, 16.0, 256.0, 16.0));
+    }
+    
+    @Override
+    protected void onEnable() { System.out.println("[ESP] Enabled"); }
+    @Override
+    protected void onDisable() { System.out.println("[ESP] Disabled"); }
+    
+    @Subscribe
+    public void onRender(RenderEvent event) {
+        // TODO: Implement ESP rendering with DrawContext
     }
 }

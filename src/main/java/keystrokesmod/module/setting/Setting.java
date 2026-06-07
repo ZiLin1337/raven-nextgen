@@ -1,29 +1,29 @@
 package keystrokesmod.module.setting;
 
 import com.google.gson.JsonObject;
-import keystrokesmod.Raven;
-import keystrokesmod.module.Module;
 
+/**
+ * Base Setting class for 1.21.4
+ */
 public abstract class Setting {
-    public String name;
-    public boolean visible = true;
-
+    private final String name;
+    private final String description;
+    private boolean visible = true;
+    
     public Setting(String name) {
+        this(name, "");
+    }
+    
+    public Setting(String name, String description) {
         this.name = name;
+        this.description = description;
     }
-
-    public void setVisible(boolean visible, Module module) {
-        if (visible == this.visible) return;
-        this.visible = visible;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public String getProfileKey() {
-        return this.name;
-    }
-
+    
+    public String getName() { return name; }
+    public String getDescription() { return description; }
+    public boolean isVisible() { return visible; }
+    public void setVisible(boolean visible) { this.visible = visible; }
+    
     public abstract void loadProfile(JsonObject data);
+    public abstract void saveProfile(JsonObject data);
 }

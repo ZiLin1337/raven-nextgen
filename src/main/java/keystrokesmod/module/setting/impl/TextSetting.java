@@ -5,32 +5,31 @@ import com.google.gson.JsonObject;
 
 public class TextSetting extends Setting {
     private String value;
+    private final int maxLength;
     
     public TextSetting(String name, String defaultValue) {
-        super(name);
-        this.value = defaultValue;
+        this(name, defaultValue, 48);
     }
     
-    public TextSetting(String name, int maxLength) {
-        this(name, "");
-    }
-    
-    public TextSetting(String name, String defaultValue, String description) {
+    public TextSetting(String name, String defaultValue, int maxLength) {
         super(name);
         this.value = defaultValue;
+        this.maxLength = maxLength;
     }
     
     public String getValue() { return value; }
     public void setValue(String value) { this.value = value; }
-    public int getMaxLength() { return 48; }
-    public String getPlaceholder() { return ""; }
-    public String getText() { return value; }
-    public void setText(String text) { this.value = text; }
+    public int getMaxLength() { return maxLength; }
     
     @Override
     public void loadProfile(JsonObject data) {
         if (data.has(getName())) {
             this.value = data.get(getName()).getAsString();
         }
+    }
+    
+    @Override
+    public void saveProfile(JsonObject data) {
+        data.addProperty(getName(), value);
     }
 }

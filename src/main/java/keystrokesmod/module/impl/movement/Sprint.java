@@ -1,41 +1,29 @@
 package keystrokesmod.module.impl.movement;
 
-import keystrokesmod.module.Module;
-import keystrokesmod.module.setting.impl.ButtonSetting;
-import keystrokesmod.module.setting.impl.SliderSetting;
-import net.minecraft.entity.effect.StatusEffects;
+import keystrokesmod.event.Subscribe;
+import keystrokesmod.event.TickEvent;
+import keystrokesmod.module.core.Module;
+import keystrokesmod.module.setting.impl.ModeSetting;
 
 public class Sprint extends Module {
-    public SliderSetting mode;
-    private ButtonSetting blindJump;
-    private static final String[] MODES = new String[]{"Vanilla", "Omni"};
-
+    private ModeSetting mode;
+    
     public Sprint() {
-        super("Sprint", category.movement);
-        this.registerSetting(mode = new SliderSetting("Mode", 0, MODES));
-        this.registerSetting(blindJump = new ButtonSetting("Blind jump", false));
+        super("Sprint", Category.MOVEMENT);
     }
-
+    
     @Override
-    public String getInfo() {
-        return MODES[(int) mode.getInput()];
+    protected void initSettings() {
+        registerSetting(mode = new ModeSetting("Mode", new String[]{"Legit", "Omni"}, 0));
     }
-
+    
     @Override
-    public void onUpdate() {
-        if (mc.player == null) return;
-        if (mc.player.hasStatusEffect(StatusEffects.BLINDNESS) && !blindJump.isToggled()) {
-            mc.player.setSprinting(false);
-            return;
-        }
-        if (mode.getInput() == 1) {
-            mc.player.setSprinting(true);
-            return;
-        }
-        if (mc.player.input.movementForward > 0) {
-            mc.player.setSprinting(true);
-        } else {
-            mc.player.setSprinting(false);
-        }
+    protected void onEnable() { System.out.println("[Sprint] Enabled"); }
+    @Override
+    protected void onDisable() { System.out.println("[Sprint] Disabled"); }
+    
+    @Subscribe
+    public void onTick(TickEvent event) {
+        // TODO: Implement sprint logic
     }
 }
