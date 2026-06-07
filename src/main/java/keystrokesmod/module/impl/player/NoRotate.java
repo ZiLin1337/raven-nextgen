@@ -1,6 +1,6 @@
 package keystrokesmod.module.impl.player;
 
-import keystrokesmod.event.impl.PacketReceiveEvent;
+import keystrokesmod.event.ReceivePacketEvent;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import net.minecraft.client.MinecraftClient;
@@ -16,14 +16,17 @@ public class NoRotate extends Module {
         this.registerSetting(serverSide = new ButtonSetting("Server side", false));
     }
 
-    public void onPacketReceive(PacketReceiveEvent event) {
+    public void onReceivePacket(ReceivePacketEvent event) {
         if (event.getPacket() instanceof PlayerPositionLookS2CPacket packet) {
-            // In 1.21.4, yaw/pitch might be accessed differently
-            // Using reflection or alternative API
+            // Store rotation values from server packet
             try {
-                // Try to access fields via reflection if direct access fails
-                var clazz = packet.getClass();
+                // Try standard mapped names first
+                prevYaw = packet.getYaw();
+                prevPitch = packet.getPitch();
+            } catch (Exception e) {
+                // Fallback: try via reflection
                 try {
+                    var clazz = packet.getClass();
                     var yawField = clazz.getDeclaredField("yaw");
                     yawField.setAccessible(true);
                     prevYaw = yawField.getFloat(packet);
@@ -31,27 +34,9 @@ public class NoRotate extends Module {
                     var pitchField = clazz.getDeclaredField("pitch");
                     pitchField.setAccessible(true);
                     prevPitch = pitchField.getFloat(packet);
-                } catch (Exception e) {
-                    // Fallback: try mapped names
-                    try {
-                        var yawField = clazz.getDeclaredField("field_149475_f"); // Forge mapped
-                        yawField.setAccessible(true);
-                        prevYaw = yawField.getFloat(packet);
-                        
-                        var pitchField = clazz.getDeclaredField("field_149477_g");
-                        pitchField.setAccessible(true);
-                        prevPitch = pitchField.getFloat(packet);
-                    } catch (Exception ex) {
-                        // Last resort: try method access
-                        var yawMethod = clazz.getMethod("getYaw");
-                        prevYaw = ((Number) yawMethod.invoke(packet)).floatValue();
-                        
-                        var pitchMethod = clazz.getMethod("getPitch");
-                        prevPitch = ((Number) pitchMethod.invoke(packet)).floatValue();
-                    }
+                } catch (Exception ex) {
+                    // Silently fail
                 }
-            } catch (Exception e) {
-                // Silently fail - module will still be functional for future implementation
             }
             
             if (serverSide.isToggled()) {
