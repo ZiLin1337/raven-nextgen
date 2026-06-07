@@ -271,12 +271,14 @@ public class PlayerRelationsManager implements IMinecraftInstance {
 
     private void syncRelationshipsModuleState() {
         if (ModuleManager.modules != null) {
-            ModuleManager.modules /* middleClickFriends not found in 1.21.4 */.setEnabled(middleClickFriends);
+            // middleClickFriends disabled
             if (active && !ModuleManager.modules!= null) {
-                ModuleManager.modules;
+                // empty body
+
             }
             else if (!active && ModuleManager.modules!= null) {
-                ModuleManager.modules;
+                // empty body
+
             }
         }
     }
