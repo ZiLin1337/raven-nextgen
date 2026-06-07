@@ -10,5 +10,5 @@ public class StringListSetting extends Setting {
 }
     public List<String> getStrings() { return strings;     @Override public void loadProfile(com.google.gson.JsonObject data) {}
 }
-    @Override public void loadProfile(com.google.gson.JsonObject data) {}
+    public void loadProfile(com.google.gson.JsonObject data) {}
 }

@@ -250,7 +250,7 @@ public class SliderComponent extends Component {
     private void drawFontPreview(float labelX, float labelY, String valueText, String suffix) {
         String prefix = this.sliderSetting.getName() + ": ";
         MinecraftClient mc = MinecraftClient.getInstance();
-        MinecraftClient.getInstance().// textRenderer.drawStringWithShadow(prefix, labelX, labelY, -1);
+        // textRenderer.drawStringWithShadow(prefix, labelX, labelY, -1);
 
         RavenFontRenderer previewRenderer = FontManager.getClickGuiSettingRenderer(valueText);
         float valueX = labelX + MinecraftClient.getInstance().textRenderer.getWidth(prefix);

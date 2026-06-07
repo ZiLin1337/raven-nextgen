@@ -1,5 +1,5 @@
-import org.lwjgl.glfw.GLFW;
 package keystrokesmod.clickgui.components.impl;
+import org.lwjgl.glfw.GLFW;
 import keystrokesmod.module.setting.impl.TextSetting;
 public class TextFieldComponent extends AbstractTextInputComponent {
     public final TextSetting textSetting;

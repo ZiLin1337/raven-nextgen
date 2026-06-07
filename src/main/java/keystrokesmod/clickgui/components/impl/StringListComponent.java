@@ -1,6 +1,6 @@
-import org.lwjgl.glfw.GLFW;
 package keystrokesmod.clickgui.components.impl;
 
+import org.lwjgl.glfw.GLFW;
 import keystrokesmod.clickgui.animation.ScrollOffsetAnimation;
 import keystrokesmod.utility.Theme;
 import keystrokesmod.module.setting.impl.StringListSetting;

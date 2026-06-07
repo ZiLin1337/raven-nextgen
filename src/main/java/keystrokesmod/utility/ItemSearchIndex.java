@@ -675,7 +675,7 @@ public final class ItemSearchIndex {
     }
 
     private static boolean shouldStoreMeta(Item item) {
-        return item != null && item.getMaxCount() == 1 && !0 /* getMaxDamage disabled */ > 0;
+        return item != null && item.getMaxCount() == 1 && false;
     }
 
     private static boolean isToolLike(Item item) {

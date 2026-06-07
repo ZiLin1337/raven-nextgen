@@ -1,6 +1,6 @@
-import org.lwjgl.glfw.GLFW;
 package keystrokesmod.clickgui.components.impl;
 
+import org.lwjgl.glfw.GLFW;
 import keystrokesmod.Raven;
 import keystrokesmod.clickgui.components.Component;
 import keystrokesmod.module.Module;
