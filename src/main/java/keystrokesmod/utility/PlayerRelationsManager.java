@@ -84,7 +84,7 @@ public class PlayerRelationsManager implements IMinecraftInstance {
             return;
         }
 
-        try (FileReader reader = new FileReader(file) {
+        try (FileReader reader = new FileReader(file)) {
             JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
             if (root == null) {
                 syncUtilsViews();
