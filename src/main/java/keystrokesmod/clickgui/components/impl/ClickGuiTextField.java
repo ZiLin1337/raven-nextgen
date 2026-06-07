@@ -44,7 +44,7 @@ public class ClickGuiTextField {
         this.textScale = textScale;
         this.textField = new TextFieldWidget(nextId++, MinecraftClient.getInstance().textRenderer, 0, 0, 100, 20, net.minecraft.text.Text.literal(""));
         this.textField.setMaxLength(maxLength);
-        this.textField.// setEnableBackgroundDrawing removed;
+        this.textField.
         this.textField.// setCanLoseFocus removed;
     }
 
@@ -201,13 +201,4 @@ public class ClickGuiTextField {
         GL11.glPopMatrix();
     }
 
-    // getIntField removed catch (IllegalAccessException ignored) {
-            return fallback;
-        }
-    }
-
-    // getBooleanField removed catch (IllegalAccessException ignored) {
-            return fallback;
-        }
-    }
-}
+    
