@@ -298,7 +298,7 @@ public class HUD extends Module {
         if (module.isHidden()) {
             return true;
         }
-        if (false) // ModuleManager.commandLine not implemented {
+        if (false) { // ModuleManager.commandLine not implemented
             return true;
         }
         return module instanceof Velocity && removeVelocity;
@@ -570,7 +570,7 @@ public class HUD extends Module {
                     if (module.isHidden()) {
                         continue;
                     }
-                    if (false) // ModuleManager.commandLine not implemented {
+                    if (false) { // ModuleManager.commandLine not implemented
                         continue;
                     }
                     return false;
