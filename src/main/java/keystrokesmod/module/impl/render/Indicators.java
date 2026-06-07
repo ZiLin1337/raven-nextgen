@@ -201,7 +201,7 @@ public class Indicators extends Module {
 
     
     public void onClientTick(TickEvent.ClientTickEvent event) {
-        if (event.phase != TickEvent.Phase.END || !Utils.nullCheck()) {
+        if (event.phase != TickEvent.Phase.END || !Utils.nullCheck() {
             return;
         }
         tickCounter++;
@@ -211,17 +211,17 @@ public class Indicators extends Module {
         Set<Entity> seen = new HashSet<>();
         entitiesToRender.clear();
         double px = mc.player.getX(), py = mc.player.getY(), pz = mc.player.getZ();
-        for (Entity en : mc.world.getEntities()) {
+        for (Entity en : mc.world.getEntities() {
             if (en == null || en == mc.player) {
                 continue;
             }
             ItemStack itemStack = getTrackedItemStack(en);
-            if (itemStack == null || !canRender(en)) {
+            if (itemStack == null || !canRender(en) {
                 continue;
             }
             seen.add(en);
             Vec3d posThen = lastPosition.get(en);
-            if (onlyWhenApproaching.isToggled()) {
+            if (onlyWhenApproaching.isToggled() {
                 if (posThen == null) {
                     lastPosition.put(en, new Vec3d(en.posX, en.posY, en.posZ));
                     continue;
@@ -247,7 +247,7 @@ public class Indicators extends Module {
         if (event.phase != TickEvent.Phase.END) {
             return;
         }
-        if (mc.currentScreen != null || !Utils.nullCheck()) {
+        if (mc.currentScreen != null || !Utils.nullCheck() {
             return;
         }
         try {
@@ -264,24 +264,24 @@ public class Indicators extends Module {
 
     
     public void onRenderWorld(RenderWorldLastEvent event) {
-        if (!Utils.nullCheck() || mc.world == null || !hasEnabledWorldTrajectories()) {
+        if (!Utils.nullCheck() || mc.world == null || !hasEnabledWorldTrajectories() {
             return;
         }
 
         try {
-            for (Entity entity : mc.world.getEntities()) {
-                if (!canRender(entity)) {
+            for (Entity entity : mc.world.getEntities() {
+                if (!canRender(entity) {
                     continue;
                 }
 
-                if (entity instanceof EntityLargeFireball && drawFireballTrajectory.isToggled()) {
+                if (entity instanceof EntityLargeFireball && drawFireballTrajectory.isToggled() {
                     renderFireballTrajectory((EntityLargeFireball) entity, event.partialTicks);
                 }
                 else if (entity instanceof EntityArrow && drawArrowTrajectory.isToggled()
                         && !((IAccessorEntityArrow) entity).getInGround() {
                     renderArrowTrajectory((EntityArrow) entity, event.partialTicks);
                 }
-                else if (entity instanceof EntityEnderPearl && drawPearlTrajectory.isToggled()) {
+                else if (entity instanceof EntityEnderPearl && drawPearlTrajectory.isToggled() {
                     renderPearlTrajectory((EntityEnderPearl) entity, event.partialTicks);
                 }
             }
@@ -294,7 +294,7 @@ public class Indicators extends Module {
             return null;
         }
         if (en instanceof EntityArrow) {
-            if (((IAccessorEntityArrow) en).getInGround()) {
+            if (((IAccessorEntityArrow) en).getInGround() {
                 return null;
             }
             return new ItemStack(Items.ARROW);
@@ -315,32 +315,32 @@ public class Indicators extends Module {
     }
 
     private boolean canRender(Entity entity) {
-        if (entity instanceof EntityArrow && !((IAccessorEntityArrow) entity).getInGround() && renderArrows.isToggled()) {
+        if (entity instanceof EntityArrow && !((IAccessorEntityArrow) entity).getInGround() && renderArrows.isToggled() {
             return true;
         }
-        else if (entity instanceof EntityLargeFireball && renderFireballs.isToggled()) {
+        else if (entity instanceof EntityLargeFireball && renderFireballs.isToggled() {
             return true;
         }
-        else if (entity instanceof EntityEnderPearl && renderPearls.isToggled()) {
+        else if (entity instanceof EntityEnderPearl && renderPearls.isToggled() {
             return true;
         }
-        else if (entity instanceof EntityEgg && renderEggs.isToggled()) {
+        else if (entity instanceof EntityEgg && renderEggs.isToggled() {
             return true;
         }
-        else if (entity instanceof SnowballEntity && renderSnowballs.isToggled()) {
+        else if (entity instanceof SnowballEntity && renderSnowballs.isToggled() {
             return true;
         }
         return false;
     }
 
     private void renderIndicatorFor(Entity en, ItemStack itemStack, float partialTicks) {
-        if (!this.canRender(en)) {
+        if (!this.canRender(en) {
             return;
         }
-        if (!this.shouldRender(en, itemStack)) {
+        if (!this.shouldRender(en, itemStack) {
             return;
         }
-        if (renderOnlyOffScreen.isToggled() && RenderUtils.isInViewFrustum(en)) {
+        if (renderOnlyOffScreen.isToggled() && RenderUtils.isInViewFrustum(en) {
             return;
         }
         Color colorForStack = getColorForItem(itemStack);
@@ -373,7 +373,7 @@ public class Indicators extends Module {
             double hypotenuse = Math.hypot(dx, dy);
             double radiusInput = radius.getInput();
 
-            if (renderItem.isToggled()) {
+            if (renderItem.isToggled() {
                 radiusInput += 20.0;
             }
 
@@ -440,7 +440,7 @@ public class Indicators extends Module {
             RenderSystem.translate(renderX, renderY, 0.0);
             RenderSystem.scale(0.8, 0.8, 0.8);
 
-            if (renderDistance.isToggled()) {
+            if (renderDistance.isToggled() {
                 String text = (int) mc.player.getDistanceToEntity(en) + "m";
                 RavenFontRenderer fr = getIndicatorFontRenderer();
                 fr.drawString(text, (float) (-fr.getStringWidth(text) / 2), -4.0f, -1, true);
@@ -639,20 +639,20 @@ public class Indicators extends Module {
             ).addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D);
 
             Vec3d bestEntityHit = null;
-            for (Entity entity : mc.world.getEntitiesWithinAABBExcludingEntity(projectile, broadBox)) {
-                if (!(entity instanceof LivingEntity)) {
+            for (Entity entity : mc.world.getEntitiesWithinAABBExcludingEntity(projectile, broadBox) {
+                if (!(entity instanceof LivingEntity) {
                     continue;
                 }
                 if (entity instanceof ArmorStandEntity) {
                     continue;
                 }
-                if (!entity.canBeCollidedWith()) {
+                if (!entity.canBeCollidedWith() {
                     continue;
                 }
                 if (((LivingEntity) entity).deathTime != 0) {
                     continue;
                 }
-                if (entity instanceof PlayerEntity && AntiBot.isBot(entity)) {
+                if (entity instanceof PlayerEntity && AntiBot.isBot(entity) {
                     continue;
                 }
                 if (owner != null && entity.isEntityEqual(owner) && ticksInAir < props.ignoreOwnerTicks) {
@@ -964,7 +964,7 @@ public class Indicators extends Module {
         int minZ = MathHelper.floor_double(waterCheckBox.minZ);
         int maxZ = MathHelper.floor_double(waterCheckBox.maxZ + 1.0D);
 
-        if (!mc.world.isAreaLoaded(new BlockPos(minX, minY, minZ), new BlockPos(maxX, maxY, maxZ), true)) {
+        if (!mc.world.isAreaLoaded(new BlockPos(minX, minY, minZ), new BlockPos(maxX, maxY, maxZ), true) {
             return new FluidState(false, new Vec3d(0.0D, 0.0D, 0.0D));
         }
 
@@ -1049,7 +1049,7 @@ public class Indicators extends Module {
         int minZ = MathHelper.floor_double(sweepBounds.minZ);
         int maxZ = MathHelper.floor_double(sweepBounds.maxZ + 1.0D);
 
-        if (!mc.world.isAreaLoaded(new BlockPos(minX, minY, minZ), new BlockPos(maxX, maxY, maxZ), true)) {
+        if (!mc.world.isAreaLoaded(new BlockPos(minX, minY, minZ), new BlockPos(maxX, maxY, maxZ), true) {
             return new BlockCollisionResult(null, Double.MAX_VALUE);
         }
 
@@ -1067,7 +1067,7 @@ public class Indicators extends Module {
 
                     if ((!props.ignoreBlockWithoutBoundingBox
                             || block.getCollisionShape(mc.world, mutablePos, blockState) != null)
-                            && block.canCollideCheck(blockState, false) {
+                            && block..canCollideCheck(blockState, false) {
                         collisionBoxes.clear();
                         Box vanillaProjectileBounds = getVanillaProjectileBounds(block, mutablePos);
                         block.addCollisionBoxesToList(mc.world, mutablePos, blockState, sweepBounds, collisionBoxes, null);

@@ -84,7 +84,7 @@ public class Autoblock extends Module {
         if (player == null) return;
 
         // Check conditions
-        if (swordOnly.isToggled() && !isHoldingSwordOrShield()) {
+        if (swordOnly.isToggled() && !isHoldingSwordOrShield() {
             stopBlocking(keepBlock.isToggled());
             return;
         }
@@ -166,7 +166,7 @@ public class Autoblock extends Module {
 
         if (!canBlock) {
             // Try to auto-switch a shield from inventory to offhand
-            if (autoSwitchShield.isToggled() && tryEquipShield(player)) {
+            if (autoSwitchShield.isToggled() && tryEquipShield(player) {
                 canBlock = true;
             }
         }
@@ -197,7 +197,7 @@ public class Autoblock extends Module {
         wasBlocking = true;
 
         // Enforce use key for visual
-        if (!modeName.equals("Packet")) {
+        if (!modeName.equals("Packet") {
             player.setCurrentHand(blockHand);
         }
     }
@@ -246,7 +246,7 @@ public class Autoblock extends Module {
     private void interactItem(ClientPlayerEntity player, Hand hand) {
         if (player == null || mc.interactionManager == null) return;
         ActionResult result = mc.interactionManager.interactItem(player, hand);
-        if (result.isAccepted()) {
+        if (result.isAccepted() {
             player.swingHand(hand);
         }
     }

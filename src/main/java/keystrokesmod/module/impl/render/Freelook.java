@@ -50,7 +50,7 @@ public class Freelook extends Module {
 
     
     public void onRenderTick(RenderTickEvent e) {
-        if (e.phase != Phase.END || mc.currentScreen != null || !Utils.nullCheck()) {
+        if (e.phase != Phase.END || mc.currentScreen != null || !Utils.nullCheck() {
             return;
         }
         Module freecamMod = ModuleManager.getModule(Freecam.class);
@@ -66,7 +66,7 @@ public class Freelook extends Module {
 
     
     public void onGuiOpen(GuiOpenEvent event) {
-        if (event.gui != null && perspectiveToggled && hold.isToggled()) {
+        if (event.gui != null && perspectiveToggled && hold.isToggled() {
             resetPerspective();
         }
     }
@@ -79,7 +79,7 @@ public class Freelook extends Module {
     }
 
     private void onPressed(boolean state) {
-        if (!isEnabled()) {
+        if (!isEnabled() {
             if (perspectiveToggled) {
                 resetPerspective();
             }
@@ -93,7 +93,7 @@ public class Freelook extends Module {
             } else {
                 enterPerspective();
             }
-        } else if (hold.isToggled()) {
+        } else if (hold.isToggled() {
             resetPerspective();
         }
     }
@@ -111,7 +111,7 @@ public class Freelook extends Module {
         if (mc.currentScreen == null && mc.inGameHasFocus) {
             mc.mouseHelper.grabMouseCursor();
         }
-        if (hold.isToggled() || mc.options.fovSetting == lastFov || customFov.isToggled()) {
+        if (hold.isToggled() || mc.options.fovSetting == lastFov || customFov.isToggled() {
             mc.options.fovSetting = lastFov;
         }
     }
@@ -133,14 +133,14 @@ public class Freelook extends Module {
             float fdx = dx * mult;
             float fdy = dy * mult;
             cameraYaw += fdx * 0.15f;
-            if (fl.invertPitch.isToggled()) {
+            if (fl.invertPitch.isToggled() {
                 fdy = -fdy;
             }
             cameraPitch += fdy * 0.15f;
-            if (fl.lockPitch.isToggled()) {
+            if (fl.lockPitch.isToggled() {
                 cameraPitch = Math.max(-90f, Math.min(90f, cameraPitch));
             }
-            if (fl.customFov.isToggled()) {
+            if (fl.customFov.isToggled() {
                 mc.options.fovSetting = (float) fl.fov.getInput();
             }
         }

@@ -141,7 +141,7 @@ public class InvManager extends Module {
 
     @Override
     public void onDisable() {
-        if (isManagedInventoryOpen() && ownsCarriedStack()) {
+        if (isManagedInventoryOpen() && ownsCarriedStack() {
             recoverCarriedStackImmediately(InventorySnapshot.capture(), false);
         }
         ticks = 0L;
@@ -154,11 +154,11 @@ public class InvManager extends Module {
 
     @Override
     public void guiButtonToggled(ButtonSetting buttonSetting) {
-        if (buttonSetting != disableWhenComplete || !isManagedInventoryOpen()) {
+        if (buttonSetting != disableWhenComplete || !isManagedInventoryOpen() {
             return;
         }
 
-        if (!disableWhenComplete.isToggled()) {
+        if (!disableWhenComplete.isToggled() {
             if (sessionState == SessionState.COMPLETE_LATCHED) {
                 sessionState = SessionState.ACTIVE;
             }
@@ -176,14 +176,14 @@ public class InvManager extends Module {
 
     
     public void onSlotScroll(PreSlotScrollEvent event) {
-        if (shouldCancelManualInventoryInput()) {
+        if (shouldCancelManualInventoryInput() {
             event.setCanceled(true);
         }
     }
 
     
     public void onPreUpdate(PreUpdateEvent event) {
-        if (!Utils.nullCheck()) {
+        if (!Utils.nullCheck() {
             closeGui = false;
             closeInventoryGui = false;
             inventoryActionPerformed = false;
@@ -198,7 +198,7 @@ public class InvManager extends Module {
             return;
         }
 
-        if (shouldPauseForLobby()) {
+        if (shouldPauseForLobby() {
             closeSession();
             return;
         }
@@ -239,28 +239,28 @@ public class InvManager extends Module {
     }
 
     private void handleInventoryScreen() {
-        if (!isManagedInventoryOpen()) {
+        if (!isManagedInventoryOpen() {
             closeSession();
             return;
         }
 
-        if (!consumeExternalActionDelay()) {
+        if (!consumeExternalActionDelay() {
             return;
         }
 
-        if (tryAutoArmorAction()) {
+        if (tryAutoArmorAction() {
             return;
         }
 
-        if (runInventorySorterTick()) {
+        if (runInventorySorterTick() {
             return;
         }
 
-        if (tryInventoryCleanerAction()) {
+        if (tryInventoryCleanerAction() {
             return;
         }
 
-        if (closeInventory.isToggled() && inventoryActionPerformed && !ownsCarriedStack()) {
+        if (closeInventory.isToggled() && inventoryActionPerformed && !ownsCarriedStack() {
             closeInventoryGui = true;
         }
     }
@@ -316,7 +316,7 @@ public class InvManager extends Module {
             return true;
         }
 
-        if (!executeCurrentStep(context)) {
+        if (!executeCurrentStep(context) {
             return currentAction != null || context.snapshot.carried != null;
         }
 
@@ -355,7 +355,7 @@ public class InvManager extends Module {
             return false;
         }
 
-        if (cleanKey.getKey() != 0 && !cleanKey.isPressed()) {
+        if (cleanKey.getKey() != 0 && !cleanKey.isPressed() {
             return false;
         }
 
@@ -383,9 +383,9 @@ public class InvManager extends Module {
 
             Item item = itemStack.getItem();
             int slotId = toContainerSlot(j);
-            if (isSword(itemStack)) {
+            if (isSword(itemStack) {
                 double damage = Utils.getDamageLevel(itemStack);
-                if (damage < data.bestSwordDamage || (keptBestSword && damage == data.bestSwordDamage)) {
+                if (damage < data.bestSwordDamage || (keptBestSword && damage == data.bestSwordDamage) {
                     delayedClick(slotId, 1, 4, inventoryCleaner);
                     return true;
                 }
@@ -393,7 +393,7 @@ public class InvManager extends Module {
                 continue;
             }
 
-            if (isArmor(itemStack)) {
+            if (isArmor(itemStack) {
                 ItemArmor armor = (ItemArmor)item;
                 int armorSlot = 3 - armor.armorType;
                 int defenceLevel = getDefenceLevel(itemStack);
@@ -417,7 +417,7 @@ public class InvManager extends Module {
 
             if (item instanceof PickaxeItem) {
                 double efficiency = Utils.getEfficiency(itemStack, Blocks.STONE);
-                if (efficiency < data.bestPickaxe || (keptBestPick && efficiency == data.bestPickaxe)) {
+                if (efficiency < data.bestPickaxe || (keptBestPick && efficiency == data.bestPickaxe) {
                     delayedClick(slotId, 1, 4, inventoryCleaner);
                     return true;
                 }
@@ -427,7 +427,7 @@ public class InvManager extends Module {
 
             if (item instanceof AxeItem) {
                 double efficiency = Utils.getEfficiency(itemStack, Blocks.log);
-                if (efficiency < data.bestAxe || (keptBestAxe && efficiency == data.bestAxe)) {
+                if (efficiency < data.bestAxe || (keptBestAxe && efficiency == data.bestAxe) {
                     delayedClick(slotId, 1, 4, inventoryCleaner);
                     return true;
                 }
@@ -437,7 +437,7 @@ public class InvManager extends Module {
 
             if (item instanceof ShovelItem) {
                 double efficiency = Utils.getEfficiency(itemStack, Blocks.DIRT);
-                if (efficiency < data.bestShovel || (keptBestShovel && efficiency == data.bestShovel)) {
+                if (efficiency < data.bestShovel || (keptBestShovel && efficiency == data.bestShovel) {
                     delayedClick(slotId, 1, 4, inventoryCleaner);
                     return true;
                 }
@@ -445,7 +445,7 @@ public class InvManager extends Module {
                 continue;
             }
 
-            if (isProtectedInventoryItem(itemStack)) {
+            if (isProtectedInventoryItem(itemStack) {
                 continue;
             }
 
@@ -455,13 +455,13 @@ public class InvManager extends Module {
             }
 
             if (item instanceof ItemPotion) {
-                if (!isBadPotion(itemStack)) {
+                if (!isBadPotion(itemStack) {
                     continue;
                 }
             }
             else if (itemStack.getMaxStackSize() == 1) {
                 int id = Item.getIdFromItem(item);
-                if (!duplicateItems.contains(id)) {
+                if (!duplicateItems.contains(id) {
                     duplicateItems.add(id);
                     continue;
                 }
@@ -474,16 +474,16 @@ public class InvManager extends Module {
     }
 
     private void handleChestScreen() {
-        if (chestStealer.getInput() == -1 || !(mc.player.openContainer instanceof ContainerChest)) {
+        if (chestStealer.getInput() == -1 || !(mc.player.openContainer instanceof ContainerChest) {
             return;
         }
 
-        if (!consumeExternalActionDelay()) {
+        if (!consumeExternalActionDelay() {
             return;
         }
 
         IInventory chestInventory = ((ContainerChest)mc.player.openContainer).getLowerChestInventory();
-        if (!stealFromCustomChests.isToggled() && !chestInventory.getName().contains("Chest")) {
+        if (!stealFromCustomChests.isToggled() && !chestInventory.getName().contains("Chest") {
             return;
         }
 
@@ -513,7 +513,7 @@ public class InvManager extends Module {
 
             for (int k = 0; k < chestData.size; ++k) {
                 ItemStack itemStack = chestData.inventory.getStackInSlot(k);
-                if (itemStack == null || isSword(itemStack) || isArmor(itemStack) || shouldSkipChestItem(itemStack, playerData)) {
+                if (itemStack == null || isSword(itemStack) || isArmor(itemStack) || shouldSkipChestItem(itemStack, playerData) {
                     continue;
                 }
 
@@ -524,18 +524,18 @@ public class InvManager extends Module {
         else {
             for (int k = 0; k < chestData.size; ++k) {
                 ItemStack chestStack = chestData.inventory.getStackInSlot(k);
-                if (chestStack == null || shouldSkipChestItem(chestStack, playerData)) {
+                if (chestStack == null || shouldSkipChestItem(chestStack, playerData) {
                     continue;
                 }
 
-                if (canMergeChestStackIntoInventory(chestStack, playerData)) {
+                if (canMergeChestStackIntoInventory(chestStack, playerData) {
                     stealChestItem(k, chestStack, playerData);
                     return;
                 }
             }
         }
 
-        if (closeChest.isToggled()) {
+        if (closeChest.isToggled() {
             closeGui = true;
         }
     }
@@ -555,8 +555,8 @@ public class InvManager extends Module {
             return -1;
         }
 
-        for (String storageId : items.getItems()) {
-            if (!ItemSearchIndex.matches(storageId, stack)) {
+        for (String storageId : items.getItems() {
+            if (!ItemSearchIndex.matches(storageId, stack) {
                 continue;
             }
 
@@ -595,13 +595,13 @@ public class InvManager extends Module {
 
     private boolean canMergeChestStackIntoInventory(ItemStack chestStack, InventoryData playerData) {
         Item chestItem = chestStack.getItem();
-        if (!isProtectedInventoryItem(chestStack) && !(chestItem instanceof ItemPotion && !isBadPotion(chestStack))) {
+        if (!isProtectedInventoryItem(chestStack) && !(chestItem instanceof ItemPotion && !isBadPotion(chestStack)) {
             return false;
         }
 
         for (int inventoryIndex = 0; inventoryIndex < playerData.size; ++inventoryIndex) {
             ItemStack playerStack = playerData.inventory.getStackInSlot(inventoryIndex);
-            if (playerStack == null || !canStacksMerge(playerStack, chestStack) || playerStack.stackSize >= playerStack.getMaxStackSize()) {
+            if (playerStack == null || !canStacksMerge(playerStack, chestStack) || playerStack.stackSize >= playerStack.getMaxStackSize() {
                 continue;
             }
             return true;
@@ -630,7 +630,7 @@ public class InvManager extends Module {
     }
 
     private boolean isSpeedPotion(ItemStack itemStack) {
-        if (itemStack == null || !(itemStack.getItem() instanceof ItemPotion)) {
+        if (itemStack == null || !(itemStack.getItem() instanceof ItemPotion) {
             return false;
         }
 
@@ -640,7 +640,7 @@ public class InvManager extends Module {
         }
 
         for (PotionEffect effect : effects) {
-            if (effect.toString().contains("moveSpeed")) {
+            if (effect.toString().contains("moveSpeed") {
                 return true;
             }
         }
@@ -648,12 +648,12 @@ public class InvManager extends Module {
     }
 
     private boolean isBadPotion(ItemStack itemStack) {
-        if (itemStack == null || !(itemStack.getItem() instanceof ItemPotion)) {
+        if (itemStack == null || !(itemStack.getItem() instanceof ItemPotion) {
             return false;
         }
 
         List<StatusEffectInstance> effects = ((ItemPotion)itemStack.getItem()).getEffects(itemStack);
-        if (effects == null || effects.isEmpty()) {
+        if (effects == null || effects.isEmpty() {
             return true;
         }
 
@@ -672,10 +672,10 @@ public class InvManager extends Module {
 
     private boolean shouldSkipChestItem(ItemStack stack, InventoryData playerData) {
         Item item = stack.getItem();
-        if (items.matches(stack)) {
+        if (items.matches(stack) {
             return false;
         }
-        if (item instanceof ItemPotion && isBadPotion(stack)) {
+        if (item instanceof ItemPotion && isBadPotion(stack) {
             return true;
         }
         if (item == Items.spawn_egg) {
@@ -694,7 +694,7 @@ public class InvManager extends Module {
             return playerData.bestShovel >= 0 && efficiency <= playerData.bestShovel;
         }
 
-        if (isProtectedInventoryItem(stack) || (item instanceof ItemPotion && !isBadPotion(stack))) {
+        if (isProtectedInventoryItem(stack) || (item instanceof ItemPotion && !isBadPotion(stack)) {
             return false;
         }
 
@@ -713,7 +713,7 @@ public class InvManager extends Module {
     }
 
     public void handlePreInventoryClose(String source) {
-        if (!isEnabled() || !Utils.nullCheck() || !isManagedInventoryOpen() || !ownsCarriedStack()) {
+        if (!isEnabled() || !Utils.nullCheck() || !isManagedInventoryOpen() || !ownsCarriedStack() {
             return;
         }
 
@@ -740,7 +740,7 @@ public class InvManager extends Module {
         windowClickBudget = 0.0;
         sessionState = SessionState.ACTIVE;
 
-        if (disableWhenComplete.isToggled()) {
+        if (disableWhenComplete.isToggled() {
             SnapshotContext context = SnapshotContext.create(snapshot, resolveAssignments(snapshot));
             if (findBestSortingAction(context) == null) {
                 sessionState = SessionState.COMPLETE_LATCHED;
@@ -784,7 +784,7 @@ public class InvManager extends Module {
             return false;
         }
 
-        if (!step.validator.isValid(context, this)) {
+        if (!step.validator.isValid(context, this) {
             currentAction = null;
             sessionState = SessionState.ACTIVE;
 
@@ -808,7 +808,7 @@ public class InvManager extends Module {
         step.afterExecute.run(this);
         currentAction.advance();
 
-        if (currentAction.isComplete()) {
+        if (currentAction.isComplete() {
             currentAction = null;
             if (sessionState != SessionState.COMPLETE_LATCHED) {
                 sessionState = SessionState.ACTIVE;
@@ -829,7 +829,7 @@ public class InvManager extends Module {
             ItemStack targetStack = context.snapshot.getSlot(assignment.hotbarSlot);
             boolean targetMatchesRule = isAssignedTargetSatisfied(context, assignment, targetStack);
 
-            if (targetMatchesRule && isPartialStack(targetStack)) {
+            if (targetMatchesRule && isPartialStack(targetStack) {
                 PlannedAction mergeAction = buildMergeAction(context, assignment, targetStack);
                 bestAction = pickBetterAction(bestAction, mergeAction);
 
@@ -840,7 +840,7 @@ public class InvManager extends Module {
                 PlannedAction placementAction = buildPlacementAction(context, assignment);
                 PlannedAction pickupAllPlacementAction = buildPickupAllPlacementAction(context, assignment, targetStack);
 
-                if (pickupAllPlacementAction != null && (placementAction == null || pickupAllPlacementAction.resultingSize > placementAction.resultingSize)) {
+                if (pickupAllPlacementAction != null && (placementAction == null || pickupAllPlacementAction.resultingSize > placementAction.resultingSize) {
                     bestAction = pickBetterAction(bestAction, pickupAllPlacementAction);
                 }
                 else if (placementAction != null) {
@@ -849,7 +849,7 @@ public class InvManager extends Module {
             }
         }
 
-        if (bestAction != null || !stackItems.isToggled()) {
+        if (bestAction != null || !stackItems.isToggled() {
             return bestAction;
         }
 
@@ -1103,11 +1103,11 @@ public class InvManager extends Module {
             }
 
             ItemStack sourceStack = context.snapshot.getSlot(inventoryIndex);
-            if (!ItemSearchIndex.matches(assignment.storageId, sourceStack)) {
+            if (!ItemSearchIndex.matches(assignment.storageId, sourceStack) {
                 continue;
             }
 
-            if (inventoryIndex < HOTBAR_SIZE && isCorrectHotbarSlot(context, inventoryIndex)) {
+            if (inventoryIndex < HOTBAR_SIZE && isCorrectHotbarSlot(context, inventoryIndex) {
                 continue;
             }
 
@@ -1122,7 +1122,7 @@ public class InvManager extends Module {
                     inventoryIndex < HOTBAR_SIZE ? 1 : 0,
                     resultingSize
             );
-            if (bestSource == null || candidate.isBetterThan(bestSource)) {
+            if (bestSource == null || candidate.isBetterThan(bestSource) {
                 bestSource = candidate;
             }
         }
@@ -1180,7 +1180,7 @@ public class InvManager extends Module {
                 new StepValidator() {
                     @Override
                     public boolean isValid(SnapshotContext current, InvManager module) {
-                        if (current.snapshot.carried == null || !ItemSearchIndex.matches(storageId, current.snapshot.carried)) {
+                        if (current.snapshot.carried == null || !ItemSearchIndex.matches(storageId, current.snapshot.carried) {
                             return false;
                         }
 
@@ -1189,7 +1189,7 @@ public class InvManager extends Module {
                             return true;
                         }
 
-                        if (ItemSearchIndex.matches(storageId, currentTarget)) {
+                        if (ItemSearchIndex.matches(storageId, currentTarget) {
                             return canStacksMerge(current.snapshot.carried, currentTarget) && isPartialStack(currentTarget);
                         }
 
@@ -1245,7 +1245,7 @@ public class InvManager extends Module {
 
         for (int targetInventoryIndex = 0; targetInventoryIndex < InventorySnapshot.INVENTORY_SIZE; targetInventoryIndex++) {
             ItemStack targetStack = context.snapshot.getSlot(targetInventoryIndex);
-            if (!isPartialStack(targetStack) || isManagedStack(targetStack)) {
+            if (!isPartialStack(targetStack) || isManagedStack(targetStack) {
                 continue;
             }
 
@@ -1412,7 +1412,7 @@ public class InvManager extends Module {
         }
 
         List<MergeSource> sources = collectMergeSources(context, assignment.hotbarSlot, targetStack);
-        if (sources.isEmpty()) {
+        if (sources.isEmpty() {
             return null;
         }
 
@@ -1439,7 +1439,7 @@ public class InvManager extends Module {
                 MergeUse mergeUse = new MergeUse(source, effectiveAdded, returnsRemainder);
                 MergePath candidate = path.append(mergeUse, extraClicks);
                 int newAdded = added + effectiveAdded;
-                if (isBetterMergePath(candidate, nextPaths[newAdded])) {
+                if (isBetterMergePath(candidate, nextPaths[newAdded]) {
                     nextPaths[newAdded] = candidate;
                 }
             }
@@ -1513,23 +1513,23 @@ public class InvManager extends Module {
             }
 
             ItemStack sourceStack = context.snapshot.getSlot(inventoryIndex);
-            if (!canStacksMerge(sourceStack, targetStack)) {
+            if (!canStacksMerge(sourceStack, targetStack) {
                 continue;
             }
 
             if (inventoryIndex < HOTBAR_SIZE) {
-                if (!isCorrectHotbarSlot(context, inventoryIndex)) {
+                if (!isCorrectHotbarSlot(context, inventoryIndex) {
                     sources.add(new MergeSource(inventoryIndex, sourceStack.stackSize, MergeSourceType.HOTBAR));
                 }
                 continue;
             }
 
-            if (isQuickMoveMergeSafe(context.snapshot, targetHotbarSlot, sourceStack, targetStack)) {
+            if (isQuickMoveMergeSafe(context.snapshot, targetHotbarSlot, sourceStack, targetStack) {
                 sources.add(new MergeSource(inventoryIndex, sourceStack.stackSize, MergeSourceType.MAIN_INVENTORY));
             }
         }
 
-        sources.sort(new Comparator<MergeSource>()) {
+        sources.sort(new Comparator<MergeSource>() {
             @Override
             public int compare(MergeSource first, MergeSource second) {
                 int comparison = Integer.compare(first.type.ordinal(), second.type.ordinal());
@@ -1549,7 +1549,7 @@ public class InvManager extends Module {
     }
 
     private int getPickupAllResultingSize(SnapshotContext context, int targetHotbarSlot, ItemStack targetStack) {
-        if (!isPartialStack(targetStack)) {
+        if (!isPartialStack(targetStack) {
             return 0;
         }
 
@@ -1560,11 +1560,11 @@ public class InvManager extends Module {
             }
 
             ItemStack sourceStack = context.snapshot.getSlot(inventoryIndex);
-            if (!canStacksMerge(sourceStack, targetStack)) {
+            if (!canStacksMerge(sourceStack, targetStack) {
                 continue;
             }
 
-            if (inventoryIndex < HOTBAR_SIZE && isCorrectHotbarSlot(context, inventoryIndex)) {
+            if (inventoryIndex < HOTBAR_SIZE && isCorrectHotbarSlot(context, inventoryIndex) {
                 return 0;
             }
 
@@ -1575,7 +1575,7 @@ public class InvManager extends Module {
     }
 
     private int getUnconfiguredPickupAllResultingSize(SnapshotContext context, int targetInventoryIndex, ItemStack targetStack) {
-        if (!isPartialStack(targetStack) || isManagedStack(targetStack)) {
+        if (!isPartialStack(targetStack) || isManagedStack(targetStack) {
             return 0;
         }
 
@@ -1586,7 +1586,7 @@ public class InvManager extends Module {
             }
 
             ItemStack sourceStack = context.snapshot.getSlot(inventoryIndex);
-            if (sourceStack == null || isManagedStack(sourceStack) || !isPartialStack(sourceStack) || !canStacksMerge(sourceStack, targetStack)) {
+            if (sourceStack == null || isManagedStack(sourceStack) || !isPartialStack(sourceStack) || !canStacksMerge(sourceStack, targetStack) {
                 continue;
             }
 
@@ -1670,18 +1670,18 @@ public class InvManager extends Module {
     }
 
     private int findRecoveryDepositIndex(RecoveryView view, int preferredIndex) {
-        if (preferredIndex >= 0 && canDepositToSlot(view, preferredIndex)) {
+        if (preferredIndex >= 0 && canDepositToSlot(view, preferredIndex) {
             return preferredIndex;
         }
 
         for (int inventoryIndex = HOTBAR_SIZE; inventoryIndex < InventorySnapshot.INVENTORY_SIZE; inventoryIndex++) {
-            if (canMergeIntoSlot(view, inventoryIndex)) {
+            if (canMergeIntoSlot(view, inventoryIndex) {
                 return inventoryIndex;
             }
         }
 
         for (int inventoryIndex = 0; inventoryIndex < HOTBAR_SIZE; inventoryIndex++) {
-            if (canMergeIntoSlot(view, inventoryIndex)) {
+            if (canMergeIntoSlot(view, inventoryIndex) {
                 return inventoryIndex;
             }
         }
@@ -1717,7 +1717,7 @@ public class InvManager extends Module {
                 continue;
             }
 
-            if (hasMatchingStack(snapshot, storageId)) {
+            if (hasMatchingStack(snapshot, storageId) {
                 assignments[hotbarSlot] = new SlotAssignment(hotbarSlot, storageId, priorityIndex);
             }
         }
@@ -1727,7 +1727,7 @@ public class InvManager extends Module {
 
     private boolean hasMatchingStack(InventorySnapshot snapshot, String storageId) {
         for (int inventoryIndex = 0; inventoryIndex < InventorySnapshot.INVENTORY_SIZE; inventoryIndex++) {
-            if (ItemSearchIndex.matches(storageId, snapshot.getSlot(inventoryIndex))) {
+            if (ItemSearchIndex.matches(storageId, snapshot.getSlot(inventoryIndex)) {
                 return true;
             }
         }
@@ -1748,7 +1748,7 @@ public class InvManager extends Module {
     }
 
     private boolean isAssignedTargetSatisfied(SnapshotContext context, SlotAssignment assignment, ItemStack targetStack) {
-        if (!ItemSearchIndex.matches(assignment.storageId, targetStack)) {
+        if (!ItemSearchIndex.matches(assignment.storageId, targetStack) {
             return false;
         }
 
@@ -1770,11 +1770,11 @@ public class InvManager extends Module {
             }
 
             ItemStack sourceStack = context.snapshot.getSlot(inventoryIndex);
-            if (!ItemSearchIndex.matches(assignment.storageId, sourceStack)) {
+            if (!ItemSearchIndex.matches(assignment.storageId, sourceStack) {
                 continue;
             }
 
-            if (inventoryIndex < HOTBAR_SIZE && isCorrectHotbarSlot(context, inventoryIndex)) {
+            if (inventoryIndex < HOTBAR_SIZE && isCorrectHotbarSlot(context, inventoryIndex) {
                 continue;
             }
 
@@ -1784,7 +1784,7 @@ public class InvManager extends Module {
                     inventoryIndex < HOTBAR_SIZE ? 1 : 0,
                     sourceStack != null ? sourceStack.stackSize : 0
             );
-            if (bestSource == null || candidate.isBetterThan(bestSource)) {
+            if (bestSource == null || candidate.isBetterThan(bestSource) {
                 bestSource = candidate;
             }
         }
@@ -1813,7 +1813,7 @@ public class InvManager extends Module {
     }
 
     private static boolean isQuickMoveMergeSafe(InventorySnapshot snapshot, int targetHotbarSlot, ItemStack sourceStack, ItemStack targetStack) {
-        if (!canStacksMerge(sourceStack, targetStack) || !isPartialStack(targetStack)) {
+        if (!canStacksMerge(sourceStack, targetStack) || !isPartialStack(targetStack) {
             return false;
         }
 
@@ -1843,10 +1843,10 @@ public class InvManager extends Module {
     }
 
     private static boolean canStacksMerge(ItemStack first, ItemStack second) {
-        if (first == null || second == null || first.getItem() != second.getItem()) {
+        if (first == null || second == null || first.getItem() != second.getItem() {
             return false;
         }
-        if (first.getHasSubtypes() && first.getMetadata() != second.getMetadata()) {
+        if (first.getHasSubtypes() && first.getMetadata() != second.getMetadata() {
             return false;
         }
         return ItemStack.areItemStackTagsEqual(first, second);
@@ -1917,7 +1917,7 @@ public class InvManager extends Module {
                     continue;
                 }
 
-                if (isArmor(itemStack)) {
+                if (isArmor(itemStack) {
                     ItemArmor armor = (ItemArmor)itemStack.getItem();
                     int slot = 3 - armor.armorType;
                     int defenceLevel = getDefenceLevel(itemStack);
@@ -1932,7 +1932,7 @@ public class InvManager extends Module {
                 }
 
                 Item item = itemStack.getItem();
-                if (isSword(itemStack)) {
+                if (isSword(itemStack) {
                     double damageLevel = Utils.getDamageLevel(itemStack);
                     if (damageLevel > bestSwordDamage) {
                         bestSwordDamage = damageLevel;
@@ -2257,7 +2257,7 @@ public class InvManager extends Module {
                 return;
             }
 
-            if (!canStacksMerge(slotStack, carried)) {
+            if (!canStacksMerge(slotStack, carried) {
                 return;
             }
 

@@ -46,7 +46,7 @@ public class WaterBucket extends Module {
         if (!Utils.nullCheck() || mc.isGamePaused() || mc.player.capabilities.isFlying || mc.player.capabilities.isCreativeMode) {
             return;
         }
-        if (!fallCheck()) {
+        if (!fallCheck() {
             return;
         }
         HitResult mop = Utils.getTarget(mc.interactionManager.getBlockReachDistance(), mc.player.rotationYaw, silentAim.isToggled() ? 90.0f : mc.player.rotationPitch);
@@ -57,7 +57,7 @@ public class WaterBucket extends Module {
         if (Utils.timeBetween(lastPlace, now) < PLACE_DELAY) {
             return;
         }
-        if (!isItem(mc.player.getHeldItem(), Items.water_bucket) && switchToItem.isToggled()) {
+        if (!isItem(mc.player.getHeldItem(), Items.water_bucket) && switchToItem.isToggled() {
             this.attemptSwitch();
         }
         if (!silentAim.isToggled() && mc.player.rotationPitch < 80.0f) {
@@ -65,7 +65,7 @@ public class WaterBucket extends Module {
         }
         lastPlace = now;
         this.useCurrentItem();
-        if (!(shouldPickup = pickupWater.isToggled())) {
+        if (!(shouldPickup = pickupWater.isToggled()) {
             this.lastSlot = -1;
         }
         if (Raven.DEBUG) {
@@ -75,10 +75,10 @@ public class WaterBucket extends Module {
 
     
     public void onPreUpdate(PreUpdateEvent e) {
-        if (mc.isGamePaused()) {
+        if (mc.isGamePaused() {
             return;
         }
-        if (shouldPickup && Utils.timeBetween(lastPlace, System.currentTimeMillis()) > PICKUP_WAIT && isItem(mc.player.getHeldItem(), Items.bucket)) {
+        if (shouldPickup && Utils.timeBetween(lastPlace, System.currentTimeMillis()) > PICKUP_WAIT && isItem(mc.player.getHeldItem(), Items.bucket) {
             shouldPickup = false;
             this.useCurrentItem();
             if (this.lastSlot != -1) {
@@ -90,7 +90,7 @@ public class WaterBucket extends Module {
 
     
     public void onClientRotation(ClientRotationEvent e) {
-        if (ModuleManager.bedAura != null && ModuleManager.bedAura.shouldOverrideMouseOver()) {
+        if (ModuleManager.bedAura != null && ModuleManager.bedAura.shouldOverrideMouseOver() {
             return;
         }
         if (silentAim.isToggled() && (fallCheck() || Utils.timeBetween(lastPlace, System.currentTimeMillis()) < PLACE_DELAY) && getWaterBucketSlot() != -1) {
@@ -109,7 +109,7 @@ public class WaterBucket extends Module {
 
     private int getWaterBucketSlot() {
         for (int slot = 0; slot < InventoryPlayer.getHotbarSize(); ++slot) {
-            if (isItem(mc.player.inventory.getStackInSlot(slot), Items.water_bucket)) {
+            if (isItem(mc.player.inventory.getStackInSlot(slot), Items.water_bucket) {
                 return slot;
             }
         }

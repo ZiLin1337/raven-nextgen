@@ -50,13 +50,13 @@ public class DuelsStats extends Module {
 
     @Override
     public void onUpdate() {
-        if (this.id() && this.en.isEmpty()) {
+        if (this.id() && this.en.isEmpty() {
             List<PlayerEntity> players = mc.world.getPlayers();
             players.remove(mc.player);
 
             for (PlayerEntity player : players) {
                 String name = player.getName();
-                if (!name.equals(this.ign) && !name.equals(nick) && !this.q.contains(name) && player.getDisplayName().getUnformattedText().contains("§k")) {
+                if (!name.equals(this.ign) && !name.equals(nick) && !this.q.contains(name) && player.getDisplayName().getUnformattedText().contains("§k") {
                     this.ef(name);
                     break;
                 }
@@ -67,21 +67,21 @@ public class DuelsStats extends Module {
 
     
     public void onMessageReceived(ClientChatReceivedEvent e) {
-        if (Utils.nullCheck() && this.id()) {
+        if (Utils.nullCheck() && this.id() {
             String s = Utils.stripColor(e.message.getUnformattedText());
-            if (s.contains(" ")) {
+            if (s.contains(" ") {
                 String[] sp = s.split(" ");
                 String n;
-                if (sp.length == 4 && sp[1].equals("has") && sp[2].equals("joined") && sp[3].equals("(2/2)!")) {
+                if (sp.length == 4 && sp[1].equals("has") && sp[2].equals("joined") && sp[3].equals("(2/2)!") {
                     n = sp[0];
-                    if (!n.equals(this.ign) && !n.equals(nick) && this.en.isEmpty()) {
+                    if (!n.equals(this.ign) && !n.equals(nick) && this.en.isEmpty() {
                         this.q.remove(n);
                         this.ef(n);
                     }
                 }
-                else if (sp.length == 3 && sp[1].equals("has") && sp[2].equals("quit!")) {
+                else if (sp.length == 3 && sp[1].equals("has") && sp[2].equals("quit!") {
                     n = sp[0];
-                    if (this.en.equals(n)) {
+                    if (this.en.equals(n) {
                         this.en = "";
                     }
 
@@ -102,11 +102,11 @@ public class DuelsStats extends Module {
 
     private void ef(String name) {
         this.en = name;
-        if (sendIgnOnJoin.isToggled()) {
+        if (sendIgnOnJoin.isToggled() {
             Utils.sendMessage("&eOpponent found: " + "&3" + name);
         }
 
-        if (NetworkUtils.API_KEY.isEmpty()) {
+        if (NetworkUtils.API_KEY.isEmpty() {
             Utils.sendMessage("&cAPI Key is empty!");
         }
         else {
@@ -130,7 +130,7 @@ public class DuelsStats extends Module {
                     Utils.sendMessage("&eLosses: &3" + s[1]);
                     Utils.sendMessage("&eWLR: &3" + wlr);
                     Utils.sendMessage("&eWS: &3" + s[2]);
-                    if (threatLevel.isToggled()) {
+                    if (threatLevel.isToggled() {
                         Utils.sendMessage("&eThreat: &3" + gtl(s[0], s[1], wlr, s[2]));
                     }
 
@@ -144,13 +144,13 @@ public class DuelsStats extends Module {
     }
 
     private boolean id() {
-        if (Utils.isHypixel()) {
+        if (Utils.isHypixel() {
             int l = 0;
 
-            for (String s : Utils.getScoreBoardOld()) {
-                if (s.contains("Map:")) {
+            for (String s : Utils.getScoreBoardOld() {
+                if (s.contains("Map:") {
                     ++l;
-                } else if (s.contains("Players:") && s.contains("/2")) {
+                } else if (s.contains("Players:") && s.contains("/2") {
                     ++l;
                 }
             }

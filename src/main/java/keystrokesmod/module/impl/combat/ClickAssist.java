@@ -60,8 +60,8 @@ public class ClickAssist extends Module {
         if (disableInCreative.isToggled() && mc.player.capabilities.isCreativeMode) {
             return;
         }
-        if (ev.button >= 0 && ev.buttonstate && Utils.nullCheck()) {
-            if (mc.currentScreen == null && !Utils.isConsuming(mc.player)) {
+        if (ev.button >= 0 && ev.buttonstate && Utils.nullCheck() {
+            if (mc.currentScreen == null && !Utils.isConsuming(mc.player) {
                 double ch;
                 if (ev.button == 0 && leftClick.isToggled() && chanceLeft.getInput() != 0.0D) {
                     if (this.ignNL) {
@@ -71,10 +71,10 @@ public class ClickAssist extends Module {
                         if (chanceLeft.getInput() == 0) {
                             return;
                         }
-                        if (weaponOnly.isToggled() && !Utils.holdingWeapon()) {
+                        if (weaponOnly.isToggled() && !Utils.holdingWeapon() {
                             return;
                         }
-                        if (onlyWhileTargeting.isToggled() && (mc.objectMouseOver == null || mc.objectMouseOver.entityHit == null)) {
+                        if (onlyWhileTargeting.isToggled() && (mc.objectMouseOver == null || mc.objectMouseOver.entityHit == null) {
                             return;
                         }
                         if (chanceLeft.getInput() != 100.0D) {
@@ -90,7 +90,7 @@ public class ClickAssist extends Module {
                         this.ignNL = true;
                     }
                 }
-                else if (ev.button == 1 && rightClick.isToggled()) {
+                else if (ev.button == 1 && rightClick.isToggled() {
                     if (this.ignNR) {
                         this.ignNR = false;
                     }
@@ -98,9 +98,9 @@ public class ClickAssist extends Module {
                         if (chanceRight.getInput() == 0) {
                             return;
                         }
-                        if (blocksOnly.isToggled()) {
+                        if (blocksOnly.isToggled() {
                             ItemStack item = mc.player.getHeldItem();
-                            if (item == null || !(item.getItem() instanceof BlockItem)) {
+                            if (item == null || !(item.getItem() instanceof BlockItem) {
                                 this.fix(1);
                                 return;
                             }
@@ -132,11 +132,11 @@ public class ClickAssist extends Module {
 
     private void fix(int t) {
         if (t == 0) {
-            if (this.ignNL && !Mouse.isButtonDown(0)) {
+            if (this.ignNL && !Mouse.isButtonDown(0) {
                 this.bot.mouseRelease(16);
             }
         }
-        else if (t == 1 && this.ignNR && !Mouse.isButtonDown(1)) {
+        else if (t == 1 && this.ignNR && !Mouse.isButtonDown(1) {
             this.bot.mouseRelease(4);
         }
     }

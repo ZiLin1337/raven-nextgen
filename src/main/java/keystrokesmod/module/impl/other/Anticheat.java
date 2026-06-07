@@ -66,15 +66,15 @@ public class Anticheat extends Module {
     }
 
     private void alert(PlayerEntity entityPlayer, ButtonSetting mode) {
-        if (Utils.isFriended(entityPlayer) || (ignoreTeammates.isToggled() && Utils.isTeammate(entityPlayer))) {
+        if (Utils.isFriended(entityPlayer) || (ignoreTeammates.isToggled() && Utils.isTeammate(entityPlayer)) {
             return;
         }
-        if (atlasSuspect.isToggled()) {
-            if (!entityPlayer.getName().equals("Suspect§r")) {
+        if (atlasSuspect.isToggled() {
+            if (!entityPlayer.getName().equals("Suspect§r") {
                 return;
             }
         }
-        else if (enemyAdd.isToggled()) {
+        else if (enemyAdd.isToggled() {
             Utils.addEnemy(entityPlayer.getName());
         }
         long currentTimeMillis = System.currentTimeMillis();
@@ -102,24 +102,24 @@ public class Anticheat extends Module {
             mc.player.playSound("note.pling", 1.0f, 1.0f);
             lastAlert = currentTimeMillis;
         }
-        if (autoReport.isToggled() && !Utils.isFriended(entityPlayer)) {
+        if (autoReport.isToggled() && !Utils.isFriended(entityPlayer) {
             mc.player.sendChatMessage("/wdr " + Utils.stripColor(entityPlayer.getGameProfile().getName()));
         }
     }
 
     @Override
     public void onUpdate() {
-        if (mc.isSingleplayer()) {
+        if (mc.isSingleplayer() {
             return;
         }
-        for (PlayerEntity entityPlayer : mc.world.getPlayers()) {
+        for (PlayerEntity entityPlayer : mc.world.getPlayers() {
             if (entityPlayer == null) {
                 continue;
             }
             if (entityPlayer == mc.player) {
                 continue;
             }
-            if (AntiBot.isBot(entityPlayer)) {
+            if (AntiBot.isBot(entityPlayer) {
                 continue;
             }
             PlayerData data = players.get(entityPlayer.getUniqueID());
@@ -165,7 +165,7 @@ public class Anticheat extends Module {
             boolean overAir = true;
             BlockPos blockPos = entityPlayer.getPosition().down(2);
             for (int i = 0; i < 4; ++i) {
-                if (!(BlockUtils.getBlockState(blockPos) instanceof BlockAir)) {
+                if (!(BlockUtils.getBlockState(blockPos) instanceof BlockAir) {
                     overAir = false;
                     break;
                 }
@@ -184,7 +184,7 @@ public class Anticheat extends Module {
             double deltaY = playerData.serverPosY - serverPosY;
             double deltaZ = Math.abs(playerData.serverPosZ - serverPosZ);
             if (deltaY >= 5 && deltaX <= 10 && deltaZ <= 10 && deltaY <= 40) {
-                if (!Utils.overVoid(serverPosX, serverPosY, serverPosZ) && Utils.distanceToGround(entityPlayer) > 3 && !Utils.onLadder(entityPlayer) && !entityPlayer.isInWater() && !entityPlayer.isInLava()) {
+                if (!Utils.overVoid(serverPosX, serverPosY, serverPosZ) && Utils.distanceToGround(entityPlayer) > 3 && !Utils.onLadder(entityPlayer) && !entityPlayer.isInWater() && !entityPlayer.isInLava() {
                     alert(entityPlayer, noFall);
                 }
             }

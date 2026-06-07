@@ -85,7 +85,7 @@ public class FallView extends Module {
         if (disableWhileFlying.isToggled() && mc.player.capabilities.allowFlying) {
             return;
         }
-        if (onlyWhileSneaking.isToggled() && !mc.player.isSneaking()) {
+        if (onlyWhileSneaking.isToggled() && !mc.player.isSneaking() {
             return;
         }
 
@@ -187,9 +187,9 @@ public class FallView extends Module {
 
         double currentHealth = mc.player.getHealth();
         double damagePercent = (double) finalDamage / currentHealth * 100.0;
-        if (showDamage.isToggled() && finalDamage > 0 && damagePercent > damageThreshold.getInput()) {
+        if (showDamage.isToggled() && finalDamage > 0 && damagePercent > damageThreshold.getInput() {
             float hearts = finalDamage;
-            if (Settings.showHealthAsHearts.isToggled() || overrideHealthFormat.isToggled()) {
+            if (Settings.showHealthAsHearts.isToggled() || overrideHealthFormat.isToggled() {
                 hearts = finalDamage / 2.0f;
                 hearts = (float) Utils.round(hearts, 1);
             }
@@ -199,13 +199,13 @@ public class FallView extends Module {
                     ? "\u00a74"
                     : (percent >= 0.7 ? "\u00a7c" : (percent >= 0.5 ? "\u00a76" : (percent >= 0.3 ? "\u00a7e" : "\u00a7a")));
             damageText = healthStr + Utils.asWholeNum(hearts);
-            if (Settings.showHeartSymbol.isToggled()) {
+            if (Settings.showHeartSymbol.isToggled() {
                 damageText += "\u00a7c\u2764\u00a7r";
             }
             showDamageText = true;
         }
 
-        if (showDistance.isToggled()) {
+        if (showDistance.isToggled() {
             distanceText = Utils.asWholeNum(Utils.round(fallDistance, 2)) + "m";
             distanceTextColor = getDistanceColor(fallDistance).getRGB();
             showDistanceText = true;
@@ -214,7 +214,7 @@ public class FallView extends Module {
 
     
     public void onRenderTick(TickEvent.RenderTickEvent ev) {
-        if (ev.phase != TickEvent.Phase.END || mc.currentScreen != null || !Utils.nullCheck()) {
+        if (ev.phase != TickEvent.Phase.END || mc.currentScreen != null || !Utils.nullCheck() {
             return;
         }
         if (!showDamageText && !showDistanceText) {
@@ -264,7 +264,7 @@ public class FallView extends Module {
             if (mc.world.getBlockState(pos).getBlock().getMaterial() == Material.water) {
                 return -1;
             }
-            if (!Utils.isPlaceable(pos)) {
+            if (!Utils.isPlaceable(pos) {
                 return y + 1;
             }
         }
@@ -308,7 +308,7 @@ public class FallView extends Module {
             if (this == o) {
                 return true;
             }
-            if (o == null || getClass() != o.getClass()) {
+            if (o == null || getClass() != o.getClass() {
                 return false;
             }
             DamageCacheKey that = (DamageCacheKey) o;

@@ -31,7 +31,7 @@ public class Timer {
             }
 
             float value = begin + t * (end - begin);
-            if ((end > begin && value > end) || (end < begin && value < end)) {
+            if ((end > begin && value > end) || (end < begin && value < end) {
                 value = end;
             }
 

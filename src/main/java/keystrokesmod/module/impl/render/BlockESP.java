@@ -48,10 +48,10 @@ public class BlockESP extends Module {
         int rangeInt = (int) range.getInput();
         BlockPos playerPos = mc.player.getBlockPos();
         int color = ((int) colorA.getInput() << 24) | ((int) colorR.getInput() << 16) | ((int) colorG.getInput() << 8) | (int) colorB.getInput();
-        for (BlockPos pos : BlockPos.iterate(playerPos.add(-rangeInt, -rangeInt, -rangeInt), playerPos.add(rangeInt, rangeInt, rangeInt))) {
+        for (BlockPos pos : BlockPos.iterate(playerPos.add(-rangeInt, -rangeInt, -rangeInt), playerPos.add(rangeInt, rangeInt, rangeInt)) {
             BlockState state = mc.world.getBlockState(pos);
             Block block = state.getBlock();
-            if (shouldRender(block)) {
+            if (shouldRender(block) {
                 renderBlock(pos, color);
             }
         }

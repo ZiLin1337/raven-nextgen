@@ -28,7 +28,7 @@ public class Raven implements ClientModInitializer {
     
     private void onTick(MinecraftClient client) {
         if (mc.player == null || mc.world == null) return;
-        for (Module m : moduleManager.getModules()) {
+        for (Module m : moduleManager.getModules() {
             if (m.isEnabled()) m.onUpdate();
         }
     }
@@ -43,7 +43,7 @@ public class Raven implements ClientModInitializer {
     @EventHandler
     public void onKeyPress(KeyPressEvent e) {
         if (mc.currentScreen != null) return;
-        for (Module m : moduleManager.getModules()) {
+        for (Module m : moduleManager.getModules() {
             if (m.getKeycode() == e.getKeyCode()) m.toggle();
         }
     }

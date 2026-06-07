@@ -20,7 +20,7 @@ public class WebSocket {
     }
 
     private WebSocketClient createWebSocketClient(String serverUri) {
-        return new WebSocketClient(toURI(serverUri)) {
+        return new WebSocketClient(toURI(serverUri) {
             @Override
             public void onOpen(ServerHandshake handshakedata) {
                 WebSocket.this.onOpen(handshakedata.getHttpStatus(), handshakedata.getHttpStatusMessage());
@@ -87,7 +87,7 @@ public class WebSocket {
     }
 
     public boolean connect(boolean block) {
-        if (!Manager.enableWebSockets.isToggled()) {
+        if (!Manager.enableWebSockets.isToggled() {
             Utils.sendMessage("&cFailed to connect to websockets, websockets are not enabled.");
             return false;
         }

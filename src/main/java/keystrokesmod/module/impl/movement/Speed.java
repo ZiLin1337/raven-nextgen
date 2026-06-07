@@ -45,14 +45,14 @@ public class Speed extends Module {
             double val = multiplier.getInput() - (multiplier.getInput() - 1.0) * 0.5;
             Utils.setSpeed(horizontalSpeed * val, true);
         } else if (speed.getInput() == 1) {
-            if (Utils.getHorizontalSpeed() <= 0.1 || floatConditions()) {
+            if (Utils.getHorizontalSpeed() <= 0.1 || floatConditions() {
                 canFloat = true;
             }
             if (!floatConditions()) canFloat = false;
             if (!mc.player.isOnGround()) requireJump = false;
             if (canFloat && floatConditions() && !requireJump) {
                 e.setPosY(e.getPosY() + 0.0000000000201);
-                if (Utils.isMoving()) {
+                if (Utils.isMoving() {
                     Utils.setSpeed(getFloatSpeed(getSpeedLevel()));
                 }
             }
@@ -67,15 +67,15 @@ public class Speed extends Module {
 
     private boolean floatConditions() {
         int edgeY = (int) Math.round((mc.player.getY() % 1.0) * 100.0);
-        if (ModuleManager.moduleManager.getModule("BHop").isEnabled()) {
+        if (ModuleManager.moduleManager.getModule("BHop").isEnabled() {
             requireJump = true;
             return false;
         }
-        if (!(mc.player.getY() % 1 == 0) && edgeY >= 10 && !allowedBlocks()) {
+        if (!(mc.player.getY() % 1 == 0) && edgeY >= 10 && !allowedBlocks() {
             requireJump = true;
             return false;
         }
-        if (SafeWalk.canSafeWalk()) {
+        if (SafeWalk.canSafeWalk() {
             requireJump = true;
             return false;
         }
@@ -102,7 +102,7 @@ public class Speed extends Module {
     }
 
     private int getSpeedLevel() {
-        if (mc.player.hasStatusEffect(net.minecraft.entity.effect.StatusEffects.SPEED)) {
+        if (mc.player.hasStatusEffect(net.minecraft.entity.effect.StatusEffects.SPEED) {
             return mc.player.getStatusEffect(net.minecraft.entity.effect.StatusEffects.SPEED).getAmplifier() + 1;
         }
         return 0;

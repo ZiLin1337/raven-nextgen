@@ -34,7 +34,7 @@ public class Radar extends Module {
 
     
     public void onRenderTick(TickEvent.RenderTickEvent e) {
-        if (e.phase != TickEvent.Phase.END || !Utils.nullCheck()) {
+        if (e.phase != TickEvent.Phase.END || !Utils.nullCheck() {
             return;
         }
         if (mc.currentScreen instanceof ClickGui) {
@@ -58,9 +58,9 @@ public class Radar extends Module {
         RenderSystem.getModelViewStack().pushMatrix();
         RenderSystem.enableBlend(GL11.GL_SCISSOR_TEST);
         GL11.glScissor(x * this.scale, mc.getWindow().getFramebufferHeight() - this.scale * 170, rightX * this.scale - this.scale * 5, this.scale * 100);
-        for (PlayerEntity player : mc.world.getPlayers()) {
+        for (PlayerEntity player : mc.world.getPlayers() {
             if (player != mc.player && player.deathTime == 0) {
-                if (AntiBot.isBot(player)) {
+                if (AntiBot.isBot(player) {
                     continue;
                 }
                 double distanceSquared = player.getDistanceSqToEntity(mc.player);
@@ -71,7 +71,7 @@ public class Radar extends Module {
                 double scaledDistance = distanceSquared / 5.0;
                 double xOffset = scaledDistance * Math.sin(Math.toRadians(playerAngle));
                 double zOffset = scaledDistance * Math.cos(Math.toRadians(playerAngle));
-                if (tracerLines.isToggled()) {
+                if (tracerLines.isToggled() {
                     RenderSystem.getModelViewStack().pushMatrix();
                     RenderSystem.enableBlend(GL11.GL_BLEND);
                     RenderSystem.enableBlend(GL11.GL_LINE_SMOOTH);

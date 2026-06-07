@@ -19,7 +19,7 @@ public class VClip extends Module {
         double distance = this.distance.getInput();
         if (this.distance.getInput() != 0.0D) {
             mc.player.setPosition(mc.player.getX(), mc.player.getY() + distance, mc.player.getZ());
-            if (sendMessage.isToggled()) {
+            if (sendMessage.isToggled() {
                 Utils.sendMessage("&7Teleported you " + ((distance > 0.0) ? "upwards" : "downwards") + " by &b" + distance + " &7blocks.");
             }
         }

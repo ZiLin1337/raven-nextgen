@@ -161,7 +161,7 @@ public class GhostHand extends Module {
 
     private boolean heldItemAllowed() {
         ItemStack held = mc.player.getHeldItem();
-        switch (classify(held)) {
+        switch (classify(held) {
             case SWORD: return useSword.isToggled();
             case TOOL: return useTool.isToggled();
             case FISTS: return useFists.isToggled();

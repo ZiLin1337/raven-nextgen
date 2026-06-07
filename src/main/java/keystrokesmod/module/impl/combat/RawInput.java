@@ -26,7 +26,7 @@ public class RawInput extends Module {
 
     @Override
     public void onEnable() {
-        if (!isRawInputSupported()) {
+        if (!isRawInputSupported() {
             Utils.sendMessage("&cRaw input libraries not found.");
             this.disable();
             return;
@@ -57,11 +57,11 @@ public class RawInput extends Module {
         if (path == null) return false;
         String separator = File.pathSeparator;
         String mapped = System.mapLibraryName("jinput-raw");
-        for (String dir : path.split(separator.isEmpty() ? ";" : separator)) {
+        for (String dir : path.split(separator.isEmpty() ? ";" : separator) {
             if (new File(dir, mapped).exists()) return true;
         }
         String mappedDx = System.mapLibraryName("jinput-dx8");
-        for (String dir : path.split(separator.isEmpty() ? ";" : separator)) {
+        for (String dir : path.split(separator.isEmpty() ? ";" : separator) {
             if (new File(dir, mappedDx).exists()) return true;
         }
         return false;
@@ -75,7 +75,7 @@ public class RawInput extends Module {
         boolean hasRaw = false;
         String mappedDx = System.mapLibraryName("jinput-dx8");
         String mappedRaw = System.mapLibraryName("jinput-raw");
-        for (String dir : path.split(separator.isEmpty() ? ";" : separator)) {
+        for (String dir : path.split(separator.isEmpty() ? ";" : separator) {
             if (new File(dir, mappedDx).exists()) hasDx = true;
             if (new File(dir, mappedRaw).exists()) hasRaw = true;
         }
@@ -100,9 +100,9 @@ public class RawInput extends Module {
             rescan();
             while (running) {
                 try {
-                    if (!mice.isEmpty()) {
+                    if (!mice.isEmpty() {
                         for (Mouse m : mice) {
-                            if (!m.poll()) {
+                            if (!m.poll() {
                                 rescan();
                                 break;
                             }
@@ -129,7 +129,7 @@ public class RawInput extends Module {
                 ctor.setAccessible(true);
                 ControllerEnvironment env = (ControllerEnvironment) ctor.newInstance();
                 List<Mouse> found = new ArrayList<>();
-                for (Controller c : env.getControllers()) {
+                for (Controller c : env.getControllers() {
                     if (c instanceof Mouse) {
                         found.add((Mouse) c);
                     }
@@ -160,7 +160,7 @@ public class RawInput extends Module {
 
         @Override
         public void mouseXYChange() {
-            if (!thread.mice.isEmpty() && thread.isAlive()) {
+            if (!thread.mice.isEmpty() && thread.isAlive() {
                 boolean movement = false;
                 this.deltaX = thread.dx.getAndSet(0);
                 this.deltaY = thread.dy.getAndSet(0);

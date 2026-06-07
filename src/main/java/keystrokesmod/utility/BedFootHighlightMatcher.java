@@ -14,7 +14,7 @@ public final class BedFootHighlightMatcher implements BlockHighlightMatcher {
 
     @Override
     public boolean shouldIndexAt(BlockPos pos, BlockState state) {
-        if (!matchesBlock(state)) {
+        if (!matchesBlock(state) {
             return false;
         }
         return state.getValue((Property) BedBlock.PART) == BedBlockPart.FOOT;

@@ -44,12 +44,12 @@ public class Track extends Command {
     }
 
     public static void update() {
-        for (Map.Entry<String, List<double[]>> entry : trackedPlayers.entrySet()) {
+        for (Map.Entry<String, List<double[]>> entry : trackedPlayers.entrySet() {
             if (mc.world == null) continue;
             String name = entry.getKey();
-            for (PlayerEntity p : mc.world.getPlayers()) {
-                if (p.getName().getString().equalsIgnoreCase(name)) {
-                    entry.getValue().add(new double[]) {p.getX(), p.getY(), p.getZ()});
+            for (PlayerEntity p : mc.world.getPlayers() {
+                if (p.getName().getString().equalsIgnoreCase(name) {
+                    entry.getValue().add(new double[] {p.getX(), p.getY(), p.getZ()});
                     break;
                 }
             }

@@ -180,7 +180,7 @@ public class BedESP extends Module {
 
     @Override
     public void onUpdate() {
-        if (!Utils.nullCheck()) {
+        if (!Utils.nullCheck() {
             activeBedPairs.clear();
             clearDefenseState();
             return;
@@ -204,7 +204,7 @@ public class BedESP extends Module {
             lastDefenseToolMode = defenseToolMode;
         }
 
-        if (!showDefenseLayers.isToggled()) {
+        if (!showDefenseLayers.isToggled() {
             clearDefenseState();
             return;
         }
@@ -217,20 +217,20 @@ public class BedESP extends Module {
             activeFeet.add(footKey);
 
             DefenseWatchRegion region = defenseWatchRegions.get(footKey);
-            if (region == null || !region.matches(head)) {
+            if (region == null || !region.matches(head) {
                 unregisterDefenseWatch(footKey);
                 registerDefenseWatch(foot, head);
                 dirtyDefenseBeds.add(footKey);
             }
 
             DefenseOverlaySnapshot snapshot = defenseSnapshots.get(footKey);
-            if (snapshot == null || !snapshot.matches(head) || dirtyDefenseBeds.remove(footKey)) {
+            if (snapshot == null || !snapshot.matches(head) || dirtyDefenseBeds.remove(footKey) {
                 defenseSnapshots.put(footKey, computeDefenseSnapshot(foot, head));
             }
         }
 
-        for (Long footKey : new ArrayList<>(defenseWatchRegions.keySet())) {
-            if (!activeFeet.contains(footKey)) {
+        for (Long footKey : new ArrayList<>(defenseWatchRegions.keySet()) {
+            if (!activeFeet.contains(footKey) {
                 unregisterDefenseWatch(footKey);
             }
         }
@@ -246,10 +246,10 @@ public class BedESP extends Module {
 
     
     public void onRenderWorld(float partialTicks) {
-        if (!Utils.nullCheck()) {
+        if (!Utils.nullCheck() {
             return;
         }
-        if (!isEnabled()) {
+        if (!isEnabled() {
             return;
         }
         float blockHeight = getBlockHeight();
@@ -264,24 +264,24 @@ public class BedESP extends Module {
         for (BlockPos[] pair : activeBedPairs) {
             BlockPos foot = pair[0];
             Box bb = bedWorldBounds(pair[0], pair[1], blockHeight);
-            if (!RenderUtils.isInViewFrustum(bb)) {
+            if (!RenderUtils.isInViewFrustum(bb) {
                 continue;
             }
-            if (addedFeet.add(foot)) {
+            if (addedFeet.add(foot) {
                 pairsToRender.add(copyBedPair(pair));
             }
         }
 
-        for (BlockPos[] prev : new ArrayList<>(lastRenderedBedPairs)) {
+        for (BlockPos[] prev : new ArrayList<>(lastRenderedBedPairs) {
             if (prev == null || prev.length < 2) {
                 continue;
             }
             BlockPos foot = prev[0];
             BlockPos head = prev[1];
-            if (addedFeet.contains(foot)) {
+            if (addedFeet.contains(foot) {
                 continue;
             }
-            if (!stillHasRenderableBed(prev)) {
+            if (!stillHasRenderableBed(prev) {
                 continue;
             }
             double dx = foot.getX() + 0.5 - px;
@@ -291,7 +291,7 @@ public class BedESP extends Module {
                 continue;
             }
             Box bb = bedWorldBounds(foot, head, blockHeight);
-            if (!RenderUtils.isInViewFrustum(bb)) {
+            if (!RenderUtils.isInViewFrustum(bb) {
                 continue;
             }
             pairsToRender.add(copyBedPair(prev));
@@ -300,7 +300,7 @@ public class BedESP extends Module {
 
         for (BlockPos[] pair : pairsToRender) {
             renderBed(pair, blockHeight);
-            if (showDefenseLayers.isToggled() && isLiveBedPair(pair)) {
+            if (showDefenseLayers.isToggled() && isLiveBedPair(pair) {
                 renderDefenseOverlay(pair, blockHeight);
             }
         }
@@ -318,8 +318,8 @@ public class BedESP extends Module {
     private List<BlockPos[]> collectActiveBedPairs(SharedBlockHighlightCache cache, double px, double py, double pz, double rangeSq) {
         List<BlockPos[]> candidatePairs = new ArrayList<>();
 
-        for (Map.Entry<Long, Set<BlockPos>> chunk : cache.entriesBedFeet()) {
-            for (BlockPos foot : chunk.getValue()) {
+        for (Map.Entry<Long, Set<BlockPos>> chunk : cache.entriesBedFeet() {
+            for (BlockPos foot : chunk.getValue() {
                 double dx = foot.getX() + 0.5 - px;
                 double dy = foot.getY() + 0.5 - py;
                 double dz = foot.getZ() + 0.5 - pz;
@@ -328,7 +328,7 @@ public class BedESP extends Module {
                 }
 
                 BlockPos[] pair = footAndHead(foot);
-                if (pair == null || !stillHasRenderableBed(pair)) {
+                if (pair == null || !stillHasRenderableBed(pair) {
                     continue;
                 }
 
@@ -387,13 +387,13 @@ public class BedESP extends Module {
     private static Box bedWorldBounds(BlockPos foot, BlockPos head, float height) {
         int fx = foot.getX(), fy = foot.getY(), fz = foot.getZ();
         double h = fy + height;
-        if (foot.getX() != head.getX()) {
-            if (foot.getX() > head.getX()) {
+        if (foot.getX() != head.getX() {
+            if (foot.getX() > head.getX() {
                 return new Box(fx - 1.0, fy, fz, fx + 1.0, h, fz + 1.0);
             }
             return new Box(fx, fy, fz, fx + 2.0, h, fz + 1.0);
         }
-        if (foot.getZ() > head.getZ()) {
+        if (foot.getZ() > head.getZ() {
             return new Box(fx, fy, fz - 1.0, fx + 1.0, h, fz + 1.0);
         }
         return new Box(fx, fy, fz, fx + 1.0, h, fz + 2.0);
@@ -401,7 +401,7 @@ public class BedESP extends Module {
 
     private BlockPos[] footAndHead(BlockPos foot) {
         BlockState st = mc.world.getBlockState(foot);
-        if (!(st.getBlock() instanceof BedBlock)) {
+        if (!(st.getBlock() instanceof BedBlock) {
             return null;
         }
         Direction facing = (Direction) st.getValue((Property) BedBlock.FACING);
@@ -426,13 +426,13 @@ public class BedESP extends Module {
         float b = (col & 0xFF) / 255.0f;
         GL11.glColor4d(r, g, b, drawA);
         Box axisAlignedBB;
-        if (blocks[0].getX() != blocks[1].getX()) {
-            if (blocks[0].getX() > blocks[1].getX()) {
+        if (blocks[0].getX() != blocks[1].getX() {
+            if (blocks[0].getX() > blocks[1].getX() {
                 axisAlignedBB = new Box(x - 1.0, y, z, x + 1.0, y + height, z + 1.0);
             } else {
                 axisAlignedBB = new Box(x, y, z, x + 2.0, y + height, z + 1.0);
             }
-        } else if (blocks[0].getZ() > blocks[1].getZ()) {
+        } else if (blocks[0].getZ() > blocks[1].getZ() {
             axisAlignedBB = new Box(x, y, z - 1.0, x + 1.0, y + height, z + 1.0);
         } else {
             axisAlignedBB = new Box(x, y, z, x + 1.0, y + height, z + 2.0);
@@ -462,7 +462,7 @@ public class BedESP extends Module {
         }
 
         for (BlockPos bedPart : pair) {
-            for (Direction side : Direction.values()) {
+            for (Direction side : Direction.values() {
                 BlockPos neighbor = bedPart.offset(side);
                 Block neighborBlock = mc.world.getBlockState(neighbor).getBlock();
                 if (neighborBlock == Blocks.AIR) {
@@ -476,7 +476,7 @@ public class BedESP extends Module {
 
     private void renderDefenseOverlay(BlockPos[] blocks, float blockHeight) {
         DefenseOverlaySnapshot snapshot = defenseSnapshots.get(blocks[0].toLong());
-        if (snapshot == null || !snapshot.matches(blocks[1]) || snapshot.entries.isEmpty()) {
+        if (snapshot == null || !snapshot.matches(blocks[1]) || snapshot.entries.isEmpty() {
             return;
         }
 
@@ -491,7 +491,7 @@ public class BedESP extends Module {
         double y = bedBounds.maxY + defenseHeight.getInput() - renderManager.viewerPosY;
         double z = (bedBounds.minZ + bedBounds.maxZ) * 0.5 - renderManager.viewerPosZ;
         float renderScale = computeDefenseBaseScaleValue();
-        if (defenseAutoScale.isToggled()) {
+        if (defenseAutoScale.isToggled() {
             float distance = (float) Math.sqrt(x * x + y * y + z * z);
             renderScale = computeDefenseScaleValue(distance);
         }
@@ -552,12 +552,12 @@ public class BedESP extends Module {
             return;
         }
 
-        if (entry.hasItemStack()) {
+        if (entry.hasItemStack() {
             RenderUtils.renderItemAndEffectIntoGui3D(entry.renderStack, iconX, iconY);
             return;
         }
 
-        if (entry.hasBlockSprite()) {
+        if (entry.hasBlockSprite() {
             renderDefenseBlockSprite(entry.blockSprite, iconX, iconY);
         }
     }
@@ -619,7 +619,7 @@ public class BedESP extends Module {
 
             for (RelativeOffset offset : layerOffsets.positions) {
                 mutablePos.set(foot.getX() + offset.x, foot.getY() + offset.y, foot.getZ() + offset.z);
-                if (accumulateDefenseBlock(mutablePos, layerCounts, resolvedBlockKeys)) {
+                if (accumulateDefenseBlock(mutablePos, layerCounts, resolvedBlockKeys) {
                     layerAirBlocks++;
                 }
                 layerTotalBlocks++;
@@ -633,7 +633,7 @@ public class BedESP extends Module {
             }
 
             sparseLayerCount = 0;
-            for (Map.Entry<DefenseBlockKey, Integer> countedBlock : layerCounts.entrySet()) {
+            for (Map.Entry<DefenseBlockKey, Integer> countedBlock : layerCounts.entrySet() {
                 int count = countedBlock.getValue();
                 if ((float) count / (float) layerTotalBlocks >= DEFENSE_BLOCK_RATIO_THRESHOLD) {
                     finalCounts.put(countedBlock.getKey(), finalCounts.getOrDefault(countedBlock.getKey(), 0) + count);
@@ -642,15 +642,15 @@ public class BedESP extends Module {
         }
 
         List<DefenseOverlayEntry> entries;
-        if (showDefenseTools.isToggled()) {
+        if (showDefenseTools.isToggled() {
             Set<ToolOverlayType> toolTypes = new HashSet<>();
-            for (DefenseBlockKey countedBlock : finalCounts.keySet()) {
+            for (DefenseBlockKey countedBlock : finalCounts.keySet() {
                 ToolOverlayType toolType = ToolOverlayType.fromState(countedBlock.state);
                 if (toolType != null) {
                     toolTypes.add(toolType);
                 }
             }
-            if (toolTypes.contains(ToolOverlayType.DIAMOND_PICKAXE)) {
+            if (toolTypes.contains(ToolOverlayType.DIAMOND_PICKAXE) {
                 toolTypes.remove(ToolOverlayType.IRON_PICKAXE);
             }
 
@@ -661,7 +661,7 @@ public class BedESP extends Module {
             entries.sort((left, right) -> left.sortName.compareToIgnoreCase(right.sortName));
         } else {
             entries = new ArrayList<>();
-            for (Map.Entry<DefenseBlockKey, Integer> countedBlock : finalCounts.entrySet()) {
+            for (Map.Entry<DefenseBlockKey, Integer> countedBlock : finalCounts.entrySet() {
                 entries.add(new DefenseOverlayEntry(
                         countedBlock.getKey().createRenderStack(),
                         countedBlock.getKey().blockSprite,
@@ -776,7 +776,7 @@ public class BedESP extends Module {
 
     private static void addOffset(List<RelativeOffset> offsets, Set<Long> seen, int x, int y, int z) {
         long key = new BlockPos(x, y, z).toLong();
-        if (seen.add(key)) {
+        if (seen.add(key) {
             offsets.add(new RelativeOffset(x, y, z));
         }
     }
@@ -837,7 +837,7 @@ public class BedESP extends Module {
             for (RelativeOffset offset : layer.positions) {
                 BlockPos watchedPos = new BlockPos(foot.getX() + offset.x, foot.getY() + offset.y, foot.getZ() + offset.z);
                 long posKey = watchedPos.toLong();
-                if (!watchedPositions.add(posKey)) {
+                if (!watchedPositions.add(posKey) {
                     continue;
                 }
 
@@ -872,7 +872,7 @@ public class BedESP extends Module {
                 continue;
             }
             feet.remove(footKey);
-            if (feet.isEmpty()) {
+            if (feet.isEmpty() {
                 watchedBedsByDefensePos.remove(posKey);
             }
         }
@@ -883,7 +883,7 @@ public class BedESP extends Module {
                 continue;
             }
             feet.remove(footKey);
-            if (feet.isEmpty()) {
+            if (feet.isEmpty() {
                 watchedBedsByChunk.remove(chunkKey);
             }
         }
@@ -1031,7 +1031,7 @@ public class BedESP extends Module {
             if (this == obj) {
                 return true;
             }
-            if (!(obj instanceof DefenseBlockKey)) {
+            if (!(obj instanceof DefenseBlockKey) {
                 return false;
             }
             DefenseBlockKey other = (DefenseBlockKey) obj;
@@ -1079,7 +1079,7 @@ public class BedESP extends Module {
 
             ToolOverlayType bestTool = IRON_PICKAXE;
             float bestEfficiency = 1.0F;
-            for (ToolOverlayType toolType : values()) {
+            for (ToolOverlayType toolType : values() {
                 if (toolType == DIAMOND_PICKAXE) {
                     continue;
                 }
@@ -1143,7 +1143,7 @@ public class BedESP extends Module {
 
     private static String getFallbackStateName(BlockState state) {
         String localizedName = state.getBlock().getName();
-        if (localizedName != null && !localizedName.isEmpty()) {
+        if (localizedName != null && !localizedName.isEmpty() {
             return localizedName;
         }
 

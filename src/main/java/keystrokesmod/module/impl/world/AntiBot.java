@@ -37,7 +37,7 @@ public class AntiBot extends Module {
             if (delay.getInput() != -1 && e.entity instanceof PlayerEntity) {
                 entities.put((PlayerEntity) e.entity, System.currentTimeMillis());
             }
-            if (printWorldJoin.isToggled()) {
+            if (printWorldJoin.isToggled() {
                 Utils.sendMessage("&7Entity &b" + e.entity.getEntityId() + " &7joined: &r" + e.entity.getDisplayName().getFormattedText());
             }
         }
@@ -45,7 +45,7 @@ public class AntiBot extends Module {
 
     @Override
     public void onUpdate() {
-        if (delay.getInput() != -1 && !entities.isEmpty()) {
+        if (delay.getInput() != -1 && !entities.isEmpty() {
             entities.values().removeIf(n -> n < System.currentTimeMillis() - delay.getInput());
         }
     }
@@ -56,35 +56,35 @@ public class AntiBot extends Module {
     }
 
     public static boolean isBot(Entity entity) {
-        if (!ModuleManager.antiBot.isEnabled()) {
+        if (!ModuleManager.antiBot.isEnabled() {
             return false;
         }
         if (Freecam.freeEntity != null && Freecam.freeEntity == entity) {
             return true;
         }
-        if (entity == null || !(entity instanceof PlayerEntity)) {
+        if (entity == null || !(entity instanceof PlayerEntity) {
             return true;
         }
         final PlayerEntity entityPlayer = (PlayerEntity) entity;
-        if (delay.getInput() != -1 && !entities.isEmpty() && entities.containsKey(entityPlayer)) {
+        if (delay.getInput() != -1 && !entities.isEmpty() && entities.containsKey(entityPlayer) {
             return true;
         }
         if (entityPlayer.isDead) {
             return true;
         }
-        if (entityPlayer.getName().isEmpty()) {
+        if (entityPlayer.getName().isEmpty() {
             return true;
         }
-        if (tablist.isToggled() && !getTablist().contains(entityPlayer.getName())) {
+        if (tablist.isToggled() && !getTablist().contains(entityPlayer.getName()) {
             return true;
         }
-        if (entityPlayer.getHealth() != 20.0f && entityPlayer.getName().startsWith("§c")) {
+        if (entityPlayer.getHealth() != 20.0f && entityPlayer.getName().startsWith("§c") {
             return true;
         }
         if (pitSpawn.getInput() != -1 && entityPlayer.posY >= pitSpawn.getInput() && entityPlayer.posY <= 130 && entityPlayer.getDistance(0, 114, 0) <= 25) {
-            if (Utils.isHypixel()) {
+            if (Utils.isHypixel() {
                 List<String> sidebarLines = Utils.getSidebarLines();
-                if (!sidebarLines.isEmpty() && Utils.stripColor(sidebarLines.get(0)).contains("THE HYPIXEL PIT")) {
+                if (!sidebarLines.isEmpty() && Utils.stripColor(sidebarLines.get(0)).contains("THE HYPIXEL PIT") {
                     return true;
                 }
             }
@@ -101,10 +101,10 @@ public class AntiBot extends Module {
                 if (unformattedText.length() >= 7 && unformattedText.charAt(2) == '[' && unformattedText.charAt(3) == 'N' && unformattedText.charAt(6) == ']') {
                     return true;
                 }
-                if (entityPlayer.getName().contains(" ")) {
+                if (entityPlayer.getName().contains(" ") {
                     return true;
                 }
-            } else if (entityPlayer.isInvisible()) {
+            } else if (entityPlayer.isInvisible() {
                 String unformattedText = entityPlayer.getDisplayName().getUnformattedText();
                 if (unformattedText.length() >= 3 && unformattedText.charAt(0) == '§' && unformattedText.charAt(1) == 'c') {
                     return true;
@@ -116,7 +116,7 @@ public class AntiBot extends Module {
 
     private static List<String> getTablist() {
         List<String> tab = new ArrayList<>();
-        for (NetworkPlayerInfo networkPlayerInfo : Utils.getTablist(true)) {
+        for (NetworkPlayerInfo networkPlayerInfo : Utils.getTablist(true) {
             if (networkPlayerInfo == null) {
                 continue;
             }

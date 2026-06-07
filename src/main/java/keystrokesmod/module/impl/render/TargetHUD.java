@@ -47,7 +47,7 @@ public class TargetHUD extends Module {
         this.registerSetting(new DescriptionSetting("Only works with KillAura."));
         this.registerSetting(mode = new SliderSetting("Mode", 1, modes));
         this.registerSetting(theme = new SliderSetting("Theme", 0, Theme.themes));
-        this.registerSetting(new ButtonSetting("Edit position", () ->)) {
+        this.registerSetting(new ButtonSetting("Edit position", () -> {
             mc.displayScreen(new EditScreen());
         }));
         this.registerSetting(renderEsp = new ButtonSetting("Render ESP", true));
@@ -61,7 +61,7 @@ public class TargetHUD extends Module {
 
     
     public void onRenderTick(TickEvent.RenderTickEvent ev) {
-        if (!Utils.nullCheck()) {
+        if (!Utils.nullCheck() {
             reset();
             return;
         }
@@ -98,7 +98,7 @@ public class TargetHUD extends Module {
 
     
     public void onRenderWorld(RenderWorldLastEvent renderWorldLastEvent) {
-        if (!renderEsp.isToggled() || !Utils.nullCheck()) {
+        if (!renderEsp.isToggled() || !Utils.nullCheck() {
             return;
         }
         if (KillAura.target != null) {
@@ -110,7 +110,7 @@ public class TargetHUD extends Module {
     }
 
     private void drawTargetHUD(Timer fadeTimer, String string, double health) {
-        if (showStatus.isToggled()) {
+        if (showStatus.isToggled() {
             string = string + " " + ((health <= Utils.getTotalHealth(mc.player) / mc.player.getMaxHealth()) ? "§aW" : "§cL");
         }
         final int scaledResolution = /* ScaledResolution removed in 1.21.4 */ null;
@@ -127,7 +127,7 @@ public class TargetHUD extends Module {
             final int maxAlphaOutline = (alpha > 110) ? 110 : alpha;
             final int maxAlphaBackground = (alpha > 210) ? 210 : alpha;
             final int[] gradientColors = Theme.getGradients((int) theme.getInput());
-            switch ((int) mode.getInput()) {
+            switch ((int) mode.getInput() {
                 case 0:
                     float bloomRadius = (fadeTimer == null) ? 2f : (2f * alpha / 255f);
                     float blurRadius = (fadeTimer == null) ? 3 : (3f * alpha / 255f);
@@ -166,7 +166,7 @@ public class TargetHUD extends Module {
             else {
                 lastHealthBar = healthBar;
             }
-            if (healthColor.isToggled()) {
+            if (healthColor.isToggled() {
                 mergedGradientLeft = mergedGradientRight = Utils.mergeAlpha(Utils.getColorForHealth(health), maxAlphaBackground);
             }
             if (lastHealthBar > n14) { // exceeds total width then clamp
@@ -236,7 +236,7 @@ public class TargetHUD extends Module {
             lastHealth = health;
             playerInfo += " " + Utils.getHealthStr(mc.player, true);
             drawTargetHUD(null, playerInfo, health);
-            if (showStatus.isToggled()) {
+            if (showStatus.isToggled() {
                 playerInfo = playerInfo + " " + ((health <= Utils.getTotalHealth(mc.player) / mc.player.getMaxHealth()) ? "§aW" : "§cL");
             }
             int stringWidth = mc.textRenderer.getStringWidth(playerInfo) + 8;

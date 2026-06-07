@@ -70,7 +70,7 @@ public class MobESP extends Module {
         }
 
         boolean matches(LivingEntity entity) {
-            if (!type.isInstance(entity)) {
+            if (!type.isInstance(entity) {
                 return false;
             }
             return refine == null || refine.test(entity);
@@ -158,10 +158,10 @@ public class MobESP extends Module {
         }
         MobEntry best = null;
         for (MobEntry entry : mobEntries) {
-            if (!entry.enable.isToggled() || !entry.matches(entity)) {
+            if (!entry.enable.isToggled() || !entry.matches(entity) {
                 continue;
             }
-            if (best == null || best.type.isAssignableFrom(entry.type)) {
+            if (best == null || best.type.isAssignableFrom(entry.type) {
                 best = entry;
             }
         }
@@ -178,7 +178,7 @@ public class MobESP extends Module {
 
     public static void onRenderMobPre(LivingEntity entity) {
         MobESP mod = getMobEspModule();
-        if (mod == null || !mod.shouldApplyChamsTo(entity)) {
+        if (mod == null || !mod.shouldApplyChamsTo(entity) {
             return;
         }
         RenderSystem.enableBlend(GL11.GL_POLYGON_OFFSET_FILL);
@@ -187,7 +187,7 @@ public class MobESP extends Module {
     }
 
     public static void onRenderMobPost() {
-        if (!Boolean.TRUE.equals(MOB_CHAMS_ACTIVE.get())) {
+        if (!Boolean.TRUE.equals(MOB_CHAMS_ACTIVE.get()) {
             return;
         }
         MOB_CHAMS_ACTIVE.set(false);
@@ -207,21 +207,21 @@ public class MobESP extends Module {
         if (entity.deathTime != 0) {
             return false;
         }
-        if (!showInvis.isToggled() && entity.isInvisible()) {
+        if (!showInvis.isToggled() && entity.isInvisible() {
             return false;
         }
         double maxDistSq = maxDistance.getInput() * maxDistance.getInput();
-        if (!RenderUtils.isWithinDistanceSqToRenderView(entity, maxDistSq)) {
+        if (!RenderUtils.isWithinDistanceSqToRenderView(entity, maxDistSq) {
             return false;
         }
         return resolveEntry(entity) != null;
     }public void onRenderWorldLast(Object e) {
         this.renderAsTwoD.clear();
-        if (!Utils.nullCheck() || !this.isEnabled()) {
+        if (!Utils.nullCheck() || !this.isEnabled() {
             return;
         }
         double maxDistSq = maxDistance.getInput() * maxDistance.getInput();
-        for (Entity entity : mc.world.getEntities()) {
+        for (Entity entity : mc.world.getEntities() {
             if (!(entity instanceof LivingEntity) || entity == mc.player) {
                 continue;
             }
@@ -229,10 +229,10 @@ public class MobESP extends Module {
             if (living.deathTime != 0) {
                 continue;
             }
-            if (!showInvis.isToggled() && living.isInvisible()) {
+            if (!showInvis.isToggled() && living.isInvisible() {
                 continue;
             }
-            if (!RenderUtils.isWithinDistanceSqToRenderView(living, maxDistSq)) {
+            if (!RenderUtils.isWithinDistanceSqToRenderView(living, maxDistSq) {
                 continue;
             }
             MobEntry entry = resolveEntry(living);
@@ -244,14 +244,14 @@ public class MobESP extends Module {
             this.render(living, rgb);
         }
     }public void onRenderWorldLast2D(Object e) {
-        if (!Utils.nullCheck() || !this.isEnabled()) {
+        if (!Utils.nullCheck() || !this.isEnabled() {
             return;
         }
-        if (outline.isToggled()) {
+        if (outline.isToggled() {
             runOutlinePass(0.0f);
         }
-        if (twoD.isToggled()) {
-            for (Map.Entry<LivingEntity, Integer> entry : renderAsTwoD.entrySet()) {
+        if (twoD.isToggled() {
+            for (Map.Entry<LivingEntity, Integer> entry : renderAsTwoD.entrySet() {
                 int col = redOnDamage.isToggled() && entry.getKey().hurtTime != 0 ? 0xFFFF0000 : entry.getValue();
                 renderTwoD(entry.getKey(), col, 0, 0.0f);
             }
@@ -259,12 +259,12 @@ public class MobESP extends Module {
     }
 
     private void runOutlinePass(float partialTicks) {
-        if (!outlineShader.isValid() || !glowShader.isValid() || renderAsTwoD.isEmpty()) {
+        if (!outlineShader.isValid() || !glowShader.isValid() || renderAsTwoD.isEmpty() {
             return;
         }
         boolean anyVisible = false;
-        for (LivingEntity ent : renderAsTwoD.keySet()) {
-            if (RenderUtils.isInViewFrustum(ent)) {
+        for (LivingEntity ent : renderAsTwoD.keySet() {
+            if (RenderUtils.isInViewFrustum(ent) {
                 anyVisible = true;
                 break;
             }
@@ -286,15 +286,15 @@ public class MobESP extends Module {
         renderingOutlinePass = true;
 
         glowShader.use();
-        for (Map.Entry<LivingEntity, Integer> e : renderAsTwoD.entrySet()) {
+        for (Map.Entry<LivingEntity, Integer> e : renderAsTwoD.entrySet() {
             LivingEntity ent = e.getKey();
-            if (!RenderUtils.isInViewFrustum(ent)) {
+            if (!RenderUtils.isInViewFrustum(ent) {
                 continue;
             }
             int col = redOnDamage.isToggled() && ent.hurtTime != 0 ? 0xFFFF0000 : e.getValue();
             glowShader.setColor((col >> 16) & 0xFF, (col >> 8) & 0xFF, col & 0xFF, (col >> 24) & 0xFF);
             boolean invis = ent.isInvisible();
-            if (showInvis.isToggled()) {
+            if (showInvis.isToggled() {
                 ent.setInvisible(false);
             }
             // renderEntityStatic disabled for 1.21.4
@@ -317,30 +317,30 @@ public class MobESP extends Module {
     }
 
     private void render(Entity en, int rgb) {
-        if (!box.isToggled() && !shaded.isToggled() && !healthBar.isToggled() && !ring.isToggled()) {
+        if (!box.isToggled() && !shaded.isToggled() && !healthBar.isToggled() && !ring.isToggled() {
             return;
         }
-        if (!RenderUtils.isInViewFrustum(en)) {
+        if (!RenderUtils.isInViewFrustum(en) {
             return;
         }
-        if (box.isToggled()) {
+        if (box.isToggled() {
             RenderUtils.renderEntity(en, 1, 0, 0, rgb, redOnDamage.isToggled());
         }
-        if (shaded.isToggled()) {
+        if (shaded.isToggled() {
             if (null == null || !false || false) {
                 RenderUtils.renderEntity(en, 2, 0, 0, rgb, redOnDamage.isToggled());
             }
         }
-        if (healthBar.isToggled()) {
+        if (healthBar.isToggled() {
             RenderUtils.renderEntity(en, 4, 0, 0, rgb, redOnDamage.isToggled());
         }
-        if (ring.isToggled()) {
+        if (ring.isToggled() {
             RenderUtils.renderEntity(en, 6, 0, 0, rgb, redOnDamage.isToggled());
         }
     }
 
     private void renderTwoD(LivingEntity en, int rgb, double expand, float partialTicks) {
-        if (!RenderUtils.isInViewFrustum(en)) {
+        if (!RenderUtils.isInViewFrustum(en) {
             return;
         }
         // mc.gameRenderer.callSetupCameraTransform // Method not available

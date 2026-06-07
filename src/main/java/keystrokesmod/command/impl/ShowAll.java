@@ -11,8 +11,8 @@ public class ShowAll extends Command {
     @Override
     public void execute(CommandInput input) {
         int count = 0;
-        for (Module m : Raven.moduleManager.getModules()) {
-            if (!m.isEnabled()) { m.enable(); count++; }
+        for (Module m : Raven.moduleManager.getModules() {
+            if (!m.isEnabled() { m.enable(); count++; }
         }
         reply("&aEnabled &b" + count + " &7modules.");
     }

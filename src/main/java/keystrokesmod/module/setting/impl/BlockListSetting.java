@@ -49,7 +49,7 @@ public class BlockListSetting extends Setting {
         if (key == null) return;
         blocks.clear();
         JsonElement el = data.get(key);
-        if (el.isJsonArray()) { for (JsonElement e : el.getAsJsonArray()) blocks.add(e.getAsString()); }
+        if (el.isJsonArray() { for (JsonElement e : el.getAsJsonArray()) blocks.add(e.getAsString()); }
     }
     public JsonArray toJsonArray() {
         JsonArray arr = new JsonArray();

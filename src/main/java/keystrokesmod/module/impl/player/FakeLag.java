@@ -37,7 +37,7 @@ public class FakeLag extends Module {
 
     @Override
     public void guiUpdate() {
-        if (!isEnabled()) {
+        if (!isEnabled() {
             return;
         }
         if (packetDelaySlider.getInput() <= 0) {
@@ -62,7 +62,7 @@ public class FakeLag extends Module {
     }
 
     private Set<EnumLagDirection> lagDirectionsForMode() {
-        switch ((int) mode.getInput()) {
+        switch ((int) mode.getInput() {
             case 0:
                 return EnumLagDirection.ONLY_INBOUND;
             case 2:
@@ -75,12 +75,12 @@ public class FakeLag extends Module {
 
     @Override
     public void onEnable() {
-        if (mc.isSingleplayer()) {
+        if (mc.isSingleplayer() {
             Utils.sendMessage("&cFake lag cannot be enabled in singleplayer.");
             this.disable();
             return;
         }
-        if (ModuleManager.blink.isEnabled()) {
+        if (ModuleManager.blink.isEnabled() {
             Utils.sendMessage("&cCannot use fake lag with blink!");
             this.disable();
             return;
@@ -102,7 +102,7 @@ public class FakeLag extends Module {
 
     
     public void onGameTick(GameTickEvent e) {
-        if (!isEnabled()) {
+        if (!isEnabled() {
             return;
         }
         if (!Utils.nullCheck() || mc.world == null) {
@@ -114,10 +114,10 @@ public class FakeLag extends Module {
             return;
         }
         Set<EnumLagDirection> directions = lagDirectionsForMode();
-        if (directions.contains(EnumLagDirection.INBOUND)) {
+        if (directions.contains(EnumLagDirection.INBOUND) {
             Raven.lagHandler.releaseExpiredPackets(EnumLagDirection.INBOUND, delayMs);
         }
-        if (directions.contains(EnumLagDirection.OUTBOUND)) {
+        if (directions.contains(EnumLagDirection.OUTBOUND) {
             Raven.lagHandler.releaseExpiredPackets(EnumLagDirection.OUTBOUND, delayMs);
         }
     }
@@ -127,7 +127,7 @@ public class FakeLag extends Module {
         if (e.phase != TickEvent.Phase.END) {
             return;
         }
-        if (mc.world == null && isEnabled()) {
+        if (mc.world == null && isEnabled() {
             this.disable();
         }
     }

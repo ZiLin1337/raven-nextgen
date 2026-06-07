@@ -16,7 +16,7 @@ public class PacketsHandler implements IMinecraftInstance {
 
     
     public void onSendPacket(SendPacketEvent e) {
-        if (e.isCanceled()) {
+        if (e.isCanceled() {
             return;
         }
         Packet<?> packet = e.getPacket();
@@ -33,13 +33,13 @@ public class PacketsHandler implements IMinecraftInstance {
         if (e.getPacket() instanceof S09PacketHeldItemChange && handleSlots) {
             S09PacketHeldItemChange packet = (S09PacketHeldItemChange) e.getPacket();
             int index = packet.getHeldItemHotbarIndex();
-            if (index >= 0 && index < InventoryPlayer.getHotbarSize()) {
+            if (index >= 0 && index < InventoryPlayer.getHotbarSize() {
                 serverSlot.set(index);
             }
         }
         else if (e.getPacket() instanceof S0CPacketSpawnPlayer && MinecraftClient.getInstance().thePlayer != null && handleSlots) {
             S0CPacketSpawnPlayer packet = (S0CPacketSpawnPlayer) e.getPacket();
-            if (packet.getEntityID() != MinecraftClient.getInstance().thePlayer.getEntityId()) {
+            if (packet.getEntityID() != MinecraftClient.getInstance().thePlayer.getEntityId() {
                 return;
             }
             playerSlot.set(-1);

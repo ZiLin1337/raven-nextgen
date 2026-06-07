@@ -48,7 +48,7 @@ public class Reach extends Module {
     @Override
     public void guiUpdate() {
         if (min != null && max != null) {
-            if (min.getInput() > max.getInput()) {
+            if (min.getInput() > max.getInput() {
                 max.setValue(min.getInput());
             }
         }
@@ -86,7 +86,7 @@ public class Reach extends Module {
 
     public static Object[] getEntityHit(double reach, double expand) {
         if (mc.player == null || mc.world == null) return null;
-        if (!ModuleManager.moduleManager.getModule("Reach").isEnabled()) {
+        if (!ModuleManager.moduleManager.getModule("Reach").isEnabled() {
             reach = 3.0;
         }
         return rayCastEntities(reach, expand, null);
@@ -138,10 +138,10 @@ public class Reach extends Module {
             float expandVal = (float) ((double) entity.getTargetingMargin() * (1.0 + expand));
             Box bb = entity.getBoundingBox().expand(expandVal);
             Optional<Vec3dd> hit = bb.raycast(eyePos, endPos);
-            if (hit.isPresent()) {
+            if (hit.isPresent() {
                 double dist = eyePos.distanceTo(hit.get());
                 if (dist < closestDist) {
-                    if (entity == mc.player.getVehicle()) {
+                    if (entity == mc.player.getVehicle() {
                         if (closestDist == reach) {
                             closestEntity = entity;
                             closestHitVec = hit.get();
@@ -155,7 +155,7 @@ public class Reach extends Module {
             }
         }
 
-        if (closestDist < reach && !(closestEntity instanceof LivingEntity) && !(closestEntity instanceof ItemFrameEntity)) {
+        if (closestDist < reach && !(closestEntity instanceof LivingEntity) && !(closestEntity instanceof ItemFrameEntity) {
             closestEntity = null;
         }
 

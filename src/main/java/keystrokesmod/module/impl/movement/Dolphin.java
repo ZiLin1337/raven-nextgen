@@ -15,7 +15,7 @@ public class Dolphin extends Module {
     @EventHandler
     public void onPreMotion(PreMotionEvent e) {
         if (!Utils.nullCheck() || mc.player == null) return;
-        if (mc.player.isTouchingWater() && mc.options.jumpKey.isPressed()) {
+        if (mc.player.isTouchingWater() && mc.options.jumpKey.isPressed() {
             mc.player.setVelocity(mc.player.getVelocity().add(0, speed.getInput() * 0.1, 0));
         }
     }

@@ -52,7 +52,7 @@ public class StringListComponent extends AbstractTextInputComponent {
         Layout layout = layout(true);
         if (button == 0 && isTextFieldClicked(mouseX, mouseY, layout) { setTextFieldFocused(true); return true; }
         if (button == 0 && handleSelectedEntryClick(mouseX, mouseY, layout)) return true;
-        if (isTextFieldFocused()) { getTextField().setText(""); setTextFieldFocused(false); }
+        if (isTextFieldFocused() { getTextField().setText(""); setTextFieldFocused(false); }
         return false;
     }
 
@@ -129,7 +129,7 @@ public class StringListComponent extends AbstractTextInputComponent {
         float offsetPx = selectedScrollAnim.getValue();
         for (int i = 0; i < entries.size(); i++) {
             float rowTop = getSelectedTop(layout) - offsetPx + i * ROW_HEIGHT;
-            if (isOverClose(mouseX, mouseY, rowTop, layout.right)) {
+            if (isOverClose(mouseX, mouseY, rowTop, layout.right) {
                 setting.removeEntry(entries.get(i));
                 moduleComponent.updateSettingPositions();
                 clampSelectedScroll();

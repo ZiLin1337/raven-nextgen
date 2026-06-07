@@ -110,7 +110,7 @@ public class HitSelect extends Module {
 
     
     public void onPreAttack(PreAttackEvent event) {
-        if (!canProcessClicks()) {
+        if (!canProcessClicks() {
             return;
         }
 
@@ -122,7 +122,7 @@ public class HitSelect extends Module {
         }
 
         if (clickType == ClickType.MISSED_SWING) {
-            if (shouldCancel(missedSwingsCancelRate.getInput())) {
+            if (shouldCancel(missedSwingsCancelRate.getInput()) {
                 cancelClick(event);
             }
             return;
@@ -140,7 +140,7 @@ public class HitSelect extends Module {
         boolean shouldBlock = (blockMask & BLOCK_WAIT_FIRST) != 0
                 || (blockMask & BLOCK_PREDICTED_BURST) != 0
                 || applyPauseDuration(state, blockMask & ~BLOCK_PREDICTED_BURST, currentTick);
-        if (shouldBlock && shouldCancel(inCombatCancelRate.getInput())) {
+        if (shouldBlock && shouldCancel(inCombatCancelRate.getInput()) {
             cancelClick(event);
             return;
         }
@@ -170,7 +170,7 @@ public class HitSelect extends Module {
     }
 
     private void cancelClick(PreAttackEvent event) {
-        if (fakeSwing.isToggled() && Utils.nullCheck()) {
+        if (fakeSwing.isToggled() && Utils.nullCheck() {
             Utils.setSwinging();
         }
 
@@ -178,7 +178,7 @@ public class HitSelect extends Module {
     }
 
     private void updateCurrentTarget(PlayerEntity nextTarget, int currentTick) {
-        if (sameTarget(nextTarget)) {
+        if (sameTarget(nextTarget) {
             if (nextTarget != null) {
                 currentTarget = nextTarget;
                 getTargetState(nextTarget, currentTick);
@@ -228,7 +228,7 @@ public class HitSelect extends Module {
     }
 
     private void updateTargetDamage(int currentTick) {
-        if (currentTarget == null || !useServerAttackTime.isToggled()) {
+        if (currentTarget == null || !useServerAttackTime.isToggled() {
             return;
         }
 
@@ -253,19 +253,19 @@ public class HitSelect extends Module {
             return 0;
         }
 
-        if (disableDuringKnockback.isToggled() && isTakingKnockback()) {
+        if (disableDuringKnockback.isToggled() && isTakingKnockback() {
             return 0;
         }
 
         int blockMask = 0;
 
-        if (isWaitingForFirstHit(currentTick)) {
+        if (isWaitingForFirstHit(currentTick) {
             blockMask |= BLOCK_WAIT_FIRST;
         }
 
         blockMask |= getBurstBlockMask(state, currentTick);
 
-        if (isCriticalsBlocked(state, currentTick)) {
+        if (isCriticalsBlocked(state, currentTick) {
             blockMask |= BLOCK_CRITICALS;
         }
 
@@ -273,7 +273,7 @@ public class HitSelect extends Module {
     }
 
     private int getBurstBlockMask(TargetState state, int currentTick) {
-        if (useServerAttackTime.isToggled()) {
+        if (useServerAttackTime.isToggled() {
             if (state.lastConfirmedTargetDamageTick >= 0 && currentTick - state.lastConfirmedTargetDamageTick < SERVER_CONFIRM_COOLDOWN_TICKS) {
                 return BLOCK_SERVER_COOLDOWN;
             }
@@ -281,7 +281,7 @@ public class HitSelect extends Module {
             return 0;
         }
 
-        if (!isPredictedBurstWindowActive(state, currentTick)) {
+        if (!isPredictedBurstWindowActive(state, currentTick) {
             return 0;
         }
 
@@ -304,7 +304,7 @@ public class HitSelect extends Module {
             return false;
         }
 
-        if (disableDuringKnockback.isToggled() && isTakingKnockback()) {
+        if (disableDuringKnockback.isToggled() && isTakingKnockback() {
             return false;
         }
 
@@ -369,13 +369,13 @@ public class HitSelect extends Module {
         updateCurrentTarget(target, currentTick);
         TargetState state = getTargetState(target, currentTick);
 
-        if (useServerAttackTime.isToggled()) {
+        if (useServerAttackTime.isToggled() {
             state.pendingServerConfirmationTick = currentTick;
             state.lastConfirmedTargetDamageTick = -1;
             return;
         }
 
-        if (!isPredictedBurstWindowActive(state, currentTick)) {
+        if (!isPredictedBurstWindowActive(state, currentTick) {
             startPredictedBurstWindow(state, currentTick, HURT_WINDOW_TICKS);
         }
     }
@@ -450,7 +450,7 @@ public class HitSelect extends Module {
         TargetState state = targetStates.get(target.getEntityId());
         if (state == null) {
             state = new TargetState();
-            if (useServerAttackTime.isToggled()) {
+            if (useServerAttackTime.isToggled() {
                 state.lastObservedTargetHurtTime = target.hurtTime;
             }
             targetStates.put(target.getEntityId(), state);
@@ -465,7 +465,7 @@ public class HitSelect extends Module {
         }
 
         Iterator<Map.Entry<Integer, TargetState>> iterator = targetStates.entrySet().iterator();
-        while (iterator.hasNext()) {
+        while (iterator.hasNext() {
             Map.Entry<Integer, TargetState> entry = iterator.next();
             Entity entity = mc.world.getEntityByID(entry.getKey());
             if (!(entity instanceof PlayerEntity) || entity.isDead || ((PlayerEntity) entity).deathTime != 0) {

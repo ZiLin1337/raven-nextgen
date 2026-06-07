@@ -81,17 +81,17 @@ public class AutoClicker extends Module {
         if (e.phase != TickEvent.Phase.END) {
             return;
         }
-        if (!inventory.isToggled()) {
+        if (!inventory.isToggled() {
             return;
         }
-        if (!Utils.nullCheck()) {
+        if (!Utils.nullCheck() {
             return;
         }
-        if (!(mc.currentScreen instanceof HandledScreen)) {
+        if (!(mc.currentScreen instanceof HandledScreen) {
             inventoryNextClickTime = 0L;
             return;
         }
-        if (!Mouse.isButtonDown(0)) {
+        if (!Mouse.isButtonDown(0) {
             inventoryNextClickTime = 0L;
             return;
         }
@@ -140,7 +140,7 @@ public class AutoClicker extends Module {
         if (ModuleManager.killAura != null && ModuleManager.killAura.isEnabled() && KillAura.target != null) return;
 
         int key = mc.options.keyBindAttack.getKeyCode();
-        if (Mouse.isButtonDown(0)) {
+        if (Mouse.isButtonDown(0) {
             long now = System.currentTimeMillis();
             if (nextClickTime == 0) {
                 nextClickTime = now + nextDelay();
@@ -157,7 +157,7 @@ public class AutoClicker extends Module {
             if (mc.currentScreen != null || !mc.inGameHasFocus) return;
             if (weaponOnly.isToggled() && !Utils.holdingWeapon()) return;
 
-            if (breakBlocks.isToggled()) {
+            if (breakBlocks.isToggled() {
                 if (!mc.player.capabilities.allowEdit) {
                     if (this.isHoldingBlockBreak) {
                         KeyBinding.setKeyBindState(key, false);
@@ -169,7 +169,7 @@ public class AutoClicker extends Module {
                 BlockPos pos = mc.objectMouseOver.getBlockPos();
                 if (pos != null) {
                     Block block = mc.world.getBlockState(pos).getBlock();
-                    if (block != Blocks.AIR && !(block instanceof FluidBlock)) {
+                    if (block != Blocks.AIR && !(block instanceof FluidBlock) {
                         if (!this.isHoldingBlockBreak) {
                             KeyBinding.setKeyBindState(key, true);
                             ReflectionUtils.setButton(0, true);
@@ -207,12 +207,12 @@ public class AutoClicker extends Module {
 
         int finalDelay;
 
-        if (simulateExhaust.isToggled()) {
+        if (simulateExhaust.isToggled() {
             int variation = rand.nextInt(baseDelay + 1) - (baseDelay / 2);
             finalDelay = baseDelay + variation;
 
             if (rand.nextInt(100) < 15) {
-                if (rand.nextBoolean()) {
+                if (rand.nextBoolean() {
                     finalDelay = 25 + rand.nextInt(16);
                 } else {
                     finalDelay = baseDelay + 50 + rand.nextInt(41);

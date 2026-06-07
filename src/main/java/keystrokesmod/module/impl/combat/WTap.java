@@ -43,7 +43,7 @@ public class WTap extends Module {
 
     @Override
     public void onUpdate() {
-        if (!Utils.nullCheck() || mc.player == null || mc.player.isDead()) {
+        if (!Utils.nullCheck() || mc.player == null || mc.player.isDead() {
             pendingResetAtMs = 0L;
             waitingForSprintRestart = false;
             wasSprinting = false;
@@ -80,7 +80,7 @@ public class WTap extends Module {
 
         if (chance.getInput() == 0) return;
 
-        if (playersOnly.isToggled()) {
+        if (playersOnly.isToggled() {
             if (mc.world == null || !(mc.world.getEntityById(packet.getEntityId()) instanceof PlayerEntity)) return;
             if (AntiBot.isBot(mc.world.getEntityById(packet.getEntityId()))) return;
         } else {

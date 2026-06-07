@@ -204,7 +204,7 @@ public class Trajectories extends Module {
         int minZ = MathHelper.floor_double(waterCheckBox.minZ);
         int maxZ = MathHelper.floor_double(waterCheckBox.maxZ + 1.0D);
 
-        if (!mc.world.isAreaLoaded(new BlockPos(minX, minY, minZ), new BlockPos(maxX, maxY, maxZ), true)) {
+        if (!mc.world.isAreaLoaded(new BlockPos(minX, minY, minZ), new BlockPos(maxX, maxY, maxZ), true) {
             return new FluidState(false, false, new Vec3d(0.0D, 0.0D, 0.0D));
         }
 
@@ -273,7 +273,7 @@ public class Trajectories extends Module {
                     entityBox.maxZ
             );
 
-            if (mc.world.isAABBInMaterial(sliceBox, Material.water)) {
+            if (mc.world.isAABBInMaterial(sliceBox, Material.water) {
                 submersion += 1.0D / (double) FISH_HOOK_WATER_SLICE_COUNT;
             }
         }
@@ -372,7 +372,7 @@ public class Trajectories extends Module {
         int minZ = MathHelper.floor_double(sweepBounds.minZ);
         int maxZ = MathHelper.floor_double(sweepBounds.maxZ + 1.0D);
 
-        if (!mc.world.isAreaLoaded(new BlockPos(minX, minY, minZ), new BlockPos(maxX, maxY, maxZ), true)) {
+        if (!mc.world.isAreaLoaded(new BlockPos(minX, minY, minZ), new BlockPos(maxX, maxY, maxZ), true) {
             return new BlockCollisionResult(null, Double.MAX_VALUE);
         }
 
@@ -390,7 +390,7 @@ public class Trajectories extends Module {
 
                     if ((!props.ignoreBlockWithoutBoundingBox
                             || block.getCollisionShape(mc.world, mutablePos, blockState) != null)
-                            && block.canCollideCheck(blockState, false)) {
+                            && block.canCollideCheck(blockState, false) {
                         collisionBoxes.clear();
                         Box vanillaProjectileBounds = getVanillaProjectileBounds(block, mutablePos);
                         block.addCollisionBoxesToList(mc.world, mutablePos, blockState, sweepBounds, collisionBoxes, null);
@@ -486,7 +486,7 @@ public class Trajectories extends Module {
             return held;
         }
         if (item == Items.POTION) {
-            if (ItemPotion.isSplash(held.getMetadata())) {
+            if (ItemPotion.isSplash(held.getMetadata()) {
                 return held;
             }
             return null;
@@ -516,7 +516,7 @@ public class Trajectories extends Module {
         if (props == null) return;
 
         double velocity = props.initialVelocity;
-        if (item == Items.snowball && isHypixelBedwars() && isBedbugSnowball(heldStack)) {
+        if (item == Items.snowball && isHypixelBedwars() && isBedbugSnowball(heldStack) {
             velocity = BEDBUG_SNOWBALL_VELOCITY;
         }
 
@@ -540,7 +540,7 @@ public class Trajectories extends Module {
         motY *= velocity;
         motZ *= velocity;
 
-        if (addPlayerVelocity.isToggled()) {
+        if (addPlayerVelocity.isToggled() {
             motX += player.motionX;
             motY += player.onGround ? 0 : player.motionY;
             motZ += player.motionZ;
@@ -701,8 +701,8 @@ public class Trajectories extends Module {
         RenderSystem.lineWidth(lineW);
         // GL11 replaced(GL11.GL_LINE_STRIP);
         boolean first = true;
-        for (double[] pt : clipRenderPoints(renderPoints, hiddenRenderDistance)) {
-            if (first && shortenLine.isToggled()) {
+        for (double[] pt : clipRenderPoints(renderPoints, hiddenRenderDistance) {
+            if (first && shortenLine.isToggled() {
                 first = false;
                 continue;
             }
@@ -717,7 +717,7 @@ public class Trajectories extends Module {
             Box renderBox = new Box(hitEntityBox.minX - hitEntity.posX + ex, hitEntityBox.minY - hitEntity.posY + ey, hitEntityBox.minZ - hitEntity.posZ + ez, hitEntityBox.maxX - hitEntity.posX + ex, hitEntityBox.maxY - hitEntity.posY + ey, hitEntityBox.maxZ - hitEntity.posZ + ez);
             RenderSystem.setShaderColor(r, g, b, 1.0f);
             RenderUtils.drawOutlinedBox(renderBox, rm.viewerPosX, rm.viewerPosY, rm.viewerPosZ);
-        } else if (hitBlock != null && !showLanding.isToggled()) {
+        } else if (hitBlock != null && !showLanding.isToggled() {
             BlockPos bpos = hitBlock.getBlockPos();
             Box selBox = BlockUtils.getBlockSelectionBox(bpos);
             if (selBox != null) {

@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class MixinWorldInfo {
     @Inject(method = "isRaining", at = @At("RETURN"), cancellable = true)
     private void isRaining(CallbackInfoReturnable<Boolean> cir) {
-        if (ModuleManager.weather != null && ModuleManager.weather.isEnabled() && ModuleManager.weather.rain.isToggled()) {
+        if (ModuleManager.weather != null && ModuleManager.weather.isEnabled() && ModuleManager.weather.rain.isToggled() {
             cir.setReturnValue(true);
         }
     }

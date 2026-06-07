@@ -74,10 +74,10 @@ public class ScriptDefaults {
 
     public static void reloadModules() {
         modulesMap.clear();
-        for (Module module : Raven.getModuleManager().getModules()) {
+        for (Module module : Raven.getModuleManager().getModules() {
             modulesMap.put(module.getName(), module);
         }
-        for (Module module : Raven.scriptManager.scripts.values()) {
+        for (Module module : Raven.scriptManager.scripts.values() {
             modulesMap.put(module.getName(), module);
         }
     }
@@ -460,7 +460,7 @@ public class ScriptDefaults {
             net.minecraft.entity.Entity best = null;
             double bestDist = distance;
             Vec3dd bestHit = null;
-            for (net.minecraft.entity.Entity e : mc.world.getEntities()) {
+            for (net.minecraft.entity.Entity e : mc.world.getEntities() {
                 if (e.isSpectator() || e == mc.player || !e.canHit()) continue;
                 Vec3dd rel = e.getBoundingBox().raycast(eyeVec, reachVec).orElse(null);
                 if (rel != null) {
@@ -580,7 +580,7 @@ public class ScriptDefaults {
         public static List<Entity> getEntities() {
             List<Entity> entities = new ArrayList<>();
             if (mc.world == null) return entities;
-            for (net.minecraft.entity.Entity entity : mc.world.getEntities()) {
+            for (net.minecraft.entity.Entity entity : mc.world.getEntities() {
                 entities.add(Entity.convert(entity));
             }
             return entities;
@@ -593,7 +593,7 @@ public class ScriptDefaults {
 
         public static List<NetworkPlayer> getNetworkPlayers() {
             List<NetworkPlayer> list = new ArrayList<>();
-            for (PlayerListEntry entry : Utils.getTablist(false)) {
+            for (PlayerListEntry entry : Utils.getTablist(false) {
                 list.add(NetworkPlayer.convert(entry));
             }
             return list;
@@ -602,7 +602,7 @@ public class ScriptDefaults {
         public static List<Entity> getPlayerEntities() {
             List<Entity> entities = new ArrayList<>();
             if (mc.world == null) return entities;
-            for (net.minecraft.entity.Entity entity : mc.world.getPlayers()) {
+            for (net.minecraft.entity.Entity entity : mc.world.getPlayers() {
                 entities.add(Entity.convert(entity));
             }
             return entities;
@@ -629,7 +629,7 @@ public class ScriptDefaults {
         public static Map<String, List<String>> getTeams() {
             Map<String, List<String>> teams = new HashMap<>();
             if (mc.world == null) return teams;
-            for (Team team : mc.world.getScoreboard().getTeams()) {
+            for (Team team : mc.world.getScoreboard().getTeams() {
                 List<String> members = new ArrayList<>(team.getPlayerList());
                 teams.put(team.getName().getString(), members);
             }
@@ -663,7 +663,7 @@ public class ScriptDefaults {
 
         private static Setting getSetting(Module module, String settingName) {
             if (module == null) return null;
-            for (Setting setting : module.getSettings()) {
+            for (Setting setting : module.getSettings() {
                 if (setting.getName().equals(settingName)) return setting;
             }
             return null;
@@ -673,7 +673,7 @@ public class ScriptDefaults {
             if (group.isEmpty()) return null;
             List<Setting> settings = getScript(this.superName).getSettings();
             for (Setting setting : settings) {
-                if (setting instanceof GroupSetting && setting.getName().equals(group)) {
+                if (setting instanceof GroupSetting && setting.getName().equals(group) {
                     return (GroupSetting) setting;
                 }
             }
@@ -704,7 +704,7 @@ public class ScriptDefaults {
             Map<String, Object> settings = new HashMap<>();
             Module module = getModule(name);
             if (module == null) return settings;
-            for (Setting setting : module.getSettings()) {
+            for (Setting setting : module.getSettings() {
                 if (setting instanceof SliderSetting s) {
                     settings.put(setting.getName(), s.getInput());
                 } else if (setting instanceof ButtonSetting b) {

@@ -12,7 +12,7 @@ public class Binds extends Command {
     @Override
     public void execute(CommandInput input) {
         Utils.sendMessage("&bCurrent binds:");
-        for (Module module : Raven.moduleManager.getModules()) {
+        for (Module module : Raven.moduleManager.getModules() {
             if (module.getBind() != 0) {
                 String keyName = getKeyName(module.getBind());
                 Utils.sendMessage("  &b" + module.getName() + " &7-> &b" + keyName);

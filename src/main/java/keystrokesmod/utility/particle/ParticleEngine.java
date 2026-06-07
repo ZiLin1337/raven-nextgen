@@ -75,10 +75,10 @@ public class ParticleEngine {
      */
     public void update() {
         Iterator<Particle> it = particles.iterator();
-        while (it.hasNext()) {
+        while (it.hasNext() {
             Particle p = it.next();
             p.update();
-            if (p.isDead()) {
+            if (p.isDead() {
                 it.remove();
             }
         }

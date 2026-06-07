@@ -31,7 +31,7 @@ public class Module {
     public static List<String> categoriesString = new ArrayList<>();
 
     static {
-        for (category cat : category.values()) {
+        for (category cat : category.values() {
             categoriesString.add(cat.name());
         }
     }
@@ -107,7 +107,7 @@ public class Module {
     }
 
     public void enable() {
-        if (!this.canBeEnabled() || this.isEnabled()) {
+        if (!this.canBeEnabled() || this.isEnabled() {
             return;
         }
         this.setEnabled(true);
@@ -122,7 +122,7 @@ public class Module {
     }
 
     public void disable() {
-        if (!this.isEnabled()) {
+        if (!this.isEnabled() {
             return;
         }
         this.setEnabled(false);
@@ -184,7 +184,7 @@ public class Module {
     }
 
     public void toggle() {
-        if (this.isEnabled()) {
+        if (this.isEnabled() {
             this.disable();
         } else {
             this.enable();

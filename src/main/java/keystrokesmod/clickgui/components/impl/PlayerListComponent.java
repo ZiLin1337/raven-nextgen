@@ -48,7 +48,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
         Layout layout = layout(true);
         if (button == 0 && isTextFieldClicked(mouseX, mouseY, layout) { setTextFieldFocused(true); return true; }
         if (button == 0 && handleSelectedEntryClick(mouseX, mouseY, layout)) return true;
-        if (isTextFieldFocused()) { getTextField().setText(""); setTextFieldFocused(false); }
+        if (isTextFieldFocused() { getTextField().setText(""); setTextFieldFocused(false); }
         return false;
     }
 
@@ -134,7 +134,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
     private Map<String, NetworkPlayerInfo> getPlayerInfoMap() {
         Map<String, NetworkPlayerInfo> map = new HashMap<>();
         if (MinecraftClient.getInstance().getNetworkHandler() == null) return map;
-        for (NetworkPlayerInfo info : MinecraftClient.getInstance().getNetworkHandler().getPlayerInfoMap()) {
+        for (NetworkPlayerInfo info : MinecraftClient.getInstance().getNetworkHandler().getPlayerInfoMap() {
             if (info == null) continue;
             GameProfile profile = info.getGameProfile();
             if (profile == null || profile.getName() == null) continue;

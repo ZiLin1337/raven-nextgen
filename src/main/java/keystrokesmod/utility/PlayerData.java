@@ -36,16 +36,16 @@ public class PlayerData {
         if (Math.abs(this.posY) >= 0.1) {
             this.aboveVoidTicks = ticksExisted;
         }
-        if (entityPlayer.isSneaking()) {
+        if (entityPlayer.isSneaking() {
             this.lastSneakTick = ticksExisted;
         }
-        if (entityPlayer.isSwingInProgress && entityPlayer.isBlocking()) {
+        if (entityPlayer.isSwingInProgress && entityPlayer.isBlocking() {
             ++this.autoBlockTicks;
         }
         else {
             this.autoBlockTicks = 0;
         }
-        if (entityPlayer.isSprinting() && entityPlayer.isUsingItem()) {
+        if (entityPlayer.isSprinting() && entityPlayer.isUsingItem() {
             ++this.noSlowTicks;
         }
         else {
@@ -53,7 +53,7 @@ public class PlayerData {
         }
         if (entityPlayer.rotationPitch >= 70.0f && entityPlayer.getHeldItem() != null && entityPlayer.getHeldItem().getItem() instanceof BlockItem) {
             if (entityPlayer.swingProgressInt == 1) {
-                if (!this.sneaking && entityPlayer.isSneaking()) {
+                if (!this.sneaking && entityPlayer.isSneaking() {
                     ++this.sneakTicks;
                 }
                 else {

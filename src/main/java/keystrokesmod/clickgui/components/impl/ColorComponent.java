@@ -83,7 +83,7 @@ public class ColorComponent extends Component {
         float boxY = cy + o + 3f;
         RenderUtils.DrawContextHelper.drawRect(boxX - 0.5, boxY - 0.5,
                 boxX + PREVIEW_BOX_SIZE + 0.5, boxY + PREVIEW_BOX_SIZE + 0.5, 0xFF3C3C46);
-        if (colorSetting.hasAlpha()) {
+        if (colorSetting.hasAlpha() {
             int checkSize = 2;
             for (float px = boxX; px < boxX + PREVIEW_BOX_SIZE; px += checkSize) {
                 for (float py = boxY; py < boxY + PREVIEW_BOX_SIZE; py += checkSize) {
@@ -178,7 +178,7 @@ public class ColorComponent extends Component {
         RenderUtils.DrawContextHelper.drawRect(hueLeft - 1, hueIndY - 1,
                 hueRight + 1, hueIndY + 2, 0xFFFFFFFF);
 
-        if (colorSetting.hasAlpha()) {
+        if (colorSetting.hasAlpha() {
             float alphaLeft = hueRight + ALPHA_GAP;
             float alphaRight = alphaLeft + ALPHA_BAR_WIDTH;
 
@@ -231,7 +231,7 @@ public class ColorComponent extends Component {
             cachedHue = Math.max(0, Math.min(360, (mouseY - sqTop) / SQUARE_SIZE * 360f));
             colorSetting.setFromHSB(cachedHue, cachedSat, cachedBri);
             markUnsaved();
-        } else if (dragMode == 3 && colorSetting.hasAlpha()) {
+        } else if (dragMode == 3 && colorSetting.hasAlpha() {
             float a = Math.max(0, Math.min(1, (mouseY - sqTop) / SQUARE_SIZE));
             colorSetting.setAlpha((int) (a * 255));
             markUnsaved();
@@ -240,7 +240,7 @@ public class ColorComponent extends Component {
 
     @Override
     public boolean onClick(int mouseX, int mouseY, int button) {
-        if (!moduleComponent.isOpened || !moduleComponent.isVisible(this)) {
+        if (!moduleComponent.isOpened || !moduleComponent.isVisible(this) {
             return false;
         }
 
@@ -283,7 +283,7 @@ public class ColorComponent extends Component {
             return false;
         }
 
-        if (colorSetting.hasAlpha()) {
+        if (colorSetting.hasAlpha() {
             float alphaLeft = hueRight + ALPHA_GAP;
             float alphaRight = alphaLeft + ALPHA_BAR_WIDTH;
             if (mouseX >= alphaLeft - 2 && mouseX <= alphaRight + 2

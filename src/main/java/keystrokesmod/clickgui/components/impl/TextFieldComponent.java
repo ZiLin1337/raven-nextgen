@@ -16,7 +16,7 @@ public class TextFieldComponent extends AbstractTextInputComponent {
 
     @Override
     public void render() {
-        if (!isTextFieldFocused()) {
+        if (!isTextFieldFocused() {
             if (valueWhenFocused != null) {
                 revertToSaved();
             }
@@ -35,15 +35,15 @@ public class TextFieldComponent extends AbstractTextInputComponent {
         }
 
         Layout layout = layout(true);
-        if (isTextFieldClicked(mouseX, mouseY, layout)) {
-            if (!isTextFieldFocused()) {
+        if (isTextFieldClicked(mouseX, mouseY, layout) {
+            if (!isTextFieldFocused() {
                 valueWhenFocused = textSetting.getText();
             }
             setTextFieldFocused(true);
             return true;
         }
 
-        if (isTextFieldFocused()) {
+        if (isTextFieldFocused() {
             revertToSaved();
             setTextFieldFocused(false);
         }
@@ -52,7 +52,7 @@ public class TextFieldComponent extends AbstractTextInputComponent {
 
     @Override
     public void keyTyped(char typedChar, int keyCode) {
-        if (!moduleComponent.isOpened || !isTextFieldFocused()) {
+        if (!moduleComponent.isOpened || !isTextFieldFocused() {
             return;
         }
 
@@ -70,7 +70,7 @@ public class TextFieldComponent extends AbstractTextInputComponent {
             return;
         }
 
-        if (getTextField().textboxKeyTyped(typedChar, keyCode)) {
+        if (getTextField().textboxKeyTyped(typedChar, keyCode) {
             textSetting.setText(getTextField().getText());
         }
     }

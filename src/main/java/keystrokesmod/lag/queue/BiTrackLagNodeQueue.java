@@ -31,7 +31,7 @@ public final class BiTrackLagNodeQueue {
     }
 
     public boolean tick(final @Nullable Packet<?> packet, final @Nullable EnumLagDirection direction) {
-        if ((packet == null) != (direction == null)) {
+        if ((packet == null) != (direction == null) {
             throw new NullPointerException();
         }
 
@@ -53,7 +53,7 @@ public final class BiTrackLagNodeQueue {
     }
 
     public void requestLag(final @NotNull LagRequest request) {
-        for (final @NotNull EnumLagDirection direction : request.getDirections()) {
+        for (final @NotNull EnumLagDirection direction : request.getDirections() {
             switch (direction) {
                 case OUTBOUND: {
                     outgoingState.addRequest(request);
@@ -111,7 +111,7 @@ public final class BiTrackLagNodeQueue {
             @Nullable LagRequest awaiting = currentlyAwaiting;
 
             try {
-                while (awaiting == null || awaiting.getTimeout().isTimedOut()) {
+                while (awaiting == null || awaiting.getTimeout().isTimedOut() {
                     final @Nullable AbstractLagNode popped = pop();
 
                     if (popped == null) {
@@ -138,7 +138,7 @@ public final class BiTrackLagNodeQueue {
             long cutoff = System.currentTimeMillis() - maxAgeMs;
             List<PacketLagNode> toRelease = new ArrayList<>();
             // Snapshot: goThrough() can re-enter and append to track via ReceivePacketEvent.
-            for (AbstractLagNode node : new ArrayList<>(track)) {
+            for (AbstractLagNode node : new ArrayList<>(track) {
                 if (node instanceof PacketLagNode) {
                     PacketLagNode pkt = (PacketLagNode) node;
                     if (pkt.getQueuedAtMs() <= cutoff) {
@@ -146,7 +146,7 @@ public final class BiTrackLagNodeQueue {
                     }
                 }
             }
-            if (toRelease.isEmpty()) {
+            if (toRelease.isEmpty() {
                 return;
             }
             track.removeAll(toRelease);

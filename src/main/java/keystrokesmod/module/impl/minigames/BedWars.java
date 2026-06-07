@@ -64,13 +64,13 @@ public class BedWars extends Module {
 
     
     public void onRenderWorld(RenderWorldLastEvent e) {
-        if (Utils.nullCheck() && obsidian.isToggled()) {
-            if (this.obsidianPos.isEmpty()) {
+        if (Utils.nullCheck() && obsidian.isToggled() {
+            if (this.obsidianPos.isEmpty() {
                 return;
             }
             try {
                 Iterator<Map.Entry<BlockPos, Long>> iterator = this.obsidianPos.entrySet().iterator();
-                while (iterator.hasNext()) {
+                while (iterator.hasNext() {
                     Map.Entry<BlockPos, Long> entry = iterator.next();
                     BlockPos blockPos = entry.getKey();
                     Long receivedMs = entry.getValue();
@@ -106,7 +106,7 @@ public class BedWars extends Module {
                     if (eggInfo.spawnPos.distanceTo(spawnPosition) > 3 || Utils.timeBetween(mc.player.ticksExisted, eggInfo.tickSpawned) > 60) { // 3 seconds or not at spawn point then not own mob
                         return;
                     }
-                    if (!entitySpawnQueue.remove(eggInfo)) {
+                    if (!entitySpawnQueue.remove(eggInfo) {
                         return;
                     }
                     spawnedMobs.add(e.entity.getEntityId());
@@ -118,20 +118,20 @@ public class BedWars extends Module {
     @Override
     public void onUpdate() {
         if (Utils.getBedwarsStatus() == 2) {
-            if (diamondArmor.isToggled() || enderPearl.isToggled() || obsidian.isToggled()) {
-                for (PlayerEntity p : mc.world.getPlayers()) {
+            if (diamondArmor.isToggled() || enderPearl.isToggled() || obsidian.isToggled() {
+                for (PlayerEntity p : mc.world.getPlayers() {
                     if (p == null) {
                         continue;
                     }
                     if (p == mc.player) {
                         continue;
                     }
-                    if (AntiBot.isBot(p)) {
+                    if (AntiBot.isBot(p) {
                         continue;
                     }
                     String name = p.getName();
                     ItemStack item = p.getHeldItem();
-                    if (diamondArmor.isToggled()) {
+                    if (diamondArmor.isToggled() {
                         ItemStack leggings = p.inventory.armorInventory[1];
                         if (!armoredPlayer.contains(name) && p.inventory != null && leggings != null && leggings.getItem() != null && leggings.getItem() == Items.diamond_leggings) {
                             armoredPlayer.add(name);
@@ -139,16 +139,16 @@ public class BedWars extends Module {
                             ping();
                         }
                     }
-                    if (item != null && !lastHeldMap.containsKey(name)) {
+                    if (item != null && !lastHeldMap.containsKey(name) {
                         String itemType = getItemType(item);
                         if (itemType != null) {
                             lastHeldMap.put(name, itemType);
                             double distance = Math.round(mc.player.getDistanceToEntity(p));
                             handleAlert(itemType, p.getDisplayName().getFormattedText(), Utils.asWholeNum(distance));
                         }
-                    } else if (lastHeldMap.containsKey(name)) {
+                    } else if (lastHeldMap.containsKey(name) {
                         String itemType = lastHeldMap.get(name);
-                        if (!itemType.equals(getItemType(item))) {
+                        if (!itemType.equals(getItemType(item)) {
                             lastHeldMap.remove(name);
                         }
                     }
@@ -167,7 +167,7 @@ public class BedWars extends Module {
                     if (oclass == null) {
                         return;
                     }
-                    if (oclass.getSimpleName().equals("IronGolemEntity")) {
+                    if (oclass.getSimpleName().equals("IronGolemEntity") {
                         entitySpawnQueue.add(new SkyWars.SpawnEggInfo(p.getPosition(), mc.player.ticksExisted));
                     }
                 }
@@ -179,14 +179,14 @@ public class BedWars extends Module {
     public void onReceivePacket(ReceivePacketEvent e) {
         if (e.getPacket() instanceof S23PacketBlockChange) {
             S23PacketBlockChange p = (S23PacketBlockChange) e.getPacket();
-            if (p.getBlockState() != null && p.getBlock() instanceof BlockObsidian && isNextToBed(p.getBlockPosition())) {
+            if (p.getBlockState() != null && p.getBlock() instanceof BlockObsidian && isNextToBed(p.getBlockPosition()) {
                 this.obsidianPos.put(p.getBlockPosition(), System.currentTimeMillis());
             }
         }
     }
 
     private boolean isNextToBed(BlockPos blockPos) {
-        for (Direction enumFacing : Direction.values()) {
+        for (Direction enumFacing : Direction.values() {
             BlockPos offset = blockPos.offset(enumFacing);
             if (BlockUtils.getBlockState(offset) instanceof BedBlock) {
                 return true;
@@ -200,13 +200,13 @@ public class BedWars extends Module {
             return null;
         }
         String unlocalizedName = item.getItem().getUnlocalizedName();
-        if (item.getItem() instanceof ItemEnderPearl && enderPearl.isToggled()) {
+        if (item.getItem() instanceof ItemEnderPearl && enderPearl.isToggled() {
             return "&7an §3Ender Pearl";
         }
-        else if (unlocalizedName.contains("tile.obsidian") && obsidian.isToggled()) {
+        else if (unlocalizedName.contains("tile.obsidian") && obsidian.isToggled() {
             return "§dObsidian";
         }
-        else if (item.getItem() instanceof ItemFireball && fireball.isToggled()) {
+        else if (item.getItem() instanceof ItemFireball && fireball.isToggled() {
             return "&7a §6Fireball";
         }
         return null;
@@ -219,7 +219,7 @@ public class BedWars extends Module {
     }
 
     private void ping() {
-        if (shouldPing.isToggled()) {
+        if (shouldPing.isToggled() {
             mc.player.playSound("note.pling", 1.0f, 1.0f);
         }
     }

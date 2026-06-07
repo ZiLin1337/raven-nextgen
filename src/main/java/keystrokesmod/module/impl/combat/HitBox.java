@@ -49,7 +49,7 @@ public class HitBox extends Module {
         if (e.button != 0 || !e.buttonstate || !Utils.nullCheck() || multiplier.getInput() == 1 || mc.player.isBlocking() || mc.currentScreen != null) {
             return;
         }
-        if (weaponOnly.isToggled() && !Utils.holdingWeapon()) {
+        if (weaponOnly.isToggled() && !Utils.holdingWeapon() {
             return;
         }
         Entity c = getEntity(1.0F);
@@ -57,11 +57,11 @@ public class HitBox extends Module {
             return;
         }
         if (c instanceof PlayerEntity) {
-            if (Utils.isFriended((PlayerEntity) c)) {
+            if (Utils.isFriended((PlayerEntity) c) {
                 return;
             }
         }
-        else if (playersOnly.isToggled()) {
+        else if (playersOnly.isToggled() {
             return;
         }
         mc.objectMouseOver = mv;
@@ -69,9 +69,9 @@ public class HitBox extends Module {
 
     
     public void onRenderWorld(RenderWorldLastEvent e) {
-        if (showHitbox.isToggled() && Utils.nullCheck()) {
-            for (Entity en : mc.world.getEntities()) {
-                if (en != mc.player && en instanceof LivingEntity && ((LivingEntity) en).deathTime == 0 && !(en instanceof ArmorStandEntity) && !en.isInvisible()) {
+        if (showHitbox.isToggled() && Utils.nullCheck() {
+            for (Entity en : mc.world.getEntities() {
+                if (en != mc.player && en instanceof LivingEntity && ((LivingEntity) en).deathTime == 0 && !(en instanceof ArmorStandEntity) && !en.isInvisible() {
                     this.rh(en, Color.WHITE);
                 }
             }
@@ -104,11 +104,11 @@ public class HitBox extends Module {
 
             for (Object o : list) {
                 Entity entity = (Entity) o;
-                if (entity.canBeCollidedWith()) {
+                if (entity.canBeCollidedWith() {
                     float ex = (float) ((double) entity.getCollisionBorderSize() * getExpand(entity));
                     Box ax = entity.getEntityBoundingBox().expand((double) ex, (double) ex, (double) ex);
                     HitResult mop = ax.calculateIntercept(vec3, vec5);
-                    if (ax.isVecInside(vec3)) {
+                    if (ax.isVecInside(vec3) {
                         if (0.0D < d3 || d3 == 0.0D) {
                             pointedEntity = entity;
                             vec6 = mop == null ? vec3 : mop.hitVec;
@@ -117,7 +117,7 @@ public class HitBox extends Module {
                     } else if (mop != null) {
                         double d4 = vec3.distanceTo(mop.hitVec);
                         if (d4 < d3 || d3 == 0.0D) {
-                            if (entity == mc.getRenderViewEntity().ridingEntity && !entity.canRiderInteract()) {
+                            if (entity == mc.getRenderViewEntity().ridingEntity && !entity.canRiderInteract() {
                                 if (d3 == 0.0D) {
                                     pointedEntity = entity;
                                     vec6 = mop.hitVec;
@@ -132,7 +132,7 @@ public class HitBox extends Module {
                 }
             }
 
-            if (pointedEntity != null && (d3 < d2 || mv == null)) {
+            if (pointedEntity != null && (d3 < d2 || mv == null) {
                 mv = new HitResult(pointedEntity, vec6);
                 if (pointedEntity instanceof LivingEntity || pointedEntity instanceof ItemEntityFrame) {
                     return pointedEntity;

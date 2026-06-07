@@ -44,9 +44,9 @@ public class ProfileManager {
      */
     public void save(String profileName) {
         Map<String, Map<String, Object>> profileData = new LinkedHashMap<>();
-        for (Module module : Raven.getModuleManager().getModules()) {
+        for (Module module : Raven.getModuleManager().getModules() {
             Map<String, Object> settings = new LinkedHashMap<>();
-            for (Setting setting : module.getSettings()) {
+            for (Setting setting : module.getSettings() {
                 if (setting instanceof SliderSetting slider) {
                     settings.put(setting.getName(), slider.getValue());
                 } else if (setting instanceof ButtonSetting button) {
@@ -60,7 +60,7 @@ public class ProfileManager {
             profileData.put(module.getName(), settings);
         }
         File file = new File(PROFILES_DIR, profileName + ".json");
-        try (FileWriter writer = new FileWriter(file)) {
+        try (FileWriter writer = new FileWriter(file) {
             GSON.toJson(profileData, writer);
         } catch (IOException e) {
             e.printStackTrace();
@@ -74,14 +74,14 @@ public class ProfileManager {
     public void load(String profileName) {
         File file = new File(PROFILES_DIR, profileName + ".json");
         if (!file.exists()) return;
-        try (FileReader reader = new FileReader(file)) {
+        try (FileReader reader = new FileReader(file) {
             Type type = new TypeToken<Map<String, Map<String, Object>>>() {}.getType();
             Map<String, Map<String, Object>> profileData = GSON.fromJson(reader, type);
             if (profileData == null) return;
-            for (Module module : Raven.getModuleManager().getModules()) {
+            for (Module module : Raven.getModuleManager().getModules() {
                 Map<String, Object> settings = profileData.get(module.getName());
                 if (settings == null) continue;
-                for (Setting setting : module.getSettings()) {
+                for (Setting setting : module.getSettings() {
                     Object value = settings.get(setting.getName());
                     if (value == null) continue;
                     if (setting instanceof SliderSetting slider) {
@@ -164,7 +164,7 @@ public class ProfileManager {
      */
     public void exportProfile(String profileName, File destination) throws IOException {
         File source = new File(PROFILES_DIR, profileName + ".json");
-        if (source.exists()) {
+        if (source.exists() {
             java.nio.file.Files.copy(source.toPath(), destination.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
         }
     }

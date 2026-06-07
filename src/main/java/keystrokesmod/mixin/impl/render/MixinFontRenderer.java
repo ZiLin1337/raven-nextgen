@@ -13,10 +13,10 @@ public class MixinFontRenderer {
     @ModifyVariable(method = "drawLayer", at = @At("HEAD"), ordinal = 0, argsOnly = true)
     private String modifyDrawLayerText(String text) {
         if (text == null) return null;
-        if (ModuleManager.nameHider != null && ModuleManager.nameHider.isEnabled()) {
+        if (ModuleManager.nameHider != null && ModuleManager.nameHider.isEnabled() {
             text = NameHider.getFakeName(text);
         }
-        if (ModuleManager.antiShuffle != null && ModuleManager.antiShuffle.isEnabled()) {
+        if (ModuleManager.antiShuffle != null && ModuleManager.antiShuffle.isEnabled() {
             text = AntiShuffle.removeObfuscation(text);
         }
         return text;
@@ -25,10 +25,10 @@ public class MixinFontRenderer {
     @ModifyVariable(method = "getWidth", at = @At("HEAD"), ordinal = 0, argsOnly = true)
     private String modifyGetWidthText(String text) {
         if (text == null) return null;
-        if (ModuleManager.nameHider != null && ModuleManager.nameHider.isEnabled()) {
+        if (ModuleManager.nameHider != null && ModuleManager.nameHider.isEnabled() {
             text = NameHider.getFakeName(text);
         }
-        if (ModuleManager.antiShuffle != null && ModuleManager.antiShuffle.isEnabled()) {
+        if (ModuleManager.antiShuffle != null && ModuleManager.antiShuffle.isEnabled() {
             text = AntiShuffle.removeObfuscation(text);
         }
         return text;

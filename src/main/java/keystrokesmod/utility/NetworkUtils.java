@@ -91,7 +91,7 @@ public class NetworkUtils {
                 connection.setRequestProperty("User-Agent", CHROME_USER_AGENT);
                 connection.setRequestProperty("Accept", "text/html, image/*");
 
-                if (url.getHost().contains("imgur")) {
+                if (url.getHost().contains("imgur") {
                     connection.setRequestProperty("Referer", "https://imgur.com/");
                 }
 
@@ -99,7 +99,7 @@ public class NetworkUtils {
 
                 if (responseCode >= 300 && responseCode < 400) {
                     String newLocation = connection.getHeaderField("Location");
-                    if (newLocation == null || newLocation.isEmpty()) {
+                    if (newLocation == null || newLocation.isEmpty() {
                         return null;
                     }
                     url = new URL(url, newLocation);
@@ -108,30 +108,30 @@ public class NetworkUtils {
                 }
 
                 String contentType = connection.getContentType();
-                if (contentType != null && contentType.startsWith("image")) {
-                    try (InputStream inputStream = connection.getInputStream()) {
+                if (contentType != null && contentType.startsWith("image") {
+                    try (InputStream inputStream = connection.getInputStream() {
                         BufferedImage image = TextureUtil.readBufferedImage(inputStream);
                         connection.disconnect();
                         return image;
                     }
                 }
 
-                try (InputStream inputStream = connection.getInputStream()) {
+                try (InputStream inputStream = connection.getInputStream() {
                     String body = IOUtils.toString(inputStream, "UTF-8");
                     String imageURL = "";
 
                     Matcher matcher = OGP_IMAGE_REGEX.matcher(body);
-                    if (matcher.find()) {
+                    if (matcher.find() {
                         imageURL = matcher.group("url");
                     }
                     else {
                         matcher = IMG_TAG_REGEX.matcher(body);
-                        if (matcher.find()) {
+                        if (matcher.find() {
                             imageURL = matcher.group("url");
                         }
                     }
 
-                    if (imageURL.isEmpty()) {
+                    if (imageURL.isEmpty() {
                         return null;
                     }
 

@@ -50,7 +50,7 @@ public class CommandHandler implements IMinecraftInstance {
     }
 
     private static void handleSetKeyCommand(String[] args) {
-        if (!isArgsValid(args, 2)) {
+        if (!isArgsValid(args, 2) {
             print(INVALID_SYNTAX, 1);
             return;
         }
@@ -58,7 +58,7 @@ public class CommandHandler implements IMinecraftInstance {
         print("Setting...", 1);
         String apiKey = args[1];
         Raven.getScheduledExecutor().execute(() -> {
-            if (NetworkUtils.isHypixelKeyValid(apiKey)) {
+            if (NetworkUtils.isHypixelKeyValid(apiKey) {
                 NetworkUtils.API_KEY = apiKey;
                 print("&a" + "success!", 0);
             }
@@ -69,12 +69,12 @@ public class CommandHandler implements IMinecraftInstance {
     }
 
     private static void handleNickCommand(String[] args) {
-        if (!isArgsValid(args, 2)) {
+        if (!isArgsValid(args, 2) {
             print(INVALID_SYNTAX, 1);
             return;
         }
 
-        if (args[1].equals("reset")) {
+        if (args[1].equals("reset") {
             print("&aNick reset.", 1);
             return;
         }
@@ -97,7 +97,7 @@ public class CommandHandler implements IMinecraftInstance {
 
     private static void handleFakeChatCommand(String contents) {
         String message = contents.replaceFirst(FakeChat.command, "").substring(1);
-        if (message.isEmpty() || message.equals("\\n")) {
+        if (message.isEmpty() || message.equals("\\n") {
             print(FakeChat.c4, 1);
             return;
         }
@@ -107,12 +107,12 @@ public class CommandHandler implements IMinecraftInstance {
     }
 
     private static void handleDuelsCommand(String[] args) {
-        if (!isArgsValid(args, 2)) {
+        if (!isArgsValid(args, 2) {
             print(INVALID_SYNTAX, 1);
             return;
         }
 
-        if (NetworkUtils.API_KEY.isEmpty()) {
+        if (NetworkUtils.API_KEY.isEmpty() {
             print("&cAPI Key is empty!", 1);
             print("Use \"setkey [api_key]\".", 0);
             return;
@@ -223,9 +223,9 @@ public class CommandHandler implements IMinecraftInstance {
             return;
         }
 
-        for (Module module : Raven.getModuleManager().getModules()) {
+        for (Module module : Raven.getModuleManager().getModules() {
             String moduleName = module.getName().toLowerCase().replace(" ", "");
-            if (moduleName.equals(args[1].toLowerCase())) {
+            if (moduleName.equals(args[1].toLowerCase()) {
                 module.setHidden(true);
                 print("&a" + module.getName() + " is now hidden in HUD", 1);
             }
@@ -233,14 +233,14 @@ public class CommandHandler implements IMinecraftInstance {
     }
 
     private static void handleShowCommand(String[] args) {
-        if (!isArgsValid(args, 2)) {
+        if (!isArgsValid(args, 2) {
             print(INVALID_SYNTAX, 1);
             return;
         }
 
-        for (Module module : Raven.getModuleManager().getModules()) {
+        for (Module module : Raven.getModuleManager().getModules() {
             String moduleName = module.getName().toLowerCase().replace(" ", "");
-            if (moduleName.equals(args[1].toLowerCase())) {
+            if (moduleName.equals(args[1].toLowerCase()) {
                 module.setHidden(false);
                 print("&a" + module.getName() + " is now visible in HUD", 1);
             }
@@ -248,12 +248,12 @@ public class CommandHandler implements IMinecraftInstance {
     }
 
     private static void handleFriendCommand(String[] args) {
-        if (!isArgsValid(args, 2)) {
+        if (!isArgsValid(args, 2) {
             print(INVALID_SYNTAX, 1);
             return;
         }
 
-        if (args[1].equals("clear")) {
+        if (args[1].equals("clear") {
             Raven.playerRelationsManager.clearFriends();
             print("&aFriends cleared.", 1);
             return;
@@ -270,12 +270,12 @@ public class CommandHandler implements IMinecraftInstance {
     }
 
     private static void handleEnemyCommand(String[] args) {
-        if (!isArgsValid(args, 2)) {
+        if (!isArgsValid(args, 2) {
             print(INVALID_SYNTAX, 1);
             return;
         }
 
-        if (args[1].equals("clear")) {
+        if (args[1].equals("clear") {
             Raven.playerRelationsManager.clearEnemies();
             print("&aEnemies cleared.", 1);
             return;
@@ -294,7 +294,7 @@ public class CommandHandler implements IMinecraftInstance {
     private static void handleProfilesCommand(String[] args, boolean hasArgs) {
         if (!hasArgs) {
             print("&aAvailable profiles:", 1);
-            if (Raven.profileManager.profiles.isEmpty()) {
+            if (Raven.profileManager.profiles.isEmpty() {
                 print("None", 0);
                 return;
             }
@@ -329,11 +329,11 @@ public class CommandHandler implements IMinecraftInstance {
                     }
                     String profileName = args[2];
                     for (Profile profile : Raven.profileManager.profiles) {
-                        if (profile.getName().equals(profileName)) {
+                        if (profile.getName().equals(profileName) {
                             Raven.profileManager.loadProfile(profile.getName());
                             print("&aLoaded profile:", 1);
                             print(profileName, 0);
-                            if (Settings.sendMessage.isToggled()) {
+                            if (Settings.sendMessage.isToggled() {
                                 Utils.sendMessage("&7Enabled profile: &b" + profileName);
                             }
                             return;
@@ -350,7 +350,7 @@ public class CommandHandler implements IMinecraftInstance {
                     }
                     String profileName = args[2];
                     for (Profile profile : Raven.profileManager.profiles) {
-                        if (profile.getName().equals(profileName)) {
+                        if (profile.getName().equals(profileName) {
                             Raven.profileManager.deleteProfile(profile.getName());
                             print("&aRemoved profile:", 1);
                             print(profileName, 0);
@@ -366,7 +366,7 @@ public class CommandHandler implements IMinecraftInstance {
     }
 
     public static void runCommand(String contents) {
-        if (contents.isEmpty()) {
+        if (contents.isEmpty() {
             return;
         }
         
@@ -487,20 +487,20 @@ public class CommandHandler implements IMinecraftInstance {
             print("Use \"help\" for help.", 0);
         }
 
-        if (!responseLines.isEmpty()) {
+        if (!responseLines.isEmpty() {
             for (int i = responseLines.size() - 1; i >= 0; --i) {
                 String line = responseLines.get(i);
                 int color = -1;
 
-                if (line.contains("&a")) {
+                if (line.contains("&a") {
                     line = line.replace("&a", "");
                     color = Color.green.getRGB();
                 }
-                else if (line.contains("&c")) {
+                else if (line.contains("&c") {
                     line = line.replace("&c", "");
                     color = Color.red.getRGB();
                 }
-                else if (line.contains("&e")) {
+                else if (line.contains("&e") {
                     line = line.replace("&e", "");
                     color = Color.yellow.getRGB();
                 }

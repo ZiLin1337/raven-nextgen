@@ -96,7 +96,7 @@ public class Freecam extends Module {
             double rad;
             double dx;
             double dz;
-            if (GLFW.glfwGetKey(MinecraftClient.getInstance().getWindow().getHandle(),mc.options.keyBindForward.getKeyCode())) {
+            if (GLFW.glfwGetKey(MinecraftClient.getInstance().getWindow().getHandle(),mc.options.keyBindForward.getKeyCode()) {
                 rad = (double) freeEntity.rotationYawHead * 0.017453292519943295D;
                 dx = -1.0D * Math.sin(rad) * s;
                 dz = Math.cos(rad) * s;
@@ -104,7 +104,7 @@ public class Freecam extends Module {
                 freeEntity.posZ += dz;
             }
 
-            if (GLFW.glfwGetKey(MinecraftClient.getInstance().getWindow().getHandle(),mc.options.keyBindBack.getKeyCode())) {
+            if (GLFW.glfwGetKey(MinecraftClient.getInstance().getWindow().getHandle(),mc.options.keyBindBack.getKeyCode()) {
                 rad = (double) freeEntity.rotationYawHead * 0.017453292519943295D;
                 dx = -1.0D * Math.sin(rad) * s;
                 dz = Math.cos(rad) * s;
@@ -112,7 +112,7 @@ public class Freecam extends Module {
                 freeEntity.posZ -= dz;
             }
 
-            if (GLFW.glfwGetKey(MinecraftClient.getInstance().getWindow().getHandle(),mc.options.keyBindLeft.getKeyCode())) {
+            if (GLFW.glfwGetKey(MinecraftClient.getInstance().getWindow().getHandle(),mc.options.keyBindLeft.getKeyCode()) {
                 rad = (double) (freeEntity.rotationYawHead - 90.0F) * 0.017453292519943295D;
                 dx = -1.0D * Math.sin(rad) * s;
                 dz = Math.cos(rad) * s;
@@ -120,7 +120,7 @@ public class Freecam extends Module {
                 freeEntity.posZ += dz;
             }
 
-            if (GLFW.glfwGetKey(MinecraftClient.getInstance().getWindow().getHandle(),mc.options.keyBindRight.getKeyCode())) {
+            if (GLFW.glfwGetKey(MinecraftClient.getInstance().getWindow().getHandle(),mc.options.keyBindRight.getKeyCode()) {
                 rad = (double) (freeEntity.rotationYawHead + 90.0F) * 0.017453292519943295D;
                 dx = -1.0D * Math.sin(rad) * s;
                 dz = Math.cos(rad) * s;
@@ -128,16 +128,16 @@ public class Freecam extends Module {
                 freeEntity.posZ += dz;
             }
 
-            if (Utils.jumpDown()) {
+            if (Utils.jumpDown() {
                 freeEntity.posY += 0.93D * s;
             }
 
-            if (GLFW.glfwGetKey(MinecraftClient.getInstance().getWindow().getHandle(),mc.options.keyBindSneak.getKeyCode())) {
+            if (GLFW.glfwGetKey(MinecraftClient.getInstance().getWindow().getHandle(),mc.options.keyBindSneak.getKeyCode()) {
                 freeEntity.posY -= 0.93D * s;
             }
 
             mc.player.setSneaking(false);
-            if (this.lcc[0] != Integer.MAX_VALUE && (this.lcc[0] != freeEntity.chunkCoordX || this.lcc[1] != freeEntity.chunkCoordZ)) {
+            if (this.lcc[0] != Integer.MAX_VALUE && (this.lcc[0] != freeEntity.chunkCoordX || this.lcc[1] != freeEntity.chunkCoordZ) {
                 int x = freeEntity.chunkCoordX;
                 int z = freeEntity.chunkCoordZ;
                 mc.world.markBlockRangeForRenderUpdate(x * 16, 0, z * 16, x * 16 + 15, 256, z * 16 + 15);
@@ -150,10 +150,10 @@ public class Freecam extends Module {
 
     
     public void onRenderWorld(RenderWorldLastEvent e) {
-        if (!Utils.nullCheck()) {
+        if (!Utils.nullCheck() {
             return;
         }
-        if (!showArm.isToggled()) {
+        if (!showArm.isToggled() {
             mc.player.renderArmPitch = mc.player.prevRenderArmPitch = 700.0F;
         }
         RenderUtils.renderEntity(mc.player, 1, 0.0D, 0.0D, Color.green.getRGB(), false);
@@ -162,13 +162,13 @@ public class Freecam extends Module {
 
     
     public void onMouse(MouseEvent e) {
-        if (!Utils.nullCheck()) {
+        if (!Utils.nullCheck() {
             return;
         }
         if ((e.button == 0 && !allowDigging.isToggled() || e.button == 1 && !allowPlacing.isToggled()) && mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == HitResult.MovingObjectType.BLOCK) {
             e.setCanceled(true);
         }
-        if (!allowInteracting.isToggled()) {
+        if (!allowInteracting.isToggled() {
             if ((e.button == 1 || e.button == 0) && mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == HitResult.MovingObjectType.ENTITY) {
                 e.setCanceled(true);
             }
@@ -177,20 +177,20 @@ public class Freecam extends Module {
 
     
     public void onSendPacket(SendPacketEvent e) {
-        if (!Utils.nullCheck()) {
+        if (!Utils.nullCheck() {
             return;
         }
-        if (!allowDigging.isToggled()) {
+        if (!allowDigging.isToggled() {
             if (e.getPacket() instanceof PlayerActionC2SPacket) {
                 e.setCanceled(true);
             }
         }
-        if (!allowPlacing.isToggled()) {
+        if (!allowPlacing.isToggled() {
             if (e.getPacket() instanceof PlayerInteractBlockC2SPacket) {
                 e.setCanceled(true);
             }
         }
-        if (!allowInteracting.isToggled()) {
+        if (!allowInteracting.isToggled() {
             if (e.getPacket() instanceof C02PacketUseEntity) {
                 e.setCanceled(true);
             }

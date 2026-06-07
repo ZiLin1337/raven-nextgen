@@ -30,7 +30,7 @@ public class AutoWho extends Module {
 
     @Override
     public void onUpdate() {
-        if (!Utils.nullCheck()) {
+        if (!Utils.nullCheck() {
             lastTrackedGameStatus = Integer.MIN_VALUE;
             return;
         }
@@ -44,14 +44,14 @@ public class AutoWho extends Module {
 
     
     public void onChatReceive(ClientChatReceivedEvent e) {
-        if (e.type == 2 || !Utils.nullCheck()) {
+        if (e.type == 2 || !Utils.nullCheck() {
             return;
         }
         final String r = Utils.stripColor(e.message.getUnformattedText());
-        if (r.isEmpty()) {
+        if (r.isEmpty() {
             return;
         }
-        if (hideMessage.isToggled() && r.startsWith("ONLINE: ")) {
+        if (hideMessage.isToggled() && r.startsWith("ONLINE: ") {
             e.setCanceled(true);
             Utils.log.info("[CHAT] " + r);
         }
@@ -72,19 +72,19 @@ public class AutoWho extends Module {
     }
 
     private void artificial() {
-        if (artifical.isToggled()) {
+        if (artifical.isToggled() {
             String online = hideMessage.isToggled() ? "ONLINE: " : "&b&lONLINE: &r";
-            for (NetworkPlayerInfo networkPlayerInfo : Utils.getTablist(true)) {
+            for (NetworkPlayerInfo networkPlayerInfo : Utils.getTablist(true) {
                 if (removeBots.isToggled() && networkPlayerInfo.getResponseTime() > 1) {
                     continue;
                 }
-                if (hideMessage.isToggled()) {
+                if (hideMessage.isToggled() {
                     online = online + networkPlayerInfo.getGameProfile().getName() + ", ";
                 } else {
                     online = online + ScorePlayerTeam.formatPlayerName(networkPlayerInfo.getPlayerTeam(), networkPlayerInfo.getGameProfile().getName()) + "�" + "7, ";
                 }
             }
-            if (hideMessage.isToggled()) {
+            if (hideMessage.isToggled() {
                 Utils.log.info("[CHAT] " + (online + mc.player.getName()));
                 return;
             }

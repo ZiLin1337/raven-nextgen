@@ -51,7 +51,7 @@ public final class UnifiedLagHandler extends AbstractFastTrackProvider {
         final @NotNull Packet<?> packet = event.getPacket();
         final boolean fastTracked = consumeFastTrack(packet);
 
-        if (event.isCanceled()) {
+        if (event.isCanceled() {
             return;
         }
 
@@ -60,7 +60,7 @@ public final class UnifiedLagHandler extends AbstractFastTrackProvider {
             return;
         }
 
-        if (queue.tick(packet, EnumLagDirection.OUTBOUND)) {
+        if (queue.tick(packet, EnumLagDirection.OUTBOUND) {
             event.setCanceled(true);
             return;
         }
@@ -79,7 +79,7 @@ public final class UnifiedLagHandler extends AbstractFastTrackProvider {
         final @NotNull Packet<?> packet = event.getPacket();
         final boolean fastTracked = consumeFastTrack(packet);
 
-        if (event.isCanceled()) {
+        if (event.isCanceled() {
             return;
         }
 
@@ -87,7 +87,7 @@ public final class UnifiedLagHandler extends AbstractFastTrackProvider {
             return;
         }
 
-        if (queue.tick(packet, EnumLagDirection.INBOUND)) {
+        if (queue.tick(packet, EnumLagDirection.INBOUND) {
             event.setCanceled(true);
         }
     }
@@ -113,12 +113,12 @@ public final class UnifiedLagHandler extends AbstractFastTrackProvider {
     }
 
     private void updateServerPosition(final @NotNull Packet<?> packet) {
-        if (!(packet instanceof PlayerMoveC2SPacket)) {
+        if (!(packet instanceof PlayerMoveC2SPacket) {
             return;
         }
 
         PlayerMoveC2SPacket movementPacket = (PlayerMoveC2SPacket) packet;
-        if (!movementPacket.isMoving()) {
+        if (!movementPacket.isMoving() {
             return;
         }
 

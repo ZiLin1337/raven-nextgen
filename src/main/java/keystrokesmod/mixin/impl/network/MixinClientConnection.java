@@ -18,7 +18,7 @@ public class MixinClientConnection {
     private void onSendPacket(Packet<?> packet, CallbackInfo ci) {
         SendPacketEvent event = new SendPacketEvent();
         Raven.EVENT_BUS.post(event);
-        if (event.isCancelled()) {
+        if (event.isCancelled() {
             ci.cancel();
         }
     }
@@ -27,7 +27,7 @@ public class MixinClientConnection {
     private void onChannelRead(ChannelHandlerContext context, Packet<?> packet, CallbackInfo ci) {
         ReceivePacketEvent event = new ReceivePacketEvent(packet);
         Raven.EVENT_BUS.post(event);
-        if (event.isCancelled()) {
+        if (event.isCancelled() {
             ci.cancel();
         }
     }

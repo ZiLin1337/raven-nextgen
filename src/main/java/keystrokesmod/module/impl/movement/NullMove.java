@@ -31,7 +31,7 @@ public class NullMove extends Module {
 
     
     public void onPrePlayerInput(PrePlayerInputEvent e) {
-        if (!this.isEnabled() || !Utils.nullCheck()) {
+        if (!this.isEnabled() || !Utils.nullCheck() {
             return;
         }
         if (mc.currentScreen != null) {

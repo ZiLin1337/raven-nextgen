@@ -43,7 +43,7 @@ public class KawaseBlur {
     }
 
     public static void renderBlur(int stencilFrameBufferTexture, int iterations, float offset) {
-        if (currentIterations != iterations || framebuffer.framebufferWidth != mc.getWindow().getFramebufferWidth() || framebuffer.framebufferHeight != mc.getWindow().getFramebufferHeight()) {
+        if (currentIterations != iterations || framebuffer.framebufferWidth != mc.getWindow().getFramebufferWidth() || framebuffer.framebufferHeight != mc.getWindow().getFramebufferHeight() {
             initFrameBuffers(iterations);
             currentIterations = iterations;
         }

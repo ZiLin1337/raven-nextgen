@@ -19,7 +19,7 @@ public class MixinWorld {
 
     @Inject(method = "getRainStrength", at = @At("RETURN"), cancellable = true)
     private void setRainStrength(float delta, CallbackInfoReturnable<Float> cir) {
-        if (ModuleManager.weather != null && ModuleManager.weather.isEnabled() && ModuleManager.weather.rain.isToggled()) {
+        if (ModuleManager.weather != null && ModuleManager.weather.isEnabled() && ModuleManager.weather.rain.isToggled() {
             cir.setReturnValue(1F);
         }
     }

@@ -104,7 +104,7 @@ public final class FireballSimulator {
             List<Entity> candidates = world.getEntitiesWithinAABBExcludingEntity(fireball, searchBox);
 
             for (Entity candidate : candidates) {
-                if (!candidate.canBeCollidedWith()) {
+                if (!candidate.canBeCollidedWith() {
                     continue;
                 }
 
@@ -120,7 +120,7 @@ public final class FireballSimulator {
                 );
                 HitResult entityHit = expandedBox.calculateIntercept(start, searchEnd);
 
-                if (entityHit == null && expandedBox.isVecInside(start)) {
+                if (entityHit == null && expandedBox.isVecInside(start) {
                     entityHit = new HitResult(candidate, start);
                 }
 
@@ -221,7 +221,7 @@ public final class FireballSimulator {
         int minZ = MathHelper.floor_double(sweepBounds.minZ);
         int maxZ = MathHelper.floor_double(sweepBounds.maxZ + 1.0D);
 
-        if (!world.isAreaLoaded(new BlockPos(minX, minY, minZ), new BlockPos(maxX, maxY, maxZ), true)) {
+        if (!world.isAreaLoaded(new BlockPos(minX, minY, minZ), new BlockPos(maxX, maxY, maxZ), true) {
             return new BlockCollisionResult(null, null, Double.MAX_VALUE);
         }
 
@@ -238,7 +238,7 @@ public final class FireballSimulator {
                     BlockState blockState = world.getBlockState(mutablePos);
                     Block block = blockState.getBlock();
 
-                    if (!block.canCollideCheck(blockState, false)) {
+                    if (!block.canCollideCheck(blockState, false) {
                         continue;
                     }
 
@@ -249,7 +249,7 @@ public final class FireballSimulator {
                         Box expandedBox = expandTargetForProjectile(collisionBox, halfWidth, projectileHeight, 0.0D);
                         HitResult collision = expandedBox.calculateIntercept(start, end);
 
-                        if (collision == null && expandedBox.isVecInside(start)) {
+                        if (collision == null && expandedBox.isVecInside(start) {
                             collision = new HitResult(start, Direction.UP, new BlockPos(mutablePos));
                         }
 
@@ -284,7 +284,7 @@ public final class FireballSimulator {
         int minZ = MathHelper.floor_double(waterCheckBox.minZ);
         int maxZ = MathHelper.floor_double(waterCheckBox.maxZ + 1.0D);
 
-        if (!world.isAreaLoaded(new BlockPos(minX, minY, minZ), new BlockPos(maxX, maxY, maxZ), true)) {
+        if (!world.isAreaLoaded(new BlockPos(minX, minY, minZ), new BlockPos(maxX, maxY, maxZ), true) {
             return new WaterState(false, new Vec3d(0.0D, 0.0D, 0.0D));
         }
 

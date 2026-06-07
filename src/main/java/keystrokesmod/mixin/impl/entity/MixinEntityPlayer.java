@@ -33,8 +33,8 @@ public abstract class MixinPlayerEntity {
     private void onAttack(Entity target, CallbackInfoReturnable<Boolean> cir) {
         PlayerEntity self = (PlayerEntity) (Object) this;
         // Only intercept client-side attack
-        if (self.getWorld().isClient()) {
-            if (target.canHit() && !target.handleAttack(self)) {
+        if (self.getWorld().isClient() {
+            if (target.canHit() && !target.handleAttack(self) {
                 float attackDamage = (float) self.getAttributeValue(EntityAttributes.ATTACK_DAMAGE);
                 int knockback = 0;
                 float enchantDamage = 0;
@@ -45,7 +45,7 @@ public abstract class MixinPlayerEntity {
                 }
 
                 knockback += EnchantmentHelper.getKnockback(self);
-                if (self.isSprinting()) {
+                if (self.isSprinting() {
                     knockback++;
                 }
 
@@ -61,7 +61,7 @@ public abstract class MixinPlayerEntity {
 
                     boolean fireAspect = false;
                     int fireAspectLevel = EnchantmentHelper.getFireAspect(self);
-                    if (target instanceof LivingEntity && fireAspectLevel > 0 && !target.isOnFire()) {
+                    if (target instanceof LivingEntity && fireAspectLevel > 0 && !target.isOnFire() {
                         fireAspect = true;
                         target.setFireTicks(1);
                     }
@@ -81,9 +81,9 @@ public abstract class MixinPlayerEntity {
                                     (double) (MathHelper.cos(self.getYaw() * (float) Math.PI / 180.0F)
                                             * (float) knockback * 0.5F));
 
-                            if (ModuleManager.reduce != null && ModuleManager.reduce.isEnabled()) {
+                            if (ModuleManager.reduce != null && ModuleManager.reduce.isEnabled() {
                                 Reduce.reduce(target);
-                            } else if (ModuleManager.keepSprint != null && ModuleManager.keepSprint.isEnabled()) {
+                            } else if (ModuleManager.keepSprint != null && ModuleManager.keepSprint.isEnabled() {
                                 KeepSprint.keepSprint(target);
                             } else {
                                 self.setVelocity(self.getVelocity().x * 0.6D,
@@ -93,7 +93,7 @@ public abstract class MixinPlayerEntity {
                             }
                         }
 
-                        if (target instanceof ServerPlayerEntity && target.isVelocityChanged()) {
+                        if (target instanceof ServerPlayerEntity && target.isVelocityChanged() {
                             ((ServerPlayerEntity) target).networkHandler.sendPacket(
                                     new EntityVelocityUpdateS2CPacket(target));
                             target.setVelocityChanged(false);
@@ -119,7 +119,7 @@ public abstract class MixinPlayerEntity {
                         ItemStack item = self.getMainHandStack();
                         if (!item.isEmpty() && target instanceof LivingEntity) {
                             item.postHit((LivingEntity) target, self);
-                            if (item.isEmpty()) {
+                            if (item.isEmpty() {
                                 self.setStackInHand(self.getActiveHand(), ItemStack.EMPTY);
                             }
                         }
@@ -139,7 +139,7 @@ public abstract class MixinPlayerEntity {
     @Inject(method = "isBlocking", at = @At("RETURN"), cancellable = true)
     private void isBlocking(CallbackInfoReturnable<Boolean> cir) {
         if (!cir.getReturnValue() && BlockAnimationUtils.shouldForceBlockAnimation(
-                (PlayerEntity) (Object) this, this.getMainHandStack()) {
+                (PlayerEntity) (Object) this, this.getMainHandStack() {
             cir.setReturnValue(true);
         }
     }

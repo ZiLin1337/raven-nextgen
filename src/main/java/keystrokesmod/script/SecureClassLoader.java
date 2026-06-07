@@ -16,7 +16,7 @@ public class SecureClassLoader extends URLClassLoader {
 
     @Override
     protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
-        if (!isClassSafe(name)) {
+        if (!isClassSafe(name) {
             throw new ClassNotFoundException("Unsafe class detected: " + name);
         }
         return super.loadClass(name, resolve);

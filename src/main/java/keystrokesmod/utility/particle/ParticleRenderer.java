@@ -34,7 +34,7 @@ public class ParticleRenderer {
 
         buffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
 
-        for (Particle particle : engine.getParticles()) {
+        for (Particle particle : engine.getParticles() {
             Vec3d pos = particle.getPosition().subtract(cameraPos);
             float size = particle.getSize();
             int color = particle.getColor();

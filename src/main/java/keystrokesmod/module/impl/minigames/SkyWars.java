@@ -73,7 +73,7 @@ public class SkyWars extends Module {
         for (PlayerEntity entityPlayer : keysList) {
             long storedTime = strengthPlayers.get(entityPlayer);
             long timePassed = System.currentTimeMillis() - storedTime;
-            if (timePassed < duration && !AntiBot.isBot(entityPlayer)) {
+            if (timePassed < duration && !AntiBot.isBot(entityPlayer) {
                 continue;
             }
             strengthPlayers.remove(entityPlayer);
@@ -82,11 +82,11 @@ public class SkyWars extends Module {
 
     
     public void onChat(ClientChatReceivedEvent e) {
-        if (e.type == 2 || !Utils.nullCheck()) {
+        if (e.type == 2 || !Utils.nullCheck() {
             return;
         }
         String stripped = Utils.stripColor(e.message.getUnformattedText());
-        if (stripped.isEmpty()) {
+        if (stripped.isEmpty() {
             return;
         }
         if (stripped.equals("You will be warped back in 3 seconds!") && thrownPearl) {
@@ -98,14 +98,14 @@ public class SkyWars extends Module {
             if (getCustomMode() == 2) { // lab, then no
                 return;
             }
-            if (stripped.endsWith(".") && Arrays.stream(KILL_MESSAGES).anyMatch(stripped::contains)) {
+            if (stripped.endsWith(".") && Arrays.stream(KILL_MESSAGES).anyMatch(stripped::contains) {
                 String[] parts = stripped.split(" ");
                 for (String part : parts) {
-                    if (!part.endsWith(".")) {
+                    if (!part.endsWith(".") {
                         continue;
                     }
                     String name = part.substring(0, part.length() - 1);
-                    for (PlayerEntity entity : mc.world.getPlayers()) {
+                    for (PlayerEntity entity : mc.world.getPlayers() {
                         if (!entity.getName().trim().equals(name) || entity == mc.player) {
                             continue;
                         }
@@ -122,19 +122,19 @@ public class SkyWars extends Module {
         if (!Utils.nullCheck() || Utils.getSkyWarsStatus() != 2) {
             return;
         }
-        if (strengthIndicator.isToggled()) {
-            for (PlayerEntity entityPlayer : strengthPlayers.keySet()) {
-                if (AntiBot.isBot(entityPlayer)) {
+        if (strengthIndicator.isToggled() {
+            for (PlayerEntity entityPlayer : strengthPlayers.keySet() {
+                if (AntiBot.isBot(entityPlayer) {
                     continue;
                 }
                 RenderUtils.renderEntity(entityPlayer, 2, 0, 0, STRENGTH_COLOR, false);
             }
         }
-        if (renderTimeWarp.isToggled()) {
+        if (renderTimeWarp.isToggled() {
             Iterator<Map.Entry<Vec3d, Long>> iterator = this.timeWarpPositions.entrySet().iterator();
             long currentTime = System.currentTimeMillis();
 
-            while (iterator.hasNext()) {
+            while (iterator.hasNext() {
                 Map.Entry<Vec3d, Long> entry = iterator.next();
                 Vec3d position = entry.getKey();
                 long timeThrown = entry.getValue();
@@ -160,13 +160,13 @@ public class SkyWars extends Module {
                     return;
                 }
                 String entityClassName = e.entity.getClass().getSimpleName();
-                if (entitySpawnQueue.containsKey(entityClassName)) {
+                if (entitySpawnQueue.containsKey(entityClassName) {
                     Vec3d spawnPosition = new Vec3d(e.entity.posX, e.entity.posY, e.entity.posZ);
                     SpawnEggInfo eggInfo = entitySpawnQueue.get(entityClassName);
                     if (eggInfo.spawnPos.distanceTo(spawnPosition) > 3 || Utils.timeBetween(mc.player.ticksExisted, eggInfo.tickSpawned) > 60) { // 3 seconds or not at spawn point then not own mob
                         return;
                     }
-                    if (!entitySpawnQueue.remove(entityClassName, eggInfo)) {
+                    if (!entitySpawnQueue.remove(entityClassName, eggInfo) {
                         return;
                     }
                     spawnedMobs.add(e.entity.getEntityId());
@@ -180,7 +180,7 @@ public class SkyWars extends Module {
         if (e.getPacket() instanceof PlayerInteractBlockC2SPacket) {
             PlayerInteractBlockC2SPacket p = (PlayerInteractBlockC2SPacket) e.getPacket();
             if (p.getPlacedBlockDirection() != 255 && p.getStack() != null && p.getStack().getItem() != null) {
-                if (!(p.getStack().getItem() instanceof ItemMonsterPlacer)) {
+                if (!(p.getStack().getItem() instanceof ItemMonsterPlacer) {
                     return;
                 }
                 Class<? extends Entity> oclass = EntityList.stringToClassMapping.get(ItemMonsterPlacer.getEntityName(p.getStack()));
@@ -196,13 +196,13 @@ public class SkyWars extends Module {
     public void onUseItem(UseItemEvent e) {
         if (e.usedItemStack != null && e.usedItemStack.getItem() instanceof ItemEnderPearl && Utils.getSkyWarsStatus() == 2) {
             ItemStack stack = e.usedItemStack;
-            if (Utils.stripString(stack.getDisplayName()).equals("Time Warp Pearl")) {
+            if (Utils.stripString(stack.getDisplayName()).equals("Time Warp Pearl") {
                 thrownPearl = true;
             }
             else {
-                if (stack.getDisplayName().startsWith("§b§l")) {
+                if (stack.getDisplayName().startsWith("§b§l") {
                     List<String> toolTip = stack.getTooltip(mc.player, true);
-                    if (toolTip != null && toolTip.size() > 1 && Utils.stripString(toolTip.get(1)).contains("Teleports you back to your")) {
+                    if (toolTip != null && toolTip.size() > 1 && Utils.stripString(toolTip.get(1)).contains("Teleports you back to your") {
                         thrownPearl = true;
                     }
                 }
@@ -224,15 +224,15 @@ public class SkyWars extends Module {
 
     public int getCustomMode() {
         List<String> sidebar = Utils.getSidebarLines();
-        if (sidebar.isEmpty()) {
+        if (sidebar.isEmpty() {
             return -1;
         }
         for (String line : sidebar) {
             line = Utils.stripColor(line);
-            if (line.startsWith("Teams left: ")) {
+            if (line.startsWith("Teams left: ") {
                 return 1;
             }
-            else if (line.startsWith("Lab: ") || line.startsWith("Mode: Mini")) {
+            else if (line.startsWith("Lab: ") || line.startsWith("Mode: Mini") {
                 return 2;
             }
         }

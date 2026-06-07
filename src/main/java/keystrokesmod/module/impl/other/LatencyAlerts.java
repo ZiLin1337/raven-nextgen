@@ -36,10 +36,10 @@ public class LatencyAlerts extends Module {
         long now = System.currentTimeMillis();
         if (now - lastAlertTime < 3000) return;
 
-        for (var entry : mc.getNetworkHandler().getPlayerList()) {
+        for (var entry : mc.getNetworkHandler().getPlayerList() {
             String name = entry.getProfile().getName();
             int ping = entry.getLatency();
-            if (ping >= threshold.getInput()) {
+            if (ping >= threshold.getInput() {
                 boolean shouldAlert = false;
                 int m = (int) mode.getInput();
                 if (m == 0) shouldAlert = true;
@@ -48,11 +48,11 @@ public class LatencyAlerts extends Module {
 
                 if (shouldAlert) {
                     Integer oldPing = latencyMap.get(entry.getProfile().getId());
-                    if (oldPing == null || oldPing < threshold.getInput()) {
-                        if (chatAlert.isToggled()) {
+                    if (oldPing == null || oldPing < threshold.getInput() {
+                        if (chatAlert.isToggled() {
                             Utils.sendMessage("&7[&cPing&7] &r" + name + " &7has &e" + ping + "ms");
                         }
-                        if (soundAlert.isToggled()) {
+                        if (soundAlert.isToggled() {
                             mc.player.playSound(net.minecraft.sound.SoundEvent.of(net.minecraft.util.Identifier.of("note.pling")), 1.0f, 1.0f);
                         }
                         lastAlertTime = now;

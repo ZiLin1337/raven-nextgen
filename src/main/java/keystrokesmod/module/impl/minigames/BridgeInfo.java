@@ -67,21 +67,21 @@ public class BridgeInfo extends Module {
 
     @Override
     public void onUpdate() {
-        if (!this.enemyName.isEmpty() && this.isBridge()) {
+        if (!this.enemyName.isEmpty() && this.isBridge() {
             PlayerEntity enem = null;
             Iterator var2 = mc.world.getEntities().iterator();
 
-            while (var2.hasNext()) {
+            while (var2.hasNext() {
                 Entity e = (Entity) var2.next();
                 if (e instanceof PlayerEntity) {
-                    if (e.getName().equals(this.enemyName)) {
+                    if (e.getName().equals(this.enemyName) {
                         enem = (PlayerEntity) e;
                     }
                 } else if (e instanceof ArmorStandEntity) {
-                    if (e.getName().contains(this.start)) {
+                    if (e.getName().contains(this.start) {
                         this.g1p = e.getPosition();
                     }
-                    else if (e.getName().contains(this.start2)) {
+                    else if (e.getName().contains(this.start2) {
                         this.g2p = e.getPosition();
                     }
                 }
@@ -103,7 +103,7 @@ public class BridgeInfo extends Module {
 
             for (int i = 0; i < 9; ++i) {
                 ItemStack stack = mc.player.inventory.getStackInSlot(i);
-                if (stack != null && stack.getItem() instanceof BlockItem && ((BlockItem) stack.getItem()).block.equals(Blocks.stained_hardened_clay)) {
+                if (stack != null && stack.getItem() instanceof BlockItem && ((BlockItem) stack.getItem()).block.equals(Blocks.stained_hardened_clay) {
                     blc2 += stack.stackSize;
                 }
             }
@@ -114,7 +114,7 @@ public class BridgeInfo extends Module {
 
     
     public void onRenderTick(RenderTickEvent ev) {
-        if (ev.phase == Phase.END && Utils.nullCheck() && this.isBridge()) {
+        if (ev.phase == Phase.END && Utils.nullCheck() && this.isBridge() {
             if (mc.currentScreen != null || mc.options.showDebugInfo) {
                 return;
             }
@@ -129,15 +129,15 @@ public class BridgeInfo extends Module {
 
     
     public void onChat(ClientChatReceivedEvent c) {
-        if (Utils.nullCheck()) {
+        if (Utils.nullCheck() {
             String s = Utils.stripColor(c.message.getUnformattedText());
-            if (s.startsWith(" ")) {
-                if (s.contains(this.qt)) {
+            if (s.startsWith(" ") {
+                if (s.contains(this.qt) {
                     this.q = true;
                 }
-                else if (this.q && s.contains("Opponent:")) {
+                else if (this.q && s.contains("Opponent:") {
                     String n = s.split(":")[1].trim();
-                    if (n.contains("[")) {
+                    if (n.contains("[") {
                         n = n.split("] ")[1];
                     }
                     this.enemyName = n;
@@ -156,13 +156,13 @@ public class BridgeInfo extends Module {
     }
 
     private boolean isBridge() {
-        if (Utils.isHypixel()) {
+        if (Utils.isHypixel() {
             Iterator var1 = Utils.getScoreBoardOld().iterator();
 
-            while (var1.hasNext()) {
+            while (var1.hasNext() {
                 String s = (String) var1.next();
                 String s2 = s.toLowerCase();
-                if (s2.contains("mode") && s2.contains(bridge)) {
+                if (s2.contains("mode") && s2.contains(bridge) {
                     return true;
                 }
             }

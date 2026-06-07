@@ -30,7 +30,7 @@ public class ClickGui extends Screen {
         
         int x = 5;
         int y = 5;
-        for (Module.category c : Module.category.values()) {
+        for (Module.category c : Module.category.values() {
             CategoryComponent categoryComponent = new CategoryComponent(c);
             categoryComponent.x = x;
             categoryComponent.y = y;
@@ -74,7 +74,7 @@ public class ClickGui extends Screen {
         sorted.sort((a, b) -> Long.compare(b.lastInteracted, a.lastInteracted));
         
         for (CategoryComponent category : sorted) {
-            if (category.isMouseOver(mx, my)) {
+            if (category.isMouseOver(mx, my) {
                 category.onClick(mx, my, button);
                 draggedCategory = category.dragging ? category : null;
                 break;

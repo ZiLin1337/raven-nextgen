@@ -102,10 +102,10 @@ public class ClickTextFieldWidget {
         RenderUtils.DrawContextHelper.drawRect(left, top, right, backgroundBottom, isFocused() ? FOCUSED_BACKGROUND_COLOR : BACKGROUND_COLOR);
         RenderUtils.drawOutline(left, top, right, backgroundBottom, 1.0f, isFocused() ? FOCUSED_OUTLINE_COLOR : OUTLINE_COLOR);
 
-        if (!visibleText.isEmpty()) {
+        if (!visibleText.isEmpty() {
             drawSelection(textLeft, top, backgroundBottom, renderer, visibleText, cursorPosition, selectionEnd, visibleStart, visibleEnd);
             drawScaledText(visibleText, textLeft, textY, textColor, renderer);
-        } else if (!textField.isFocused() && !placeholder.isEmpty()) {
+        } else if (!textField.isFocused() && !placeholder.isEmpty() {
             drawScaledText("\u00A77" + placeholder, textLeft, textY, 0xAAAAAA, renderer);
         }
 

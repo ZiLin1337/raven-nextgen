@@ -41,13 +41,13 @@ public class Piercing extends Module {
     }
 
     public boolean shouldOverrideMouseOver() {
-        if (!this.isEnabled()) {
+        if (!this.isEnabled() {
             return false;
         }
         if (mc == null || mc.player == null || mc.world == null) {
             return false;
         }
-        if (this.weaponOnly.isToggled() && !Utils.holdingWeapon()) {
+        if (this.weaponOnly.isToggled() && !Utils.holdingWeapon() {
             return false;
         }
         return ignoreBlocks.isToggled()
@@ -68,7 +68,7 @@ public class Piercing extends Module {
 
         double reach = mc.interactionManager.getBlockReachDistance();
         final Vec3d eyes = viewEntity.getPositionEyes(partialTicks);
-        if (mc.interactionManager.extendedReach()) {
+        if (mc.interactionManager.extendedReach() {
             reach = 6.0;
         }
         final Vec3d look = viewEntity.getLook(partialTicks);
@@ -87,7 +87,7 @@ public class Piercing extends Module {
                         .addCoord(look.xCoord * reach, look.yCoord * reach, look.zCoord * reach)
                         .expand(1.0, 1.0, 1.0), Predicates.and(EntitySelectors.NOT_SPECTATING, Entity::canBeCollidedWith) {
             if ((this.ignoreNonPlayer.isToggled() && !(e instanceof PlayerEntity)) || (this.ignoreTeammates.isToggled() && Utils.isTeammate(e))
-                    || AntiBot.isBot(e) || (e instanceof PlayerEntity && Utils.isFriended((PlayerEntity) e)) {
+                    || AntiBot.isBot(e) || (e instanceof PlayerEntity && Utils.isFriended((PlayerEntity) e) {
                 continue;
             }
 
@@ -148,7 +148,7 @@ public class Piercing extends Module {
             }
         }
 
-        if (best != null && reach > 3.0 && bestDist > 3.0 && !mc.interactionManager.extendedReach()) {
+        if (best != null && reach > 3.0 && bestDist > 3.0 && !mc.interactionManager.extendedReach() {
             mc.objectMouseOver = new HitResult(
                     HitResult.MovingObjectType.MISS, bestHit, null, new BlockPos(bestHit)
             );

@@ -29,7 +29,7 @@ public class NetworkPlayer {
 
     public String getFormattedDisplayName() {
         MinecraftClient mc = MinecraftClient.getInstance();
-        if (mc.player != null && gameProfile.getId().equals(mc.player.getUuid())) {
+        if (mc.player != null && gameProfile.getId().equals(mc.player.getUuid()) {
             return mc.player.getDisplayName().getString();
         }
         Team team = mc.world.getScoreboard().getPlayerTeam(name);

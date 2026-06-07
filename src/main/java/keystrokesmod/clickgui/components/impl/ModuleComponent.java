@@ -72,8 +72,8 @@ public class ModuleComponent extends Component {
     private void rebuildSettingsList() {
         this.settings = new ArrayList();
         float y = yPos + getSettingStartOffset();
-        if (mod != null && !mod.getSettings().isEmpty()) {
-            for (Setting v : mod.getSettings()) {
+        if (mod != null && !mod.getSettings().isEmpty() {
+            for (Setting v : mod.getSettings() {
                 if (!v.visible) continue;
                 if (v instanceof SliderSetting) {
                     SliderSetting n = (SliderSetting) v;
@@ -203,7 +203,7 @@ public class ModuleComponent extends Component {
         this.yPos = newY;
         float y = this.yPos + getCollapsedHeight();
         int idx = 0;
-        while (idx < this.settings.size()) {
+        while (idx < this.settings.size() {
             Component co = this.settings.get(idx);
             if (!isVisibleBase(co) { idx++; continue; }
             if (co instanceof GroupComponent) {
@@ -215,7 +215,7 @@ public class ModuleComponent extends Component {
                 idx++;
                 float childY = y;
                 float totalChildrenFullHeight = 0f;
-                while (idx < this.settings.size()) {
+                while (idx < this.settings.size() {
                     Component child = this.settings.get(idx);
                     if (!isVisibleBase(child) { idx++; continue; }
                     if (getOwningGroup(child) != group) break;
@@ -247,7 +247,7 @@ public class ModuleComponent extends Component {
     }
 
     public void render() {
-        if (hasModuleHeader() && (hovering || hoverTimer != null)) {
+        if (hasModuleHeader() && (hovering || hoverTimer != null) {
             double hoverAlpha = (hovering && hoverTimer != null) ? hoverTimer.getValueFloat(0, ORIGINAL_HOVER_ALPHA, 1)
                     : (hoverTimer != null && !hovering) ? ORIGINAL_HOVER_ALPHA - hoverTimer.getValueFloat(0, ORIGINAL_HOVER_ALPHA, 1) : ORIGINAL_HOVER_ALPHA;
             if (hoverAlpha == 0) hoverTimer = null;
@@ -262,7 +262,7 @@ public class ModuleComponent extends Component {
                 && Raven.currentProfile.getModule() == this.mod) button_rgb = UNSAVED_COLOR;
         boolean scissorRequired = smoothTimer != null;
         RavenFontRenderer titleRenderer = Gui.getClickGuiHeaderFontRenderer();
-        if (hasModuleHeader()) {
+        if (hasModuleHeader() {
             float textX = this.categoryComponent.getX() + this.categoryComponent.getWidth() / 2.0f - titleRenderer.getStringWidth(this.mod.getName()) / 2.0f;
             float textY = this.categoryComponent.getY() + this.yPos + 4;
             titleRenderer.drawString(this.mod.getName(), textX, textY, button_rgb, true);
@@ -303,7 +303,7 @@ public class ModuleComponent extends Component {
     }
 
     public float getScrollExtentHeightF() {
-        if (isOpened || (smoothTimer != null && animationTargetY > 16f)) {
+        if (isOpened || (smoothTimer != null && animationTargetY > 16f) {
             float h = getCollapsedHeight();
             for (Component c : settings) {
                 if (!isVisibleBase(c)) continue;
@@ -329,7 +329,7 @@ public class ModuleComponent extends Component {
     }
 
     public boolean onClick(int x, int y, int mouse) {
-        if (hasModuleHeader() && this.overModuleName(x, y) && mouse == 0 && this.mod.canBeEnabled()) {
+        if (hasModuleHeader() && this.overModuleName(x, y) && mouse == 0 && this.mod.canBeEnabled() {
             this.mod.toggle();
             if (this.mod.moduleCategory() != Module.category.profiles && Raven.currentProfile != null)
                 Raven.currentProfile.getModule().saved = false;
@@ -400,7 +400,7 @@ public class ModuleComponent extends Component {
         }
         for (Component c : this.settings) {
             String gn = getGroupName(c);
-            if (!gn.isEmpty()) {
+            if (!gn.isEmpty() {
                 GroupComponent gc = groupsByName.get(gn);
                 if (gc != null) owningGroups.put(c, gc);
             }
@@ -429,13 +429,13 @@ public class ModuleComponent extends Component {
     private void renderSettingsWithGroupScissorReveal() {
         // Pass 1: headers and non-group items
         int i = 0;
-        while (i < settings.size()) {
+        while (i < settings.size() {
             Component c = settings.get(i);
             if (!isVisibleBase(c) { i++; continue; }
             if (c instanceof GroupComponent) {
                 ((GroupComponent) c).render();
                 i++;
-                while (i < settings.size()) {
+                while (i < settings.size() {
                     Component child = settings.get(i);
                     if (!isVisibleBase(child) { i++; continue; }
                     if (getOwningGroup(child) != c) break;
@@ -445,7 +445,7 @@ public class ModuleComponent extends Component {
         }
         // Pass 2: group children with scissor
         i = 0;
-        while (i < settings.size()) {
+        while (i < settings.size() {
             Component c = settings.get(i);
             if (!isVisibleBase(c) { i++; continue; }
             if (c instanceof GroupComponent) {
@@ -455,7 +455,7 @@ public class ModuleComponent extends Component {
                 float groupContentTop = this.categoryComponent.getModuleY() + group.getOffset() + getBaseComponentHeightF(group);
                 float groupContentHeight = 0f;
                 int j = i;
-                while (j < settings.size()) {
+                while (j < settings.size() {
                     Component child = settings.get(j);
                     if (!isVisibleBase(child) { j++; continue; }
                     if (getOwningGroup(child) != group) break;

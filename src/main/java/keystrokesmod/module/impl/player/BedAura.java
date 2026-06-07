@@ -99,7 +99,7 @@ public class BedAura extends Module {
 
     @Override
     public void onUpdate() {
-        if (!Utils.nullCheck()) {
+        if (!Utils.nullCheck() {
             return;
         }
 
@@ -118,16 +118,16 @@ public class BedAura extends Module {
 
     
     public void onChat(ClientChatReceivedEvent event) {
-        if (!Utils.nullCheck()) {
+        if (!Utils.nullCheck() {
             return;
         }
 
         String strippedMessage = Utils.stripColor(event.message.getUnformattedText());
-        if (strippedMessage.startsWith(" ") && strippedMessage.contains("Protect your bed and destroy the enemy beds.")) {
+        if (strippedMessage.startsWith(" ") && strippedMessage.contains("Protect your bed and destroy the enemy beds.") {
             pendingSpawnAnchorCapture = true;
             waitingForRespawn = false;
         }
-        else if (strippedMessage.equals("You will respawn because you still have a bed!")) {
+        else if (strippedMessage.equals("You will respawn because you still have a bed!") {
             waitingForRespawn = true;
             respawnMessageTime = System.currentTimeMillis();
         }
@@ -144,7 +144,7 @@ public class BedAura extends Module {
 
     
     public void onMouse(MouseEvent e) {
-        if (!shouldSuppressManualMouse()) {
+        if (!shouldSuppressManualMouse() {
             return;
         }
         if (e.button == 0 || e.button == 1) {
@@ -154,7 +154,7 @@ public class BedAura extends Module {
 
     
     public void onPreAttack(PreAttackEvent e) {
-        if (!shouldSuppressManualMouse()) {
+        if (!shouldSuppressManualMouse() {
             return;
         }
         e.setCanceled(true);
@@ -162,10 +162,10 @@ public class BedAura extends Module {
 
     
     public void onSlotScroll(PreSlotScrollEvent e) {
-        if (!shouldSuppressManualMouse()) {
+        if (!shouldSuppressManualMouse() {
             return;
         }
-        if (hasSwapped && overrideSwapBack.isToggled() && Utils.nullCheck()) {
+        if (hasSwapped && overrideSwapBack.isToggled() && Utils.nullCheck() {
             int slot = Integer.compare(e.slot, 0);
             previousSlot = Math.floorMod(mc.player.inventory.currentItem - slot, PlayerInventory.getHotbarSize());
         }
@@ -177,7 +177,7 @@ public class BedAura extends Module {
         if (!shouldSuppressManualMouse() || hotbarProgrammaticDepth > 0) {
             return;
         }
-        if (hasSwapped && overrideSwapBack.isToggled()) {
+        if (hasSwapped && overrideSwapBack.isToggled() {
             previousSlot = e.slot;
         }
         e.setCanceled(true);
@@ -188,7 +188,7 @@ public class BedAura extends Module {
     }
 
     public void applyMiningKeyState() {
-        if (!canMineBlocks() || shouldYieldToKillAura()) {
+        if (!canMineBlocks() || shouldYieldToKillAura() {
             if (miningActive) {
                 resetMining();
             }
@@ -231,7 +231,7 @@ public class BedAura extends Module {
         }
         IAccessorPlayerControllerMP pc = (IAccessorPlayerControllerMP) mc.interactionManager;
         BlockPos currentBlock = pc.getCurrentBlock();
-        if (targetPos == null || currentBlock == null || !targetPos.equals(currentBlock)) {
+        if (targetPos == null || currentBlock == null || !targetPos.equals(currentBlock) {
             return 0f;
         }
         return pc.getCurBlockDamageMP();
@@ -242,7 +242,7 @@ public class BedAura extends Module {
     }
 
     public void modifyMouseOverFromGetMouseOver(float partialTicks) {
-        if (!shouldOverrideMouseOver()) {
+        if (!shouldOverrideMouseOver() {
             return;
         }
         if (mc.getRenderViewEntity() == null) {
@@ -261,11 +261,11 @@ public class BedAura extends Module {
 
     
     public void onClientRotation(ClientRotationEvent e) {
-        if (!isEnabled() || !Utils.nullCheck() || mc.currentScreen != null || !canMineBlocks()) {
+        if (!isEnabled() || !Utils.nullCheck() || mc.currentScreen != null || !canMineBlocks() {
             resetMining();
             return;
         }
-        if (shouldYieldToKillAura()) {
+        if (shouldYieldToKillAura() {
             resetMining();
             return;
         }
@@ -282,7 +282,7 @@ public class BedAura extends Module {
             rebuildBedPairsCache(reach + BED_FIND_EXTRA_BLOCKS);
         }
 
-        if (bedPairsCache.isEmpty()) {
+        if (bedPairsCache.isEmpty() {
             resetMining();
             return;
         }
@@ -312,7 +312,7 @@ public class BedAura extends Module {
 
     
     public void onRenderWorldLast(Object e) {
-        if (!isEnabled() || !renderOutline.isToggled() || !miningActive || targetPos == null || !Utils.nullCheck() || !canMineBlocks()) {
+        if (!isEnabled() || !renderOutline.isToggled() || !miningActive || targetPos == null || !Utils.nullCheck() || !canMineBlocks() {
             return;
         }
         BlockState st = mc.world.getBlockState(targetPos);
@@ -326,7 +326,7 @@ public class BedAura extends Module {
 
     private void resetMining() {
         miningActive = false;
-        if (switchBackWhenDone.isToggled() && previousSlot != -1 && Utils.nullCheck()) {
+        if (switchBackWhenDone.isToggled() && previousSlot != -1 && Utils.nullCheck() {
             setSlot(previousSlot);
         }
         KeyBinding.setKeyBindState(mc.options.keyBindAttack.getKeyCode(), Mouse.isButtonDown(0));
@@ -354,14 +354,14 @@ public class BedAura extends Module {
                         continue;
                     }
                     BlockPos foot = pair[0];
-                    if (seenFeet.contains(foot)) {
+                    if (seenFeet.contains(foot) {
                         continue;
                     }
-                    if (!bedInSearchRange(pair, searchRange)) {
+                    if (!bedInSearchRange(pair, searchRange) {
                         continue;
                     }
                     Vec3d center = bedCenter(pair);
-                    if (!inFov(center, (float) fov.getInput())) {
+                    if (!inFov(center, (float) fov.getInput()) {
                         continue;
                     }
                     seenFeet.add(foot);
@@ -375,14 +375,14 @@ public class BedAura extends Module {
 
     private BlockPos[] footHeadPair(BlockPos at) {
         BlockState st = mc.world.getBlockState(at);
-        if (!(st.getBlock() instanceof BedBlock)) {
+        if (!(st.getBlock() instanceof BedBlock) {
             return null;
         }
         BedBlockPart part = (BedBlockPart) st.getValue(BedBlock.PART);
         Direction facing = (Direction) st.getValue(BedBlock.FACING);
         BlockPos foot = part == BedBlockPart.FOOT ? at : at.offset(facing.getOpposite());
         BlockState footSt = mc.world.getBlockState(foot);
-        if (!(footSt.getBlock() instanceof BedBlock)) {
+        if (!(footSt.getBlock() instanceof BedBlock) {
             return null;
         }
         if (footSt.getValue(BedBlock.PART) != BedBlockPart.FOOT) {
@@ -391,7 +391,7 @@ public class BedAura extends Module {
         Direction footFacing = (Direction) footSt.getValue(BedBlock.FACING);
         BlockPos head = foot.offset(footFacing);
         BlockState hs = mc.world.getBlockState(head);
-        if (!(hs.getBlock() instanceof BedBlock)) {
+        if (!(hs.getBlock() instanceof BedBlock) {
             return null;
         }
         if (hs.getValue(BedBlock.PART) != BedBlockPart.HEAD) {
@@ -445,7 +445,7 @@ public class BedAura extends Module {
         List<BlockPos[]> exposed = new ArrayList<>();
         List<BlockPos[]> covered = new ArrayList<>();
         for (BlockPos[] pair : bedPairsCache) {
-            if (isBedExposed(pair)) {
+            if (isBedExposed(pair) {
                 exposed.add(pair);
             } else {
                 covered.add(pair);
@@ -469,7 +469,7 @@ public class BedAura extends Module {
     private Choice pickBestOnClosestBedWithCandidates(List<BlockPos[]> sortedPairs, double reachSq, float curProg, BlockPos breaking) {
         for (BlockPos[] pair : sortedPairs) {
             List<Choice> candidates = buildCandidates(pair, reachSq);
-            if (candidates.isEmpty()) {
+            if (candidates.isEmpty() {
                 continue;
             }
             Choice best = null;
@@ -487,7 +487,7 @@ public class BedAura extends Module {
     }
 
     private double scoreChoice(Choice ch, float curProg, BlockPos breaking) {
-        Block block = BlockUtils.getBlockState(ch).pos);
+        Block block = BlockUtils.getBlockState(ch).pos;
         float bestHotbar = BlockUtils.maxDigRateAcrossSlots(block, PlayerInventory.getHotbarSize());
         if (bestHotbar <= 0) {
             return Double.POSITIVE_INFINITY;
@@ -513,12 +513,12 @@ public class BedAura extends Module {
         } else {
             Set<BlockPos> seen = new HashSet<>();
             for (BlockPos bp : pair) {
-                for (Direction f : Direction.values()) {
+                for (Direction f : Direction.values() {
                     if (f == Direction.DOWN) {
                         continue;
                     }
                     BlockPos n = bp.offset(f);
-                    if (seen.contains(n)) {
+                    if (seen.contains(n) {
                         continue;
                     }
                     BlockState st = mc.world.getBlockState(n);
@@ -540,7 +540,7 @@ public class BedAura extends Module {
 
     private boolean isBedExposed(BlockPos[] pair) {
         for (BlockPos bp : pair) {
-            for (Direction f : Direction.values()) {
+            for (Direction f : Direction.values() {
                 BlockPos n = bp.offset(f);
                 if (mc.world.getBlockState(n).getBlock() == Blocks.AIR) {
                     return true;
@@ -576,7 +576,7 @@ public class BedAura extends Module {
                 (hit.zCoord - eye.zCoord) * 0.01
         ));
         Direction side = BlockUtils.facingFromBlockCenterToPoint(pos, hit);
-        if (trace != null && trace.hitVec != null && trace.sideHit != null && pos.equals(trace.getBlockPos())) {
+        if (trace != null && trace.hitVec != null && trace.sideHit != null && pos.equals(trace.getBlockPos()) {
             hit = trace.hitVec;
             side = trace.sideHit;
         }
@@ -621,7 +621,7 @@ public class BedAura extends Module {
     }
 
     private boolean shouldYieldToKillAura() {
-        if (!prioritizeKillAura.isToggled()) {
+        if (!prioritizeKillAura.isToggled() {
             return false;
         }
         return ModuleManager.killAura != null
@@ -637,7 +637,7 @@ public class BedAura extends Module {
     }
 
     private void removeOwnBedPair() {
-        if (!shouldWhitelistOwnBed() || bedPairsCache.isEmpty()) {
+        if (!shouldWhitelistOwnBed() || bedPairsCache.isEmpty() {
             return;
         }
 

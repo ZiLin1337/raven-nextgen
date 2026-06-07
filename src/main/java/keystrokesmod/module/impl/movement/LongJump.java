@@ -100,7 +100,7 @@ public class LongJump extends Module {
     }
 
     public void onEnable() {
-        if (!manual.isToggled()) {
+        if (!manual.isToggled() {
             if (Utils.getTotalHealth(mc.player) <= 3) {
                 Utils.sendMessage("&cPrevented throwing fireball due to low health");
                 disable();
@@ -128,7 +128,7 @@ public class LongJump extends Module {
 
     
     public void onPreUpdate(PreUpdateEvent e) {
-        if (manual.isToggled()) {
+        if (manual.isToggled() {
             manualWasOn = true;
         }
         else {
@@ -138,7 +138,7 @@ public class LongJump extends Module {
             manualWasOn = false;
         }
 
-        if (manual.isToggled() && disableKey.isPressed() && Utils.jumpDown()) {
+        if (manual.isToggled() && disableKey.isPressed() && Utils.jumpDown() {
             function = false;
             disabled();
         }
@@ -154,7 +154,7 @@ public class LongJump extends Module {
             return;
         }
 
-        if (spoofItem.isToggled()) {
+        if (spoofItem.isToggled() {
             // TODO: IMixinItemRenderer not available in 1.21.4
             // TODO: IMixinItemRenderer not available in 1.21.4
         }
@@ -168,7 +168,7 @@ public class LongJump extends Module {
             }
             int fireballSlot = setupFireballSlot(true);
             if (fireballSlot != -1) {
-                if (!manual.isToggled()) {
+                if (!manual.isToggled() {
                     lastSlot = mc.player.getInventory().selectedSlot;
                     if (mc.player.getInventory().selectedSlot != fireballSlot) {
                         mc.player.getInventory().selectedSlot = fireballSlot;
@@ -177,7 +177,7 @@ public class LongJump extends Module {
                 }
                 //("Set fireball slot");
                 rotateTick = 1;
-                if (stopMovement.isToggled()) {
+                if (stopMovement.isToggled() {
                     stopTime = 1;
                 }
             } // auto disables if -1
@@ -189,7 +189,7 @@ public class LongJump extends Module {
         } else {
             motionDecayVal = (int) motionDecay.getInput();
         }
-        if (stopTime == -1 && ++boostTicks > (!temporaryFlightKey() ? 33/*flat motion ticks*/ : (!notMoving ? 32/*normal motion ticks*/ : 33/*vertical motion ticks*/))) {
+        if (stopTime == -1 && ++boostTicks > (!temporaryFlightKey() ? 33/*flat motion ticks*/ : (!notMoving ? 32/*normal motion ticks*/ : 33/*vertical motionticks*/))) {
             disabled();
             return;
         }
@@ -224,12 +224,12 @@ public class LongJump extends Module {
             mc.player.getInventory().selectedSlot = firstSlot;
         }
     }public void onPreMotion(PreMotionEvent e) {
-        if (!Utils.nullCheck()) {
+        if (!Utils.nullCheck() {
             return;
         }
         if (rotateTick == 1) {
             if ((invertYaw.isToggled() || stopMovement.isToggled()) && !notMoving) {
-                if (!stopMovement.isToggled()) {
+                if (!stopMovement.isToggled() {
                     yaw = mc.player.getYaw() - 180f;
                     pitch = 90f;
                 } else {
@@ -247,7 +247,7 @@ public class LongJump extends Module {
             int fireballSlot = setupFireballSlot(false);
             if (fireballSlot != -1) {
                 fireballTime = System.currentTimeMillis();
-                if (!manual.isToggled()) {
+                if (!manual.isToggled() {
                     // PlayerInteractItemC2SPacket needs PacketByteBuf in 1.21.4
                     //((IAccessorMinecraft) mc).callRightClickMouse();
                 }
@@ -258,7 +258,7 @@ public class LongJump extends Module {
             }
         }
         if (boostTicks == 1) {
-            if (invertYaw.isToggled()) {
+            if (invertYaw.isToggled() {
                 //client.setMotion(client.getMotion().x, client.getMotion().y + 0.035d, client.getMotion().z);
             }
             modifyHorizontal();
@@ -315,7 +315,7 @@ public class LongJump extends Module {
             disabled();
         }
 
-        if (hideExplosion.isToggled() && fireballTime != 0 && (packet instanceof Object || packet instanceof Object || packet instanceof Object)) {
+        if (hideExplosion.isToggled() && fireballTime != 0 && (packet instanceof Object || packet instanceof Object || packet instanceof Object) {
             e.setCanceled(true);
         }
     }
@@ -346,7 +346,7 @@ public class LongJump extends Module {
         boostTicks = -1;
         resetSlot();
         enabled = function = notMoving = stopVelocity = stopModules = false;
-        if (!manual.isToggled()) {
+        if (!manual.isToggled() {
             disable();
         }
         startY = null;
@@ -367,8 +367,8 @@ public class LongJump extends Module {
     }
 
     private void resetSlot() {
-        if (lastSlot != -1 && !manual.isToggled()) {
-            if (spoofItem.isToggled()) {
+        if (lastSlot != -1 && !manual.isToggled() {
+            if (spoofItem.isToggled() {
                 // TODO: IMixinItemRenderer not available in 1.21.4
                 // TODO: IMixinItemRenderer not available in 1.21.4
             }
@@ -380,8 +380,8 @@ public class LongJump extends Module {
     }
 
     private int getSpeedLevel() {
-        for (net.minecraft.entity.effect.StatusEffectInstance potionEffect : mc.player.getStatusEffects()) {
-            if (potionEffect.getTranslationKey().contains("speed")) {
+        for (net.minecraft.entity.effect.StatusEffectInstance potionEffect : mc.player.getStatusEffects() {
+            if (potionEffect.getTranslationKey().contains("speed") {
                 return potionEffect.getAmplifier() + 1;
             }
             return 0;
@@ -395,7 +395,7 @@ public class LongJump extends Module {
             //client.print("&7horizontal &b" + boostTicks + " " + client.getPlayer().getHurtTime());
 
             double speed = boostSetting.getInput() - Utils.randomizeDouble(0.0001, 0);
-            if (Utils.isMoving()) {
+            if (Utils.isMoving() {
                 Utils.setSpeed(speed);
                 //Utils.sendMessage("og speed");
             }
@@ -406,12 +406,12 @@ public class LongJump extends Module {
         if (verticalMotion.getInput() != 0) {
             double ver = ((!notMoving ? verticalMotion.getInput() : 1.16 /*vertical*/) * (1.0 / (1.0 + (0.05 * getSpeedLevel()))) + Utils.randomizeDouble(0.0001, 0.1));
             double decay = motionDecay.getInput() / 1000;
-            if (boostTicks > 1 && !temporaryFlightKey()) {
-                if (boostTicks > 1 || boostTicks <= (!notMoving ? 32/*horizontal motion ticks*/ : 33/*vertical motion ticks*/)) {
+            if (boostTicks > 1 && !temporaryFlightKey() {
+                if (boostTicks > 1 || boostTicks <= (!notMoving ? 32/*horizontal motion ticks*/ : 33/*vertical motion ticks*/) {
                     vec3d_y = Utils.randomizeDouble(0.0101, 0.01);
                 }
             } else {
-                if (boostTicks >= 1 && boostTicks <= (!notMoving ? 32/*horizontal motion ticks*/ : 33/*vertical motion ticks*/)) {
+                if (boostTicks >= 1 && boostTicks <= (!notMoving ? 32/*horizontal motion ticks*/ : 33/*vertical motion ticks*/) {
                     vec3d_y = ver - boostTicks * decay;
                 } else if (boostTicks >= (!notMoving ? 32/*horizontal motion ticks*/ : 33/*vertical motion ticks*/) + 3) {
                     vec3d_y = mc.player.getVelocity().y + 0.028;

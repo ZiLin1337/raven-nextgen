@@ -34,8 +34,8 @@ public final class CombatTargeting implements IMinecraftInstance {
         PlayerEntity closest = null;
         double closestDistanceSq = Double.MAX_VALUE;
 
-        for (PlayerEntity player : mc.world.getPlayers()) {
-            if (!isValidPlayer(player, maxDistanceSq, ignoreTeammates)) {
+        for (PlayerEntity player : mc.world.getPlayers() {
+            if (!isValidPlayer(player, maxDistanceSq, ignoreTeammates) {
                 continue;
             }
 
@@ -67,7 +67,7 @@ public final class CombatTargeting implements IMinecraftInstance {
     }
 
     public static PlayerEntity asValidPlayer(Entity entity, double maxDistanceSq, boolean ignoreTeammates) {
-        if (!(entity instanceof PlayerEntity)) {
+        if (!(entity instanceof PlayerEntity) {
             return null;
         }
 
@@ -92,11 +92,11 @@ public final class CombatTargeting implements IMinecraftInstance {
             return false;
         }
 
-        if (Utils.isFriended(player) || AntiBot.isBot(player)) {
+        if (Utils.isFriended(player) || AntiBot.isBot(player) {
             return false;
         }
 
-        if (ignoreTeammates && Utils.isTeammate(player)) {
+        if (ignoreTeammates && Utils.isTeammate(player) {
             return false;
         }
 

@@ -81,12 +81,12 @@ public class BindComponent extends Component {
 
     public boolean onClick(int x, int y, int button) {
         if (!overSetting(x, y) || !moduleComponent.isOpened || !moduleComponent.isVisible(this)) return false;
-        if (button == 0 && moduleComponent.mod.moduleCategory() != Module.category.profiles && overEyeIcon(x, y)) {
+        if (button == 0 && moduleComponent.mod.moduleCategory() != Module.category.profiles && overEyeIcon(x, y) {
             moduleComponent.mod.setHidden(!moduleComponent.mod.isHidden());
             if (Raven.currentProfile != null) Raven.currentProfile.getModule().saved = false;
             return true;
         }
-        if (moduleComponent.mod.canBeEnabled() && button == 0 && overBindText(x, y)) {
+        if (moduleComponent.mod.canBeEnabled() && button == 0 && overBindText(x, y) {
             isBinding = !isBinding;
             return true;
         }

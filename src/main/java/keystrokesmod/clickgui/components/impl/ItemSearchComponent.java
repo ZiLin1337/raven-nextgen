@@ -21,14 +21,14 @@ public class ItemSearchComponent extends AbstractItemSearchComponent<ItemListSet
     @Override
     protected void renderSelectedRows(Layout layout, float offsetPx, int firstRow, int end) {
         List<String> items = setting.getItems();
-        if (selectedRowsCache == null || selectedRowsCache.size() != items.size()) {
+        if (selectedRowsCache == null || selectedRowsCache.size() != items.size() {
             selectedRowsCache = new ArrayList<SelectedRowData>();
             for (String storageId : items) {
                 List<ItemSearchIndex.ItemEntry> variants = ItemSearchIndex.isGroupedSelection(storageId)
                     ? ItemSearchIndex.getSelectionVariants(storageId)
                     : null;
                 List<net.minecraft.item.ItemStack> cyclingStacks = null;
-                if (variants != null && !variants.isEmpty()) {
+                if (variants != null && !variants.isEmpty() {
                     cyclingStacks = new ArrayList<net.minecraft.item.ItemStack>();
                     for (ItemSearchIndex.ItemEntry variant : variants) {
                         cyclingStacks.add(variant.toItemStack());
@@ -57,7 +57,7 @@ public class ItemSearchComponent extends AbstractItemSearchComponent<ItemListSet
         List<String> items = new ArrayList<String>(setting.getItems());
         for (int i = 0; i < items.size(); i++) {
             float rowTop = getSelectedTop(layout) - offsetPx + i * ROW_HEIGHT;
-            if (isOverClose(mouseX, mouseY, rowTop, layout.right)) {
+            if (isOverClose(mouseX, mouseY, rowTop, layout.right) {
                 removeSelection(items.get(i));
                 return true;
             }

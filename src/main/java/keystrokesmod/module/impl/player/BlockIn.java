@@ -110,7 +110,7 @@ public class BlockIn extends Module {
     
     public void onClientRotation(ClientRotationEvent e) {
         if (!Utils.nullCheck()) return;
-        if (ModuleManager.bedAura != null && ModuleManager.bedAura.shouldOverrideMouseOver()) {
+        if (ModuleManager.bedAura != null && ModuleManager.bedAura.shouldOverrideMouseOver() {
             return;
         }
 
@@ -164,7 +164,7 @@ public class BlockIn extends Module {
 
         plannedSlot = (strongSlot != -1 ? strongSlot : weakSlot);
 
-        if (!getTarget()) {
+        if (!getTarget() {
             disablePlacing();
             return;
         }
@@ -174,7 +174,7 @@ public class BlockIn extends Module {
 
         if (!placing) enablePlacing();
 
-        if (mc.options.keyBindAttack.isKeyDown() || mc.options.keyBindUseItem.isKeyDown()) {
+        if (mc.options.keyBindAttack.isKeyDown() || mc.options.keyBindUseItem.isKeyDown() {
             clearAim();
         }
 
@@ -513,7 +513,7 @@ public class BlockIn extends Module {
 
             ArrayList<BlockPos> layer = new ArrayList<>(frontier.size() * 3);
             for (BlockPos g : frontier) {
-                for (Direction f : Direction.values()) {
+                for (Direction f : Direction.values() {
                     BlockPos s = g.offset(f);
                     if (!BlockUtils.replaceable(s)) continue;
                     if (!seen.add(s.toLong())) continue;
@@ -521,7 +521,7 @@ public class BlockIn extends Module {
                 }
             }
 
-            if (!layer.isEmpty()) {
+            if (!layer.isEmpty() {
                 AimResult rLayer = findBestForGoals(layer, r, eye);
                 if (rLayer != null) return rLayer;
             }
@@ -543,7 +543,7 @@ public class BlockIn extends Module {
             BlockPos support = now.getBlockPos();
             Direction faceHit = now.sideHit;
 
-            if (!BlockUtils.replaceable(support) && BlockUtils.canPlaceBlockOnSide(held, support, faceHit)) {
+            if (!BlockUtils.replaceable(support) && BlockUtils.canPlaceBlockOnSide(held, support, faceHit) {
                 for (BlockPos goal : goals) {
                     AimResult ok = tryPlacement(reachVal, RotationUtils.serverRotations[0],
                             RotationUtils.serverRotations[1], support, faceHit, goal);

@@ -66,7 +66,7 @@ public class InvMove extends Module {
     @EventHandler
     public void onPreUpdate(PreUpdateEvent e) {
         if (mc.player == null) return;
-        if (!guiCheck()) {
+        if (!guiCheck() {
             reset();
             return;
         }
@@ -76,9 +76,9 @@ public class InvMove extends Module {
                 ticks = 0;
                 setMotion = false;
             }
-            if (motion.getInput() != 1 || slowWhenNecessary.isToggled()) {
+            if (motion.getInput() != 1 || slowWhenNecessary.isToggled() {
                 int speedAmplifier = 0;
-                if (mc.player.hasStatusEffect(net.minecraft.entity.effect.StatusEffects.SPEED)) {
+                if (mc.player.hasStatusEffect(net.minecraft.entity.effect.StatusEffects.SPEED) {
                     speedAmplifier = mc.player.getStatusEffect(net.minecraft.entity.effect.StatusEffects.SPEED).getAmplifier() + 1;
                 }
                 double slowedMotion = 0.65;
@@ -103,10 +103,10 @@ public class InvMove extends Module {
                 && allowSprinting.isToggled() {
             mc.player.setSprinting(true);
         }
-        if (!allowSprinting.isToggled()) {
+        if (!allowSprinting.isToggled() {
             mc.player.setSprinting(false);
         }
-        if (allowRotating.isToggled()) {
+        if (allowRotating.isToggled() {
             float pitch = mc.player.getPitch();
             float yaw = mc.player.getYaw();
             if (isKeyDown(264) && pitch < 90.0F) mc.player.setPitch(pitch + 6.0F);
@@ -130,9 +130,9 @@ public class InvMove extends Module {
 
     private boolean guiCheck() {
         if (mc.currentScreen == null) return false;
-        if (Settings.inInventory()) {
+        if (Settings.inInventory() {
             if (inventory.getInput() == 0) return false;
-        } else if (!Settings.inInventory() && chestAndOthers.getInput() == 0 && !isClickGui()) {
+        } else if (!Settings.inInventory() && chestAndOthers.getInput() == 0 && !isClickGui() {
             return false;
         }
         return true;

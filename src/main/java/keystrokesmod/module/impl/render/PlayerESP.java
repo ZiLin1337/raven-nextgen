@@ -125,7 +125,7 @@ public class PlayerESP extends Module {
 
     
     public void onRenderPlayerEvent(Object e) {
-        if (!skeleton.isToggled() || e.entityPlayer == null || !Utils.nullCheck()) {
+        if (!skeleton.isToggled() || e.entityPlayer == null || !Utils.nullCheck() {
             return;
         }
 
@@ -140,20 +140,20 @@ public class PlayerESP extends Module {
     
     public void onRenderWorld(Object e) {
         this.visibleRenderStateCount = 0;
-        if (!Utils.nullCheck()) {
+        if (!Utils.nullCheck() {
             return;
         }
 
         boolean renderWorldTypes = box.isToggled() || shaded.isToggled() || healthBar.isToggled() || ring.isToggled();
         boolean captureVisibleStates = outline.isToggled() || twoD.isToggled();
-        if (renderStateCount == 0 || (!renderWorldTypes && !captureVisibleStates)) {
+        if (renderStateCount == 0 || (!renderWorldTypes && !captureVisibleStates) {
             return;
         }
 
         for (int i = 0; i < renderStateCount; i++) {
             EspRenderState renderState = renderStates.get(i);
             LivingEntity entity = renderState.entity;
-            if (entity == null || !RenderUtils.isInViewFrustum(entity)) {
+            if (entity == null || !RenderUtils.isInViewFrustum(entity) {
                 continue;
             }
 
@@ -173,7 +173,7 @@ public class PlayerESP extends Module {
             return;
         }
         if (outline.isToggled()) runOutlinePass(e.partialTicks);
-        if (twoD.isToggled()) {
+        if (twoD.isToggled() {
             renderTwoDPass(e.partialTicks);
         }
     }
@@ -231,11 +231,11 @@ public class PlayerESP extends Module {
 
         double maxDistSq = maxDistance.getInput() * maxDistance.getInput();
         if (Raven.DEBUG) {
-            for (Entity entity : mc.world.getEntities()) {
+            for (Entity entity : mc.world.getEntities() {
                 if (!(entity instanceof LivingEntity) || entity == mc.player) {
                     continue;
                 }
-                if (!RenderUtils.isWithinDistanceSqToRenderView(entity, maxDistSq)) {
+                if (!RenderUtils.isWithinDistanceSqToRenderView(entity, maxDistSq) {
                     continue;
                 }
                 addRenderState((LivingEntity) entity, resolveStaticColor(entity));
@@ -245,20 +245,20 @@ public class PlayerESP extends Module {
 
         PlayerEntity selfPlayer = (Freecam.freeEntity == null) ? mc.player : Freecam.freeEntity;
         boolean allowSelf = shouldRenderSelf(selfPlayer);
-        for (PlayerEntity player : mc.world.getPlayers()) {
+        for (PlayerEntity player : mc.world.getPlayers() {
             if (player == selfPlayer && !allowSelf) {
                 continue;
             }
             if (player.deathTime != 0) {
                 continue;
             }
-            if (!showInvis.isToggled() && player.isInvisible()) {
+            if (!showInvis.isToggled() && player.isInvisible() {
                 continue;
             }
-            if (selfPlayer != player && AntiBot.isBot(player)) {
+            if (selfPlayer != player && AntiBot.isBot(player) {
                 continue;
             }
-            if (!RenderUtils.isWithinDistanceSqToRenderView(player, maxDistSq)) {
+            if (!RenderUtils.isWithinDistanceSqToRenderView(player, maxDistSq) {
                 continue;
             }
             addRenderState(player, resolveStaticColor(player));
@@ -270,7 +270,7 @@ public class PlayerESP extends Module {
     }
 
     private void addRenderState(LivingEntity entity, int staticColor) {
-        if (renderStateCount >= renderStates.size()) {
+        if (renderStateCount >= renderStates.size() {
             renderStates.add(new EspRenderState());
         }
 
@@ -282,7 +282,7 @@ public class PlayerESP extends Module {
     }
 
     private void addVisibleRenderState(EspRenderState renderState) {
-        if (visibleRenderStateCount >= visibleRenderStates.size()) {
+        if (visibleRenderStateCount >= visibleRenderStates.size() {
             visibleRenderStates.add(renderState);
         }
         else {
@@ -297,7 +297,7 @@ public class PlayerESP extends Module {
     }
 
     private int resolveBaseRenderColor(EspRenderState renderState) {
-        if (!teamColor.isToggled() && rainbow.isToggled()) {
+        if (!teamColor.isToggled() && rainbow.isToggled() {
             return Utils.mergeAlpha(Utils.getChroma(2L, 0L), 255);
         }
         return renderState.staticColor;
@@ -311,24 +311,24 @@ public class PlayerESP extends Module {
     }
 
     public void render(Entity en, int rgb) {
-        if (!box.isToggled() && !shaded.isToggled() && !healthBar.isToggled() && !ring.isToggled()) {
+        if (!box.isToggled() && !shaded.isToggled() && !healthBar.isToggled() && !ring.isToggled() {
             return;
         }
-        if (box.isToggled()) {
+        if (box.isToggled() {
             RenderUtils.renderEntity(en, 1, 0, 0, rgb, redOnDamage.isToggled());
         }
 
-        if (shaded.isToggled()) {
-            if (ModuleManager.murderMystery == null || !ModuleManager.murderMystery.isEnabled() || ModuleManager.murderMystery.isEmpty()) {
+        if (shaded.isToggled() {
+            if (ModuleManager.murderMystery == null || !ModuleManager.murderMystery.isEnabled() || ModuleManager.murderMystery.isEmpty() {
                 RenderUtils.renderEntity(en, 2, 0, 0, rgb, redOnDamage.isToggled());
             }
         }
 
-        if (healthBar.isToggled()) {
+        if (healthBar.isToggled() {
             RenderUtils.renderEntity(en, 4, 0, 0, rgb, redOnDamage.isToggled());
         }
 
-        if (ring.isToggled()) {
+        if (ring.isToggled() {
             RenderUtils.renderEntity(en, 6, 0, 0, rgb, redOnDamage.isToggled());
         }
     }
@@ -377,7 +377,7 @@ public class PlayerESP extends Module {
             double y = (corner & 2) == 0 ? minRelY : maxRelY;
             double z = (corner & 4) == 0 ? minRelZ : maxRelZ;
 
-            if (RenderUtils.projectTo2D(projectionContext, x, y, z, projectedPoint)) {
+            if (RenderUtils.projectTo2D(projectionContext, x, y, z, projectedPoint) {
                 double depth = projectedPoint[2];
                 if (depth >= 1.0003684D || depth <= 0.0D) {
                     continue;
@@ -516,7 +516,7 @@ public class PlayerESP extends Module {
 
         drawLine(0.15, 0.0, 0.0, -0.15, 0.0, 0.0);
 
-        if (player.isSneaking()) {
+        if (player.isSneaking() {
             RenderSystem.rotate(20.0f, 1.0f, 0.0f, 0.0f);
         }
         drawLine(0.0, 0.0, 0.0, 0.0, 0.65, 0.0);

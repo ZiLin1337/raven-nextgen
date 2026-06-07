@@ -58,7 +58,7 @@ public final class PotionSearchIndex {
         List<ScoredPotionEntry> scoredEntries = new ArrayList<ScoredPotionEntry>();
 
         for (PotionEntry entry : allPotionEntries) {
-            if (setting.containsPotion(entry.key)) {
+            if (setting.containsPotion(entry.key) {
                 continue;
             }
 
@@ -93,7 +93,7 @@ public final class PotionSearchIndex {
             return null;
         }
 
-        if (itemStacksByPotionId.containsKey(entry.potionId)) {
+        if (itemStacksByPotionId.containsKey(entry.potionId) {
             ItemStack cachedStack = itemStacksByPotionId.get(entry.potionId);
             return cachedStack != null ? cachedStack.copy() : null;
         }
@@ -104,7 +104,7 @@ public final class PotionSearchIndex {
     }
 
     private static int getScore(PotionEntry entry, String lowerQuery) {
-        if (lowerQuery.isEmpty()) {
+        if (lowerQuery.isEmpty() {
             return 1;
         }
 
@@ -112,36 +112,36 @@ public final class PotionSearchIndex {
         String key = entry.key.toLowerCase(Locale.ROOT);
         String simpleKey = getSimpleKey(entry.key).toLowerCase(Locale.ROOT);
 
-        if (displayName.equals(lowerQuery)) {
+        if (displayName.equals(lowerQuery) {
             return 1000;
         }
-        if (simpleKey.equals(lowerQuery)) {
+        if (simpleKey.equals(lowerQuery) {
             return 900;
         }
-        if (displayName.startsWith(lowerQuery)) {
+        if (displayName.startsWith(lowerQuery) {
             return 800;
         }
-        if (simpleKey.startsWith(lowerQuery)) {
+        if (simpleKey.startsWith(lowerQuery) {
             return 700;
         }
 
-        for (String token : displayName.split("\\s+")) {
-            if (token.startsWith(lowerQuery)) {
+        for (String token : displayName.split("\\s+") {
+            if (token.startsWith(lowerQuery) {
                 return 600;
             }
         }
 
-        if (displayName.contains(lowerQuery)) {
+        if (displayName.contains(lowerQuery) {
             return 500;
         }
-        if (simpleKey.contains(lowerQuery) || key.contains(lowerQuery)) {
+        if (simpleKey.contains(lowerQuery) || key.contains(lowerQuery) {
             return 400;
         }
         return 0;
     }
 
     private static String getSimpleKey(String potionKey) {
-        if (potionKey == null || potionKey.isEmpty()) {
+        if (potionKey == null || potionKey.isEmpty() {
             return "";
         }
 
@@ -157,17 +157,17 @@ public final class PotionSearchIndex {
         Map<String, PotionEntry> keyedEntries = new LinkedHashMap<String, PotionEntry>();
         for (int potionId = 0; potionId < Potion.potionTypes.length; potionId++) {
             Potion potion = Potion.potionTypes[potionId];
-            if (potion == null || potion.getName() == null || potion.getName().isEmpty()) {
+            if (potion == null || potion.getName() == null || potion.getName().isEmpty() {
                 continue;
             }
 
             String potionKey = potion.getName();
-            if (keyedEntries.containsKey(potionKey)) {
+            if (keyedEntries.containsKey(potionKey) {
                 continue;
             }
 
             String displayName = StatCollector.translateToLocal(potionKey);
-            if (displayName == null || displayName.isEmpty() || displayName.equals(potionKey)) {
+            if (displayName == null || displayName.isEmpty() || displayName.equals(potionKey) {
                 displayName = getSimpleKey(potionKey);
             }
 
@@ -184,7 +184,7 @@ public final class PotionSearchIndex {
     }
 
     private static ItemStack resolvePotionItemStack(int potionId) {
-        if (!(Items.POTION instanceof ItemPotion)) {
+        if (!(Items.POTION instanceof ItemPotion) {
             return null;
         }
 
@@ -194,7 +194,7 @@ public final class PotionSearchIndex {
 
         for (int metadata = 0; metadata <= MAX_POTION_META; metadata++) {
             List<StatusEffectInstance> effects = potionItem.getEffects(metadata);
-            if (effects == null || effects.isEmpty()) {
+            if (effects == null || effects.isEmpty() {
                 continue;
             }
 
@@ -220,7 +220,7 @@ public final class PotionSearchIndex {
             if (effects.size() == 1) {
                 score += 50;
             }
-            if (!ItemPotion.isSplash(metadata)) {
+            if (!ItemPotion.isSplash(metadata) {
                 score += 25;
             }
 

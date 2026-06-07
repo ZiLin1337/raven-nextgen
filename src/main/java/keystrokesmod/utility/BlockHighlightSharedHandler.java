@@ -16,11 +16,11 @@ public final class BlockHighlightSharedHandler {
 
     
     public void onClientTick(TickEvent.ClientTickEvent e) {
-        if (e.phase != TickEvent.Phase.END || !Utils.nullCheck()) {
+        if (e.phase != TickEvent.Phase.END || !Utils.nullCheck() {
             return;
         }
         SharedBlockHighlightCache cache = SharedBlockHighlightCache.get();
-        if (!cache.anyConsumerActive()) {
+        if (!cache.anyConsumerActive() {
             return;
         }
         int budget = 0;
@@ -41,7 +41,7 @@ public final class BlockHighlightSharedHandler {
             return;
         }
         SharedBlockHighlightCache cache = SharedBlockHighlightCache.get();
-        if (!cache.anyConsumerActive()) {
+        if (!cache.anyConsumerActive() {
             return;
         }
         cache.clear();

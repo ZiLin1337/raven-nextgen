@@ -53,12 +53,12 @@ public class Request {
     }
 
     public Response fetch() {
-        if (!Manager.enableHttpRequests.isToggled()) {
+        if (!Manager.enableHttpRequests.isToggled() {
             Utils.sendMessage("&cFailed to send http request, http requests are not enabled.");
             return new Response(404, "");
         }
 
-        if (this.url.isEmpty()) {
+        if (this.url.isEmpty() {
             return null;
         }
 
@@ -75,20 +75,20 @@ public class Request {
                 con.setRequestProperty(h[0], h[1]);
             }
 
-            if (this.method.equals("POST") && !this.content.isEmpty()) {
+            if (this.method.equals("POST") && !this.content.isEmpty() {
                 con.setDoOutput(true);
                 byte[] out = this.content.getBytes(StandardCharsets.UTF_8);
                 con.setFixedLengthStreamingMode(out.length);
                 con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
                 con.connect();
 
-                try (OutputStream os = con.getOutputStream()) {
+                try (OutputStream os = con.getOutputStream() {
                     os.write(out);
                 }
             }
 
             String contents = "";
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream())) {
                 StringBuilder sb = new StringBuilder();
                 String line;
                 while ((line = br.readLine()) != null) {
@@ -99,7 +99,7 @@ public class Request {
             catch (IOException er1) {
                 InputStream es = con.getErrorStream();
                 if (es != null) {
-                    try (BufferedReader br = new BufferedReader(new InputStreamReader(es))) {
+                    try (BufferedReader br = new BufferedReader(new InputStreamReader(es)) {
                         StringBuilder sb = new StringBuilder();
                         String line;
                         while ((line = br.readLine()) != null) {
@@ -111,11 +111,11 @@ public class Request {
             }
 
             List<String[]> respHeaders = new ArrayList<>();
-            for (Map.Entry<String, List<String>> e : con.getHeaderFields().entrySet()) {
+            for (Map.Entry<String, List<String>> e : con.getHeaderFields().entrySet() {
                 if (e.getKey() == null) {
                     continue;
                 }
-                for (String v : e.getValue()) {
+                for (String v : e.getValue() {
                     respHeaders.add(new String[]{e.getKey(), v});
                 }
             }

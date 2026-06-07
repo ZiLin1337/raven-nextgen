@@ -47,7 +47,7 @@ public class ViewPackets extends Module {
     }
 
     private void sendMessage(Packet packet, boolean b) {
-        if (!Utils.nullCheck()) {
+        if (!Utils.nullCheck() {
             return;
         }
         String s = b ? ("&a" + packet.getClass().getSimpleName()) : applyInfo(packet);
@@ -61,13 +61,13 @@ public class ViewPackets extends Module {
 
     
     public void onSendPacket(SendPacketEvent e) {
-        if (!sent.isToggled()) {
+        if (!sent.isToggled() {
             return;
         }
         if (singlePlayer.isToggled() && mc.isSingleplayer() && e.getPacket().getClass().getSimpleName().charAt(0) == 'S') {
             return;
         }
-        if (e.isCanceled() && !includeCancelled.isToggled()) {
+        if (e.isCanceled() && !includeCancelled.isToggled() {
             return;
         }
         if (ignoreC00.isToggled() && e.getPacket() instanceof C00PacketKeepAlive) {
@@ -76,7 +76,7 @@ public class ViewPackets extends Module {
         if (ignoreC0F.isToggled() && e.getPacket() instanceof C0FPacketConfirmTransaction) {
             return;
         }
-        if (e.getPacket() instanceof PlayerMoveC2SPacket && (ignoreC03.isToggled() || (compactC03.isToggled() && (packet == null || packet instanceof PlayerMoveC2SPacket)))) {
+        if (e.getPacket() instanceof PlayerMoveC2SPacket && (ignoreC03.isToggled() || (compactC03.isToggled() && (packet == null || packet instanceof PlayerMoveC2SPacket))) {
             return;
         }
         sendMessage(packet = e.getPacket(), false);
@@ -84,13 +84,13 @@ public class ViewPackets extends Module {
 
     
     public void onSendPacketNoEvent(NoEventPacketEvent e) {
-        if (!sent.isToggled()) {
+        if (!sent.isToggled() {
             return;
         }
         if (singlePlayer.isToggled() && mc.isSingleplayer() && e.getPacket().getClass().getSimpleName().charAt(0) == 'S') {
             return;
         }
-        if (e.isCanceled() && !includeCancelled.isToggled()) {
+        if (e.isCanceled() && !includeCancelled.isToggled() {
             return;
         }
         if (ignoreC00.isToggled() && e.getPacket() instanceof C00PacketKeepAlive) {
@@ -99,7 +99,7 @@ public class ViewPackets extends Module {
         if (ignoreC0F.isToggled() && e.getPacket() instanceof C0FPacketConfirmTransaction) {
             return;
         }
-        if (e.getPacket() instanceof PlayerMoveC2SPacket && (ignoreC03.isToggled() || (compactC03.isToggled() && (packet == null || packet instanceof PlayerMoveC2SPacket)))) {
+        if (e.getPacket() instanceof PlayerMoveC2SPacket && (ignoreC03.isToggled() || (compactC03.isToggled() && (packet == null || packet instanceof PlayerMoveC2SPacket))) {
             return;
         }
         sendMessage(packet = e.getPacket(), false);
@@ -107,7 +107,7 @@ public class ViewPackets extends Module {
 
     
     public void onReceivePacket(ReceivePacketEvent e) {
-        if (!received.isToggled()) {
+        if (!received.isToggled() {
             return;
         }
         if (singlePlayer.isToggled() && mc.isSingleplayer() && e.getPacket().getClass().getSimpleName().charAt(0) == 'C') {

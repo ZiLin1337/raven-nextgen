@@ -53,7 +53,7 @@ public class ChestESP extends Module {
 
     public static void onRenderChestPre(TileEntity tileEntity) {
         ChestESP mod = getChestEspModule();
-        if (mod == null || !mod.shouldApplyChamsTo(tileEntity)) {
+        if (mod == null || !mod.shouldApplyChamsTo(tileEntity) {
             return;
         }
         RenderSystem.enableBlend(GL11.GL_POLYGON_OFFSET_FILL);
@@ -62,7 +62,7 @@ public class ChestESP extends Module {
     }
 
     public static void onRenderChestPost() {
-        if (!Boolean.TRUE.equals(CHEST_CHAMS_ACTIVE.get())) {
+        if (!Boolean.TRUE.equals(CHEST_CHAMS_ACTIVE.get()) {
             return;
         }
         CHEST_CHAMS_ACTIVE.set(false);
@@ -123,7 +123,7 @@ public class ChestESP extends Module {
     }
 
     private boolean shouldSkipOpened(ChestVisualSettings settings, TileEntity tileEntity) {
-        if (settings == null || !settings.isDisableIfOpened()) {
+        if (settings == null || !settings.isDisableIfOpened() {
             return false;
         }
         if (tileEntity instanceof TileEntityChest) {
@@ -134,7 +134,7 @@ public class ChestESP extends Module {
 
     private boolean hasAnyWorldOverlayEnabled() {
         for (ChestKind chestKind : RENDERABLE_CHEST_KINDS) {
-            if (getChestSettings(chestKind).hasWorldOverlayEnabled()) {
+            if (getChestSettings(chestKind).hasWorldOverlayEnabled() {
                 return true;
             }
         }
@@ -160,27 +160,27 @@ public class ChestESP extends Module {
 
     
     public void onRenderWorld(RenderWorldLastEvent ev) {
-        if (!Utils.nullCheck() || trackedWorldBatches.isEmpty()) {
+        if (!Utils.nullCheck() || trackedWorldBatches.isEmpty() {
             return;
         }
         for (ChestKind chestKind : RENDERABLE_CHEST_KINDS) {
             List<BlockPos> trackedBatch = trackedWorldBatches.get(chestKind);
-            if (trackedBatch == null || trackedBatch.isEmpty()) {
+            if (trackedBatch == null || trackedBatch.isEmpty() {
                 continue;
             }
 
             ChestVisualSettings settings = getChestSettings(chestKind);
-            if (settings == null || !settings.hasWorldOverlayEnabled()) {
+            if (settings == null || !settings.hasWorldOverlayEnabled() {
                 continue;
             }
 
             List<BlockPos> visibleBatch = new ArrayList<>();
             for (BlockPos pos : trackedBatch) {
-                if (RenderUtils.isInViewFrustum(getChestBoundingBox(pos))) {
+                if (RenderUtils.isInViewFrustum(getChestBoundingBox(pos)) {
                     visibleBatch.add(pos);
                 }
             }
-            if (visibleBatch.isEmpty()) {
+            if (visibleBatch.isEmpty() {
                 continue;
             }
 
@@ -196,14 +196,14 @@ public class ChestESP extends Module {
 
     private void updateTrackedWorldBatches() {
         trackedWorldBatches.clear();
-        if (!Utils.nullCheck() || mc.world == null || !hasAnyWorldOverlayEnabled()) {
+        if (!Utils.nullCheck() || mc.world == null || !hasAnyWorldOverlayEnabled() {
             return;
         }
 
         double maxDistSq = maxDistance.getInput() * maxDistance.getInput();
         for (ChestKind chestKind : RENDERABLE_CHEST_KINDS) {
             ChestVisualSettings settings = getChestSettings(chestKind);
-            if (settings != null && settings.hasWorldOverlayEnabled()) {
+            if (settings != null && settings.hasWorldOverlayEnabled() {
                 trackedWorldBatches.put(chestKind, new ArrayList<>());
             }
         }
@@ -211,12 +211,12 @@ public class ChestESP extends Module {
         for (TileEntity tileEntity : mc.world.loadedTileEntityList) {
             ChestKind chestKind = getChestKind(tileEntity);
             ChestVisualSettings settings = getChestSettings(chestKind);
-            if (settings == null || !settings.hasWorldOverlayEnabled() || shouldSkipOpened(settings, tileEntity)) {
+            if (settings == null || !settings.hasWorldOverlayEnabled() || shouldSkipOpened(settings, tileEntity) {
                 continue;
             }
 
             BlockPos pos = tileEntity.getPos();
-            if (!RenderUtils.isBlockPosWithinDistanceSqToView(pos, maxDistSq)) {
+            if (!RenderUtils.isBlockPosWithinDistanceSqToView(pos, maxDistSq) {
                 continue;
             }
 

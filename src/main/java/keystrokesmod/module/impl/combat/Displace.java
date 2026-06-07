@@ -198,7 +198,7 @@ public class Displace extends Module {
             for (int i = 0; i < VOID_SCAN_DIRECTIONS; i++) {
                 double x = target.posX + VOID_SCAN_X[i] * radius;
                 double z = target.posZ + VOID_SCAN_Z[i] * radius;
-                if (!isVoidColumn(x, target.posY, z)) {
+                if (!isVoidColumn(x, target.posY, z) {
                     continue;
                 }
 
@@ -282,7 +282,7 @@ public class Displace extends Module {
 
         for (int step = 1; step <= (int) (DYNAMIC_SCAN_DISTANCE / DYNAMIC_SCAN_STEP); step++) {
             double forward = (double) step * DYNAMIC_SCAN_STEP;
-            if (!isDynamicPathClear(target, baseCollisionBox, forwardX, forwardZ, checkedForward, forward)) {
+            if (!isDynamicPathClear(target, baseCollisionBox, forwardX, forwardZ, checkedForward, forward) {
                 break;
             }
             checkedForward = forward;
@@ -293,7 +293,7 @@ public class Displace extends Module {
                 double sideOffset = (double) side * DYNAMIC_SCAN_SIDE_STEP;
                 double x = target.posX + forwardX * forward + sideX * sideOffset;
                 double z = target.posZ + forwardZ * forward + sideZ * sideOffset;
-                if (isVoidColumn(x, target.posY, z)) {
+                if (isVoidColumn(x, target.posY, z) {
                     double laneWeight = side == 0 ? 1.4D : 1.0D;
                     score += laneWeight * (DYNAMIC_SCAN_DISTANCE + DYNAMIC_SCAN_STEP - forward);
                     centerVoid |= side == 0;
@@ -314,7 +314,7 @@ public class Displace extends Module {
     private boolean isDynamicPathClear(PlayerEntity target, Box baseCollisionBox, double forwardX, double forwardZ, double fromForward, double toForward) {
         for (double forward = fromForward + DYNAMIC_WALL_CHECK_STEP; forward <= toForward + 1.0E-4D; forward += DYNAMIC_WALL_CHECK_STEP) {
             Box checkBox = baseCollisionBox.offset(forwardX * forward, 0.0D, forwardZ * forward);
-            if (hasBlockCollision(target, checkBox)) {
+            if (hasBlockCollision(target, checkBox) {
                 return false;
             }
         }
@@ -333,7 +333,7 @@ public class Displace extends Module {
         BlockPos.Mutable blockPos = new BlockPos.Mutable();
         for (int blockX = minX; blockX < maxX; blockX++) {
             for (int blockZ = minZ; blockZ < maxZ; blockZ++) {
-                if (!mc.world.isBlockLoaded(blockPos.set(blockX, 64, blockZ))) {
+                if (!mc.world.isBlockLoaded(blockPos.set(blockX, 64, blockZ)) {
                     return true;
                 }
 
@@ -345,7 +345,7 @@ public class Displace extends Module {
                     blockPos.set(blockX, blockY, blockZ);
                     BlockState state = mc.world.getBlockState(blockPos);
                     state.getBlock().addCollisionBoxesToList(mc.world, blockPos, state, box, collisions, target);
-                    if (!collisions.isEmpty()) {
+                    if (!collisions.isEmpty() {
                         return true;
                     }
                 }
@@ -361,7 +361,7 @@ public class Displace extends Module {
         int endY = Math.max(0, startY - VOID_SCAN_DEPTH);
 
         for (int blockY = startY; blockY >= endY; blockY--) {
-            if (!mc.world.isAirBlock(new BlockPos(blockX, blockY, blockZ))) {
+            if (!mc.world.isAirBlock(new BlockPos(blockX, blockY, blockZ)) {
                 return false;
             }
         }
@@ -427,7 +427,7 @@ public class Displace extends Module {
         }
 
         Iterator<Map.Entry<Integer, Integer>> iterator = targetWindowStartTicks.entrySet().iterator();
-        while (iterator.hasNext()) {
+        while (iterator.hasNext() {
             Map.Entry<Integer, Integer> entry = iterator.next();
             Entity entity = mc.world.getEntityByID(entry.getKey());
             if (!(entity instanceof PlayerEntity) || entity.isDead || ((PlayerEntity) entity).deathTime != 0) {
@@ -474,7 +474,7 @@ public class Displace extends Module {
 
     
     public void onRenderWorld(RenderWorldLastEvent e) {
-        if (!Utils.nullCheck() || !showDirection.isToggled()) {
+        if (!Utils.nullCheck() || !showDirection.isToggled() {
             clearArrowState();
             return;
         }
@@ -613,7 +613,7 @@ public class Displace extends Module {
         if (!blink.isToggled() || !active || !displaceThisTick || releaseBlinkNextGameTick) {
             return;
         }
-        if (!(e.getPacket() instanceof PlayerMoveC2SPacket)) {
+        if (!(e.getPacket() instanceof PlayerMoveC2SPacket) {
             return;
         }
         if (outboundBlink != null) {
@@ -627,7 +627,7 @@ public class Displace extends Module {
 
     
     public void onClientRotation(ClientRotationEvent e) {
-        if (!Utils.nullCheck()) {
+        if (!Utils.nullCheck() {
             clearActiveState();
             return;
         }
@@ -637,7 +637,7 @@ public class Displace extends Module {
         pruneTargetDelayStates();
 
         boolean passesItemCondition = true;
-        if (hasKnockback.isToggled() || itemWhitelistToggle.isToggled()) {
+        if (hasKnockback.isToggled() || itemWhitelistToggle.isToggled() {
             boolean kbPass = !hasKnockback.isToggled() || EnchantmentHelper.getKnockbackModifier(mc.player) > 0;
             boolean wlPass = !itemWhitelistToggle.isToggled() || itemWhitelist.matches(mc.player.getHeldItem());
             passesItemCondition = kbPass || wlPass;
@@ -664,7 +664,7 @@ public class Displace extends Module {
         dynamicVoidYaw = isDynamicAngle()
                 ? findDynamicVoidYaw(target)
                 : findVoid.isToggled() ? findStaticVoidYaw(target) : null;
-        if (dynamicVoidYaw == null && !isDynamicAngle()) {
+        if (dynamicVoidYaw == null && !isDynamicAngle() {
             displaceLeft = direction.getInput() == 0;
         }
         renderDisplaceYaw = dynamicVoidYaw != null ? dynamicVoidYaw : isDynamicAngle() ? null : getFixedDisplaceYaw();
@@ -676,7 +676,7 @@ public class Displace extends Module {
 
         hasKB = hasKBEnchant;
         displaceThisTick = !displaceThisTick;
-        if (displaceThisTick && !shouldDisplaceInCurrentWindow(target, currentTick)) {
+        if (displaceThisTick && !shouldDisplaceInCurrentWindow(target, currentTick) {
             startArrowFade();
             displaceThisTick = false;
             compensateNextTick = false;

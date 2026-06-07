@@ -37,7 +37,7 @@ public class BreakProgress extends Module {
 
     
     public void onRenderWorld(RenderWorldLastEvent e) {
-        if (this.progress == 0.0f || this.block == null || !Utils.nullCheck()) {
+        if (this.progress == 0.0f || this.block == null || !Utils.nullCheck() {
             return;
         }
         final double x = this.block.getX() + 0.5 - mc.getEntityRenderDispatcher().viewerPosX;
@@ -61,7 +61,7 @@ public class BreakProgress extends Module {
     }
 
     private void setProgress() {
-        switch ((int) mode.getInput()) {
+        switch ((int) mode.getInput() {
             case 0: {
                 this.progressStr = (int) (100.0 * (this.progress / 1.0)) + "%";
                 break;
@@ -84,7 +84,7 @@ public class BreakProgress extends Module {
             this.resetVariables();
             return;
         }
-        if (bedAura.isToggled() && ModuleManager.bedAura != null && ModuleManager.bedAura.isEnabled()) {
+        if (bedAura.isToggled() && ModuleManager.bedAura != null && ModuleManager.bedAura.isEnabled() {
             BlockPos ap = ModuleManager.bedAura.getAuraTargetPos();
             float bp = ModuleManager.bedAura.getAuraBreakProgress();
             if (ap != null && bp > 0.0f) {
