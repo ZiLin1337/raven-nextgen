@@ -1,129 +1,66 @@
 package keystrokesmod.module.impl.combat;
 
+import keystrokesmod.Raven;
 import keystrokesmod.event.ReceivePacketEvent;
 import keystrokesmod.module.Module;
-import keystrokesmod.module.ModuleManager;
-import keystrokesmod.module.impl.movement.LongJump;
-import keystrokesmod.module.setting.impl.ButtonSetting;
-import keystrokesmod.module.setting.impl.DescriptionSetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
-import keystrokesmod.utility.Utils;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.Entity;
 import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
 import net.minecraft.network.packet.s2c.play.ExplosionS2CPacket;
+import net.minecraft.util.math.Vec3d;
 
 public class AntiKnockback extends Module {
-    private SliderSetting horizontal;
-    private SliderSetting vertical;
-    private ButtonSetting disableInLobby;
-    private ButtonSetting cancelBurning;
-    private ButtonSetting cancelExplosion;
-    private ButtonSetting cancelWhileFalling;
-    private ButtonSetting cancelOffGround;
-    private SliderSetting boostMultiplier;
-    private ButtonSetting boostWithLMB;
-
-    public boolean disable;
+    private final MinecraftClient mc = MinecraftClient.getInstance();
+    private final SliderSetting horizontal = new SliderSetting("Horizontal", 100, 0, 100, 1, "%");
+    private final SliderSetting vertical = new SliderSetting("Vertical", 100, 0, 100, 1, "%");
+    private final boolean cancelBurning = true;
+    private final boolean boostWithLMB = false;
+    private boolean disable = false;
 
     public AntiKnockback() {
-        super("AntiKnockback", category.combat);
-        this.registerSetting(new DescriptionSetting("Overrides Velocity."));
-        this.registerSetting(horizontal = new SliderSetting("Horizontal", 0.0, 0.0, 100.0, 1.0));
-        this.registerSetting(vertical = new SliderSetting("Vertical", 0.0, 0.0, 100.0, 1.0));
-        this.registerSetting(disableInLobby = new ButtonSetting("Disable in lobby", false));
-        this.registerSetting(cancelBurning = new ButtonSetting("Cancel burning", true));
-        this.registerSetting(cancelExplosion = new ButtonSetting("Cancel explosion", true));
-        this.registerSetting(cancelWhileFalling = new ButtonSetting("Cancel while falling", true));
-        this.registerSetting(cancelOffGround = new ButtonSetting("Cancel off ground", true));
-        this.registerSetting(boostMultiplier = new SliderSetting("Damage boost", "x", 1, 0.5, 2.5, 0.01));
-        this.registerSetting(boostWithLMB = new ButtonSetting("Boost with LMB", false));
-    }
-
-    
-    public void onReceivePacket(ReceivePacketEvent e) {
-        if (!Utils.nullCheck() || LongJump.stopVelocity || e.isCanceled()) {
-            return;
-        }
-        if (e.getPacket() instanceof EntityVelocityUpdateS2CPacket) {
-            if (((EntityVelocityUpdateS2CPacket) e.getPacket()).getId() == mc.player.getId() && !disable) {
-                if (!cancelBurning.isToggled() && mc.player.isOnFire()) {
-                    return;
-                }
-                if (disableInLobby.isToggled() && Utils.isLobby()) {
-                    return;
-                }
-                e.setCanceled(true);
-                if (cancel()) {
-                    return;
-                }
-                if (cancelConditions()) {
-                    return;
-                }
-                EntityVelocityUpdateS2CPacket s12PacketEntityVelocity = (EntityVelocityUpdateS2CPacket) e.getPacket();
-                if (horizontal.getInput() == 0 && vertical.getInput() > 0) {
-                    mc.player.getVelocity().y = ((double) s12PacketEntityVelocity.velocityY / 8000) * vertical.getInput() / 100.0;
-                }
-                else if (horizontal.getInput() > 0 && vertical.getInput() == 0) {
-                    mc.player.getVelocity().x = ((double) s12PacketEntityVelocity.velocityX / 8000) * horizontal.getInput() / 100.0;
-                    mc.player.getVelocity().z = ((double) s12PacketEntityVelocity.velocityZ / 8000) * horizontal.getInput() / 100.0;
-                }
-                else {
-                    mc.player.getVelocity().x = ((double) s12PacketEntityVelocity.velocityX / 8000) * horizontal.getInput() / 100.0;
-                    mc.player.getVelocity().y = ((double) s12PacketEntityVelocity.velocityY / 8000) * vertical.getInput() / 100.0;
-                    mc.player.getVelocity().z = ((double) s12PacketEntityVelocity.velocityZ / 8000) * horizontal.getInput() / 100.0;
-                }
-                if (boostMultiplier.getInput() != 1) {
-                    if (boostWithLMB.isToggled() && !GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) {
-                        return;
-                    }
-                    Utils.setSpeed(Utils.getHorizontalSpeed() * boostMultiplier.getInput());
-                }
-            }
-        }
-        else if (e.getPacket() instanceof ExplosionS2CPacket && !disable) {
-            if (disableInLobby.isToggled() && Utils.isLobby()) {
-                return;
-            }
-            e.setCanceled(true);
-            if (cancelExplosion.isToggled() || cancel()) {
-                return;
-            }
-            if (cancelConditions()) {
-                return;
-            }
-            ExplosionS2CPacket s27PacketExplosion = (ExplosionS2CPacket) e.getPacket();
-            if (horizontal.getInput() == 0 && vertical.getInput() > 0) {
-                mc.player.getVelocity().y += s27PacketExplosion.velocityY * vertical.getInput() / 100.0;
-            }
-            else if (horizontal.getInput() > 0 && vertical.getInput() == 0) {
-                mc.player.getVelocity().x += s27PacketExplosion.velocityX * horizontal.getInput() / 100.0;
-                mc.player.getVelocity().z += s27PacketExplosion.velocityZ * horizontal.getInput() / 100.0;
-            }
-            else {
-                mc.player.getVelocity().x += s27PacketExplosion.velocityX * horizontal.getInput() / 100.0;
-                mc.player.getVelocity().y += s27PacketExplosion.velocityY * vertical.getInput() / 100.0;
-                mc.player.getVelocity().z += s27PacketExplosion.velocityZ * horizontal.getInput() / 100.0;
-            }
-        }
-    }
-
-    private boolean cancel() {
-        return (vertical.getInput() == 0 && horizontal.getInput() == 0);
+        super("Anti-Knockback");
+        this.registerSetting(horizontal);
+        this.registerSetting(vertical);
     }
 
     @Override
-    public String getInfo() {
-        return (int) horizontal.getInput() + "%" + " " + (int) vertical.getInput() + "%";
+    public void onEnable() {
+        this.disable = false;
     }
 
-    private boolean cancelConditions() {
-        if (mc.player != null) {
-            if (cancelWhileFalling.isToggled() && mc.player.fallDistance > 0) {
-                return true;
-            }
-            if (cancelOffGround.isToggled() && !mc.player.isOnGround()) {
-                return true;
+    @Override
+    public void onDisable() {
+        this.disable = false;
+    }
+
+    public void onReceivePacket(ReceivePacketEvent e) {
+        if (mc.player == null) return;
+        
+        if (e.getPacket() instanceof EntityVelocityUpdateS2CPacket velocityPacket) {
+            if (velocityPacket.getEntityId() == mc.player.getId() && !disable) {
+                Vec3d packetVelocity = velocityPacket.getVelocity();
+                double newX = (packetVelocity.x / 8000.0) * horizontal.getInput() / 100.0;
+                double newY = (packetVelocity.y / 8000.0) * vertical.getInput() / 100.0;
+                double newZ = (packetVelocity.z / 8000.0) * horizontal.getInput() / 100.0;
+                
+                mc.player.setVelocity(new Vec3d(newX, newY, newZ));
+                e.setCancelled(true);
             }
         }
-        return false;
+        
+        if (e.getPacket() instanceof ExplosionS2CPacket explosionPacket) {
+            Vec3d packetVelocity = explosionPacket.getVelocity();
+            double addX = packetVelocity.x * horizontal.getInput() / 100.0;
+            double addY = packetVelocity.y * vertical.getInput() / 100.0;
+            double addZ = packetVelocity.z * horizontal.getInput() / 100.0;
+            
+            Vec3d currentVelocity = mc.player.getVelocity();
+            mc.player.setVelocity(new Vec3d(
+                currentVelocity.x + addX,
+                currentVelocity.y + addY,
+                currentVelocity.z + addZ
+            ));
+        }
     }
 }
