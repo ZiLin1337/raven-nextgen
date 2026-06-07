@@ -10,11 +10,19 @@ public interface RavenFontRenderer {
         if (shadow) {
             return textRenderer.drawWithShadow(MinecraftClient.getInstance().textRenderer, text, x, y, color);
         } else {
-            return textRenderer.draw(MinecraftClient.getInstance().textRenderer, text, (int)x, (int)y, color);
+            return textRenderer.draw(text, (int)x, (int)y, color);
         }
     }
     
     default int drawStringWithShadow(String text, float x, float y, int color) {
         return drawString(text, x, y, color, true);
+    }
+    
+    default int getStringWidth(String text) {
+        return MinecraftClient.getInstance().textRenderer.getWidth(text);
+    }
+    
+    default int getFontHeight() {
+        return MinecraftClient.getInstance().textRenderer.fontHeight;
     }
 }
