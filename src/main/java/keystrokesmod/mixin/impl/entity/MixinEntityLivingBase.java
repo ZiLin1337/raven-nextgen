@@ -93,7 +93,7 @@ public abstract class MixinLivingEntity {
             if ((effect == Registries.STATUS_EFFECT.get(net.minecraft.util.Identifier.ofVanilla("nausea"))
                     && ModuleManager.antiDebuff.removeNausea.isToggled())
                 || (effect == Registries.STATUS_EFFECT.get(net.minecraft.util.Identifier.ofVanilla("blindness"))
-                    && ModuleManager.antiDebuff.removeBlindness.isToggled() {
+                    && ModuleManager.antiDebuff.removeBlindness.isToggled()) {
                 if (ModuleManager.antiDebuff.removeSideEffects.isToggled()) {
                     cir.setReturnValue(false);
                 }

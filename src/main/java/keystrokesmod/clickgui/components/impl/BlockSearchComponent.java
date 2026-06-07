@@ -56,7 +56,7 @@ public class BlockSearchComponent extends AbstractSearchListComponent {
             for (String storageId : blocks) {
                 List<BlockSearchIndex.BlockEntry> variants = BlockSearchIndex.isWildcard(storageId) ? BlockSearchIndex.getVariants(BlockSearchIndex.getRegistryId(storageId)) : null;
                 List<net.minecraft.item.ItemStack> cyclingStacks = null;
-                if (variants != null && !variants.isEmpty() { cyclingStacks = new ArrayList<net.minecraft.item.ItemStack>(); for (BlockSearchIndex.BlockEntry v : variants) cyclingStacks.add(v.toItemStack()); }
+                if (variants != null && !variants.isEmpty()) { cyclingStacks = new ArrayList<net.minecraft.item.ItemStack>(); for (BlockSearchIndex.BlockEntry v : variants) cyclingStacks.add(v.toItemStack()); }
                 selectedRowsCache.add(new SelectedRowData(storageId, BlockSearchIndex.getDisplayName(storageId), BlockSearchIndex.getItemStack(storageId), cyclingStacks));
             }
         }

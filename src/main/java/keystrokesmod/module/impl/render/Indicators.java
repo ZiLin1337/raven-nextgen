@@ -278,7 +278,7 @@ public class Indicators extends Module {
                     renderFireballTrajectory((EntityLargeFireball) entity, event.partialTicks);
                 }
                 else if (entity instanceof EntityArrow && drawArrowTrajectory.isToggled()
-                        && !((IAccessorEntityArrow) entity).getInGround() {
+                        && !((IAccessorEntityArrow) entity).getInGround()) {
                     renderArrowTrajectory((EntityArrow) entity, event.partialTicks);
                 }
                 else if (entity instanceof EntityEnderPearl && drawPearlTrajectory.isToggled()) {

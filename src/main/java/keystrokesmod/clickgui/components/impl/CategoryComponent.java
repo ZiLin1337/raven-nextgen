@@ -168,7 +168,7 @@ public class CategoryComponent {
         float clamped = Math.max(lm.minScrollY, Math.min(this.y, scrollAnim.getTarget()));
         this.moduleY = clamped;
         scrollAnim.reset(clamped);
-        if (this.opened && !this.modules.isEmpty() { this.big = lm.visibleHeight; this.lastHeight = lm.contentBottom; return; }
+        if (this.opened && !this.modules.isEmpty()) { this.big = lm.visibleHeight; this.lastHeight = lm.contentBottom; return; }
         if (!this.opened && this.smoothTimer == null) this.big = 0f;
         this.lastHeight = this.y + this.titleHeight + 4;
     }
