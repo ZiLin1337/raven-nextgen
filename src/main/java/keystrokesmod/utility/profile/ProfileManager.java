@@ -47,11 +47,11 @@ public class ProfileManager {
         for (Module module : Raven.getModuleManager().getModules()) {
             Map<String, Object> settings = new LinkedHashMap<>();
             for (Setting setting : module.getSettings()) {
-                if (setting instanceof SliderSetting slider) {
+                if (setting instanceof SliderSetting slider)) {
                     settings.put(setting.getName(), slider.getValue());
-                } else if (setting instanceof ButtonSetting button) {
+                } else if (setting instanceof ButtonSetting button)) {
                     settings.put(setting.getName(), button.isToggled());
-                } else if (setting instanceof ColorSetting color) {
+                } else if (setting instanceof ColorSetting color)) {
                     settings.put(setting.getName(), color.getColor());
                 }
             }
@@ -84,21 +84,21 @@ public class ProfileManager {
                 for (Setting setting : module.getSettings()) {
                     Object value = settings.get(setting.getName());
                     if (value == null) continue;
-                    if (setting instanceof SliderSetting slider) {
+                    if (setting instanceof SliderSetting slider)) {
                         if (value instanceof Number number) slider.setValue(number.intValue());
-                    } else if (setting instanceof ButtonSetting button) {
+                    } else if (setting instanceof ButtonSetting button)) {
                         if (value instanceof Boolean bool) button.setState(bool);
-                    } else if (setting instanceof ColorSetting color) {
+                    } else if (setting instanceof ColorSetting color)) {
                         if (value instanceof Number number) color.setColor(number.intValue());
                     }
                 }
                 Object enabled = settings.get("_enabled");
-                if (enabled instanceof Boolean bool) {
+                if (enabled instanceof Boolean bool)) {
                     if (bool) module.enable();
                     else module.disable();
                 }
                 Object hidden = settings.get("_hidden");
-                if (hidden instanceof Boolean bool) {
+                if (hidden instanceof Boolean bool)) {
                     module.setHidden(bool);
                 }
             }

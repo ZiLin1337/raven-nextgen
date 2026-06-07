@@ -17,14 +17,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinClientPlayNetworkHandler {
     @Inject(method = "onPlayerPositionLook", at = @At("HEAD"))
     private void onPlayerPosLookPre(PlayerPositionLookS2CPacket packet, CallbackInfo ci) {
-        if (ModuleManager.noRotate != null) {
+        if (ModuleManager.noRotate != null)) {
             ModuleManager.noRotate.handlePlayerPosLookPre();
         }
     }
 
     @Inject(method = "onPlayerPositionLook", at = @At("RETURN"))
     private void onPlayerPosLook(PlayerPositionLookS2CPacket packet, CallbackInfo ci) {
-        if (ModuleManager.noRotate != null) {
+        if (ModuleManager.noRotate != null)) {
             ModuleManager.noRotate.handlePlayerPosLook(packet);
         }
     }

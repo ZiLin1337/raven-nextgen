@@ -84,10 +84,10 @@ public class ChestESP extends Module {
     }
 
     private ChestKind getChestKind(TileEntity tileEntity) {
-        if (tileEntity instanceof TileEntityEnderChest) {
+        if (tileEntity instanceof TileEntityEnderChest)) {
             return ChestKind.ENDER;
         }
-        if (tileEntity instanceof TileEntityChest) {
+        if (tileEntity instanceof TileEntityChest)) {
             return ((TileEntityChest) tileEntity).getChestType() == TRAPPED_CHEST_TYPE ? ChestKind.TRAPPED : ChestKind.NORMAL;
         }
         return ChestKind.NONE;
@@ -126,7 +126,7 @@ public class ChestESP extends Module {
         if (settings == null || !settings.isDisableIfOpened()) {
             return false;
         }
-        if (tileEntity instanceof TileEntityChest) {
+        if (tileEntity instanceof TileEntityChest)) {
             return ((TileEntityChest) tileEntity).lidAngle > 0.0f;
         }
         return tileEntity instanceof TileEntityEnderChest && ((TileEntityEnderChest) tileEntity).lidAngle > 0.0f;
@@ -152,7 +152,7 @@ public class ChestESP extends Module {
 
     
     public void onClientTick(TickEvent.ClientTickEvent event) {
-        if (event.phase != TickEvent.Phase.END) {
+        if (event.phase != TickEvent.Phase.END)) {
             return;
         }
         updateTrackedWorldBatches();
@@ -221,7 +221,7 @@ public class ChestESP extends Module {
             }
 
             List<BlockPos> trackedBatch = trackedWorldBatches.get(chestKind);
-            if (trackedBatch != null) {
+            if (trackedBatch != null)) {
                 trackedBatch.add(pos);
             }
         }

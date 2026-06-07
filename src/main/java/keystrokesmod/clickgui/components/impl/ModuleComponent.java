@@ -75,67 +75,67 @@ public class ModuleComponent extends Component {
         if (mod != null && !mod.getSettings().isEmpty()) {
             for (Setting v : mod.getSettings()) {
                 if (!v.visible) continue;
-                if (v instanceof SliderSetting) {
+                if (v instanceof SliderSetting)) {
                     SliderSetting n = (SliderSetting) v;
                     SliderComponent s = new SliderComponent(n, this, y);
                     this.settings.add(s);
                     y += 12;
-                } else if (v instanceof ButtonSetting) {
+                } else if (v instanceof ButtonSetting)) {
                     ButtonSetting b = (ButtonSetting) v;
                     ButtonComponent c = new ButtonComponent(mod, b, this, y);
                     this.settings.add(c);
                     y += 12;
-                } else if (v instanceof DescriptionSetting) {
+                } else if (v instanceof DescriptionSetting)) {
                     DescriptionSetting d = (DescriptionSetting) v;
                     DescriptionComponent m = new DescriptionComponent(d, this, y);
                     this.settings.add(m);
                     y += 12;
-                } else if (v instanceof KeySetting) {
+                } else if (v instanceof KeySetting)) {
                     KeySetting setting = (KeySetting) v;
                     BindComponent keyComponent = new BindComponent(this, setting, y);
                     this.settings.add(keyComponent);
                     y += 12;
-                } else if (v instanceof GroupSetting) {
+                } else if (v instanceof GroupSetting)) {
                     GroupSetting b = (GroupSetting) v;
                     GroupComponent c = new GroupComponent(b, this, y);
                     this.settings.add(c);
                     y += 12;
-                } else if (v instanceof ColorSetting) {
+                } else if (v instanceof ColorSetting)) {
                     ColorSetting cs = (ColorSetting) v;
                     ColorComponent cc = new ColorComponent(cs, this, y);
                     this.settings.add(cc);
                     y += 12;
-                } else if (v instanceof PotionListSetting) {
+                } else if (v instanceof PotionListSetting)) {
                     PotionListSetting pls = (PotionListSetting) v;
                     PotionSearchComponent psc = new PotionSearchComponent(pls, this, y);
                     this.settings.add(psc);
                     y += 12;
-                } else if (v instanceof InventoryItemListSetting) {
+                } else if (v instanceof InventoryItemListSetting)) {
                     InventoryItemListSetting iils = (InventoryItemListSetting) v;
                     InventoryItemSearchComponent iisc = new InventoryItemSearchComponent(iils, this, y);
                     this.settings.add(iisc);
                     y += 12;
-                } else if (v instanceof ItemListSetting) {
+                } else if (v instanceof ItemListSetting)) {
                     ItemListSetting ils = (ItemListSetting) v;
                     ItemSearchComponent isc = new ItemSearchComponent(ils, this, y);
                     this.settings.add(isc);
                     y += 12;
-                } else if (v instanceof PlayerListSetting) {
+                } else if (v instanceof PlayerListSetting)) {
                     PlayerListSetting pls = (PlayerListSetting) v;
                     PlayerListComponent plc = new PlayerListComponent(pls, this, y);
                     this.settings.add(plc);
                     y += plc.getHeightF();
-                } else if (v instanceof StringListSetting) {
+                } else if (v instanceof StringListSetting)) {
                     StringListSetting sls = (StringListSetting) v;
                     StringListComponent slc = new StringListComponent(sls, this, y);
                     this.settings.add(slc);
                     y += slc.getHeightF();
-                } else if (v instanceof BlockListSetting) {
+                } else if (v instanceof BlockListSetting)) {
                     BlockListSetting bls = (BlockListSetting) v;
                     BlockSearchComponent bsc = new BlockSearchComponent(bls, this, y);
                     this.settings.add(bsc);
                     y += 12;
-                } else if (v instanceof TextSetting) {
+                } else if (v instanceof TextSetting)) {
                     TextSetting ts = (TextSetting) v;
                     TextFieldComponent tfc = new TextFieldComponent(ts, this, y);
                     this.settings.add(tfc);
@@ -143,7 +143,7 @@ public class ModuleComponent extends Component {
                 }
             }
         }
-        if (!categoryManager) {
+        if (!categoryManager)) {
             this.settings.add(new BindComponent(this, y));
         }
         rebuildGroupOwnershipCache();
@@ -154,18 +154,18 @@ public class ModuleComponent extends Component {
         Map<SliderSetting, Boolean> sliderHeldStates = new HashMap<>();
         Map<ColorSetting, Boolean> colorExpandedStates = new HashMap<>();
         for (Component component : this.settings) {
-            if (component instanceof SliderComponent) {
+            if (component instanceof SliderComponent)) {
                 sliderHeldStates.put(((SliderComponent) component).sliderSetting, ((SliderComponent) component).heldDown);
-            } else if (component instanceof ColorComponent) {
+            } else if (component instanceof ColorComponent)) {
                 colorExpandedStates.put(((ColorComponent) component).colorSetting, ((ColorComponent) component).expanded);
             }
         }
         rebuildSettingsList();
         for (Component component : this.settings) {
-            if (component instanceof SliderComponent) {
+            if (component instanceof SliderComponent)) {
                 Boolean was = sliderHeldStates.get(((SliderComponent) component).sliderSetting);
                 if (was != null) ((SliderComponent) component).heldDown = was;
-            } else if (component instanceof ColorComponent) {
+            } else if (component instanceof ColorComponent)) {
                 Boolean was = colorExpandedStates.get(((ColorComponent) component).colorSetting);
                 if (was != null) ((ColorComponent) component).restoreExpandedState(was);
             }
@@ -184,14 +184,14 @@ public class ModuleComponent extends Component {
     }
 
     public void updateAnimationState() {
-        if (smoothTimer != null) {
+        if (smoothTimer != null)) {
             if (System.currentTimeMillis() - smoothTimer.last >= 280) {
                 smoothTimer = null;
                 smoothingY = animationTargetY;
                 animationStartY = animationTargetY;
             } else {
                 smoothingY = smoothTimer.getValueFloat(animationStartY, animationTargetY, 1);
-                if (smoothingY == animationTargetY) {
+                if (smoothingY == animationTargetY)) {
                     smoothTimer = null;
                     animationStartY = animationTargetY;
                 }
@@ -205,8 +205,8 @@ public class ModuleComponent extends Component {
         int idx = 0;
         while (idx < this.settings.size()) {
             Component co = this.settings.get(idx);
-            if (!isVisibleBase(co) { idx++; continue; }
-            if (co instanceof GroupComponent) {
+            if (!isVisibleBase(co)) { idx++; continue; }
+            if (co instanceof GroupComponent)) {
                 GroupComponent group = (GroupComponent) co;
                 float progress = group.getAnimationProgress();
                 co.updateHeight(y);
@@ -217,7 +217,7 @@ public class ModuleComponent extends Component {
                 float totalChildrenFullHeight = 0f;
                 while (idx < this.settings.size()) {
                     Component child = this.settings.get(idx);
-                    if (!isVisibleBase(child) { idx++; continue; }
+                    if (!isVisibleBase(child)) { idx++; continue; }
                     if (getOwningGroup(child) != group) break;
                     child.updateHeight(childY);
                     float baseH = getBaseComponentHeightF(child);
@@ -267,7 +267,7 @@ public class ModuleComponent extends Component {
             float textY = this.categoryComponent.getY() + this.yPos + 4;
             titleRenderer.drawString(this.mod.getName(), textX, textY, button_rgb, true);
         }
-        if (scissorRequired) {
+        if (scissorRequired)) {
             MinecraftClient mc = MinecraftClient.getInstance();
             int scale = (int) mc.getWindow().getScaleFactor();
             double guiScale = ClickGui.getActiveRenderScale();
@@ -320,7 +320,7 @@ public class ModuleComponent extends Component {
         for (Component c : this.settings) c.drawScreen(x, y);
         if (hasModuleHeader() && overModuleName(x, y) && this.categoryComponent.opened) {
             hovering = true;
-            if (hoverTimer == null) { (hoverTimer = new Timer(75)).start(); hoverStarted = true; }
+            if (hoverTimer == null)) { (hoverTimer = new Timer(75)).start(); hoverStarted = true; }
         } else {
             if (hovering && hoverStarted) (hoverTimer = new Timer(75)).start();
             hoverStarted = false;
@@ -409,7 +409,7 @@ public class ModuleComponent extends Component {
 
     private float getBaseComponentHeightF(Component component) {
         if (component instanceof SliderComponent) return 16f;
-        if (component instanceof ColorComponent) {
+        if (component instanceof ColorComponent)) {
             ColorComponent cc = (ColorComponent) component;
             return 12f + (cc.getExpandedHeight() - 12f) * cc.getAnimationProgress();
         }
@@ -431,13 +431,13 @@ public class ModuleComponent extends Component {
         int i = 0;
         while (i < settings.size()) {
             Component c = settings.get(i);
-            if (!isVisibleBase(c) { i++; continue; }
-            if (c instanceof GroupComponent) {
+            if (!isVisibleBase(c)) { i++; continue; }
+            if (c instanceof GroupComponent)) {
                 ((GroupComponent) c).render();
                 i++;
                 while (i < settings.size()) {
                     Component child = settings.get(i);
-                    if (!isVisibleBase(child) { i++; continue; }
+                    if (!isVisibleBase(child)) { i++; continue; }
                     if (getOwningGroup(child) != c) break;
                     i++;
                 }
@@ -447,8 +447,8 @@ public class ModuleComponent extends Component {
         i = 0;
         while (i < settings.size()) {
             Component c = settings.get(i);
-            if (!isVisibleBase(c) { i++; continue; }
-            if (c instanceof GroupComponent) {
+            if (!isVisibleBase(c)) { i++; continue; }
+            if (c instanceof GroupComponent)) {
                 GroupComponent group = (GroupComponent) c;
                 i++;
                 float progress = group.getAnimationProgress();
@@ -457,12 +457,12 @@ public class ModuleComponent extends Component {
                 int j = i;
                 while (j < settings.size()) {
                     Component child = settings.get(j);
-                    if (!isVisibleBase(child) { j++; continue; }
+                    if (!isVisibleBase(child)) { j++; continue; }
                     if (getOwningGroup(child) != group) break;
                     groupContentHeight += getBaseComponentHeightF(child);
                     j++;
                 }
-                if (progress > 0f && groupContentHeight > 0f) {
+                if (progress > 0f && groupContentHeight > 0f)) {
                     float revealHeight = groupContentHeight * progress;
                     MinecraftClient mc = MinecraftClient.getInstance();
                     int sf = (int) mc.getWindow().getScaleFactor();
@@ -491,7 +491,7 @@ public class ModuleComponent extends Component {
     private void pushScissor(int x, int y, int w, int h) {
         boolean wasEnabled = GL11.glIsEnabled(GL11.GL_SCISSOR_TEST);
         int[] saved = scissorStack[scissorDepth++];
-        if (wasEnabled) {
+        if (wasEnabled)) {
             SCISSOR_BOX.clear();
             GL11.glGetInteger(GL11.GL_SCISSOR_BOX, SCISSOR_BOX);
             saved[0] = 1;

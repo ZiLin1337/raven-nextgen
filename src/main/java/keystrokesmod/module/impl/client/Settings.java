@@ -77,11 +77,11 @@ public class Settings extends Module {
         try {
             for (int i = 1; i < capes.length; i++) {
                 String name = capes[i].toLowerCase();
-                if (i > 1) {
+                if (i > 1)) {
                     name = "rvn_" + name;
                 }
                 InputStream stream = Raven.class.getResourceAsStream("/assets/keystrokesmod/textures/capes/" + name + ".png");
-                if (stream == null) {
+                if (stream == null)) {
                     continue;
                 }
                 BufferedImage bufferedImage = ImageIO.read(stream);
@@ -94,7 +94,7 @@ public class Settings extends Module {
     }
 
     public static boolean inInventory() {
-        if (mc.currentScreen instanceof GuiInventory) {
+        if (mc.currentScreen instanceof GuiInventory)) {
             return true;
         }
         if (mc.currentScreen instanceof GuiChat && setChatAsInventory.isToggled()) {

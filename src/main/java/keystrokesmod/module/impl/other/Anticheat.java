@@ -80,7 +80,7 @@ public class Anticheat extends Module {
         long currentTimeMillis = System.currentTimeMillis();
         if (interval.getInput() > 0.0) {
             HashMap<ButtonSetting, Long> hashMap = flags.get(entityPlayer.getUniqueID());
-            if (hashMap == null) {
+            if (hashMap == null)) {
                 hashMap = new HashMap<>();
             }
             else {
@@ -113,17 +113,17 @@ public class Anticheat extends Module {
             return;
         }
         for (PlayerEntity entityPlayer : mc.world.getPlayers()) {
-            if (entityPlayer == null) {
+            if (entityPlayer == null)) {
                 continue;
             }
-            if (entityPlayer == mc.player) {
+            if (entityPlayer == mc.player)) {
                 continue;
             }
             if (AntiBot.isBot(entityPlayer)) {
                 continue;
             }
             PlayerData data = players.get(entityPlayer.getUniqueID());
-            if (data == null) {
+            if (data == null)) {
                 data = new PlayerData();
             }
             data.update(entityPlayer);
@@ -136,7 +136,7 @@ public class Anticheat extends Module {
 
     
     public void onEntityJoin(EntityJoinWorldEvent e) {
-        if (e.entity == mc.player) {
+        if (e.entity == mc.player)) {
             players.clear();
             flags.clear();
         }
@@ -171,7 +171,7 @@ public class Anticheat extends Module {
                 }
                 blockPos = blockPos.down();
             }
-            if (overAir) {
+            if (overAir)) {
                 alert(entityPlayer, scaffold);
                 return;
             }
@@ -183,7 +183,7 @@ public class Anticheat extends Module {
             double deltaX = Math.abs(playerData.serverPosX - serverPosX);
             double deltaY = playerData.serverPosY - serverPosY;
             double deltaZ = Math.abs(playerData.serverPosZ - serverPosZ);
-            if (deltaY >= 5 && deltaX <= 10 && deltaZ <= 10 && deltaY <= 40) {
+            if (deltaY >= 5 && deltaX <= 10 && deltaZ <= 10 && deltaY <= 40)) {
                 if (!Utils.overVoid(serverPosX, serverPosY, serverPosZ) && Utils.distanceToGround(entityPlayer) > 3 && !Utils.onLadder(entityPlayer) && !entityPlayer.isInWater() && !entityPlayer.isInLava()) {
                     alert(entityPlayer, noFall);
                 }

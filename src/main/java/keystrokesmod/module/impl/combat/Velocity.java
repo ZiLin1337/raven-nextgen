@@ -60,14 +60,14 @@ public class Velocity extends Module {
         double hFactor = horizontal.getInput() / 100.0D;
         double vFactor = vertical.getInput() / 100.0D;
 
-        if (hFactor != 1.0D) {
+        if (hFactor != 1.0D)) {
             mc.player.setVelocity(
                 mc.player.getVelocity().x * hFactor,
                 mc.player.getVelocity().y,
                 mc.player.getVelocity().z * hFactor
             );
         }
-        if (vFactor != 1.0D) {
+        if (vFactor != 1.0D)) {
             mc.player.setVelocity(
                 mc.player.getVelocity().x,
                 mc.player.getVelocity().y * vFactor,

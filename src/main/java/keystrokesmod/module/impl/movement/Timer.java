@@ -42,7 +42,7 @@ public class Timer extends Module {
         }
 
         float configuredSpeed = (float) speed.getInput();
-        if (configuredSpeed > 0.0F) {
+        if (configuredSpeed > 0.0F)) {
             ((IAccessorMinecraft) mc).getTimer().timerSpeed = configuredSpeed;
         } else {
             // 0-speed mode uses local update skipping in MixinClientPlayerEntity.

@@ -136,7 +136,7 @@ public class CategoryComponent {
             manager.restoreOpenState(Boolean.TRUE.equals(openStates.get(manager.mod.getName())));
             this.modules.add(manager);
             if ((Raven.profileManager == null && isProfile) || (Raven.scriptManager == null && !isProfile)) return;
-            if (isProfile) {
+            if (isProfile)) {
                 for (Profile profile : Raven.profileManager.profiles) {
                     moduleRenderY += 16;
                     ModuleComponent b = new ModuleComponent(profile.getModule(), this, moduleRenderY);
@@ -174,12 +174,12 @@ public class CategoryComponent {
     }
 
     public void setX(float newX, boolean limit) {
-        if (limit) { newX = Math.max(newX, 2); newX = Math.min(newX, screenWidth - this.width - 4); }
+        if (limit)) { newX = Math.max(newX, 2); newX = Math.min(newX, screenWidth - this.width - 4); }
         this.x = newX;
     }
 
     public void setY(float y, boolean limit) {
-        if (limit) { y = Math.max(y, 1); y = Math.min(y, screenHeight - this.titleHeight - 5); }
+        if (limit)) { y = Math.max(y, 1); y = Math.min(y, screenHeight - this.titleHeight - 5); }
         float scrollOff = scrollAnim.getTarget() - this.y;
         this.y = y;
         float newTarget = y + scrollOff;
@@ -247,7 +247,7 @@ public class CategoryComponent {
         float middlePos = this.x + this.width / 2 - titleRenderer.getStringWidth(this.category.name()) / 2.0f;
         float contentBottom = lm.contentBottom;
         float extra;
-        if (smoothTimer != null) {
+        if (smoothTimer != null)) {
             float targetHeight = this.opened ? contentBottom : (this.y + this.titleHeight + 4);
             extra = smoothTimer.getValueFloat(animationStartHeight, targetHeight, 1);
             if ((this.opened && extra > targetHeight) || (!this.opened && extra < targetHeight)) extra = targetHeight;
@@ -267,7 +267,7 @@ public class CategoryComponent {
         float moduleAreaTop = this.y + this.titleHeight + 3;
         float scissorBottom = extra - 2f;
         float moduleAreaHeight = Math.max(0f, scissorBottom - moduleAreaTop);
-        if (this.opened || smoothTimer != null) {
+        if (this.opened || smoothTimer != null)) {
             RenderSystem.enableBlend(GL11.GL_SCISSOR_TEST);
             RenderUtils.scissor(0, moduleAreaTop, this.x + this.width + 4, moduleAreaHeight);
             float scrollOffset = moduleY - this.y;
@@ -291,7 +291,7 @@ public class CategoryComponent {
     public float getWidth() { return this.width; }
 
     public void mousePosition(int mouseX, int mouseY, boolean isTopmostUnderCursor) {
-        if (this.dragging) {
+        if (this.dragging)) {
             float newX = mouseX - this.xx;
             float newY = mouseY - this.yy;
             newX = Math.max(newX, 2); newX = Math.min(newX, screenWidth - this.width - 4);
@@ -314,7 +314,7 @@ public class CategoryComponent {
         GL11.glScaled(scale, scale, scale);
         CategoryIconStacks icons = CATEGORY_ICON_STACKS.get(category);
         ItemStack stack = icons == null ? null : (enchant ? icons.activeStack : icons.normalStack);
-        if (stack != null) {
+        if (stack != null)) {
             DiffuseLighting.enableGuiLighting();
             RenderSystem.disableBlend(GL11.GL_BLEND);
             GL11.glTranslated(x / scale, y / scale, 0);
@@ -351,7 +351,7 @@ public class CategoryComponent {
     public void limitPositions() { setX(this.x, true); setY(this.y, true); }
 
     public void applySavedState(float x, float y, boolean opened, boolean clampToScreen) {
-        if (clampToScreen) { setX(x, true); setY(y, true); }
+        if (clampToScreen)) { setX(x, true); setY(y, true); }
         else {
             float scrollOff = scrollAnim.getTarget() - this.y;
             this.x = x; this.y = y;
@@ -368,7 +368,7 @@ public class CategoryComponent {
     }
 
     public void onGuiClosed() {
-        if (smoothTimer != null || textTimer != null) {
+        if (smoothTimer != null || textTimer != null)) {
             float fh = this.y + this.titleHeight;
             if (this.opened && !this.modules.isEmpty()) {
                 float mh = 0f;
@@ -428,7 +428,7 @@ public class CategoryComponent {
             case scripts: stack = new ItemStack(Items.REDSTONE); break;
             default: return null;
         }
-        if (active) {
+        if (active)) {
             stack.addEnchantment(Registries.ENCHANTMENT.getEntry(Enchantments.UNBREAKING), 2);
         }
         return stack;

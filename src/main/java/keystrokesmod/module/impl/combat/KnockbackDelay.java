@@ -102,7 +102,7 @@ public class KnockbackDelay extends Module {
 
         if (elapsed >= maximumDelay.getInput()) {
             // Re-apply the velocity
-            if (mc.player != null) {
+            if (mc.player != null)) {
                 mc.player.setVelocity(
                     pendingVelocity.getVelocityX() / 8000.0,
                     pendingVelocity.getVelocityY() / 8000.0,

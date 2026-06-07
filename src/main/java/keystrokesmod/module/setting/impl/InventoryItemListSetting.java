@@ -30,7 +30,7 @@ public class InventoryItemListSetting extends ItemListSetting {
         String key = null;
         if (data.has(getProfileKey())) key = getProfileKey();
         else if (data.has(getName())) key = getName();
-        else { for (String k : getLegacyProfileKeys()) { if (data.has(k) { key = k; break; } } }
+        else { for (String k : getLegacyProfileKeys()) { if (data.has(k)) { key = k; break; } } }
         if (key == null) return;
         getItems().clear(); assignedSlots.clear();
         JsonElement el = data.get(key);

@@ -47,37 +47,37 @@ public class InvManager extends Module {
 
     private static final Comparator<PlannedAction> ACTION_COMPARATOR = (first, second) -> {
         int comparison = Integer.compare(first.clickCount, second.clickCount);
-        if (comparison != 0) {
+        if (comparison != 0)) {
             return comparison;
         }
 
         comparison = Boolean.compare(second.completesTarget, first.completesTarget);
-        if (comparison != 0) {
+        if (comparison != 0)) {
             return comparison;
         }
 
         comparison = Integer.compare(first.priorityIndex, second.priorityIndex);
-        if (comparison != 0) {
+        if (comparison != 0)) {
             return comparison;
         }
 
         comparison = Integer.compare(first.displacesCorrectHotbar, second.displacesCorrectHotbar);
-        if (comparison != 0) {
+        if (comparison != 0)) {
             return comparison;
         }
 
         comparison = Integer.compare(second.resultingSize, first.resultingSize);
-        if (comparison != 0) {
+        if (comparison != 0)) {
             return comparison;
         }
 
         comparison = Integer.compare(first.targetHotbarSlot, second.targetHotbarSlot);
-        if (comparison != 0) {
+        if (comparison != 0)) {
             return comparison;
         }
 
         comparison = Integer.compare(first.primarySourceIndex, second.primarySourceIndex);
-        if (comparison != 0) {
+        if (comparison != 0)) {
             return comparison;
         }
 
@@ -159,13 +159,13 @@ public class InvManager extends Module {
         }
 
         if (!disableWhenComplete.isToggled()) {
-            if (sessionState == SessionState.COMPLETE_LATCHED) {
+            if (sessionState == SessionState.COMPLETE_LATCHED)) {
                 sessionState = SessionState.ACTIVE;
             }
             return;
         }
 
-        if (currentAction == null && cursorRecoveryInventoryIndex < 0) {
+        if (currentAction == null && cursorRecoveryInventoryIndex < 0)) {
             InventorySnapshot snapshot = InventorySnapshot.capture();
             SnapshotContext context = SnapshotContext.create(snapshot, resolveAssignments(snapshot));
             if (findBestSortingAction(context) == null) {
@@ -191,7 +191,7 @@ public class InvManager extends Module {
             return;
         }
 
-        if (mc.currentScreen == null) {
+        if (mc.currentScreen == null)) {
             closeInventoryGui = false;
             inventoryActionPerformed = false;
             closeSession();
@@ -217,13 +217,13 @@ public class InvManager extends Module {
             return;
         }
 
-        if (mc.currentScreen instanceof GuiInventory) {
+        if (mc.currentScreen instanceof GuiInventory)) {
             handleInventoryScreen();
             return;
         }
 
         closeSession();
-        if (mc.currentScreen instanceof GuiChest) {
+        if (mc.currentScreen instanceof GuiChest)) {
             handleChestScreen();
         }
     }
@@ -266,11 +266,11 @@ public class InvManager extends Module {
     }
 
     private boolean consumeExternalActionDelay() {
-        if (nextDelay <= 0L) {
+        if (nextDelay <= 0L)) {
             return true;
         }
 
-        if (++ticks < nextDelay) {
+        if (++ticks < nextDelay)) {
             return false;
         }
 
@@ -281,20 +281,20 @@ public class InvManager extends Module {
 
     private boolean runInventorySorterTick() {
         InventorySnapshot snapshot = InventorySnapshot.capture();
-        if (!sessionOpen) {
+        if (!sessionOpen)) {
             openSession(snapshot);
         }
 
-        if (sessionState == SessionState.COMPLETE_LATCHED) {
+        if (sessionState == SessionState.COMPLETE_LATCHED)) {
             return false;
         }
 
         SlotAssignment[] assignments = resolveAssignments(snapshot);
         SnapshotContext context = SnapshotContext.create(snapshot, assignments);
-        if (currentAction == null) {
-            if (snapshot.carried != null) {
+        if (currentAction == null)) {
+            if (snapshot.carried != null)) {
                 currentAction = buildRecoveryAction(context, PlanType.RECOVER_CURSOR, false);
-                if (currentAction == null) {
+                if (currentAction == null)) {
                     sessionState = SessionState.ACTIVE;
                     return true;
                 }
@@ -303,7 +303,7 @@ public class InvManager extends Module {
             else {
                 cursorRecoveryInventoryIndex = -1;
                 currentAction = findBestSortingAction(context);
-                if (currentAction == null) {
+                if (currentAction == null)) {
                     sessionState = disableWhenComplete.isToggled() ? SessionState.COMPLETE_LATCHED : SessionState.ACTIVE;
                     return false;
                 }
@@ -312,7 +312,7 @@ public class InvManager extends Module {
         }
 
         int clickBudget = consumeWindowClickBudget();
-        if (clickBudget <= 0) {
+        if (clickBudget <= 0)) {
             return true;
         }
 
@@ -331,12 +331,12 @@ public class InvManager extends Module {
         updateCurrentArmor();
         InventoryData data = new InventoryData(mc.player.inventory, true, true);
         for (int i = 0; i < data.armorData[0].length; ++i) {
-            if (data.armorData[1][i] == -1) {
+            if (data.armorData[1][i] == -1)) {
                 continue;
             }
 
             CurrentArmor currentArmor = armorArr[i];
-            if (data.armorData[1][i] <= currentArmor.defenceLevel) {
+            if (data.armorData[1][i] <= currentArmor.defenceLevel)) {
                 continue;
             }
 
@@ -365,7 +365,7 @@ public class InvManager extends Module {
         boolean[] keptBestArmor = new boolean[4];
         for (int idx = 0; idx < bestArmorLevels.length; idx++) {
             bestArmorLevels[idx] = Math.max(armorArr[idx].defenceLevel, data.armorData[1][idx]);
-            if (armorArr[idx].defenceLevel == bestArmorLevels[idx] && bestArmorLevels[idx] > 0) {
+            if (armorArr[idx].defenceLevel == bestArmorLevels[idx] && bestArmorLevels[idx] > 0)) {
                 keptBestArmor[idx] = true;
             }
         }
@@ -377,7 +377,7 @@ public class InvManager extends Module {
         boolean keptBestShovel = false;
         for (int j = 0; j < data.size; ++j) {
             ItemStack itemStack = data.inventory.getStackInSlot(j);
-            if (itemStack == null) {
+            if (itemStack == null)) {
                 continue;
             }
 
@@ -398,12 +398,12 @@ public class InvManager extends Module {
                 int armorSlot = 3 - armor.armorType;
                 int defenceLevel = getDefenceLevel(itemStack);
                 int bestLevel = bestArmorLevels[armorSlot];
-                if (defenceLevel < bestLevel) {
+                if (defenceLevel < bestLevel)) {
                     delayedClick(slotId, 1, 4, inventoryCleaner);
                     return true;
                 }
-                if (defenceLevel == bestLevel) {
-                    if (keptBestArmor[armorSlot]) {
+                if (defenceLevel == bestLevel)) {
+                    if (keptBestArmor[armorSlot])) {
                         delayedClick(slotId, 1, 4, inventoryCleaner);
                         return true;
                     }
@@ -415,7 +415,7 @@ public class InvManager extends Module {
                 continue;
             }
 
-            if (item instanceof PickaxeItem) {
+            if (item instanceof PickaxeItem)) {
                 double efficiency = Utils.getEfficiency(itemStack, Blocks.STONE);
                 if (efficiency < data.bestPickaxe || (keptBestPick && efficiency == data.bestPickaxe)) {
                     delayedClick(slotId, 1, 4, inventoryCleaner);
@@ -425,7 +425,7 @@ public class InvManager extends Module {
                 continue;
             }
 
-            if (item instanceof AxeItem) {
+            if (item instanceof AxeItem)) {
                 double efficiency = Utils.getEfficiency(itemStack, Blocks.log);
                 if (efficiency < data.bestAxe || (keptBestAxe && efficiency == data.bestAxe)) {
                     delayedClick(slotId, 1, 4, inventoryCleaner);
@@ -435,7 +435,7 @@ public class InvManager extends Module {
                 continue;
             }
 
-            if (item instanceof ShovelItem) {
+            if (item instanceof ShovelItem)) {
                 double efficiency = Utils.getEfficiency(itemStack, Blocks.DIRT);
                 if (efficiency < data.bestShovel || (keptBestShovel && efficiency == data.bestShovel)) {
                     delayedClick(slotId, 1, 4, inventoryCleaner);
@@ -449,12 +449,12 @@ public class InvManager extends Module {
                 continue;
             }
 
-            if (item == Items.spawn_egg) {
+            if (item == Items.spawn_egg)) {
                 delayedClick(slotId, 1, 4, inventoryCleaner);
                 return true;
             }
 
-            if (item instanceof ItemPotion) {
+            if (item instanceof ItemPotion)) {
                 if (!isBadPotion(itemStack)) {
                     continue;
                 }
@@ -492,19 +492,19 @@ public class InvManager extends Module {
         InventoryData playerData = new InventoryData(mc.player.inventory, true, false);
         chestData.compareAndRemove(playerData);
 
-        if (playerData.size != playerData.filled) {
-            if (chestData.swordData[1] != -1.0) {
+        if (playerData.size != playerData.filled)) {
+            if (chestData.swordData[1] != -1.0)) {
                 stealChestItem((int)chestData.swordData[0], chestData.inventory.getStackInSlot((int)chestData.swordData[0]), playerData);
                 return;
             }
 
             for (int k = 0; k < chestData.armorData[0].length; ++k) {
-                if (chestData.armorData[1][k] == -1) {
+                if (chestData.armorData[1][k] == -1)) {
                     continue;
                 }
 
                 CurrentArmor currentArmor = armorArr[k];
-                if (chestData.armorData[1][k] > currentArmor.defenceLevel) {
+                if (chestData.armorData[1][k] > currentArmor.defenceLevel)) {
                     int chestSlot = chestData.armorData[0][k];
                     stealChestItem(chestSlot, chestData.inventory.getStackInSlot(chestSlot), playerData);
                     return;
@@ -551,7 +551,7 @@ public class InvManager extends Module {
     }
 
     private int getAssignedHotbarSlot(ItemStack stack) {
-        if (stack == null) {
+        if (stack == null)) {
             return -1;
         }
 
@@ -561,7 +561,7 @@ public class InvManager extends Module {
             }
 
             Integer assignedSlot = items.getAssignedSlot(storageId);
-            if (assignedSlot == null) {
+            if (assignedSlot == null)) {
                 return -1;
             }
 
@@ -579,7 +579,7 @@ public class InvManager extends Module {
     }
 
     private boolean isProtectedInventoryItem(ItemStack itemStack) {
-        if (itemStack == null) {
+        if (itemStack == null)) {
             return false;
         }
 
@@ -635,7 +635,7 @@ public class InvManager extends Module {
         }
 
         List<StatusEffectInstance> effects = ((ItemPotion)itemStack.getItem()).getEffects(itemStack);
-        if (effects == null) {
+        if (effects == null)) {
             return false;
         }
 
@@ -663,7 +663,7 @@ public class InvManager extends Module {
                     || desc.contains("moveSlowdown")
                     || desc.contains("weakness")
                     || desc.contains("harm")
-                    || desc.contains("digSlowDown") {
+                    || desc.contains("digSlowDown")) {
                 return true;
             }
         }
@@ -678,18 +678,18 @@ public class InvManager extends Module {
         if (item instanceof ItemPotion && isBadPotion(stack)) {
             return true;
         }
-        if (item == Items.spawn_egg) {
+        if (item == Items.spawn_egg)) {
             return true;
         }
-        if (item instanceof PickaxeItem) {
+        if (item instanceof PickaxeItem)) {
             double efficiency = Utils.getEfficiency(stack, Blocks.STONE);
             return playerData.bestPickaxe >= 0 && efficiency <= playerData.bestPickaxe;
         }
-        if (item instanceof AxeItem) {
+        if (item instanceof AxeItem)) {
             double efficiency = Utils.getEfficiency(stack, Blocks.log);
             return playerData.bestAxe >= 0 && efficiency <= playerData.bestAxe;
         }
-        if (item instanceof ShovelItem) {
+        if (item instanceof ShovelItem)) {
             double efficiency = Utils.getEfficiency(stack, Blocks.DIRT);
             return playerData.bestShovel >= 0 && efficiency <= playerData.bestShovel;
         }
@@ -718,7 +718,7 @@ public class InvManager extends Module {
         }
 
         InventorySnapshot snapshot = InventorySnapshot.capture();
-        if (snapshot.carried == null) {
+        if (snapshot.carried == null)) {
             return;
         }
 
@@ -763,7 +763,7 @@ public class InvManager extends Module {
     private int consumeWindowClickBudget() {
         windowClickBudget += Math.max(0.0, targetCPS.getInput()) / 20.0;
         int clicks = Math.min(1, (int) windowClickBudget);
-        if (clicks <= 0) {
+        if (clicks <= 0)) {
             return 0;
         }
 
@@ -773,12 +773,12 @@ public class InvManager extends Module {
     }
 
     private boolean executeCurrentStep(SnapshotContext context) {
-        if (currentAction == null) {
+        if (currentAction == null)) {
             return false;
         }
 
         PlannedClick step = currentAction.peek();
-        if (step == null) {
+        if (step == null)) {
             currentAction = null;
             sessionState = SessionState.ACTIVE;
             return false;
@@ -788,16 +788,16 @@ public class InvManager extends Module {
             currentAction = null;
             sessionState = SessionState.ACTIVE;
 
-            if (context.snapshot.carried != null && cursorRecoveryInventoryIndex >= 0) {
+            if (context.snapshot.carried != null && cursorRecoveryInventoryIndex >= 0)) {
                 PlannedAction recoveryAction = buildRecoveryAction(context, PlanType.RECOVER_CURSOR, false);
-                if (recoveryAction != null) {
+                if (recoveryAction != null)) {
                     currentAction = recoveryAction;
                     sessionState = SessionState.EXECUTING;
                     return executeCurrentStep(context);
                 }
             }
 
-            if (context.snapshot.carried == null) {
+            if (context.snapshot.carried == null)) {
                 cursorRecoveryInventoryIndex = -1;
             }
             return false;
@@ -810,7 +810,7 @@ public class InvManager extends Module {
 
         if (currentAction.isComplete()) {
             currentAction = null;
-            if (sessionState != SessionState.COMPLETE_LATCHED) {
+            if (sessionState != SessionState.COMPLETE_LATCHED)) {
                 sessionState = SessionState.ACTIVE;
             }
         }
@@ -822,7 +822,7 @@ public class InvManager extends Module {
         PlannedAction bestAction = null;
 
         for (SlotAssignment assignment : context.assignments) {
-            if (assignment == null) {
+            if (assignment == null)) {
                 continue;
             }
 
@@ -836,14 +836,14 @@ public class InvManager extends Module {
                 PlannedAction pickupAllAction = buildPickupAllAction(context, assignment, targetStack);
                 bestAction = pickBetterAction(bestAction, pickupAllAction);
             }
-            else if (!targetMatchesRule) {
+            else if (!targetMatchesRule)) {
                 PlannedAction placementAction = buildPlacementAction(context, assignment);
                 PlannedAction pickupAllPlacementAction = buildPickupAllPlacementAction(context, assignment, targetStack);
 
                 if (pickupAllPlacementAction != null && (placementAction == null || pickupAllPlacementAction.resultingSize > placementAction.resultingSize)) {
                     bestAction = pickBetterAction(bestAction, pickupAllPlacementAction);
                 }
-                else if (placementAction != null) {
+                else if (placementAction != null)) {
                     bestAction = pickBetterAction(bestAction, placementAction);
                 }
             }
@@ -859,7 +859,7 @@ public class InvManager extends Module {
     private PlannedAction buildPlacementAction(SnapshotContext context, SlotAssignment assignment) {
         PlacementSource bestSource = findBestPlacementSource(context, assignment, assignment.hotbarSlot);
 
-        if (bestSource == null) {
+        if (bestSource == null)) {
             return null;
         }
 
@@ -898,7 +898,7 @@ public class InvManager extends Module {
 
     private PlannedAction buildMergeAction(SnapshotContext context, SlotAssignment assignment, ItemStack targetStack) {
         MergePlanData mergePlan = buildMergePlanData(context, assignment, targetStack);
-        if (mergePlan == null) {
+        if (mergePlan == null)) {
             return null;
         }
 
@@ -909,7 +909,7 @@ public class InvManager extends Module {
         for (MergeUse mergeUse : mergePlan.uses) {
             final int sourceInventoryIndex = mergeUse.source.inventoryIndex;
 
-            if (mergeUse.source.type == MergeSourceType.MAIN_INVENTORY) {
+            if (mergeUse.source.type == MergeSourceType.MAIN_INVENTORY)) {
                 steps.add(new PlannedClick(
                         toContainerSlot(sourceInventoryIndex),
                         0,
@@ -979,7 +979,7 @@ public class InvManager extends Module {
                     }
             ));
 
-            if (mergeUse.returnsRemainder) {
+            if (mergeUse.returnsRemainder)) {
                 steps.add(new PlannedClick(
                         toContainerSlot(sourceInventoryIndex),
                         0,
@@ -1017,7 +1017,7 @@ public class InvManager extends Module {
 
     private PlannedAction buildPickupAllAction(SnapshotContext context, SlotAssignment assignment, ItemStack targetStack) {
         int resultingSize = getPickupAllResultingSize(context, assignment.hotbarSlot, targetStack);
-        if (resultingSize <= targetStack.stackSize) {
+        if (resultingSize <= targetStack.stackSize)) {
             return null;
         }
 
@@ -1098,7 +1098,7 @@ public class InvManager extends Module {
         PlacementSource bestSource = null;
 
         for (int inventoryIndex = 0; inventoryIndex < InventorySnapshot.INVENTORY_SIZE; inventoryIndex++) {
-            if (inventoryIndex == assignment.hotbarSlot) {
+            if (inventoryIndex == assignment.hotbarSlot)) {
                 continue;
             }
 
@@ -1112,7 +1112,7 @@ public class InvManager extends Module {
             }
 
             int resultingSize = getPickupAllResultingSize(context, inventoryIndex, sourceStack);
-            if (resultingSize <= sourceStack.stackSize) {
+            if (resultingSize <= sourceStack.stackSize)) {
                 continue;
             }
 
@@ -1127,7 +1127,7 @@ public class InvManager extends Module {
             }
         }
 
-        if (bestSource == null) {
+        if (bestSource == null)) {
             return null;
         }
 
@@ -1185,7 +1185,7 @@ public class InvManager extends Module {
                         }
 
                         ItemStack currentTarget = current.snapshot.getSlot(targetHotbarSlot);
-                        if (currentTarget == null) {
+                        if (currentTarget == null)) {
                             return true;
                         }
 
@@ -1205,7 +1205,7 @@ public class InvManager extends Module {
                 }
         ));
 
-        if (targetOccupiedByDifferentItem) {
+        if (targetOccupiedByDifferentItem)) {
             steps.add(new PlannedClick(
                     toContainerSlot(sourceInventoryIndex),
                     0,
@@ -1258,7 +1258,7 @@ public class InvManager extends Module {
 
     private PlannedAction buildUnconfiguredPickupAllAction(SnapshotContext context, int targetInventoryIndex, ItemStack targetStack) {
         int resultingSize = getUnconfiguredPickupAllResultingSize(context, targetInventoryIndex, targetStack);
-        if (resultingSize <= targetStack.stackSize) {
+        if (resultingSize <= targetStack.stackSize)) {
             return null;
         }
 
@@ -1337,7 +1337,7 @@ public class InvManager extends Module {
 
     private PlannedAction buildRecoveryAction(SnapshotContext context, PlanType type, boolean allowDrop) {
         RecoveryPlanData recoveryPlan = simulateRecoveryPlan(context.snapshot, cursorRecoveryInventoryIndex, allowDrop);
-        if (recoveryPlan == null) {
+        if (recoveryPlan == null)) {
             return null;
         }
 
@@ -1370,7 +1370,7 @@ public class InvManager extends Module {
             ));
         }
 
-        if (recoveryPlan.willDrop) {
+        if (recoveryPlan.willDrop)) {
             steps.add(new PlannedClick(
                     -999,
                     0,
@@ -1407,7 +1407,7 @@ public class InvManager extends Module {
 
     private MergePlanData buildMergePlanData(SnapshotContext context, SlotAssignment assignment, ItemStack targetStack) {
         int room = getRemainingRoom(targetStack);
-        if (room <= 0) {
+        if (room <= 0)) {
             return null;
         }
 
@@ -1425,12 +1425,12 @@ public class InvManager extends Module {
 
             for (int added = 0; added <= room; added++) {
                 MergePath path = bestPaths[added];
-                if (path == null || added >= room) {
+                if (path == null || added >= room)) {
                     continue;
                 }
 
                 int effectiveAdded = Math.min(room - added, source.stackSize);
-                if (effectiveAdded <= 0) {
+                if (effectiveAdded <= 0)) {
                     continue;
                 }
 
@@ -1449,7 +1449,7 @@ public class InvManager extends Module {
 
         for (int added = room; added > 0; added--) {
             MergePath bestPath = bestPaths[added];
-            if (bestPath != null) {
+            if (bestPath != null)) {
                 return new MergePlanData(
                         targetStack.stackSize + added,
                         bestPath.cost,
@@ -1463,21 +1463,21 @@ public class InvManager extends Module {
     }
 
     private boolean isBetterMergePath(MergePath candidate, MergePath existing) {
-        if (candidate == null) {
+        if (candidate == null)) {
             return false;
         }
 
-        if (existing == null) {
+        if (existing == null)) {
             return true;
         }
 
         int comparison = Integer.compare(candidate.cost, existing.cost);
-        if (comparison != 0) {
+        if (comparison != 0)) {
             return comparison < 0;
         }
 
         comparison = Integer.compare(candidate.uses.size(), existing.uses.size());
-        if (comparison != 0) {
+        if (comparison != 0)) {
             return comparison < 0;
         }
 
@@ -1486,17 +1486,17 @@ public class InvManager extends Module {
             MergeUse existingUse = existing.uses.get(index);
 
             comparison = Integer.compare(candidateUse.source.type.ordinal(), existingUse.source.type.ordinal());
-            if (comparison != 0) {
+            if (comparison != 0)) {
                 return comparison < 0;
             }
 
             comparison = Integer.compare(candidateUse.effectiveAdded, existingUse.effectiveAdded);
-            if (comparison != 0) {
+            if (comparison != 0)) {
                 return comparison > 0;
             }
 
             comparison = Integer.compare(candidateUse.source.inventoryIndex, existingUse.source.inventoryIndex);
-            if (comparison != 0) {
+            if (comparison != 0)) {
                 return comparison < 0;
             }
         }
@@ -1508,7 +1508,7 @@ public class InvManager extends Module {
         List<MergeSource> sources = new ArrayList<MergeSource>();
 
         for (int inventoryIndex = 0; inventoryIndex < InventorySnapshot.INVENTORY_SIZE; inventoryIndex++) {
-            if (inventoryIndex == targetHotbarSlot) {
+            if (inventoryIndex == targetHotbarSlot)) {
                 continue;
             }
 
@@ -1517,7 +1517,7 @@ public class InvManager extends Module {
                 continue;
             }
 
-            if (inventoryIndex < HOTBAR_SIZE) {
+            if (inventoryIndex < HOTBAR_SIZE)) {
                 if (!isCorrectHotbarSlot(context, inventoryIndex)) {
                     sources.add(new MergeSource(inventoryIndex, sourceStack.stackSize, MergeSourceType.HOTBAR));
                 }
@@ -1533,12 +1533,12 @@ public class InvManager extends Module {
             @Override
             public int compare(MergeSource first, MergeSource second) {
                 int comparison = Integer.compare(first.type.ordinal(), second.type.ordinal());
-                if (comparison != 0) {
+                if (comparison != 0)) {
                     return comparison;
                 }
 
                 comparison = Integer.compare(second.stackSize, first.stackSize);
-                if (comparison != 0) {
+                if (comparison != 0)) {
                     return comparison;
                 }
 
@@ -1555,7 +1555,7 @@ public class InvManager extends Module {
 
         int mergedSize = targetStack.stackSize;
         for (int inventoryIndex = 0; inventoryIndex < InventorySnapshot.INVENTORY_SIZE && mergedSize < targetStack.getMaxStackSize(); inventoryIndex++) {
-            if (inventoryIndex == targetHotbarSlot) {
+            if (inventoryIndex == targetHotbarSlot)) {
                 continue;
             }
 
@@ -1581,7 +1581,7 @@ public class InvManager extends Module {
 
         int mergedSize = targetStack.stackSize;
         for (int inventoryIndex = 0; inventoryIndex < InventorySnapshot.INVENTORY_SIZE && mergedSize < targetStack.getMaxStackSize(); inventoryIndex++) {
-            if (inventoryIndex == targetInventoryIndex) {
+            if (inventoryIndex == targetInventoryIndex)) {
                 continue;
             }
 
@@ -1599,10 +1599,10 @@ public class InvManager extends Module {
     private void recoverCarriedStackImmediately(InventorySnapshot snapshot, boolean allowDrop) {
         if (!(mc.player.openContainer instanceof ContainerPlayer) || snapshot.carried == null) {
             currentAction = null;
-            if (allowDrop) {
+            if (allowDrop)) {
                 cursorRecoveryInventoryIndex = -1;
             }
-            if (sessionState != SessionState.COMPLETE_LATCHED) {
+            if (sessionState != SessionState.COMPLETE_LATCHED)) {
                 sessionState = SessionState.ACTIVE;
             }
             return;
@@ -1612,7 +1612,7 @@ public class InvManager extends Module {
         int remainingAttempts = InventorySnapshot.INVENTORY_SIZE + 2;
         while (snapshot.carried != null && remainingAttempts-- > 0) {
             int depositIndex = findRecoveryDepositIndex(snapshot, preferredIndex);
-            if (depositIndex < 0) {
+            if (depositIndex < 0)) {
                 break;
             }
 
@@ -1622,22 +1622,22 @@ public class InvManager extends Module {
             snapshot = InventorySnapshot.capture();
         }
 
-        if (snapshot.carried != null && allowDrop) {
+        if (snapshot.carried != null && allowDrop)) {
             click(-999, 0, 0);
             snapshot = InventorySnapshot.capture();
         }
 
         currentAction = null;
-        if (snapshot.carried == null || allowDrop) {
+        if (snapshot.carried == null || allowDrop)) {
             cursorRecoveryInventoryIndex = -1;
         }
-        if (sessionState != SessionState.COMPLETE_LATCHED) {
+        if (sessionState != SessionState.COMPLETE_LATCHED)) {
             sessionState = SessionState.ACTIVE;
         }
     }
 
     private RecoveryPlanData simulateRecoveryPlan(InventorySnapshot snapshot, int preferredIndex, boolean allowDrop) {
-        if (snapshot.carried == null) {
+        if (snapshot.carried == null)) {
             return null;
         }
 
@@ -1648,7 +1648,7 @@ public class InvManager extends Module {
 
         while (simulated.getCarried() != null && remainingAttempts-- > 0) {
             int depositIndex = findRecoveryDepositIndex(simulated, preferredRecoveryIndex);
-            if (depositIndex < 0) {
+            if (depositIndex < 0)) {
                 break;
             }
 
@@ -1708,12 +1708,12 @@ public class InvManager extends Module {
         for (int priorityIndex = 0; priorityIndex < orderedItems.size(); priorityIndex++) {
             String storageId = orderedItems.get(priorityIndex);
             Integer assignedSlot = items.getAssignedSlot(storageId);
-            if (assignedSlot == null) {
+            if (assignedSlot == null)) {
                 continue;
             }
 
             int hotbarSlot = assignedSlot - 1;
-            if (hotbarSlot < 0 || hotbarSlot >= HOTBAR_SIZE || assignments[hotbarSlot] != null) {
+            if (hotbarSlot < 0 || hotbarSlot >= HOTBAR_SIZE || assignments[hotbarSlot] != null)) {
                 continue;
             }
 
@@ -1735,7 +1735,7 @@ public class InvManager extends Module {
     }
 
     private boolean isCorrectHotbarSlot(SnapshotContext context, int hotbarSlot) {
-        if (hotbarSlot < 0 || hotbarSlot >= HOTBAR_SIZE) {
+        if (hotbarSlot < 0 || hotbarSlot >= HOTBAR_SIZE)) {
             return false;
         }
 
@@ -1753,7 +1753,7 @@ public class InvManager extends Module {
         }
 
         PlacementSource betterSource = findBestPlacementSource(context, assignment, assignment.hotbarSlot);
-        if (betterSource == null) {
+        if (betterSource == null)) {
             return true;
         }
 
@@ -1765,7 +1765,7 @@ public class InvManager extends Module {
         PlacementSource bestSource = null;
 
         for (int inventoryIndex = 0; inventoryIndex < InventorySnapshot.INVENTORY_SIZE; inventoryIndex++) {
-            if (inventoryIndex == excludedInventoryIndex) {
+            if (inventoryIndex == excludedInventoryIndex)) {
                 continue;
             }
 
@@ -1793,7 +1793,7 @@ public class InvManager extends Module {
     }
 
     private static PlannedAction pickBetterAction(PlannedAction currentBest, PlannedAction candidate) {
-        if (candidate == null) {
+        if (candidate == null)) {
             return currentBest;
         }
 
@@ -1818,7 +1818,7 @@ public class InvManager extends Module {
         }
 
         for (int hotbarSlot = 0; hotbarSlot < HOTBAR_SIZE; hotbarSlot++) {
-            if (hotbarSlot == targetHotbarSlot) {
+            if (hotbarSlot == targetHotbarSlot)) {
                 continue;
             }
 
@@ -1861,7 +1861,7 @@ public class InvManager extends Module {
     }
 
     private static int toContainerSlot(int inventoryIndex) {
-        if (inventoryIndex < 0 || inventoryIndex >= InventorySnapshot.INVENTORY_SIZE) {
+        if (inventoryIndex < 0 || inventoryIndex >= InventorySnapshot.INVENTORY_SIZE)) {
             return -1;
         }
         return inventoryIndex < HOTBAR_SIZE ? inventoryIndex + 36 : inventoryIndex;
@@ -1906,14 +1906,14 @@ public class InvManager extends Module {
 
             for (int i = 0; i < size; ++i) {
                 ItemStack itemStack = inventory.getStackInSlot(i);
-                if (itemStack != null) {
+                if (itemStack != null)) {
                     ++filled;
                 }
-                else if (i >= HOTBAR_SIZE) {
+                else if (i >= HOTBAR_SIZE)) {
                     ++emptyWithoutHotbar;
                 }
 
-                if (itemStack == null) {
+                if (itemStack == null)) {
                     continue;
                 }
 
@@ -1921,42 +1921,42 @@ public class InvManager extends Module {
                     ItemArmor armor = (ItemArmor)itemStack.getItem();
                     int slot = 3 - armor.armorType;
                     int defenceLevel = getDefenceLevel(itemStack);
-                    if (defenceLevel > armorData[1][slot]) {
+                    if (defenceLevel > armorData[1][slot])) {
                         armorData[1][slot] = defenceLevel;
                         armorData[0][slot] = i;
                     }
                 }
 
-                if (armorOnly) {
+                if (armorOnly)) {
                     continue;
                 }
 
                 Item item = itemStack.getItem();
                 if (isSword(itemStack)) {
                     double damageLevel = Utils.getDamageLevel(itemStack);
-                    if (damageLevel > bestSwordDamage) {
+                    if (damageLevel > bestSwordDamage)) {
                         bestSwordDamage = damageLevel;
                     }
-                    if (damageLevel > swordData[1]) {
+                    if (damageLevel > swordData[1])) {
                         swordData[1] = damageLevel;
                         swordData[0] = i;
                     }
                 }
-                else if (item instanceof PickaxeItem) {
+                else if (item instanceof PickaxeItem)) {
                     double efficiency = Utils.getEfficiency(itemStack, Blocks.STONE);
-                    if (efficiency > bestPickaxe) {
+                    if (efficiency > bestPickaxe)) {
                         bestPickaxe = efficiency;
                     }
                 }
-                else if (item instanceof AxeItem) {
+                else if (item instanceof AxeItem)) {
                     double efficiency = Utils.getEfficiency(itemStack, Blocks.log);
-                    if (efficiency > bestAxe) {
+                    if (efficiency > bestAxe)) {
                         bestAxe = efficiency;
                     }
                 }
-                else if (item instanceof ShovelItem) {
+                else if (item instanceof ShovelItem)) {
                     double efficiency = Utils.getEfficiency(itemStack, Blocks.DIRT);
-                    if (efficiency > bestShovel) {
+                    if (efficiency > bestShovel)) {
                         bestShovel = efficiency;
                     }
                 }
@@ -1967,11 +1967,11 @@ public class InvManager extends Module {
         }
 
         void compareAndRemove(InventoryData data) {
-            if (data.bestSwordDamage > swordData[1]) {
+            if (data.bestSwordDamage > swordData[1])) {
                 swordData[1] = -1.0;
             }
             for (int i = 0; i < armorData[0].length; ++i) {
-                if (data.armorData[1][i] > armorData[1][i]) {
+                if (data.armorData[1][i] > armorData[1][i])) {
                     armorData[1][i] = -1;
                 }
             }
@@ -2093,12 +2093,12 @@ public class InvManager extends Module {
             }
 
             comparison = Integer.compare(sourcePreference, other.sourcePreference);
-            if (comparison != 0) {
+            if (comparison != 0)) {
                 return comparison < 0;
             }
 
             comparison = Integer.compare(resultingSize, other.resultingSize);
-            if (comparison != 0) {
+            if (comparison != 0)) {
                 return comparison > 0;
             }
 
@@ -2156,7 +2156,7 @@ public class InvManager extends Module {
 
         @Override
         public ItemStack getSlot(int inventoryIndex) {
-            if (inventoryIndex < 0 || inventoryIndex >= INVENTORY_SIZE) {
+            if (inventoryIndex < 0 || inventoryIndex >= INVENTORY_SIZE)) {
                 return null;
             }
             return slots[inventoryIndex];
@@ -2246,12 +2246,12 @@ public class InvManager extends Module {
         }
 
         void deposit(int inventoryIndex) {
-            if (carried == null) {
+            if (carried == null)) {
                 return;
             }
 
             ItemStack slotStack = slots[inventoryIndex];
-            if (slotStack == null) {
+            if (slotStack == null)) {
                 slots[inventoryIndex] = carried.copy();
                 carried = null;
                 return;
@@ -2264,14 +2264,14 @@ public class InvManager extends Module {
             int moved = Math.min(getRemainingRoom(slotStack), carried.stackSize);
             slotStack.stackSize += moved;
             carried.stackSize -= moved;
-            if (carried.stackSize <= 0) {
+            if (carried.stackSize <= 0)) {
                 carried = null;
             }
         }
 
         @Override
         public ItemStack getSlot(int inventoryIndex) {
-            if (inventoryIndex < 0 || inventoryIndex >= slots.length) {
+            if (inventoryIndex < 0 || inventoryIndex >= slots.length)) {
                 return null;
             }
             return slots[inventoryIndex];

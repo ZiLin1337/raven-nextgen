@@ -17,7 +17,7 @@ public class TextFieldComponent extends AbstractTextInputComponent {
     @Override
     public void render() {
         if (!isTextFieldFocused()) {
-            if (valueWhenFocused != null) {
+            if (valueWhenFocused != null)) {
                 revertToSaved();
             }
             if (!getTextField().getText().equals(textSetting.getText())) {
@@ -56,13 +56,13 @@ public class TextFieldComponent extends AbstractTextInputComponent {
             return;
         }
 
-        if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
+        if (keyCode == GLFW.GLFW_KEY_ESCAPE)) {
             revertToSaved();
             setTextFieldFocused(false);
             return;
         }
 
-        if (keyCode == GLFW.GLFW_KEY_RETURN || keyCode == GLFW.GLFW_KEY_NUMPADENTER) {
+        if (keyCode == GLFW.GLFW_KEY_RETURN || keyCode == GLFW.GLFW_KEY_NUMPADENTER)) {
             textSetting.submit();
             valueWhenFocused = null;
             getTextField().setText(textSetting.getText());
@@ -90,7 +90,7 @@ public class TextFieldComponent extends AbstractTextInputComponent {
     }
 
     private void revertToSaved() {
-        if (valueWhenFocused != null) {
+        if (valueWhenFocused != null)) {
             getTextField().setText(valueWhenFocused);
             textSetting.setText(valueWhenFocused);
             valueWhenFocused = null;

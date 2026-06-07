@@ -20,7 +20,7 @@ public class PacketsHandler implements IMinecraftInstance {
             return;
         }
         Packet<?> packet = e.getPacket();
-        if (packet instanceof C09PacketHeldItemChange && handleSlots) {
+        if (packet instanceof C09PacketHeldItemChange && handleSlots)) {
             C09PacketHeldItemChange slotPacket = (C09PacketHeldItemChange) packet;
             int slotId = slotPacket.getSlotId();
             playerSlot.set(slotId);

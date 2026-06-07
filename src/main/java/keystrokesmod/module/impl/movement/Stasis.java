@@ -18,7 +18,7 @@ public class Stasis extends Module {
     }
 
     public void onEnable() {
-        if (mc.player != null) {
+        if (mc.player != null)) {
             savedX = mc.player.getX();
             savedY = mc.player.getY();
             savedZ = mc.player.getZ();

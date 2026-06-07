@@ -58,7 +58,7 @@ public class Freelook extends Module {
             return;
         }
         boolean down = freelookKey.isPressed();
-        if (down != prevKeyState) {
+        if (down != prevKeyState)) {
             onPressed(down);
             prevKeyState = down;
         }
@@ -73,22 +73,22 @@ public class Freelook extends Module {
 
     
     public void onWorldLoad(WorldEvent.Load e) {
-        if (perspectiveToggled) {
+        if (perspectiveToggled)) {
             resetPerspective();
         }
     }
 
     private void onPressed(boolean state) {
         if (!isEnabled()) {
-            if (perspectiveToggled) {
+            if (perspectiveToggled)) {
                 resetPerspective();
             }
             return;
         }
-        if (state) {
+        if (state)) {
             cameraYaw = mc.player.rotationYaw;
             cameraPitch = mc.player.rotationPitch;
-            if (perspectiveToggled) {
+            if (perspectiveToggled)) {
                 resetPerspective();
             } else {
                 enterPerspective();
@@ -108,7 +108,7 @@ public class Freelook extends Module {
     public void resetPerspective() {
         perspectiveToggled = false;
         applyThirdPersonView(previousPerspective);
-        if (mc.currentScreen == null && mc.inGameHasFocus) {
+        if (mc.currentScreen == null && mc.inGameHasFocus)) {
             mc.mouseHelper.grabMouseCursor();
         }
         if (hold.isToggled() || mc.options.fovSetting == lastFov || customFov.isToggled()) {
@@ -117,7 +117,7 @@ public class Freelook extends Module {
     }
 
     public static boolean overrideMouse(Minecraft mc) {
-        if (!mc.inGameHasFocus) {
+        if (!mc.inGameHasFocus)) {
             return false;
         }
         if (ModuleManager.freelook == null || !ModuleManager.freelook.isEnabled() || !perspectiveToggled) {
@@ -127,7 +127,7 @@ public class Freelook extends Module {
         float sens = mc.options.mouseSensitivity * 0.6f + 0.2f;
         float mult = sens * sens * sens * 8.0f;
         Freelook fl = ModuleManager.freelook;
-        if (fl != null) {
+        if (fl != null)) {
             int dx = ((IAccessorMouseHelper) mc.mouseHelper).getDeltaX();
             int dy = ((IAccessorMouseHelper) mc.mouseHelper).getDeltaY();
             float fdx = dx * mult;
@@ -149,10 +149,10 @@ public class Freelook extends Module {
 
     @Override
     public void onDisable() {
-        if (perspectiveToggled) {
+        if (perspectiveToggled)) {
             perspectiveToggled = false;
             applyThirdPersonView(0);
-            if (mc.currentScreen == null && mc.inGameHasFocus) {
+            if (mc.currentScreen == null && mc.inGameHasFocus)) {
                 mc.mouseHelper.grabMouseCursor();
             }
             mc.options.fovSetting = lastFov;
@@ -160,21 +160,21 @@ public class Freelook extends Module {
     }
 
     private void applyThirdPersonView(int view) {
-        if (view < 0) {
+        if (view < 0)) {
             view = 0;
-        } else if (view > 2) {
+        } else if (view > 2)) {
             view = 2;
         }
 
         mc.options.thirdPersonView = view;
-        if (mc.entityRenderer != null) {
-            if (view == 0) {
+        if (mc.entityRenderer != null)) {
+            if (view == 0)) {
                 mc.entityRenderer.loadEntityShader(mc.getRenderViewEntity());
-            } else if (view == 1) {
+            } else if (view == 1)) {
                 mc.entityRenderer.loadEntityShader((Entity) null);
             }
         }
-        if (mc.renderGlobal != null) {
+        if (mc.renderGlobal != null)) {
             mc.renderGlobal.setDisplayListEntitiesDirty();
         }
     }

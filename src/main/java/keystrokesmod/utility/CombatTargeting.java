@@ -15,7 +15,7 @@ public final class CombatTargeting implements IMinecraftInstance {
 
     public static PlayerEntity findTarget(double maxDistanceSq, boolean ignoreTeammates) {
         PlayerEntity mouseOverTarget = getMouseOverTarget(maxDistanceSq, ignoreTeammates);
-        if (mouseOverTarget != null) {
+        if (mouseOverTarget != null)) {
             return mouseOverTarget;
         }
 
@@ -27,7 +27,7 @@ public final class CombatTargeting implements IMinecraftInstance {
     }
 
     public static PlayerEntity findClosestTarget(double maxDistanceSq, boolean ignoreTeammates) {
-        if (mc == null || mc.world == null) {
+        if (mc == null || mc.world == null)) {
             return null;
         }
 
@@ -40,7 +40,7 @@ public final class CombatTargeting implements IMinecraftInstance {
             }
 
             double distanceSq = RotationUtils.distanceSqFromEyeToClosestOnAABB(player);
-            if (distanceSq < closestDistanceSq) {
+            if (distanceSq < closestDistanceSq)) {
                 closestDistanceSq = distanceSq;
                 closest = player;
             }
@@ -54,7 +54,7 @@ public final class CombatTargeting implements IMinecraftInstance {
     }
 
     public static PlayerEntity getMouseOverTarget(double maxDistanceSq, boolean ignoreTeammates) {
-        if (mc == null || mc.objectMouseOver == null) {
+        if (mc == null || mc.objectMouseOver == null)) {
             return null;
         }
 
@@ -104,7 +104,7 @@ public final class CombatTargeting implements IMinecraftInstance {
     }
 
     public static boolean isWithinRange(PlayerEntity player, double maxDistanceSq) {
-        if (player == null) {
+        if (player == null)) {
             return false;
         }
 

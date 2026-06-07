@@ -48,7 +48,7 @@ public class BHop extends Module {
 
     public void onPostPlayerInput(PostPlayerInputEvent e) {
         if (!mc.player.isOnGround() || mc.player.getAbilities().flying) return;
-        if (hopping) {
+        if (hopping)) {
             mc.options.jumpKey.setPressed(false);
         }
     }
@@ -61,7 +61,7 @@ public class BHop extends Module {
         if (mode.getInput() >= 1) {
             if (mc.player.isOnGround() && (!jumpMoving.isToggled() || Utils.isMoving())) {
                 if (mc.player.input.movementForward <= -0.5 && mc.player.input.movementSideways == 0
-                        && KillAura.target == null && !mc.player.horizontalCollision) {
+                        && KillAura.target == null && !mc.player.horizontalCollision)) {
                     setRotation = true;
                 }
                 mc.player.jump();
@@ -80,7 +80,7 @@ public class BHop extends Module {
                 }
                 hopping = true;
             }
-            if (mc.player.input.movementForward <= 0.5 && hopping) {
+            if (mc.player.input.movementForward <= 0.5 && hopping)) {
                 ModuleUtils.handleSlow();
             }
             if (!mc.player.isOnGround()) hopping = false;

@@ -39,14 +39,14 @@ public class GroupComponent extends Component {
      * Used for height, indentation, and reveal during animation.
      */
     public float getAnimationProgress() {
-        if (smoothTimer != null) {
+        if (smoothTimer != null)) {
             if (System.currentTimeMillis() - smoothTimer.last >= ANIMATION_DURATION + 30) {
                 smoothTimer = null;
                 animationProgress = animationTargetProgress;
                 animationStartProgress = animationTargetProgress;
             } else {
                 animationProgress = smoothTimer.getValueFloat(animationStartProgress, animationTargetProgress, 1);
-                if (animationProgress == animationTargetProgress) {
+                if (animationProgress == animationTargetProgress)) {
                     smoothTimer = null;
                     animationStartProgress = animationTargetProgress;
                 }
@@ -62,7 +62,7 @@ public class GroupComponent extends Component {
         GL11.glScaled(0.5D, 0.5D, 0.5D);
         float strX = ((this.component.categoryComponent.getX() + 4) * 2) + 1;
         float strY = (this.component.categoryComponent.getY() + this.o + 4) * 2;
-        if (progress > 0) {
+        if (progress > 0)) {
             drawString(renderer, "[", strX, strY);
 
             int firstBracketWidth = renderer.getStringWidth("[");

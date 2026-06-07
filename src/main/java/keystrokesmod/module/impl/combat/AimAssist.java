@@ -91,7 +91,7 @@ public class AimAssist extends Module {
             return;
         }
         Entity en = getEnemy(true);
-        if (en == null) {
+        if (en == null)) {
             return;
         }
 
@@ -115,7 +115,7 @@ public class AimAssist extends Module {
             return;
         }
         Entity en = getEnemy(false);
-        if (en == null) {
+        if (en == null)) {
             return;
         }
 
@@ -133,16 +133,16 @@ public class AimAssist extends Module {
     private Entity getEnemy(boolean silentMode) {
         final int fovVal = (int) this.fov.getInput();
         float viewYaw = mc.player.rotationYaw;
-        if (silentMode) {
+        if (silentMode)) {
             Float serverYaw = RotationHelper.get().getServerYaw();
-            if (serverYaw != null) {
+            if (serverYaw != null)) {
                 viewYaw = serverYaw;
             }
         }
 
         List<PlayerEntity> candidates = new ArrayList<>();
         for (PlayerEntity entityPlayer : mc.world.getPlayers()) {
-            if (entityPlayer == mc.player || entityPlayer.deathTime != 0) {
+            if (entityPlayer == mc.player || entityPlayer.deathTime != 0)) {
                 continue;
             }
             if (Utils.isFriended(entityPlayer)) {
@@ -160,7 +160,7 @@ public class AimAssist extends Module {
             if (AntiBot.isBot(entityPlayer)) {
                 continue;
             }
-            if (fovVal != 360) {
+            if (fovVal != 360)) {
                 float angleToEntity = RotationUtils.angle(entityPlayer.posX, entityPlayer.posZ);
                 if (!Utils.inFov(viewYaw, (float) fovVal, angleToEntity)) {
                     continue;
@@ -218,7 +218,7 @@ public class AimAssist extends Module {
     }
 
     private boolean conditionsMet() {
-        if (mc.currentScreen != null || !mc.inGameHasFocus) {
+        if (mc.currentScreen != null || !mc.inGameHasFocus)) {
             return false;
         }
         if (weaponOnly.isToggled() && !Utils.holdingWeapon()) {
@@ -228,7 +228,7 @@ public class AimAssist extends Module {
             return false;
         }
         if (stopWhenBreaking.isToggled() && Utils.isMining()) {
-            if (miningStartTime == -1) {
+            if (miningStartTime == -1)) {
                 miningStartTime = System.currentTimeMillis();
             }
             long elapsed = System.currentTimeMillis() - miningStartTime;

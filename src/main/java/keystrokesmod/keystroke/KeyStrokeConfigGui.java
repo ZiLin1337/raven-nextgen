@@ -23,8 +23,8 @@ public class KeyStrokeConfigGui extends Screen {
         keystroke.KeyStrokeRenderer renderer = new keystroke.KeyStrokeRenderer(x, y);
         renderer.render(context);
 
-        if (mouseX >= x && mouseX <= x + 30 && mouseY >= y && mouseY <= y + 100) {
-            if (isDragging) {
+        if (mouseX >= x && mouseX <= x + 30 && mouseY >= y && mouseY <= y + 100)) {
+            if (isDragging)) {
                 x = mouseX - dragOffX;
                 y = mouseY - dragOffY;
             }
@@ -38,7 +38,7 @@ public class KeyStrokeConfigGui extends Screen {
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (mouseX >= x && mouseX <= x + 30 && mouseY >= y && mouseY <= y + 100) {
+        if (mouseX >= x && mouseX <= x + 30 && mouseY >= y && mouseY <= y + 100)) {
             isDragging = true;
             dragOffX = (int)mouseX - x;
             dragOffY = (int)mouseY - y;

@@ -63,7 +63,7 @@ public class Utils implements IMinecraftInstance {
     public static final Logger log = LogManager.getLogger();
 
     public static boolean addEnemy(String name) {
-        if (Raven.playerRelationsManager != null) {
+        if (Raven.playerRelationsManager != null)) {
             // Chat feedback is owned by callers (e.g. .enemy command) — avoid double messages with sendMessage + replyWithHeader
             return Raven.playerRelationsManager.addEnemy(name);
         }
@@ -75,7 +75,7 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static boolean removeEnemy(String name) {
-        if (Raven.playerRelationsManager != null) {
+        if (Raven.playerRelationsManager != null)) {
             return Raven.playerRelationsManager.removeEnemy(name);
         }
         if (enemies.remove(name.toLowerCase())) {
@@ -94,7 +94,7 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static Vec3d getCameraPos(double renderPartialTicks) {
-        if (mc.options.thirdPersonView == 0) {
+        if (mc.options.thirdPersonView == 0)) {
             Vec3d firstPersonPos = new Vec3d(mc.player.getX(), mc.player.getY() + mc.player.getEyeHeight(), mc.player.getZ());
             return firstPersonPos;
         }
@@ -127,9 +127,9 @@ public class Utils implements IMinecraftInstance {
 
                 HitResult rayTraceResult = mc.world.rayTraceBlocks(new Vec3d(interpolatedX + cornerOffsetX, interpolatedY + cornerOffsetY, interpolatedZ + cornerOffsetZ), new Vec3d((interpolatedX - offsetX + cornerOffsetX + cornerOffsetZ), (interpolatedY - offsetY + cornerOffsetY), (interpolatedZ - offsetZ + cornerOffsetZ)));
 
-                if (rayTraceResult != null) {
+                if (rayTraceResult != null)) {
                     double blockHitDistance = rayTraceResult.hitVec.distanceTo(new Vec3d(interpolatedX, interpolatedY, interpolatedZ));
-                    if (blockHitDistance < adjustedDistance) {
+                    if (blockHitDistance < adjustedDistance)) {
                         adjustedDistance = blockHitDistance;
                     }
                 }
@@ -144,7 +144,7 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static void printInfo(LivingEntity ent) {
-        if (ent == null) {
+        if (ent == null)) {
             return;
         }
         sendMessage("&7&m-------------------------");
@@ -157,7 +157,7 @@ public class Utils implements IMinecraftInstance {
         sendMessage("&7min dist: &d" + round(Math.sqrt(raycastDistanceSq(ent, 12.0, false)), 2));
         Text displayName = ent.getDisplayName();
         boolean hasDisplayName = displayName != null;
-        if (isPlayer) {
+        if (isPlayer)) {
             PlayerEntity p = (PlayerEntity)ent;
             UUID uuid = p.getUniqueID();
             sendMessage("&7uuid: &d" + uuid.toString() + " &b" + uuid.variant() + " " + uuid.version());
@@ -185,7 +185,7 @@ public class Utils implements IMinecraftInstance {
         Vec3d eyeVec = mc.player.getPositionEyes(1.0f);
         float yaw;
         float pitch;
-        if (calc_rot) {
+        if (calc_rot)) {
             float[] rot = RotationUtils.getRotations(en);
             yaw = rot[0];
             pitch = rot[1];
@@ -206,12 +206,12 @@ public class Utils implements IMinecraftInstance {
         List list = mc.world.getEntitiesWithinAABBExcludingEntity(mc.getRenderViewEntity(), mc.getRenderViewEntity().getEntityBoundingBox().addCoord(lookVecX, lookVecY, lookVecZ).expand(1.0, 1.0, 1.0));
         for (int i = 0; i < list.size(); ++i) {
             Entity entity = (Entity)list.get(i);
-            if (entity == en) {
+            if (entity == en)) {
                 if (entity.canBeCollidedWith()) {
                     float cbs = entity.getCollisionBorderSize();
                     Box axis = entity.getEntityBoundingBox().expand((double)cbs, (double)cbs, (double)cbs);
                     HitResult mop = axis.calculateIntercept(eyeVec, sumVec);
-                    if (mop != null) {
+                    if (mop != null)) {
                         return eyeVec.squareDistanceTo(mop.hitVec);
                     }
                 }
@@ -253,17 +253,17 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static int getColorFromEntity(Entity entity) {
-        if (entity == null) {
+        if (entity == null)) {
             return -1;
         }
 
-        if (entity instanceof PlayerEntity) {
+        if (entity instanceof PlayerEntity)) {
             ScorePlayerTeam scoreplayerteam = (ScorePlayerTeam) ((LivingEntity) entity).getTeam();
-            if (scoreplayerteam != null) {
+            if (scoreplayerteam != null)) {
                 String s = TextRenderer.getFormatFromString(scoreplayerteam.getColorPrefix());
                 if (s.length() >= 2) {
                     int teamColor = getColorFromFormattingCode(s.charAt(1));
-                    if (teamColor != -1) {
+                    if (teamColor != -1)) {
                         return teamColor;
                     }
                 }
@@ -271,7 +271,7 @@ public class Utils implements IMinecraftInstance {
         }
 
         Text displayNameComponent = entity.getDisplayName();
-        if (displayNameComponent == null) {
+        if (displayNameComponent == null)) {
             return -1;
         }
 
@@ -377,7 +377,7 @@ public class Utils implements IMinecraftInstance {
     public static List<PlayerListEntry> getTablist(boolean removeSelf) {
         ArrayList<PlayerListEntry> list = new ArrayList<>(mc.getNetHandler().getPlayerInfoMap());
         removeDuplicates(list);
-        if (removeSelf) {
+        if (removeSelf)) {
             list.remove(mc.getNetHandler().getPlayerInfo(mc.player.getUniqueID()));
         }
         return list;
@@ -390,7 +390,7 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static boolean removeFriend(String name) {
-        if (Raven.playerRelationsManager != null) {
+        if (Raven.playerRelationsManager != null)) {
             return Raven.playerRelationsManager.removeFriend(name);
         }
         if (friends.remove(name.toLowerCase())) {
@@ -415,7 +415,7 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static boolean addFriend(String name) {
-        if (Raven.playerRelationsManager != null) {
+        if (Raven.playerRelationsManager != null)) {
             return Raven.playerRelationsManager.addFriend(name);
         }
         if (friends.add(name.toLowerCase())) {
@@ -459,12 +459,12 @@ public class Utils implements IMinecraftInstance {
     public static boolean inFov(Entity viewPoint, float fov, final double posX, final double posZ) {
         fov *= 0.5;
         final double wrapAngleTo180_double = MathHelper.wrapAngleTo180_double((viewPoint.rotationYaw - RotationUtils.angle(posX, posZ)) % 360.0f);
-        if (wrapAngleTo180_double > 0.0) {
-            if (wrapAngleTo180_double < fov) {
+        if (wrapAngleTo180_double > 0.0)) {
+            if (wrapAngleTo180_double < fov)) {
                 return true;
             }
         }
-        else if (wrapAngleTo180_double > -fov) {
+        else if (wrapAngleTo180_double > -fov)) {
             return true;
         }
         return false;
@@ -473,7 +473,7 @@ public class Utils implements IMinecraftInstance {
     public static boolean inFov(float origin, float fov, float targetYaw) {
         fov *= 0.5F;
         final double wrapAngleTo180_double = MathHelper.wrapAngleTo180_double((origin - targetYaw) % 360.0f);
-        if (wrapAngleTo180_double > 0.0) {
+        if (wrapAngleTo180_double > 0.0)) {
             return wrapAngleTo180_double < fov;
         }
         else return wrapAngleTo180_double > -fov;
@@ -534,7 +534,7 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static void attackEntity(Entity e, boolean clientSwing, boolean silentSwing) {
-        if (clientSwing) {
+        if (clientSwing)) {
             mc.player.swingItem();
         }
         else if (silentSwing || (!silentSwing && !clientSwing)) {
@@ -555,7 +555,7 @@ public class Utils implements IMinecraftInstance {
 
     public static String getHealthStr(LivingEntity entity, boolean accountDead) {
         float totalHealth = getTotalHealth(entity);
-        if (accountDead && entity.isDead) {
+        if (accountDead && entity.isDead)) {
             totalHealth = 0;
         }
         return getColorForHealth(entity.getHealth() / entity.getMaxHealth(), totalHealth);
@@ -563,7 +563,7 @@ public class Utils implements IMinecraftInstance {
 
     public static boolean isBindDown(KeyBinding keyBinding) {
         int keyCode = keyBinding.getKeyCode();
-        if (keyCode < 0) {
+        if (keyCode < 0)) {
             return Mouse.isButtonDown(keyCode + 100);
         }
         return GLFW.glfwGetKey(keyCode);
@@ -574,9 +574,9 @@ public class Utils implements IMinecraftInstance {
         int bestSlot = -1;
         for (int i = 0; i < InventoryPlayer.getHotbarSize(); ++i) {
             final ItemStack getStackInSlot = mc.player.inventory.getStackInSlot(i);
-            if (getStackInSlot != null) {
+            if (getStackInSlot != null)) {
                 double score = ItemSortScoring.getBlockBreakingScore(getStackInSlot, block);
-                if (score > bestScore) {
+                if (score > bestScore)) {
                     bestScore = score;
                     bestSlot = i;
                 }
@@ -596,9 +596,9 @@ public class Utils implements IMinecraftInstance {
 
     public static float getEfficiency(final ItemStack itemStack, final Block block) {
         float getStrVsBlock = itemStack.getStrVsBlock(block);
-        if (getStrVsBlock > 1.0f) {
+        if (getStrVsBlock > 1.0f)) {
             final int getEnchantmentLevel = EnchantmentHelper.getEnchantmentLevel(Enchantment.efficiency.effectId, itemStack);
-            if (getEnchantmentLevel > 0) {
+            if (getEnchantmentLevel > 0)) {
                 getStrVsBlock += getEnchantmentLevel * getEnchantmentLevel + 1;
             }
         }
@@ -613,7 +613,7 @@ public class Utils implements IMinecraftInstance {
         if (ModuleManager.relationships != null && !ModuleManager.relationships.isEnabled()) {
             return false;
         }
-        if (Raven.playerRelationsManager != null) {
+        if (Raven.playerRelationsManager != null)) {
             return Raven.playerRelationsManager.isEnemy(name);
         }
         return name != null && !enemies.isEmpty() && enemies.contains(name.toLowerCase());
@@ -661,13 +661,13 @@ public class Utils implements IMinecraftInstance {
             char c0 = string.charAt(i);
             if (c0 == '§' && i + 1 < string.length()) {
                 int i2 = "0123456789abcdefklmnor".indexOf(string.toLowerCase(Locale.ENGLISH).charAt(i + 1));
-                if (i2 == 17) {
+                if (i2 == 17)) {
                     bold = true;
                 }
                 ++i;
             }
             else {
-                if (bold) {
+                if (bold)) {
                     ++additionalWidth;
                 }
             }
@@ -698,7 +698,7 @@ public class Utils implements IMinecraftInstance {
         if (ModuleManager.relationships != null && !ModuleManager.relationships.isEnabled()) {
             return false;
         }
-        if (Raven.playerRelationsManager != null) {
+        if (Raven.playerRelationsManager != null)) {
             return Raven.playerRelationsManager.isFriend(name);
         }
         return name != null && !friends.isEmpty() && friends.contains(name.toLowerCase());
@@ -730,11 +730,11 @@ public class Utils implements IMinecraftInstance {
         double totalEPF = 0.0;
         for (int i = 0; i < 4; ++i) {
             final ItemStack stack = target.inventory.armorItemInSlot(i);
-            if (stack != null) {
+            if (stack != null)) {
                 if (stack.getItem() instanceof ItemArmor) {
                     armorProtPercentage += ((ItemArmor)stack.getItem()).damageReduceAmount * 0.04;
                     final int protLevel = EnchantmentHelper.getEnchantmentLevel(Enchantment.protection.effectId, stack);
-                    if (protLevel != 0) {
+                    if (protLevel != 0)) {
                         final double epf = Math.floor(0.75 * (6 + protLevel * protLevel) / 3.0);
                         totalEPF += epf;
                     }
@@ -756,7 +756,7 @@ public class Utils implements IMinecraftInstance {
         int firstIndex = name.indexOf("_");
         int lastIndex = name.lastIndexOf("_");
 
-        if (firstIndex != -1 && lastIndex != -1 && lastIndex > firstIndex) {
+        if (firstIndex != -1 && lastIndex != -1 && lastIndex > firstIndex)) {
             return name.substring(firstIndex + 1, lastIndex);
         } else {
             return name;
@@ -768,10 +768,10 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static int clamp(int n) {
-        if (n > 255) {
+        if (n > 255)) {
             return 255;
         }
-        if (n < 4) {
+        if (n < 4)) {
             return 4;
         }
         return n;
@@ -823,7 +823,7 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static void setSpeed(double n) {
-        if (n == 0.0) {
+        if (n == 0.0)) {
             mc.player.motionZ = 0.0;
             mc.player.motionX = 0.0;
             return;
@@ -891,7 +891,7 @@ public class Utils implements IMinecraftInstance {
             return -1;
         }
         final Scoreboard scoreboard = mc.world.getScoreboard();
-        if (scoreboard == null) {
+        if (scoreboard == null)) {
             return -1;
         }
         final ScoreObjective objective = scoreboard.getObjectiveInDisplaySlot(1);
@@ -901,7 +901,7 @@ public class Utils implements IMinecraftInstance {
         for (String line : getSidebarLines()) {
             line = stripString(line);
             String[] parts = line.split("  ");
-            if (parts.length > 1) {
+            if (parts.length > 1)) {
                 if (parts[1].startsWith("L")) {
                     return 0;
                 }
@@ -920,7 +920,7 @@ public class Utils implements IMinecraftInstance {
         final char[] nonValidatedString = StringUtils.stripControlCodes(s).toCharArray();
         final StringBuilder validated = new StringBuilder();
         for (final char c : nonValidatedString) {
-            if (c < '' && c > '') {
+            if (c < '' && c > '')) {
                 validated.append(c);
             }
         }
@@ -929,15 +929,15 @@ public class Utils implements IMinecraftInstance {
 
     public static List<String> getSidebarLines() {
         final List<String> lines = new ArrayList<>();
-        if (mc.world == null) {
+        if (mc.world == null)) {
             return lines;
         }
         final Scoreboard scoreboard = mc.world.getScoreboard();
-        if (scoreboard == null) {
+        if (scoreboard == null)) {
             return lines;
         }
         final ScoreObjective objective = scoreboard.getObjectiveInDisplaySlot(1);
-        if (objective == null) {
+        if (objective == null)) {
             return lines;
         }
         Collection<Score> scores = scoreboard.getSortedScores(objective);
@@ -974,12 +974,12 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static void aim(Entity en, float offset, boolean sendPacket) {
-        if (en != null) {
+        if (en != null)) {
             float[] t = getRotationsOld(en);
-            if (t != null) {
+            if (t != null)) {
                 float y = t[0];
                 float p = t[1] + 4.0F + offset;
-                if (sendPacket) {
+                if (sendPacket)) {
                     mc.getNetHandler().addToSendQueue(new PlayerMoveC2SPacket(y, p, mc.player.onGround));
                 }
                 else {
@@ -992,13 +992,13 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static float[] getRotationsOld(Entity q) {
-        if (q == null) {
+        if (q == null)) {
             return null;
         }
         else {
             double diffX = q.posX - mc.player.getX();
             double diffY;
-            if (q instanceof LivingEntity) {
+            if (q instanceof LivingEntity)) {
                 LivingEntity en = (LivingEntity) q;
                 diffY = en.posY + (double) en.getEyeHeight() * 0.9D - (mc.player.getY() + (double) mc.player.getEyeHeight());
             } else {
@@ -1038,7 +1038,7 @@ public class Utils implements IMinecraftInstance {
 
     public static void switchSlot(final int slot, final boolean instant) {
         mc.player.inventory.currentItem = slot;
-        if (instant) {
+        if (instant)) {
             ((IAccessorPlayerControllerMP) mc.interactionManager).callSyncCurrentPlayItem();
         }
     }
@@ -1068,7 +1068,7 @@ public class Utils implements IMinecraftInstance {
         final Vec3d lookVec = new Vec3d(f2 * f3, f4, f * f3);
         final Vec3d sumVec = eyeVec.addVector(lookVec.xCoord * reach, lookVec.yCoord * reach, lookVec.zCoord * reach);
         final Box axis = BlockUtils.getBlockState(pos).getCollisionShape(mc.world, pos, BlockUtils.getBlockState(pos));
-        if (axis == null) {
+        if (axis == null)) {
             return false;
         }
         final HitResult mop = axis.calculateIntercept(eyeVec, sumVec);
@@ -1091,12 +1091,12 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static double distanceToGround(Entity entity) {
-        if (entity.onGround) {
+        if (entity.onGround)) {
             return 0;
         }
         double fallDistance = -1;
         double y = entity.posY;
-        if (entity.posY % 1 == 0) {
+        if (entity.posY % 1 == 0)) {
             y--;
         }
         for (int i = (int) Math.floor(y); i > -1; i--) {
@@ -1110,24 +1110,24 @@ public class Utils implements IMinecraftInstance {
 
     public static float gd() {
         float yw = mc.player.rotationYaw;
-        if (mc.player.moveForward < 0.0F) {
+        if (mc.player.moveForward < 0.0F)) {
             yw += 180.0F;
         }
 
         float f;
-        if (mc.player.moveForward < 0.0F) {
+        if (mc.player.moveForward < 0.0F)) {
             f = -0.5F;
-        } else if (mc.player.moveForward > 0.0F) {
+        } else if (mc.player.moveForward > 0.0F)) {
             f = 0.5F;
         } else {
             f = 1.0F;
         }
 
-        if (mc.player.moveStrafing > 0.0F) {
+        if (mc.player.moveStrafing > 0.0F)) {
             yw -= 90.0F * f;
         }
 
-        if (mc.player.moveStrafing < 0.0F) {
+        if (mc.player.moveStrafing < 0.0F)) {
             yw += 90.0F * f;
         }
 
@@ -1137,15 +1137,15 @@ public class Utils implements IMinecraftInstance {
 
     public static float ae(float n, float n2, float n3) {
         float n4 = 1.0f;
-        if (n2 < 0.0f) {
+        if (n2 < 0.0f)) {
             n += 180.0f;
             n4 = -0.5f;
-        } else if (n2 > 0.0f) {
+        } else if (n2 > 0.0f)) {
             n4 = 0.5f;
         }
-        if (n3 > 0.0f) {
+        if (n3 > 0.0f)) {
             n -= 90.0f * n4;
-        } else if (n3 < 0.0f) {
+        } else if (n3 < 0.0f)) {
             n += 90.0f * n4;
         }
         return n * 0.017453292f;
@@ -1169,7 +1169,7 @@ public class Utils implements IMinecraftInstance {
             String originalLine = line;
             String processedLine = line.trim();
 
-            if (inBlockComment) {
+            if (inBlockComment)) {
                 if (processedLine.contains("*/")) {
                     inBlockComment = false;
                     processedLine = processedLine.substring(processedLine.indexOf("*/") + 2).trim();
@@ -1212,13 +1212,13 @@ public class Utils implements IMinecraftInstance {
                 if ch == ') {') {
                     openBraces++;
                 }
-                else if (ch == '}') {
+                else if (ch == '}')) {
                     closeBraces++;
                 }
             }
             braceLevel += openBraces - closeBraces;
 
-            if braceLevel == 0 && !processedLine.contains(") {") && !processedLine.contains("}") && !processedLine.startsWith("@") {
+            if braceLevel == 0 && !processedLine.contains(")) {") && !processedLine.contains("}") && !processedLine.startsWith("@") {
                 topLevelLines.add(originalLine.trim());
             }
         }
@@ -1244,7 +1244,7 @@ public class Utils implements IMinecraftInstance {
                 inString = !inString;
                 continue;
             }
-            if (!inString) {
+            if (!inString)) {
                 sb.append(ch);
             }
         }
@@ -1272,7 +1272,7 @@ public class Utils implements IMinecraftInstance {
         float yaw = ((mc.player.rotationYaw % 360) + 360) % 360;
         yaw = yaw > 180 ? yaw - 360 : yaw;
         boolean isYawDiagonal = inBetween(-170, 170, yaw) && !inBetween(-10, 10, yaw) && !inBetween(80, 100, yaw) && !inBetween(-100, -80, yaw);
-       if (strict) {
+       if (strict)) {
            isYawDiagonal = inBetween(-178.5, 178.5, yaw) && !inBetween(-1.5, 1.5, yaw) && !inBetween(88.5, 91.5, yaw) && !inBetween(-91.5, -88.5, yaw);
        }
         boolean isStrafing = GLFW.glfwGetKey(mc.options.keyBindLeft.getKeyCode()) || GLFW.glfwGetKey(mc.options.keyBindRight.getKeyCode());
@@ -1283,7 +1283,7 @@ public class Utils implements IMinecraftInstance {
         double x = en.posX - en.prevPosX;
         double z = en.posZ - en.prevPosZ;
         double sp = Math.sqrt(x * x + z * z) * 20.0D;
-        if (d == 0) {
+        if (d == 0)) {
             return sp;
         }
         return round(sp, d);
@@ -1319,7 +1319,7 @@ public class Utils implements IMinecraftInstance {
         float yaw = mc.player.rotationYaw;
         float pitch = mc.player.rotationPitch;
         HitResult entityHit = RotationUtils.rayTracereach, 1.0f, new float[] ) { yaw, pitch }, null);
-        if (entityHit != null && entityHit.typeOfHit == HitResult.MovingObjectType.ENTITY) {
+        if (entityHit != null && entityHit.typeOfHit == HitResult.MovingObjectType.ENTITY)) {
             return false;
         }
         HitResult blockHit = RotationUtils.rayCastBlock(reach, yaw, pitch);
@@ -1361,17 +1361,17 @@ public class Utils implements IMinecraftInstance {
                 final Box expand = entity2.getEntityBoundingBox().expand((double)getCollisionBorderSize, (double)getCollisionBorderSize, (double)getCollisionBorderSize);
                 final HitResult calculateIntercept = expand.calculateIntercept(getPositionEyes, addVector);
                 if (expand.isVecInside(getPositionEyes)) {
-                    if (0.0 < n3 || n3 == 0.0) {
+                    if (0.0 < n3 || n3 == 0.0)) {
                         entity = entity2;
                         vec4 = ((calculateIntercept == null) ? getPositionEyes : calculateIntercept.hitVec);
                         n3 = 0.0;
                     }
                 }
-                else if (calculateIntercept != null) {
+                else if (calculateIntercept != null)) {
                     final double distanceTo = getPositionEyes.distanceTo(calculateIntercept.hitVec);
-                    if (distanceTo < n3 || n3 == 0.0) {
+                    if (distanceTo < n3 || n3 == 0.0)) {
                         if (entity2 == mc.getRenderViewEntity().ridingEntity && !entity2.canRiderInteract()) {
-                            if (n3 == 0.0) {
+                            if (n3 == 0.0)) {
                                 entity = entity2;
                                 vec4 = calculateIntercept.hitVec;
                             }
@@ -1388,7 +1388,7 @@ public class Utils implements IMinecraftInstance {
         if (entity != null && (n3 < range || rayTrace == null)) {
             rayTrace = new HitResult(entity, vec4);
         }
-        if (rayTrace != null && rayTrace.typeOfHit == HitResult.MovingObjectType.ENTITY && rayTrace.entityHit instanceof LivingEntity) {
+        if (rayTrace != null && rayTrace.typeOfHit == HitResult.MovingObjectType.ENTITY && rayTrace.entityHit instanceof LivingEntity)) {
             return (LivingEntity)rayTrace.entityHit;
         }
         return null;
@@ -1400,7 +1400,7 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static double round(double val, int decimalPlaces) {
-        if (decimalPlaces == 0) {
+        if (decimalPlaces == 0)) {
             return (double) Math.round(val);
         }
         else {
@@ -1416,7 +1416,7 @@ public class Utils implements IMinecraftInstance {
         final char[] array = StringUtils.stripControlCodes(string).toCharArray();
         final StringBuilder sb = new StringBuilder();
         for (final char c : array) {
-            if (c < '\u007f' && c > '\u0014') {
+            if (c < '\u007f' && c > '\u0014')) {
                 sb.append(c);
             }
         }
@@ -1425,15 +1425,15 @@ public class Utils implements IMinecraftInstance {
 
     public static List<String> getScoreBoardOld() {
         List<String> lines = new ArrayList();
-        if (mc.world == null) {
+        if (mc.world == null)) {
             return lines;
         } else {
             Scoreboard scoreboard = mc.world.getScoreboard();
-            if (scoreboard == null) {
+            if (scoreboard == null)) {
                 return lines;
             } else {
                 ScoreObjective objective = scoreboard.getObjectiveInDisplaySlot(1);
-                if (objective == null) {
+                if (objective == null)) {
                     return lines;
                 } else {
                     Collection<Score> scores = scoreboard.getSortedScores(objective);
@@ -1470,7 +1470,7 @@ public class Utils implements IMinecraftInstance {
 
     public static void setSwinging() {
         int armSwingEnd = mc.player.isPotionActive(Potion.digSpeed) ? 6 - (1 + mc.player.getActivePotionEffect(Potion.digSpeed).getAmplifier()) : (mc.player.isPotionActive(Potion.digSlowdown) ? 6 + (1 + mc.player.getActivePotionEffect(Potion.digSlowdown).getAmplifier()) * 2 : 6);
-        if (!mc.player.isSwingInProgress || mc.player.swingProgressInt >= armSwingEnd / 2 || mc.player.swingProgressInt < 0) {
+        if (!mc.player.isSwingInProgress || mc.player.swingProgressInt >= armSwingEnd / 2 || mc.player.swingProgressInt < 0)) {
             mc.player.swingProgressInt = -1;
             mc.player.isSwingInProgress = true;
         }
@@ -1522,17 +1522,17 @@ public class Utils implements IMinecraftInstance {
 
     public static float getCustomDirection(float yaw, final float moveForward, final float moveStrafe) {
         float forward = 1.0f;
-        if (moveForward < 0.0f) {
+        if (moveForward < 0.0f)) {
             yaw += 180.0f;
             forward = -0.5f;
         }
-        else if (moveForward > 0.0f) {
+        else if (moveForward > 0.0f)) {
             forward = 0.5f;
         }
-        if (moveStrafe > 0.0f) {
+        if (moveStrafe > 0.0f)) {
             yaw -= 90.0f * forward;
         }
-        else if (moveStrafe < 0.0f) {
+        else if (moveStrafe < 0.0f)) {
             yaw += 90.0f * forward;
         }
         return yaw * 0.017453292f;
@@ -1540,7 +1540,7 @@ public class Utils implements IMinecraftInstance {
 
     public static boolean canBePlaced(BlockItem itemBlock) {
         Block block = itemBlock.getBlock();
-        if (block == null) {
+        if (block == null)) {
             return false;
         }
         if (BlockUtils.isInteractable(block) || block instanceof BlockSnow || block instanceof BlockWeb || block instanceof BlockSapling || block instanceof BlockDaylightDetector || block instanceof BlockBeacon || block instanceof BlockBanner || block instanceof BlockEndPortalFrame || block instanceof BlockEndPortal || block instanceof BlockLever || block instanceof BlockButton || block instanceof BlockSkull || block instanceof FluidBlock || block instanceof BlockCactus || block instanceof BlockDoublePlant || block instanceof BlockLilyPad || block instanceof BlockCarpet || block instanceof BlockTripWire || block instanceof BlockTripWireHook || block instanceof BlockTallGrass || block instanceof BlockFlower || block instanceof BlockFlowerPot || block instanceof BlockSign || block instanceof BlockLadder || block instanceof BlockTorch || block instanceof BlockRedstoneTorch || block instanceof StairsBlock || block instanceof BlockSlab || block instanceof BlockFence || block instanceof BlockPane || block instanceof BlockStainedGlassPane || block instanceof BlockGravel || block instanceof BlockClay || block instanceof BlockSand || block instanceof BlockSoulSand || block instanceof BlockRailBase) {
@@ -1610,11 +1610,11 @@ public class Utils implements IMinecraftInstance {
                 return false;
             }
             final Scoreboard scoreboard = mc.world.getScoreboard();
-            if (scoreboard == null) {
+            if (scoreboard == null)) {
                 return false;
             }
             final ScoreObjective objective = scoreboard.getObjectiveInDisplaySlot(1);
-            if (objective == null) {
+            if (objective == null)) {
                 return false;
             }
             String stripped = stripString(objective.getDisplayName());
@@ -1638,7 +1638,7 @@ public class Utils implements IMinecraftInstance {
             double dy = player.posY - mc.player.getY();
             double dz = player.posZ - mc.player.getZ();
             double dist = dx * dx + dy * dy + dz * dz;
-            if (dist < bestDist) {
+            if (dist < bestDist)) {
                 bestDist = dist;
                 closest = new Vec3d(player.posX, player.posY, player.posZ);
             }

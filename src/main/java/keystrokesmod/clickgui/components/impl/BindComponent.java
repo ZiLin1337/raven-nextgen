@@ -52,7 +52,7 @@ public class BindComponent extends Component {
         RavenFontRenderer renderer = Gui.getClickGuiSettingFontRenderer();
         RenderSystem.getModelViewStack().pushMatrix();
         GL11.glScaled(0.5D, 0.5D, 0.5D);
-        if (keySetting == null) {
+        if (keySetting == null)) {
             this.drawString(renderer, !this.moduleComponent.mod.canBeEnabled() && this.moduleComponent.mod.script == null ? "Module cannot be bound." : this.isBinding ? "Press a key..." : "Current bind: '\u00a7e" + getKeyAsStr(false) + "\u00a7r'");
         }
         else {
@@ -164,7 +164,7 @@ public class BindComponent extends Component {
 
     public void keyTyped(char t, int keybind) {
         if (!isBinding) return;
-        if (keybind == Keyboard.KEY_0 || keybind == GLFW.GLFW_KEY_ESCAPE) {
+        if (keybind == Keyboard.KEY_0 || keybind == GLFW.GLFW_KEY_ESCAPE)) {
             if (moduleComponent.mod instanceof Gui) moduleComponent.mod.setBind(54);
             else if (keySetting != null) keySetting.setKey(0);
             else moduleComponent.mod.setBind(0);

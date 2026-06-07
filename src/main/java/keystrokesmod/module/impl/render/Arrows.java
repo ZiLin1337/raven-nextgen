@@ -56,7 +56,7 @@ public class Arrows extends Module {
 
     
     public void onClientTick(TickEvent.ClientTickEvent event) {
-        if (event.phase != TickEvent.Phase.END) {
+        if (event.phase != TickEvent.Phase.END)) {
             return;
         }
         updateRenderStates();
@@ -64,7 +64,7 @@ public class Arrows extends Module {
 
     
     public void onRenderTick(TickEvent.RenderTickEvent event) {
-        if (event.phase != TickEvent.Phase.END) {
+        if (event.phase != TickEvent.Phase.END)) {
             return;
         }
         if (mc.currentScreen != null || !Utils.nullCheck()) {
@@ -73,7 +73,7 @@ public class Arrows extends Module {
         try {
             for (int i = 0; i < renderStateCount; i++) {
                 ArrowRenderState renderState = renderStates.get(i);
-                if (renderState.player == null) {
+                if (renderState.player == null)) {
                     continue;
                 }
                 this.renderIndicatorFor(renderState.player, renderState.color, event.renderTickTime);
@@ -89,7 +89,7 @@ public class Arrows extends Module {
         }
 
         for (PlayerEntity en : mc.world.getPlayers()) {
-            if (en == null || en == mc.player) {
+            if (en == null || en == mc.player)) {
                 continue;
             }
             if (AntiBot.isBot(en)) {
@@ -131,7 +131,7 @@ public class Arrows extends Module {
          scaledResolution = /* ScaledResolution removed in 1.21.4 */ null;
         Vec3d vec = RenderUtils.convertTo2D(scaledResolution.getScaleFactor(), x, y, z);
 
-        if (vec != null) {
+        if (vec != null)) {
             mc.entityRenderer.setupOverlayRendering();
              res = /* ScaledResolution removed in 1.21.4 */ null;
 
@@ -139,7 +139,7 @@ public class Arrows extends Module {
             double dy = vec.yCoord - res.getScaledHeight() / 2.0;
             boolean inFrustum = vec.zCoord < 1.0003684;
 
-            if (!inFrustum) {
+            if (!inFrustum)) {
                 dx *= -1.0;
                 dy *= -1.0;
             }
@@ -149,7 +149,7 @@ public class Arrows extends Module {
             double hypotenuse = Math.hypot(dx, dy);
             double radiusInput = radius.getInput();
 
-            if (inFrustum && hypotenuse < radiusInput + 15.0) {
+            if (inFrustum && hypotenuse < radiusInput + 15.0)) {
                 return;
             }
 
@@ -167,8 +167,8 @@ public class Arrows extends Module {
 
             int arrowInput = (int) arrow.getInput();
 
-            if (arrowInput == 0) {
-                if (color == -1) {
+            if (arrowInput == 0)) {
+                if (color == -1)) {
                     GL11.glColor3d(1.0, 1.0, 1.0);
                 }
                 else {
@@ -197,13 +197,13 @@ public class Arrows extends Module {
                 RenderSystem.disableBlend(GL11.GL_BLEND);
                 RenderSystem.disableBlend(GL11.GL_LINE_SMOOTH);
             }
-            else if (arrowInput == 1) {
+            else if (arrowInput == 1)) {
                 RenderSystem.rotate(-90.0f, 0.0f, 0.0f, 1.0f);
                 RenderSystem.scale(1.5, 1.5, 1.5);
                 RavenFontRenderer fr = getArrowFontRenderer();
                 fr.drawString(">", -2.0f, -4.0f, color, false);
             }
-            else if (arrowInput == 2) {
+            else if (arrowInput == 2)) {
                 RenderUtils.draw2DPolygon(0.0, 0.0, 5.0, 3, Utils.mergeAlpha(color, 255));
             }
 
@@ -227,7 +227,7 @@ public class Arrows extends Module {
     }
 
     private String getSelectedFontName() {
-        if (font == null) {
+        if (font == null)) {
             return FONT_OPTIONS[0];
         }
         int index = (int) Math.max(0, Math.min(font.getOptions().length - 1, font.getInput()));

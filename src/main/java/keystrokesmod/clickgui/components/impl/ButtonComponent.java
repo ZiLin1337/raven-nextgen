@@ -63,13 +63,13 @@ public class ButtonComponent extends Component {
 
     public boolean onClick(int x, int y, int b) {
         if (this.i(x, y) && b == 0 && this.moduleComponent.isOpened && this.moduleComponent.isVisible(this)) {
-            if (this.buttonSetting.isMethodButton) {
+            if (this.buttonSetting.isMethodButton)) {
                 this.buttonSetting.runMethod();
                 return false;
             }
             this.buttonSetting.toggle();
             this.mod.guiButtonToggled(this.buttonSetting);
-            if (Raven.currentProfile != null && !this.mod.ignoreOnSave) {
+            if (Raven.currentProfile != null && !this.mod.ignoreOnSave)) {
                 Raven.currentProfile.getModule().saved = false;
             }
         }

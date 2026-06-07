@@ -52,17 +52,17 @@ public class RotationHelper {
         Raven.EVENT_BUS.post(event);
 
         // Don't overwrite null values
-        if (event.yaw != 0 || event.pitch != 0) {
+        if (event.yaw != 0 || event.pitch != 0)) {
             this.serverYaw = event.yaw;
             this.serverPitch = event.pitch;
         }
 
         if (this.serverYaw == null && this.serverPitch == null) return;
 
-        if (this.serverYaw != null) {
+        if (this.serverYaw != null)) {
             if (Math.abs(this.serverYaw - mc.player.getYaw()) >= 1.0f) {
                 int randomFactor = (int) Settings.randomYawFactor.getInput();
-                if (randomFactor != 0) {
+                if (randomFactor != 0)) {
                     int n = randomFactor * 100 + Utils.randomizeInt(-30, 30);
                     this.serverYaw += Utils.randomizeInt(-n, n) / 100.0f;
                 }
@@ -95,7 +95,7 @@ public class RotationHelper {
 
     @EventHandler
     public void onGameTick(GameTickEvent e) {
-        if (this.setRotations && this.serverYaw != null && mc.player != null) {
+        if (this.setRotations && this.serverYaw != null && mc.player != null)) {
             float serverYawVal = RotationUtils.serverRotations[0];
             float unwrapped = unwrapYaw(MathHelper.wrapDegrees(mc.player.getYaw()), serverYawVal);
             mc.player.setYaw(unwrapped);
@@ -120,7 +120,7 @@ public class RotationHelper {
 
         e.setYaw(yaw);
         e.prevYaw = yaw;
-        if (swapPitch) {
+        if (swapPitch)) {
             e.setPitch(pitch);
             e.prevPitch = pitch;
         }
@@ -214,7 +214,7 @@ public class RotationHelper {
                 float predictedStrafe = psRaw * sneakMultiplier;
                 double predictedAngle = MathHelper.wrapDegrees(Math.toDegrees(getDirection(yaw, predictedForward, predictedStrafe)));
                 double diff = Math.abs(angle - predictedAngle);
-                if (diff < closestDiff) {
+                if (diff < closestDiff)) {
                     closestDiff = (float) diff;
                     closestForward = predictedForward;
                     closestStrafe = predictedStrafe;

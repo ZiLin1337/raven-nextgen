@@ -63,7 +63,7 @@ public final class PotionSearchIndex {
             }
 
             int score = getScore(entry, lowerQuery);
-            if (score > 0) {
+            if (score > 0)) {
                 scoredEntries.add(new ScoredPotionEntry(entry, score));
             }
         }
@@ -89,7 +89,7 @@ public final class PotionSearchIndex {
     public static ItemStack getItemStack(String potionKey) {
         ensurePotionList();
         PotionEntry entry = entriesByKey.get(potionKey);
-        if (entry == null) {
+        if (entry == null)) {
             return null;
         }
 
@@ -150,7 +150,7 @@ public final class PotionSearchIndex {
     }
 
     private static void ensurePotionList() {
-        if (allPotionEntries != null && entriesByKey != null) {
+        if (allPotionEntries != null && entriesByKey != null)) {
             return;
         }
 
@@ -213,7 +213,7 @@ public final class PotionSearchIndex {
                 }
             }
 
-            if (!matchesPotion) {
+            if (!matchesPotion)) {
                 continue;
             }
 
@@ -224,7 +224,7 @@ public final class PotionSearchIndex {
                 score += 25;
             }
 
-            if (score > bestScore) {
+            if (score > bestScore)) {
                 bestScore = score;
                 bestStack = new ItemStack(Items.POTION, 1, metadata);
             }

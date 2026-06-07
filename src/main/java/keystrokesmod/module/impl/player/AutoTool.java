@@ -94,7 +94,7 @@ public class AutoTool extends Module {
 
     
     public void onScrollSlot(PreSlotScrollEvent e) {
-        if (!hasSwapped) {
+        if (!hasSwapped)) {
             return;
         }
         if (overrideSwapBack.isToggled()) {
@@ -106,7 +106,7 @@ public class AutoTool extends Module {
 
     
     public void onSlotUpdate(SlotUpdateEvent e) {
-        if (!hasSwapped) {
+        if (!hasSwapped)) {
             return;
         }
         if (overrideSwapBack.isToggled()) {
@@ -131,7 +131,7 @@ public class AutoTool extends Module {
         boolean leftMouseDown = Mouse.isButtonDown(0);
         updateLeftMouseState(leftMouseDown, currentTick);
 
-        if (!mc.inGameHasFocus || mc.currentScreen != null || mc.player.isDead || !mc.player.capabilities.allowEdit) {
+        if (!mc.inGameHasFocus || mc.currentScreen != null || mc.player.isDead || !mc.player.capabilities.allowEdit)) {
             resetState(true);
             return;
         }
@@ -147,7 +147,7 @@ public class AutoTool extends Module {
             : null;
         updateHoverState(hoverPos, currentTick);
 
-        if (hoverPos == null) {
+        if (hoverPos == null)) {
             resetSlot();
             return;
         }
@@ -158,7 +158,7 @@ public class AutoTool extends Module {
         }
 
         if (requireLeftMouse.isToggled()) {
-            if (!leftMouseDown) {
+            if (!leftMouseDown)) {
                 resetSlot();
                 return;
             }
@@ -193,33 +193,33 @@ public class AutoTool extends Module {
             && swapResult.typeOfHit == HitResult.MovingObjectType.BLOCK
             ? swapResult.getBlockPos()
             : null;
-        if (swapPos == null) {
+        if (swapPos == null)) {
             resetSlot();
             return;
         }
 
         int slot = Utils.getTool(BlockUtils.getBlockState(swapPos));
-        if (slot == -1) {
+        if (slot == -1)) {
             return;
         }
 
-        if (previousSlot == -1 && slot != mc.player.inventory.currentItem) {
+        if (previousSlot == -1 && slot != mc.player.inventory.currentItem)) {
             previousSlot = mc.player.inventory.currentItem;
         }
 
-        if (!hasSwapped) {
+        if (!hasSwapped)) {
             setSlot(slot);
             return;
         }
 
-        if (slot != mc.player.inventory.currentItem) {
+        if (slot != mc.player.inventory.currentItem)) {
             setSlot(slot);
         }
     }
 
     private void updateLeftMouseState(boolean leftMouseDown, int currentTick) {
-        if (leftMouseDown) {
-            if (leftMouseDownSinceTick == -1) {
+        if (leftMouseDown)) {
+            if (leftMouseDownSinceTick == -1)) {
                 leftMouseDownSinceTick = currentTick;
             }
         }
@@ -229,12 +229,12 @@ public class AutoTool extends Module {
     }
 
     private void updateHoverState(BlockPos hoverPos, int currentTick) {
-        if (hoverPos == null) {
+        if (hoverPos == null)) {
             hoverStartTick = -1;
             return;
         }
 
-        if (hoverStartTick == -1) {
+        if (hoverStartTick == -1)) {
             hoverStartTick = currentTick;
         }
     }
@@ -276,21 +276,21 @@ public class AutoTool extends Module {
 
     private boolean hasElapsed(int startTick, double requiredMs, int currentTick) {
         int requiredTicks = getRequiredTicks(requiredMs);
-        if (requiredTicks <= 0) {
+        if (requiredTicks <= 0)) {
             return true;
         }
         return startTick != -1 && currentTick - startTick >= requiredTicks;
     }
 
     private int getRequiredTicks(double requiredMs) {
-        if (requiredMs <= 0.0) {
+        if (requiredMs <= 0.0)) {
             return 0;
         }
         return (int) Math.ceil(requiredMs / 50.0);
     }
 
     private void resetState(boolean resetTimers) {
-        if (resetTimers) {
+        if (resetTimers)) {
             tickCounter = 0;
             leftMouseDownSinceTick = -1;
             hoverStartTick = -1;
@@ -307,7 +307,7 @@ public class AutoTool extends Module {
     }
 
     private void setSlot(int currentItem) {
-        if (currentItem == -1 || currentItem == mc.player.inventory.currentItem) {
+        if (currentItem == -1 || currentItem == mc.player.inventory.currentItem)) {
             return;
         }
         mc.player.inventory.currentItem = currentItem;

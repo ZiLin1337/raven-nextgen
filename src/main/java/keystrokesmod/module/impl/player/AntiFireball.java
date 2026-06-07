@@ -139,14 +139,14 @@ public class AntiFireball extends Module {
         if (fireball == null) return;
 
         HitResult mop = mc.objectMouseOver;
-        if (mop == null || mop.typeOfHit != HitResult.MovingObjectType.ENTITY || mop.entityHit != fireball) {
+        if (mop == null || mop.typeOfHit != HitResult.MovingObjectType.ENTITY || mop.entityHit != fireball)) {
             nextClickTime = 0;
             ReflectionUtils.setButton(0, false);
             return;
         }
 
         long now = System.currentTimeMillis();
-        if (nextClickTime == 0) {
+        if (nextClickTime == 0)) {
             nextClickTime = now;
         }
 
@@ -178,7 +178,7 @@ public class AntiFireball extends Module {
     
     public void onEntityJoin(EntityJoinWorldEvent e) {
         if (!Utils.nullCheck()) return;
-        if (e.entity == mc.player) {
+        if (e.entity == mc.player)) {
             fireballs.clear();
         } else if (e.entity instanceof ExplosiveProjectileEntity && mc.player.getDistanceSqToEntity(e.entity) > 16.0) {
             fireballs.add(e.entity);

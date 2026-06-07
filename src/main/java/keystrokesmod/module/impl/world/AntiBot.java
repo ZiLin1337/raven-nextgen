@@ -59,7 +59,7 @@ public class AntiBot extends Module {
         if (!ModuleManager.antiBot.isEnabled()) {
             return false;
         }
-        if (Freecam.freeEntity != null && Freecam.freeEntity == entity) {
+        if (Freecam.freeEntity != null && Freecam.freeEntity == entity)) {
             return true;
         }
         if (entity == null || !(entity instanceof PlayerEntity)) {
@@ -69,7 +69,7 @@ public class AntiBot extends Module {
         if (delay.getInput() != -1 && !entities.isEmpty() && entities.containsKey(entityPlayer)) {
             return true;
         }
-        if (entityPlayer.isDead) {
+        if (entityPlayer.isDead)) {
             return true;
         }
         if (entityPlayer.getName().isEmpty()) {
@@ -89,7 +89,7 @@ public class AntiBot extends Module {
                 }
             }
         }
-        if (entityPlayer.maxHurtTime == 0) {
+        if (entityPlayer.maxHurtTime == 0)) {
             if (entityPlayer.getHealth() == 20.0f) {
                 String unformattedText = entityPlayer.getDisplayName().getUnformattedText();
                 if (unformattedText.length() == 10 && unformattedText.charAt(0) != '§') {
@@ -117,7 +117,7 @@ public class AntiBot extends Module {
     private static List<String> getTablist() {
         List<String> tab = new ArrayList<>();
         for (NetworkPlayerInfo networkPlayerInfo : Utils.getTablist(true)) {
-            if (networkPlayerInfo == null) {
+            if (networkPlayerInfo == null)) {
                 continue;
             }
             tab.add(networkPlayerInfo.getGameProfile().getName());

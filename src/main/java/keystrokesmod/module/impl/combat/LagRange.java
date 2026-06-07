@@ -123,11 +123,11 @@ public class LagRange extends Module {
         }
         currentTarget = nextTarget;
 
-        if (currentTarget != null) {
+        if (currentTarget != null)) {
             double distSq = RotationUtils.distanceSqFromEyeToClosestOnAABB(currentTarget);
 
-            if (isLagging) {
-                if (distSq > rangeSq) {
+            if (isLagging)) {
+                if (distSq > rangeSq)) {
                     flushLag();
                     lastDistSq = distSq;
                     hitMarkedEntityId = -1;
@@ -135,11 +135,11 @@ public class LagRange extends Module {
                     return;
                 }
 
-                if (lastDistSq >= 0 && distSq >= lastDistSq) {
+                if (lastDistSq >= 0 && distSq >= lastDistSq)) {
                     boolean hitHold = hitMarkedEntityId == currentTarget.getEntityId()
                             && distSq <= MINIMUM_DISTANCE_SQ
                             && mc.player.hurtTime == 0;
-                    if (!hitHold) {
+                    if (!hitHold)) {
                         flushLag();
                         lastDistSq = distSq;
                         lastTargetHurtTime = currentTarget.hurtTime;
@@ -148,7 +148,7 @@ public class LagRange extends Module {
                 }
 
                 int hurtTime = mc.player.hurtTime;
-                if (hurtTime > lastSelfHurtTime) {
+                if (hurtTime > lastSelfHurtTime)) {
                     flushLag();
                     hitMarkedEntityId = -1;
                     lastSelfHurtTime = hurtTime;
@@ -169,7 +169,7 @@ public class LagRange extends Module {
 
                 if (sprintReset.isToggled()) {
                     boolean sprintingNow = mc.player.isSprinting();
-                    if (sprintingNow && !lastSprintState) {
+                    if (sprintingNow && !lastSprintState)) {
                         flushLag();
                         lastSprintState = sprintingNow;
                         lastDistSq = distSq;
@@ -181,7 +181,7 @@ public class LagRange extends Module {
 
                 if (blockSword.isToggled()) {
                     boolean blockingNow = mc.player.isBlocking();
-                    if (blockingNow && !lastBlockingState) {
+                    if (blockingNow && !lastBlockingState)) {
                         flushLag();
                         lastBlockingState = blockingNow;
                         lastDistSq = distSq;
@@ -207,7 +207,7 @@ public class LagRange extends Module {
             }
 
             int hurtTime = mc.player.hurtTime;
-            if (hurtTime > lastSelfHurtTime) {
+            if (hurtTime > lastSelfHurtTime)) {
                 hitMarkedEntityId = -1;
             }
             lastSelfHurtTime = hurtTime;
@@ -216,7 +216,7 @@ public class LagRange extends Module {
 
             if (hurtTime == 0
                     && lastTargetHurtTime == 0
-                    && currentTarget.hurtTime > 0) {
+                    && currentTarget.hurtTime > 0)) {
                 hitMarkedEntityId = currentTarget.getEntityId();
             }
             lastTargetHurtTime = currentTarget.hurtTime;
@@ -230,7 +230,7 @@ public class LagRange extends Module {
             lastDistSq = distSq;
 
             if (hurtTime == 0 && weaponOk && moving
-                    && (closing && outsideMinDist || hitStart) {
+                    && (closing && outsideMinDist || hitStart)) {
                 startLag();
             }
         } else {
@@ -243,18 +243,18 @@ public class LagRange extends Module {
 
     
     public void onAttackEvent(AttackEvent e) {
-        if (isLagging && e.attacker == mc.player) {
+        if (isLagging && e.attacker == mc.player)) {
             flushLag();
         }
     }
 
     
     public void onGameTick(GameTickEvent e) {
-        if (mc.currentScreen == null) {
+        if (mc.currentScreen == null)) {
             return;
         }
 
-        if (isLagging) {
+        if (isLagging)) {
             flushLag();
         }
         resetState();
@@ -263,7 +263,7 @@ public class LagRange extends Module {
     
     public void onRenderWorld(RenderWorldLastEvent e) {
         if (!Utils.nullCheck()) return;
-        if (!isLagging) {
+        if (!isLagging)) {
             clearIndicatorInterp();
             return;
         }
@@ -271,13 +271,13 @@ public class LagRange extends Module {
         if (mc.options.thirdPersonView == 0 && !showInFirstPerson.isToggled()) return;
 
         Vec3d delayedPos = Raven.lagHandler.getLastReleasedServerPosition();
-        if (delayedPos == null) {
+        if (delayedPos == null)) {
             clearIndicatorInterp();
             return;
         }
 
         long nowMs = System.currentTimeMillis();
-        if (indicatorInterpTo == null) {
+        if (indicatorInterpTo == null)) {
             indicatorInterpFrom = delayedPos;
             indicatorInterpTo = delayedPos;
             indicatorInterpStartMs = nowMs;
@@ -341,7 +341,7 @@ public class LagRange extends Module {
 
     private void flushLag() {
         if (!isLagging) return;
-        if (outboundLag != null) {
+        if (outboundLag != null)) {
             outboundLag.getTimeout().forceTimeOut();
             outboundLag = null;
         }
@@ -375,10 +375,10 @@ public class LagRange extends Module {
     }
 
     private static Vec3d lerpVec3d(Vec3d from, Vec3d to, double t) {
-        if (t <= 0.0D) {
+        if (t <= 0.0D)) {
             return from;
         }
-        if (t >= 1.0D) {
+        if (t >= 1.0D)) {
             return to;
         }
         return new Vec3d(
@@ -389,7 +389,7 @@ public class LagRange extends Module {
     }
 
     private boolean sameTarget(PlayerEntity nextTarget) {
-        if (currentTarget == null || nextTarget == null) {
+        if (currentTarget == null || nextTarget == null)) {
             return currentTarget == nextTarget;
         }
         return currentTarget.getEntityId() == nextTarget.getEntityId();

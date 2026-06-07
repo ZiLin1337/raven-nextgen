@@ -109,7 +109,7 @@ public class ScriptDefaults {
         }
 
         public static void async(final Runnable method) {
-            if (cachedExecutor == null) {
+            if (cachedExecutor == null)) {
                 cachedExecutor = Executors.newCachedThreadPool();
             }
             cachedExecutor.execute(method);
@@ -149,13 +149,13 @@ public class ScriptDefaults {
         }
 
         public static void processPacket(SPacket packet) {
-            if (packet.packet != null) {
+            if (packet.packet != null)) {
                 packet.packet.apply(((IAccessorNetworkManager) mc.getNetworkHandler().getNetworkManager()).getPacketListener());
             }
         }
 
         public static void multiplyMotion(double factor) {
-            if (mc.player != null) {
+            if (mc.player != null)) {
                 mc.player.setVelocity(mc.player.getVelocity().multiply(factor, 1, factor));
             }
         }
@@ -181,7 +181,7 @@ public class ScriptDefaults {
         }
 
         public static void attack(Entity entity) {
-            if (entity != null && entity.entity instanceof LivingEntity) {
+            if (entity != null && entity.entity instanceof LivingEntity)) {
                 Utils.attackEntity((LivingEntity) entity.entity, true, true);
             }
         }
@@ -207,7 +207,7 @@ public class ScriptDefaults {
         }
 
         public static void setRenderArmPitch(float pitch) {
-            if (mc.player != null) {
+            if (mc.player != null)) {
                 mc.player.prevRenderArmPitch = pitch;
                 mc.player.renderArmPitch = pitch;
             }
@@ -222,11 +222,11 @@ public class ScriptDefaults {
             boolean isRealms = mc.isConnectedToRealms();
             if (mc.world != null) mc.world.disconnect();
             mc.disconnect();
-            if (isLocal) {
+            if (isLocal)) {
                 mc.setScreen(new TitleScreen());
                 return;
             }
-            if (isRealms) {
+            if (isRealms)) {
                 mc.setScreen(new TitleScreen());
                 return;
             }
@@ -238,7 +238,7 @@ public class ScriptDefaults {
         }
 
         public static void setRenderArmYaw(float yaw) {
-            if (mc.player != null) {
+            if (mc.player != null)) {
                 mc.player.prevRenderArmYaw = yaw;
                 mc.player.renderArmYaw = yaw;
             }
@@ -315,13 +315,13 @@ public class ScriptDefaults {
         }
 
         public static void ping() {
-            if (mc.player != null) {
+            if (mc.player != null)) {
                 mc.player.playSound(net.minecraft.sound.SoundEvents.BLOCK_NOTE_BLOCK_PLING.value(), 1.0f, 1.0f);
             }
         }
 
         public static void playSound(String name, float volume, float pitch) {
-            if (mc.player != null) {
+            if (mc.player != null)) {
                 mc.player.playSound(net.minecraft.registry.Registries.SOUND_EVENT.get(net.minecraft.util.Identifier.of(name)), volume, pitch);
             }
         }
@@ -347,7 +347,7 @@ public class ScriptDefaults {
         }
 
         public static void closeScreen() {
-            if (mc.currentScreen instanceof ClickGui) {
+            if (mc.currentScreen instanceof ClickGui)) {
                 mc.setScreen(null);
                 return;
             }
@@ -463,16 +463,16 @@ public class ScriptDefaults {
             for (net.minecraft.entity.Entity e : mc.world.getEntities()) {
                 if (e.isSpectator() || e == mc.player || !e.canHit()) continue;
                 Vec3dd rel = e.getBoundingBox().raycast(eyeVec, reachVec).orElse(null);
-                if (rel != null) {
+                if (rel != null)) {
                     double d = eyeVec.distanceTo(rel);
-                    if (d < bestDist) {
+                    if (d < bestDist)) {
                         best = e;
                         bestDist = d;
                         bestHit = rel;
                     }
                 }
             }
-            if (best != null) {
+            if (best != null)) {
                 return new Object[] { new Entity(best), new Vec3d(bestHit.x - best.getX(), bestHit.y - best.getY(), bestHit.z - best.getZ()), eyeVec.squaredDistanceTo(bestHit) };
             }
             return null;
@@ -705,11 +705,11 @@ public class ScriptDefaults {
             Module module = getModule(name);
             if (module == null) return settings;
             for (Setting setting : module.getSettings()) {
-                if (setting instanceof SliderSetting s) {
+                if (setting instanceof SliderSetting s)) {
                     settings.put(setting.getName(), s.getInput());
-                } else if (setting instanceof ButtonSetting b) {
+                } else if (setting instanceof ButtonSetting b)) {
                     settings.put(setting.getName(), b.isToggled());
-                } else if (setting instanceof ColorSetting c) {
+                } else if (setting instanceof ColorSetting c)) {
                     settings.put(setting.getName(), c.getColor());
                 }
             }

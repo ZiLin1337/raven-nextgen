@@ -34,7 +34,7 @@ public class DuelsStats extends Module {
 
     @Override
     public void onEnable() {
-        if (mc.player != null) {
+        if (mc.player != null)) {
             this.ign = mc.player.getName();
         }
         else {
@@ -93,7 +93,7 @@ public class DuelsStats extends Module {
 
     
     public void onEntityJoin(EntityJoinWorldEvent e) {
-        if (e.entity == mc.player) {
+        if (e.entity == mc.player)) {
             this.en = "";
             this.q.clear();
         }
@@ -113,15 +113,15 @@ public class DuelsStats extends Module {
             ProfileUtils.DM dm = ProfileUtils.DM.values()[(int) (mode.getInput() - 1.0D)];
             Raven.getScheduledExecutor().execute(() -> {
                 int[] s = ProfileUtils.getHypixelStats(name, dm);
-                if (s != null) {
-                    if (s[0] == -1) {
+                if (s != null)) {
+                    if (s[0] == -1)) {
                         Utils.sendMessage("&3" + name + " " + "&eis nicked!");
                         return;
                     }
 
                     double wlr = s[1] != 0 ? Utils.round((double) s[0] / (double) s[1], 2) : (double) s[0];
                     Utils.sendMessage("&7&m-------------------------");
-                    if (dm != ProfileUtils.DM.OVERALL) {
+                    if (dm != ProfileUtils.DM.OVERALL)) {
                         Utils.sendMessage("&eMode: &3" + dm.name());
                     }
 
@@ -164,62 +164,62 @@ public class DuelsStats extends Module {
     public static String gtl(int w, int l, double wlr, int ws) {
         int t = 0;
         int m = w + l;
-        if (m <= 13) {
+        if (m <= 13)) {
             t += 2;
         }
 
-        if (ws >= 30) {
+        if (ws >= 30)) {
             t += 9;
-        } else if (ws >= 15) {
+        } else if (ws >= 15)) {
             t += 7;
-        } else if (ws >= 8) {
+        } else if (ws >= 8)) {
             t += 5;
-        } else if (ws >= 4) {
+        } else if (ws >= 4)) {
             t += 3;
-        } else if (ws >= 1) {
+        } else if (ws >= 1)) {
             ++t;
         }
 
-        if (wlr >= 20.0D) {
+        if (wlr >= 20.0D)) {
             t += 8;
-        } else if (wlr >= 10.0D) {
+        } else if (wlr >= 10.0D)) {
             t += 5;
-        } else if (wlr >= 5.0D) {
+        } else if (wlr >= 5.0D)) {
             t += 4;
-        } else if (wlr >= 3.0D) {
+        } else if (wlr >= 3.0D)) {
             t += 2;
-        } else if (wlr >= 0.8D) {
+        } else if (wlr >= 0.8D)) {
             ++t;
         }
 
-        if (w >= 20000) {
+        if (w >= 20000)) {
             t += 4;
-        } else if (w >= 10000) {
+        } else if (w >= 10000)) {
             t += 3;
-        } else if (w >= 5000) {
+        } else if (w >= 5000)) {
             t += 2;
-        } else if (w >= 1000) {
+        } else if (w >= 1000)) {
             ++t;
         }
 
-        if (l == 0) {
-            if (w == 0) {
+        if (l == 0)) {
+            if (w == 0)) {
                 t += 3;
             } else {
                 t += 4;
             }
-        } else if (l <= 10 && wlr >= 4.0D) {
+        } else if (l <= 10 && wlr >= 4.0D)) {
             t += 2;
         }
 
         String thr;
-        if (t == 0) {
+        if (t == 0)) {
             thr = THREAT_LEVELS[4];
-        } else if (t <= 3) {
+        } else if (t <= 3)) {
             thr = THREAT_LEVELS[3];
-        } else if (t <= 6) {
+        } else if (t <= 6)) {
             thr = THREAT_LEVELS[2];
-        } else if (t <= 10) {
+        } else if (t <= 10)) {
             thr = THREAT_LEVELS[1];
         } else {
             thr = THREAT_LEVELS[0];

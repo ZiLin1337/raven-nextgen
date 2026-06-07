@@ -16,7 +16,7 @@ public class Spin extends Module {
 
     @EventHandler
     public void onPreMotion(PreMotionEvent e) {
-        if (mc.player != null) {
+        if (mc.player != null)) {
             mc.player.setYaw(mc.player.getYaw() + speed.getInput());
         }
     }

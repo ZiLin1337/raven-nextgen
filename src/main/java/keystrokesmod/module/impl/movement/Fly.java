@@ -78,7 +78,7 @@ public class Fly extends Module {
                 break;
             case 1:
                 mc.player.onGround = true;
-                if (mc.currentScreen == null) {
+                if (mc.currentScreen == null)) {
                     if (Utils.jumpDown()) {
                         mc.player.motionY = 0.3 * verticalSpeed.getInput();
                     }
@@ -98,10 +98,10 @@ public class Fly extends Module {
                 break;
             case 2:
                 double nextDouble = RandomUtils.nextDouble(1.0E-7, 1.2E-7);
-                if (mc.player.ticksExisted % 2 == 0) {
+                if (mc.player.ticksExisted % 2 == 0)) {
                     nextDouble = -nextDouble;
                 }
-                if (!mc.player.onGround) {
+                if (!mc.player.onGround)) {
                     mc.player.setPosition(mc.player.getX(), mc.player.getY() + nextDouble, mc.player.getZ());
                 }
                 mc.player.motionY = 0.0;
@@ -113,7 +113,7 @@ public class Fly extends Module {
 
     @Override
     public void onDisable() {
-        if (mc.player.capabilities.allowFlying) {
+        if (mc.player.capabilities.allowFlying)) {
             mc.player.capabilities.isFlying = this.canFly;
         }
         else {
@@ -138,14 +138,14 @@ public class Fly extends Module {
         if (!showBPS.isToggled() || e.phase != TickEvent.Phase.END || !Utils.nullCheck()) {
             return;
         }
-        if (mc.currentScreen != null || mc.options.showDebugInfo) {
+        if (mc.currentScreen != null || mc.options.showDebugInfo)) {
             return;
         }
         RenderUtils.renderBPS(true, false);
     }
 
     private void setSpeed(double speed) {
-        if (speed == 0.0) {
+        if (speed == 0.0)) {
             mc.player.motionZ = 0;
             mc.player.motionX = 0;
             return;
@@ -153,23 +153,23 @@ public class Fly extends Module {
         double moveForward = mc.player.movementInput.moveForward;
         double moveStrafe = mc.player.movementInput.moveStrafe;
         float yaw = mc.player.rotationYaw;
-        if (moveForward == 0.0 && moveStrafe == 0.0) {
+        if (moveForward == 0.0 && moveStrafe == 0.0)) {
             mc.player.motionZ = 0;
             mc.player.motionX = 0;
         }
         else {
-            if (moveForward != 0.0) {
-                if (moveStrafe > 0.0) {
+            if (moveForward != 0.0)) {
+                if (moveStrafe > 0.0)) {
                     yaw += ((moveForward > 0.0) ? -45 : 45);
                 }
-                else if (moveStrafe < 0.0) {
+                else if (moveStrafe < 0.0)) {
                     yaw += ((moveForward > 0.0) ? 45 : -45);
                 }
                 moveStrafe = 0.0;
-                if (moveForward > 0.0) {
+                if (moveForward > 0.0)) {
                     moveForward = 1.0;
                 }
-                else if (moveForward < 0.0) {
+                else if (moveForward < 0.0)) {
                     moveForward = -1.0;
                 }
             }

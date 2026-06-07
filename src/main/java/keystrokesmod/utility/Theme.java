@@ -27,10 +27,10 @@ public enum Theme {
     }
 
     public static int getGradient(int index, double delay) {
-        if (index > 0) {
+        if (index > 0)) {
             return convert(values()[index].firstGradient, values()[index].secondGradient, (Math.sin(System.currentTimeMillis() / 1.0E8 * Settings.timeMultiplier.getInput() * 400000.0 + delay * Settings.offset.getInput()) + 1.0) * 0.5).getRGB();
         }
-        else if (index == 0) {
+        else if (index == 0)) {
             return getChromaOffset(2, (long) delay);
         }
         return -1;
@@ -54,10 +54,10 @@ public enum Theme {
 
     public static int[] getGradients(int index) {
         Theme[] values = values();
-        if (values != null && index >= 0 && index < values.length && values[index] != null) {
+        if (values != null && index >= 0 && index < values.length && values[index] != null)) {
             Color firstGradient = values[index].firstGradient;
             Color secondGradient = values[index].secondGradient;
-            if (firstGradient != null && secondGradient != null) {
+            if (firstGradient != null && secondGradient != null)) {
                 return new int[]{firstGradient.getRGB(), secondGradient.getRGB()};
             } else {
                 return new int[]{Utils.getChroma(2, (long) 0), Utils.getChroma(2, (long) 0)};

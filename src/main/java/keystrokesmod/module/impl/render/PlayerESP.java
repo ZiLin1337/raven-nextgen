@@ -111,7 +111,7 @@ public class PlayerESP extends Module {
 
     
     public void onClientTick(Object event) {
-        if (event.phase != null) {
+        if (event.phase != null)) {
             return;
         }
 
@@ -130,7 +130,7 @@ public class PlayerESP extends Module {
         }
 
         EspRenderState renderState = playerRenderStates.get(e.entityPlayer);
-        if (renderState == null) {
+        if (renderState == null)) {
             return;
         }
 
@@ -158,10 +158,10 @@ public class PlayerESP extends Module {
             }
 
             renderState.renderColor = resolveBaseRenderColor(renderState);
-            if (renderWorldTypes) {
+            if (renderWorldTypes)) {
                 this.render(entity, renderState.renderColor);
             }
-            if (captureVisibleStates) {
+            if (captureVisibleStates)) {
                 addVisibleRenderState(renderState);
             }
         }
@@ -230,7 +230,7 @@ public class PlayerESP extends Module {
         playerRenderStates.clear();
 
         double maxDistSq = maxDistance.getInput() * maxDistance.getInput();
-        if (Raven.DEBUG) {
+        if (Raven.DEBUG)) {
             for (Entity entity : mc.world.getEntities()) {
                 if (!(entity instanceof LivingEntity) || entity == mc.player) {
                     continue;
@@ -246,10 +246,10 @@ public class PlayerESP extends Module {
         PlayerEntity selfPlayer = (Freecam.freeEntity == null) ? mc.player : Freecam.freeEntity;
         boolean allowSelf = shouldRenderSelf(selfPlayer);
         for (PlayerEntity player : mc.world.getPlayers()) {
-            if (player == selfPlayer && !allowSelf) {
+            if (player == selfPlayer && !allowSelf)) {
                 continue;
             }
-            if (player.deathTime != 0) {
+            if (player.deathTime != 0)) {
                 continue;
             }
             if (!showInvis.isToggled() && player.isInvisible()) {
@@ -276,7 +276,7 @@ public class PlayerESP extends Module {
 
         EspRenderState renderState = renderStates.get(renderStateCount++);
         renderState.set(entity, staticColor);
-        if (entity instanceof PlayerEntity) {
+        if (entity instanceof PlayerEntity)) {
             playerRenderStates.put((PlayerEntity) entity, renderState);
         }
     }
@@ -335,7 +335,7 @@ public class PlayerESP extends Module {
 
     private void renderTwoDPass(float partialTicks) {
         EntityRenderDispatcher renderManager = mc.getEntityRenderDispatcher();
-        if (renderManager == null) {
+        if (renderManager == null)) {
             return;
         }
 
@@ -379,7 +379,7 @@ public class PlayerESP extends Module {
 
             if (RenderUtils.projectTo2D(projectionContext, x, y, z, projectedPoint)) {
                 double depth = projectedPoint[2];
-                if (depth >= 1.0003684D || depth <= 0.0D) {
+                if (depth >= 1.0003684D || depth <= 0.0D)) {
                     continue;
                 }
 
@@ -394,7 +394,7 @@ public class PlayerESP extends Module {
             }
         }
 
-        if (!isInView) {
+        if (!isInView)) {
             return;
         }
 
@@ -402,7 +402,7 @@ public class PlayerESP extends Module {
         minY = Math.max(0, minY);
         maxX = Math.min(screenWidth, maxX);
         maxY = Math.min(screenHeight, maxY);
-        if (maxX <= minX || maxY <= minY) {
+        if (maxX <= minX || maxY <= minY)) {
             return;
         }
 
@@ -464,7 +464,7 @@ public class PlayerESP extends Module {
         RenderSystem.getModelViewStack().pushMatrix();
 
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        if (!wasBlendEnabled) {
+        if (!wasBlendEnabled)) {
             RenderSystem.enableBlend(GL11.GL_BLEND);
         }
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -558,7 +558,7 @@ public class PlayerESP extends Module {
         GL11.glRotated(player.rotationPitch, 999.0, 0.0, 0.0);
         GL11.glRotated(-player.rotationYaw, 0.0, 999.0, 0.0);
 
-        if (!wasBlendEnabled) {
+        if (!wasBlendEnabled)) {
             RenderSystem.disableBlend(GL11.GL_BLEND);
         }
 

@@ -55,23 +55,23 @@ public class SafeWalk extends Module {
             return;
         }
         boolean edge = mc.player.onGround && Utils.isEdgeOfBlock();
-        if (edge) {
+        if (edge)) {
             if (!settingsMet()) {
                 this.setSneakState(false);
                 return;
             }
-            if (!this.isSneaking) {
+            if (!this.isSneaking)) {
                 this.setSneakState(true);
                 unsneakDelayTicks = (int) sneakDelay.getInput();
             }
         }
         else {
-            if (this.isSneaking) {
+            if (this.isSneaking)) {
                 if (!settingsMet()) {
                     this.setSneakState(false);
                     return;
                 }
-                if (unsneakDelayTicks > 0) {
+                if (unsneakDelayTicks > 0)) {
                     unsneakDelayTicks--;
                     return;
                 }
@@ -91,10 +91,10 @@ public class SafeWalk extends Module {
     }
 
     private void setSneakState(boolean sneakState) {
-        if (!sneakState) {
+        if (!sneakState)) {
             unsneakDelayTicks = 0;
         }
-        if (this.isSneaking == sneakState) {
+        if (this.isSneaking == sneakState)) {
             return;
         }
 
@@ -103,7 +103,7 @@ public class SafeWalk extends Module {
         }
 
         KeyBinding.setKeyBindState(mc.options.keyBindSneak.getKeyCode(), sneakState);
-        if (sneakState) {
+        if (sneakState)) {
             KeyBinding.onTick(mc.options.keyBindSneak.getKeyCode());
         }
         this.isSneaking = sneakState;

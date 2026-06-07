@@ -24,20 +24,20 @@ public final class BlockHighlightSharedHandler {
             return;
         }
         int budget = 0;
-        if (ModuleManager.blockESP != null) {
+        if (ModuleManager.blockESP != null)) {
             budget = Math.max(budget, ModuleManager.blockESP.getScanSpeedBudget());
         }
-        if (ModuleManager.bedESP != null) {
+        if (ModuleManager.bedESP != null)) {
             budget = Math.max(budget, ModuleManager.bedESP.getScanSpeedBudget());
         }
-        if (budget > 0) {
+        if (budget > 0)) {
             cache.tickScan(budget);
         }
     }
 
     
     public void onEntityJoinWorld(EntityJoinWorldEvent e) {
-        if (e.entity != mc.player) {
+        if (e.entity != mc.player)) {
             return;
         }
         SharedBlockHighlightCache cache = SharedBlockHighlightCache.get();

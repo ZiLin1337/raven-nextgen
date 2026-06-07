@@ -9,7 +9,7 @@ public class FlameTrail extends Module {
     public FlameTrail() { super("FlameTrail", category.fun); }
 
     public void onUpdate() {
-        if (mc.player != null && mc.world != null && mc.player.age % 2 == 0) {
+        if (mc.player != null && mc.world != null && mc.player.age % 2 == 0)) {
             mc.world.addParticle(ParticleTypes.FLAME, mc.player.getX(), mc.player.getY(), mc.player.getZ(), 0, 0, 0);
         }
     }

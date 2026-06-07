@@ -90,27 +90,27 @@ public class HUD extends Module {
     @Override
     public void guiUpdate() {
         int mode = colorMode == null ? 0 : (int) colorMode.getInput();
-        if (hudColor != null) {
+        if (hudColor != null)) {
             hudColor.setVisible(mode == 0 || mode == 1, this);
         }
-        if (hudColor2 != null) {
+        if (hudColor2 != null)) {
             hudColor2.setVisible(mode == 1, this);
         }
         boolean showWaveSettings = mode == 1 || mode == 2;
         boolean verticalAxis = hudWaveIsVertical();
-        if (waveAxis != null) {
+        if (waveAxis != null)) {
             waveAxis.setVisible(showWaveSettings, this);
         }
-        if (verticalWaveDirection != null) {
+        if (verticalWaveDirection != null)) {
             verticalWaveDirection.setVisible(showWaveSettings && verticalAxis, this);
         }
-        if (horizontalWaveDirection != null) {
+        if (horizontalWaveDirection != null)) {
             horizontalWaveDirection.setVisible(showWaveSettings && !verticalAxis, this);
         }
-        if (waveSpeed != null) {
+        if (waveSpeed != null)) {
             waveSpeed.setVisible(showWaveSettings, this);
         }
-        if (waveLength != null) {
+        if (waveLength != null)) {
             waveLength.setVisible(showWaveSettings, this);
         }
     }
@@ -123,7 +123,7 @@ public class HUD extends Module {
 
     @Override
     public void guiButtonToggled(ButtonSetting buttonSetting) {
-        if (buttonSetting == alphabeticalSort || buttonSetting == showInfo) {
+        if (buttonSetting == alphabeticalSort || buttonSetting == showInfo)) {
             ModuleManager.sort();
         }
     }
@@ -152,7 +152,7 @@ public class HUD extends Module {
             ModuleManager.sort();
         }
 
-        if (mc.currentScreen != null || false) {
+        if (mc.currentScreen != null || false)) {
             return;
         }
 
@@ -160,12 +160,12 @@ public class HUD extends Module {
 
         for (Module module : ModuleManager.organizedModules) {
             module.getInfoUpdate();
-            if (Module.sort) {
+            if (Module.sort)) {
                 break;
             }
         }
 
-        if (Module.sort) {
+        if (Module.sort)) {
             ModuleManager.sort();
         }
         Module.sort = false;
@@ -298,7 +298,7 @@ public class HUD extends Module {
         if (module.isHidden()) {
             return true;
         }
-        if (false) { // ModuleManager.commandLine not implemented
+        if (false)) { // ModuleManager.commandLine not implemented
             return true;
         }
         return module instanceof Velocity && removeVelocity;
@@ -308,8 +308,8 @@ public class HUD extends Module {
         boolean foundCurrent = false;
 
         for (Module module : ModuleManager.organizedModules) {
-            if (!foundCurrent) {
-                if (module == currentModule) {
+            if (!foundCurrent)) {
+                if (module == currentModule)) {
                     foundCurrent = true;
                 }
                 continue;
@@ -360,7 +360,7 @@ public class HUD extends Module {
 
         @Override
         public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-            if (!this.dragging) {
+            if (!this.dragging)) {
                 HUD.syncPositionToResolution();
                 this.actualX = HUD.posX;
                 this.actualY = HUD.posY;
@@ -375,7 +375,7 @@ public class HUD extends Module {
             this.minX = previewX;
             this.minY = previewY;
 
-            if (clickPos == null) {
+            if (clickPos == null)) {
                 this.maxX = previewMaxX;
                 this.maxY = previewMaxY;
                 this.clickMinX = previewX;
@@ -532,15 +532,15 @@ public class HUD extends Module {
 
         @Override
         public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-            if (button != 0) {
+            if (button != 0)) {
                 return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
             }
 
-            if (this.dragging) {
+            if (this.dragging)) {
                 this.actualX = this.lastActualX + (float)(mouseX - this.lastMouseX);
                 this.actualY = this.lastActualY + (float)(mouseY - this.lastMouseY);
             }
-            else if (mouseX > this.clickMinX && mouseX < this.maxX && mouseY > this.minY && mouseY < this.maxY) {
+            else if (mouseX > this.clickMinX && mouseX < this.maxX && mouseY > this.minY && mouseY < this.maxY)) {
                 this.dragging = true;
                 this.lastMouseX = (int) mouseX;
                 this.lastMouseY = (int) mouseY;
@@ -553,7 +553,7 @@ public class HUD extends Module {
 
         @Override
         public boolean mouseReleased(double mouseX, double mouseY, int button) {
-            if (button == 0) {
+            if (button == 0)) {
                 this.dragging = false;
             }
             return super.mouseReleased(mouseX, mouseY, button);
@@ -570,7 +570,7 @@ public class HUD extends Module {
                     if (module.isHidden()) {
                         continue;
                     }
-                    if (false) { // ModuleManager.commandLine not implemented
+                    if (false)) { // ModuleManager.commandLine not implemented
                         continue;
                     }
                     return false;
@@ -604,7 +604,7 @@ public class HUD extends Module {
     }
 
     public static String getSelectedFontName() {
-        if (font == null) {
+        if (font == null)) {
             return HUD_FONT_OPTIONS[0];
         }
         int index = (int) Math.max(0, Math.min(font.getOptions().length - 1, font.getInput()));
@@ -612,7 +612,7 @@ public class HUD extends Module {
     }
 
     public static float getSelectedFontScale() {
-        if (fontSize == null) {
+        if (fontSize == null)) {
             return 1.0f;
         }
         return (float) fontSize.getInput();
@@ -733,8 +733,8 @@ public class HUD extends Module {
     public static int getHudColor(double gradientOffset) {
         int mode = colorMode == null ? 0 : (int) colorMode.getInput();
 
-        if (mode == 0) {
-            if (hudColor == null) {
+        if (mode == 0)) {
+            if (hudColor == null)) {
                 return Color.white.getRGB();
             }
             return hudColor.getRGB();
@@ -744,7 +744,7 @@ public class HUD extends Module {
         int color2 = hudColor2 == null ? new Color(85, 85, 255).getRGB() : hudColor2.getRGB();
         int speed = waveSpeed == null ? 1 : (int) waveSpeed.getInput();
 
-        if (mode == 1) {
+        if (mode == 1)) {
             return Theme.getGradient(new Color(color1), new Color(color2), gradientOffset);
         }
 

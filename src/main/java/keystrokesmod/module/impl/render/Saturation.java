@@ -39,7 +39,7 @@ public class Saturation extends Module {
         if (!isShaderActive()) {
             loadShader();
         }
-        if (current != lastSaturation) {
+        if (current != lastSaturation)) {
             lastSaturation = current;
             applySaturation();
         }
@@ -69,7 +69,7 @@ public class Saturation extends Module {
         ISaturationRenderer renderer = getSaturationRenderer();
         if (renderer == null) return;
         ShaderGroup shader = renderer.raven$getSaturationShader();
-        if (shader != null) {
+        if (shader != null)) {
             shader.deleteShaderGroup();
         }
         renderer.raven$setSaturationShader(null);
@@ -84,7 +84,7 @@ public class Saturation extends Module {
         if (shaders == null) return;
         for (Shader s : shaders) {
             ShaderUniform su = s.getShaderManager().getShaderUniform("Saturation");
-            if (su != null) {
+            if (su != null)) {
                 su.set(lastSaturation);
             }
         }

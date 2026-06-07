@@ -64,7 +64,7 @@ public class FastPlace extends Module {
         }
 
         long now = System.currentTimeMillis();
-        if (rightClickStartTime == 0L) {
+        if (rightClickStartTime == 0L)) {
             rightClickStartTime = now;
         }
 
@@ -73,11 +73,11 @@ public class FastPlace extends Module {
         }
 
         int delay = (int) tickDelay.getInput();
-        if (delay == 0) {
+        if (delay == 0)) {
             ((IAccessorMinecraft) mc).setRightClickDelayTimer(0);
         }
         else {
-            if (delay == 4) {
+            if (delay == 4)) {
                 return;
             }
             if (((IAccessorMinecraft) mc).getRightClickDelayTimer() > delay) {
@@ -117,7 +117,7 @@ public class FastPlace extends Module {
         }
 
         BlockPos hoveredPos = mc.objectMouseOver.getBlockPos();
-        if (hoveredPos == null) {
+        if (hoveredPos == null)) {
             return false;
         }
 

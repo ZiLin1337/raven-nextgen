@@ -119,7 +119,7 @@ public class HitParticles extends Module {
             return;
         }
         LivingEntity target = (LivingEntity) event.target;
-        if (target.hurtTime > 5 || target.hurtResistantTime > 0) {
+        if (target.hurtTime > 5 || target.hurtResistantTime > 0)) {
             return;
         }
         int idx = (int) meleeParticle.getInput();
@@ -139,17 +139,17 @@ public class HitParticles extends Module {
         List<EntityArrow> arrows = mc.world.getEntitiesWithinAABB(EntityArrow.class, scan);
         for (int i = 0, n = arrows.size(); i < n; i++) {
             EntityArrow arrow = arrows.get(i);
-            if (arrow.shootingEntity != mc.player) {
+            if (arrow.shootingEntity != mc.player)) {
                 continue;
             }
             LivingEntity target = getCollisionEntity(arrow);
-            if (target == null || target.hurtTime > 0) {
+            if (target == null || target.hurtTime > 0)) {
                 continue;
             }
             int aid = arrow.getEntityId();
             int tid = target.getEntityId();
             Integer prev = rangedSpawnForArrow.get(aid);
-            if (prev != null && prev == tid) {
+            if (prev != null && prev == tid)) {
                 continue;
             }
             rangedSpawnForArrow.put(aid, tid);
@@ -169,11 +169,11 @@ public class HitParticles extends Module {
     }
 
     private void spawnParticleType(int index, Entity entity, int multiplier) {
-        if (index < 0 || index >= PARTICLE_IDS.length) {
+        if (index < 0 || index >= PARTICLE_IDS.length)) {
             return;
         }
         int id = PARTICLE_IDS[index];
-        if (id == -1) {
+        if (id == -1)) {
             spawnParticleRaw(9, entity, multiplier, PARTICLE_COUNTS[PARTICLE_CRIT], PARTICLE_OFFSETS[PARTICLE_CRIT], PARTICLE_IGNORE_DIST[PARTICLE_CRIT], PARTICLE_ARGS[PARTICLE_CRIT]);
             spawnParticleRaw(10, entity, multiplier, PARTICLE_COUNTS[PARTICLE_CRIT_MAGIC], PARTICLE_OFFSETS[PARTICLE_CRIT_MAGIC], PARTICLE_IGNORE_DIST[PARTICLE_CRIT_MAGIC], PARTICLE_ARGS[PARTICLE_CRIT_MAGIC]);
         }
@@ -187,7 +187,7 @@ public class HitParticles extends Module {
             double xOffset = RANDOM.nextFloat() * (offset * 2.0f) - offset;
             double yOffset = RANDOM.nextFloat() * (offset * 2.0f) - offset;
             double zOffset = RANDOM.nextFloat() * (offset * 2.0f) - offset;
-            if (ignoreDistance || xOffset * xOffset + yOffset * yOffset + zOffset * zOffset <= 1.0) {
+            if (ignoreDistance || xOffset * xOffset + yOffset * yOffset + zOffset * zOffset <= 1.0)) {
                 double x = entity.posX + xOffset * entity.width / 4.0;
                 double y = entity.getEntityBoundingBox().minY + entity.height / 2.0f + yOffset * entity.height / 4.0;
                 double z = entity.posZ + zOffset * entity.width / 4.0;
@@ -202,7 +202,7 @@ public class HitParticles extends Module {
         Vec3d motionEnd = new Vec3d(arrow.posX + arrow.motionX, arrow.posY + arrow.motionY, arrow.posZ + arrow.motionZ);
         HitResult rayTrace = world.rayTraceBlocks(pos, motionEnd, false, true, false);
         Vec3d traceEnd = motionEnd;
-        if (rayTrace != null) {
+        if (rayTrace != null)) {
             traceEnd = rayTrace.hitVec;
         }
 
@@ -222,16 +222,16 @@ public class HitParticles extends Module {
             if (!living.canBeCollidedWith()) {
                 continue;
             }
-            if (living == arrow.shootingEntity) {
+            if (living == arrow.shootingEntity)) {
                 continue;
             }
             Box collisionBox = entity.getEntityBoundingBox().expand(0.3, 0.3, 0.3);
             HitResult collision = collisionBox.calculateIntercept(pos, traceEnd);
-            if (collision == null) {
+            if (collision == null)) {
                 continue;
             }
             double distSq = pos.squareDistanceTo(collision.hitVec);
-            if (distSq >= closestSq && closestSq != 0.0) {
+            if (distSq >= closestSq && closestSq != 0.0)) {
                 continue;
             }
             target = living;

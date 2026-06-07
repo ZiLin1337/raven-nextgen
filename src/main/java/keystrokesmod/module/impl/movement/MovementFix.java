@@ -15,7 +15,7 @@ public class MovementFix extends Module {
         // Fix movement values when rotating silently
         float forward = mc.player.input.movementForward;
         float strafe = mc.player.input.movementSideways;
-        if (forward != 0 || strafe != 0) {
+        if (forward != 0 || strafe != 0)) {
             float yaw = mc.player.getYaw();
             double cos = Math.cos(Math.toRadians(yaw + 90));
             double sin = Math.sin(Math.toRadians(yaw + 90));

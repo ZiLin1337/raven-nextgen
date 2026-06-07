@@ -40,7 +40,7 @@ public class ItemESP extends Module {
 
     
     public void onClientTick(TickEvent.ClientTickEvent event) {
-        if (event.phase != TickEvent.Phase.END) {
+        if (event.phase != TickEvent.Phase.END)) {
             return;
         }
         updateRenderStates();
@@ -54,7 +54,7 @@ public class ItemESP extends Module {
 
         float partialTicks = e.partialTicks;
         PlayerEntity self = (Freecam.freeEntity == null) ? mc.player : Freecam.freeEntity;
-        if (self == null) {
+        if (self == null)) {
             return;
         }
 
@@ -66,7 +66,7 @@ public class ItemESP extends Module {
             }
 
             Integer stackCount = stackCounts.get(renderState.groupKey);
-            if (stackCount == null) {
+            if (stackCount == null)) {
                 continue;
             }
 
@@ -100,7 +100,7 @@ public class ItemESP extends Module {
             if (!RenderUtils.isWithinDistanceSqToRenderView(entity, maxDistSq)) {
                 continue;
             }
-            if (entity.ticksExisted < 3) {
+            if (entity.ticksExisted < 3)) {
                 continue;
             }
 
@@ -110,7 +110,7 @@ public class ItemESP extends Module {
             }
 
             Item item = entityItem.getItemEntity().getItem();
-            if (item == null) {
+            if (item == null)) {
                 continue;
             }
 
@@ -124,11 +124,11 @@ public class ItemESP extends Module {
                 boxColor = -331703;
                 textColor = -152;
             }
-            else if (item == Items.diamond) {
+            else if (item == Items.diamond)) {
                 boxColor = -10362113;
                 textColor = -7667713;
             }
-            else if (item == Items.emerald) {
+            else if (item == Items.emerald)) {
                 boxColor = -15216030;
                 textColor = -14614644;
             }
@@ -148,13 +148,13 @@ public class ItemESP extends Module {
     }
 
     public double getColor(double x, double y, double z) {
-        if (x == 0.0) {
+        if (x == 0.0)) {
             x = 1.0;
         }
-        if (y == 0.0) {
+        if (y == 0.0)) {
             y = 1.0;
         }
-        if (z == 0.0) {
+        if (z == 0.0)) {
             z = 1.0;
         }
         return Math.round((x + 1.0) * Math.floor(y) * (z + 2.0));
@@ -162,16 +162,16 @@ public class ItemESP extends Module {
 
     private double getColorForItem(Item item, double x, double y, double z) {
         double color = getColor(x, y, z);
-        if (item == Items.iron_ingot) {
+        if (item == Items.iron_ingot)) {
             color += 0.155;
         }
-        else if (item == Items.GOLD_INGOT) {
+        else if (item == Items.GOLD_INGOT)) {
             color += 0.255;
         }
-        else if (item == Items.diamond) {
+        else if (item == Items.diamond)) {
             color += 0.355;
         }
-        else if (item == Items.emerald) {
+        else if (item == Items.emerald)) {
             color += 0.455;
         }
         return color;

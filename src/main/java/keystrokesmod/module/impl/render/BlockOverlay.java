@@ -104,11 +104,11 @@ public class BlockOverlay extends Module {
     
     public void onDrawBlockHighlight(DrawBlockHighlightEvent e) {
         int mode = (int) renderMode.getInput();
-        if (mode == 0) {
+        if (mode == 0)) {
             e.setCanceled(true);
             return;
         }
-        if (mode == 1) {
+        if (mode == 1)) {
             return;
         }
         e.setCanceled(true);
@@ -131,11 +131,11 @@ public class BlockOverlay extends Module {
         double vx = mc.getEntityRenderDispatcher().viewerPosX, vy = mc.getEntityRenderDispatcher().viewerPosY, vz = mc.getEntityRenderDispatcher().viewerPosZ;
 
         int overlayStart = 0, overlayEnd = 0, outlineStart = 0, outlineEnd = 0;
-        if (showOverlay) {
+        if (showOverlay)) {
             overlayStart = computeStart((int) overlayColorMode.getInput(), overlayColor, overlayColor2, overlayFadeSpeed.getInput(), overlayChromaSpeed.getInput());
             overlayEnd = computeEnd((int) overlayColorMode.getInput(), overlayColor, overlayColor2, overlayFadeSpeed.getInput(), overlayChromaSpeed.getInput());
         }
-        if (showOutline) {
+        if (showOutline)) {
             outlineStart = computeStart((int) outlineColorMode.getInput(), outlineColor, outlineColor2, outlineFadeSpeed.getInput(), outlineChromaSpeed.getInput());
             outlineEnd = computeEnd((int) outlineColorMode.getInput(), outlineColor, outlineColor2, outlineFadeSpeed.getInput(), outlineChromaSpeed.getInput());
         }
@@ -170,11 +170,11 @@ public class BlockOverlay extends Module {
 
     public static void renderBlockOutline(BlockPos pos, int outlineArgbStart, int outlineArgbEnd, float lineWidth, boolean depthless) {
         Minecraft m = MinecraftClient.getInstance();
-        if (m.theWorld == null || pos == null) {
+        if (m.theWorld == null || pos == null)) {
             return;
         }
         Box box = BlockUtils.getBlockSelectionBox(pos);
-        if (box == null) {
+        if (box == null)) {
             return;
         }
         box = box.expand(PADDING, PADDING, PADDING);
@@ -186,7 +186,7 @@ public class BlockOverlay extends Module {
         RenderSystem.tryBlendFuncSeparate(770, 771, 1, 0);
         RenderSystem.disableTexture2D();
         RenderSystem.depthMask(false);
-        if (depthless) {
+        if (depthless)) {
             RenderSystem.disableDepth();
         }
         RenderSystem.enableBlend(GL11.GL_LINE_SMOOTH);
@@ -200,7 +200,7 @@ public class BlockOverlay extends Module {
             GL11.glShadeModel(GL11.GL_FLAT);
             RenderSystem.lineWidth(2.0f);
             RenderSystem.disableBlend(GL11.GL_LINE_SMOOTH);
-            if (depthless) {
+            if (depthless)) {
                 RenderSystem.enableDepth();
             }
             RenderSystem.depthMask(true);
@@ -216,7 +216,7 @@ public class BlockOverlay extends Module {
         BlockState state = mc.world.getBlockState(pos);
         if (state.getBlock() instanceof StairsBlock) {
             StairsUtils.drawStairs(pos, state, paddedWorldBox, side, vx, vy, vz, overlayStart, overlayEnd, outlineStart, outlineEnd, showOverlay, showOutline, BlockOverlay::drawFace);
-        } else if (side != null) {
+        } else if (side != null)) {
             drawFace(renderBox, side, overlayStart, overlayEnd, outlineStart, outlineEnd, showOverlay, showOutline);
         } else {
             for (Direction face : Direction.values()) {
@@ -268,12 +268,12 @@ public class BlockOverlay extends Module {
     private static void drawFace(Box box, Direction face, int os, int oe, int ls, int le, boolean overlay, boolean outline) {
         Tessellator ts = Tessellator.getInstance();
         BufferBuilder wr = ts.getBufferBuilder();
-        if (overlay) {
+        if (overlay)) {
             wr.begin(7, VertexFormats.POSITION_COLOR);
             addFaceVertices(wr, face, box, os, oe);
             ts.draw();
         }
-        if (outline) {
+        if (outline)) {
             wr.begin(2, VertexFormats.POSITION_COLOR);
             addFaceVertices(wr, face, box, ls, le);
             ts.draw();

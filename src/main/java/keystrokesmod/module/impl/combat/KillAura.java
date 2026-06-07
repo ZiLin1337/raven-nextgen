@@ -130,17 +130,17 @@ public class KillAura extends Module {
             return;
         }
         handleTarget();
-        if (target == null) {
+        if (target == null)) {
             return;
         }
         targetDistance = RotationUtils.distanceFromEyeToClosestOnAABB(target);
         if (rotationMode.getInput() == 0) {
             double aimRangeVal = aimRange.getInput();
-            if (targetDistance <= aimRangeVal) {
+            if (targetDistance <= aimRangeVal)) {
                 int speedVal = (int) speed.getInput();
                 boolean useBackup = !aimThroughBlocks.isToggled() || !aimThroughEntities.isToggled();
                 float[] rot = RotationHelper.get().getRotationsToTarget(target, e, speedVal, 100, 100, 0f, useBackup, aimRangeVal, aimThroughBlocks.isToggled(), aimThroughEntities.isToggled());
-                if (rot != null) {
+                if (rot != null)) {
                     e.yaw = rot[0];
                     e.pitch = rot[1];
                 }
@@ -152,11 +152,11 @@ public class KillAura extends Module {
     public void onUpdate() {
         if (rotationMode.getInput() == 1 && target != null) {
             double aimRangeVal = aimRange.getInput();
-            if (targetDistance <= aimRangeVal) {
+            if (targetDistance <= aimRangeVal)) {
                 int speedVal = (int) speed.getInput();
                 boolean useBackup = !aimThroughBlocks.isToggled() || !aimThroughEntities.isToggled();
                 float[] rot = RotationHelper.get().getRotationsToTarget(target, speedVal, 100, 100, 0f, useBackup, aimRangeVal, aimThroughBlocks.isToggled(), aimThroughEntities.isToggled());
-                if (rot != null) {
+                if (rot != null)) {
                     mc.player.rotationYaw = rot[0];
                     mc.player.rotationPitch = rot[1];
                 }
@@ -178,7 +178,7 @@ public class KillAura extends Module {
 
         int key = mc.options.keyBindAttack.getKeyCode();
         long now = System.currentTimeMillis();
-        if (nextClickTime == 0) {
+        if (nextClickTime == 0)) {
             nextClickTime = now;
         }
         int clicks = 0;
@@ -214,7 +214,7 @@ public class KillAura extends Module {
 
     
     public void onWorldJoin(EntityJoinWorldEvent e) {
-        if (e.entity == mc.player) {
+        if (e.entity == mc.player)) {
             hitMap.clear();
             hostileMobs.clear();
             golems.clear();
@@ -239,12 +239,12 @@ public class KillAura extends Module {
         List<KillAuraTarget> candidates = new ArrayList<>();
         for (Entity entity : mc.world.getEntities()) {
             Candidate candidate = getCandidateTarget(entity, maxRange, fovValue);
-            if (candidate == null) {
+            if (candidate == null)) {
                 continue;
             }
 
             KillAuraTarget auraTarget = buildKillAuraTarget(candidate.entity, candidate.distance, maxRange);
-            if (auraTarget != null) {
+            if (auraTarget != null)) {
                 candidates.add(auraTarget);
             }
         }
@@ -252,7 +252,7 @@ public class KillAura extends Module {
         if (prioritizeEnemies.isToggled()) {
             List<KillAuraTarget> enemies = new ArrayList<>();
             for (KillAuraTarget candidate : candidates) {
-                if (candidate.isEnemy) {
+                if (candidate.isEnemy)) {
                     enemies.add(candidate);
                 }
             }
@@ -266,14 +266,14 @@ public class KillAura extends Module {
         double attackRangeValue = attackRange.getInput();
         List<KillAuraTarget> attackTargets = new ArrayList<>();
         for (KillAuraTarget candidate : candidates) {
-            if (candidate.distance <= attackRangeValue) {
+            if (candidate.distance <= attackRangeValue)) {
                 attackTargets.add(candidate);
             }
         }
 
         if (!attackTargets.isEmpty()) {
             KillAuraTarget selectedAttackTarget = selectAttackTarget(attackTargets);
-            if (selectedAttackTarget != null) {
+            if (selectedAttackTarget != null)) {
                 setTarget(selectedAttackTarget.entity);
                 return;
             }
@@ -293,7 +293,7 @@ public class KillAura extends Module {
             return null;
         }
 
-        if (entity instanceof PlayerEntity) {
+        if (entity instanceof PlayerEntity)) {
             PlayerEntity player = (PlayerEntity) entity;
             if (Utils.isFriended(player) || player.deathTime != 0) {
                 return null;
@@ -324,7 +324,7 @@ public class KillAura extends Module {
         }
 
         double distance = RotationUtils.distanceFromEyeToClosestOnAABB(entity);
-        if (distance > maxRange) {
+        if (distance > maxRange)) {
             return null;
         }
 
@@ -375,7 +375,7 @@ public class KillAura extends Module {
 
         for (KillAuraTarget candidate : attackTargets) {
             Integer firstHitTick = hitMap.get(candidate.entityId);
-            if (firstHitTick == null || ticksExisted - firstHitTick >= switchDelayTicks) {
+            if (firstHitTick == null || ticksExisted - firstHitTick >= switchDelayTicks)) {
                 continue;
             }
             return candidate;
@@ -383,7 +383,7 @@ public class KillAura extends Module {
 
         for (KillAuraTarget candidate : attackTargets) {
             Integer firstHitTick = hitMap.get(candidate.entityId);
-            if (firstHitTick == null || ticksExisted >= firstHitTick + noHitTicks) {
+            if (firstHitTick == null || ticksExisted >= firstHitTick + noHitTicks)) {
                 hitMap.put(candidate.entityId, ticksExisted);
                 return candidate;
             }
@@ -394,15 +394,15 @@ public class KillAura extends Module {
 
     private boolean isHostile(PathAwareEntity entityCreature) {
         if (SkyWars.onlyAuraHostiles()) {
-            if (entityCreature instanceof GiantEntity) {
+            if (entityCreature instanceof GiantEntity)) {
                 return false;
             }
             return !ModuleManager.skyWars.spawnedMobs.contains(entityCreature.getEntityId());
-        } else if (entityCreature instanceof SilverfishEntity) {
+        } else if (entityCreature instanceof SilverfishEntity)) {
             String teamColor = Utils.getFirstColorCode(entityCreature.getCustomNameTag());
             String teamColorSelf = Utils.getFirstColorCode(mc.player.getDisplayName().getFormattedText());
             return teamColor.isEmpty() || (!teamColorSelf.equals(teamColor) && !Utils.isTeammate(entityCreature));
-        } else if (entityCreature instanceof IronGolemEntity) {
+        } else if (entityCreature instanceof IronGolemEntity)) {
             if (Utils.getBedwarsStatus() != 2) {
                 return true;
             }
@@ -416,13 +416,13 @@ public class KillAura extends Module {
                     String stripped = Utils.stripString(entity.getDisplayName().getFormattedText());
                     if (stripped.contains("[") && stripped.endsWith("]")) {
                         double distanceSq = entity.getDistanceSq(entityCreature.posX, entityCreature.posY, entityCreature.posZ);
-                        if (distanceSq < nearestDistance || nearestDistance == -1) {
+                        if (distanceSq < nearestDistance || nearestDistance == -1)) {
                             nearestDistance = distanceSq;
                             nearestArmorStand = (ArmorStandEntity) entity;
                         }
                     }
                 }
-                if (nearestArmorStand != null) {
+                if (nearestArmorStand != null)) {
                     String teamColor = Utils.getFirstColorCode(nearestArmorStand.getDisplayName().getFormattedText());
                     String teamColorSelf = Utils.getFirstColorCode(mc.player.getDisplayName().getFormattedText());
                     boolean isTeam = !teamColor.isEmpty() && (teamColorSelf.equals(teamColor) || Utils.isTeammate(nearestArmorStand));
@@ -493,7 +493,7 @@ public class KillAura extends Module {
         }
 
         Entity viewEntity = mc.getRenderViewEntity();
-        if (viewEntity == null) {
+        if (viewEntity == null)) {
             return;
         }
 
@@ -506,14 +506,14 @@ public class KillAura extends Module {
         Box bb = attackingEntity.getEntityBoundingBox().expand(border, border, border);
         HitResult intercept = bb.calculateIntercept(eyes, rayEnd);
         boolean inside = bb.isVecInside(eyes);
-        if (!inside && intercept == null) {
+        if (!inside && intercept == null)) {
             return;
         }
 
         Vec3d hitVec = inside ? (intercept == null ? eyes : intercept.hitVec) : intercept.hitVec;
         if (!aimThroughBlocks.isToggled()) {
             HitResult blockHit = mc.world.rayTraceBlocks(eyes, hitVec, false, false, true);
-            if (blockHit != null && blockHit.typeOfHit == HitResult.MovingObjectType.BLOCK) {
+            if (blockHit != null && blockHit.typeOfHit == HitResult.MovingObjectType.BLOCK)) {
                 return;
             }
         }
@@ -525,7 +525,7 @@ public class KillAura extends Module {
         mc.pointedEntity = attackingEntity;
 
         EntityRenderer renderer = mc.entityRenderer;
-        if (renderer instanceof IAccessorEntityRenderer) {
+        if (renderer instanceof IAccessorEntityRenderer)) {
             ((IAccessorEntityRenderer) renderer).setPointedEntity(attackingEntity);
         }
     }

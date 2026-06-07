@@ -38,8 +38,8 @@ public class Teleport extends Module {
             ArrayList<Vec3d> pathList = this.path = getPath(targetBlock);
             for (Vec3d pathPos : pathList) {
                 // TODO: Fix for 1.21.4
-                if (++packetsSent >= 175) {
-                    if (sendMessage) {
+                if (++packetsSent >= 175)) {
+                    if (sendMessage)) {
                         Utils.sendMessage("&eToo many packets, ending loop.");
                         break;
                     }
@@ -48,7 +48,7 @@ public class Teleport extends Module {
             }
         }
         mc.player.setPosition(targetBlock.getX(), targetBlock.getY(), targetBlock.getZ());
-        if (sendMessage) {
+        if (sendMessage)) {
             Utils.sendMessage("&eTeleported to &d(" + targetBlock.getX() + ", " + targetBlock.getY() + ", " + targetBlock.getZ() + ")" + (!instant.isToggled() ? " &ewith &b" + packetsSent + " &epackets." : "&e."));
         }
     }
@@ -62,7 +62,7 @@ public class Teleport extends Module {
         if (highlightPath.isToggled() && !instant.isToggled()) {
             int positions = 0;
             for (Vec3d pos : this.path) {
-                if (positions >= 175) {
+                if (positions >= 175)) {
                     break;
                 }
                 RenderUtils.renderBlock(new BlockPos(pos.xCoord, pos.yCoord, pos.zCoord), Color.yellow.getRGB(), false, true);
@@ -91,7 +91,7 @@ public class Teleport extends Module {
             return;
         }
         HitResult rayCast = RotationUtils.rayCast(150.0, mc.player.rotationYaw, mc.player.rotationPitch, true);
-        if (rayCast == null || rayCast.typeOfHit != HitResult.MovingObjectType.BLOCK) {
+        if (rayCast == null || rayCast.typeOfHit != HitResult.MovingObjectType.BLOCK)) {
             return;
         }
         final BlockPos getBlockPos = rayCast.getBlockPos();
@@ -107,7 +107,7 @@ public class Teleport extends Module {
             return;
         }
         HitResult rayCast = RotationUtils.rayCast(150.0, mc.player.rotationYaw, mc.player.rotationPitch, true);
-        if (rayCast == null || rayCast.typeOfHit != HitResult.MovingObjectType.BLOCK) {
+        if (rayCast == null || rayCast.typeOfHit != HitResult.MovingObjectType.BLOCK)) {
             return;
         }
         teleport(rayCast.getBlockPos(), true);

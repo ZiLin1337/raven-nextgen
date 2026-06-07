@@ -166,7 +166,7 @@ public class BedESP extends Module {
 
     
     public void onPlayerJoin() {
-        if (e.entity == mc.player) {
+        if (e.entity == mc.player)) {
             activeBedPairs.clear();
             lastRenderedBedPairs.clear();
             lastDefenseToolMode = false;
@@ -199,7 +199,7 @@ public class BedESP extends Module {
         }
 
         boolean defenseToolMode = showDefenseTools.isToggled();
-        if (lastDefenseToolMode != defenseToolMode) {
+        if (lastDefenseToolMode != defenseToolMode)) {
             clearDefenseState();
             lastDefenseToolMode = defenseToolMode;
         }
@@ -273,7 +273,7 @@ public class BedESP extends Module {
         }
 
         for (BlockPos[] prev : new ArrayList<>(lastRenderedBedPairs)) {
-            if (prev == null || prev.length < 2) {
+            if (prev == null || prev.length < 2)) {
                 continue;
             }
             BlockPos foot = prev[0];
@@ -287,7 +287,7 @@ public class BedESP extends Module {
             double dx = foot.getX() + 0.5 - px;
             double dy = foot.getY() + 0.5 - py;
             double dz = foot.getZ() + 0.5 - pz;
-            if (dx * dx + dy * dy + dz * dz > rangeSq) {
+            if (dx * dx + dy * dy + dz * dz > rangeSq)) {
                 continue;
             }
             Box bb = bedWorldBounds(foot, head, blockHeight);
@@ -323,7 +323,7 @@ public class BedESP extends Module {
                 double dx = foot.getX() + 0.5 - px;
                 double dy = foot.getY() + 0.5 - py;
                 double dz = foot.getZ() + 0.5 - pz;
-                if (dx * dx + dy * dy + dz * dz > rangeSq) {
+                if (dx * dx + dy * dy + dz * dz > rangeSq)) {
                     continue;
                 }
 
@@ -347,14 +347,14 @@ public class BedESP extends Module {
             double dy = pair[0].getY() + 0.5 - py;
             double dz = pair[0].getZ() + 0.5 - pz;
             double distanceSq = dx * dx + dy * dy + dz * dz;
-            if (distanceSq < nearestDistanceSq) {
+            if (distanceSq < nearestDistanceSq)) {
                 nearestDistanceSq = distanceSq;
                 nearest = pair;
             }
         }
 
         candidatePairs.clear();
-        if (nearest != null) {
+        if (nearest != null)) {
             candidatePairs.add(nearest);
         }
         return candidatePairs;
@@ -366,7 +366,7 @@ public class BedESP extends Module {
     }
 
     private boolean stillHasRenderableBed(BlockPos[] pair) {
-        if (pair == null || pair.length < 2 || mc.world == null) {
+        if (pair == null || pair.length < 2 || mc.world == null)) {
             return false;
         }
         BlockState a = mc.world.getBlockState(pair[0]);
@@ -376,7 +376,7 @@ public class BedESP extends Module {
     }
 
     private boolean isLiveBedPair(BlockPos[] pair) {
-        if (pair == null || pair.length < 2 || mc.world == null) {
+        if (pair == null || pair.length < 2 || mc.world == null)) {
             return false;
         }
         BlockState footState = mc.world.getBlockState(pair[0]);
@@ -438,7 +438,7 @@ public class BedESP extends Module {
             axisAlignedBB = new Box(x, y, z, x + 1.0, y + height, z + 2.0);
         }
         RenderUtils.drawBoundingBox(axisAlignedBB, r, g, b, drawA);
-        if (exposed) {
+        if (exposed)) {
             int outlineColor = exposedOutlineColor.getColor();
             float outlineA = (outlineColor >> 24 & 0xFF) / 255.0f;
             float outlineR = (outlineColor >> 16 & 0xFF) / 255.0f;
@@ -457,7 +457,7 @@ public class BedESP extends Module {
     }
 
     private boolean isBedExposed(BlockPos[] pair) {
-        if (pair == null || pair.length < 2 || mc.world == null) {
+        if (pair == null || pair.length < 2 || mc.world == null)) {
             return false;
         }
 
@@ -465,7 +465,7 @@ public class BedESP extends Module {
             for (Direction side : Direction.values()) {
                 BlockPos neighbor = bedPart.offset(side);
                 Block neighborBlock = mc.world.getBlockState(neighbor).getBlock();
-                if (neighborBlock == Blocks.AIR) {
+                if (neighborBlock == Blocks.AIR)) {
                     return true;
                 }
             }
@@ -482,7 +482,7 @@ public class BedESP extends Module {
 
         EntityRenderDispatcher renderManager = mc.getEntityRenderDispatcher();
         TextRenderer fontRenderer = mc.textRenderer;
-        if (renderManager == null || fontRenderer == null) {
+        if (renderManager == null || fontRenderer == null)) {
             return;
         }
 
@@ -548,7 +548,7 @@ public class BedESP extends Module {
     }
 
     private void renderDefenseEntry(DefenseOverlayEntry entry, int iconX, int iconY) {
-        if (entry == null) {
+        if (entry == null)) {
             return;
         }
 
@@ -563,7 +563,7 @@ public class BedESP extends Module {
     }
 
     private void renderDefenseBlockSprite(Sprite sprite, int iconX, int iconY) {
-        if (sprite == null) {
+        if (sprite == null)) {
             return;
         }
 
@@ -603,7 +603,7 @@ public class BedESP extends Module {
 
     private DefenseOverlaySnapshot computeDefenseSnapshot(BlockPos foot, BlockPos head) {
         LayerOffsets[] layers = getLayerOffsets(foot, head);
-        if (layers == null) {
+        if (layers == null)) {
             return new DefenseOverlaySnapshot(new BlockPos(head), Collections.<DefenseOverlayEntry>emptyList());
         }
 
@@ -626,7 +626,7 @@ public class BedESP extends Module {
             }
 
             if (layerTotalBlocks == 0 || (float) layerAirBlocks / (float) layerTotalBlocks > DEFENSE_AIR_RATIO_THRESHOLD) {
-                if (++sparseLayerCount >= 2) {
+                if (++sparseLayerCount >= 2)) {
                     break;
                 }
                 continue;
@@ -646,7 +646,7 @@ public class BedESP extends Module {
             Set<ToolOverlayType> toolTypes = new HashSet<>();
             for (DefenseBlockKey countedBlock : finalCounts.keySet()) {
                 ToolOverlayType toolType = ToolOverlayType.fromState(countedBlock.state);
-                if (toolType != null) {
+                if (toolType != null)) {
                     toolTypes.add(toolType);
                 }
             }
@@ -671,7 +671,7 @@ public class BedESP extends Module {
             }
             entries.sort((left, right) -> {
                 int countCompare = Integer.compare(right.count, left.count);
-                if (countCompare != 0) {
+                if (countCompare != 0)) {
                     return countCompare;
                 }
                 return left.sortName.compareToIgnoreCase(right.sortName);
@@ -690,7 +690,7 @@ public class BedESP extends Module {
         BlockState normalizedState = normalizeDefenseState(state);
         int stateId = Block.getStateId(normalizedState);
         DefenseBlockKey key = resolvedBlockKeys.get(stateId);
-        if (key == null) {
+        if (key == null)) {
             key = DefenseBlockKey.from(normalizedState, pos, mc.world);
             resolvedBlockKeys.put(stateId, key);
         }
@@ -743,7 +743,7 @@ public class BedESP extends Module {
                         int secondY = firstY;
                         int secondZ;
 
-                        if (facingZ) {
+                        if (facingZ)) {
                             int z = startZ - (bedIndex == 0 ? advance : -advance);
                             firstX = startX - breadth;
                             firstZ = z;
@@ -761,7 +761,7 @@ public class BedESP extends Module {
                         addOffset(offsets, seenAcrossLayers, firstX, firstY, firstZ);
                         addOffset(offsets, seenAcrossLayers, secondX, secondY, secondZ);
 
-                        if (breadth > 0) {
+                        if (breadth > 0)) {
                             yOffset++;
                         }
                     }
@@ -801,12 +801,12 @@ public class BedESP extends Module {
     }
 
     private void markBedsDirtyForDefensePos(BlockPos pos) {
-        if (pos == null) {
+        if (pos == null)) {
             return;
         }
 
         Set<Long> feet = watchedBedsByDefensePos.get(pos.toLong());
-        if (feet == null) {
+        if (feet == null)) {
             return;
         }
 
@@ -815,7 +815,7 @@ public class BedESP extends Module {
 
     private void markBedsDirtyForChunk(int chunkX, int chunkZ) {
         Set<Long> feet = watchedBedsByChunk.get(chunkKey(chunkX, chunkZ));
-        if (feet == null) {
+        if (feet == null)) {
             return;
         }
 
@@ -825,7 +825,7 @@ public class BedESP extends Module {
     private void registerDefenseWatch(BlockPos foot, BlockPos head) {
         LayerOffsets[] layers = getLayerOffsets(foot, head);
         long footKey = foot.toLong();
-        if (layers == null) {
+        if (layers == null)) {
             defenseWatchRegions.put(footKey, new DefenseWatchRegion(head.toLong(), Collections.<Long>emptySet(), Collections.<Long>emptySet()));
             return;
         }
@@ -862,13 +862,13 @@ public class BedESP extends Module {
         defenseSnapshots.remove(footKey);
         dirtyDefenseBeds.remove(footKey);
 
-        if (region == null) {
+        if (region == null)) {
             return;
         }
 
         for (Long posKey : region.watchedPositions) {
             Set<Long> feet = watchedBedsByDefensePos.get(posKey);
-            if (feet == null) {
+            if (feet == null)) {
                 continue;
             }
             feet.remove(footKey);
@@ -879,7 +879,7 @@ public class BedESP extends Module {
 
         for (Long chunkKey : region.watchedChunks) {
             Set<Long> feet = watchedBedsByChunk.get(chunkKey);
-            if (feet == null) {
+            if (feet == null)) {
                 continue;
             }
             feet.remove(footKey);
@@ -989,7 +989,7 @@ public class BedESP extends Module {
 
             if (stack == null || stack.getItem() == null) {
                 sprite = resolveBlockSprite(state);
-                if (sprite == null) {
+                if (sprite == null)) {
                     stack = fallbackRenderStack(state.getBlock());
                 } else {
                     stack = null;
@@ -1028,7 +1028,7 @@ public class BedESP extends Module {
 
         @Override
         public boolean equals(Object obj) {
-            if (this == obj) {
+            if (this == obj)) {
                 return true;
             }
             if (!(obj instanceof DefenseBlockKey)) {
@@ -1068,24 +1068,24 @@ public class BedESP extends Module {
         }
 
         private static ToolOverlayType fromState(BlockState state) {
-            if (state == null) {
+            if (state == null)) {
                 return null;
             }
 
             Block block = state.getBlock();
-            if (block == Blocks.obsidian) {
+            if (block == Blocks.obsidian)) {
                 return DIAMOND_PICKAXE;
             }
 
             ToolOverlayType bestTool = IRON_PICKAXE;
             float bestEfficiency = 1.0F;
             for (ToolOverlayType toolType : values()) {
-                if (toolType == DIAMOND_PICKAXE) {
+                if (toolType == DIAMOND_PICKAXE)) {
                     continue;
                 }
 
                 float efficiency = Utils.getEfficiency(toolType.renderStack, block);
-                if (efficiency > bestEfficiency) {
+                if (efficiency > bestEfficiency)) {
                     bestEfficiency = efficiency;
                     bestTool = toolType;
                 }
@@ -1099,7 +1099,7 @@ public class BedESP extends Module {
         Block block = state.getBlock();
         try {
             Item item = block.getItem(world, pos);
-            if (item == null) {
+            if (item == null)) {
                 return null;
             }
             int meta = item.getHasSubtypes() ? block.getDamageValue(world, pos) : 0;
@@ -1115,7 +1115,7 @@ public class BedESP extends Module {
         }
 
         Sprite sprite = mc.getBlockRendererDispatcher().getBlockModelShapes().getTexture(state);
-        if (sprite == null) {
+        if (sprite == null)) {
             return null;
         }
 
@@ -1123,18 +1123,18 @@ public class BedESP extends Module {
     }
 
     private static BlockState normalizeDefenseState(BlockState state) {
-        if (state == null) {
+        if (state == null)) {
             return null;
         }
 
         Block block = state.getBlock();
-        if (block == Blocks.water || block == Blocks.flowing_water) {
+        if (block == Blocks.water || block == Blocks.flowing_water)) {
             return Blocks.water.getDefaultState();
         }
-        if (block == Blocks.lava || block == Blocks.flowing_lava) {
+        if (block == Blocks.lava || block == Blocks.flowing_lava)) {
             return Blocks.lava.getDefaultState();
         }
-        if (block == Blocks.fire) {
+        if (block == Blocks.fire)) {
             return Blocks.fire.getDefaultState();
         }
 
@@ -1148,7 +1148,7 @@ public class BedESP extends Module {
         }
 
         Object registryName = Registries.BLOCK.getNameForObject(state.getBlock());
-        if (registryName != null) {
+        if (registryName != null)) {
             int meta = state.getBlock().getMetaFromState(state);
             return meta != 0 ? registryName + ":" + meta : registryName.toString();
         }
@@ -1157,12 +1157,12 @@ public class BedESP extends Module {
     }
 
     private static ItemStack fallbackRenderStack(Block block) {
-        if (block == Blocks.bed) {
+        if (block == Blocks.bed)) {
             return new ItemStack(Items.bed);
         }
         try {
             Item item = Item.getItemFromBlock(block);
-            if (item != null) {
+            if (item != null)) {
                 int meta = block.getMetaFromState(block.getDefaultState());
                 return new ItemStack(item, 1, meta);
             }

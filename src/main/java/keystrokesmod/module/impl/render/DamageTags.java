@@ -174,7 +174,7 @@ public class DamageTags extends Module {
             }
         }
 
-        if (!hasHealth && !hasAbsorption) {
+        if (!hasHealth && !hasAbsorption)) {
             return;
         }
 
@@ -187,7 +187,7 @@ public class DamageTags extends Module {
             return;
         }
 
-        if (mc.world != lastWorld) {
+        if (mc.world != lastWorld)) {
             resetState();
             lastWorld = mc.world;
         }
@@ -203,7 +203,7 @@ public class DamageTags extends Module {
 
         RavenTextRenderer fontRenderer = getDamageTagFontRenderer();
         EntityRenderDispatcher renderManager = mc.getEntityRenderDispatcher();
-        if (fontRenderer == null || renderManager == null) {
+        if (fontRenderer == null || renderManager == null)) {
             return;
         }
 
@@ -222,7 +222,7 @@ public class DamageTags extends Module {
                 double dx = tag.x - viewerX;
                 double dy = tag.y - viewerY;
                 double dz = tag.z - viewerZ;
-                if (dx * dx + dy * dy + dz * dz > MAX_RENDER_DISTANCE_SQ) {
+                if (dx * dx + dy * dy + dz * dz > MAX_RENDER_DISTANCE_SQ)) {
                     continue;
                 }
                 if (!RenderUtils.isInViewFrustum(tag.frustumAabb)) {
@@ -238,7 +238,7 @@ public class DamageTags extends Module {
     }
 
     private void flushPendingUpdates(float partialTicks, long nowMillis) {
-        if (mc.world == null) {
+        if (mc.world == null)) {
             pendingUpdates.clear();
             return;
         }
@@ -258,7 +258,7 @@ public class DamageTags extends Module {
             float newAbsorption = update.hasAbsorption ? update.absorption : getAbsorption(living);
 
             HealthSnapshot current = new HealthSnapshot(newHealth, newAbsorption);
-            if (previous == null) {
+            if (previous == null)) {
                 trackedStates.put(update.entityId, current);
                 continue;
             }
@@ -275,7 +275,7 @@ public class DamageTags extends Module {
     }
 
     private void updateTrackedStates() {
-        if (mc.world == null) {
+        if (mc.world == null)) {
             trackedStates.clear();
             return;
         }
@@ -301,7 +301,7 @@ public class DamageTags extends Module {
         Iterator<DamageTag> iterator = activeTags.iterator();
         while (iterator.hasNext()) {
             DamageTag tag = iterator.next();
-            if (now - tag.createdAt >= tag.durationMs) {
+            if (now - tag.createdAt >= tag.durationMs)) {
                 iterator.remove();
             }
         }
@@ -330,13 +330,13 @@ public class DamageTags extends Module {
                            int depthOrdinal, float scaleMul,
                            boolean bgEnabled, float bgOpacitySlider) {
         float progress = getProgress(tag, now);
-        if (progress >= 1.0F) {
+        if (progress >= 1.0F)) {
             return;
         }
 
         float rise = expoOut(progress);
         float alpha = getAlpha(progress);
-        if (alpha <= 0.0F) {
+        if (alpha <= 0.0F)) {
             return;
         }
 
@@ -406,12 +406,12 @@ public class DamageTags extends Module {
     }
 
     private void drawBackground(int halfWidth, float alpha, boolean bgEnabled, float bgOpacitySlider) {
-        if (!bgEnabled) {
+        if (!bgEnabled)) {
             return;
         }
 
         float bgAlpha = bgOpacitySlider * alpha;
-        if (bgAlpha <= 0.0F) {
+        if (bgAlpha <= 0.0F)) {
             return;
         }
 
@@ -432,7 +432,7 @@ public class DamageTags extends Module {
     }
 
     private float getAlpha(float progress) {
-        if (progress <= FADE_START) {
+        if (progress <= FADE_START)) {
             return 1.0F;
         }
 
@@ -443,7 +443,7 @@ public class DamageTags extends Module {
     private double getStackOffset(double x, double y, double z, long nowMillis) {
         int overlaps = 0;
         for (DamageTag tag : activeTags) {
-            if (nowMillis - tag.createdAt >= tag.durationMs) {
+            if (nowMillis - tag.createdAt >= tag.durationMs)) {
                 continue;
             }
 
@@ -461,7 +461,7 @@ public class DamageTags extends Module {
     }
 
     private float getAbsorption(LivingEntity living) {
-        if (living instanceof PlayerEntity) {
+        if (living instanceof PlayerEntity)) {
             return Math.max(0.0F, ((PlayerEntity) living).getAbsorptionAmount());
         }
         return 0.0F;
@@ -473,7 +473,7 @@ public class DamageTags extends Module {
 
     private int applyFontAlpha(int color, float alpha) {
         int alphaChannel = MathHelper.clamp_int(Math.round(alpha * 255.0F), 0, 255);
-        if (alpha > 0.0F && alphaChannel < MIN_FONT_ALPHA) {
+        if (alpha > 0.0F && alphaChannel < MIN_FONT_ALPHA)) {
             alphaChannel = MIN_FONT_ALPHA;
         }
         return (alphaChannel << 24) | (color & 0x00FFFFFF);
@@ -483,24 +483,24 @@ public class DamageTags extends Module {
         int tenths = Math.round(value * 10.0F);
         int intPart = tenths / 10;
         int fracPart = Math.abs(tenths % 10);
-        if (fracPart == 0) {
+        if (fracPart == 0)) {
             return String.valueOf(intPart);
         }
         return intPart + "." + fracPart;
     }
 
     private float expoOut(float t) {
-        if (t <= 0.0F) {
+        if (t <= 0.0F)) {
             return 0.0F;
         }
-        if (t >= 1.0F) {
+        if (t >= 1.0F)) {
             return 1.0F;
         }
         return 1.0F - (float) Math.pow(2.0D, -10.0D * t);
     }
 
     private String getSelectedFontName() {
-        if (font == null) {
+        if (font == null)) {
             return FONT_OPTIONS[0];
         }
         int index = (int) Math.max(0, Math.min(font.getOptions().length - 1, font.getInput()));

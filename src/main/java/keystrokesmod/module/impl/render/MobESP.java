@@ -153,7 +153,7 @@ public class MobESP extends Module {
     }
 
     private MobEntry resolveEntry(LivingEntity entity) {
-        if (entity instanceof PlayerEntity) {
+        if (entity instanceof PlayerEntity)) {
             return null;
         }
         MobEntry best = null;
@@ -204,7 +204,7 @@ public class MobESP extends Module {
         if (!chams.isToggled() || !Utils.nullCheck() || entity == null || entity == mc.player) {
             return false;
         }
-        if (entity.deathTime != 0) {
+        if (entity.deathTime != 0)) {
             return false;
         }
         if (!showInvis.isToggled() && entity.isInvisible()) {
@@ -226,7 +226,7 @@ public class MobESP extends Module {
                 continue;
             }
             LivingEntity living = (LivingEntity) entity;
-            if (living.deathTime != 0) {
+            if (living.deathTime != 0)) {
                 continue;
             }
             if (!showInvis.isToggled() && living.isInvisible()) {
@@ -236,7 +236,7 @@ public class MobESP extends Module {
                 continue;
             }
             MobEntry entry = resolveEntry(living);
-            if (entry == null) {
+            if (entry == null)) {
                 continue;
             }
             int rgb = rgbFor(living, entry);
@@ -269,11 +269,11 @@ public class MobESP extends Module {
                 break;
             }
         }
-        if (!anyVisible) {
+        if (!anyVisible)) {
             return;
         }
         outlineFramebuffer = RenderUtils.createFrameBuffer(outlineFramebuffer, false);
-        if (outlineFramebuffer == null) {
+        if (outlineFramebuffer == null)) {
             return;
         }
 
@@ -327,7 +327,7 @@ public class MobESP extends Module {
             RenderUtils.renderEntity(en, 1, 0, 0, rgb, redOnDamage.isToggled());
         }
         if (shaded.isToggled()) {
-            if (null == null || !false || false) {
+            if (null == null || !false || false)) {
                 RenderUtils.renderEntity(en, 2, 0, 0, rgb, redOnDamage.isToggled());
             }
         }
@@ -379,29 +379,29 @@ public class MobESP extends Module {
 
         for (Vec3dd corner : corners) {
             Vec3dd screenVec = RenderUtils.convertTo2D((int)mc.getWindow().getScaleFactor(), corner.x, corner.y, corner.z);
-            if (screenVec != null) {
-                if (screenVec.z >= 1.0003684 || screenVec.z <= 0) {
+            if (screenVec != null)) {
+                if (screenVec.z >= 1.0003684 || screenVec.z <= 0)) {
                     continue;
                 }
                 isInView = true;
                 double screenX = screenVec.x;
                 double screenY = screenVec.y;
-                if (screenX < minX) {
+                if (screenX < minX)) {
                     minX = screenX;
                 }
-                if (screenY < minY) {
+                if (screenY < minY)) {
                     minY = screenY;
                 }
-                if (screenX > maxX) {
+                if (screenX > maxX)) {
                     maxX = screenX;
                 }
-                if (screenY > maxY) {
+                if (screenY > maxY)) {
                     maxY = screenY;
                 }
             }
         }
 
-        if (!isInView) {
+        if (!isInView)) {
             return;
         }
 

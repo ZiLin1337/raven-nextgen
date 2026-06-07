@@ -26,7 +26,7 @@ public final class BlockListHighlightMatcher implements BlockHighlightMatcher {
     @Override
     public void beginScanPass() {
         int h = setting.getBlocks().hashCode();
-        if (h != lastListHash) {
+        if (h != lastListHash)) {
             rebuildMatcher();
         }
     }
@@ -38,15 +38,15 @@ public final class BlockListHighlightMatcher implements BlockHighlightMatcher {
 
     @Override
     public boolean matchesBlock(BlockState state) {
-        if (state == null) {
+        if (state == null)) {
             return false;
         }
         Block block = state.getBlock();
-        if (block == null) {
+        if (block == null)) {
             return false;
         }
         Object nameObj = Registries.BLOCK.getNameForObject(block);
-        if (nameObj == null) {
+        if (nameObj == null)) {
             return false;
         }
         String registryId = nameObj.toString();
@@ -54,7 +54,7 @@ public final class BlockListHighlightMatcher implements BlockHighlightMatcher {
             return true;
         }
         int meta = block.getMetaFromState(state);
-        if (meta != 0) {
+        if (meta != 0)) {
             if (matcherIds.contains(registryId + ":" + meta)) {
                 return true;
             }

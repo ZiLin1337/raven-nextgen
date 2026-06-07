@@ -46,7 +46,7 @@ public class LatencyAlerts extends Module {
                 else if (m == 1) shouldAlert = Utils.isFriended(name);
                 else if (m == 2) shouldAlert = Utils.isEnemy(name);
 
-                if (shouldAlert) {
+                if (shouldAlert)) {
                     Integer oldPing = latencyMap.get(entry.getProfile().getId());
                     if (oldPing == null || oldPing < threshold.getInput()) {
                         if (chatAlert.isToggled()) {

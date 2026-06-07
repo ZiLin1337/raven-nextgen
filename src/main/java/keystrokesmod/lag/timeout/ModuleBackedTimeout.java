@@ -29,7 +29,7 @@ public final class ModuleBackedTimeout extends AbstractTimeout {
             hasModuleDisabled = true;
         }
 
-        if (hasModuleDisabled) {
+        if (hasModuleDisabled)) {
             return true;
         }
 

@@ -35,7 +35,7 @@ public class Matrix4f {
         float x = m[0] * (float)v.x + m[4] * (float)v.y + m[8] * (float)v.z + m[12];
         float y = m[1] * (float)v.x + m[5] * (float)v.y + m[9] * (float)v.z + m[13];
         float z = m[2] * (float)v.x + m[6] * (float)v.y + m[10] * (float)v.z + m[14];
-        if (w != 0) { x /= w; y /= w; z /= w; }
+        if (w != 0)) { x /= w; y /= w; z /= w; }
         return new Vec3d(x, y, z);
     }
 

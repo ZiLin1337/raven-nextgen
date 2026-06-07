@@ -41,11 +41,11 @@ public class RawInput extends Module {
 
     @Override
     public void onDisable() {
-        if (originalHelper != null) {
+        if (originalHelper != null)) {
             mc.mouseHelper = originalHelper;
             originalHelper = null;
         }
-        if (pollThread != null) {
+        if (pollThread != null)) {
             pollThread.running = false;
             pollThread = null;
         }
@@ -130,7 +130,7 @@ public class RawInput extends Module {
                 ControllerEnvironment env = (ControllerEnvironment) ctor.newInstance();
                 List<Mouse> found = new ArrayList<>();
                 for (Controller c : env.getControllers()) {
-                    if (c instanceof Mouse) {
+                    if (c instanceof Mouse)) {
                         found.add((Mouse) c);
                     }
                 }
@@ -166,10 +166,10 @@ public class RawInput extends Module {
                 this.deltaY = thread.dy.getAndSet(0);
                 movement = (this.deltaX != 0 || this.deltaY != 0);
                 if ((Math.abs(org.lwjgl.input.Mouse.getDX()) > 5 || Math.abs(org.lwjgl.input.Mouse.getDY()) > 5) && !movement) {
-                    if (fails++ > 5) {
+                    if (fails++ > 5)) {
                         thread.rescan();
                     }
-                } else if (movement) {
+                } else if (movement)) {
                     fails = 0;
                 }
             } else {

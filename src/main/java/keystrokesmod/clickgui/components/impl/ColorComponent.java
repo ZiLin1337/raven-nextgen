@@ -57,14 +57,14 @@ public class ColorComponent extends Component {
     }
 
     public float getAnimationProgress() {
-        if (smoothTimer != null) {
+        if (smoothTimer != null)) {
             if (System.currentTimeMillis() - smoothTimer.last >= ANIMATION_DURATION + 30) {
                 smoothTimer = null;
                 animationProgress = animationTargetProgress;
                 animationStartProgress = animationTargetProgress;
             } else {
                 animationProgress = smoothTimer.getValueFloat(animationStartProgress, animationTargetProgress, 1);
-                if (animationProgress == animationTargetProgress) {
+                if (animationProgress == animationTargetProgress)) {
                     smoothTimer = null;
                     animationStartProgress = animationTargetProgress;
                 }
@@ -133,10 +133,10 @@ public class ColorComponent extends Component {
         float satFromSetting = (dragMode != 0) ? cachedSat : colorSetting.getSaturation();
         boolean isBlack = bri < BLACK_BRI_EPSILON;
         boolean isGrey = satFromSetting < GREY_SAT_EPSILON;
-        if (dragMode == 0 && !isBlack) {
+        if (dragMode == 0 && !isBlack)) {
             cachedBri = bri;
             cachedSat = colorSetting.getSaturation();
-            if (!isGrey) {
+            if (!isGrey)) {
                 cachedHue = colorSetting.getHue();
             }
         }
@@ -222,12 +222,12 @@ public class ColorComponent extends Component {
         float hueLeft = sqRight + HUE_GAP;
         float hueRight = hueLeft + HUE_BAR_WIDTH;
 
-        if (dragMode == 1) {
+        if (dragMode == 1)) {
             cachedSat = Math.max(0, Math.min(1, (mouseX - areaLeft) / SQUARE_SIZE));
             cachedBri = Math.max(0, Math.min(1, 1f - (mouseY - sqTop) / SQUARE_SIZE));
             colorSetting.setFromHSB(cachedHue, cachedSat, cachedBri);
             markUnsaved();
-        } else if (dragMode == 2) {
+        } else if (dragMode == 2)) {
             cachedHue = Math.max(0, Math.min(360, (mouseY - sqTop) / SQUARE_SIZE * 360f));
             colorSetting.setFromHSB(cachedHue, cachedSat, cachedBri);
             markUnsaved();
@@ -247,8 +247,8 @@ public class ColorComponent extends Component {
         float cw = moduleComponent.categoryComponent.getWidth();
 
         if (mouseX > this.x && mouseX < this.x + cw
-                && mouseY > this.y && mouseY < this.y + LABEL_HEIGHT) {
-            if (button == 0 || button == 1) {
+                && mouseY > this.y && mouseY < this.y + LABEL_HEIGHT)) {
+            if (button == 0 || button == 1)) {
                 float currentProgress = getAnimationProgress();
                 this.animationStartProgress = currentProgress;
                 this.expanded = !this.expanded;
@@ -270,14 +270,14 @@ public class ColorComponent extends Component {
         float hueRight = hueLeft + HUE_BAR_WIDTH;
 
         if (mouseX >= areaLeft && mouseX <= sqRight
-                && mouseY >= sqTop && mouseY <= sqBottom) {
+                && mouseY >= sqTop && mouseY <= sqBottom)) {
             cacheHSB();
             dragMode = 1;
             return false;
         }
 
         if (mouseX >= hueLeft - 2 && mouseX <= hueRight + 2
-                && mouseY >= sqTop && mouseY <= sqBottom) {
+                && mouseY >= sqTop && mouseY <= sqBottom)) {
             cacheHSB();
             dragMode = 2;
             return false;
@@ -287,7 +287,7 @@ public class ColorComponent extends Component {
             float alphaLeft = hueRight + ALPHA_GAP;
             float alphaRight = alphaLeft + ALPHA_BAR_WIDTH;
             if (mouseX >= alphaLeft - 2 && mouseX <= alphaRight + 2
-                    && mouseY >= sqTop && mouseY <= sqBottom) {
+                    && mouseY >= sqTop && mouseY <= sqBottom)) {
                 cacheHSB();
                 dragMode = 3;
                 return false;
@@ -338,16 +338,16 @@ public class ColorComponent extends Component {
         float bri = colorSetting.getBrightness();
         float sat = colorSetting.getSaturation();
         cachedBri = bri;
-        if (bri >= BLACK_BRI_EPSILON) {
+        if (bri >= BLACK_BRI_EPSILON)) {
             cachedSat = sat;
-            if (sat >= GREY_SAT_EPSILON) {
+            if (sat >= GREY_SAT_EPSILON)) {
                 cachedHue = colorSetting.getHue();
             }
         }
     }
 
     private void markUnsaved() {
-        if (Raven.currentProfile != null) {
+        if (Raven.currentProfile != null)) {
             Raven.currentProfile.getModule().saved = false;
         }
     }

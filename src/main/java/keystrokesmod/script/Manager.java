@@ -38,7 +38,7 @@ public class Manager extends Module {
         this.registerSetting(createScriptName = new TextSetting("Script name", "", "Type a script name...", 32, this::createScript));
         this.registerSetting(new ButtonSetting("Create script", this::createScript));
         this.registerSetting(new ButtonSetting("Load scripts", () -> {
-            if (Raven.scriptManager.compiler == null) {
+            if (Raven.scriptManager.compiler == null)) {
                 Utils.sendMessage("&cCompiler error, JDK not found");
             }
             else {
@@ -128,7 +128,7 @@ public class Manager extends Module {
                     break;
                 }
             }
-            if (!keyExists) {
+            if (!keyExists)) {
                 lines.add(entry);
             }
             Files.write(configPath, lines);
@@ -142,10 +142,10 @@ public class Manager extends Module {
     private void retrieveSettings() {
         String requestState = retrieveSetting("enable-http-requests");
         String webSocketsState = retrieveSetting("enable-websockets");
-        if (requestState != null) {
+        if (requestState != null)) {
             enableHttpRequests.setEnabled(parseBoolean(requestState, true));
         }
-        if (webSocketsState != null) {
+        if (webSocketsState != null)) {
             enableWebSockets.setEnabled(parseBoolean(webSocketsState, true));
         }
     }
@@ -175,12 +175,12 @@ public class Manager extends Module {
     }
 
     private void createScript() {
-        if (Raven.scriptManager == null) {
+        if (Raven.scriptManager == null)) {
             return;
         }
 
         String scriptName = Raven.scriptManager.createScript(createScriptName.getText());
-        if (scriptName != null) {
+        if (scriptName != null)) {
             createScriptName.setText("");
             Utils.sendMessage("&7Created script: &b" + scriptName);
         }

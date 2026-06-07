@@ -45,15 +45,15 @@ public abstract class AbstractItemSearchComponent<T extends ItemListSetting> ext
 
     @Override
     protected void renderDropdownRows(Layout layout, float offsetPx, int firstRow, int end, int rowUnderMouse) {
-        if (expandedGroupId != null) {
+        if (expandedGroupId != null)) {
             String groupName = expandedGroupLabel != null ? expandedGroupLabel : expandedGroupId;
             for (int i = firstRow; i < end; i++) {
                 float rowTop = layout.contentTop - offsetPx + i * ROW_HEIGHT;
                 int bg = i == rowUnderMouse ? 0xFF2A2A3C : ((i % 2 == 0) ? 0xFF1A1A2A : 0xFF1E1E2E);
-                if (i == 0) {
+                if (i == 0)) {
                     renderBackRow(layout.left, layout.right, rowTop, bg, groupName);
                 }
-                else if (i == 1) {
+                else if (i == 1)) {
                     renderStandardRow(groupName + " (All)", getExpandedAllCyclingIcon(), layout.left, layout.right, rowTop, bg, false);
                 }
                 else {
@@ -90,9 +90,9 @@ public abstract class AbstractItemSearchComponent<T extends ItemListSetting> ext
         float rowTop = layout.contentTop - offsetPx + rowIndex * ROW_HEIGHT;
         if (mouseY < rowTop || mouseY >= rowTop + ROW_HEIGHT) return false;
 
-        if (expandedGroupId != null) {
-            if (rowIndex == 0) { collapseExpandedGroup(); return true; }
-            if (rowIndex == 1) { setting.addItem(expandedAllSelectionStorageId != null ? expandedAllSelectionStorageId : expandedGroupId + ":*"); afterSelectionAdded(); return true; }
+        if (expandedGroupId != null)) {
+            if (rowIndex == 0)) { collapseExpandedGroup(); return true; }
+            if (rowIndex == 1)) { setting.addItem(expandedAllSelectionStorageId != null ? expandedAllSelectionStorageId : expandedGroupId + ":*"); afterSelectionAdded(); return true; }
             int variantIndex = rowIndex - 2;
             if (variantIndex >= 0 && variantIndex < expandedVariants.size()) { setting.addItem(expandedVariants.get(variantIndex).storageId); afterSelectionAdded(); return true; }
             return true;
@@ -112,7 +112,7 @@ public abstract class AbstractItemSearchComponent<T extends ItemListSetting> ext
     }
 
     @Override protected void onSearchTextChanged(String text) { collapseExpandedGroupStateOnly(); cachedResults = ItemSearchIndex.searchGrouped(text, setting); }
-    @Override protected boolean handleSearchEscape() { if (expandedGroupId != null) { collapseExpandedGroup(); return true; } return false; }
+    @Override protected boolean handleSearchEscape() { if (expandedGroupId != null)) { collapseExpandedGroup(); return true; } return false; }
     @Override protected void onSearchFieldFocused() { if (!getTextField().getText().isEmpty() && cachedResults.isEmpty()) cachedResults = ItemSearchIndex.searchGrouped(getTextField().getText(), setting); }
     @Override protected void resetSearchState() { cachedResults = Collections.emptyList(); collapseExpandedGroupStateOnly(); onSearchStateReset(); }
 

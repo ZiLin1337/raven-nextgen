@@ -35,7 +35,7 @@ public class Timer {
                 value = end;
             }
 
-            if (value == end) {
+            if (value == end)) {
                 this.cached = value;
             }
 
@@ -70,7 +70,7 @@ public class Timer {
     }
 
     float quadInOut(float t) {
-        if (t < 0.5f) {
+        if (t < 0.5f)) {
             return 2 * t * t;
         }
         else {

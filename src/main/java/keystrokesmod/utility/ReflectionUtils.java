@@ -56,7 +56,7 @@ public class ReflectionUtils {
     }
 
     public static void setButton(int button, boolean state) {
-        if (ReflectionUtils.button != null && buttonstate != null && buttons != null) {
+        if (ReflectionUtils.button != null && buttonstate != null && buttons != null)) {
             MouseEvent m = new MouseEvent();
             try {
                 ReflectionUtils.button.setAccessible(true);
@@ -79,7 +79,7 @@ public class ReflectionUtils {
             return;
         }
         field = ReflectionHelper.findField(clazz, field.getName());
-        if (field == null) {
+        if (field == null)) {
             return;
         }
         field.setAccessible(true);

@@ -49,7 +49,7 @@ public class Track extends Command {
             String name = entry.getKey();
             for (PlayerEntity p : mc.world.getPlayers()) {
                 if (p.getName().getString().equalsIgnoreCase(name)) {
-                    entry.getValue().add(new double[]) {p.getX(), p.getY(), p.getZ()});
+                    entry.getValue().add(new double[] {p.getX(), p.getY(), p.getZ()});
                     break;
                 }
             }

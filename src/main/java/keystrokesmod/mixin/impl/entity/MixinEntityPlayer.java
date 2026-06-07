@@ -39,7 +39,7 @@ public abstract class MixinPlayerEntity {
                 int knockback = 0;
                 float enchantDamage = 0;
 
-                if (target instanceof LivingEntity) {
+                if (target instanceof LivingEntity)) {
                     enchantDamage = EnchantmentHelper.getAttackDamage(self.getMainHandStack(),
                             ((LivingEntity) target).getGroup());
                 }
@@ -49,12 +49,12 @@ public abstract class MixinPlayerEntity {
                     knockback++;
                 }
 
-                if (attackDamage > 0.0F || enchantDamage > 0.0F) {
+                if (attackDamage > 0.0F || enchantDamage > 0.0F)) {
                     boolean critical = self.fallDistance > 0.0F && !self.isOnGround()
                             && !self.isClimbing() && !self.isTouchingWater()
                             && !self.hasStatusEffect(net.minecraft.entity.effect.StatusEffects.BLINDNESS)
                             && self.getVehicle() == null && target instanceof LivingEntity;
-                    if (critical && attackDamage > 0.0F) {
+                    if (critical && attackDamage > 0.0F)) {
                         attackDamage *= 1.5F;
                     }
                     attackDamage += enchantDamage;
@@ -72,8 +72,8 @@ public abstract class MixinPlayerEntity {
 
                     boolean attacked = target.damage(
                             DamageSource.player(self), attackDamage);
-                    if (attacked) {
-                        if (knockback > 0) {
+                    if (attacked)) {
+                        if (knockback > 0)) {
                             target.addVelocity(
                                     (double) (-MathHelper.sin(self.getYaw() * (float) Math.PI / 180.0F)
                                             * (float) knockback * 0.5F),
@@ -100,17 +100,17 @@ public abstract class MixinPlayerEntity {
                             target.setVelocity(d0, d1, d2);
                         }
 
-                        if (critical) {
+                        if (critical)) {
                             self.addCritParticles(target);
                         }
-                        if (enchantDamage > 0.0F) {
+                        if (enchantDamage > 0.0F)) {
                             self.addEnchantedHitParticles(target);
                         }
-                        if (attackDamage >= 18.0F) {
+                        if (attackDamage >= 18.0F)) {
                             // achievement removed in later versions
                         }
                         self.setLastAttackedEntity(target);
-                        if (target instanceof LivingEntity) {
+                        if (target instanceof LivingEntity)) {
                             EnchantmentHelper.onTargetDamaged(self, target,
                                     self.getWorld(), self.getMainHandStack());
                         }
@@ -123,10 +123,10 @@ public abstract class MixinPlayerEntity {
                                 self.setStackInHand(self.getActiveHand(), ItemStack.EMPTY);
                             }
                         }
-                        if (target instanceof LivingEntity) {
+                        if (target instanceof LivingEntity)) {
                             self.addExhaustion(0.3F);
                         }
-                    } else if (fireAspect) {
+                    } else if (fireAspect)) {
                         target.extinguishWithSound();
                     }
                 }

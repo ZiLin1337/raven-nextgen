@@ -80,14 +80,14 @@ public class BreakProgress extends Module {
 
     @Override
     public void onUpdate() {
-        if (mc.player.capabilities.isCreativeMode || !mc.player.capabilities.allowEdit) {
+        if (mc.player.capabilities.isCreativeMode || !mc.player.capabilities.allowEdit)) {
             this.resetVariables();
             return;
         }
         if (bedAura.isToggled() && ModuleManager.bedAura != null && ModuleManager.bedAura.isEnabled()) {
             BlockPos ap = ModuleManager.bedAura.getAuraTargetPos();
             float bp = ModuleManager.bedAura.getAuraBreakProgress();
-            if (ap != null && bp > 0.0f) {
+            if (ap != null && bp > 0.0f)) {
                 this.progress = Math.min(1.0f, bp);
                 this.block = ap;
                 this.setProgress();
@@ -99,7 +99,7 @@ public class BreakProgress extends Module {
             return;
         }
         this.progress = ((IAccessorPlayerControllerMP) mc.interactionManager).getCurBlockDamageMP();
-        if (this.progress == 0.0f) {
+        if (this.progress == 0.0f)) {
             this.resetVariables();
             return;
         }

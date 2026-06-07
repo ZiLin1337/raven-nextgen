@@ -132,7 +132,7 @@ public class LongJump extends Module {
             manualWasOn = true;
         }
         else {
-            if (manualWasOn) {
+            if (manualWasOn)) {
                 disabled();
             }
             manualWasOn = false;
@@ -143,9 +143,9 @@ public class LongJump extends Module {
             disabled();
         }
 
-        if (!function) {
+        if (!function)) {
             if (manual.isToggled() && !enabled) {
-                if (ModuleUtils.threwFireballLow) {
+                if (ModuleUtils.threwFireballLow)) {
                     ModuleManager.velocity.disable = true;
                     // ModuleManager.antiKnockback.disable = true; // TODO: needs package access
                     enabled();
@@ -159,7 +159,7 @@ public class LongJump extends Module {
             // TODO: IMixinItemRenderer not available in 1.21.4
         }
 
-        if (enabled) {
+        if (enabled)) {
             if (!Utils.isMoving()) notMoving = true;
             if (boostSetting.getInput() == 0 && verticalMotion.getInput() == 0) {
                 Utils.sendMessage("&cValues are set to 0!");
@@ -167,7 +167,7 @@ public class LongJump extends Module {
                 return;
             }
             int fireballSlot = setupFireballSlot(true);
-            if (fireballSlot != -1) {
+            if (fireballSlot != -1)) {
                 if (!manual.isToggled()) {
                     lastSlot = mc.player.getInventory().selectedSlot;
                     if (mc.player.getInventory().selectedSlot != fireballSlot) {
@@ -184,7 +184,7 @@ public class LongJump extends Module {
             enabled = false;
         }
 
-        if (notMoving) {
+        if (notMoving)) {
             motionDecayVal = 21;
         } else {
             motionDecayVal = (int) motionDecay.getInput();
@@ -199,7 +199,7 @@ public class LongJump extends Module {
             disabled();
             return;
         }
-        if (boostTicks > 0) {
+        if (boostTicks > 0)) {
             if (mode.getInput() == 0) {
                 modifyVertical(); // has to be onPreUpdate
             }
@@ -211,7 +211,7 @@ public class LongJump extends Module {
         }
 
         if (stopMovement.isToggled() && !notMoving) {
-            if (stopTime > 0) {
+            if (stopTime > 0)) {
                 ++stopTime;
             }
         }
@@ -220,14 +220,14 @@ public class LongJump extends Module {
             disabled();
         }
 
-        if (firstSlot != -1) {
+        if (firstSlot != -1)) {
             mc.player.getInventory().selectedSlot = firstSlot;
         }
     }public void onPreMotion(PreMotionEvent e) {
         if (!Utils.nullCheck()) {
             return;
         }
-        if (rotateTick == 1) {
+        if (rotateTick == 1)) {
             if ((invertYaw.isToggled() || stopMovement.isToggled()) && !notMoving) {
                 if (!stopMovement.isToggled()) {
                     yaw = mc.player.getYaw() - 180f;
@@ -242,10 +242,10 @@ public class LongJump extends Module {
             }
             e.setRotations(yaw, pitch);
         }
-        if (rotateTick > 0 && ++rotateTick >= 3) {
+        if (rotateTick > 0 && ++rotateTick >= 3)) {
             rotateTick = 0;
             int fireballSlot = setupFireballSlot(false);
-            if (fireballSlot != -1) {
+            if (fireballSlot != -1)) {
                 fireballTime = System.currentTimeMillis();
                 if (!manual.isToggled()) {
                     // PlayerInteractItemC2SPacket needs PacketByteBuf in 1.21.4
@@ -257,7 +257,7 @@ public class LongJump extends Module {
                 //Utils.sendMessage("Right click");
             }
         }
-        if (boostTicks == 1) {
+        if (boostTicks == 1)) {
             if (invertYaw.isToggled()) {
                 //client.setMotion(client.getMotion().x, client.getMotion().y + 0.035d, client.getMotion().z);
             }
@@ -270,15 +270,15 @@ public class LongJump extends Module {
 
     }
     public void onMoveInput(PrePlayerInputEvent e) {
-        if (!function) {
+        if (!function)) {
             return;
         }
         // mc.player.input.jumping = false; // TODO: verify field name
-        if (rotateTick > 0 || fireballTime > 0) {
+        if (rotateTick > 0 || fireballTime > 0)) {
             if (Utils.isMoving()) e.setForward(1);
             e.setStrafe(0);
         }
-        if (notMoving && boostTicks < 3) {
+        if (notMoving && boostTicks < 3)) {
             e.setForward(0);
             e.setStrafe(0);
             Utils.setSpeed(0);
@@ -292,11 +292,11 @@ public class LongJump extends Module {
 
     
     public void onReceivePacket(ReceivePacketEvent e) {
-        if (!function) {
+        if (!function)) {
             return;
         }
         Object packet = e.getPacket();
-        if (packet instanceof net.minecraft.network.packet.s2c.play.ExplosionS2CPacket) {
+        if (packet instanceof net.minecraft.network.packet.s2c.play.ExplosionS2CPacket)) {
             net.minecraft.network.packet.s2c.play.ExplosionS2CPacket s27 = (net.minecraft.network.packet.s2c.play.ExplosionS2CPacket) packet;
             if (fireballTime == 0 || mc.player.getPos().squaredDistanceTo((double)(double)0 /* getPlayerKnockback disabled */, (double)(double)0, (double)(double)0) > MAX_EXPLOSION_DIST_SQ) {
                 e.setCanceled(true);
@@ -310,7 +310,7 @@ public class LongJump extends Module {
             //Utils.sendMessage("set start vals");
 
             //client.print(client.getPlayer().getTicksExisted() + " s27 " + boostTicks + " " + client.getPlayer().getHurtTime() + " " + client.getPlayer().getSpeed());
-        } else if (packet instanceof net.minecraft.network.packet.s2c.play.ExplosionS2CPacket) {
+        } else if (packet instanceof net.minecraft.network.packet.s2c.play.ExplosionS2CPacket)) {
             Utils.sendMessage("&cReceived setback, disabling.");
             disabled();
         }
@@ -355,7 +355,7 @@ public class LongJump extends Module {
     private int setupFireballSlot(boolean pre) {
         // only cancel bad packet right click on the tick we are sending it
         int fireballSlot = getFireballSlot();
-        if (fireballSlot == -1) {
+        if (fireballSlot == -1)) {
             Utils.sendMessage("&cFireball not found.");
             disabled();
         } else if (pre && Utils.distanceToGround(mc.player) > 3/* || (!pre && !PacketUtil.canRightClickItem())*/) { //needs porting

@@ -19,12 +19,12 @@ public class ProfileModule extends Module {
         this.profile = profile;
         this.displayName = name;
         this.registerSetting(profileNameSetting = new TextSetting("Profile name", name, "Type a new profile name...", 32, this::renameProfile));
-        this.registerSetting(new ButtonSetting("Save profile", () ->)) {
+        this.registerSetting(new ButtonSetting("Save profile", () -> {
             Utils.sendMessage("&7Saved profile: &b" + getName());
             Raven.profileManager.saveProfile(this.profile);
             saved = true;
         }));
-        this.registerSetting(new ButtonSetting("Remove profile", () ->)) {
+        this.registerSetting(new ButtonSetting("Remove profile", () -> {
             String profileName = getName();
             if (Raven.profileManager.deleteProfile(profileName)) {
                 Utils.sendMessage("&7Removed profile: &b" + profileName);
@@ -34,7 +34,7 @@ public class ProfileModule extends Module {
 
     @Override
     public void toggle() {
-        if (mc.currentScreen instanceof ClickGui || mc.currentScreen == null) {
+        if (mc.currentScreen instanceof ClickGui || mc.currentScreen == null)) {
             Raven.profileManager.loadProfile(this.getName());
 
             Raven.currentProfile = profile;
@@ -48,7 +48,7 @@ public class ProfileModule extends Module {
 
     @Override
     public boolean isEnabled() {
-        if (Raven.currentProfile == null) {
+        if (Raven.currentProfile == null)) {
             return false;
         }
         return Raven.currentProfile.getModule() == this;
@@ -65,7 +65,7 @@ public class ProfileModule extends Module {
     }
 
     private void renameProfile() {
-        if (Raven.profileManager == null) {
+        if (Raven.profileManager == null)) {
             return;
         }
 

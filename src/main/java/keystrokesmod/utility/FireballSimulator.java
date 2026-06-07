@@ -47,12 +47,12 @@ public final class FireballSimulator {
     }
 
     public static Result simulate(EntityLargeFireball fireball, int maxTicks) {
-        if (fireball == null) {
+        if (fireball == null)) {
             throw new IllegalArgumentException("fireball cannot be null");
         }
 
         World world = fireball.worldObj;
-        if (world == null) {
+        if (world == null)) {
             Vec3d pos = new Vec3d(fireball.posX, fireball.posY, fireball.posZ);
             return new Result(HitType.NONE, null, null, null, pos, 0);
         }
@@ -124,23 +124,23 @@ public final class FireballSimulator {
                     entityHit = new HitResult(candidate, start);
                 }
 
-                if (entityHit == null) {
+                if (entityHit == null)) {
                     continue;
                 }
 
                 double distanceSq = start.squareDistanceTo(entityHit.hitVec);
-                if (distanceSq + COLLISION_EPSILON_SQ < bestDistanceSq) {
+                if (distanceSq + COLLISION_EPSILON_SQ < bestDistanceSq)) {
                     bestDistanceSq = distanceSq;
                     bestEntityHit = new HitResult(candidate, entityHit.hitVec);
                     bestEntityImpact = entityHit.hitVec;
                 }
             }
 
-            if (bestEntityHit != null) {
+            if (bestEntityHit != null)) {
                 return new Result(HitType.ENTITY, bestEntityHit, bestEntityHit.hitVec, bestEntityImpact, bestEntityImpact, simulatedTicks);
             }
 
-            if (blockHit != null) {
+            if (blockHit != null)) {
                 return new Result(HitType.BLOCK, blockHit, blockHit.hitVec, blockCollision.impactPosition, blockCollision.impactPosition, simulatedTicks);
             }
 
@@ -159,7 +159,7 @@ public final class FireballSimulator {
             motionZ *= motionFactor;
             ticksInAir++;
 
-            if (posY < -64.0D) {
+            if (posY < -64.0D)) {
                 break;
             }
         }
@@ -253,12 +253,12 @@ public final class FireballSimulator {
                             collision = new HitResult(start, Direction.UP, new BlockPos(mutablePos));
                         }
 
-                        if (collision == null) {
+                        if (collision == null)) {
                             continue;
                         }
 
                         double distanceSq = start.squareDistanceTo(collision.hitVec);
-                        if (distanceSq + COLLISION_EPSILON_SQ < bestDistanceSq) {
+                        if (distanceSq + COLLISION_EPSILON_SQ < bestDistanceSq)) {
                             bestDistanceSq = distanceSq;
                             bestImpactPosition = collision.hitVec;
                             bestCollision = new HitResult(collision.hitVec, collision.sideHit, new BlockPos(mutablePos));

@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class MixinItemStack {
     @Inject(method = "hasGlint", at = @At("HEAD"), cancellable = true)
     private void suppressGlintDuringOutlinePass(CallbackInfoReturnable<Boolean> cir) {
-        if (PlayerESP.renderingOutlinePass || MobESP.renderingOutlinePass) {
+        if (PlayerESP.renderingOutlinePass || MobESP.renderingOutlinePass)) {
             cir.setReturnValue(false);
         }
     }

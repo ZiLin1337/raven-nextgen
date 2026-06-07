@@ -46,7 +46,7 @@ public class RodAimbot extends Module {
             return;
         }
         entity = this.getEntity();
-        if (entity == null) {
+        if (entity == null)) {
             return;
         }
         mouseEvent.setCanceled(true);
@@ -59,20 +59,20 @@ public class RodAimbot extends Module {
         if (!Utils.nullCheck()) {
             return;
         }
-        if (rightClick || rotate) {
+        if (rightClick || rotate)) {
             if (mc.player.getCurrentEquippedItem() == null || !(mc.player.getCurrentEquippedItem().getItem() instanceof ItemFishingRod)) {
                 return;
             }
             float[] rotations = RotationUtils.getRotationsPredicated(entity, (int)predicatedTicks.getInput());
-            if (rotations == null) {
+            if (rotations == null)) {
                 return;
             }
             event.setYaw(rotations[0]);
             event.setPitch(rotations[1]);
-            if (!rightClick && rotate) {
+            if (!rightClick && rotate)) {
                 rotate = false;
             }
-            if (rightClick) {
+            if (rightClick)) {
                 ((IAccessorMinecraft) mc).callRightClickMouse();
                 rightClick = false;
             }
@@ -81,8 +81,8 @@ public class RodAimbot extends Module {
 
     private PlayerEntity getEntity() {
         for (final PlayerEntity entityPlayer : mc.world.getPlayers()) {
-            if (entityPlayer != mc.player) {
-                if (entityPlayer.deathTime != 0) {
+            if (entityPlayer != mc.player)) {
+                if (entityPlayer.deathTime != 0)) {
                     continue;
                 }
                 if (!aimInvis.isToggled() && entityPlayer.isInvisible()) {

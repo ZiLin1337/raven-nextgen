@@ -89,7 +89,7 @@ public class BedWars extends Module {
 
     
     public void onWorldJoin(EntityJoinWorldEvent e) {
-        if (e.entity == mc.player) {
+        if (e.entity == mc.player)) {
             armoredPlayer.clear();
             lastHeldMap.clear();
             obsidianPos.clear();
@@ -97,7 +97,7 @@ public class BedWars extends Module {
             spawnedMobs.clear();
         }
         else {
-            if (e.entity != null && e.entity instanceof IronGolemEntity) {
+            if (e.entity != null && e.entity instanceof IronGolemEntity)) {
                 if (Utils.getBedwarsStatus() != 2) {
                     return;
                 }
@@ -120,10 +120,10 @@ public class BedWars extends Module {
         if (Utils.getBedwarsStatus() == 2) {
             if (diamondArmor.isToggled() || enderPearl.isToggled() || obsidian.isToggled()) {
                 for (PlayerEntity p : mc.world.getPlayers()) {
-                    if (p == null) {
+                    if (p == null)) {
                         continue;
                     }
-                    if (p == mc.player) {
+                    if (p == mc.player)) {
                         continue;
                     }
                     if (AntiBot.isBot(p)) {
@@ -141,7 +141,7 @@ public class BedWars extends Module {
                     }
                     if (item != null && !lastHeldMap.containsKey(name)) {
                         String itemType = getItemType(item);
-                        if (itemType != null) {
+                        if (itemType != null)) {
                             lastHeldMap.put(name, itemType);
                             double distance = Math.round(mc.player.getDistanceToEntity(p));
                             handleAlert(itemType, p.getDisplayName().getFormattedText(), Utils.asWholeNum(distance));
@@ -164,7 +164,7 @@ public class BedWars extends Module {
             if (p.getPlacedBlockDirection() != 255 && p.getStack() != null && p.getStack().getItem() != null) {
                 if (p.getStack().getItem() instanceof ItemMonsterPlacer) {
                     Class<? extends Entity> oclass = EntityList.stringToClassMapping.get(ItemMonsterPlacer.getEntityName(p.getStack()));
-                    if (oclass == null) {
+                    if (oclass == null)) {
                         return;
                     }
                     if (oclass.getSimpleName().equals("IronGolemEntity")) {

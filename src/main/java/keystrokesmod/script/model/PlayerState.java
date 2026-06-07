@@ -39,7 +39,7 @@ public class PlayerState {
     }
 
     public boolean equals(PlayerState playerState) {
-        if (playerState == null) {
+        if (playerState == null)) {
             return false;
         }
         return this.x == playerState.x && this.y == playerState.y && this.z == playerState.z && this.yaw == playerState.yaw && this.pitch == playerState.pitch && this.onGround == playerState.onGround && this.isSprinting == playerState.isSprinting && this.isSneaking == playerState.isSneaking;

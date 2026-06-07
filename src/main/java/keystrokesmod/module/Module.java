@@ -60,14 +60,14 @@ public class Module {
     }
 
     public void onKeyBind() {
-        if (this.keycode != 0) {
+        if (this.keycode != 0)) {
             try {
                 long windowHandle = mc.getWindow().getHandle();
                 boolean keyDown = GLFW.glfwGetKey(windowHandle, this.keycode) == GLFW.GLFW_PRESS;
-                if (!this.isToggled && keyDown) {
+                if (!this.isToggled && keyDown)) {
                     this.toggle();
                     this.isToggled = true;
-                } else if (!keyDown) {
+                } else if (!keyDown)) {
                     this.isToggled = false;
                 }
             } catch (Exception e) {
@@ -92,7 +92,7 @@ public class Module {
     }
 
     public boolean canBeEnabled() {
-        if (this.script != null && script.error) {
+        if (this.script != null && script.error)) {
             return false;
         }
         return this.canBeEnabled;
@@ -112,7 +112,7 @@ public class Module {
         }
         this.setEnabled(true);
         // TODO: Add to organizedModules
-        if (this.script != null) {
+        if (this.script != null)) {
             // Raven.scriptManager.onEnable(script);
         } else {
             // Register to event bus
@@ -127,7 +127,7 @@ public class Module {
         }
         this.setEnabled(false);
         // TODO: Remove from organizedModules
-        if (this.script != null) {
+        if (this.script != null)) {
             // Raven.scriptManager.onDisable(script);
         } else {
             // Unregister from event bus
@@ -142,7 +142,7 @@ public class Module {
 
     public String getInfoUpdate() {
         String info = getInfo();
-        if (info != lastInfo) {
+        if (info != lastInfo)) {
             sort = true;
         }
         lastInfo = info;

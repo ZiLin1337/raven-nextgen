@@ -20,7 +20,7 @@ public class Simulation {
      */
     public static Vec3dd simulateMotion(Vec3dd motion, float strafe, float forward, float yaw, float friction) {
         float f = strafe * strafe + forward * forward;
-        if (f >= 1.0E-4F) {
+        if (f >= 1.0E-4F)) {
             f = Math.max(1.0f, (float) Math.sqrt(f));
             strafe /= f;
             forward /= f;

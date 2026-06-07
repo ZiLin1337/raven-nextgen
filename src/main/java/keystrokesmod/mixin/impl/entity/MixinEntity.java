@@ -62,9 +62,9 @@ public abstract class MixinEntity {
         float yaw = strafeEvent.getYaw();
 
         float f = strafe * strafe + forward * forward;
-        if (f >= 1.0E-4F) {
+        if (f >= 1.0E-4F)) {
             f = MathHelper.sqrt(f);
-            if (f < 1.0F) {
+            if (f < 1.0F)) {
                 f = 1.0F;
             }
             f = friction / f;
@@ -107,7 +107,7 @@ public abstract class MixinEntity {
     @Inject(method = "move", at = @At("HEAD"))
     private void onMove(MovementType type, double x, double y, double z, CallbackInfo ci) {
         Entity self = (Entity) (Object) this;
-        if (self instanceof ClientPlayerEntity) {
+        if (self instanceof ClientPlayerEntity)) {
             Raven.EVENT_BUS.post(new PlayerMoveEvent(x, y, z));
         }
     }

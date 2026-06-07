@@ -84,7 +84,7 @@ public class BridgeAssist extends Module {
         boolean manualSneak = isManualSneak();
         boolean requireSneak = sneakKeyPressed.isToggled();
 
-        if (manualSneak && !requireSneak) {
+        if (manualSneak && !requireSneak)) {
             resetUnsneak();
             return;
         }
@@ -112,7 +112,7 @@ public class BridgeAssist extends Module {
         }
 
         if (e.isJump() && mc.player.onGround && (e.getForward() != 0 || e.getStrafe() != 0) && sneakOnJump.getInput() > 0) {
-            if (!requireSneak || forceRelease) {
+            if (!requireSneak || forceRelease)) {
                 sneakJumpStartTick = mc.player.ticksExisted;
                 double raw = sneakOnJump.getInput() / 50.0;
                 int base = (int) raw;
@@ -131,9 +131,9 @@ public class BridgeAssist extends Module {
         if (Double.isNaN(offset)) {
             if (e.isJump() && (sneakOnJump.getInput() <= 0 || (e.getForward() == 0 && e.getStrafe() == 0))) {
                 if (sneakingFromModule) tryReleaseSneak(e, true);
-            } else if (mc.player.onGround) {
+            } else if (mc.player.onGround)) {
                 pressSneak(e, true);
-            } else if (sneakingFromModule) {
+            } else if (sneakingFromModule)) {
                 tryReleaseSneak(e, true);
             }
             return;
@@ -141,7 +141,7 @@ public class BridgeAssist extends Module {
 
         if (offset > edgeOffset.getInput()) {
             pressSneak(e, true);
-        } else if (sneakingFromModule) {
+        } else if (sneakingFromModule)) {
             tryReleaseSneak(e, true);
         }
     }
@@ -191,18 +191,18 @@ public class BridgeAssist extends Module {
 
     private void tryReleaseSneak(PrePlayerInputEvent e, boolean resetDelay) {
         int existed = mc.player.ticksExisted;
-        if (unsneakStartTick == -1 && sneakJumpStartTick == -1) {
+        if (unsneakStartTick == -1 && sneakJumpStartTick == -1)) {
             unsneakStartTick = existed;
             double raw = (unsneakDelay.getInput() - 50) / 50.0;
             int base = (int) raw;
             unsneakDelayTicks = base + (Math.random() < (raw - base) ? 1 : 0);
         }
 
-        if (sneakJumpStartTick != -1 && existed - sneakJumpStartTick < sneakJumpDelayTicks) {
+        if (sneakJumpStartTick != -1 && existed - sneakJumpStartTick < sneakJumpDelayTicks)) {
             pressSneak(e, false);
             return;
         }
-        if (unsneakStartTick != -1 && existed - unsneakStartTick < unsneakDelayTicks) {
+        if (unsneakStartTick != -1 && existed - unsneakStartTick < unsneakDelayTicks)) {
             pressSneak(e, false);
             return;
         }
@@ -217,7 +217,7 @@ public class BridgeAssist extends Module {
             KeyBinding.setKeyBindState(mc.options.keyBindSneak.getKeyCode(), false);
             e.setSneak(false);
             forceRelease = true;
-        } else if (forceRelease) {
+        } else if (forceRelease)) {
             e.setSneak(false);
         }
 
@@ -321,7 +321,7 @@ public class BridgeAssist extends Module {
             for (FaceTarget t : targets) {
                 if (hitBlock.equals(t.block) && hitFace == t.face) {
                     float delta = Math.abs(samplePitch - currentPitch);
-                    if (delta < bestDelta) {
+                    if (delta < bestDelta)) {
                         bestDelta = delta;
                         bestPitch = samplePitch;
                         bestSupport = t.block;

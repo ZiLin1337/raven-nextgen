@@ -32,7 +32,7 @@ public class Sprint extends Module {
             mc.player.setSprinting(true);
             return;
         }
-        if (mc.player.input.movementForward > 0) {
+        if (mc.player.input.movementForward > 0)) {
             mc.player.setSprinting(true);
         } else {
             mc.player.setSprinting(false);

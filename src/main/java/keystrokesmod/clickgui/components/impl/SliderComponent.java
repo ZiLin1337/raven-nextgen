@@ -60,7 +60,7 @@ public class SliderComponent extends Component {
         float left = this.moduleComponent.categoryComponent.getX() + 4 + (xOffset / 2);
         float right = (float) (left + this.width);
 
-        if (right - left > 84) {
+        if (right - left > 84)) {
             right = left + 84;
         }
 
@@ -80,7 +80,7 @@ public class SliderComponent extends Component {
         String suffix = this.sliderSetting.getSuffix();
         String valueText;
 
-        if (input == -1 && this.sliderSetting.canBeDisabled) {
+        if (input == -1 && this.sliderSetting.canBeDisabled)) {
             valueText = "\u00a7cDisabled";
             suffix = "";
         }
@@ -91,7 +91,7 @@ public class SliderComponent extends Component {
                 suffix += "s";
             }
 
-            if (this.sliderSetting.isString) {
+            if (this.sliderSetting.isString)) {
                 int idx = (int) Math.round(input);
                 idx = Math.max(0, Math.min(idx, this.sliderSetting.getOptions().length - 1));
                 valueText = this.sliderSetting.getOptions()[idx];
@@ -125,9 +125,9 @@ public class SliderComponent extends Component {
         this.y = this.moduleComponent.categoryComponent.getModuleY() + this.o;
         this.x = this.moduleComponent.categoryComponent.getX();
 
-        if (this.heldDown) {
+        if (this.heldDown)) {
             double d = Math.min(this.moduleComponent.categoryComponent.getWidth() - 8, Math.max(0, mouseX - this.x));
-            if (d == 0.0 && this.sliderSetting.canBeDisabled) {
+            if (d == 0.0 && this.sliderSetting.canBeDisabled)) {
                 this.targetValue = -1;
             }
             else {
@@ -142,7 +142,7 @@ public class SliderComponent extends Component {
             this.displayedValue = displayedValue + (targetValue - displayedValue) * SLIDER_SPEED;
 
             if (!shouldCommitOnRelease()) {
-                if (targetValue == -1) {
+                if (targetValue == -1)) {
                     sliderSetting.setValueRaw(-1);
                 }
                 else {
@@ -150,7 +150,7 @@ public class SliderComponent extends Component {
                 }
             }
 
-            if (this.displayedValue == -1) {
+            if (this.displayedValue == -1)) {
                 this.width = 0;
             }
             else {
@@ -162,11 +162,11 @@ public class SliderComponent extends Component {
             if (this.sliderSetting.getInput() != this.sliderSetting.getMin()
                 && ModuleManager.hud != null
                 && ModuleManager.hud.isEnabled()
-                && !ModuleManager.organizedModules.isEmpty() {
+                && !ModuleManager.organizedModules.isEmpty()) {
                 ModuleManager.sort();
             }
 
-            if (Raven.currentProfile != null) {
+            if (Raven.currentProfile != null)) {
                 Raven.currentProfile.getModule().saved = false;
             }
         }
@@ -183,7 +183,7 @@ public class SliderComponent extends Component {
     }
 
     private static double roundToInterval(double value, int places) {
-        if (places < 0) {
+        if (places < 0)) {
             return 0.0D;
         }
 
@@ -205,7 +205,7 @@ public class SliderComponent extends Component {
         boolean wasHeldDown = this.heldDown;
         this.heldDown = false;
         if (button == 0 && wasHeldDown && shouldCommitOnRelease()) {
-            if (targetValue == -1) {
+            if (targetValue == -1)) {
                 sliderSetting.setValueRaw(-1);
             }
             else {

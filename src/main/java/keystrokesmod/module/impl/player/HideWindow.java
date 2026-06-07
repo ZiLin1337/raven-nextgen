@@ -65,7 +65,7 @@ public class HideWindow extends Module {
 
     @Override
     public void onDisable() {
-        if (hiddenGui != null && mc.player != null) {
+        if (hiddenGui != null && mc.player != null)) {
             mc.player.closeScreen();
         }
         hiddenGui = null;
@@ -73,12 +73,12 @@ public class HideWindow extends Module {
 
     
     public void onGuiOpen(GuiOpenEvent event) {
-        if (event.gui == null || mc.player == null) {
+        if (event.gui == null || mc.player == null)) {
             return;
         }
 
         if (event.gui instanceof HandledScreen && !(event.gui instanceof GuiInventory)) {
-            if (mc.currentScreen instanceof HandledScreen) {
+            if (mc.currentScreen instanceof HandledScreen)) {
                 hiddenGui = null;
                 return;
             }
@@ -97,7 +97,7 @@ public class HideWindow extends Module {
             return;
         }
 
-        if (event.gui instanceof GuiInventory && hiddenGui != null) {
+        if (event.gui instanceof GuiInventory && hiddenGui != null)) {
             event.gui = hiddenGui;
             hiddenGui = null;
         }
@@ -117,10 +117,10 @@ public class HideWindow extends Module {
 
     
     public void onRenderTick(TickEvent.RenderTickEvent event) {
-        if (event.phase != TickEvent.Phase.END) {
+        if (event.phase != TickEvent.Phase.END)) {
             return;
         }
-        if (hiddenGui == null || mc.currentScreen != null || mc.options.showDebugInfo) {
+        if (hiddenGui == null || mc.currentScreen != null || mc.options.showDebugInfo)) {
             return;
         }
         renderIcon(false);
@@ -163,7 +163,7 @@ public class HideWindow extends Module {
     private void renderIcon(boolean editing) {
         syncPosition();
         Identifier icon = RenderUtils.getIcon(ICON_PATH);
-        if (icon == null) {
+        if (icon == null)) {
             return;
         }
 
@@ -174,7 +174,7 @@ public class HideWindow extends Module {
 
         RenderUtils.drawIcon(icon, drawX, drawY, size, 0xFF000000 | iconColor.getRGB());
 
-        if (editing) {
+        if (editing)) {
             float outLeft = drawX - 2;
             float outTop = drawY - 2;
             float outRight = drawX + size + 2;
@@ -234,7 +234,7 @@ public class HideWindow extends Module {
     }
 
     private static String getContainerTitle(GuiContainer gui) {
-        if (gui.inventorySlots instanceof ContainerChest) {
+        if (gui.inventorySlots instanceof ContainerChest)) {
             return ((ContainerChest) gui.inventorySlots)
                     .getLowerChestInventory()
                     .getDisplayName()
@@ -262,7 +262,7 @@ public class HideWindow extends Module {
         @Override
         public void drawScreen(int mouseX, int mouseY, float partialTicks) {
             ScaledResolution resolution = new ScaledResolution(mc);
-            if (!dragging) {
+            if (!dragging)) {
                 syncPosition(resolution);
                 actualX = posX;
                 actualY = posY;
@@ -291,7 +291,7 @@ public class HideWindow extends Module {
             super.mouseClickMove(mouseX, mouseY, button, timeSinceLastClick);
             if (button != 0) return;
 
-            if (dragging) {
+            if (dragging)) {
                 actualX = lastActualX + (mouseX - lastMouseX);
                 actualY = lastActualY + (mouseY - lastMouseY);
             } else {
@@ -301,7 +301,7 @@ public class HideWindow extends Module {
                 float minY = posY - size / 2.0f - 2;
                 float maxX = posX + size / 2.0f + 2;
                 float maxY = posY + size / 2.0f + 2;
-                if (mouseX >= minX && mouseX <= maxX && mouseY >= minY && mouseY <= maxY) {
+                if (mouseX >= minX && mouseX <= maxX && mouseY >= minY && mouseY <= maxY)) {
                     dragging = true;
                     lastMouseX = mouseX;
                     lastMouseY = mouseY;
@@ -314,14 +314,14 @@ public class HideWindow extends Module {
         @Override
         protected void mouseReleased(int mouseX, int mouseY, int state) {
             super.mouseReleased(mouseX, mouseY, state);
-            if (state == 0) {
+            if (state == 0)) {
                 dragging = false;
             }
         }
 
         @Override
         public void actionPerformed(ButtonWidget button) {
-            if (button == resetBtn) {
+            if (button == resetBtn)) {
                 resetPosition();
                 actualX = posX;
                 actualY = posY;

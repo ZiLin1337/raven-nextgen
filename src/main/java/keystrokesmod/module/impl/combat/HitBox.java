@@ -53,10 +53,10 @@ public class HitBox extends Module {
             return;
         }
         Entity c = getEntity(1.0F);
-        if (c == null) {
+        if (c == null)) {
             return;
         }
-        if (c instanceof PlayerEntity) {
+        if (c instanceof PlayerEntity)) {
             if (Utils.isFriended((PlayerEntity) c)) {
                 return;
             }
@@ -91,7 +91,7 @@ public class HitBox extends Module {
             double d2 = d0;
             Vec3d vec3 = mc.getRenderViewEntity().getPositionEyes(partialTicks);
 
-            if (mv != null) {
+            if (mv != null)) {
                 d2 = mv.hitVec.distanceTo(vec3);
             }
 
@@ -109,16 +109,16 @@ public class HitBox extends Module {
                     Box ax = entity.getEntityBoundingBox().expand((double) ex, (double) ex, (double) ex);
                     HitResult mop = ax.calculateIntercept(vec3, vec5);
                     if (ax.isVecInside(vec3)) {
-                        if (0.0D < d3 || d3 == 0.0D) {
+                        if (0.0D < d3 || d3 == 0.0D)) {
                             pointedEntity = entity;
                             vec6 = mop == null ? vec3 : mop.hitVec;
                             d3 = 0.0D;
                         }
-                    } else if (mop != null) {
+                    } else if (mop != null)) {
                         double d4 = vec3.distanceTo(mop.hitVec);
-                        if (d4 < d3 || d3 == 0.0D) {
+                        if (d4 < d3 || d3 == 0.0D)) {
                             if (entity == mc.getRenderViewEntity().ridingEntity && !entity.canRiderInteract()) {
-                                if (d3 == 0.0D) {
+                                if (d3 == 0.0D)) {
                                     pointedEntity = entity;
                                     vec6 = mop.hitVec;
                                 }
@@ -134,7 +134,7 @@ public class HitBox extends Module {
 
             if (pointedEntity != null && (d3 < d2 || mv == null)) {
                 mv = new HitResult(pointedEntity, vec6);
-                if (pointedEntity instanceof LivingEntity || pointedEntity instanceof ItemEntityFrame) {
+                if (pointedEntity instanceof LivingEntity || pointedEntity instanceof ItemEntityFrame)) {
                     return pointedEntity;
                 }
             }
@@ -143,7 +143,7 @@ public class HitBox extends Module {
     }
 
     private void rh(Entity e, Color c) {
-        if (e instanceof LivingEntity) {
+        if (e instanceof LivingEntity)) {
             float partialTicks = ((IAccessorMinecraft) mc).getTimer().renderPartialTicks;
             double x = e.lastTickPosX + (e.posX - e.lastTickPosX) * (double) partialTicks - mc.getEntityRenderDispatcher().viewerPosX;
             double y = e.lastTickPosY + (e.posY - e.lastTickPosY) * (double) partialTicks - mc.getEntityRenderDispatcher().viewerPosY;

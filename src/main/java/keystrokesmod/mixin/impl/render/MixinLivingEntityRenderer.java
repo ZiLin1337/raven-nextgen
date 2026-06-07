@@ -46,7 +46,7 @@ public abstract class MixinLivingEntityRenderer<T extends LivingEntity> {
 
     @Inject(method = "labelHeight", at = @At("HEAD"), cancellable = true)
     private void suppressNameDuringOutlinePass(T entity, CallbackInfoReturnable<Boolean> cir) {
-        if (PlayerESP.renderingOutlinePass || MobESP.renderingOutlinePass) {
+        if (PlayerESP.renderingOutlinePass || MobESP.renderingOutlinePass)) {
             cir.setReturnValue(false);
         }
     }
@@ -94,7 +94,7 @@ public abstract class MixinLivingEntityRenderer<T extends LivingEntity> {
         if (text == null || ModuleManager.nameHider == null || !ModuleManager.nameHider.isEnabled()) {
             return text;
         }
-        if (this.nameHider$entity instanceof PlayerEntity) {
+        if (this.nameHider$entity instanceof PlayerEntity)) {
             return NameHider.getPlayerDisplayName(
                     (PlayerEntity) this.nameHider$entity,
                     this.nameHider$entity.getDisplayName()

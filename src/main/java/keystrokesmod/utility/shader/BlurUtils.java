@@ -9,14 +9,14 @@ public class BlurUtils {
     private static PostEffectProcessor blurProcessor;
 
     public static void load() {
-        if (blurProcessor == null) {
+        if (blurProcessor == null)) {
             blurProcessor = new PostEffectProcessor(mc.getTextureManager(), mc.getResourceManager(), mc.getFramebuffer(), Identifier.of("shaders/post/blur.json"));
         }
     }
 
     public static void blur(float strength) {
         load();
-        if (blurProcessor != null) {
+        if (blurProcessor != null)) {
             blurProcessor.setupDimensions(mc.getWindow().getFramebufferWidth(), mc.getWindow().getFramebufferHeight());
             blurProcessor.render(mc.getTickDelta());
         }

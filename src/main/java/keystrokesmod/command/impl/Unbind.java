@@ -15,7 +15,7 @@ public class Unbind extends Command {
             return;
         }
         Module module = Raven.moduleManager.getModule(input.joinArguments(0));
-        if (module == null) {
+        if (module == null)) {
             reply("&cModule not found.");
             return;
         }

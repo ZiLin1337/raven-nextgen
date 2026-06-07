@@ -71,8 +71,8 @@ public class InvMove extends Module {
             return;
         }
 
-        if (setMotion) {
-            if (++ticks == 10) {
+        if (setMotion)) {
+            if (++ticks == 10)) {
                 ticks = 0;
                 setMotion = false;
             }
@@ -100,7 +100,7 @@ public class InvMove extends Module {
         boolean foodLvlMet = mc.player.getHungerManager().getFoodLevel() > 6 || mc.player.getAbilities().allowFlying;
         if ((mc.options.sprintKey.isPressed() || (ModuleManager.sprint != null && ModuleManager.sprint.isEnabled()))
                 && mc.player.input.movementForward >= 0.8F && foodLvlMet && !mc.player.isSprinting()
-                && allowSprinting.isToggled() {
+                && allowSprinting.isToggled()) {
             mc.player.setSprinting(true);
         }
         if (!allowSprinting.isToggled()) {

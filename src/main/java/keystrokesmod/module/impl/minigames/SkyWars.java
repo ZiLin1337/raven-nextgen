@@ -64,7 +64,7 @@ public class SkyWars extends Module {
             return;
         }
         int customMode = getCustomMode();
-        if (customMode == 2) {
+        if (customMode == 2)) {
             return;
         }
         isSkyWarsTeams = customMode == 1;
@@ -139,7 +139,7 @@ public class SkyWars extends Module {
                 Vec3d position = entry.getKey();
                 long timeThrown = entry.getValue();
 
-                if (currentTime - timeThrown >= 3050) {
+                if (currentTime - timeThrown >= 3050)) {
                     iterator.remove();
                 }
                 else {
@@ -151,11 +151,11 @@ public class SkyWars extends Module {
 
     
     public void onWorldJoin(EntityJoinWorldEvent e) {
-        if (e.entity == mc.player) {
+        if (e.entity == mc.player)) {
             clear();
         }
         else {
-            if (e.entity != null) {
+            if (e.entity != null)) {
                 if (Utils.getSkyWarsStatus() != 2) {
                     return;
                 }
@@ -184,7 +184,7 @@ public class SkyWars extends Module {
                     return;
                 }
                 Class<? extends Entity> oclass = EntityList.stringToClassMapping.get(ItemMonsterPlacer.getEntityName(p.getStack()));
-                if (oclass == null) {
+                if (oclass == null)) {
                     return;
                 }
                 entitySpawnQueue.put(oclass.getSimpleName(), new SpawnEggInfo(p.getPosition(), mc.player.ticksExisted));

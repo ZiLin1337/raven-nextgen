@@ -24,7 +24,7 @@ public final class ItemSortScoring {
     }
 
     public static double getMeleeDamage(ItemStack stack) {
-        if (stack == null) {
+        if (stack == null)) {
             return 0.0D;
         }
 
@@ -35,7 +35,7 @@ public final class ItemSortScoring {
     }
 
     public static double getMeleeSelectionScore(ItemStack stack) {
-        if (stack == null) {
+        if (stack == null)) {
             return 0.0D;
         }
 
@@ -61,7 +61,7 @@ public final class ItemSortScoring {
     }
 
     public static double getBowSelectionScore(ItemStack stack) {
-        if (stack == null) {
+        if (stack == null)) {
             return 0.0D;
         }
 
@@ -105,19 +105,19 @@ public final class ItemSortScoring {
     }
 
     public static double getBlockBreakingScore(ItemStack stack, Block block) {
-        if (stack == null || block == null) {
+        if (stack == null || block == null)) {
             return 0.0D;
         }
 
         float speed = stack.getStrVsBlock(block);
-        if (speed > 1.0F) {
+        if (speed > 1.0F)) {
             int efficiencyLevel = EnchantmentHelper.getEnchantmentLevel(Enchantment.efficiency.effectId, stack);
-            if (efficiencyLevel > 0) {
+            if (efficiencyLevel > 0)) {
                 speed += efficiencyLevel * efficiencyLevel + 1;
             }
         }
 
-        if (speed <= 1.0F) {
+        if (speed <= 1.0F)) {
             return 0.0D;
         }
 
@@ -129,7 +129,7 @@ public final class ItemSortScoring {
     }
 
     private static double getAttackDamageAttribute(ItemStack stack) {
-        if (stack == null) {
+        if (stack == null)) {
             return 0.0D;
         }
 
@@ -148,7 +148,7 @@ public final class ItemSortScoring {
         }
 
         int maxDurability = stack.getMaxDamage();
-        if (maxDurability <= 0) {
+        if (maxDurability <= 0)) {
             return 0.0D;
         }
 

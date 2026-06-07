@@ -35,7 +35,7 @@ public final class BiTrackLagNodeQueue {
             throw new NullPointerException();
         }
 
-        if (direction == null) {
+        if (direction == null)) {
             incomingState.tick(null, null);
             outgoingState.tick(null, null);
             return false;
@@ -103,7 +103,7 @@ public final class BiTrackLagNodeQueue {
                 return false;
             }
 
-            if (packet != null) {
+            if (packet != null)) {
                 //noinspection DataFlowIssue - non-null assured by BiTrackLagNodeQueue.tick
                 track.add(new PacketLagNode(packet, direction));
             }
@@ -114,14 +114,14 @@ public final class BiTrackLagNodeQueue {
                 while (awaiting == null || awaiting.getTimeout().isTimedOut()) {
                     final @Nullable AbstractLagNode popped = pop();
 
-                    if (popped == null) {
+                    if (popped == null)) {
                         awaiting = null;
                         break;
                     }
 
-                    if (popped instanceof PacketLagNode) {
+                    if (popped instanceof PacketLagNode)) {
                         ((PacketLagNode) popped).goThrough(fastTrackProvider);
-                    } else if (popped instanceof AddRequestLagNode) {
+                    } else if (popped instanceof AddRequestLagNode)) {
                         awaiting = ((AddRequestLagNode) popped).getRequest();
                     }
                 }
@@ -139,7 +139,7 @@ public final class BiTrackLagNodeQueue {
             List<PacketLagNode> toRelease = new ArrayList<>();
             // Snapshot: goThrough() can re-enter and append to track via ReceivePacketEvent.
             for (AbstractLagNode node : new ArrayList<>(track)) {
-                if (node instanceof PacketLagNode) {
+                if (node instanceof PacketLagNode)) {
                     PacketLagNode pkt = (PacketLagNode) node;
                     if (pkt.getQueuedAtMs() <= cutoff) {
                         toRelease.add(pkt);

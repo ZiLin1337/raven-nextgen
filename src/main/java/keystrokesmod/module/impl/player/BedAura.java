@@ -111,7 +111,7 @@ public class BedAura extends Module {
 
     
     public void onWorldJoin(EntityJoinWorldEvent e) {
-        if (e.entity == mc.player) {
+        if (e.entity == mc.player)) {
             resetSpawnTracking();
         }
     }
@@ -147,7 +147,7 @@ public class BedAura extends Module {
         if (!shouldSuppressManualMouse()) {
             return;
         }
-        if (e.button == 0 || e.button == 1) {
+        if (e.button == 0 || e.button == 1)) {
             e.setCanceled(true);
         }
     }
@@ -189,7 +189,7 @@ public class BedAura extends Module {
 
     public void applyMiningKeyState() {
         if (!canMineBlocks() || shouldYieldToKillAura()) {
-            if (miningActive) {
+            if (miningActive)) {
                 resetMining();
             }
             return;
@@ -254,7 +254,7 @@ public class BedAura extends Module {
         mc.pointedEntity = null;
 
         EntityRenderer renderer = mc.entityRenderer;
-        if (renderer instanceof IAccessorEntityRenderer) {
+        if (renderer instanceof IAccessorEntityRenderer)) {
             ((IAccessorEntityRenderer) renderer).setPointedEntity(null);
         }
     }
@@ -269,7 +269,7 @@ public class BedAura extends Module {
             resetMining();
             return;
         }
-        if (e.scriptRotations) {
+        if (e.scriptRotations)) {
             resetMining();
             return;
         }
@@ -277,7 +277,7 @@ public class BedAura extends Module {
         double reach = range.getInput();
         double reachSq = reach * reach;
 
-        if (--scanCooldown <= 0) {
+        if (--scanCooldown <= 0)) {
             scanCooldown = Math.max(1, (int) Math.round(rate.getInput() / (double) MS_PER_TICK));
             rebuildBedPairsCache(reach + BED_FIND_EXTRA_BLOCKS);
         }
@@ -288,7 +288,7 @@ public class BedAura extends Module {
         }
 
         Choice best = chooseBestTarget(reachSq);
-        if (best == null) {
+        if (best == null)) {
             resetMining();
             return;
         }
@@ -317,7 +317,7 @@ public class BedAura extends Module {
         }
         BlockState st = mc.world.getBlockState(targetPos);
         Block b = st.getBlock();
-        if (b == null || b == Blocks.AIR) {
+        if (b == null || b == Blocks.AIR)) {
             return;
         }
         int c = outlineColor.getColor();
@@ -350,7 +350,7 @@ public class BedAura extends Module {
                 for (int dz = -ri; dz <= ri; dz++) {
                     BlockPos p = origin.add(dx, dy, dz);
                     BlockPos[] pair = footHeadPair(p);
-                    if (pair == null) {
+                    if (pair == null)) {
                         continue;
                     }
                     BlockPos foot = pair[0];
@@ -421,14 +421,14 @@ public class BedAura extends Module {
     }
 
     private boolean inFov(Vec3d worldPoint, float fovDeg) {
-        if (fovDeg >= 360) {
+        if (fovDeg >= 360)) {
             return true;
         }
         Vec3d eyes = mc.player.getPositionEyes(1f);
         Vec3d look = mc.player.getLook(1f);
         Vec3d to = worldPoint.subtract(eyes);
         double len = to.lengthVector();
-        if (len < 1e-6) {
+        if (len < 1e-6)) {
             return true;
         }
         to = new Vec3d(to.xCoord / len, to.yCoord / len, to.zCoord / len);
@@ -455,7 +455,7 @@ public class BedAura extends Module {
         sortBedsByEyeDistance(covered);
 
         Choice c = pickBestOnClosestBedWithCandidates(exposed, reachSq, curProg, breaking);
-        if (c != null) {
+        if (c != null)) {
             return c;
         }
         return pickBestOnClosestBedWithCandidates(covered, reachSq, curProg, breaking);
@@ -476,7 +476,7 @@ public class BedAura extends Module {
             double bestScore = Double.POSITIVE_INFINITY;
             for (Choice ch : candidates) {
                 double score = scoreChoice(ch, curProg, breaking);
-                if (score < bestScore) {
+                if (score < bestScore)) {
                     bestScore = score;
                     best = ch;
                 }
@@ -487,9 +487,9 @@ public class BedAura extends Module {
     }
 
     private double scoreChoice(Choice ch, float curProg, BlockPos breaking) {
-        Block block = BlockUtils.getBlockState(ch).pos);
+        Block block = BlockUtils.getBlockState(ch).pos;
         float bestHotbar = BlockUtils.maxDigRateAcrossSlots(block, PlayerInventory.getHotbarSize());
-        if (bestHotbar <= 0) {
+        if (bestHotbar <= 0)) {
             return Double.POSITIVE_INFINITY;
         }
         double timeEst = 1.0 / bestHotbar;
@@ -506,7 +506,7 @@ public class BedAura extends Module {
         List<Choice> out = new ArrayList<>();
         boolean exposed = isBedExposed(pair);
 
-        if (exposed) {
+        if (exposed)) {
             for (BlockPos bp : pair) {
                 addBlockCandidate(bp, reachSq, out);
             }
@@ -514,7 +514,7 @@ public class BedAura extends Module {
             Set<BlockPos> seen = new HashSet<>();
             for (BlockPos bp : pair) {
                 for (Direction f : Direction.values()) {
-                    if (f == Direction.DOWN) {
+                    if (f == Direction.DOWN)) {
                         continue;
                     }
                     BlockPos n = bp.offset(f);
@@ -523,11 +523,11 @@ public class BedAura extends Module {
                     }
                     BlockState st = mc.world.getBlockState(n);
                     Block b = st.getBlock();
-                    if (b == Blocks.AIR || b instanceof BedBlock) {
+                    if (b == Blocks.AIR || b instanceof BedBlock)) {
                         continue;
                     }
                     float hard = b.getBlockHardness(mc.world, n);
-                    if (hard < 0) {
+                    if (hard < 0)) {
                         continue;
                     }
                     seen.add(n);
@@ -553,15 +553,15 @@ public class BedAura extends Module {
     private void addBlockCandidate(BlockPos pos, double reachSq, List<Choice> out) {
         BlockState st = mc.world.getBlockState(pos);
         Block block = st.getBlock();
-        if (block == Blocks.AIR) {
+        if (block == Blocks.AIR)) {
             return;
         }
         float hard = block.getBlockHardness(mc.world, pos);
-        if (hard < 0) {
+        if (hard < 0)) {
             return;
         }
         Box bb = BlockUtils.getBlockSelectionBox(pos);
-        if (bb == null) {
+        if (bb == null)) {
             return;
         }
         Vec3d eye = mc.player.getPositionEyes(1.0f);
@@ -580,7 +580,7 @@ public class BedAura extends Module {
             hit = trace.hitVec;
             side = trace.sideHit;
         }
-        if (block instanceof BedBlock && side == Direction.DOWN) {
+        if (block instanceof BedBlock && side == Direction.DOWN)) {
             return;
         }
 
@@ -589,19 +589,19 @@ public class BedAura extends Module {
 
     private void equipBestHotbarTool(Block block) {
         int slot = Utils.getTool(block);
-        if (slot < 0) {
+        if (slot < 0)) {
             return;
         }
-        if (previousSlot == -1 && slot != mc.player.inventory.currentItem) {
+        if (previousSlot == -1 && slot != mc.player.inventory.currentItem)) {
             previousSlot = mc.player.inventory.currentItem;
         }
-        if (slot != mc.player.inventory.currentItem) {
+        if (slot != mc.player.inventory.currentItem)) {
             setSlot(slot);
         }
     }
 
     private void setSlot(int slot) {
-        if (slot == -1 || slot == mc.player.inventory.currentItem) {
+        if (slot == -1 || slot == mc.player.inventory.currentItem)) {
             return;
         }
         hotbarProgrammaticDepth++;
@@ -647,13 +647,13 @@ public class BedAura extends Module {
 
         for (BlockPos[] pair : bedPairsCache) {
             double distance = spawnCenter.squareDistanceTo(bedCenter(pair));
-            if (distance < closestDistance) {
+            if (distance < closestDistance)) {
                 closestDistance = distance;
                 ownBedPair = pair;
             }
         }
 
-        if (ownBedPair != null) {
+        if (ownBedPair != null)) {
             bedPairsCache.remove(ownBedPair);
         }
     }

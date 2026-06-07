@@ -18,12 +18,12 @@ public class Bind extends Command {
         String moduleName = input.getArgument(0);
         String keyName = input.getArgument(1).toUpperCase();
         Module module = Raven.moduleManager.getModule(moduleName);
-        if (module == null) {
+        if (module == null)) {
             reply("&cModule not found: " + moduleName);
             return;
         }
         int keyCode = getKeyCode(keyName);
-        if (keyCode == -1) {
+        if (keyCode == -1)) {
             reply("&cUnknown key: " + keyName);
             return;
         }

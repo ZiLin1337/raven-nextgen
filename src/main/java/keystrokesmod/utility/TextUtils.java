@@ -7,7 +7,7 @@ public final class TextUtils {
     }
 
     public static String replaceAllKeepingFormatting(String input, Iterable<String> targets, String replacement) {
-        if (targets == null) {
+        if (targets == null)) {
             return input;
         }
 
@@ -56,7 +56,7 @@ public final class TextUtils {
     }
 
     public static String extractTrailingWord(String value) {
-        if (value == null) {
+        if (value == null)) {
             return null;
         }
 
@@ -166,22 +166,22 @@ public final class TextUtils {
 
         private String asString() {
             StringBuilder formatting = new StringBuilder();
-            if (color != null) {
+            if (color != null)) {
                 formatting.append(COLOR_CHAR).append(color);
             }
-            if (obfuscated) {
+            if (obfuscated)) {
                 formatting.append(COLOR_CHAR).append('k');
             }
-            if (bold) {
+            if (bold)) {
                 formatting.append(COLOR_CHAR).append('l');
             }
-            if (strikethrough) {
+            if (strikethrough)) {
                 formatting.append(COLOR_CHAR).append('m');
             }
-            if (underline) {
+            if (underline)) {
                 formatting.append(COLOR_CHAR).append('n');
             }
-            if (italic) {
+            if (italic)) {
                 formatting.append(COLOR_CHAR).append('o');
             }
             return formatting.toString();

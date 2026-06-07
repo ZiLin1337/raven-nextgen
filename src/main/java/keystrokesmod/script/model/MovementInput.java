@@ -34,7 +34,7 @@ public class MovementInput {
     }
 
     public boolean equals(MovementInput input) {
-        if (input == null) {
+        if (input == null)) {
             return false;
         }
         return this.forward == input.forward && this.strafe == input.strafe && this.jump == input.jump && this.sneak == input.sneak;

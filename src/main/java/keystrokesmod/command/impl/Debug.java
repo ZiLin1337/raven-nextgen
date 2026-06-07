@@ -12,7 +12,7 @@ public class Debug extends Command {
     public void execute(CommandInput input) {
         Raven.DEBUG = !Raven.DEBUG;
         reply("&7Debug mode: " + (Raven.DEBUG ? "&aON" : "&cOFF"));
-        if (Raven.DEBUG) {
+        if (Raven.DEBUG)) {
             reply("&8Modules: &7" + Raven.moduleManager.getModules().size());
             reply("&8Minecraft: &7" + mc.getGameVersion());
             reply("&8Java: &7" + System.getProperty("java.version"));

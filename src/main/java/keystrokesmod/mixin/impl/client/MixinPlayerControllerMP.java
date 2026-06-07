@@ -39,7 +39,7 @@ public class MixinPlayerControllerMP {
         BedAura bedAura = ModuleManager.bedAura;
         if (bedAura != null && bedAura.shouldOverrideFastMine()) {
             int delay = bedAura.getBreakDelayTicks();
-            if (delay < 5) {
+            if (delay < 5)) {
                 this.blockBreakCooldown = delay;
             }
             return;
@@ -47,7 +47,7 @@ public class MixinPlayerControllerMP {
         FastMine fm = ModuleManager.fastMine;
         if (fm == null) return;
         int o = fm.getBlockHitDelayOverrideOrMinusOne();
-        if (o >= 0) {
+        if (o >= 0)) {
             this.blockBreakCooldown = o;
         }
     }

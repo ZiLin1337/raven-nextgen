@@ -137,7 +137,7 @@ public class Clutch extends Module {
         float baseYaw = e.yaw != null ? e.yaw : RotationUtils.serverRotations[0];
         float basePitch = e.pitch != null ? e.pitch : RotationUtils.serverRotations[1];
 
-        if (resetting) {
+        if (resetting)) {
             aimYaw = mc.player.rotationYaw;
             aimPitch = mc.player.rotationPitch;
             float[] smoothed = getRotationsSmoothed(baseYaw, basePitch, aimYaw, aimPitch, true);
@@ -156,11 +156,11 @@ public class Clutch extends Module {
 
         float[] smoothed = getRotationsSmoothed(baseYaw, basePitch, aimYaw, aimPitch, false);
 
-        if (placing && targetHitPos != null) {
+        if (placing && targetHitPos != null)) {
             HitResult mop = RotationUtils.rayCastBlock(reach.getInput(), smoothed[0], smoothed[1]);
             if (mop != null && targetHitPos.equals(mop.getBlockPos()) && targetSide == mop.sideHit) {
                 int maxBlocks = (int) maxDistance.getInput();
-                if (maxBlocks == 0 || clutchBlocksPlaced < maxBlocks) {
+                if (maxBlocks == 0 || clutchBlocksPlaced < maxBlocks)) {
                     double tolerance = rotationTolerance.getInput();
                     if (Math.abs(MathHelper.wrapAngleTo180_float(smoothed[0] - RotationUtils.serverRotations[0])) <= tolerance
                             && Math.abs(smoothed[1] - RotationUtils.serverRotations[1]) <= tolerance) {
@@ -205,7 +205,7 @@ public class Clutch extends Module {
         updateAutoClutch(ticksExisted);
 
         boolean active = selectKeybind.isPressed() || autoClutchActive;
-        if (mc.currentScreen != null || !active) {
+        if (mc.currentScreen != null || !active)) {
             clearAim(true);
             disablePlacing(false);
             return;
@@ -222,14 +222,14 @@ public class Clutch extends Module {
         }
 
         int weakSlot = pickBlockSlot();
-        if (weakSlot == -1) {
+        if (weakSlot == -1)) {
             disablePlacing(false);
             return;
         }
 
         plannedSlot = weakSlot;
         AimResult target = clutchAim();
-        if (target != null) {
+        if (target != null)) {
             targetHitPos = target.ray.getBlockPos();
             targetSide = target.ray.sideHit;
             aimYaw = target.yaw;
@@ -240,7 +240,7 @@ public class Clutch extends Module {
 
         if (hasAim && !placing) enablePlacing();
 
-        if (placing || resetting || hasAim) {
+        if (placing || resetting || hasAim)) {
             KeyBinding.setKeyBindState(mc.options.keyBindAttack.getKeyCode(), false);
             KeyBinding.setKeyBindState(mc.options.keyBindUseItem.getKeyCode(), false);
             equipPlannedSlot();
@@ -250,15 +250,15 @@ public class Clutch extends Module {
     private void updateAutoClutch(int ticksExisted) {
         if (autoClutch.isToggled()) {
             int curHurtTime = mc.player.hurtTime;
-            if (curHurtTime > prevHurtTime) {
+            if (curHurtTime > prevHurtTime)) {
                 autoClutchChecking = true;
                 autoClutchCheckCounter = 0;
                 autoClutchLandedGuard = false;
             }
             prevHurtTime = curHurtTime;
 
-            if (autoClutchChecking && !autoClutchActive && !autoClutchLandedGuard) {
-                if (autoClutchCheckCounter == 0 || autoClutchCheckCounter % 3 == 0) {
+            if (autoClutchChecking && !autoClutchActive && !autoClutchLandedGuard)) {
+                if (autoClutchCheckCounter == 0 || autoClutchCheckCounter % 3 == 0)) {
                     if (willFallFar(minimumFallDistance.getInput())) {
                         autoClutchActive = true;
                     }
@@ -266,19 +266,19 @@ public class Clutch extends Module {
                 autoClutchCheckCounter++;
             }
 
-            if (autoClutchLandedGuard) {
+            if (autoClutchLandedGuard)) {
                 boolean expired = ticksExisted - autoClutchLandedTick >= 10;
                 boolean jumped = mc.options.keyBindJump.isKeyDown();
                 boolean airborneUp = !mc.player.onGround && mc.player.motionY > 0;
-                if (expired || jumped || airborneUp) {
+                if (expired || jumped || airborneUp)) {
                     autoClutchActive = false;
                     autoClutchChecking = false;
                     autoClutchLandedGuard = false;
                 }
             }
 
-            if (autoClutchActive && mc.player.onGround && mc.player.hurtTime < mc.player.maxHurtTime - 2) {
-                if (!autoClutchLandedGuard) {
+            if (autoClutchActive && mc.player.onGround && mc.player.hurtTime < mc.player.maxHurtTime - 2)) {
+                if (!autoClutchLandedGuard)) {
                     autoClutchLandedGuard = true;
                     autoClutchLandedTick = ticksExisted;
                     if (!willFallSoon()) {
@@ -289,7 +289,7 @@ public class Clutch extends Module {
                 }
             }
 
-            if (!autoClutchActive && !autoClutchLandedGuard && mc.player.onGround && mc.player.hurtTime == 0) {
+            if (!autoClutchActive && !autoClutchLandedGuard && mc.player.onGround && mc.player.hurtTime == 0)) {
                 autoClutchChecking = false;
                 autoClutchCheckCounter = 0;
             }
@@ -306,7 +306,7 @@ public class Clutch extends Module {
         placing = true;
         if (!slotWasSwapped) prevSlot = mc.player.inventory.currentItem;
         autoClickerWasOn = autoClickerWasOn || (ModuleManager.autoClicker != null && ModuleManager.autoClicker.isEnabled());
-        if (autoClickerWasOn && ModuleManager.autoClicker != null) {
+        if (autoClickerWasOn && ModuleManager.autoClicker != null)) {
             ModuleManager.autoClicker.disable();
         }
     }
@@ -321,14 +321,14 @@ public class Clutch extends Module {
             mc.player.inventory.currentItem = prevSlot;
             slotWasSwapped = false;
         }
-        if (forceRestore) {
+        if (forceRestore)) {
             prevSlot = -1;
             restoreInputsAndAutoClicker();
         }
     }
 
     private void clearAim(boolean allowSnapback) {
-        if (slotWasSwapped && prevSlot != -1 && prevSlot != mc.player.inventory.currentItem) {
+        if (slotWasSwapped && prevSlot != -1 && prevSlot != mc.player.inventory.currentItem)) {
             mc.player.inventory.currentItem = prevSlot;
             slotWasSwapped = false;
         }
@@ -342,11 +342,11 @@ public class Clutch extends Module {
     }
 
     private void restoreInputsAndAutoClicker() {
-        if (mc.currentScreen == null) {
+        if (mc.currentScreen == null)) {
             KeyBinding.setKeyBindState(mc.options.keyBindAttack.getKeyCode(), Mouse.isButtonDown(0));
             KeyBinding.setKeyBindState(mc.options.keyBindUseItem.getKeyCode(), Mouse.isButtonDown(1));
         }
-        if (autoClickerWasOn && ModuleManager.autoClicker != null) {
+        if (autoClickerWasOn && ModuleManager.autoClicker != null)) {
             ModuleManager.autoClicker.enable();
             autoClickerWasOn = false;
         }
@@ -357,11 +357,11 @@ public class Clutch extends Module {
         PredictionState prediction = PredictionState.fromPlayer();
         for (int t = 0; t < 60; t++) {
             prediction.tick(false);
-            if (prediction.onGround) {
+            if (prediction.onGround)) {
                 return false;
             }
             double fall = startY - prediction.posY;
-            if (fall > minFall) {
+            if (fall > minFall)) {
                 return true;
             }
         }
@@ -372,7 +372,7 @@ public class Clutch extends Module {
         PredictionState prediction = PredictionState.fromPlayer();
         for (int t = 0; t < 10; t++) {
             prediction.tick(true);
-            if (!prediction.onGround && prediction.motionY < 0) {
+            if (!prediction.onGround && prediction.motionY < 0)) {
                 return true;
             }
         }
@@ -459,7 +459,7 @@ public class Clutch extends Module {
             for (int col = 0; col <= n; col++) {
                 double u = clamp01(col * step + randomRange(-jitter, jitter));
 
-                if (underPlayer) {
+                if (underPlayer)) {
                     float[] rV = getRotationsWrapped(eye, targetCell.getX() + u, targetCell.getY() + 1 - inset, targetCell.getZ() + v);
                     double costV = Math.abs(wrapYawDelta(baseYaw, rV[0])) + Math.abs(rV[1] - basePitch);
                     candidates.add(new RotationCandidate(costV, rV[0], rV[1]));
@@ -496,7 +496,7 @@ public class Clutch extends Module {
 
     private int pickBlockSlot() {
         boolean playingBedwars = Utils.getBedwarsStatus() == 2;
-        if (!playingBedwars) {
+        if (!playingBedwars)) {
             int current = mc.player.inventory.currentItem;
             if (isBlockSlot(current)) return current;
 
@@ -520,7 +520,7 @@ public class Clutch extends Module {
             Integer score = BLOCK_SCORE.get(id.getResourcePath());
             if (score == null) continue;
 
-            if (score > bestScore) {
+            if (score > bestScore)) {
                 bestScore = score;
                 best = slot;
             }
@@ -536,7 +536,7 @@ public class Clutch extends Module {
 
     private void equipPlannedSlot() {
         int current = mc.player.inventory.currentItem;
-        if (plannedSlot != -1 && plannedSlot != current) {
+        if (plannedSlot != -1 && plannedSlot != current)) {
             mc.player.inventory.currentItem = plannedSlot;
             slotWasSwapped = true;
         }
@@ -550,7 +550,7 @@ public class Clutch extends Module {
 
         if (Math.abs(deltaYaw) < 0.1f) curYaw = targetYaw;
         if (Math.abs(deltaPitch) < 0.1f) curPitch = targetPitch;
-        if (curYaw == targetYaw && curPitch == targetPitch) {
+        if (curYaw == targetYaw && curPitch == targetPitch)) {
             return new float[]{curYaw, RotationUtils.clampPitch(curPitch)};
         }
 
@@ -559,10 +559,10 @@ public class Clutch extends Module {
         maxStep *= factor;
 
         float totalDelta = Math.abs(deltaYaw) + Math.abs(deltaPitch);
-        if (totalDelta <= maxStep) {
+        if (totalDelta <= maxStep)) {
             curYaw = targetYaw;
             curPitch = targetPitch;
-        } else if (maxStep > 0) {
+        } else if (maxStep > 0)) {
             float scale = maxStep / totalDelta;
             curYaw += deltaYaw * scale;
             curPitch += deltaPitch * scale;
@@ -666,7 +666,7 @@ public class Clutch extends Module {
         }
 
         void tick(boolean stopHorizontal) {
-            if (stopHorizontal) {
+            if (stopHorizontal)) {
                 motionX = 0.0;
                 motionZ = 0.0;
             }

@@ -38,7 +38,7 @@ public class Tracers extends Module {
     @Override
     public void onEnable() {
         this.viewBobbingEnabled = mc.options.viewBobbing;
-        if (this.viewBobbingEnabled) {
+        if (this.viewBobbingEnabled)) {
             mc.options.viewBobbing = false;
         }
     }
@@ -50,14 +50,14 @@ public class Tracers extends Module {
 
     @Override
     public void onUpdate() {
-        if (mc.options.viewBobbing) {
+        if (mc.options.viewBobbing)) {
             mc.options.viewBobbing = false;
         }
     }
 
     
     public void onClientTick(TickEvent.ClientTickEvent event) {
-        if (event.phase != TickEvent.Phase.END) {
+        if (event.phase != TickEvent.Phase.END)) {
             return;
         }
         updateTrackedEntities();
@@ -71,7 +71,7 @@ public class Tracers extends Module {
         int rgb = rainbow.isToggled() ? Utils.getChroma(2L, 0L) : color.getColor();
         for (int i = 0; i < trackedEntityCount; i++) {
             Entity entity = trackedEntities.get(i);
-            if (entity == null) {
+            if (entity == null)) {
                 continue;
             }
             RenderUtils.drawTracerLine(entity, rgb, (float) lineWidth.getInput(), e.partialTicks);
@@ -84,9 +84,9 @@ public class Tracers extends Module {
             return;
         }
 
-        if (Raven.DEBUG) {
+        if (Raven.DEBUG)) {
             for (Entity entity : mc.world.getEntities()) {
-                if (entity instanceof LivingEntity && entity != mc.player) {
+                if (entity instanceof LivingEntity && entity != mc.player)) {
                     addTrackedEntity(entity);
                 }
             }
@@ -94,10 +94,10 @@ public class Tracers extends Module {
         }
 
         for (PlayerEntity player : mc.world.getPlayers()) {
-            if (player == mc.player) {
+            if (player == mc.player)) {
                 continue;
             }
-            if (player.deathTime != 0) {
+            if (player.deathTime != 0)) {
                 continue;
             }
             if (!showInvis.isToggled() && player.isInvisible()) {
