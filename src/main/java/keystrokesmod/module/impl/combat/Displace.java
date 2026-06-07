@@ -464,7 +464,7 @@ public class Displace extends Module {
         }
     }
 
-    (priority = EST)
+    
     public void onGameTick(GameTickEvent e) {
         if (releaseBlinkNextGameTick) {
             releaseBlink();
@@ -584,7 +584,7 @@ public class Displace extends Module {
         );
     }
 
-    (priority = )
+    
     public void onPostInput(PostPlayerInputEvent e) {
         if (!active) {
             compensateNextTick = false;
@@ -608,7 +608,7 @@ public class Displace extends Module {
         compensateNextTick = true;
     }
 
-    (priority = )
+    
     public void onSendPacket(SendPacketEvent e) {
         if (!blink.isToggled() || !active || !displaceThisTick || releaseBlinkNextGameTick) {
             return;
@@ -625,7 +625,7 @@ public class Displace extends Module {
         releaseBlinkNextGameTick = true;
     }
 
-    (priority = )
+    
     public void onClientRotation(ClientRotationEvent e) {
         if (!Utils.nullCheck()) {
             clearActiveState();

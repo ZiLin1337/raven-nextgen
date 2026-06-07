@@ -137,12 +137,12 @@ public class BedAura extends Module {
         }
     }
 
-    (priority = )
+    
     public void onPrePlayerInteract(PrePlayerInteractEvent e) {
         applyMiningKeyState();
     }
 
-    (priority = )
+    
     public void onMouse(MouseEvent e) {
         if (!shouldSuppressManualMouse()) {
             return;
@@ -152,7 +152,7 @@ public class BedAura extends Module {
         }
     }
 
-    (priority = )
+    
     public void onPreAttack(PreAttackEvent e) {
         if (!shouldSuppressManualMouse()) {
             return;
@@ -160,7 +160,7 @@ public class BedAura extends Module {
         e.setCanceled(true);
     }
 
-    (priority = )
+    
     public void onSlotScroll(PreSlotScrollEvent e) {
         if (!shouldSuppressManualMouse()) {
             return;
@@ -172,7 +172,7 @@ public class BedAura extends Module {
         e.setCanceled(true);
     }
 
-    (priority = )
+    
     public void onSlotUpdate(SlotUpdateEvent e) {
         if (!shouldSuppressManualMouse() || hotbarProgrammaticDepth > 0) {
             return;
@@ -259,7 +259,7 @@ public class BedAura extends Module {
         }
     }
 
-    (priority = )
+    
     public void onClientRotation(ClientRotationEvent e) {
         if (!isEnabled() || !Utils.nullCheck() || mc.currentScreen != null || !canMineBlocks()) {
             resetMining();

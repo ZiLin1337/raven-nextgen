@@ -14,7 +14,7 @@ public class PacketsHandler implements IMinecraftInstance {
     public AtomicInteger serverSlot = new AtomicInteger(-1);
     private final boolean handleSlots = true;
 
-    (priority = )
+    
     public void onSendPacket(SendPacketEvent e) {
         if (e.isCanceled()) {
             return;

@@ -101,7 +101,7 @@ public class BlockOverlay extends Module {
         return RENDER_MODES[(int) renderMode.getInput()];
     }
 
-    (priority = EST)
+    
     public void onDrawBlockHighlight(DrawBlockHighlightEvent e) {
         int mode = (int) renderMode.getInput();
         if (mode == 0) {

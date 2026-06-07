@@ -71,7 +71,7 @@ public class HideWindow extends Module {
         hiddenGui = null;
     }
 
-    (priority = EST)
+    
     public void onGuiOpen(GuiOpenEvent event) {
         if (event.gui == null || mc.player == null) {
             return;

@@ -260,7 +260,7 @@ public class BlockIn extends Module {
         RenderUtils.draw2DCircleArc(cx, cy, radius, startAngle, endAngle, thickness, color);
     }
 
-    (priority = EST)
+    
     public void onMouse(MouseEvent e) {
         if (placing && e.button > -1) {
             e.setCanceled(true);

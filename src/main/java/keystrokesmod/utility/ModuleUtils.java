@@ -312,7 +312,7 @@ public class ModuleUtils implements IMinecraftInstance {
         canSlow = true;
     }
 
-    (priority = EST)
+    
     public void onRenderWorld(RenderWorldLastEvent e) {
         if (!Utils.nullCheck()) {
             return;

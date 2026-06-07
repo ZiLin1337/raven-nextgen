@@ -78,7 +78,7 @@ public class NoFall extends Module {
         }
     }
 
-    (priority = )
+    
     public void onPreMotion(PreMotionEvent e) {
         switch ((int) mode.getInput()) {
             case 0:

@@ -113,7 +113,7 @@ public class PotionHUD extends Module {
     }
 
     public void setAbsolutePosition(float absoluteX, float absoluteY) {
-        setAbsolutePosition(absoluteX, absoluteY, new (mc));
+        setAbsolutePosition(absoluteX, absoluteY, /* ScaledResolution removed in 1.21.4 */ null);
     }
 
     public void resetPosition() {
@@ -121,7 +121,7 @@ public class PotionHUD extends Module {
     }
 
     private void render(boolean editing) {
-         resolution = new (mc);
+         resolution = /* ScaledResolution removed in 1.21.4 */ null;
         syncPositionToResolution(resolution);
 
         RenderState state = buildRenderState(editing);
@@ -266,12 +266,12 @@ public class PotionHUD extends Module {
         RenderUtils.drawRect(right - 1.0f, top, right, bottom, EDIT_OUTLINE_COLOR);
     }
 
-    private void adjustAnchorForLayoutChanges( resolution, RenderState state) {
+    private void adjustAnchorForLayoutChanges(/* Resolution type removed */, RenderState state) {
         syncPositionToResolution(resolution);
     }
 
     private void syncPositionToResolution() {
-        syncPositionToResolution(new (mc));
+        syncPositionToResolution(/* ScaledResolution removed in 1.21.4 */ null);
     }
 
     private void syncPositionToResolution( resolution) {
@@ -461,14 +461,14 @@ public class PotionHUD extends Module {
         public void initGui() {
             super.initGui();
             this.buttonList.add(this.resetPosition = new GuiButtonExt(1, this.width - 90, this.height - 25, 85, 20, "Reset position"));
-            syncPositionToResolution(new (this.mc));
+            syncPositionToResolution(/* ScaledResolution removed in 1.21.4 */ null);
             this.actualX = posX;
             this.actualY = posY;
         }
 
         @Override
         public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-             resolution = new (this.mc);
+             resolution = /* ScaledResolution removed in 1.21.4 */ null;
             if (!this.dragging) {
                 syncPositionToResolution(resolution);
                 this.actualX = posX;

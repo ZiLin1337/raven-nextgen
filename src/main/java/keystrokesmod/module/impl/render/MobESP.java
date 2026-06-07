@@ -222,7 +222,7 @@ public class MobESP extends Module {
         return resolveEntry(entity) != null;
     }
 
-    (priority = )
+    
     public void onRenderWorldLast(RenderWorldLastEvent e) {
         this.renderAsTwoD.clear();
         if (!Utils.nullCheck() || !this.isEnabled()) {
@@ -253,7 +253,7 @@ public class MobESP extends Module {
         }
     }
 
-    (priority = )
+    
     public void onRenderWorldLast2D(RenderWorldLastEvent e) {
         if (!Utils.nullCheck() || !this.isEnabled()) {
             return;
@@ -386,7 +386,7 @@ public class MobESP extends Module {
         double maxY = Double.MIN_VALUE;
 
         boolean isInView = false;
-         scaledResolution = new (mc);
+         scaledResolution = /* ScaledResolution removed in 1.21.4 */ null;
 
         for (Vec3 corner : corners) {
             Vec3 screenVec = RenderUtils.convertTo2D(scaledResolution.getScaleFactor(), corner.xCoord, corner.yCoord, corner.zCoord);
@@ -418,7 +418,7 @@ public class MobESP extends Module {
 
         mc.entityRenderer.setupOverlayRendering();
 
-         res = new (mc);
+         res = /* ScaledResolution removed in 1.21.4 */ null;
         int screenWidth = res.getScaledWidth();
         int screenHeight = res.getScaledHeight();
 

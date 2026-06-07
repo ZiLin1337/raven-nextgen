@@ -223,7 +223,7 @@ public class LongJump extends Module {
         }
     }
 
-    (priority = )
+    
     public void onPreMotion(PreMotionEvent e) {
         if (!Utils.nullCheck()) {
             return;
@@ -271,7 +271,7 @@ public class LongJump extends Module {
 
     }
 
-    (priority = ) // called last in order to apply fix
+     // called last in order to apply fix
     public void onMoveInput(PrePlayerInputEvent e) {
         if (!function) {
             return;

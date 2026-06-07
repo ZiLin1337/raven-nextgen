@@ -244,7 +244,7 @@ public class BedESP extends Module {
         return n > 0 ? String.valueOf(n) : "";
     }
 
-    (priority = )
+    
     public void onRenderWorld(float partialTicks) {
         if (!Utils.nullCheck()) {
             return;

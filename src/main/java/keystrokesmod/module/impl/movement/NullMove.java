@@ -29,7 +29,7 @@ public class NullMove extends Module {
         this.lastStrafeSign = 0;
     }
 
-    (priority = )
+    
     public void onPrePlayerInput(PrePlayerInputEvent e) {
         if (!this.isEnabled() || !Utils.nullCheck()) {
             return;

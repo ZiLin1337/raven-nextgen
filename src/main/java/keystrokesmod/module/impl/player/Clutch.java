@@ -191,7 +191,7 @@ public class Clutch extends Module {
         }
     }
 
-    (priority = EST)
+    
     public void onMouse(MouseEvent e) {
         if ((placing || resetting || hasAim) && e.button > -1) {
             e.setCanceled(true);
