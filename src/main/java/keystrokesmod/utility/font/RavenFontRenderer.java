@@ -1,7 +1,7 @@
 package keystrokesmod.utility.font;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.TextRenderer;
+import net.minecraft.client.font.TextRenderer;
 
 public interface RavenFontRenderer {
     
