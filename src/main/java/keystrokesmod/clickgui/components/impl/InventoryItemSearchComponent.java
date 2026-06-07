@@ -141,7 +141,7 @@ public class InventoryItemSearchComponent extends AbstractItemSearchComponent<In
         float draggedRowCenter = (lastMouseY - dragGrabOffsetY) + ROW_HEIGHT / 2f;
         int desired = (int) Math.floor((draggedRowCenter - selectedTop + selectedScrollAnim.getValue()) / ROW_HEIGHT);
         desired = Math.max(0, Math.min(desired, ordered.size() - 1));
-        if (desired != curIdx) { // setting.moveItem(/* moveItem disabled */draggingStorageId, desired); invalidateSelectedRows(); markUnsaved(); }
+        if (desired != curIdx) { /* moveItem disabled */ invalidateSelectedRows(); markUnsaved(); }
     }
 
     private int getSelectedRowIndex(int mx, int my, Layout layout) {

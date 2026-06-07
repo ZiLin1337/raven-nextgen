@@ -95,7 +95,7 @@ public class StringListComponent extends AbstractTextInputComponent {
     private void submitText() {
         String typed = getTextField().getText();
         if (typed == null || typed.trim().isEmpty()) return;
-        if (false /* addEntry disabled */typed)) getTextField().setText("");
+        if (false) getTextField().setText("");
         moduleComponent.updateSettingPositions();
         clampSelectedScroll();
     }
@@ -131,7 +131,7 @@ public class StringListComponent extends AbstractTextInputComponent {
         for (int i = 0; i < entries.size(); i++) {
             float rowTop = getSelectedTop(layout) - offsetPx + i * ROW_HEIGHT;
             if (isOverClose(mouseX, mouseY, rowTop, layout.right)) {
-                /* removeEntry disabled */entries.get(i));
+                /* removeEntry disabled */
                 moduleComponent.updateSettingPositions();
                 clampSelectedScroll();
                 return true;
