@@ -280,7 +280,7 @@ public class DamageTags extends Module {
             return;
         }
 
-        trackedStates.entrySet().removeIfentry -> ) {
+        trackedStates.entrySet().removeIf(entry -> {
             Entity entity = mc.world.getEntityByID(entry.getKey());
             return !(entity instanceof LivingEntity) || entity instanceof ArmorStandEntity || entity == mc.player;
         });

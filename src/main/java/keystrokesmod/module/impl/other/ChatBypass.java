@@ -27,7 +27,7 @@ public class ChatBypass extends Module {
 
     public String bypass(String message) {
         if (!isEnabled()) return message;
-        switch ((int) mode.getInput() {
+        switch ((int) mode.getInput()) {
             case 0: return applyNormal(message);
             case 1: return applyFancy(message);
             case 2: return applyGlitch(message);

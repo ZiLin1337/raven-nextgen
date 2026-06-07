@@ -174,12 +174,12 @@ public class AimAssist extends Module {
         }
 
         Comparator<PlayerEntity> primary;
-        switch ((int) sortMode.getInput() {
+        switch ((int) sortMode.getInput()) {
             case 0: // Health (lower first)
                 primary = Comparator.comparingDouble(p -> p.getHealth() + p.getAbsorptionAmount());
                 break;
             case 1: // Angle (smaller first) - use local player view, not server rotations
-                primary = Comparator.comparingDoublep -> ) {
+                primary = Comparator.comparingDouble(p -> {
                     double yawDelta = Math.abs(Utils.aimDifference(p, false));
                     double pitchDelta = Math.abs(Utils.pitchDifference(p, false));
                     return yawDelta + pitchDelta;
@@ -192,7 +192,7 @@ public class AimAssist extends Module {
                 primary = Comparator.comparingDouble(p -> mc.player.getDistanceSqToEntity(p));
                 break;
             default:
-                primary = Comparator.comparingDoublep -> ) {
+                primary = Comparator.comparingDouble(p -> {
                     double yawDelta = Math.abs(Utils.aimDifference(p, false));
                     double pitchDelta = Math.abs(Utils.pitchDifference(p, false));
                     return yawDelta + pitchDelta;

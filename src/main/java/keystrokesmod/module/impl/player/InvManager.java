@@ -619,7 +619,7 @@ public class InvManager extends Module {
 
     private int getDefenceLevel(ItemStack itemStack) {
         return ((ItemArmor)itemStack.getItem()).damageReduceAmount
-                + EnchantmentHelper.getEnchantmentModifierDamage(new ItemStack[] ) { itemStack }, DamageSource.generic);
+                + EnchantmentHelper.getEnchantmentModifierDamage(new ItemStack[] { itemStack }, DamageSource.generic);
     }
 
     private void updateCurrentArmor() {
@@ -663,7 +663,7 @@ public class InvManager extends Module {
                     || desc.contains("moveSlowdown")
                     || desc.contains("weakness")
                     || desc.contains("harm")
-                    || desc.contains("digSlowDown") {
+                    || desc.contains("digSlowDown")) {
                 return true;
             }
         }

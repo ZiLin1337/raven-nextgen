@@ -390,7 +390,7 @@ public class Trajectories extends Module {
 
                     if ((!props.ignoreBlockWithoutBoundingBox
                             || block.getCollisionShape(mc.world, mutablePos, blockState) != null)
-                            && block.canCollideCheck(blockState, false) {
+                            && block.canCollideCheck(blockState, false)) {
                         collisionBoxes.clear();
                         Box vanillaProjectileBounds = getVanillaProjectileBounds(block, mutablePos);
                         block.addCollisionBoxesToList(mc.world, mutablePos, blockState, sweepBounds, collisionBoxes, null);

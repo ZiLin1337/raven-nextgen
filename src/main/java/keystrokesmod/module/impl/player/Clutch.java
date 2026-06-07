@@ -184,7 +184,7 @@ public class Clutch extends Module {
 
         placeQueued = false;
         if (placeAtBlock != null && hitSide != null && hitVec != null
-                && mc.interactionManager.onPlayerRightClick(mc.player, mc.world, mc.player.getHeldItem(), placeAtBlock, hitSide, hitVec) {
+                && mc.interactionManager.onPlayerRightClick(mc.player, mc.world, mc.player.getHeldItem(), placeAtBlock, hitSide, hitVec)) {
             if (hitSide != Direction.UP) clutchBlocksPlaced++;
             lastPlaced = placeAtBlock;
             mc.player.swingItem();

@@ -62,7 +62,7 @@ public class FakeLag extends Module {
     }
 
     private Set<EnumLagDirection> lagDirectionsForMode() {
-        switch ((int) mode.getInput() {
+        switch ((int) mode.getInput()) {
             case 0:
                 return EnumLagDirection.ONLY_INBOUND;
             case 2:

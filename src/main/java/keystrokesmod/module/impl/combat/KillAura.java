@@ -355,7 +355,7 @@ public class KillAura extends Module {
     }
 
     private Comparator<KillAuraTarget> getTargetComparator() {
-        switch ((int) sortMode.getInput() {
+        switch ((int) sortMode.getInput()) {
             case 1:
                 return Comparator.comparingDouble(target -> target.health);
             case 2:

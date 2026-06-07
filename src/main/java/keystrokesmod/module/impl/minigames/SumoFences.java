@@ -118,7 +118,7 @@ public class SumoFences extends Module {
     }
 
     public void guiUpdate() {
-        switch ((int) blockType.getInput() {
+        switch ((int) blockType.getInput()) {
             case 0:
                 this.fenceState = Blocks.oak_fence.getDefaultState();
                 break;

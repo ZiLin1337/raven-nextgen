@@ -50,9 +50,9 @@ public class StringListComponent extends AbstractTextInputComponent {
     public boolean onClick(int mouseX, int mouseY, int button) {
         if (!moduleComponent.isOpened || !moduleComponent.isVisible(this)) return false;
         Layout layout = layout(true);
-        if (button == 0 && isTextFieldClicked(mouseX, mouseY, layout) { setTextFieldFocused(true); return true; }
+        if (button == 0 && isTextFieldClicked(mouseX, mouseY, layout)) { setTextFieldFocused(true); return true; }
         if (button == 0 && handleSelectedEntryClick(mouseX, mouseY, layout)) return true;
-        if (isTextFieldFocused() { getTextField().setText(""); setTextFieldFocused(false); }
+        if (isTextFieldFocused()) { getTextField().setText(""); setTextFieldFocused(false); }
         return false;
     }
 

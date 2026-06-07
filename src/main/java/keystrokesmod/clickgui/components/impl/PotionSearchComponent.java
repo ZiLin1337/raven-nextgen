@@ -62,7 +62,7 @@ public class PotionSearchComponent extends AbstractSearchListComponent {
         List<String> selected = new ArrayList<String>(setting.getPotions());
         for (int i = 0; i < selected.size(); i++) {
             float rowTop = getSelectedTop(layout) - offsetPx + i * ROW_HEIGHT;
-            if (isOverClose(mouseX, mouseY, rowTop, layout.right) { setting.removePotion(selected.get(i)); notifySelectionListChanged(); return true; }
+            if (isOverClose(mouseX, mouseY, rowTop, layout.right)) { setting.removePotion(selected.get(i)); notifySelectionListChanged(); return true; }
         }
         return false;
     }

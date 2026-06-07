@@ -61,13 +61,13 @@ public class BreakProgress extends Module {
     }
 
     private void setProgress() {
-        switch ((int) mode.getInput() {
+        switch ((int) mode.getInput()) {
             case 0: {
                 this.progressStr = (int) (100.0 * (this.progress / 1.0)) + "%";
                 break;
             }
             case 1: {
-                double timeLeft = Utils.round((double) ((1.0f - this.progress) / BlockUtils.getBlockHardness(BlockUtils.getBlockState(this).block), mc.player.getHeldItem(), false, false)) / 20.0, 1);
+                double timeLeft = Utils.round((double) ((1.0f - this.progress) / BlockUtils.getBlockHardness(BlockUtils.getBlockState(this).block)), mc.player.getHeldItem(), false, false) / 20.0, 1);
                 this.progressStr = timeLeft == 0 ? "0" : timeLeft + "s";
                 break;
             }

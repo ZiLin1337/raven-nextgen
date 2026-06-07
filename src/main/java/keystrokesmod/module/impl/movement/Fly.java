@@ -70,7 +70,7 @@ public class Fly extends Module {
         if (this.mode.getInput() == 3) {
             return;
         }
-        switch ((int) mode.getInput() {
+        switch ((int) mode.getInput()) {
             case 0:
                 mc.player.motionY = 0.0;
                 mc.player.capabilities.setFlySpeed((float)(0.05000000074505806 * horizontalSpeed.getInput()));
@@ -120,7 +120,7 @@ public class Fly extends Module {
             mc.player.capabilities.isFlying = false;
         }
         this.canFly = false;
-        switch ((int) mode.getInput() {
+        switch ((int) mode.getInput()) {
             case 0:
             case 1:
                 mc.player.capabilities.setFlySpeed(0.05F);

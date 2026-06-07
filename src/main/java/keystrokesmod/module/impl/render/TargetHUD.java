@@ -127,7 +127,7 @@ public class TargetHUD extends Module {
             final int maxAlphaOutline = (alpha > 110) ? 110 : alpha;
             final int maxAlphaBackground = (alpha > 210) ? 210 : alpha;
             final int[] gradientColors = Theme.getGradients((int) theme.getInput());
-            switch ((int) mode.getInput() {
+            switch ((int) mode.getInput()) {
                 case 0:
                     float bloomRadius = (fadeTimer == null) ? 2f : (2f * alpha / 255f);
                     float blurRadius = (fadeTimer == null) ? 3 : (3f * alpha / 255f);
@@ -173,7 +173,7 @@ public class TargetHUD extends Module {
                 lastHealthBar = n14;
             }
 
-            switch ((int) mode.getInput() { // health bar
+            switch ((int) mode.getInput()) { // health bar
                 case 0:
                     RenderUtils.drawRoundedRectangle((float) n13, (float) n15, lastHealthBar, (float) (n15 + 5), 4.0f, Utils.darkenColor(mergedGradientRight, 25));
                     RenderUtils.drawRoundedGradientRect((float) n13, (float) n15, smoothBack ? lastHealthBar : healthBar, (float) (n15 + 5), 4.0f, mergedGradientLeft, mergedGradientLeft, mergedGradientRight, mergedGradientRight);

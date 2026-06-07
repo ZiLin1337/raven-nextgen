@@ -192,7 +192,7 @@ public class BlockIn extends Module {
             if (hitAt != null && hitSide != null && placeAt != null) {
                 if (mc.interactionManager.onPlayerRightClick(
                         mc.player, mc.world, mc.player.getHeldItem(),
-                        hitAt, hitSide, placeAt) {
+                        hitAt, hitSide, placeAt)) {
                     mc.player.swingItem();
                 }
             }
@@ -448,7 +448,7 @@ public class BlockIn extends Module {
             Direction face = mop.sideHit;
             if (hitBlock.equals(targetCell) && hitBlock.getY() >= minY
                     && !(face == Direction.DOWN && byY == minY)
-                    && BlockUtils.canPlaceBlockOnSide(held, hitBlock, face) {
+                    && BlockUtils.canPlaceBlockOnSide(held, hitBlock, face)) {
                 return new AimResult(hitBlock, face, c.yaw, c.pitch);
             }
         }

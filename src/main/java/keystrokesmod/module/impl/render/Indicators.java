@@ -983,7 +983,7 @@ public class Indicators extends Module {
                     }
 
                     double liquidSurfaceY = (double) ((float) (y + 1)
-                            - FluidBlock.getLiquidHeightPercent((Integer) blockState.getValue(FluidBlock.LEVEL));
+                            - FluidBlock.getLiquidHeightPercent((Integer) blockState.getValue(FluidBlock.LEVEL)));
                     if ((double) maxY >= liquidSurfaceY) {
                         inWater = true;
                         flowDirection = blockState.getBlock().modifyAcceleration(mc.world, mutablePos, projectile, flowDirection);
@@ -1067,7 +1067,7 @@ public class Indicators extends Module {
 
                     if ((!props.ignoreBlockWithoutBoundingBox
                             || block.getCollisionShape(mc.world, mutablePos, blockState) != null)
-                            && block..canCollideCheck(blockState, false) {
+                            && block.canCollideCheck(blockState, false) {
                         collisionBoxes.clear();
                         Box vanillaProjectileBounds = getVanillaProjectileBounds(block, mutablePos);
                         block.addCollisionBoxesToList(mc.world, mutablePos, blockState, sweepBounds, collisionBoxes, null);

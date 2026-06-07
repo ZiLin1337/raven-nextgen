@@ -230,7 +230,7 @@ public class LagRange extends Module {
             lastDistSq = distSq;
 
             if (hurtTime == 0 && weaponOk && moving
-                    && (closing && outsideMinDist || hitStart) {
+                    && (closing && outsideMinDist || hitStart)) {
                 startLag();
             }
         } else {

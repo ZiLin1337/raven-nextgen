@@ -82,7 +82,7 @@ public class Request {
                 con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
                 con.connect();
 
-                try (OutputStream os = con.getOutputStream() {
+                try (OutputStream os = con.getOutputStream()) {
                     os.write(out);
                 }
             }

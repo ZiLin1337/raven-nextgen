@@ -224,7 +224,7 @@ public class NameHider extends Module {
         HideAllCache cache = buildHideAllCache(selfNames);
         if (!cache.visibleNamesByKey.equals(cachedVisibleNamesByKey)
             || !cache.aliasNumbers.equals(cachedAliasNumbers)
-            || !cache.replacements.equals(cachedOtherNameReplacements) {
+            || !cache.replacements.equals(cachedOtherNameReplacements)) {
             cachedVisibleNamesByKey = cache.visibleNamesByKey;
             cachedAliasNumbers = cache.aliasNumbers;
             cachedOtherNameReplacements = cache.replacements;

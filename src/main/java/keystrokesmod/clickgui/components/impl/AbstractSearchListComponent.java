@@ -82,9 +82,9 @@ public abstract class AbstractSearchListComponent extends AbstractTextInputCompo
     public boolean onClick(int mouseX, int mouseY, int button) {
         if (!moduleComponent.isOpened || !moduleComponent.isVisible(this)) return false;
         Layout layout = layout(true);
-        if (button == 0 && handleDropdownClick(mouseX, mouseY, layout) { onDropdownClickHandled(mouseX, mouseY); return true; }
-        if (button == 0 && handleSelectedEntryClick(mouseX, mouseY, layout) { onSelectedEntryClickHandled(mouseX, mouseY); return true; }
-        if (handleTextFieldFocusClick(mouseX, mouseY, layout) { onSearchFocusHandled(mouseX, mouseY); return true; }
+        if (button == 0 && handleDropdownClick(mouseX, mouseY, layout)) { onDropdownClickHandled(mouseX, mouseY); return true; }
+        if (button == 0 && handleSelectedEntryClick(mouseX, mouseY, layout)) { onSelectedEntryClickHandled(mouseX, mouseY); return true; }
+        if (handleTextFieldFocusClick(mouseX, mouseY, layout)) { onSearchFocusHandled(mouseX, mouseY); return true; }
         if (isSearchFocused()) unfocusSearch();
         onOutsideClick(mouseX, mouseY, button);
         return false;
@@ -93,8 +93,8 @@ public abstract class AbstractSearchListComponent extends AbstractTextInputCompo
     @Override
     public void keyTyped(char typedChar, int keyCode) {
         if (!moduleComponent.isOpened) return;
-        if (keyCode == GLFW.GLFW_KEY_ESCAPE && isSearchFocused() { if (!handleSearchEscape()) unfocusSearch(); return; }
-        if ((keyCode == GLFW.GLFW_KEY_RETURN || keyCode == GLFW.GLFW_KEY_NUMPADENTER) && isSearchFocused() { unfocusSearch(); return; }
+        if (keyCode == GLFW.GLFW_KEY_ESCAPE && isSearchFocused()) { if (!handleSearchEscape()) unfocusSearch(); return; }
+        if ((keyCode == GLFW.GLFW_KEY_RETURN || keyCode == GLFW.GLFW_KEY_NUMPADENTER) && isSearchFocused()) { unfocusSearch(); return; }
         if (getTextField().textboxKeyTyped(typedChar, keyCode)) {
             onSearchTextChanged(getTextField().getText());
             dropdownScrollAnim.reset(0);
@@ -108,7 +108,7 @@ public abstract class AbstractSearchListComponent extends AbstractTextInputCompo
         if (!moduleComponent.isOpened || !moduleComponent.isVisible(this)) return;
         float scrollSpeed = (float) Gui.scrollSpeed.getInput();
         float delta = scrollSpeed * (scroll / 120f);
-        if (isMouseOverDropdown() { if (delta != 0f) dropdownScrollAnim.extend(-delta); clampDropdownScroll(); return; }
+        if (isMouseOverDropdown()) { if (delta != 0f) dropdownScrollAnim.extend(-delta); clampDropdownScroll(); return; }
         if (isMouseOverSelectedList() && getSelectedEntryCount() > MAX_VISIBLE_SELECTED) { if (delta != 0f) selectedScrollAnim.extend(-delta); clampSelectedScroll(); }
     }
 
@@ -261,7 +261,7 @@ public abstract class AbstractSearchListComponent extends AbstractTextInputCompo
     }
 
     private boolean handleTextFieldFocusClick(int mouseX, int mouseY, Layout layout) {
-        if (isTextFieldClicked(mouseX, mouseY, layout) { setTextFieldFocused(true); onSearchFieldFocused(); updateDropdownAnimation(); return true; }
+        if (isTextFieldClicked(mouseX, mouseY, layout)) { setTextFieldFocused(true); onSearchFieldFocused(); updateDropdownAnimation(); return true; }
         return false;
     }
 

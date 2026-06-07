@@ -46,9 +46,9 @@ public class PlayerListComponent extends AbstractTextInputComponent {
     public boolean onClick(int mouseX, int mouseY, int button) {
         if (!moduleComponent.isOpened || !moduleComponent.isVisible(this)) return false;
         Layout layout = layout(true);
-        if (button == 0 && isTextFieldClicked(mouseX, mouseY, layout) { setTextFieldFocused(true); return true; }
+        if (button == 0 && isTextFieldClicked(mouseX, mouseY, layout)) { setTextFieldFocused(true); return true; }
         if (button == 0 && handleSelectedEntryClick(mouseX, mouseY, layout)) return true;
-        if (isTextFieldFocused() { getTextField().setText(""); setTextFieldFocused(false); }
+        if (isTextFieldFocused()) { getTextField().setText(""); setTextFieldFocused(false); }
         return false;
     }
 
@@ -111,7 +111,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
         float offsetPx = selectedScrollAnim.getValue();
         for (int i = 0; i < entries.size(); i++) {
             float rowTop = getSelectedTop(layout) - offsetPx + i * ROW_HEIGHT;
-            if (isOverClose(mouseX, mouseY, rowTop, layout.right) { setting.removePlayer(entries.get(i).getKey()); moduleComponent.updateSettingPositions(); clampSelectedScroll(); return true; }
+            if (isOverClose(mouseX, mouseY, rowTop, layout.right)) { setting.removePlayer(entries.get(i).getKey()); moduleComponent.updateSettingPositions(); clampSelectedScroll(); return true; }
         }
         return false;
     }

@@ -13,7 +13,7 @@ public class Animation extends Module {
     public Animation() {
         super("Animation", category.render);
         instance = this;
-        this.registerSettingmode = new SliderSetting("Mode", 0, new String[] {"1.7", "1.8", "Slide", "Push"}));
+        this.registerSettingmode = new SliderSetting("Mode", 0, new String[] {"1.7", "1.8", "Slide", "Push"});
         this.registerSetting(speed = new SliderSetting("Speed", 1.0, 0.1, 2.0, 0.1));
         this.registerSetting(smoothSwing = new ButtonSetting("Smooth swing", true));
     }
