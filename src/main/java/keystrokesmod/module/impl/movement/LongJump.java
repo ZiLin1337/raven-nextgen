@@ -298,7 +298,7 @@ public class LongJump extends Module {
         Object packet = e.getPacket();
         if (packet instanceof net.minecraft.network.packet.s2c.play.ExplosionS2CPacket) {
             net.minecraft.network.packet.s2c.play.ExplosionS2CPacket s27 = (net.minecraft.network.packet.s2c.play.ExplosionS2CPacket) packet;
-            if (fireballTime == 0 || mc.player.getPos().squaredDistanceTo((double)(double)0 /* getPlayerKnockback disabled */, (double)(double)s27.getPlayerKnockback().orElse(net.minecraft.util.math.Vec3d.ZERO).y, (double)(double)s27.getPlayerKnockback().orElse(net.minecraft.util.math.Vec3d.ZERO).z) > MAX_EXPLOSION_DIST_SQ) {
+            if (fireballTime == 0 || mc.player.getPos().squaredDistanceTo((double)(double)0 /* getPlayerKnockback disabled */, (double)(double)0, (double)(double)0) > MAX_EXPLOSION_DIST_SQ) {
                 e.setCanceled(true);
                 //Utils.sendMessage("0 fb time / out of dist");
             }

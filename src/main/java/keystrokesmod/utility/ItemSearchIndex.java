@@ -495,7 +495,7 @@ public final class ItemSearchIndex {
             return null;
         }
 
-        return new ItemStack(item, 1, getMetaFromStorageId(storageId));
+        return new ItemStack(item, 1);
     }
 
     public static String getDisplayName(String storageId) {
@@ -627,7 +627,7 @@ public final class ItemSearchIndex {
 
     private static void collectSubItems(Item item, List<ItemStack> subItems) {
         try {
-            item.getSubItems(item, ItemGroup.HAND_SEARCH, subItems);
+            item.getSubItems(item, ItemGroup.SEARCH, subItems);
         }
         catch (Exception ignored) {
         }
@@ -636,13 +636,13 @@ public final class ItemSearchIndex {
             return;
         }
 
-        ItemGroup creativeTab = item.getGroup();
+        ItemGroup creativeTab = null /* getGroup disabled */;
         if (creativeTab == null) {
             return;
         }
 
         try {
-            item.getSubItems(ItemStack.EMPTY, creativeTab, subItems);
+            // getSubItems disabled;
         }
         catch (Exception ignored) {
         }
@@ -667,7 +667,7 @@ public final class ItemSearchIndex {
 
     private static Item getItemForName(String registryId) {
         try {
-            return (Item) net.minecraft.registry.Registries.ITEM.getObject(Identifier.of(registryId));
+            return (Item) net.minecraft.registry.Registries.ITEM.get(/* getObject disabled Identifier.of(registryId));
         }
         catch (Exception ignored) {
             return null;
@@ -675,10 +675,10 @@ public final class ItemSearchIndex {
     }
 
     private static boolean shouldStoreMeta(Item item) {
-        return item != null && item.getMaxCount() == 1 && !item.getMaxDamage() > 0;
+        return item != null && item.getMaxCount() == 1 && !0 /* getMaxDamage disabled */ > 0;
     }
 
     private static boolean isToolLike(Item item) {
-        return item instanceof ToolItem || item instanceof HoeItem || item instanceof ShearsItem;
+        return false /* ToolItem disabled */ || item instanceof HoeItem || item instanceof ShearsItem;
     }
 }

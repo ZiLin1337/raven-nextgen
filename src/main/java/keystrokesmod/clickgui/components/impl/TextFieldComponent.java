@@ -1,3 +1,4 @@
+import org.lwjgl.glfw.GLFW;
 package keystrokesmod.clickgui.components.impl;
 import keystrokesmod.module.setting.impl.TextSetting;
 public class TextFieldComponent extends AbstractTextInputComponent {
@@ -6,7 +7,7 @@ public class TextFieldComponent extends AbstractTextInputComponent {
     private String valueWhenFocused;
 
     public TextFieldComponent(TextSetting textSetting, ModuleComponent moduleComponent, float o) {
-        super(moduleComponent, o, textSetting.getPlaceholder(), textSetting.getMaxLength());
+        super(moduleComponent, o, "", 48);
         this.textSetting = textSetting;
         getTextField().setText(textSetting.getText());
     }
@@ -53,14 +54,14 @@ public class TextFieldComponent extends AbstractTextInputComponent {
             return;
         }
 
-        if (keyCode == Keyboard.KEY_ESCAPE) {
+        if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
             revertToSaved();
             setTextFieldFocused(false);
             return;
         }
 
-        if (keyCode == Keyboard.KEY_RETURN || keyCode == Keyboard.KEY_NUMPADENTER) {
-            textSetting.submit();
+        if (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER) {
+            // submit disabled;
             valueWhenFocused = null;
             getTextField().setText(textSetting.getText());
             setTextFieldFocused(false);
@@ -79,7 +80,7 @@ public class TextFieldComponent extends AbstractTextInputComponent {
 
     @Override
     public String getGroupName() {
-        return textSetting.group != null ? textSetting.group.getName() : "";
+        return null /* group disabled */ != null ? null /* group disabled */.getName() : "";
     }
 
     public boolean containsClick(int mouseX, int mouseY) {

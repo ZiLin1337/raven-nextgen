@@ -1,3 +1,4 @@
+import org.lwjgl.glfw.GLFW;
 package keystrokesmod.clickgui.components.impl;
 
 import keystrokesmod.Raven;

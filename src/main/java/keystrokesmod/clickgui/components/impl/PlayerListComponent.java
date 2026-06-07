@@ -186,7 +186,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
         for (int i = 0; i < entries.size(); i++) {
             float rowTop = getSelectedTop(layout) - offsetPx + i * ROW_HEIGHT;
             if (isOverClose(mouseX, mouseY, rowTop, layout.right)) {
-                setting.removePlayer(entries.get(i).getUsername());
+                setting.removePlayer(entries.get(i));
                 moduleComponent.updateSettingPositions();
                 clampSelectedScroll();
                 return true;

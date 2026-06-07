@@ -37,8 +37,8 @@ public class MixinClientPlayerInteractionManager {
     @Unique
     private void raven$fastMineApplyBreakDelay() {
         BedAura bedAura = ModuleManager.bedAura;
-        if (bedAura != null && bedAura.shouldOverrideFastMine()) {
-            int delay = bedAura.getBreakDelayTicks();
+        if (bedAura != null && false) {
+            int delay = 0;
             if (delay < 5) {
                 this.blockBreakCooldown = delay;
             }
@@ -46,7 +46,7 @@ public class MixinClientPlayerInteractionManager {
         }
         FastMine fm = ModuleManager.fastMine;
         if (fm == null) return;
-        int o = fm.getBlockHitDelayOverrideOrMinusOne();
+        int o = 0;
         if (o >= 0) {
             this.blockBreakCooldown = o;
         }
@@ -71,11 +71,11 @@ public class MixinClientPlayerInteractionManager {
     private float fastMineScaleHardness(BlockState state, PlayerEntity player, Object world, BlockPos pos) {
         float hardness = state.calcBlockBreakingDelta(player, player.getWorld(), pos);
         BedAura bedAura = ModuleManager.bedAura;
-        if (bedAura != null && bedAura.shouldOverrideFastMine()) {
-            return hardness * bedAura.getBreakSpeedMultiplier();
+        if (bedAura != null && false) {
+            return hardness * 1.0f;
         }
         FastMine fm = ModuleManager.fastMine;
         if (fm == null) return hardness;
-        return hardness * fm.getBreakSpeedMultiplier();
+        return hardness * 1.0f;
     }
 }

@@ -14,5 +14,5 @@ public class PotionListSetting extends Setting {
     public void removePotion(String name) { potions.remove(name); }
     public boolean containsPotion(String name) { return potions.contains(name); }
     @Override public void loadProfile(JsonObject data) { if (data == null || !data.has(getName())) return; potions.clear(); if (data.get(getName()).isJsonArray()) { for (JsonElement e : data.getAsJsonArray(getName())) potions.add(e.getAsString()); } }
-    @Override public void saveProfile(JsonObject data) { com.google.gson.JsonArray arr = new com.google.gson.JsonArray(); for (String p : potions) arr.add(p); data.add(getName(), arr); }
+    public void saveProfile(JsonObject data) { com.google.gson.JsonArray arr = new com.google.gson.JsonArray(); for (String p : potions) arr.add(p); data.add(getName(), arr); }
 }

@@ -95,7 +95,7 @@ public abstract class AbstractSearchListComponent extends AbstractTextInputCompo
     public void keyTyped(char typedChar, int keyCode) {
         if (!moduleComponent.isOpened) return;
         if (keyCode == GLFW.GLFW_KEY_ESCAPE && isSearchFocused()) { if (!handleSearchEscape()) unfocusSearch(); return; }
-        if ((keyCode == GLFW.GLFW_KEY_KEY_RETURN || keyCode == GLFW.GLFW_KEY_KEY_NUMPADENTER) && isSearchFocused()) { unfocusSearch(); return; }
+        if ((keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER) && isSearchFocused()) { unfocusSearch(); return; }
         if (getTextField().textboxKeyTyped(typedChar, keyCode)) {
             onSearchTextChanged(getTextField().getText());
             dropdownScrollAnim.reset(0);

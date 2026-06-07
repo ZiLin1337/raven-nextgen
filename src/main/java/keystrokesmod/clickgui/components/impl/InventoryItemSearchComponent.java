@@ -45,7 +45,7 @@ public class InventoryItemSearchComponent extends AbstractItemSearchComponent<In
     public void keyTyped(char typedChar, int keyCode) {
         if (!moduleComponent.isOpened) return;
         if (listeningStorageId != null) {
-            if (keyCode == GLFW.GLFW_KEY_KEY_ESCAPE) { listeningStorageId = null; return; }
+            if (keyCode == GLFW.GLFW_KEY_ESCAPE) { listeningStorageId = null; return; }
             int slot = getHotbarSlotForKey(keyCode);
             if (slot != -1) {
                 setting.setAssignedSlot(listeningStorageId, slot);
@@ -141,7 +141,7 @@ public class InventoryItemSearchComponent extends AbstractItemSearchComponent<In
         float draggedRowCenter = (lastMouseY - dragGrabOffsetY) + ROW_HEIGHT / 2f;
         int desired = (int) Math.floor((draggedRowCenter - selectedTop + selectedScrollAnim.getValue()) / ROW_HEIGHT);
         desired = Math.max(0, Math.min(desired, ordered.size() - 1));
-        if (desired != curIdx) { setting.moveItem(/* moveItem disabled */draggingStorageId, desired); invalidateSelectedRows(); markUnsaved(); }
+        if (desired != curIdx) { // setting.moveItem(/* moveItem disabled */draggingStorageId, desired); invalidateSelectedRows(); markUnsaved(); }
     }
 
     private int getSelectedRowIndex(int mx, int my, Layout layout) {

@@ -70,7 +70,7 @@ public class ButtonComponent extends Component {
             this.buttonSetting.toggle();
             this.mod.guiButtonToggled(this.buttonSetting);
             if (Raven.currentProfile != null && !this.mod.ignoreOnSave) {
-                Raven.currentProfile.getModule().saved = false;
+                Raven.currentProfile.saved = false;
             }
         }
         return false;

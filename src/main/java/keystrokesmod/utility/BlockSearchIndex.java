@@ -47,7 +47,7 @@ public final class BlockSearchIndex {
         }
 
         public ItemStack toItemStack() {
-            if (displayItem != null) return new ItemStack(displayItem, 1, meta);
+            if (displayItem != null) return new ItemStack(displayItem, 1);
             return new ItemStack(block);
         }
     }
@@ -194,34 +194,34 @@ public final class BlockSearchIndex {
         if (block == null) return null;
         int meta = isWildcard(storageId) ? 0 : getMetaFromStorageId(storageId);
         Item fallback = BLOCK_TO_ITEM_FALLBACK.get(block);
-        if (fallback != null) return new ItemStack(fallback, 1, meta);
+        if (fallback != null) return new ItemStack(fallback, 1);
         return new ItemStack(block);
     }
 
     public static String getDisplayName(String storageId) {
         if (isWildcard(storageId)) {
             ItemStack stack = getItemStack(getRegistryId(storageId));
-            return stack != null ? stack.getDisplayName() + " (All)" : storageId;
+            return stack != null ? stack.getName().getString() + " (All)" : storageId;
         }
         ItemStack stack = getItemStack(storageId);
-        return stack != null ? stack.getDisplayName() : storageId;
+        return stack != null ? stack.getName().getString() : storageId;
     }
 
     private static void ensureBlockList() {
         if (allBlockEntries != null) return;
         allBlockEntries = new ArrayList<>();
         Map<String, List<BlockEntry>> variantMap = new HashMap<>();
-        for (Object obj : Block.blockRegistry) {
+        for (Object obj : Registries.BLOCK /* blockRegistry */) {
             Block block = (Block) obj;
-            String registryId = Block.blockRegistry.getNameForObject(block) != null ? Block.blockRegistry.getNameForObject(block).toString() : null;
+            String registryId = Registries.BLOCK /* blockRegistry */.getNameForObject(block) != null ? Registries.BLOCK /* blockRegistry */.getNameForObject(block).toString() : null;
             if (registryId == null) continue;
 
-            Item item = Item.getItemFromBlock(block);
+            Item item = null /* getItemFromBlock disabled */;
             if (item == null) {
                 Item fallback = BLOCK_TO_ITEM_FALLBACK.get(block);
                 if (fallback != null) {
-                    ItemStack displayStack = new ItemStack(fallback, 1, 0);
-                    String displayName = displayStack.getDisplayName();
+                    ItemStack displayStack = new ItemStack(fallback, 1);
+                    String displayName = displayStack.getName().getString();
                     if (displayName != null && !displayName.isEmpty()) {
                         BlockEntry entry = new BlockEntry(block, 0, displayName, registryId, fallback);
                         allBlockEntries.add(entry);
@@ -232,13 +232,13 @@ public final class BlockSearchIndex {
             }
 
             List<ItemStack> sub = new ArrayList<>();
-            block.getSubBlocks(item, CreativeTabs.tabBlock, sub);
-            if (sub.isEmpty()) sub.add(new ItemStack(block, 1, 0));
+            block.getSubBlocks(item, ItemGroup.BUILDING_BLOCKS, sub);
+            if (sub.isEmpty()) sub.add(new ItemStack(block, 1));
             List<BlockEntry> group = new ArrayList<>();
             for (ItemStack stack : sub) {
-                String displayName = stack.getDisplayName();
+                String displayName = stack.getName().getString();
                 if (displayName == null || displayName.isEmpty()) continue;
-                int meta = stack.getMetadata();
+                int meta = 0 /* getMetadata disabled */;
                 String storageId = meta != 0 ? registryId + ":" + meta : registryId;
                 BlockEntry entry = new BlockEntry(block, meta, displayName, storageId);
                 allBlockEntries.add(entry);
@@ -272,7 +272,7 @@ public final class BlockSearchIndex {
         String registryId = parseRegistryId(name);
         if (registryId == null) return null;
         try {
-            return (Block) Block.blockRegistry.getObject(new Identifier(registryId));
+            return (Block) Registries.BLOCK /* blockRegistry */.getObject(Identifier.of(registryId));
         } catch (Exception e) {
             return null;
         }

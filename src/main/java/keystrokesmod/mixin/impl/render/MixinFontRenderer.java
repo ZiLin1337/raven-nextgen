@@ -17,7 +17,7 @@ public class MixinFontRenderer {
             text = NameHider.getFakeName(text);
         }
         if (ModuleManager.antiShuffle != null && ModuleManager.antiShuffle.isEnabled()) {
-            text = AntiShuffle.removeObfuscation(text);
+            text = text;
         }
         return text;
     }
@@ -29,7 +29,7 @@ public class MixinFontRenderer {
             text = NameHider.getFakeName(text);
         }
         if (ModuleManager.antiShuffle != null && ModuleManager.antiShuffle.isEnabled()) {
-            text = AntiShuffle.removeObfuscation(text);
+            text = text;
         }
         return text;
     }

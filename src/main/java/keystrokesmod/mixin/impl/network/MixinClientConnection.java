@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinClientConnection {
     @Inject(method = "send(Lnet/minecraft/network/packet/Packet;)V", at = @At("HEAD"), cancellable = true)
     private void onSendPacket(Packet<?> packet, CallbackInfo ci) {
-        SendPacketEvent event = new SendPacketEvent();
+        // SendPacketEvent disabled
         Raven.EVENT_BUS.post(event);
         if (event.isCancelled()) {
             ci.cancel();

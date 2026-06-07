@@ -54,7 +54,7 @@ public class NameHider extends Module {
 
     public NameHider() {
         super("Name Hider", Module.category.other);
-        this.registerSetting(fakeNameSetting = new TextSetting("Fake name", fakeName, 48) {
+        this.registerSetting(fakeNameSetting = new TextSetting("Fake name", 48) {
             @Override
             public void setText(String text) {
                 super.setText(normalizeFakeName(text));
@@ -74,7 +74,7 @@ public class NameHider extends Module {
             }
         });
         this.registerSetting(hideAllNames = new ButtonSetting("Hide all names", false));
-        this.registerSetting(hideAllPrefixSetting = new TextSetting("Hide-all prefix", DEFAULT_HIDE_ALL_PREFIX, 24) {
+        this.registerSetting(hideAllPrefixSetting = new TextSetting("Hide-all prefix", 24) {
             @Override
             public void setText(String text) {
                 super.setText(normalizeHideAllPrefix(text));
@@ -302,8 +302,8 @@ public class NameHider extends Module {
             }
 
             PlayerListEntry playerInfo = getPlayerInfo(player);
-            String key = playerInfo != null ? getIdentityKey(playerInfo) : getIdentityKey(player.getUuid(), player.getName());
-            addTargetName(targets, protectedNames, key, player.getName());
+            String key = playerInfo != null ? getIdentityKey(playerInfo) : getIdentityKey(player.getUuid(), player.getName().getString());
+            addTargetName(targets, protectedNames, key, player.getName().getString());
             if (playerInfo != null) {
                 addTargetName(targets, protectedNames, key, getProfileName(playerInfo));
             }
@@ -352,7 +352,7 @@ public class NameHider extends Module {
     }
 
     private static List<String> buildSelfNames() {
-        rememberSelfName(mc.player.getName());
+        rememberSelfName(mc.player.getName().getString().getString());
 
         PlayerListEntry selfPlayerInfo = getSelfPlayerInfo();
         if (selfPlayerInfo != null) {
@@ -370,7 +370,7 @@ public class NameHider extends Module {
     private static List<String> getEntityVisibleNames(PlayerEntity player, String key) {
         LinkedHashSet<String> names = new LinkedHashSet<String>();
         addNames(names, cachedVisibleNamesByKey.get(key));
-        addName(names, player.getName());
+        addName(names, player.getName().getString());
 
         PlayerListEntry playerInfo = getPlayerInfo(player);
         if (playerInfo != null) {
@@ -451,7 +451,7 @@ public class NameHider extends Module {
         if (selfPlayerInfo != null) {
             return getIdentityKey(selfPlayerInfo);
         }
-        return mc.player == null ? null : getIdentityKey(mc.player.getUuid(), mc.player.getName());
+        return mc.player == null ? null : getIdentityKey(mc.player.getUuid(), mc.player.getName().getString().getString());
     }
 
     private static boolean isSelfPlayer(PlayerEntity player, String key) {
@@ -482,7 +482,7 @@ public class NameHider extends Module {
         if (playerInfo != null) {
             return getIdentityKey(playerInfo);
         }
-        return player == null ? null : getIdentityKey(player.getUuid(), player.getName());
+        return player == null ? null : getIdentityKey(player.getUuid(), player.getName().getString());
     }
 
     private static String getIdentityKey(UUID uniqueId, String fallbackName) {

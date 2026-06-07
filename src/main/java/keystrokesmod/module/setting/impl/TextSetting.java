@@ -7,6 +7,7 @@ public class TextSetting extends Setting {
     private String value;
     
     public TextSetting(String name, String defaultValue) {
+    public TextSetting(String name, int maxLength) { this(name, "", maxLength); }
         super(name);
         this.value = defaultValue;
     }
@@ -18,6 +19,8 @@ public class TextSetting extends Setting {
     
     public String getValue() { return value; }
     public void setValue(String value) { this.value = value; }
+    public int getMaxLength() { return 48; }
+    public String getPlaceholder() { return ""; }
     public String getText() { return value; }
     public void setText(String text) { this.value = text; }
     
