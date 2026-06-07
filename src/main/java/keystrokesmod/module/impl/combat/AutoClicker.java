@@ -92,7 +92,7 @@ public class AutoClicker extends Module {
             inventoryNextClickTime = 0L;
             return;
         }
-        if ((GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) {
+        if (GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) {
             inventoryNextClickTime = 0L;
             return;
         }
