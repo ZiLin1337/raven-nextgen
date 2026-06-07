@@ -1052,7 +1052,7 @@ public class RenderUtils implements IMinecraftInstance {
         x2 *= 2.0f;
         y2 *= 2.0f;
         RenderSystem.getModelViewStack().pushMatrix();
-        GL11.glPushAttrib(// // GL11 constant);
+        GL11.glPushAttrib(0x00000000);
         RenderSystem.enableBlend();
         RenderSystem.disableTexture();
         glColor(n6);
@@ -1185,8 +1185,8 @@ public class RenderUtils implements IMinecraftInstance {
     }
 
     public static Vec3d convertTo2D(int scaleFactor, double x, double y, double z) {
-        GL11.glGetFloat(// // GL11 constant, MODELVIEW);
-        GL11.glGetFloat(// // GL11 constant, PROJECTION);
+        float[] MODELVIEW = new float[16];
+        float[] PROJECTION = new float[16];
 
         boolean result = GLU.gluProject(
                 (float) x,
@@ -1214,8 +1214,8 @@ public class RenderUtils implements IMinecraftInstance {
         context.modelView.clear();
         context.projection.clear();
         context.viewport.clear();
-        GL11.glGetFloat(// // GL11 constant, context.modelView);
-        GL11.glGetFloat(// // GL11 constant, context.projection);
+        // GL11 not available in 1.21.4
+        // GL11 not available in 1.21.4
         context.projection.rewind();
         context.viewport.rewind();
         return context;
@@ -1263,7 +1263,7 @@ public class RenderUtils implements IMinecraftInstance {
         x2 *= 2.0;
         y2 *= 2.0;
         RenderSystem.getModelViewStack().pushMatrix();
-        GL11.glPushAttrib(// // GL11 constant);
+        GL11.glPushAttrib(0x00000000);
         RenderSystem.enableBlend();
         RenderSystem.disableTexture();
         glColor(color);
@@ -1321,7 +1321,7 @@ public class RenderUtils implements IMinecraftInstance {
         RenderSystem.blendFunc(770, 771);
         GL11.glShadeModel(7425);
         RenderSystem.getModelViewStack().pushMatrix();
-        GL11.glPushAttrib(// // GL11 constant);
+        GL11.glPushAttrib(0x00000000);
         x *= 2.0;
         y *= 2.0;
         x2 *= 2.0;
