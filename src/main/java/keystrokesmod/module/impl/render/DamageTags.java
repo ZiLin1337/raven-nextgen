@@ -40,7 +40,7 @@ public class DamageTags extends Module {
     private static final float HIDDEN_TEXT_ALPHA = 32.0F / 255.0F;
     private static final float FADE_START = 0.72F;
     private static final int MIN_FONT_ALPHA = 4;
-    private static final String[] FONT_OPTIONS = FontManager.getHudFontOptions(]);
+    private static final String[] FONT_OPTIONS = FontManager.getHudFontOptions();
 
     private final SliderSetting duration;
     private final SliderSetting scale;
@@ -50,9 +50,9 @@ public class DamageTags extends Module {
     private final ButtonSetting background;
     private final SliderSetting backgroundOpacity;
 
-    private final List<DamageTag> activeTags = new ArrayList<>(]);
-    private final Map<Integer, HealthSnapshot> trackedStates = new HashMap<>(]);
-    private final ConcurrentLinkedQueue<QueuedMetadataUpdate> pendingUpdates = new ConcurrentLinkedQueue<>(]);
+    private final List<DamageTag> activeTags = new ArrayList<>();
+    private final Map<Integer, HealthSnapshot> trackedStates = new HashMap<>();
+    private final ConcurrentLinkedQueue<QueuedMetadataUpdate> pendingUpdates = new ConcurrentLinkedQueue<>();
     private World lastWorld;
 
     private static class QueuedMetadataUpdate {
@@ -106,35 +106,35 @@ public class DamageTags extends Module {
             this.durationMs = durationMs;
             this.textHalfWidth = textHalfWidth;
             double e = FRUSTUM_AABB_EXPAND;
-            this.frustumAabb = new Box(x - e, y - e, z - e, x + e, y + RISE_DISTANCE + e, z + e]);
+            this.frustumAabb = new Box(x - e, y - e, z - e, x + e, y + RISE_DISTANCE + e, z + e);
         }
     }
 
     public DamageTags() {
-        super("Damage Tags", category.render, 0]);
-        this.registerSetting(duration = new SliderSetting("Duration", " ms", 1200, 0, 2000, 100)]);
-        this.registerSetting(scale = new SliderSetting("Scale", 1.0, 0.5, 3.0, 0.1)]);
-        this.registerSetting(font = new SliderSetting("Font", 0, FONT_OPTIONS)]);
-        this.registerSetting(depthMode = new SliderSetting("Depth", 0, DEPTH_MODES)]);
-        this.registerSetting(textShadow = new ButtonSetting("Text Shadow", false)]);
-        this.registerSetting(background = new ButtonSetting("Background", true)]);
-        this.registerSetting(backgroundOpacity = new SliderSetting("Background Opacity", 0.25, 0.0, 1.0, 0.05)]);
+        super("Damage Tags", category.render, 0);
+        this.registerSetting(duration = new SliderSetting("Duration", " ms", 1200, 0, 2000, 100));
+        this.registerSetting(scale = new SliderSetting("Scale", 1.0, 0.5, 3.0, 0.1));
+        this.registerSetting(font = new SliderSetting("Font", 0, FONT_OPTIONS));
+        this.registerSetting(depthMode = new SliderSetting("Depth", 0, DEPTH_MODES));
+        this.registerSetting(textShadow = new ButtonSetting("Text Shadow", false));
+        this.registerSetting(background = new ButtonSetting("Background", true));
+        this.registerSetting(backgroundOpacity = new SliderSetting("Background Opacity", 0.25, 0.0, 1.0, 0.05));
     }
 
     @Override
     public void guiUpdate() {
-        backgroundOpacity.setVisible(background.isToggled(), this]);
+        backgroundOpacity.setVisible(background.isToggled(), this);
     }
 
     @Override
     public void onEnable() {
-        resetState(]);
+        resetState();
         lastWorld = mc.world;
     }
 
     @Override
     public void onDisable() {
-        resetState(]);
+        resetState();
     }
 
     
@@ -143,8 +143,8 @@ public class DamageTags extends Module {
             return;
         }
 
-        S1CPacketEntityMetadata packet = (S1CPacketEntityMetadata) e.getPacket(]);
-        List<DataWatcher.WatchableObject> watchedObjects = packet.func_149376_c(]);
+        S1CPacketEntityMetadata packet = (S1CPacketEntityMetadata) e.getPacket();
+        List<DataWatcher.WatchableObject> watchedObjects = packet.func_149376_c();
         if (watchedObjects == null || watchedObjects.isEmpty()) {
             return;
         }
@@ -159,14 +159,14 @@ public class DamageTags extends Module {
                 continue;
             }
 
-            int dataValueId = watchedObject.getDataValueId(]);
+            int dataValueId = watchedObject.getDataValueId();
             if (dataValueId == HEALTH_WATCHER_ID && watchedObject.getObject() instanceof Float) {
                 hasHealth = true;
-                health = (Float) watchedObject.getObject(]);
+                health = (Float) watchedObject.getObject();
             }
             else if (dataValueId == ABSORPTION_WATCHER_ID && watchedObject.getObject() instanceof Float) {
                 hasAbsorption = true;
-                absorption = (Float) watchedObject.getObject(]);
+                absorption = (Float) watchedObject.getObject();
             }
         }
 
@@ -174,7 +174,7 @@ public class DamageTags extends Module {
             return;
         }
 
-        pendingUpdates.offer(new QueuedMetadataUpdate(packet.getId(), hasHealth, health, hasAbsorption, absorption)]);
+        pendingUpdates.offer(new QueuedMetadataUpdate(packet.getId(), hasHealth, health, hasAbsorption, absorption));
     }
 
     
@@ -184,21 +184,21 @@ public class DamageTags extends Module {
         }
 
         if (mc.world != lastWorld) {
-            resetState(]);
+            resetState();
             lastWorld = mc.world;
         }
 
-        long now = System.currentTimeMillis(]);
-        flushPendingUpdates(e.partialTicks, now]);
-        updateTrackedStates(]);
-        pruneExpiredTags(now]);
+        long now = System.currentTimeMillis();
+        flushPendingUpdates(e.partialTicks, now);
+        updateTrackedStates();
+        pruneExpiredTags(now);
 
         if (activeTags.isEmpty()) {
             return;
         }
 
-        RavenFontRenderer fontRenderer = getDamageTagFontRenderer(]);
-        Object renderManager = mc.getEntityRenderDispatcher(]);
+        RavenFontRenderer fontRenderer = getDamageTagFontRenderer();
+        Object renderManager = mc.getEntityRenderDispatcher();
         if (fontRenderer == null || renderManager == null) {
             return;
         }
@@ -207,12 +207,12 @@ public class DamageTags extends Module {
         double viewerY = renderManager.viewerPosY;
         double viewerZ = renderManager.viewerPosZ;
 
-        int depthOrdinal = (int) depthMode.getInput(]);
-        float scaleMul = (float) scale.getInput(]);
-        boolean bgEnabled = background.isToggled(]);
-        float bgOpacitySlider = (float) backgroundOpacity.getInput(]);
+        int depthOrdinal = (int) depthMode.getInput();
+        float scaleMul = (float) scale.getInput();
+        boolean bgEnabled = background.isToggled();
+        float bgOpacitySlider = (float) backgroundOpacity.getInput();
 
-        RenderSystem.pushAttrib(]);
+        RenderSystem.pushAttrib();
         try {
             for (DamageTag tag : activeTags) {
                 double dx = tag.x - viewerX;
@@ -225,99 +225,99 @@ public class DamageTags extends Module {
                     continue;
                 }
                 renderTag(tag, now, renderManager, fontRenderer, viewerX, viewerY, viewerZ,
-                        depthOrdinal, scaleMul, bgEnabled, bgOpacitySlider]);
+                        depthOrdinal, scaleMul, bgEnabled, bgOpacitySlider);
             }
         }
         finally {
-            RenderSystem.popAttrib(]);
+            RenderSystem.popAttrib();
         }
     }
 
     private void flushPendingUpdates(float partialTicks, long nowMillis) {
         if (mc.world == null) {
-            pendingUpdates.clear(]);
+            pendingUpdates.clear();
             return;
         }
 
         QueuedMetadataUpdate update;
         while ((update = pendingUpdates.poll()) != null) {
-            Entity entity = mc.world.getEntityByID(update.entityId]);
+            Entity entity = mc.world.getEntityByID(update.entityId);
             if (!(entity instanceof LivingEntity) || entity instanceof ArmorStandEntity || entity == mc.player) {
-                trackedStates.remove(update.entityId]);
+                trackedStates.remove(update.entityId);
                 continue;
             }
 
             LivingEntity living = (LivingEntity) entity;
-            HealthSnapshot previous = trackedStates.get(update.entityId]);
+            HealthSnapshot previous = trackedStates.get(update.entityId);
 
-            float newHealth = update.hasHealth ? update.health : getHealth(living]);
-            float newAbsorption = update.hasAbsorption ? update.absorption : getAbsorption(living]);
+            float newHealth = update.hasHealth ? update.health : getHealth(living);
+            float newAbsorption = update.hasAbsorption ? update.absorption : getAbsorption(living);
 
-            HealthSnapshot current = new HealthSnapshot(newHealth, newAbsorption]);
+            HealthSnapshot current = new HealthSnapshot(newHealth, newAbsorption);
             if (previous == null) {
-                trackedStates.put(update.entityId, current]);
+                trackedStates.put(update.entityId, current);
                 continue;
             }
 
-            float delta = current.total() - previous.total(]);
-            trackedStates.put(update.entityId, current]);
+            float delta = current.total() - previous.total();
+            trackedStates.put(update.entityId, current);
 
             if (Math.abs(delta) <= 0.01F) {
                 continue;
             }
 
-            spawnTag(living, delta, partialTicks, nowMillis]);
+            spawnTag(living, delta, partialTicks, nowMillis);
         }
     }
 
     private void updateTrackedStates() {
         if (mc.world == null) {
-            trackedStates.clear(]);
+            trackedStates.clear();
             return;
         }
 
         trackedStates.entrySet().removeIf(entry -> {
-            Entity entity = mc.world.getEntityByID(entry.getKey()]);
+            Entity entity = mc.world.getEntityByID(entry.getKey());
             return !(entity instanceof LivingEntity) || entity instanceof ArmorStandEntity || entity == mc.player;
-        }]);
+        });
 
         List<Entity> loaded = mc.world.loadedEntityList;
-        for (int i = 0, n = loaded.size(]); i < n; i++) {
-            Entity entity = loaded.get(i]);
+        for (int i = 0, n = loaded.size(); i < n; i++) {
+            Entity entity = loaded.get(i);
             if (!(entity instanceof LivingEntity) || entity instanceof ArmorStandEntity || entity == mc.player) {
                 continue;
             }
 
             LivingEntity living = (LivingEntity) entity;
-            trackedStates.put(entity.getId(), new HealthSnapshot(getHealth(living), getAbsorption(living))]);
+            trackedStates.put(entity.getId(), new HealthSnapshot(getHealth(living), getAbsorption(living)));
         }
     }
 
     private void pruneExpiredTags(long now) {
-        Iterator<DamageTag> iterator = activeTags.iterator(]);
+        Iterator<DamageTag> iterator = activeTags.iterator();
         while (iterator.hasNext()) {
-            DamageTag tag = iterator.next(]);
+            DamageTag tag = iterator.next();
             if (now - tag.createdAt >= tag.durationMs) {
-                iterator.remove(]);
+                iterator.remove();
             }
         }
     }
 
     private void spawnTag(LivingEntity living, float delta, float partialTicks, long nowMillis) {
-        double x = interpolate(living.lastTickPosX, living.posX, partialTicks]);
+        double x = interpolate(living.lastTickPosX, living.posX, partialTicks);
         double y = interpolate(living.lastTickPosY, living.posY, partialTicks) + living.height + 0.5D;
-        double z = interpolate(living.lastTickPosZ, living.posZ, partialTicks]);
-        y += getStackOffset(x, y, z, nowMillis]);
+        double z = interpolate(living.lastTickPosZ, living.posZ, partialTicks);
+        y += getStackOffset(x, y, z, nowMillis);
 
-        long durationMs = Math.max(1L, Math.round(duration.getInput())]);
-        String text = (delta > 0.0F ? "+" : "-") + fastOneDecimal(Math.abs(delta)]);
+        long durationMs = Math.max(1L, Math.round(duration.getInput()));
+        String text = (delta > 0.0F ? "+" : "-") + fastOneDecimal(Math.abs(delta));
         int color = delta > 0.0F ? 0xFF55FF55 : 0xFFFF5555;
-        RavenFontRenderer fr = getDamageTagFontRenderer(]);
+        RavenFontRenderer fr = getDamageTagFontRenderer();
         int halfW = fr != null ? fr.getStringWidth(text) >> 1 : 0;
 
-        activeTags.add(new DamageTag(text, color, x, y, z, nowMillis, durationMs, halfW)]);
+        activeTags.add(new DamageTag(text, color, x, y, z, nowMillis, durationMs, halfW));
         if (activeTags.size() > 256) {
-            activeTags.remove(0]);
+            activeTags.remove(0);
         }
     }
 
@@ -325,13 +325,13 @@ public class DamageTags extends Module {
                            double viewerX, double viewerY, double viewerZ,
                            int depthOrdinal, float scaleMul,
                            boolean bgEnabled, float bgOpacitySlider) {
-        float progress = getProgress(tag, now]);
+        float progress = getProgress(tag, now);
         if (progress >= 1.0F) {
             return;
         }
 
-        float rise = expoOut(progress]);
-        float alpha = getAlpha(progress]);
+        float rise = expoOut(progress);
+        float alpha = getAlpha(progress);
         if (alpha <= 0.0F) {
             return;
         }
@@ -342,63 +342,63 @@ public class DamageTags extends Module {
         float renderScale = 0.02666667F * scaleMul;
         int halfWidth = tag.textHalfWidth;
 
-        RenderSystem.pushMatrix(]);
-        RenderSystem.translate((float) x, (float) y, (float) z]);
-        GL11.glNormal3f(0.0F, 1.0F, 0.0F]);
-        RenderSystem.rotate(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F]);
-        RenderSystem.rotate(renderManager.playerViewX * (mc.options.getPerspective().ordinal() == 2 ? -1 : 1), 1.0F, 0.0F, 0.0F]);
-        RenderSystem.scale(-renderScale, -renderScale, renderScale]);
+        RenderSystem.pushMatrix();
+        RenderSystem.translate((float) x, (float) y, (float) z);
+        GL11.glNormal3f(0.0F, 1.0F, 0.0F);
+        RenderSystem.rotate(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+        RenderSystem.rotate(renderManager.playerViewX * (mc.options.getPerspective().ordinal() == 2 ? -1 : 1), 1.0F, 0.0F, 0.0F);
+        RenderSystem.scale(-renderScale, -renderScale, renderScale);
 
-        RenderSystem.disableLighting(]);
-        RenderSystem.enableBlend(]);
-        RenderSystem.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO]);
+        RenderSystem.disableLighting();
+        RenderSystem.enableBlend();
+        RenderSystem.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
 
         switch (depthOrdinal) {
             case 1:
-                renderVisibleTag(fontRenderer, tag, halfWidth, alpha, bgEnabled, bgOpacitySlider]);
+                renderVisibleTag(fontRenderer, tag, halfWidth, alpha, bgEnabled, bgOpacitySlider);
                 break;
             case 2:
-                renderThroughWallsTag(fontRenderer, tag, halfWidth, alpha, bgEnabled, bgOpacitySlider]);
+                renderThroughWallsTag(fontRenderer, tag, halfWidth, alpha, bgEnabled, bgOpacitySlider);
                 break;
             default:
-                renderVanillaDepthTag(fontRenderer, tag, halfWidth, alpha, bgEnabled, bgOpacitySlider]);
+                renderVanillaDepthTag(fontRenderer, tag, halfWidth, alpha, bgEnabled, bgOpacitySlider);
                 break;
         }
 
-        RenderSystem.enableDepth(]);
-        RenderSystem.depthMask(true]);
-        RenderSystem.enableTexture2D(]);
-        RenderSystem.disableBlend(]);
-        RenderSystem.enableLighting(]);
-        RenderSystem.color(1.0F, 1.0F, 1.0F, 1.0F]);
-        RenderSystem.popMatrix(]);
+        RenderSystem.enableDepth();
+        RenderSystem.depthMask(true);
+        RenderSystem.enableTexture2D();
+        RenderSystem.disableBlend();
+        RenderSystem.enableLighting();
+        RenderSystem.color(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.popMatrix();
     }
 
     private void renderVanillaDepthTag(RavenFontRenderer fontRenderer, DamageTag tag, int halfWidth, float alpha,
                                        boolean bgEnabled, float bgOpacitySlider) {
-        RenderSystem.depthMask(false]);
-        RenderSystem.disableDepth(]);
-        drawBackground(halfWidth, alpha, bgEnabled, bgOpacitySlider]);
-        fontRenderer.drawString(tag.text, -halfWidth, 0, applyFontAlpha(tag.color, HIDDEN_TEXT_ALPHA * alpha), false]);
-        RenderSystem.enableDepth(]);
-        RenderSystem.depthMask(true]);
-        fontRenderer.drawString(tag.text, -halfWidth, 0, applyFontAlpha(tag.color, alpha), textShadow.isToggled()]);
+        RenderSystem.depthMask(false);
+        RenderSystem.disableDepth();
+        drawBackground(halfWidth, alpha, bgEnabled, bgOpacitySlider);
+        fontRenderer.drawString(tag.text, -halfWidth, 0, applyFontAlpha(tag.color, HIDDEN_TEXT_ALPHA * alpha), false);
+        RenderSystem.enableDepth();
+        RenderSystem.depthMask(true);
+        fontRenderer.drawString(tag.text, -halfWidth, 0, applyFontAlpha(tag.color, alpha), textShadow.isToggled());
     }
 
     private void renderVisibleTag(RavenFontRenderer fontRenderer, DamageTag tag, int halfWidth, float alpha,
                                   boolean bgEnabled, float bgOpacitySlider) {
-        RenderSystem.depthMask(false]);
-        RenderSystem.enableDepth(]);
-        drawBackground(halfWidth, alpha, bgEnabled, bgOpacitySlider]);
-        fontRenderer.drawString(tag.text, -halfWidth, 0, applyFontAlpha(tag.color, alpha), textShadow.isToggled()]);
+        RenderSystem.depthMask(false);
+        RenderSystem.enableDepth();
+        drawBackground(halfWidth, alpha, bgEnabled, bgOpacitySlider);
+        fontRenderer.drawString(tag.text, -halfWidth, 0, applyFontAlpha(tag.color, alpha), textShadow.isToggled());
     }
 
     private void renderThroughWallsTag(RavenFontRenderer fontRenderer, DamageTag tag, int halfWidth, float alpha,
                                        boolean bgEnabled, float bgOpacitySlider) {
-        RenderSystem.depthMask(false]);
-        RenderSystem.disableDepth(]);
-        drawBackground(halfWidth, alpha, bgEnabled, bgOpacitySlider]);
-        fontRenderer.drawString(tag.text, -halfWidth, 0, applyFontAlpha(tag.color, alpha), textShadow.isToggled()]);
+        RenderSystem.depthMask(false);
+        RenderSystem.disableDepth();
+        drawBackground(halfWidth, alpha, bgEnabled, bgOpacitySlider);
+        fontRenderer.drawString(tag.text, -halfWidth, 0, applyFontAlpha(tag.color, alpha), textShadow.isToggled());
     }
 
     private void drawBackground(int halfWidth, float alpha, boolean bgEnabled, float bgOpacitySlider) {
@@ -411,20 +411,20 @@ public class DamageTags extends Module {
             return;
         }
 
-        RenderSystem.disableTexture2D(]);
-        Tessellator tessellator = Tessellator.getInstance(]);
-        BufferBuilder worldRenderer = tessellator.getWorldRenderer(]);
-        worldRenderer.begin(7, VertexFormats.POSITION_COLOR]);
-        worldRenderer.pos(-halfWidth - 1, -1, 0.0D).color(0.0F, 0.0F, 0.0F, bgAlpha).endVertex(]);
-        worldRenderer.pos(-halfWidth - 1, 8, 0.0D).color(0.0F, 0.0F, 0.0F, bgAlpha).endVertex(]);
-        worldRenderer.pos(halfWidth + 1, 8, 0.0D).color(0.0F, 0.0F, 0.0F, bgAlpha).endVertex(]);
-        worldRenderer.pos(halfWidth + 1, -1, 0.0D).color(0.0F, 0.0F, 0.0F, bgAlpha).endVertex(]);
-        tessellator.draw(]);
-        RenderSystem.enableTexture2D(]);
+        RenderSystem.disableTexture2D();
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder worldRenderer = tessellator.getWorldRenderer();
+        worldRenderer.begin(7, VertexFormats.POSITION_COLOR);
+        worldRenderer.pos(-halfWidth - 1, -1, 0.0D).color(0.0F, 0.0F, 0.0F, bgAlpha).endVertex();
+        worldRenderer.pos(-halfWidth - 1, 8, 0.0D).color(0.0F, 0.0F, 0.0F, bgAlpha).endVertex();
+        worldRenderer.pos(halfWidth + 1, 8, 0.0D).color(0.0F, 0.0F, 0.0F, bgAlpha).endVertex();
+        worldRenderer.pos(halfWidth + 1, -1, 0.0D).color(0.0F, 0.0F, 0.0F, bgAlpha).endVertex();
+        tessellator.draw();
+        RenderSystem.enableTexture2D();
     }
 
     private float getProgress(DamageTag tag, long now) {
-        return MathHelper.clamp_float((float) (now - tag.createdAt) / (float) tag.durationMs, 0.0F, 1.0F]);
+        return MathHelper.clamp_float((float) (now - tag.createdAt) / (float) tag.durationMs, 0.0F, 1.0F);
     }
 
     private float getAlpha(float progress) {
@@ -432,7 +432,7 @@ public class DamageTags extends Module {
             return 1.0F;
         }
 
-        float fadeProgress = MathHelper.clamp_float((progress - FADE_START) / (1.0F - FADE_START), 0.0F, 1.0F]);
+        float fadeProgress = MathHelper.clamp_float((progress - FADE_START) / (1.0F - FADE_START), 0.0F, 1.0F);
         return 1.0F - fadeProgress;
     }
 
@@ -453,12 +453,12 @@ public class DamageTags extends Module {
     }
 
     private float getHealth(LivingEntity living) {
-        return Math.max(0.0F, living.getHealth()]);
+        return Math.max(0.0F, living.getHealth());
     }
 
     private float getAbsorption(LivingEntity living) {
         if (living instanceof PlayerEntity) {
-            return Math.max(0.0F, ((PlayerEntity) living).getAbsorptionAmount()]);
+            return Math.max(0.0F, ((PlayerEntity) living).getAbsorptionAmount());
         }
         return 0.0F;
     }
@@ -468,19 +468,19 @@ public class DamageTags extends Module {
     }
 
     private int applyFontAlpha(int color, float alpha) {
-        int alphaChannel = MathHelper.clamp_int(Math.round(alpha * 255.0F), 0, 255]);
+        int alphaChannel = MathHelper.clamp_int(Math.round(alpha * 255.0F), 0, 255);
         if (alpha > 0.0F && alphaChannel < MIN_FONT_ALPHA) {
             alphaChannel = MIN_FONT_ALPHA;
         }
-        return (alphaChannel << 24) | (color & 0x00FFFFFF]);
+        return (alphaChannel << 24) | (color & 0x00FFFFFF);
     }
 
     private String fastOneDecimal(float value) {
-        int tenths = Math.round(value * 10.0F]);
+        int tenths = Math.round(value * 10.0F);
         int intPart = tenths / 10;
-        int fracPart = Math.abs(tenths % 10]);
+        int fracPart = Math.abs(tenths % 10);
         if (fracPart == 0) {
-            return String.valueOf(intPart]);
+            return String.valueOf(intPart);
         }
         return intPart + "." + fracPart;
     }
@@ -492,24 +492,24 @@ public class DamageTags extends Module {
         if (t >= 1.0F) {
             return 1.0F;
         }
-        return 1.0F - (float) Math.pow(2.0D, -10.0D * t]);
+        return 1.0F - (float) Math.pow(2.0D, -10.0D * t);
     }
 
     private String getSelectedFontName() {
         if (font == null) {
             return FONT_OPTIONS[0];
         }
-        int index = (int) Math.max(0, Math.min(font.getOptions().length - 1, font.getInput())]);
+        int index = (int) Math.max(0, Math.min(font.getOptions().length - 1, font.getInput()));
         return font.getOptions()[index];
     }
 
     private RavenFontRenderer getDamageTagFontRenderer() {
-        return FontManager.getNametagRenderer(getSelectedFontName()]);
+        return FontManager.getNametagRenderer(getSelectedFontName());
     }
 
     private void resetState() {
-        activeTags.clear(]);
-        trackedStates.clear(]);
-        pendingUpdates.clear(]);
+        activeTags.clear();
+        trackedStates.clear();
+        pendingUpdates.clear();
     }
 }

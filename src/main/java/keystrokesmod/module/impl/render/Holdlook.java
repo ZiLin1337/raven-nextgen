@@ -14,9 +14,9 @@ public class Holdlook extends Module {
     private int savedPerspective;
 
     public Holdlook() {
-        super("Hold Look", category.render]);
-        this.registerSetting(rearCamKey = new KeySetting("Rear cam", 0)]);
-        this.registerSetting(frontCamKey = new KeySetting("Front cam", 0)]);
+        super("Hold Look", category.render);
+        this.registerSetting(rearCamKey = new KeySetting("Rear cam", 0));
+        this.registerSetting(frontCamKey = new KeySetting("Front cam", 0));
     }
 
     
@@ -25,33 +25,33 @@ public class Holdlook extends Module {
 
         if (mc.currentScreen != null) {
             if (rearActive || frontActive) {
-                applyThirdPersonView(0]);
+                applyThirdPersonView(0);
                 rearActive = false;
                 frontActive = false;
             }
             return;
         }
 
-        boolean rearDown = rearCamKey.isPressed(]);
-        boolean frontDown = frontCamKey.isPressed(]);
+        boolean rearDown = rearCamKey.isPressed();
+        boolean frontDown = frontCamKey.isPressed();
 
         if (rearDown && !rearActive) {
-            savedPerspective = mc.options.getPerspective().ordinal(]);
-            applyThirdPersonView(1]);
+            savedPerspective = mc.options.getPerspective().ordinal();
+            applyThirdPersonView(1);
             rearActive = true;
         } else if (!rearDown && rearActive) {
-            applyThirdPersonView(frontActive ? 2 : 0]);
+            applyThirdPersonView(frontActive ? 2 : 0);
             rearActive = false;
         }
 
         if (frontDown && !frontActive) {
             if (!rearActive) {
-                savedPerspective = mc.options.getPerspective().ordinal(]);
+                savedPerspective = mc.options.getPerspective().ordinal();
             }
-            applyThirdPersonView(2]);
+            applyThirdPersonView(2);
             frontActive = true;
         } else if (!frontDown && frontActive) {
-            applyThirdPersonView(rearActive ? 1 : 0]);
+            applyThirdPersonView(rearActive ? 1 : 0);
             frontActive = false;
         }
     }
@@ -59,7 +59,7 @@ public class Holdlook extends Module {
     @Override
     public void onDisable() {
         if (rearActive || frontActive) {
-            applyThirdPersonView(0]);
+            applyThirdPersonView(0);
             rearActive = false;
             frontActive = false;
         }
@@ -75,13 +75,13 @@ public class Holdlook extends Module {
         mc.options.getPerspective().ordinal() = view;
         if (mc.gameRenderer != null) {
             if (view == 0) {
-                mc.gameRenderer.loadEntityShader(mc.getCameraEntity()]);
+                mc.gameRenderer.loadEntityShader(mc.getCameraEntity());
             } else if (view == 1) {
-                mc.gameRenderer.loadEntityShader((Entity) null]);
+                mc.gameRenderer.loadEntityShader((Entity) null);
             }
         }
         if (mc.worldRenderer != null) {
-            mc.worldRenderer.setDisplayListEntitiesDirty(]);
+            mc.worldRenderer.setDisplayListEntitiesDirty();
         }
     }
 }

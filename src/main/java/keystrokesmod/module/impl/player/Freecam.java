@@ -26,40 +26,40 @@ public class Freecam extends Module {
     private float[] sAng = new float[]{0.0F, 0.0F};
 
     public Freecam() {
-        super("Freecam", category.player]);
-        this.registerSetting(speed = new SliderSetting("Speed", 2.5D, 0.5D, 10.0D, 0.5D)]);
-        this.registerSetting(disableOnDamage = new ButtonSetting("Disable on damage", true)]);
-        this.registerSetting(allowDigging = new ButtonSetting("Allow digging", false)]);
-        this.registerSetting(allowInteracting = new ButtonSetting("Allow interacting", false)]);
-        this.registerSetting(allowPlacing = new ButtonSetting("Allow placing", false)]);
-        this.registerSetting(showArm = new ButtonSetting("Show arm", false)]);
+        super("Freecam", category.player);
+        this.registerSetting(speed = new SliderSetting("Speed", 2.5D, 0.5D, 10.0D, 0.5D));
+        this.registerSetting(disableOnDamage = new ButtonSetting("Disable on damage", true));
+        this.registerSetting(allowDigging = new ButtonSetting("Allow digging", false));
+        this.registerSetting(allowInteracting = new ButtonSetting("Allow interacting", false));
+        this.registerSetting(allowPlacing = new ButtonSetting("Allow placing", false));
+        this.registerSetting(showArm = new ButtonSetting("Show arm", false));
     }
 
     @Override
     public void onEnable() {
         if (!mc.player.isOnGround()) {
-            this.disable(]);
+            this.disable();
         }
         else {
-            freeEntity = new OtherClientPlayerEntity(mc.world, mc.player.getGameProfile()]);
-            freeEntity.copyLocationAndAnglesFrom(mc.player]);
+            freeEntity = new OtherClientPlayerEntity(mc.world, mc.player.getGameProfile());
+            freeEntity.copyLocationAndAnglesFrom(mc.player);
             this.sAng[0] = freeEntity.yawHead = mc.player.yawHead;
-            this.sAng[1] = mc.player.getPitch(]);
-            freeEntity.setVelocity(0.0D, 0.0D, 0.0D]);
-            freeEntity.setInvisible(true]);
-            mc.world.addEntity(-8008, freeEntity]);
-            mc.setRenderViewEntity(freeEntity]);
+            this.sAng[1] = mc.player.getPitch();
+            freeEntity.setVelocity(0.0D, 0.0D, 0.0D);
+            freeEntity.setInvisible(true);
+            mc.world.addEntity(-8008, freeEntity);
+            mc.setRenderViewEntity(freeEntity);
         }
     }
 
     @Override
     public void onDisable() {
         if (freeEntity != null) {
-            mc.setRenderViewEntity(mc.player]);
-            mc.player.setYaw(this.sAng[0]]);
+            mc.setRenderViewEntity(mc.player);
+            mc.player.setYaw(this.sAng[0]);
             mc.player.yawHead = this.sAng[0];
-            mc.player.setPitch(this.sAng[1]]);
-            mc.world.remove(freeEntity]);
+            mc.player.setPitch(this.sAng[1]);
+            mc.world.remove(freeEntity);
             freeEntity = null;
         }
 
@@ -71,7 +71,7 @@ public class Freecam extends Module {
             for (int z2 = -1; z2 <= 1; ++z2) {
                 int a = x + x2;
                 int b = z + z2;
-                mc.world.markBlockRangeForRenderUpdate(a * 16, 0, b * 16, a * 16 + 15, 256, b * 16 + 15]);
+                mc.world.markBlockRangeForRenderUpdate(a * 16, 0, b * 16, a * 16 + 15, 256, b * 16 + 15);
             }
         }
 
@@ -80,16 +80,16 @@ public class Freecam extends Module {
     @Override
     public void onUpdate() {
         if (disableOnDamage.isToggled() && mc.player.hurtTime != 0) {
-            this.disable(]);
+            this.disable();
         }
         else {
-            mc.player.setSprinting(false]);
+            mc.player.setSprinting(false);
             mc.player.moveForward = 0.0F;
             mc.player.moveStrafing = 0.0F;
-            freeEntity.setYaw(freeEntity.yawHead]);
-            freeEntity.yawHead = mc.player.getYaw(]);
-            freeEntity.setPitch(mc.player.getPitch()]);
-            double s = 0.215D * speed.getInput(]);
+            freeEntity.setYaw(freeEntity.yawHead);
+            freeEntity.yawHead = mc.player.getYaw();
+            freeEntity.setPitch(mc.player.getPitch());
+            double s = 0.215D * speed.getInput();
             double rad;
             double dx;
             double dz;
@@ -133,11 +133,11 @@ public class Freecam extends Module {
                 freeEntity.posY -= 0.93D * s;
             }
 
-            mc.player.setSneaking(false]);
+            mc.player.setSneaking(false);
             if (this.lcc[0] != Integer.MAX_VALUE && (this.lcc[0] != freeEntity.chunkCoordX || this.lcc[1] != freeEntity.chunkCoordZ)) {
                 int x = freeEntity.chunkCoordX;
                 int z = freeEntity.chunkCoordZ;
-                mc.world.markBlockRangeForRenderUpdate(x * 16, 0, z * 16, x * 16 + 15, 256, z * 16 + 15]);
+                mc.world.markBlockRangeForRenderUpdate(x * 16, 0, z * 16, x * 16 + 15, 256, z * 16 + 15);
             }
 
             this.lcc[0] = freeEntity.chunkCoordX;
@@ -153,8 +153,8 @@ public class Freecam extends Module {
         if (!showArm.isToggled()) {
             mc.player.renderArmPitch = mc.player.prevRenderArmPitch = 700.0F;
         }
-        RenderUtils.renderEntity(mc.player, 1, 0.0D, 0.0D, Color.green.getRGB(), false]);
-        RenderUtils.renderEntity(mc.player, 2, 0.0D, 0.0D, Color.green.getRGB(), false]);
+        RenderUtils.renderEntity(mc.player, 1, 0.0D, 0.0D, Color.green.getRGB(), false);
+        RenderUtils.renderEntity(mc.player, 2, 0.0D, 0.0D, Color.green.getRGB(), false);
     }
 
     
@@ -164,11 +164,11 @@ public class Freecam extends Module {
             return;
         }
         if ((e.button == 0 && !allowDigging.isToggled() || e.button == 1 && !allowPlacing.isToggled()) && mc.crosshairTarget != null && mc.crosshairTarget.typeOfHit == HitResult.MovingObjectType.BLOCK) {
-            e.setCanceled(true]);
+            e.setCanceled(true);
         }
         if (!allowInteracting.isToggled()) {
             if ((e.button == 1 || e.button == 0) && mc.crosshairTarget != null && mc.crosshairTarget.typeOfHit == HitResult.MovingObjectType.ENTITY) {
-                e.setCanceled(true]);
+                e.setCanceled(true);
             }
         }
     }
@@ -180,17 +180,17 @@ public class Freecam extends Module {
         }
         if (!allowDigging.isToggled()) {
             if (e.getPacket() instanceof C07PacketPlayerDigging) {
-                e.setCanceled(true]);
+                e.setCanceled(true);
             }
         }
         if (!allowPlacing.isToggled()) {
             if (e.getPacket() instanceof PlayerInteractBlockC2SPacket) {
-                e.setCanceled(true]);
+                e.setCanceled(true);
             }
         }
         if (!allowInteracting.isToggled()) {
             if (e.getPacket() instanceof C02PacketUseEntity) {
-                e.setCanceled(true]);
+                e.setCanceled(true);
             }
         }
     }

@@ -32,9 +32,9 @@ import java.util.List;
 
 public class Nametags extends Module {
     private static final float AUTO_SCALE_THRESHOLD = 5.0F;
-    private static final Comparator<NametagRenderState> FAR_TO_NEAR = (a, b) -> Double.compare(b.distanceSq, a.distanceSq]);
+    private static final Comparator<NametagRenderState> FAR_TO_NEAR = (a, b) -> Double.compare(b.distanceSq, a.distanceSq);
     private static final String[] HEALTH_DISPLAY_MODES = {"Hearts", "Health"};
-    private static final String[] FONT_OPTIONS = FontManager.getHudFontOptions(]);
+    private static final String[] FONT_OPTIONS = FontManager.getHudFontOptions();
     private static final int ITEM_SPACING = 14;
     private static final int ENCHANT_LINE_HEIGHT = 8;
     private static final int ENCHANT_Y_OFFSET = 24;
@@ -59,7 +59,7 @@ public class Nametags extends Module {
     private ButtonSetting hideVanilla;
     private ColorSetting friendColor;
     private ColorSetting enemyColor;
-    private final List<NametagRenderState> renderStates = new ArrayList<>(]);
+    private final List<NametagRenderState> renderStates = new ArrayList<>();
     private int renderStateCount = 0;
 
     private static class NametagRenderState {
@@ -105,34 +105,34 @@ public class Nametags extends Module {
     }
 
     public Nametags() {
-        super("Nametags", category.render, 0]);
-        this.registerSetting(scale = new SliderSetting("Scale", 1.0, 0.1, 2.0, 0.1)]);
-        this.registerSetting(font = new SliderSetting("Font", 0, FONT_OPTIONS)]);
-        this.registerSetting(autoScale = new ButtonSetting("Auto Scale", false)]);
-        this.registerSetting(showRect = new ButtonSetting("Background", true)]);
-        this.registerSetting(onlyRenderName = new ButtonSetting("Only render name", false)]);
-        this.registerSetting(bgOpacity = new SliderSetting("Background Opacity", 0.5, 0.0, 1.0, 0.05)]);
-        this.registerSetting(bgBorder = new ButtonSetting("Background Border", false)]);
-        this.registerSetting(showHealth = new ButtonSetting("Show Health", false)]);
-        this.registerSetting(healthDisplayMode = new SliderSetting("Health display", 0, HEALTH_DISPLAY_MODES)]);
-        this.registerSetting(showHeartSymbol = new ButtonSetting("Show Heart Symbol", true)]);
-        this.registerSetting(textShadow = new ButtonSetting("Text Shadow", false)]);
-        this.registerSetting(showDistance = new ButtonSetting("Show Distance", false)]);
-        this.registerSetting(showInvis = new ButtonSetting("Show Invis", true)]);
-        this.registerSetting(showArmor = new ButtonSetting("Show Armor", false)]);
-        this.registerSetting(showEnchants = new ButtonSetting("Show Enchantments", false)]);
-        this.registerSetting(showDurability = new ButtonSetting("Show Durability", false)]);
-        this.registerSetting(showYourself = new ButtonSetting("Show Yourself", false)]);
-        this.registerSetting(hideVanilla = new ButtonSetting("Hide Vanilla", true)]);
-        this.registerSetting(friendColor = new ColorSetting("Friend color", 85, 255, 255)]);
-        this.registerSetting(enemyColor = new ColorSetting("Enemy color", 255, 85, 85)]);
+        super("Nametags", category.render, 0);
+        this.registerSetting(scale = new SliderSetting("Scale", 1.0, 0.1, 2.0, 0.1));
+        this.registerSetting(font = new SliderSetting("Font", 0, FONT_OPTIONS));
+        this.registerSetting(autoScale = new ButtonSetting("Auto Scale", false));
+        this.registerSetting(showRect = new ButtonSetting("Background", true));
+        this.registerSetting(onlyRenderName = new ButtonSetting("Only render name", false));
+        this.registerSetting(bgOpacity = new SliderSetting("Background Opacity", 0.5, 0.0, 1.0, 0.05));
+        this.registerSetting(bgBorder = new ButtonSetting("Background Border", false));
+        this.registerSetting(showHealth = new ButtonSetting("Show Health", false));
+        this.registerSetting(healthDisplayMode = new SliderSetting("Health display", 0, HEALTH_DISPLAY_MODES));
+        this.registerSetting(showHeartSymbol = new ButtonSetting("Show Heart Symbol", true));
+        this.registerSetting(textShadow = new ButtonSetting("Text Shadow", false));
+        this.registerSetting(showDistance = new ButtonSetting("Show Distance", false));
+        this.registerSetting(showInvis = new ButtonSetting("Show Invis", true));
+        this.registerSetting(showArmor = new ButtonSetting("Show Armor", false));
+        this.registerSetting(showEnchants = new ButtonSetting("Show Enchantments", false));
+        this.registerSetting(showDurability = new ButtonSetting("Show Durability", false));
+        this.registerSetting(showYourself = new ButtonSetting("Show Yourself", false));
+        this.registerSetting(hideVanilla = new ButtonSetting("Hide Vanilla", true));
+        this.registerSetting(friendColor = new ColorSetting("Friend color", 85, 255, 255));
+        this.registerSetting(enemyColor = new ColorSetting("Enemy color", 255, 85, 85));
     }
 
     @Override
     public void guiUpdate() {
-        boolean healthOn = showHealth.isToggled(]);
-        healthDisplayMode.setVisible(healthOn, this]);
-        showHeartSymbol.setVisible(healthOn && (int) healthDisplayMode.getInput() == 0, this]);
+        boolean healthOn = showHealth.isToggled();
+        healthDisplayMode.setVisible(healthOn, this);
+        showHeartSymbol.setVisible(healthOn && (int) healthDisplayMode.getInput() == 0, this);
     }
 
     
@@ -146,13 +146,13 @@ public class Nametags extends Module {
             return;
         }
 
-        updateRenderStates(]);
+        updateRenderStates();
     }public void onRenderWorldLast(Object event) {
         if (!Utils.nullCheck()) {
             return;
         }
 
-        renderNametags(event.partialTicks]);
+        renderNametags(event.partialTicks);
     }
 
     
@@ -164,22 +164,22 @@ public class Nametags extends Module {
         if (event.entity instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) event.entity;
             if (shouldRenderNametag(player)) {
-                event.setCanceled(true]);
+                event.setCanceled(true);
             }
         }
     }
 
     private void updateRenderStates() {
-        RavenFontRenderer fontRenderer = getNametagTextRenderer(]);
-        Entity viewer = mc.getCameraEntity(]);
+        RavenFontRenderer fontRenderer = getNametagTextRenderer();
+        Entity viewer = mc.getCameraEntity();
         if (viewer == null) {
             renderStateCount = 0;
             return;
         }
 
-        boolean renderDistance = showDistance.isToggled(]);
-        boolean renderArmor = showArmor.isToggled(]);
-        float baseScale = computeBaseScaleValue(]);
+        boolean renderDistance = showDistance.isToggled();
+        boolean renderArmor = showArmor.isToggled();
+        float baseScale = computeBaseScaleValue();
         renderStateCount = 0;
 
         for (PlayerEntity player : mc.world.playerEntities) {
@@ -191,12 +191,12 @@ public class Nametags extends Module {
             double dy = player.posY - viewer.posY;
             double dz = player.posZ - viewer.posZ;
             double distanceSq = dx * dx + dy * dy + dz * dz;
-            float distance = (float) Math.sqrt(distanceSq]);
+            float distance = (float) Math.sqrt(distanceSq);
 
-            String displayName = buildDisplayName(player, renderDistance, distance]);
+            String displayName = buildDisplayName(player, renderDistance, distance);
             int stringHalfWidth = fontRenderer.getStringWidth(displayName) / 2;
-            int relationshipColor = resolveRelationshipColor(player]);
-            int[] playerNameRange = findVisiblePlayerNameRange(displayName, player.getName()]);
+            int relationshipColor = resolveRelationshipColor(player);
+            int[] playerNameRange = findVisiblePlayerNameRange(displayName, player.getName());
 
             ItemStack heldItem = null;
             ItemStack boots = null;
@@ -206,20 +206,20 @@ public class Nametags extends Module {
             int totalItems = 0;
 
             if (renderArmor) {
-                heldItem = player.getEquipmentInSlot(0]);
+                heldItem = player.getEquipmentInSlot(0);
                 if (heldItem != null) totalItems++;
-                boots = player.getEquipmentInSlot(1]);
+                boots = player.getEquipmentInSlot(1);
                 if (boots != null) totalItems++;
-                leggings = player.getEquipmentInSlot(2]);
+                leggings = player.getEquipmentInSlot(2);
                 if (leggings != null) totalItems++;
-                chestplate = player.getEquipmentInSlot(3]);
+                chestplate = player.getEquipmentInSlot(3);
                 if (chestplate != null) totalItems++;
-                helmet = player.getEquipmentInSlot(4]);
+                helmet = player.getEquipmentInSlot(4);
                 if (helmet != null) totalItems++;
             }
 
             if (renderStateCount >= renderStates.size()) {
-                renderStates.add(new NametagRenderState()]);
+                renderStates.add(new NametagRenderState());
             }
 
             renderStates.get(renderStateCount++).set(
@@ -239,41 +239,41 @@ public class Nametags extends Module {
                     chestplate,
                     helmet,
                     totalItems
-            ]);
+            );
         }
 
         if (renderStateCount > 1) {
-            renderStates.subList(0, renderStateCount).sort(FAR_TO_NEAR]);
+            renderStates.subList(0, renderStateCount).sort(FAR_TO_NEAR);
         }
     }
 
     private void renderNametags(float partialTicks) {
-        Object renderManager = mc.getEntityRenderDispatcher(]);
+        Object renderManager = mc.getEntityRenderDispatcher();
         TextRenderer itemTextRenderer = MinecraftClient.getInstance().textRenderer;
-        RavenFontRenderer textRenderer = getNametagTextRenderer(]);
+        RavenFontRenderer textRenderer = getNametagTextRenderer();
         if (renderManager == null || itemTextRenderer == null || renderStateCount == 0) {
             return;
         }
 
-        ((IAccessorEntityRenderer) mc.gameRenderer).callSetupCameraTransform(partialTicks, 0]);
+        ((IAccessorEntityRenderer) mc.gameRenderer).callSetupCameraTransform(partialTicks, 0);
 
         for (int i = 0; i < renderStateCount; i++) {
-            NametagRenderState renderState = renderStates.get(i]);
+            NametagRenderState renderState = renderStates.get(i);
             if (renderState.player == null || !RenderUtils.isInViewFrustum(renderState.player)) {
                 continue;
             }
-            renderCustomName(renderState, partialTicks, renderManager, textRenderer, itemTextRenderer]);
+            renderCustomName(renderState, partialTicks, renderManager, textRenderer, itemTextRenderer);
         }
 
-        RenderSystem.enableDepth(]);
-        RenderSystem.depthMask(true]);
-        RenderSystem.disableLighting(]);
-        RenderSystem.disableRescaleNormal(]);
-        RenderSystem.disableBlend(]);
-        RenderSystem.enableAlpha(]);
-        RenderSystem.enableTexture2D(]);
-        RenderSystem.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO]);
-        RenderSystem.color(1.0F, 1.0F, 1.0F, 1.0F]);
+        RenderSystem.enableDepth();
+        RenderSystem.depthMask(true);
+        RenderSystem.disableLighting();
+        RenderSystem.disableRescaleNormal();
+        RenderSystem.disableBlend();
+        RenderSystem.enableAlpha();
+        RenderSystem.enableTexture2D();
+        RenderSystem.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
+        RenderSystem.color(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
     private boolean shouldRenderNametag(PlayerEntity player) {
@@ -283,28 +283,28 @@ public class Nametags extends Module {
         }
         if (player.isRemoved() || player.deathTime > 0) return false;
         if (!showInvis.isToggled() && player.isInvisible()) return false;
-        return !AntiBot.isBot(player]);
+        return !AntiBot.isBot(player);
     }
 
     private String buildDisplayName(PlayerEntity entity, boolean showDist, float distance) {
         String name;
 
         if (onlyRenderName.isToggled()) {
-            String formatted = Utils.getFirstColorCode(entity.getDisplayName().getString()]);
+            String formatted = Utils.getFirstColorCode(entity.getDisplayName().getString());
             String color = (formatted.length() >= 2 && formatted.charAt(0) == '\u00a7') ? formatted : "";
-            name = color + entity.getName(]);
+            name = color + entity.getName();
         }
         else {
-            name = entity.getDisplayName().getString(]);
+            name = entity.getDisplayName().getString();
         }
 
         if (showHealth.isToggled()) {
-            name = appendHealth(name, entity]);
+            name = appendHealth(name, entity);
         }
 
         if (showDist) {
             int dist = (int) distance;
-            String distColor = dist <= 8 ? "\u00a7c" : (dist <= 15 ? "\u00a76" : (dist <= 25 ? "\u00a7e" : "\u00a77")]);
+            String distColor = dist <= 8 ? "\u00a7c" : (dist <= 15 ? "\u00a76" : (dist <= 25 ? "\u00a7e" : "\u00a77"));
             name = distColor + dist + "m\u00a7r " + name;
         }
 
@@ -313,10 +313,10 @@ public class Nametags extends Module {
 
     private int resolveRelationshipColor(PlayerEntity entity) {
         if (Utils.isFriended(entity)) {
-            return friendColor.getColor(]);
+            return friendColor.getColor();
         }
         if (Utils.isEnemy(entity)) {
-            return enemyColor.getColor(]);
+            return enemyColor.getColor();
         }
         return -1;
     }
@@ -326,14 +326,14 @@ public class Nametags extends Module {
     }
 
     private float computeScaleValue(float distance, boolean scaleByDistance) {
-        float scaleValue = computeBaseScaleValue(]);
+        float scaleValue = computeBaseScaleValue();
         if (!scaleByDistance) {
             return scaleValue;
         }
 
-        float effectiveDistance = Math.max(1.0F, distance]);
-        float scaledValue = scaleValue * (effectiveDistance / AUTO_SCALE_THRESHOLD]);
-        return Math.max(scaleValue, scaledValue]);
+        float effectiveDistance = Math.max(1.0F, distance);
+        float scaledValue = scaleValue * (effectiveDistance / AUTO_SCALE_THRESHOLD);
+        return Math.max(scaleValue, scaledValue);
     }
 
     private void renderCustomName(NametagRenderState state, float partialTicks, Object renderManager, RavenFontRenderer textRenderer, TextRenderer itemTextRenderer) {
@@ -347,80 +347,80 @@ public class Nametags extends Module {
         double z = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * partialTicks - renderManager.viewerPosZ;
         float renderScale = state.baseScale;
         if (autoScale.isToggled()) {
-            renderScale = computeScaleValue((float) Math.sqrt(x * x + y * y + z * z), true]);
+            renderScale = computeScaleValue((float) Math.sqrt(x * x + y * y + z * z), true);
         }
 
-        RenderSystem.pushMatrix(]);
-        RenderSystem.translate((float) x, (float) y + state.yOffset, (float) z]);
-        RenderSystem.rotate(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F]);
-        RenderSystem.rotate(renderManager.playerViewX, 1.0F, 0.0F, 0.0F]);
-        RenderSystem.scale(-renderScale, -renderScale, renderScale]);
+        RenderSystem.pushMatrix();
+        RenderSystem.translate((float) x, (float) y + state.yOffset, (float) z);
+        RenderSystem.rotate(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+        RenderSystem.rotate(renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+        RenderSystem.scale(-renderScale, -renderScale, renderScale);
 
-        RenderSystem.disableLighting(]);
-        RenderSystem.depthMask(false]);
-        RenderSystem.disableDepth(]);
-        RenderSystem.enableBlend(]);
-        RenderSystem.tryBlendFuncSeparate(770, 771, 1, 0]);
-        RenderSystem.translate(0.0F, -10.0F, 0.0F]);
+        RenderSystem.disableLighting();
+        RenderSystem.depthMask(false);
+        RenderSystem.disableDepth();
+        RenderSystem.enableBlend();
+        RenderSystem.tryBlendFuncSeparate(770, 771, 1, 0);
+        RenderSystem.translate(0.0F, -10.0F, 0.0F);
 
         if ((showRect.isToggled() && bgOpacity.getInput() > 0.01) || bgBorder.isToggled() || state.relationshipColor != -1) {
-            renderBackground(state.stringHalfWidth, 0.0f, state.teamColor, state.relationshipColor, textRenderer]);
-            applyNametagTextState(]);
+            renderBackground(state.stringHalfWidth, 0.0f, state.teamColor, state.relationshipColor, textRenderer);
+            applyNametagTextState();
         }
 
-        drawDisplayName(state, textRenderer]);
-        applyNametagTextState(]);
+        drawDisplayName(state, textRenderer);
+        applyNametagTextState();
 
         if (state.totalItems > 0) {
             int iconX = -(state.totalItems * ITEM_SPACING) / 2;
             int iconY = -20;
 
             if (state.heldItem != null) {
-                renderItemStack(state.heldItem, iconX, iconY, itemTextRenderer]);
+                renderItemStack(state.heldItem, iconX, iconY, itemTextRenderer);
                 iconX += ITEM_SPACING;
             }
             if (state.helmet != null) {
-                renderItemStack(state.helmet, iconX, iconY, itemTextRenderer]);
+                renderItemStack(state.helmet, iconX, iconY, itemTextRenderer);
                 iconX += ITEM_SPACING;
             }
             if (state.chestplate != null) {
-                renderItemStack(state.chestplate, iconX, iconY, itemTextRenderer]);
+                renderItemStack(state.chestplate, iconX, iconY, itemTextRenderer);
                 iconX += ITEM_SPACING;
             }
             if (state.leggings != null) {
-                renderItemStack(state.leggings, iconX, iconY, itemTextRenderer]);
+                renderItemStack(state.leggings, iconX, iconY, itemTextRenderer);
                 iconX += ITEM_SPACING;
             }
             if (state.boots != null) {
-                renderItemStack(state.boots, iconX, iconY, itemTextRenderer]);
+                renderItemStack(state.boots, iconX, iconY, itemTextRenderer);
             }
         }
 
-        RenderSystem.enableDepth(]);
-        RenderSystem.depthMask(true]);
-        RenderSystem.enableLighting(]);
-        RenderSystem.disableBlend(]);
-        RenderSystem.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO]);
-        RenderSystem.color(1.0F, 1.0F, 1.0F, 1.0F]);
-        RenderSystem.popMatrix(]);
+        RenderSystem.enableDepth();
+        RenderSystem.depthMask(true);
+        RenderSystem.enableLighting();
+        RenderSystem.disableBlend();
+        RenderSystem.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
+        RenderSystem.color(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.popMatrix();
     }
 
     private void applyNametagTextState() {
-        RenderSystem.disableLighting(]);
-        RenderSystem.disableDepth(]);
-        RenderSystem.depthMask(false]);
-        RenderSystem.enableTexture2D(]);
-        RenderSystem.enableAlpha(]);
-        RenderSystem.alphaFunc(GL11.GL_GREATER, 0.1F]);
-        RenderSystem.enableBlend(]);
-        RenderSystem.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO]);
-        GL11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE]);
-        RenderSystem.color(1.0F, 1.0F, 1.0F, 1.0F]);
+        RenderSystem.disableLighting();
+        RenderSystem.disableDepth();
+        RenderSystem.depthMask(false);
+        RenderSystem.enableTexture2D();
+        RenderSystem.enableAlpha();
+        RenderSystem.alphaFunc(GL11.GL_GREATER, 0.1F);
+        RenderSystem.enableBlend();
+        RenderSystem.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
+        GL11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE);
+        RenderSystem.color(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
     private void drawDisplayName(NametagRenderState state, RavenFontRenderer textRenderer) {
         if (state.relationshipColor == -1 || state.playerNameStart < 0 || state.playerNameEnd <= state.playerNameStart) {
-            textRenderer.drawString(state.displayName, -state.stringHalfWidth, 0.0f, 0xFFFFFFFF, textShadow.isToggled()]);
+            textRenderer.drawString(state.displayName, -state.stringHalfWidth, 0.0f, 0xFFFFFFFF, textShadow.isToggled());
             return;
         }
 
@@ -431,14 +431,14 @@ public class Nametags extends Module {
                 return state.relationshipColor;
             }
             return formattingColor != null ? formattingColor : 0xFFFFFFFF;
-        }, textShadow.isToggled()]);
+        }, textShadow.isToggled());
     }
 
     private void renderBackground(int stringWidth, float textY, int teamColor, int relationshipColor, RavenFontRenderer fontRenderer) {
-        RenderSystem.disableTexture2D(]);
-        Tessellator tessellator = Tessellator.getInstance(]);
-        BufferBuilder worldRenderer = tessellator.getWorldRenderer(]);
-        float alpha = (float) bgOpacity.getInput(]);
+        RenderSystem.disableTexture2D();
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder worldRenderer = tessellator.getWorldRenderer();
+        float alpha = (float) bgOpacity.getInput();
         float innerLeft = -stringWidth - 3.0f;
         float innerRight = stringWidth + 3.0f;
         float innerTop = textY + fontRenderer.getTextTopOffset() - 3.0f;
@@ -446,12 +446,12 @@ public class Nametags extends Module {
         boolean renderBaseFill = showRect.isToggled() && alpha > 0.01F;
 
         if (renderBaseFill) {
-            worldRenderer.begin(7, VertexFormats.POSITION_COLOR]);
-            worldRenderer.pos(innerLeft, innerTop, 0).color(0.0F, 0.0F, 0.0F, alpha).endVertex(]);
-            worldRenderer.pos(innerLeft, innerBottom, 0).color(0.0F, 0.0F, 0.0F, alpha).endVertex(]);
-            worldRenderer.pos(innerRight, innerBottom, 0).color(0.0F, 0.0F, 0.0F, alpha).endVertex(]);
-            worldRenderer.pos(innerRight, innerTop, 0).color(0.0F, 0.0F, 0.0F, alpha).endVertex(]);
-            tessellator.draw(]);
+            worldRenderer.begin(7, VertexFormats.POSITION_COLOR);
+            worldRenderer.pos(innerLeft, innerTop, 0).color(0.0F, 0.0F, 0.0F, alpha).endVertex();
+            worldRenderer.pos(innerLeft, innerBottom, 0).color(0.0F, 0.0F, 0.0F, alpha).endVertex();
+            worldRenderer.pos(innerRight, innerBottom, 0).color(0.0F, 0.0F, 0.0F, alpha).endVertex();
+            worldRenderer.pos(innerRight, innerTop, 0).color(0.0F, 0.0F, 0.0F, alpha).endVertex();
+            tessellator.draw();
         }
 
         int borderColor = relationshipColor != -1 ? relationshipColor : teamColor;
@@ -478,35 +478,35 @@ public class Nametags extends Module {
             float bottom = innerBottom + borderThickness;
             float borderZ = -0.001F;
 
-            worldRenderer.begin(7, VertexFormats.POSITION_COLOR]);
-            worldRenderer.pos(left, top, borderZ).color(red, green, blue, borderAlpha).endVertex(]);
-            worldRenderer.pos(left, innerTop, borderZ).color(red, green, blue, borderAlpha).endVertex(]);
-            worldRenderer.pos(right, innerTop, borderZ).color(red, green, blue, borderAlpha).endVertex(]);
-            worldRenderer.pos(right, top, borderZ).color(red, green, blue, borderAlpha).endVertex(]);
+            worldRenderer.begin(7, VertexFormats.POSITION_COLOR);
+            worldRenderer.pos(left, top, borderZ).color(red, green, blue, borderAlpha).endVertex();
+            worldRenderer.pos(left, innerTop, borderZ).color(red, green, blue, borderAlpha).endVertex();
+            worldRenderer.pos(right, innerTop, borderZ).color(red, green, blue, borderAlpha).endVertex();
+            worldRenderer.pos(right, top, borderZ).color(red, green, blue, borderAlpha).endVertex();
 
-            worldRenderer.pos(left, innerBottom, borderZ).color(red, green, blue, borderAlpha).endVertex(]);
-            worldRenderer.pos(left, bottom, borderZ).color(red, green, blue, borderAlpha).endVertex(]);
-            worldRenderer.pos(right, bottom, borderZ).color(red, green, blue, borderAlpha).endVertex(]);
-            worldRenderer.pos(right, innerBottom, borderZ).color(red, green, blue, borderAlpha).endVertex(]);
+            worldRenderer.pos(left, innerBottom, borderZ).color(red, green, blue, borderAlpha).endVertex();
+            worldRenderer.pos(left, bottom, borderZ).color(red, green, blue, borderAlpha).endVertex();
+            worldRenderer.pos(right, bottom, borderZ).color(red, green, blue, borderAlpha).endVertex();
+            worldRenderer.pos(right, innerBottom, borderZ).color(red, green, blue, borderAlpha).endVertex();
 
-            worldRenderer.pos(left, innerTop, borderZ).color(red, green, blue, borderAlpha).endVertex(]);
-            worldRenderer.pos(left, innerBottom, borderZ).color(red, green, blue, borderAlpha).endVertex(]);
-            worldRenderer.pos(innerLeft, innerBottom, borderZ).color(red, green, blue, borderAlpha).endVertex(]);
-            worldRenderer.pos(innerLeft, innerTop, borderZ).color(red, green, blue, borderAlpha).endVertex(]);
+            worldRenderer.pos(left, innerTop, borderZ).color(red, green, blue, borderAlpha).endVertex();
+            worldRenderer.pos(left, innerBottom, borderZ).color(red, green, blue, borderAlpha).endVertex();
+            worldRenderer.pos(innerLeft, innerBottom, borderZ).color(red, green, blue, borderAlpha).endVertex();
+            worldRenderer.pos(innerLeft, innerTop, borderZ).color(red, green, blue, borderAlpha).endVertex();
 
-            worldRenderer.pos(innerRight, innerTop, borderZ).color(red, green, blue, borderAlpha).endVertex(]);
-            worldRenderer.pos(innerRight, innerBottom, borderZ).color(red, green, blue, borderAlpha).endVertex(]);
-            worldRenderer.pos(right, innerBottom, borderZ).color(red, green, blue, borderAlpha).endVertex(]);
-            worldRenderer.pos(right, innerTop, borderZ).color(red, green, blue, borderAlpha).endVertex(]);
-            tessellator.draw(]);
+            worldRenderer.pos(innerRight, innerTop, borderZ).color(red, green, blue, borderAlpha).endVertex();
+            worldRenderer.pos(innerRight, innerBottom, borderZ).color(red, green, blue, borderAlpha).endVertex();
+            worldRenderer.pos(right, innerBottom, borderZ).color(red, green, blue, borderAlpha).endVertex();
+            worldRenderer.pos(right, innerTop, borderZ).color(red, green, blue, borderAlpha).endVertex();
+            tessellator.draw();
         }
 
-        RenderSystem.enableTexture2D(]);
+        RenderSystem.enableTexture2D();
     }
 
     private int[] findVisiblePlayerNameRange(String formattedText, String playerName) {
-        String strippedText = stripFormattingCodes(formattedText]);
-        int nameStart = strippedText.indexOf(playerName]);
+        String strippedText = stripFormattingCodes(formattedText);
+        int nameStart = strippedText.indexOf(playerName);
         if (nameStart < 0) {
             return new int[] {-1, -1};
         }
@@ -514,16 +514,16 @@ public class Nametags extends Module {
     }
 
     private String stripFormattingCodes(String text) {
-        StringBuilder builder = new StringBuilder(text.length()]);
-        for (int i = 0; i < text.length(]); i++) {
-            char character = text.charAt(i]);
+        StringBuilder builder = new StringBuilder(text.length());
+        for (int i = 0; i < text.length(); i++) {
+            char character = text.charAt(i);
             if (character == '\u00a7' && i + 1 < text.length()) {
                 i++;
                 continue;
             }
-            builder.append(character]);
+            builder.append(character);
         }
-        return builder.toString(]);
+        return builder.toString();
     }
 
     private String getSelectedFontName() {
@@ -531,32 +531,32 @@ public class Nametags extends Module {
             return FONT_OPTIONS[0];
         }
 
-        int index = (int) Math.max(0, Math.min(font.getOptions().length - 1, font.getInput())]);
+        int index = (int) Math.max(0, Math.min(font.getOptions().length - 1, font.getInput()));
         return font.getOptions()[index];
     }
 
     private RavenFontRenderer getNametagTextRenderer() {
-        return FontManager.getNametagRenderer(getSelectedFontName()]);
+        return FontManager.getNametagRenderer(getSelectedFontName());
     }
 
     private String appendHealth(String name, PlayerEntity entity) {
-        float health = Math.max(0.0f, entity.getHealth()]);
-        float maxHealth = entity.getMaxHealth(]);
+        float health = Math.max(0.0f, entity.getHealth());
+        float maxHealth = entity.getMaxHealth();
         if (maxHealth <= 0.0f) maxHealth = 20.0f;
 
         boolean heartsMode = (int) healthDisplayMode.getInput() == 0;
         double ratio = health / maxHealth;
 
-        String color = ratio < 0.3 ? "\u00a7c" : (ratio < 0.5 ? "\u00a76" : (ratio < 0.7 ? "\u00a7e" : "\u00a7a")]);
+        String color = ratio < 0.3 ? "\u00a7c" : (ratio < 0.5 ? "\u00a76" : (ratio < 0.7 ? "\u00a7e" : "\u00a7a"));
         float displayValue = heartsMode ? health / 2.0f : health;
-        String valueStr = fastOneDecimal(displayValue]);
+        String valueStr = fastOneDecimal(displayValue);
         String heartSuffix = heartsMode && showHeartSymbol.isToggled() ? " \u2764" : "";
         name = name + " " + color + valueStr + heartSuffix;
 
-        float absorption = entity.getAbsorptionAmount(]);
+        float absorption = entity.getAbsorptionAmount();
         if (absorption > 0) {
             float absDisplay = heartsMode ? absorption / 2.0f : absorption;
-            String absStr = fastOneDecimal(absDisplay]);
+            String absStr = fastOneDecimal(absDisplay);
             String absSuffix = heartsMode && showHeartSymbol.isToggled() ? " \u2764" : "";
             name = name + " \u00a76+" + absStr + absSuffix;
         }
@@ -567,11 +567,11 @@ public class Nametags extends Module {
     private String fastOneDecimal(float value) {
         int whole = (int) value;
         if (value == whole) {
-            return String.valueOf(whole]);
+            return String.valueOf(whole);
         }
-        int tenths = Math.round(value * 10.0F]);
+        int tenths = Math.round(value * 10.0F);
         int intPart = tenths / 10;
-        int fracPart = Math.abs(tenths % 10]);
+        int fracPart = Math.abs(tenths % 10);
         return intPart + "." + fracPart;
     }
 
@@ -580,31 +580,31 @@ public class Nametags extends Module {
             return;
         }
 
-        RenderUtils.renderItemAndEffectIntoGui3D(stack, xPos, yPos]);
+        RenderUtils.renderItemAndEffectIntoGui3D(stack, xPos, yPos);
 
         if (showEnchants.isToggled()) {
-            RenderSystem.pushMatrix(]);
-            RenderSystem.scale(0.5, 0.5, 0.5]);
-            RenderSystem.translate(0, -10, 0]);
-            renderEnchantText(stack, xPos, yPos, fontRenderer]);
-            RenderSystem.popMatrix(]);
+            RenderSystem.pushMatrix();
+            RenderSystem.scale(0.5, 0.5, 0.5);
+            RenderSystem.translate(0, -10, 0);
+            renderEnchantText(stack, xPos, yPos, fontRenderer);
+            RenderSystem.popMatrix();
         }
 
-        RenderSystem.disableDepth(]);
+        RenderSystem.disableDepth();
 
         if (stack.stackSize > 1) {
-            String countStr = String.valueOf(stack.stackSize]);
-            fontRenderer.drawStringWithShadow(countStr, xPos + 17 - fontRenderer.getStringWidth(countStr), yPos + 9, 0xFFFFFF]);
+            String countStr = String.valueOf(stack.stackSize);
+            fontRenderer.drawStringWithShadow(countStr, xPos + 17 - fontRenderer.getStringWidth(countStr), yPos + 9, 0xFFFFFF);
         }
 
         if (showDurability.isToggled() && stack.isItemStackDamageable() && stack.getItemDamage() > 0) {
-            int maxDamage = stack.getMaxDamage(]);
-            int currentDamage = stack.getItemDamage(]);
+            int maxDamage = stack.getMaxDamage();
+            int currentDamage = stack.getItemDamage();
             float durabilityRatio = 1.0F - (float) currentDamage / (float) maxDamage;
-            RenderUtils.drawDurabilityBar(xPos, yPos, durabilityRatio]);
+            RenderUtils.drawDurabilityBar(xPos, yPos, durabilityRatio);
         }
 
-        RenderSystem.enableDepth(]);
+        RenderSystem.enableDepth();
     }
 
     private static final int[] ARMOR_ENCHANT_IDS = {0, 7, 34};
@@ -621,7 +621,7 @@ public class Nametags extends Module {
     private void renderEnchantText(ItemStack stack, int xPos, int yPos, TextRenderer fontRenderer) {
         int[] ids;
         String[] abbreviations;
-        Item item = stack.getItem(]);
+        Item item = stack.getItem();
 
         if (item instanceof ItemArmor) {
             ids = ARMOR_ENCHANT_IDS;
@@ -648,20 +648,20 @@ public class Nametags extends Module {
         int drawY = yPos - ENCHANT_Y_OFFSET;
 
         for (int i = 0; i < ids.length; i++) {
-            int level = EnchantmentHelper.getEnchantmentLevel(ids[i], stack]);
+            int level = EnchantmentHelper.getEnchantmentLevel(ids[i], stack);
             if (level <= 0) {
                 continue;
             }
 
-            drawEnchantLine(fontRenderer, abbreviations[i], level, drawX, drawY]);
+            drawEnchantLine(fontRenderer, abbreviations[i], level, drawX, drawY);
             drawY += ENCHANT_LINE_HEIGHT;
         }
     }
 
     private void drawEnchantLine(TextRenderer fontRenderer, String abbreviation, int level, int x, int y) {
-        fontRenderer.drawStringWithShadow(abbreviation, x, y, 0xFFFFFF]);
-        int advance = fontRenderer.getStringWidth(abbreviation]);
-        fontRenderer.drawStringWithShadow(String.valueOf(level), x + advance, y, colorForEnchantLevel(level)]);
+        fontRenderer.drawStringWithShadow(abbreviation, x, y, 0xFFFFFF);
+        int advance = fontRenderer.getStringWidth(abbreviation);
+        fontRenderer.drawStringWithShadow(String.valueOf(level), x + advance, y, colorForEnchantLevel(level));
     }
 
     private int colorForEnchantLevel(int level) {

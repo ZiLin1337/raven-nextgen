@@ -47,31 +47,31 @@ public class GhostHand extends Module {
     private ButtonSetting notSword;
 
     public GhostHand() {
-        super("Ghost Hand", category.player]);
-        this.registerSetting(interactGroup = new GroupSetting("Interact through")]);
-        this.registerSetting(throughNonPlayer = new ButtonSetting(interactGroup, "Non-player entities", true)]);
-        this.registerSetting(throughBots = new ButtonSetting(interactGroup, "Bots", false)]);
-        this.registerSetting(throughFriendlies = new ButtonSetting(interactGroup, "Friendlies", false)]);
-        this.registerSetting(throughEnemies = new ButtonSetting(interactGroup, "Enemies", true)]);
+        super("Ghost Hand", category.player);
+        this.registerSetting(interactGroup = new GroupSetting("Interact through"));
+        this.registerSetting(throughNonPlayer = new ButtonSetting(interactGroup, "Non-player entities", true));
+        this.registerSetting(throughBots = new ButtonSetting(interactGroup, "Bots", false));
+        this.registerSetting(throughFriendlies = new ButtonSetting(interactGroup, "Friendlies", false));
+        this.registerSetting(throughEnemies = new ButtonSetting(interactGroup, "Enemies", true));
 
-        this.registerSetting(priorityGroup = new GroupSetting("Preferred targets")]);
-        this.registerSetting(priorityEverything = new ButtonSetting(priorityGroup, "Everything", true)]);
-        this.registerSetting(priorityBed = new ButtonSetting(priorityGroup, "Bed", false)]);
-        this.registerSetting(priorityBedAdjacent = new ButtonSetting(priorityGroup, "Next to bed", false)]);
+        this.registerSetting(priorityGroup = new GroupSetting("Preferred targets"));
+        this.registerSetting(priorityEverything = new ButtonSetting(priorityGroup, "Everything", true));
+        this.registerSetting(priorityBed = new ButtonSetting(priorityGroup, "Bed", false));
+        this.registerSetting(priorityBedAdjacent = new ButtonSetting(priorityGroup, "Next to bed", false));
 
-        this.registerSetting(useGroup = new GroupSetting("Allow while using")]);
-        this.registerSetting(useSword = new ButtonSetting(useGroup, "Sword", false)]);
-        this.registerSetting(useTool = new ButtonSetting(useGroup, "Tool", true)]);
-        this.registerSetting(useFists = new ButtonSetting(useGroup, "Fists", true)]);
-        this.registerSetting(useBucket = new ButtonSetting(useGroup, "Bucket", true)]);
-        this.registerSetting(useFlintSteel = new ButtonSetting(useGroup, "Flint and steel", true)]);
-        this.registerSetting(useCobweb = new ButtonSetting(useGroup, "Cobweb", true)]);
-        this.registerSetting(useOther = new ButtonSetting(useGroup, "Other", true)]);
+        this.registerSetting(useGroup = new GroupSetting("Allow while using"));
+        this.registerSetting(useSword = new ButtonSetting(useGroup, "Sword", false));
+        this.registerSetting(useTool = new ButtonSetting(useGroup, "Tool", true));
+        this.registerSetting(useFists = new ButtonSetting(useGroup, "Fists", true));
+        this.registerSetting(useBucket = new ButtonSetting(useGroup, "Bucket", true));
+        this.registerSetting(useFlintSteel = new ButtonSetting(useGroup, "Flint and steel", true));
+        this.registerSetting(useCobweb = new ButtonSetting(useGroup, "Cobweb", true));
+        this.registerSetting(useOther = new ButtonSetting(useGroup, "Other", true));
 
-        this.registerSetting(conditionsGroup = new GroupSetting("Conditions")]);
-        this.registerSetting(requireLmb = new ButtonSetting(conditionsGroup, "Require Left mouse", false)]);
-        this.registerSetting(requireRmb = new ButtonSetting(conditionsGroup, "Require right mouse", false)]);
-        this.registerSetting(notSword = new ButtonSetting(conditionsGroup, "Not holding a sword", false)]);
+        this.registerSetting(conditionsGroup = new GroupSetting("Conditions"));
+        this.registerSetting(requireLmb = new ButtonSetting(conditionsGroup, "Require Left mouse", false));
+        this.registerSetting(requireRmb = new ButtonSetting(conditionsGroup, "Require right mouse", false));
+        this.registerSetting(notSword = new ButtonSetting(conditionsGroup, "Not holding a sword", false));
     }
 
     public boolean shouldOverrideMouseOver() {
@@ -81,33 +81,33 @@ public class GhostHand extends Module {
         if (notSword.isToggled() && Utils.holdingSword()) return false;
         if (requireLmb.isToggled() && !GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) return false;
         if (requireRmb.isToggled() && !GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS) return false;
-        return heldItemAllowed(]);
+        return heldItemAllowed();
     }
 
     public void modifyMouseOverFromGetMouseOver(float partialTicks) {
         if (!shouldOverrideMouseOver()) return;
 
-        Entity viewEntity = mc.getCameraEntity(]);
+        Entity viewEntity = mc.getCameraEntity();
 
-        double reach = mc.interactionManager.getBlockReachDistance(]);
+        double reach = mc.interactionManager.getBlockReachDistance();
         if (mc.interactionManager.extendedReach()) reach = 6.0;
 
-        HitResult blockHit = findPrioritizedBlock(viewEntity, reach, partialTicks]);
+        HitResult blockHit = findPrioritizedBlock(viewEntity, reach, partialTicks);
         if (blockHit == null) return;
 
-        BlockPos hitPos = blockHit.getBlockPos(]);
-        Block hitBlock = BlockUtils.getBlock(hitPos]);
+        BlockPos hitPos = blockHit.getBlockPos();
+        Block hitBlock = BlockUtils.getBlock(hitPos);
         boolean isBed = hitBlock instanceof BedBlock;
-        boolean isAdjacent = !isBed && BlockUtils.isAdjacentToBed(hitPos]);
+        boolean isAdjacent = !isBed && BlockUtils.isAdjacentToBed(hitPos);
         boolean priorityOverride = (priorityBed.isToggled() && isBed)
-                || (priorityBedAdjacent.isToggled() && isAdjacent]);
+                || (priorityBedAdjacent.isToggled() && isAdjacent);
 
         if (!priorityEverything.isToggled() && !priorityOverride) return;
 
         if (!priorityOverride) {
-            Vec3d eyes = viewEntity.getPositionEyes(partialTicks]);
+            Vec3d eyes = viewEntity.getPositionEyes(partialTicks);
             Vec3d blockHitVec = blockHit.hitVec;
-            double blockDist = eyes.distanceTo(blockHitVec]);
+            double blockDist = eyes.distanceTo(blockHitVec);
 
             Box scanBox = new Box(
                     Math.min(eyes.xCoord, blockHitVec.xCoord) - 1.0,
@@ -115,22 +115,22 @@ public class GhostHand extends Module {
                     Math.min(eyes.zCoord, blockHitVec.zCoord) - 1.0,
                     Math.max(eyes.xCoord, blockHitVec.xCoord) + 1.0,
                     Math.max(eyes.yCoord, blockHitVec.yCoord) + 1.0,
-                    Math.max(eyes.zCoord, blockHitVec.zCoord) + 1.0]);
+                    Math.max(eyes.zCoord, blockHitVec.zCoord) + 1.0);
 
             List<Entity> candidates = mc.world.getEntitiesInAABBexcluding(
-                    viewEntity, scanBox, Predicates.and(EntitySelectors.NOT_SPECTATING, Entity::canBeCollidedWith)]);
+                    viewEntity, scanBox, Predicates.and(EntitySelectors.NOT_SPECTATING, Entity::canBeCollidedWith));
 
             Entity closest = null;
             double closestDist = Double.MAX_VALUE;
 
             for (Entity e : candidates) {
                 if (e == viewEntity) continue;
-                float cb = e.getCollisionBorderSize(]);
-                Box bb = e.getEntityBoundingBox().expand(cb, cb, cb]);
-                HitResult intercept = bb.calculateIntercept(eyes, blockHitVec]);
-                boolean inside = bb.isVecInside(eyes]);
+                float cb = e.getCollisionBorderSize();
+                Box bb = e.getEntityBoundingBox().expand(cb, cb, cb);
+                HitResult intercept = bb.calculateIntercept(eyes, blockHitVec);
+                boolean inside = bb.isVecInside(eyes);
                 if (!inside && intercept == null) continue;
-                double dist = inside ? 0.0 : eyes.distanceTo(intercept.hitVec]);
+                double dist = inside ? 0.0 : eyes.distanceTo(intercept.hitVec);
                 if (dist >= blockDist) continue;
                 if (e == viewEntity.ridingEntity && !viewEntity.canRiderInteract()) continue;
                 if (dist < closestDist) {
@@ -147,43 +147,43 @@ public class GhostHand extends Module {
 
         EntityRenderer renderer = mc.gameRenderer;
         if (renderer instanceof IAccessorEntityRenderer) {
-            ((IAccessorEntityRenderer) renderer).setPointedEntity(null]);
+            ((IAccessorEntityRenderer) renderer).setPointedEntity(null);
         }
     }
 
     private HitResult findPrioritizedBlock(Entity viewEntity, double reach, float partialTicks) {
-        Vec3d eyes = viewEntity.getPositionEyes(partialTicks]);
-        Vec3d look = viewEntity.getLook(partialTicks]);
-        Vec3d rayEnd = eyes.addVector(look.xCoord * reach, look.yCoord * reach, look.zCoord * reach]);
-        return BlockUtils.traverseBlocksAlongRay(eyes, rayEnd, priorityBed.isToggled(), priorityBedAdjacent.isToggled()]);
+        Vec3d eyes = viewEntity.getPositionEyes(partialTicks);
+        Vec3d look = viewEntity.getLook(partialTicks);
+        Vec3d rayEnd = eyes.addVector(look.xCoord * reach, look.yCoord * reach, look.zCoord * reach);
+        return BlockUtils.traverseBlocksAlongRay(eyes, rayEnd, priorityBed.isToggled(), priorityBedAdjacent.isToggled());
     }
 
     private boolean heldItemAllowed() {
-        ItemStack held = mc.player.getMainHandStack(]);
+        ItemStack held = mc.player.getMainHandStack();
         switch (classify(held)) {
-            case SWORD: return useSword.isToggled(]);
-            case TOOL: return useTool.isToggled(]);
-            case FISTS: return useFists.isToggled(]);
-            case BUCKET: return useBucket.isToggled(]);
-            case FLINT_STEEL: return useFlintSteel.isToggled(]);
-            case COBWEB: return useCobweb.isToggled(]);
-            default: return useOther.isToggled(]);
+            case SWORD: return useSword.isToggled();
+            case TOOL: return useTool.isToggled();
+            case FISTS: return useFists.isToggled();
+            case BUCKET: return useBucket.isToggled();
+            case FLINT_STEEL: return useFlintSteel.isToggled();
+            case COBWEB: return useCobweb.isToggled();
+            default: return useOther.isToggled();
         }
     }
 
     private boolean obstructionAllowed(Entity e) {
-        if (!(e instanceof PlayerEntity)) return throughNonPlayer.isToggled(]);
+        if (!(e instanceof PlayerEntity)) return throughNonPlayer.isToggled();
         PlayerEntity player = (PlayerEntity) e;
-        if (AntiBot.isBot(player)) return throughBots.isToggled(]);
-        if (Utils.isFriended(player) || Utils.isTeammate(player)) return throughFriendlies.isToggled(]);
-        return throughEnemies.isToggled(]);
+        if (AntiBot.isBot(player)) return throughBots.isToggled();
+        if (Utils.isFriended(player) || Utils.isTeammate(player)) return throughFriendlies.isToggled();
+        return throughEnemies.isToggled();
     }
 
     private enum HeldCategory { SWORD, TOOL, FISTS, BUCKET, FLINT_STEEL, COBWEB, OTHER }
 
     private static HeldCategory classify(ItemStack held) {
         if (held == null) return HeldCategory.FISTS;
-        Item item = held.getItem(]);
+        Item item = held.getItem();
         if (item instanceof ItemSword) return HeldCategory.SWORD;
         if (item instanceof ItemTool || item instanceof ItemHoe || item instanceof ItemShears) return HeldCategory.TOOL;
         if (item instanceof ItemBucket) return HeldCategory.BUCKET;

@@ -26,13 +26,13 @@ public class Piercing extends Module {
     private String[] sortModes = new String[] { "Hurt time", "Health" };
 
     public Piercing() {
-        super("Piercing", category.combat]);
-        this.registerSetting(sortMode = new SliderSetting("Sort mode", 0, sortModes)]);
-        this.registerSetting(ignoreBlocks = new ButtonSetting("Ignore blocks", false)]);
-        this.registerSetting(ignoreNonPlayer = new ButtonSetting("Ignore non-players", true)]);
-        this.registerSetting(ignoreTeammates = new ButtonSetting("Ignore teammates", true)]);
-        this.registerSetting(weaponOnly = new ButtonSetting("Weapon only", false)]);
-        this.registerSetting(insideHitboxOnly = new ButtonSetting("Inside hitbox only", false)]);
+        super("Piercing", category.combat);
+        this.registerSetting(sortMode = new SliderSetting("Sort mode", 0, sortModes));
+        this.registerSetting(ignoreBlocks = new ButtonSetting("Ignore blocks", false));
+        this.registerSetting(ignoreNonPlayer = new ButtonSetting("Ignore non-players", true));
+        this.registerSetting(ignoreTeammates = new ButtonSetting("Ignore teammates", true));
+        this.registerSetting(weaponOnly = new ButtonSetting("Weapon only", false));
+        this.registerSetting(insideHitboxOnly = new ButtonSetting("Inside hitbox only", false));
     }
 
     @Override
@@ -57,22 +57,22 @@ public class Piercing extends Module {
 
     public void modifyMouseOverFromGetMouseOver(float partialTicks) {
         if (!shouldOverrideMouseOver()) return;
-        keystrokesmod$modifyMouseOverVanillaLook(partialTicks]);
+        keystrokesmod$modifyMouseOverVanillaLook(partialTicks);
     }
 
     private void keystrokesmod$modifyMouseOverVanillaLook(final float partialTicks) {
-        final Entity viewEntity = mc.getCameraEntity(]);
+        final Entity viewEntity = mc.getCameraEntity();
         if (viewEntity == null || mc.world == null) {
             return;
         }
 
-        double reach = mc.interactionManager.getBlockReachDistance(]);
-        final Vec3d eyes = viewEntity.getPositionEyes(partialTicks]);
+        double reach = mc.interactionManager.getBlockReachDistance();
+        final Vec3d eyes = viewEntity.getPositionEyes(partialTicks);
         if (mc.interactionManager.extendedReach()) {
             reach = 6.0;
         }
-        final Vec3d look = viewEntity.getLook(partialTicks]);
-        final Vec3d rayEnd = eyes.addVector(look.xCoord * reach, look.yCoord * reach, look.zCoord * reach]);
+        final Vec3d look = viewEntity.getLook(partialTicks);
+        final Vec3d rayEnd = eyes.addVector(look.xCoord * reach, look.yCoord * reach, look.zCoord * reach);
 
         Entity best = null;
         Vec3d bestHit = null;
@@ -80,7 +80,7 @@ public class Piercing extends Module {
         boolean bestLiving = false;
         int bestHurt = Integer.MAX_VALUE;
         float bestHp = Float.POSITIVE_INFINITY;
-        final int modeSel = (int) this.sortMode.getInput(]);
+        final int modeSel = (int) this.sortMode.getInput();
 
         for (final Entity e : mc.world.getEntitiesInAABBexcluding(viewEntity,
                 viewEntity.getEntityBoundingBox()
@@ -92,13 +92,13 @@ public class Piercing extends Module {
                 continue;
             }
 
-            final float cb = e.getCollisionBorderSize(]);
-            final Box bb = e.getEntityBoundingBox().expand(cb, cb, cb]);
-            final HitResult hit = bb.calculateIntercept(eyes, rayEnd]);
-            final boolean inside = bb.isVecInside(eyes]);
+            final float cb = e.getCollisionBorderSize();
+            final Box bb = e.getEntityBoundingBox().expand(cb, cb, cb);
+            final HitResult hit = bb.calculateIntercept(eyes, rayEnd);
+            final boolean inside = bb.isVecInside(eyes);
 
             if (!inside && hit == null) continue;
-            double dist = inside ? 0.0 : eyes.distanceTo(hit.hitVec]);
+            double dist = inside ? 0.0 : eyes.distanceTo(hit.hitVec);
             if (!mc.interactionManager.extendedReach() && dist > 3.0) continue;
             if (dist > reach) continue;
             if (dist >= bestDist) continue;
@@ -152,12 +152,12 @@ public class Piercing extends Module {
         if (best != null && reach > 3.0 && bestDist > 3.0 && !mc.interactionManager.extendedReach()) {
             mc.crosshairTarget = new MovingObjectPosition(
                     HitResult.MovingObjectType.MISS, bestHit, null, new BlockPos(bestHit)
-            ]);
+            );
             return;
         }
 
         if (best != null) {
-            mc.crosshairTarget = new MovingObjectPosition(best, bestHit]);
+            mc.crosshairTarget = new MovingObjectPosition(best, bestHit);
             if (best instanceof LivingEntity || best instanceof ItemFrameEntity) {
                 mc.crosshairTarget != null ? mc.crosshairTarget.getEntity() : null = best;
             }
