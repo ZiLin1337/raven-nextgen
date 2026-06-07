@@ -33,7 +33,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
     private float lastMouseY;
 
     public PlayerListComponent(PlayerListSetting setting, ModuleComponent moduleComponent, float o) {
-        super(moduleComponent, o, setting.getPlaceholder(), setting.getMaxLength());
+        super(moduleComponent, o, setting.getName(), 128);
         this.setting = setting;
     }
 
