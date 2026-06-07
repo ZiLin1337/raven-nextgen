@@ -5,7 +5,7 @@ import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
-import net.minecraft.network.play.client.C03PacketPlayer;
+// Removed 1.8.9 packet import
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -37,7 +37,7 @@ public class Teleport extends Module {
         if (!instant.isToggled()) {
             ArrayList<Vec3> pathList = this.path = getPath(targetBlock);
             for (Vec3 pathPos : pathList) {
-                mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(pathPos.xCoord, pathPos.yCoord, pathPos.zCoord, true));
+                // TODO: Fix for 1.21.4
                 if (++packetsSent >= 175) {
                     if (sendMessage) {
                         Utils.sendMessage("&eToo many packets, ending loop.");

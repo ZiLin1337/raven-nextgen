@@ -9,7 +9,7 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.BlockUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.Blocks;
-import net.minecraft.network.play.client.C03PacketPlayer;
+// Removed 1.8.9 packet import
 import net.minecraft.util.math.BlockPos;
 
 public class NoFall extends Module {
