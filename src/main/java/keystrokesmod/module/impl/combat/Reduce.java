@@ -1,7 +1,7 @@
 package keystrokesmod.module.impl.combat;
 
 import keystrokesmod.Raven;
-import keystrokesmod.event.PreKnockbackEvent;
+// 
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import meteordevelopment.orbit.EventHandler;
@@ -16,10 +16,11 @@ public class Reduce extends Module {
     }
 
     @EventHandler
-    public void onKnockback(PreKnockbackEvent e) {
+    // TODO: Replace PreKnockbackEvent
+    public void onKnockback(Object e) {
         double h = (100.0 - horizontal.getInput()) / 100.0;
         double v = (100.0 - vertical.getInput()) / 100.0;
-        e.setHorizontal(e.getHorizontal() * h);
-        e.setVertical(e.getVertical() * v);
+        // TODO: getHorizontal not available on 1.21.4 event
+        // TODO: getVertical not available on 1.21.4 event
     }
 }

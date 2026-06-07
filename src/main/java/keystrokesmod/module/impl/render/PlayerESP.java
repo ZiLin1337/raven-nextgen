@@ -78,7 +78,7 @@ public class PlayerESP extends Module {
         private int staticColor;
         private int renderColor;
 
-        private void set(EntityLivingBase entity, int staticColor) {
+        private void set(LivingEntity entity, int staticColor) {
             this.entity = entity;
             this.staticColor = staticColor;
             this.renderColor = staticColor;
@@ -110,8 +110,8 @@ public class PlayerESP extends Module {
     }
 
     
-    public void onClientTick(TickEvent.ClientTickEvent event) {
-        if (event.phase != TickEvent.Phase.END) {
+    public void onClientTick(Object event) {
+        if (event.phase != null) {
             return;
         }
 
@@ -124,7 +124,7 @@ public class PlayerESP extends Module {
     }
 
     
-    public void onRenderPlayerEvent(RenderPlayerEvent.Post e) {
+    public void onRenderPlayerEvent(Object e) {
         if (!skeleton.isToggled() || e.entityPlayer == null || !Utils.nullCheck()) {
             return;
         }
@@ -138,7 +138,7 @@ public class PlayerESP extends Module {
     }
 
     
-    public void onRenderWorld(RenderWorldLastEvent e) {
+    public void onRenderWorld(Object e) {
         this.visibleRenderStateCount = 0;
         if (!Utils.nullCheck()) {
             return;
@@ -168,7 +168,7 @@ public class PlayerESP extends Module {
     }
 
     
-    public void onRenderTwo2D(RenderWorldLastEvent e) {
+    public void onRenderTwo2D(Object e) {
         if (!Utils.nullCheck() || visibleRenderStateCount == 0) {
             return;
         }
@@ -238,14 +238,14 @@ public class PlayerESP extends Module {
                 if (!RenderUtils.isWithinDistanceSqToRenderView(entity, maxDistSq)) {
                     continue;
                 }
-                addRenderState((EntityLivingBase) entity, resolveStaticColor(entity));
+                addRenderState((LivingEntity) entity, resolveStaticColor(entity));
             }
             return;
         }
 
         PlayerEntity selfPlayer = (Freecam.freeEntity == null) ? mc.player : Freecam.freeEntity;
         boolean allowSelf = shouldRenderSelf(selfPlayer);
-        for (EntityPlayer player : mc.world.playerEntities) {
+        for (PlayerEntity player : mc.world.getPlayers()) {
             if (player == selfPlayer && !allowSelf) {
                 continue;
             }
@@ -265,11 +265,11 @@ public class PlayerESP extends Module {
         }
     }
 
-    private boolean shouldRenderSelf(EntityPlayer selfPlayer) {
+    private boolean shouldRenderSelf(PlayerEntity selfPlayer) {
         return selfPlayer == mc.player && renderSelf.isToggled() && (!Settings.hideFirstPersonESP.isToggled() || mc.gameSettings.thirdPersonView > 0);
     }
 
-    private void addRenderState(EntityLivingBase entity, int staticColor) {
+    private void addRenderState(LivingEntity entity, int staticColor) {
         if (renderStateCount >= renderStates.size()) {
             renderStates.add(new EspRenderState());
         }
@@ -277,7 +277,7 @@ public class PlayerESP extends Module {
         EspRenderState renderState = renderStates.get(renderStateCount++);
         renderState.set(entity, staticColor);
         if (entity instanceof PlayerEntity) {
-            playerRenderStates.put((EntityPlayer) entity, renderState);
+            playerRenderStates.put((PlayerEntity) entity, renderState);
         }
     }
 
@@ -448,7 +448,7 @@ public class PlayerESP extends Module {
         GL11.glPopMatrix();
     }
 
-    public void renderSkeleton(EntityPlayer player, ModelPart modelBiped, int color, float partialTicks) {
+    public void renderSkeleton(PlayerEntity player, ModelPart modelBiped, int color, float partialTicks) {
         GL11.glPushMatrix();
         GL11.glDisable(GL11.GL_DEPTH_TEST);
 

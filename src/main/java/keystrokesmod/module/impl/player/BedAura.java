@@ -167,7 +167,7 @@ public class BedAura extends Module {
         }
         if (hasSwapped && overrideSwapBack.isToggled() && Utils.nullCheck()) {
             int slot = Integer.compare(e.slot, 0);
-            previousSlot = Math.floorMod(mc.player.inventory.currentItem - slot, InventoryPlayer.getHotbarSize());
+            previousSlot = Math.floorMod(mc.player.inventory.currentItem - slot, PlayerInventory.getHotbarSize());
         }
         e.setCanceled(true);
     }
@@ -249,7 +249,7 @@ public class BedAura extends Module {
             return;
         }
 
-        HitResult mop = new MovingObjectPosition(targetHitVec, targetSide, targetPos);
+        HitResult mop = new HitResult(targetHitVec, targetSide, targetPos);
         mc.objectMouseOver = mop;
         mc.pointedEntity = null;
 
@@ -311,7 +311,7 @@ public class BedAura extends Module {
     }
 
     
-    public void onRenderWorldLast(RenderWorldLastEvent e) {
+    public void onRenderWorldLast(Object e) {
         if (!isEnabled() || !renderOutline.isToggled() || !miningActive || targetPos == null || !Utils.nullCheck() || !canMineBlocks()) {
             return;
         }
@@ -488,7 +488,7 @@ public class BedAura extends Module {
 
     private double scoreChoice(Choice ch, float curProg, BlockPos breaking) {
         Block block = BlockUtils.getBlock(ch.pos);
-        float bestHotbar = BlockUtils.maxDigRateAcrossSlots(block, InventoryPlayer.getHotbarSize());
+        float bestHotbar = BlockUtils.maxDigRateAcrossSlots(block, PlayerInventory.getHotbarSize());
         if (bestHotbar <= 0) {
             return Double.POSITIVE_INFINITY;
         }

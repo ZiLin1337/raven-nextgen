@@ -228,7 +228,7 @@ public class KillAura extends Module {
             targetDistance = Double.MAX_VALUE;
             nextClickTime = 0L;
         } else {
-            target = (EntityLivingBase) entity;
+            target = (LivingEntity) entity;
         }
     }
 
@@ -294,7 +294,7 @@ public class KillAura extends Module {
         }
 
         if (entity instanceof PlayerEntity) {
-            PlayerEntity player = (EntityPlayer) entity;
+            PlayerEntity player = (PlayerEntity) entity;
             if (Utils.isFriended(player) || player.deathTime != 0) {
                 return null;
             }
@@ -302,7 +302,7 @@ public class KillAura extends Module {
                 return null;
             }
         } else if (entity instanceof PathAwareEntity && attackMobs.isToggled()) {
-            PathAwareEntity creature = (EntityCreature) entity;
+            PathAwareEntity creature = (PathAwareEntity) entity;
             if (creature.tasks == null || creature.isAIDisabled() || creature.deathTime != 0) {
                 return null;
             }
@@ -328,11 +328,11 @@ public class KillAura extends Module {
             return null;
         }
 
-        return new Candidate((EntityLivingBase) entity, distance);
+        return new Candidate((LivingEntity) entity, distance);
     }
 
-    private KillAuraTarget buildKillAuraTarget(EntityLivingBase entity, double distanceToBoundingBox, double maxRange) {
-        if (entity instanceof PathAwareEntity && attackMobs.isToggled() && !isHostile((EntityCreature) entity)) {
+    private KillAuraTarget buildKillAuraTarget(LivingEntity entity, double distanceToBoundingBox, double maxRange) {
+        if (entity instanceof PathAwareEntity && attackMobs.isToggled() && !isHostile((PathAwareEntity) entity)) {
             return null;
         }
 
@@ -342,7 +342,7 @@ public class KillAura extends Module {
             return null;
         }
 
-        boolean isEnemyPlayer = entity instanceof PlayerEntity && Utils.isEnemy((EntityPlayer) entity);
+        boolean isEnemyPlayer = entity instanceof PlayerEntity && Utils.isEnemy((PlayerEntity) entity);
         return new KillAuraTarget(
                 entity,
                 distanceToBoundingBox,
@@ -392,7 +392,7 @@ public class KillAura extends Module {
         return null;
     }
 
-    private boolean isHostile(EntityCreature entityCreature) {
+    private boolean isHostile(PathAwareEntity entityCreature) {
         if (SkyWars.onlyAuraHostiles()) {
             if (entityCreature instanceof GiantEntity) {
                 return false;
@@ -418,7 +418,7 @@ public class KillAura extends Module {
                         double distanceSq = entity.getDistanceSq(entityCreature.posX, entityCreature.posY, entityCreature.posZ);
                         if (distanceSq < nearestDistance || nearestDistance == -1) {
                             nearestDistance = distanceSq;
-                            nearestArmorStand = (EntityArmorStand) entity;
+                            nearestArmorStand = (ArmorStandEntity) entity;
                         }
                     }
                 }
@@ -513,7 +513,7 @@ public class KillAura extends Module {
         Vec3 hitVec = inside ? (intercept == null ? eyes : intercept.hitVec) : intercept.hitVec;
         if (!aimThroughBlocks.isToggled()) {
             HitResult blockHit = mc.world.rayTraceBlocks(eyes, hitVec, false, false, true);
-            if (blockHit != null && blockHit.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+            if (blockHit != null && blockHit.typeOfHit == HitResult.MovingObjectType.BLOCK) {
                 return;
             }
         }
@@ -521,7 +521,7 @@ public class KillAura extends Module {
             return;
         }
 
-        mc.objectMouseOver = new MovingObjectPosition(attackingEntity, hitVec);
+        mc.objectMouseOver = new HitResult(attackingEntity, hitVec);
         mc.pointedEntity = attackingEntity;
 
         EntityRenderer renderer = mc.entityRenderer;
@@ -534,7 +534,7 @@ public class KillAura extends Module {
         final LivingEntity entity;
         final double distance;
 
-        Candidate(EntityLivingBase entity, double distance) {
+        Candidate(LivingEntity entity, double distance) {
             this.entity = entity;
             this.distance = distance;
         }
@@ -549,7 +549,7 @@ public class KillAura extends Module {
         final int entityId;
         final boolean isEnemy;
 
-        public KillAuraTarget(EntityLivingBase entity, double distance, float health, int hurttime, double yawDelta, int entityId, boolean isEnemy) {
+        public KillAuraTarget(LivingEntity entity, double distance, float health, int hurttime, double yawDelta, int entityId, boolean isEnemy) {
             this.entity = entity;
             this.distance = distance;
             this.health = health;
