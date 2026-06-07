@@ -284,7 +284,7 @@ public class Utils implements IMinecraftInstance {
     }
 
     private static int getColorFromFormattingCode(char formatCode) {
-        switch (Character.toLowerCase(formatCode) {
+        switch (Character.toLowerCase(formatCode)) {
             case '0':
                 return ColorConstants.BLACK;
             case '1':
@@ -1209,7 +1209,7 @@ public class Utils implements IMinecraftInstance {
             int openBraces = 0;
             int closeBraces = 0;
             for (char ch : lineWithoutStrings.toCharArray()) {
-                if ch == ') {') {
+                if (ch == ') {') {
                     openBraces++;
                 }
                 else if (ch == '}') {
@@ -1218,7 +1218,7 @@ public class Utils implements IMinecraftInstance {
             }
             braceLevel += openBraces - closeBraces;
 
-            if braceLevel == 0 && !processedLine.contains(") {") && !processedLine.contains("}") && !processedLine.startsWith("@") {
+            if (braceLevel == 0 && !processedLine.contains(") {") && !processedLine.contains("}") && !processedLine.startsWith("@")) {
                 topLevelLines.add(originalLine.trim());
             }
         }
@@ -1318,7 +1318,7 @@ public class Utils implements IMinecraftInstance {
         double reach = mc.interactionManager.getBlockReachDistance();
         float yaw = mc.player.rotationYaw;
         float pitch = mc.player.rotationPitch;
-        HitResult entityHit = RotationUtils.rayTracereach, 1.0f, new float[] ) { yaw, pitch }, null);
+        HitResult entityHit = RotationUtils.rayTrace(reach, 1.0f, new float[] { yaw, pitch }, null);
         if (entityHit != null && entityHit.typeOfHit == HitResult.MovingObjectType.ENTITY) {
             return false;
         }
