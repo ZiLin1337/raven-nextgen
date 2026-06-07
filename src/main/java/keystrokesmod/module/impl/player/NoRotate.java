@@ -16,17 +16,13 @@ public class NoRotate extends Module {
         this.registerSetting(serverSide = new ButtonSetting("Server side", false));
     }
 
+    
     public void onReceivePacket(ReceivePacketEvent event) {
         if (event.getPacket() instanceof PlayerPositionLookS2CPacket packet) {
-            // Store rotation values from server packet
             try {
-                // Try standard mapped names first
-                prevYaw = packet.getYaw();
-                prevPitch = packet.getPitch();
-            } catch (Exception e) {
-                // Fallback: try via reflection
+                // Try reflection to access yaw/pitch fields
+                var clazz = packet.getClass();
                 try {
-                    var clazz = packet.getClass();
                     var yawField = clazz.getDeclaredField("yaw");
                     yawField.setAccessible(true);
                     prevYaw = yawField.getFloat(packet);
@@ -34,13 +30,22 @@ public class NoRotate extends Module {
                     var pitchField = clazz.getDeclaredField("pitch");
                     pitchField.setAccessible(true);
                     prevPitch = pitchField.getFloat(packet);
-                } catch (Exception ex) {
-                    // Silently fail
+                } catch (NoSuchFieldException e) {
+                    // Try mapped names
+                    try {
+                        var yawField = clazz.getDeclaredField("field_149475_f");
+                        yawField.setAccessible(true);
+                        prevYaw = yawField.getFloat(packet);
+                        
+                        var pitchField = clazz.getDeclaredField("field_149477_g");
+                        pitchField.setAccessible(true);
+                        prevPitch = pitchField.getFloat(packet);
+                    } catch (NoSuchFieldException ex) {
+                        // Last resort
+                    }
                 }
-            }
-            
-            if (serverSide.isToggled()) {
-                // Packet will be modified by mixin to restore original rotation
+            } catch (Exception e) {
+                // Silently fail
             }
         }
     }

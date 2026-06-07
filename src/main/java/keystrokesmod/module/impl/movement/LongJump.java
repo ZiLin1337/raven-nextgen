@@ -248,7 +248,7 @@ public class LongJump extends Module {
             if (fireballSlot != -1) {
                 fireballTime = System.currentTimeMillis();
                 if (!manual.isToggled()) {
-                    mc.player.networkHandler.sendPacket(new net.minecraft.network.packet.c2s.play.PlayerInteractItemC2SPacket(net.minecraft.util.Hand.MAIN_HAND, mc.player.getSpawnAge()));
+                    mc.player.networkHandler.sendPacket(new net.minecraft.network.packet.c2s.play.PlayerInteractItemC2SPacket(net.minecraft.util.Hand.MAIN_HAND, 0));
                     //((IAccessorMinecraft) mc).callRightClickMouse();
                 }
                 mc.player.swingHand(Hand.MAIN_HAND);
@@ -298,7 +298,7 @@ public class LongJump extends Module {
         Object packet = e.getPacket();
         if (packet instanceof net.minecraft.network.packet.s2c.play.ExplosionS2CPacket) {
             net.minecraft.network.packet.s2c.play.ExplosionS2CPacket s27 = (net.minecraft.network.packet.s2c.play.ExplosionS2CPacket) packet;
-            if (fireballTime == 0 || mc.player.getPos().distanceSq((double)s27.getX(), (double)s27.getY(), (double)s27.getZ()) > MAX_EXPLOSION_DIST_SQ) {
+            if (fireballTime == 0 || mc.player.getPos().squaredDistanceTo((double)s27.getX(), (double)s27.getY(), (double)s27.getZ()) > MAX_EXPLOSION_DIST_SQ) {
                 e.setCanceled(true);
                 //Utils.sendMessage("0 fb time / out of dist");
             }

@@ -9,12 +9,17 @@ public interface RavenFontRenderer {
         MinecraftClient mc = MinecraftClient.getInstance();
         if (mc.textRenderer == null) return 0;
         
-        Text textObj = Text.literal(text);
-        if (shadow) {
-            // Use DrawContext for shadow rendering in 1.21.4
-            return mc.textRenderer.drawWithShadow(textObj, x, y, color);
-        } else {
-            return mc.textRenderer.draw(textObj, x, y, color);
+        try {
+            Text textObj = Text.literal(text);
+            if (shadow) {
+                // 1.21.4: drawWithShadow returns int
+                return mc.textRenderer.drawWithShadow(textObj, x, y, color);
+            } else {
+                // 1.21.4: draw returns int
+                return mc.textRenderer.draw(textObj, x, y, color);
+            }
+        } catch (Exception e) {
+            return 0;
         }
     }
     
