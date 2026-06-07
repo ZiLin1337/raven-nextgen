@@ -266,7 +266,7 @@ public class PotionHUD extends Module {
         RenderUtils.drawRect(right - 1.0f, top, right, bottom, EDIT_OUTLINE_COLOR);
     }
 
-    private void adjustAnchorForLayoutChanges(int /* resolution */, RenderState state) {
+    private void adjustAnchorForLayoutChanges(resolution, RenderState state) {
         syncPositionToResolution(resolution);
     }
 
@@ -476,7 +476,7 @@ public class PotionHUD extends Module {
             }
 
             drawRect(0, 0, this.width, this.height, -1308622848);
-            setAbsolutePosition(this.actualX, this.actualY, int resolution);
+            setAbsolutePosition(this.actualX, this.actualY, resolution);
 
             RenderState state = buildRenderState(true);
             adjustAnchorForLayoutChanges(resolution, state);

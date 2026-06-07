@@ -121,7 +121,6 @@ public class KillAura extends Module {
         nextClickTime = 0L;
     }
 
-    (priority = EventPriority.LOW)
     public void onClientRotation(ClientRotationEvent e) {
         if (ModuleManager.bedAura != null && ModuleManager.bedAura.shouldOverrideMouseOver()) {
             return;
