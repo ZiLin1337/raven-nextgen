@@ -219,11 +219,11 @@ public class PlayerRelationsManager implements IMinecraftInstance {
     }
 
     public void setMiddleClickFriends(boolean middleClickFriends) {
-        if (this.middleClickFriends == middleClickFriends) {
+        if (this /* middleClickFriends not found in 1.21.4 */ == middleClickFriends) {
             return;
         }
 
-        this.middleClickFriends = middleClickFriends;
+        this /* middleClickFriends not found in 1.21.4 */ = middleClickFriends;
         save();
         syncRelationshipsModuleState();
     }
@@ -270,19 +270,19 @@ public class PlayerRelationsManager implements IMinecraftInstance {
     }
 
     private void syncRelationshipsModuleState() {
-        if (ModuleManager.getModules() != null) {
-            ModuleManager.getModules().middleClickFriends.setEnabled(middleClickFriends);
-            if (active && !ModuleManager.getModules()!= null) {
-                ModuleManager.getModules();
+        if (ModuleManager.modules != null) {
+            ModuleManager.modules /* middleClickFriends not found in 1.21.4 */.setEnabled(middleClickFriends);
+            if (active && !ModuleManager.modules!= null) {
+                ModuleManager.modules;
             }
-            else if (!active && ModuleManager.getModules()!= null) {
-                ModuleManager.getModules();
+            else if (!active && ModuleManager.modules!= null) {
+                ModuleManager.modules;
             }
         }
     }
 
     private void refreshRelationshipsModuleUi() {
-        if (Raven.clickGui == null || ClickGui.categories == null || ModuleManager.getModules() == null) {
+        if (Raven.clickGui == null || ClickGui.categories == null || ModuleManager.modules == null) {
             return;
         }
 
@@ -292,7 +292,7 @@ public class PlayerRelationsManager implements IMinecraftInstance {
             }
 
             for (ModuleComponent moduleComponent : categoryComponent.modules) {
-                if (moduleComponent.mod != ModuleManager.getModules()) {
+                if (moduleComponent.mod != ModuleManager.modules) {
                     continue;
                 }
 

@@ -320,17 +320,17 @@ public final class ItemSearchIndex {
         }
 
         if (shouldStoreMeta(stack.getItem())) {
-            int meta = stack.getMetadata();
+            int meta = stack./* .getMetadata() removed */;
             return meta != 0 ? registryId + ":" + meta : registryId;
         }
         return registryId;
     }
 
     public static String getRegistryId(Item item) {
-        if (item == null || Item.itemRegistry.getNameForObject(item) == null) {
+        if (item == null || Item.Registries.ITEM.getNameForObject(item) == null) {
             return null;
         }
-        return Item.itemRegistry.getNameForObject(item).toString();
+        return Item.Registries.ITEM.getNameForObject(item).toString();
     }
 
     public static boolean hasMultipleVariants(Item item) {
@@ -522,7 +522,7 @@ public final class ItemSearchIndex {
         List<ItemEntry> regularEntries = new ArrayList<ItemEntry>();
         Map<String, List<ItemEntry>> variantMap = new HashMap<String, List<ItemEntry>>();
 
-        for (Object obj : Item.itemRegistry) {
+        for (Object obj : Item.Registries.ITEM) {
             Item item = (Item) obj;
             String registryId = getRegistryId(item);
             if (registryId == null) {
@@ -532,7 +532,7 @@ public final class ItemSearchIndex {
             List<ItemStack> subItems = new ArrayList<ItemStack>();
             collectSubItems(item, subItems);
             if (subItems.isEmpty()) {
-                subItems.add(new ItemStack(item, 1, 0));
+                subItems.add(new ItemStack(item, 1));
             }
 
             Map<String, ItemEntry> dedupedEntries = new LinkedHashMap<String, ItemEntry>();
@@ -551,7 +551,7 @@ public final class ItemSearchIndex {
                     continue;
                 }
 
-                int meta = shouldStoreMeta(item) ? stack.getMetadata() : 0;
+                int meta = shouldStoreMeta(item) ? stack./* .getMetadata() removed */ : 0;
                 dedupedEntries.put(storageId, new ItemEntry(item, meta, displayName, storageId, stack));
             }
 
@@ -667,7 +667,7 @@ public final class ItemSearchIndex {
 
     private static Item getItemForName(String registryId) {
         try {
-            return (Item) Item.itemRegistry.getObject(new Identifier(registryId));
+            return (Item) Item.Registries.ITEM.getObject(new Identifier(registryId));
         }
         catch (Exception ignored) {
             return null;

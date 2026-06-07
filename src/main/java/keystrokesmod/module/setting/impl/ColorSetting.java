@@ -1,3 +1,5 @@
+protected boolean rainbow = false;
+protected // color = 0xFF00FF;
 package keystrokesmod.module.setting.impl;
 
 import keystrokesmod.module.setting.Setting;

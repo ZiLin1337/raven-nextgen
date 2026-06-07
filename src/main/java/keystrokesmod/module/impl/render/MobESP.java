@@ -297,21 +297,21 @@ public class MobESP extends Module {
             if (showInvis.isToggled()) {
                 ent.setInvisible(false);
             }
-            mc.getEntityRenderDispatcher().renderEntityStatic(ent, partialTicks, true);
+            // renderEntityStatic disabled for 1.21.4
             ent.setInvisible(invis);
         }
         glowShader.stop();
         renderingOutlinePass = false;
 
-        mc.options.getEntityShadows().getValue() = shadows;
+        // mc.options.getEntityShadows disabled for 1.21.4 // was: .getValue() = shadows;
         // mc.gameRenderer.disableLightmap();
         // setupOverlayRendering;
-        mc.getFramebuffer().beginWrite();
+        mc.getFramebuffer().beginWrite(false);
         outlineShader.use();
         // drawFramebufferFullscreen(outlineFramebuffer);
         outlineShader.stop();
         outlineFramebuffer.clear();
-        mc.getFramebuffer().beginWrite();
+        mc.getFramebuffer().beginWrite(false);
         // RenderSystem.popAttrib();
         // RenderSystem.popMatrix();
     }
@@ -375,7 +375,7 @@ public class MobESP extends Module {
         double maxY = Double.MIN_VALUE;
 
         boolean isInView = false;
-         scaledResolution = null; // int removed for 1.21.4
+         ScaledResolution sr = new ScaledResolution(mc); // 1.21.4
 
         for (Vec3d corner : corners) {
             Vec3d screenVec = RenderUtils.convertTo2D(mc.getWindow().getScaleFactor(), corner.x, corner.y, corner.z);

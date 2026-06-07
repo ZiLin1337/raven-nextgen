@@ -83,7 +83,7 @@ public class BindComponent extends Component {
         if (!overSetting(x, y) || !moduleComponent.isOpened || !moduleComponent.isVisible(this)) return false;
         if (button == 0 && moduleComponent.mod.moduleCategory() != Module.category.profiles && overEyeIcon(x, y)) {
             moduleComponent.mod.setHidden(!moduleComponent.mod.isHidden());
-            if (Raven.currentProfile != null) Raven.currentProfile.getModule().saved = false;
+            if (Raven.currentProfile != null) Raven.currentProfile.getParent().saved = false;
             return true;
         }
         if (moduleComponent.mod.canBeEnabled() && button == 0 && overBindText(x, y)) {
@@ -93,7 +93,7 @@ public class BindComponent extends Component {
         if (moduleComponent.mod.canBeEnabled() && button > 1 && isBinding) {
             // keySetting.setKey disabled
             // setBind disabled
-            if (Raven.currentProfile != null) Raven.currentProfile.getModule().saved = false;
+            if (Raven.currentProfile != null) Raven.currentProfile.getParent().saved = false;
             isBinding = false;
             return true;
         }
@@ -158,13 +158,13 @@ public class BindComponent extends Component {
         if (!isBinding || scroll == 0) return;
         // keySetting.setKey disabled
         // setBind disabled
-        if (Raven.currentProfile != null) Raven.currentProfile.getModule().saved = false;
+        if (Raven.currentProfile != null) Raven.currentProfile.getParent().saved = false;
         isBinding = false;
     }
 
     public void keyTyped(char t, int keybind) {
         if (!isBinding) return;
-        if (keybind == GLFW.GLFW_KEY_KEY_0 || keybind == GLFW.GLFW_KEY_ESCAPE) {
+        if (keybind == GLFW.GLFW_KEY_0 || keybind == GLFW.GLFW_KEY_ESCAPE) {
             if (moduleComponent.mod instanceof Gui) moduleComponent.mod.setBind(54);
             // keySetting.setKey disabled
             // setBind disabled
@@ -172,7 +172,7 @@ public class BindComponent extends Component {
             // keySetting.setKey disabled
             /* setBind removed */
         }
-        if (Raven.currentProfile != null) Raven.currentProfile.getModule().saved = false;
+        if (Raven.currentProfile != null) Raven.currentProfile.getParent().saved = false;
         isBinding = false;
     }
 
@@ -184,7 +184,7 @@ public class BindComponent extends Component {
     }
 
     public String getKeyAsStr(boolean isKey) {
-        int key = isKey ? keySetting.getKey() : moduleComponent.mod.getKeycode();
+        int key = isKey ? keySetting.getKeyCode() : moduleComponent.mod.getKeycode();
         return key >= 1000 ? ((key == 1069 || key == 1070) ? getScroll(key) : "M" + (key - 1000)) : String.valueOf(key); // getKeyName disabled
     }
 
