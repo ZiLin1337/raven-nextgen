@@ -4,9 +4,7 @@ import keystrokesmod.module.setting.impl.PotionListSetting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-import net.minecraft.statuseffect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffect;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -47,10 +45,10 @@ public final class PotionSearchIndex {
         if (all != null) return;
         Map<String, PotionEntry> map = new LinkedHashMap<>();
         for (StatusEffect effect : Registries.STATUS_EFFECT) {
-            Identifier id = Registries.STATUS_EFFECT.getId(effect);
+            var id = Registries.STATUS_EFFECT.getId(effect);
             if (id == null) continue;
             String key = id.toString();
-            String name = Text.translatable(effect.getTranslationKey()).getString();
+            String name = effect.getName().getString();
             if (name == null || name.isEmpty()) name = key;
             map.put(key, new PotionEntry(key, name, effect));
         }
@@ -59,7 +57,6 @@ public final class PotionSearchIndex {
     }
 
     public static ItemStack getItemStack(String key) {
-        ensure();
         return new ItemStack(Items.POTION);
     }
 
