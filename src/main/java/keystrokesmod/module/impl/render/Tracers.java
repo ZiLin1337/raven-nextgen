@@ -85,7 +85,7 @@ public class Tracers extends Module {
         }
 
         if (Raven.DEBUG) {
-            for (Entity entity : mc.world.getEntities() {
+            for (Entity entity : mc.world.getEntities()) {
                 if (entity instanceof LivingEntity && entity != mc.player) {
                     addTrackedEntity(entity);
                 }
@@ -93,17 +93,17 @@ public class Tracers extends Module {
             return;
         }
 
-        for (PlayerEntity player : mc.world.getPlayers() {
+        for (PlayerEntity player : mc.world.getPlayers()) {
             if (player == mc.player) {
                 continue;
             }
             if (player.deathTime != 0) {
                 continue;
             }
-            if (!showInvis.isToggled() && player.isInvisible() {
+            if (!showInvis.isToggled() && player.isInvisible()) {
                 continue;
             }
-            if (AntiBot.isBot(player) {
+            if (AntiBot.isBot(player)) {
                 continue;
             }
             addTrackedEntity(player);
@@ -111,7 +111,7 @@ public class Tracers extends Module {
     }
 
     private void addTrackedEntity(Entity entity) {
-        if (trackedEntityCount >= trackedEntities.size() {
+        if (trackedEntityCount >= trackedEntities.size()) {
             trackedEntities.add(entity);
         }
         else {

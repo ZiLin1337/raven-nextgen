@@ -149,7 +149,7 @@ public class DamageTags extends Module {
 
         S1CPacketEntityMetadata packet = (S1CPacketEntityMetadata) e.getPacket();
         List<DataWatcher.WatchableObject> watchedObjects = packet.func_149376_c();
-        if (watchedObjects == null || watchedObjects.isEmpty() {
+        if (watchedObjects == null || watchedObjects.isEmpty()) {
             return;
         }
 
@@ -183,7 +183,7 @@ public class DamageTags extends Module {
 
     
     public void onRenderWorldLast(RenderWorldLastEvent e) {
-        if (!Utils.nullCheck() {
+        if (!Utils.nullCheck()) {
             return;
         }
 
@@ -197,7 +197,7 @@ public class DamageTags extends Module {
         updateTrackedStates();
         pruneExpiredTags(now);
 
-        if (activeTags.isEmpty() {
+        if (activeTags.isEmpty()) {
             return;
         }
 
@@ -225,7 +225,7 @@ public class DamageTags extends Module {
                 if (dx * dx + dy * dy + dz * dz > MAX_RENDER_DISTANCE_SQ) {
                     continue;
                 }
-                if (!RenderUtils.isInViewFrustum(tag.frustumAabb) {
+                if (!RenderUtils.isInViewFrustum(tag.frustumAabb)) {
                     continue;
                 }
                 renderTag(tag, now, renderManager, fontRenderer, viewerX, viewerY, viewerZ,
@@ -299,7 +299,7 @@ public class DamageTags extends Module {
 
     private void pruneExpiredTags(long now) {
         Iterator<DamageTag> iterator = activeTags.iterator();
-        while (iterator.hasNext() {
+        while (iterator.hasNext()) {
             DamageTag tag = iterator.next();
             if (now - tag.createdAt >= tag.durationMs) {
                 iterator.remove();

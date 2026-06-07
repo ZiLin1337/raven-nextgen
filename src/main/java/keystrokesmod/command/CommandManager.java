@@ -38,7 +38,7 @@ public class CommandManager {
 
     public void register(Command command) {
         commands.put(command.getName().toLowerCase(), command);
-        for (String alias : command.getAliases() {
+        for (String alias : command.getAliases()) {
             commands.put(alias.toLowerCase(), command);
         }
     }
@@ -68,7 +68,7 @@ public class CommandManager {
     private Command findCommand(String label) {
         Command cmd = commands.get(label.toLowerCase());
         if (cmd != null) return cmd;
-        for (Command c : commands.values() {
+        for (Command c : commands.values()) {
             if (c.matches(label)) return c;
         }
         return null;

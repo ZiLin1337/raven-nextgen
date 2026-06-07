@@ -59,7 +59,7 @@ public class BHop extends Module {
         if (ModuleManager.moduleManager.getModule("LongJump").isEnabled()) return;
 
         if (mode.getInput() >= 1) {
-            if (mc.player.isOnGround() && (!jumpMoving.isToggled() || Utils.isMoving()) {
+            if (mc.player.isOnGround() && (!jumpMoving.isToggled() || Utils.isMoving())) {
                 if (mc.player.input.movementForward <= -0.5 && mc.player.input.movementSideways == 0
                         && KillAura.target == null && !mc.player.horizontalCollision) {
                     setRotation = true;
@@ -73,7 +73,7 @@ public class BHop extends Module {
                     case 3 -> speed + 0.1;
                     default -> speed;
                 };
-                if (Utils.isMoving() {
+                if (Utils.isMoving()) {
                     double randOffset = 0.0001 + Math.random() * 0.0002;
                     Utils.setSpeed(speedModifier - randOffset, true);
                     didMove = true;
@@ -87,7 +87,7 @@ public class BHop extends Module {
         }
         switch ((int) mode.getInput() {
             case 0:
-                if (Utils.isMoving() {
+                if (Utils.isMoving()) {
                     if (mc.player.isOnGround()) mc.player.jump();
                     mc.player.setSprinting(true);
                     Utils.setSpeed(Utils.getHorizontalSpeed() + 0.005 * speedSetting.getInput(), true);

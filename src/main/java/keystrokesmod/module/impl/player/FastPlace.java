@@ -58,7 +58,7 @@ public class FastPlace extends Module {
             return;
         }
 
-        if (!isRightClickActive() {
+        if (!isRightClickActive()) {
             rightClickStartTime = 0L;
             return;
         }
@@ -68,7 +68,7 @@ public class FastPlace extends Module {
             rightClickStartTime = now;
         }
 
-        if (!canFastPlace(now, true) {
+        if (!canFastPlace(now, true)) {
             return;
         }
 
@@ -88,7 +88,7 @@ public class FastPlace extends Module {
 
     
     public void onSendPacket(SendPacketEvent e) {
-        if (!Utils.nullCheck() || !(e.getPacket() instanceof PlayerInteractBlockC2SPacket) {
+        if (!Utils.nullCheck() || !(e.getPacket() instanceof PlayerInteractBlockC2SPacket)) {
             return;
         }
 
@@ -98,11 +98,11 @@ public class FastPlace extends Module {
         }
 
         ItemStack packetStack = packet.getStack();
-        if (packetStack == null || !(packetStack.getItem() instanceof BlockItem) {
+        if (packetStack == null || !(packetStack.getItem() instanceof BlockItem)) {
             return;
         }
 
-        if (!canFastPlace(System.currentTimeMillis(), true) {
+        if (!canFastPlace(System.currentTimeMillis(), true)) {
             return;
         }
 
@@ -138,19 +138,19 @@ public class FastPlace extends Module {
     }
 
     private boolean canFastPlace(long now, boolean requireActivationDelay) {
-        if (blocksOnly.isToggled() {
+        if (blocksOnly.isToggled()) {
             ItemStack item = mc.player.getHeldItem();
-            if (item == null || !(item.getItem() instanceof BlockItem) {
+            if (item == null || !(item.getItem() instanceof BlockItem)) {
                 return false;
             }
         }
         if (pitchCheck.isToggled() && mc.player.rotationPitch < 70.0f) {
             return false;
         }
-        if (ignoredHeldItemsToggle.isToggled() && ignoredHeldItems.matches(mc.player.getHeldItem()) {
+        if (ignoredHeldItemsToggle.isToggled() && ignoredHeldItems.matches(mc.player.getHeldItem())) {
             return false;
         }
-        if (isBlockedHoverBlock() {
+        if (isBlockedHoverBlock()) {
             return false;
         }
         return !requireActivationDelay || now - rightClickStartTime >= (long) activationTime.getInput();

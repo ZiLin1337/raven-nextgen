@@ -35,7 +35,7 @@ public class MixinClientPlayNetworkHandler {
                 null, 0, 0, 0
         );
         Raven.EVENT_BUS.post(event);
-        if (event.isCancelled() {
+        if (event.isCancelled()) {
             ci.cancel();
         }
     }
@@ -44,7 +44,7 @@ public class MixinClientPlayNetworkHandler {
     private void onExplosion(ExplosionS2CPacket packet, CallbackInfo ci) {
         PreExplosionPacketEvent event = new PreExplosionPacketEvent();
         Raven.EVENT_BUS.post(event);
-        if (event.isCancelled() {
+        if (event.isCancelled()) {
             ci.cancel();
         }
     }

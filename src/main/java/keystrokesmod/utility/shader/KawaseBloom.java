@@ -45,7 +45,7 @@ public class KawaseBloom implements IMinecraftInstance {
 
 
     public static void renderBlur(int framebufferTexture, int iterations, float offset) {
-        if (currentIterations != iterations || (framebuffer.framebufferWidth != mc.getWindow().getFramebufferWidth() || framebuffer.framebufferHeight != mc.getWindow().getFramebufferHeight()) {
+        if (currentIterations != iterations || (framebuffer.framebufferWidth != mc.getWindow().getFramebufferWidth() || framebuffer.framebufferHeight != mc.getWindow().getFramebufferHeight())) {
             initFramebuffers(iterations);
             currentIterations = iterations;
         }

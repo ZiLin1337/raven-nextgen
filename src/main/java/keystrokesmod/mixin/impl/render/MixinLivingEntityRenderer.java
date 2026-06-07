@@ -56,8 +56,8 @@ public abstract class MixinLivingEntityRenderer<T extends LivingEntity> {
         int i = 0xFFFFFF;
         boolean drawOutline = shouldRender()
                 && (entity != MinecraftClient.getInstance().player || ModuleManager.playerESP.renderSelf.isToggled());
-        if (drawOutline && !AntiBot.isBot(entity) {
-            if (ModuleManager.playerESP.rainbow.isToggled() {
+        if (drawOutline && !AntiBot.isBot(entity)) {
+            if (ModuleManager.playerESP.rainbow.isToggled()) {
                 i = Utils.getChroma(2L, 0L);
             } else {
                 i = ModuleManager.playerESP.color.getColor();
@@ -72,14 +72,14 @@ public abstract class MixinLivingEntityRenderer<T extends LivingEntity> {
 
     @Inject(method = "render(Lnet/minecraft/entity/LivingEntity;DDDFF)V", at = @At("HEAD"))
     private void mobEsp$renderPre(T entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo ci) {
-        if (!(entity instanceof PlayerEntity) {
+        if (!(entity instanceof PlayerEntity)) {
             MobESP.onRenderMobPre(entity);
         }
     }
 
     @Inject(method = "render(Lnet/minecraft/entity/LivingEntity;DDDFF)V", at = @At("RETURN"))
     private void mobEsp$renderPost(T entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo ci) {
-        if (!(entity instanceof PlayerEntity) {
+        if (!(entity instanceof PlayerEntity)) {
             MobESP.onRenderMobPost();
         }
     }
@@ -91,7 +91,7 @@ public abstract class MixinLivingEntityRenderer<T extends LivingEntity> {
 
     @ModifyVariable(method = "renderLabelIfPresent", at = @At("STORE"), ordinal = 0)
     private Text nameHider$hideName(Text text) {
-        if (text == null || ModuleManager.nameHider == null || !ModuleManager.nameHider.isEnabled() {
+        if (text == null || ModuleManager.nameHider == null || !ModuleManager.nameHider.isEnabled()) {
             return text;
         }
         if (this.nameHider$entity instanceof PlayerEntity) {

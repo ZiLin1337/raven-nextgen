@@ -11,7 +11,7 @@ public class AutoJump extends Module {
 
     @EventHandler
     public void onPreMotion(PreMotionEvent e) {
-        if (mc.player != null && mc.player.isOnGround() && Utils.isMoving() {
+        if (mc.player != null && mc.player.isOnGround() && Utils.isMoving()) {
             mc.player.jump();
         }
     }

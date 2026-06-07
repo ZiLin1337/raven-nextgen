@@ -34,7 +34,7 @@ public final class MinecraftFontAdapter implements RavenFontRenderer {
 
     @Override
     public int drawGlyphString(String text, float x, float y, GlyphColorProvider colorProvider, boolean shadow) {
-        if (text == null || text.isEmpty() {
+        if (text == null || text.isEmpty()) {
             return 0;
         }
 
@@ -44,7 +44,7 @@ public final class MinecraftFontAdapter implements RavenFontRenderer {
 
         for (int i = 0; i < text.length(); i++) {
             char character = text.charAt(i);
-            if (character == SECTION_SIGN && i + 1 < text.length() {
+            if (character == SECTION_SIGN && i + 1 < text.length()) {
                 char formatCode = Character.toLowerCase(text.charAt(++i));
                 int colorIndex = COLOR_CODES.indexOf(formatCode);
                 if (colorIndex >= 0) {
@@ -55,7 +55,7 @@ public final class MinecraftFontAdapter implements RavenFontRenderer {
                     formattingColor = null;
                     activeFormats.setLength(0);
                 }
-                else if (isStyleCode(formatCode) {
+                else if (isStyleCode(formatCode)) {
                     appendFormatCode(activeFormats, formatCode);
                 }
                 continue;
@@ -137,7 +137,7 @@ public final class MinecraftFontAdapter implements RavenFontRenderer {
     }
 
     private static void appendFormatCode(StringBuilder activeFormats, char formatCode) {
-        if (hasFormat(activeFormats, formatCode) {
+        if (hasFormat(activeFormats, formatCode)) {
             return;
         }
         activeFormats.append(SECTION_SIGN).append(formatCode);

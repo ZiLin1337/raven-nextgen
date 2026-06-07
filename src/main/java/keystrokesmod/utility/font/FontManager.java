@@ -61,7 +61,7 @@ public final class FontManager {
         float safeFontSize = Math.max(1.0f, fontSize);
         BundledFont bundledFont;
 
-        if (family == null || isMinecraftFont(family) {
+        if (family == null || isMinecraftFont(family)) {
             return getMinecraftRenderer(safeFontSize);
         }
 
@@ -88,7 +88,7 @@ public final class FontManager {
         float safeTargetHeight = Math.max(1.0f, targetHeight);
         BundledFont bundledFont;
 
-        if (family == null || isMinecraftFont(family) {
+        if (family == null || isMinecraftFont(family)) {
             return getMinecraftRenderer(safeTargetHeight);
         }
 
@@ -233,7 +233,7 @@ public final class FontManager {
     private static void trimFontCache() {
         while (FONT_CACHE.size() > MAX_CACHED_RENDERERS) {
             Iterator<Map.Entry<String, RavenFontRenderer>> iterator = FONT_CACHE.entrySet().iterator();
-            if (!iterator.hasNext() {
+            if (!iterator.hasNext()) {
                 return;
             }
 

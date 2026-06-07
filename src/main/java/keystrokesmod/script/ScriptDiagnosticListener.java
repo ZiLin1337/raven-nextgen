@@ -11,7 +11,7 @@ public class ScriptDiagnosticListener implements DiagnosticListener<JavaFileObje
     @Override
     public void report(final javax.tools.Diagnostic<? extends JavaFileObject> diagnostic) {
         final String message = diagnostic.getMessage(null);
-        if (message.contains("SpongePowered") {
+        if (message.contains("SpongePowered")) {
             return;
         }
         if (diagnostic.getSource() != null) {

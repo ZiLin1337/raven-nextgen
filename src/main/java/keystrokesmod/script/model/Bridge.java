@@ -23,7 +23,7 @@ public class Bridge {
     }
 
     public Object get(String key) {
-        if (!map.containsKey(key) {
+        if (!map.containsKey(key)) {
             return null;
         }
         return map.getOrDefault(key, null);

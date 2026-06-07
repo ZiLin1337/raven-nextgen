@@ -27,7 +27,7 @@ public class KeySetting extends Setting {
     @Override
     public void loadProfile(JsonObject data) {
         String profileKey = group == null ? getName() : group.getName() + "." + getName();
-        if (data.has(profileKey) {
+        if (data.has(profileKey)) {
             try { keyCode = data.getAsJsonPrimitive(profileKey).getAsInt(); } catch (Exception e) {}
         }
     }

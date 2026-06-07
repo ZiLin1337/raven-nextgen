@@ -129,7 +129,7 @@ public class StringListComponent extends AbstractTextInputComponent {
         float offsetPx = selectedScrollAnim.getValue();
         for (int i = 0; i < entries.size(); i++) {
             float rowTop = getSelectedTop(layout) - offsetPx + i * ROW_HEIGHT;
-            if (isOverClose(mouseX, mouseY, rowTop, layout.right) {
+            if (isOverClose(mouseX, mouseY, rowTop, layout.right)) {
                 setting.removeEntry(entries.get(i));
                 moduleComponent.updateSettingPositions();
                 clampSelectedScroll();

@@ -100,7 +100,7 @@ public final class SharedBlockHighlightCache {
     }
 
     public void enqueueChunk(int chunkX, int chunkZ) {
-        if (!anyConsumerActive() {
+        if (!anyConsumerActive()) {
             return;
         }
         scanQueue.addLast(new long[] {chunkX, chunkZ});
@@ -119,7 +119,7 @@ public final class SharedBlockHighlightCache {
     }
 
     public void enqueueLoadedChunks() {
-        if (!anyConsumerActive() {
+        if (!anyConsumerActive()) {
             return;
         }
         scanQueue.clear();
@@ -132,7 +132,7 @@ public final class SharedBlockHighlightCache {
         for (int cx = pcx - rd; cx <= pcx + rd; cx++) {
             for (int cz = pcz - rd; cz <= pcz + rd; cz++) {
                 Chunk chunk = mc.world.getChunkFromChunkCoords(cx, cz);
-                if (chunk != null && !(chunk instanceof EmptyChunk) {
+                if (chunk != null && !(chunk instanceof EmptyChunk)) {
                     enqueueChunk(cx, cz);
                 }
             }
@@ -140,14 +140,14 @@ public final class SharedBlockHighlightCache {
     }
 
     public void tickScan(int maxSections) {
-        if (mc.world == null || !anyConsumerActive() {
+        if (mc.world == null || !anyConsumerActive()) {
             return;
         }
         if (blockListMatcher != null) {
             blockListMatcher.beginScanPass();
         }
         int remaining = maxSections;
-        while (remaining > 0 && !scanQueue.isEmpty() {
+        while (remaining > 0 && !scanQueue.isEmpty()) {
             long[] cpos = scanQueue.pollFirst();
             int cx = (int) cpos[0], cz = (int) cpos[1];
             Chunk chunk = mc.world.getChunkFromChunkCoords(cx, cz);
@@ -165,8 +165,8 @@ public final class SharedBlockHighlightCache {
         long ck = key(pos.getX() >> 4, pos.getZ() >> 4);
         BlockPos immutablePos = new BlockPos(pos.getX(), pos.getY(), pos.getZ());
 
-        if (isBlockListActive() {
-            if (blockListMatcher.matchesBlock(newState) && blockListMatcher.shouldIndexAt(pos, newState) {
+        if (isBlockListActive()) {
+            if (blockListMatcher.matchesBlock(newState) && blockListMatcher.shouldIndexAt(pos, newState)) {
                 blockListByChunk.computeIfAbsent(ck, k -> ConcurrentHashMap.newKeySet()).add(immutablePos);
             } else {
                 Set<BlockPos> set = blockListByChunk.get(ck);
@@ -176,8 +176,8 @@ public final class SharedBlockHighlightCache {
             }
         }
 
-        if (isBedActive() {
-            if (BED_MATCHER.matchesBlock(newState) && BED_MATCHER.shouldIndexAt(pos, newState) {
+        if (isBedActive()) {
+            if (BED_MATCHER.matchesBlock(newState) && BED_MATCHER.shouldIndexAt(pos, newState)) {
                 bedFootByChunk.computeIfAbsent(ck, k -> ConcurrentHashMap.newKeySet()).add(immutablePos);
             } else {
                 Set<BlockPos> set = bedFootByChunk.get(ck);
@@ -202,7 +202,7 @@ public final class SharedBlockHighlightCache {
     private void rescanBlockListLayer() {
         blockListByChunk.clear();
         scanQueue.clear();
-        if (!anyConsumerActive() {
+        if (!anyConsumerActive()) {
             return;
         }
         enqueueLoadedChunks();
@@ -218,7 +218,7 @@ public final class SharedBlockHighlightCache {
 
     public int totalBlockList() {
         int n = 0;
-        for (Set<BlockPos> s : blockListByChunk.values() {
+        for (Set<BlockPos> s : blockListByChunk.values()) {
             n += s.size();
         }
         return n;
@@ -226,7 +226,7 @@ public final class SharedBlockHighlightCache {
 
     public int totalBedFeet() {
         int n = 0;
-        for (Set<BlockPos> s : bedFootByChunk.values() {
+        for (Set<BlockPos> s : bedFootByChunk.values()) {
             n += s.size();
         }
         return n;
@@ -242,7 +242,7 @@ public final class SharedBlockHighlightCache {
     }
 
     public void handleReceivePacket(ReceivePacketEvent e) {
-        if (!anyConsumerActive() {
+        if (!anyConsumerActive()) {
             return;
         }
         if (e.getPacket() instanceof S23PacketBlockChange) {
@@ -250,7 +250,7 @@ public final class SharedBlockHighlightCache {
             onBlockChange(pkt.getBlockPosition(), pkt.getBlockState());
         } else if (e.getPacket() instanceof S22PacketMultiBlockChange) {
             S22PacketMultiBlockChange pkt = (S22PacketMultiBlockChange) e.getPacket();
-            for (S22PacketMultiBlockChange.BlockUpdateData data : pkt.getChangedBlocks() {
+            for (S22PacketMultiBlockChange.BlockUpdateData data : pkt.getChangedBlocks()) {
                 onBlockChange(data.getPos(), data.getBlockState());
             }
         } else if (e.getPacket() instanceof S21PacketChunkData) {
@@ -293,10 +293,10 @@ public final class SharedBlockHighlightCache {
                         if (state == null) {
                             continue;
                         }
-                        if (isBlockListActive() && blockListMatcher.matchesBlock(state) && blockListMatcher.shouldIndexAt(pos, state) {
+                        if (isBlockListActive() && blockListMatcher.matchesBlock(state) && blockListMatcher.shouldIndexAt(pos, state)) {
                             blockFound.add(pos);
                         }
-                        if (isBedActive() && BED_MATCHER.matchesBlock(state) && BED_MATCHER.shouldIndexAt(pos, state) {
+                        if (isBedActive() && BED_MATCHER.matchesBlock(state) && BED_MATCHER.shouldIndexAt(pos, state)) {
                             bedFound.add(pos);
                         }
                     }
@@ -304,15 +304,15 @@ public final class SharedBlockHighlightCache {
             }
         }
 
-        if (isBlockListActive() {
-            if (!blockFound.isEmpty() {
+        if (isBlockListActive()) {
+            if (!blockFound.isEmpty()) {
                 blockListByChunk.put(ck, blockFound);
             } else {
                 blockListByChunk.remove(ck);
             }
         }
-        if (isBedActive() {
-            if (!bedFound.isEmpty() {
+        if (isBedActive()) {
+            if (!bedFound.isEmpty()) {
                 bedFootByChunk.put(ck, bedFound);
             } else {
                 bedFootByChunk.remove(ck);

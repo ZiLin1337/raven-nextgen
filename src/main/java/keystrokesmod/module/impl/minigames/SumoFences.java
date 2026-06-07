@@ -62,7 +62,7 @@ public class SumoFences extends Module {
 
     
     public void onMouse(MouseEvent e) {
-        if (e.buttonstate && (e.button == 0 || e.button == 1) && Utils.nullCheck() && this.isSumo() {
+        if (e.buttonstate && (e.button == 0 || e.button == 1) && Utils.nullCheck() && this.isSumo()) {
             HitResult over = mc.objectMouseOver;
             if (over != null && over.typeOfHit == MovingObjectType.BLOCK) {
                 int x = over.getBlockPos().getX();
@@ -85,7 +85,7 @@ public class SumoFences extends Module {
     public TimerTask t() {
         return new TimerTask() {
             public void run() {
-                if (SumoFences.this.isSumo() {
+                if (SumoFences.this.isSumo()) {
                     for (BlockPos p : f_p) {
                         for (int i = 0; (double) i < fenceHeight.getInput(); ++i) {
                             BlockPos p2 = new BlockPos(p.getX(), p.getY() + i, p.getZ());
@@ -101,14 +101,14 @@ public class SumoFences extends Module {
     }
 
     private boolean isSumo() {
-        if (Utils.isHypixel() {
-            for (String l : Utils.getScoreBoardOld() {
+        if (Utils.isHypixel()) {
+            for (String l : Utils.getScoreBoardOld()) {
                 String s = Utils.stripColor(l);
-                if (s.startsWith("Map:") {
-                    if (this.MAPS.contains(s.substring(5)) {
+                if (s.startsWith("Map:")) {
+                    if (this.MAPS.contains(s.substring(5))) {
                         return true;
                     }
-                } else if (s.equals("Mode: Sumo Duel") {
+                } else if (s.equals("Mode: Sumo Duel")) {
                     return true;
                 }
             }

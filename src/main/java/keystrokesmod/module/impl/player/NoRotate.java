@@ -18,13 +18,13 @@ public class NoRotate extends Module {
     public void onPacketReceive(PlayerPositionLookS2CPacket packet) {
         prevYaw = packet.getYaw();
         prevPitch = packet.getPitch();
-        if (serverSide.isToggled() {
+        if (serverSide.isToggled()) {
             // Packet will be modified by mixin to restore original rotation
         }
     }
 
     public void onPreMotion(PreMotionEvent e) {
-        if (!serverSide.isToggled() {
+        if (!serverSide.isToggled()) {
             e.setYaw(prevYaw);
             e.setPitch(prevPitch);
         }

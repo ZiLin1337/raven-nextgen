@@ -199,7 +199,7 @@ public final class BlockSearchIndex {
     }
 
     public static String getDisplayName(String storageId) {
-        if (isWildcard(storageId) {
+        if (isWildcard(storageId)) {
             ItemStack stack = getItemStack(getRegistryId(storageId));
             return stack != null ? stack.getDisplayName() + " (All)" : storageId;
         }
@@ -222,7 +222,7 @@ public final class BlockSearchIndex {
                 if (fallback != null) {
                     ItemStack displayStack = new ItemStack(fallback, 1);
                     String displayName = displayStack.getDisplayName();
-                    if (displayName != null && !displayName.isEmpty() {
+                    if (displayName != null && !displayName.isEmpty()) {
                         BlockEntry entry = new BlockEntry(block, 0, displayName, registryId, fallback);
                         allBlockEntries.add(entry);
                         variantMap.put(registryId, Collections.singletonList(entry));
@@ -244,7 +244,7 @@ public final class BlockSearchIndex {
                 allBlockEntries.add(entry);
                 group.add(entry);
             }
-            if (!group.isEmpty() {
+            if (!group.isEmpty()) {
                 group.sort(Comparator.comparing(e -> e.meta));
                 variantMap.put(registryId, group);
             }

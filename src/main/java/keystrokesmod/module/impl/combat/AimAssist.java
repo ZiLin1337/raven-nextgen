@@ -83,11 +83,11 @@ public class AimAssist extends Module {
 
     
     public void onClientRotation(ClientRotationEvent e) {
-        if (ModuleManager.bedAura != null && ModuleManager.bedAura.shouldOverrideMouseOver() {
+        if (ModuleManager.bedAura != null && ModuleManager.bedAura.shouldOverrideMouseOver()) {
             return;
         }
         if (ModuleManager.killAura != null && ModuleManager.killAura.isEnabled() && KillAura.target != null) return;
-        if (mode.getInput() == 0 || !conditionsMet() {
+        if (mode.getInput() == 0 || !conditionsMet()) {
             return;
         }
         Entity en = getEnemy(true);
@@ -111,7 +111,7 @@ public class AimAssist extends Module {
     @Override
     public void onUpdate() {
         if (ModuleManager.killAura != null && ModuleManager.killAura.isEnabled() && KillAura.target != null) return;
-        if (mode.getInput() == 1 || !conditionsMet() {
+        if (mode.getInput() == 1 || !conditionsMet()) {
             return;
         }
         Entity en = getEnemy(false);
@@ -141,35 +141,35 @@ public class AimAssist extends Module {
         }
 
         List<PlayerEntity> candidates = new ArrayList<>();
-        for (PlayerEntity entityPlayer : mc.world.getPlayers() {
+        for (PlayerEntity entityPlayer : mc.world.getPlayers()) {
             if (entityPlayer == mc.player || entityPlayer.deathTime != 0) {
                 continue;
             }
-            if (Utils.isFriended(entityPlayer) {
+            if (Utils.isFriended(entityPlayer)) {
                 continue;
             }
-            if (ignoreTeammates.isToggled() && Utils.isTeammate(entityPlayer) {
+            if (ignoreTeammates.isToggled() && Utils.isTeammate(entityPlayer)) {
                 continue;
             }
-            if (!aimInvis.isToggled() && entityPlayer.isInvisible() {
+            if (!aimInvis.isToggled() && entityPlayer.isInvisible()) {
                 continue;
             }
-            if (RotationUtils.distanceSqFromEyeToClosestOnAABB(entityPlayer) > range.getInput() * range.getInput() {
+            if (RotationUtils.distanceSqFromEyeToClosestOnAABB(entityPlayer) > range.getInput() * range.getInput()) {
                 continue;
             }
-            if (AntiBot.isBot(entityPlayer) {
+            if (AntiBot.isBot(entityPlayer)) {
                 continue;
             }
             if (fovVal != 360) {
                 float angleToEntity = RotationUtils.angle(entityPlayer.posX, entityPlayer.posZ);
-                if (!Utils.inFov(viewYaw, (float) fovVal, angleToEntity) {
+                if (!Utils.inFov(viewYaw, (float) fovVal, angleToEntity)) {
                     continue;
                 }
             }
             candidates.add(entityPlayer);
         }
 
-        if (candidates.isEmpty() {
+        if (candidates.isEmpty()) {
             return null;
         }
 
@@ -200,14 +200,14 @@ public class AimAssist extends Module {
         }
         candidates.sort(primary.thenComparingDouble(p -> mc.player.getDistanceSqToEntity(p)));
 
-        if (ignoreBehindWalls.isToggled() || ignoreBehindEntities.isToggled() {
+        if (ignoreBehindWalls.isToggled() || ignoreBehindEntities.isToggled()) {
             double multipointH = multipointHorizontal.getInput();
             double multipointV = multipointVertical.getInput();
             double rangeVal = range.getInput();
             boolean allowThroughBlocks = !ignoreBehindWalls.isToggled();
             boolean allowThroughEntities = !ignoreBehindEntities.isToggled();
             for (PlayerEntity candidate : candidates) {
-                if (RotationUtils.hasValidAimPoint(candidate, multipointH, multipointV, rangeVal, allowThroughBlocks, allowThroughEntities) {
+                if (RotationUtils.hasValidAimPoint(candidate, multipointH, multipointV, rangeVal, allowThroughBlocks, allowThroughEntities)) {
                     return candidate;
                 }
             }
@@ -221,18 +221,18 @@ public class AimAssist extends Module {
         if (mc.currentScreen != null || !mc.inGameHasFocus) {
             return false;
         }
-        if (weaponOnly.isToggled() && !Utils.holdingWeapon() {
+        if (weaponOnly.isToggled() && !Utils.holdingWeapon()) {
             return false;
         }
-        if (clickAim.isToggled() && !Mouse.isButtonDown(0) {
+        if (clickAim.isToggled() && !Mouse.isButtonDown(0)) {
             return false;
         }
-        if (stopWhenBreaking.isToggled() && Utils.isMining() {
+        if (stopWhenBreaking.isToggled() && Utils.isMining()) {
             if (miningStartTime == -1) {
                 miningStartTime = System.currentTimeMillis();
             }
             long elapsed = System.currentTimeMillis() - miningStartTime;
-            if (elapsed >= hoverDelay.getInput() {
+            if (elapsed >= hoverDelay.getInput()) {
                 return false;
             }
         } else {

@@ -97,7 +97,7 @@ public class AutoTool extends Module {
         if (!hasSwapped) {
             return;
         }
-        if (overrideSwapBack.isToggled() {
+        if (overrideSwapBack.isToggled()) {
             int slot = Integer.compare(e.slot, 0);
             previousSlot = Math.floorMod(mc.player.inventory.currentItem - slot, 9);
         }
@@ -109,7 +109,7 @@ public class AutoTool extends Module {
         if (!hasSwapped) {
             return;
         }
-        if (overrideSwapBack.isToggled() {
+        if (overrideSwapBack.isToggled()) {
             previousSlot = e.slot;
         }
         e.setCanceled(true);
@@ -117,7 +117,7 @@ public class AutoTool extends Module {
 
     
     public void onPrePlayerInteract(PrePlayerInteractEvent e) {
-        if (!Utils.nullCheck() {
+        if (!Utils.nullCheck()) {
             resetState(true);
             return;
         }
@@ -152,38 +152,38 @@ public class AutoTool extends Module {
             return;
         }
 
-        if (onlyWhileCrouching.isToggled() && !mc.player.isSneaking() {
+        if (onlyWhileCrouching.isToggled() && !mc.player.isSneaking()) {
             resetSlot();
             return;
         }
 
-        if (requireLeftMouse.isToggled() {
+        if (requireLeftMouse.isToggled()) {
             if (!leftMouseDown) {
                 resetSlot();
                 return;
             }
-            if (!hasElapsed(leftMouseDownSinceTick, activationTime.getInput(), currentTick) {
+            if (!hasElapsed(leftMouseDownSinceTick, activationTime.getInput(), currentTick)) {
                 resetSlot();
                 return;
             }
         }
 
-        if (!hasElapsed(hoverStartTick, hoverDelay.getInput(), currentTick) {
+        if (!hasElapsed(hoverStartTick, hoverDelay.getInput(), currentTick)) {
             resetSlot();
             return;
         }
 
-        if (isUseBlocked() {
+        if (isUseBlocked()) {
             resetSlot();
             return;
         }
 
-        if (isBlockedBlock(hoverPos) {
+        if (isBlockedBlock(hoverPos)) {
             resetSlot();
             return;
         }
 
-        if (blockWhitelistToggle.isToggled() && !isWhitelistedBlock(hoverPos) {
+        if (blockWhitelistToggle.isToggled() && !isWhitelistedBlock(hoverPos)) {
             resetSlot();
             return;
         }
@@ -241,21 +241,21 @@ public class AutoTool extends Module {
 
     private boolean isUseBlocked() {
         boolean useActive = Utils.isBindDown(mc.options.keyBindUseItem) || mc.player.isUsingItem();
-        if (ignoredHeldItemsToggle.isToggled() && ignoredHeldItems.matches(mc.player.getHeldItem()) {
+        if (ignoredHeldItemsToggle.isToggled() && ignoredHeldItems.matches(mc.player.getHeldItem())) {
             return true;
         }
         return useActive;
     }
 
     private boolean isBlockedBlock(BlockPos blockPos) {
-        if (!blockBlacklistToggle.isToggled() {
+        if (!blockBlacklistToggle.isToggled()) {
             return false;
         }
         return matchesBlockList(blockPos, blockBlacklist);
     }
 
     private boolean isWhitelistedBlock(BlockPos blockPos) {
-        if (blockWhitelist.getBlocks().isEmpty() {
+        if (blockWhitelist.getBlocks().isEmpty()) {
             return false;
         }
         return matchesBlockList(blockPos, blockWhitelist);
@@ -299,7 +299,7 @@ public class AutoTool extends Module {
     }
 
     private void resetSlot() {
-        if (previousSlot != -1 && switchBackWhenDone.isToggled() {
+        if (previousSlot != -1 && switchBackWhenDone.isToggled()) {
             setSlot(previousSlot);
         }
         previousSlot = -1;

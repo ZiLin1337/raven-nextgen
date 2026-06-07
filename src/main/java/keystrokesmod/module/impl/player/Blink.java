@@ -56,7 +56,7 @@ public class Blink extends Module {
     @EventHandler
     public void onPreMotion(PreMotionEvent e) {
         ++blinkTicks;
-        if (maxDuration.isToggled() {
+        if (maxDuration.isToggled()) {
             long elapsed = System.currentTimeMillis() - enableTime;
             if (elapsed >= (int) disableAfterMs.getInput()) this.disable();
         }

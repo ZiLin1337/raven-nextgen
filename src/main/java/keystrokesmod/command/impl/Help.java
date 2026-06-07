@@ -24,7 +24,7 @@ public class Help extends Command {
             }
         }
         Utils.sendMessage("&bRaven bS &7- Commands (" + Raven.commandManager.getCommands().size() + "):");
-        for (Command cmd : Raven.commandManager.getCommands() {
+        for (Command cmd : Raven.commandManager.getCommands()) {
             Utils.sendMessage("  &b" + Raven.commandManager.getPrefix() + cmd.getName() + " &7- " + getDesc(cmd));
         }
     }

@@ -219,7 +219,7 @@ public class BlockOverlay extends Module {
         } else if (side != null) {
             drawFace(renderBox, side, overlayStart, overlayEnd, outlineStart, outlineEnd, showOverlay, showOutline);
         } else {
-            for (Direction face : Direction.values() {
+            for (Direction face : Direction.values()) {
                 drawFace(renderBox, face, overlayStart, overlayEnd, outlineStart, outlineEnd, showOverlay, showOutline);
             }
         }

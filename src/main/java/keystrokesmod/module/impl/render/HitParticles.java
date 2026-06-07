@@ -112,10 +112,10 @@ public class HitParticles extends Module {
 
     
     public void onAttackEntity(AttackEntityEvent event) {
-        if (!isEnabled() || !onMelee.isToggled() || !Utils.nullCheck() {
+        if (!isEnabled() || !onMelee.isToggled() || !Utils.nullCheck()) {
             return;
         }
-        if (event.entityPlayer != mc.player || !(event.target instanceof LivingEntity) {
+        if (event.entityPlayer != mc.player || !(event.target instanceof LivingEntity)) {
             return;
         }
         LivingEntity target = (LivingEntity) event.target;
@@ -128,7 +128,7 @@ public class HitParticles extends Module {
 
     
     public void onClientTick(TickEvent.ClientTickEvent event) {
-        if (!isEnabled() || !onRanged.isToggled() || event.phase != TickEvent.Phase.END || !Utils.nullCheck() {
+        if (!isEnabled() || !onRanged.isToggled() || event.phase != TickEvent.Phase.END || !Utils.nullCheck()) {
             return;
         }
 
@@ -160,7 +160,7 @@ public class HitParticles extends Module {
 
     private void pruneArrowDedupeMap() {
         Iterator<Map.Entry<Integer, Integer>> it = rangedSpawnForArrow.entrySet().iterator();
-        while (it.hasNext() {
+        while (it.hasNext()) {
             Map.Entry<Integer, Integer> entry = it.next();
             if (mc.world.getEntityByID(entry.getKey()) == null) {
                 it.remove();
@@ -215,11 +215,11 @@ public class HitParticles extends Module {
         List<Entity> entities = world.getEntitiesWithinAABBExcludingEntity(arrow, search);
 
         for (Entity entity : entities) {
-            if (!(entity instanceof LivingEntity) {
+            if (!(entity instanceof LivingEntity)) {
                 continue;
             }
             LivingEntity living = (LivingEntity) entity;
-            if (!living.canBeCollidedWith() {
+            if (!living.canBeCollidedWith()) {
                 continue;
             }
             if (living == arrow.shootingEntity) {

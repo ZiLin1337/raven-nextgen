@@ -77,7 +77,7 @@ public class AntiFireball extends Module {
     
     public void onClientRotation(ClientRotationEvent e) {
         if (!Utils.nullCheck() || mc.currentScreen != null) return;
-        if (ModuleManager.bedAura != null && ModuleManager.bedAura.shouldOverrideMouseOver() {
+        if (ModuleManager.bedAura != null && ModuleManager.bedAura.shouldOverrideMouseOver()) {
             return;
         }
         if (onGround.isToggled() && !mc.player.onGround) return;
@@ -103,7 +103,7 @@ public class AntiFireball extends Module {
         double reach = mc.interactionManager.getBlockReachDistance();
 
         List<PlayerEntity> players = new ArrayList<>();
-        for (PlayerEntity player : mc.world.getPlayers() {
+        for (PlayerEntity player : mc.world.getPlayers()) {
             if (player == mc.player || player.deathTime != 0) continue;
             if (Utils.isFriended(player)) continue;
             if (Utils.isTeammate(player)) continue;
@@ -114,7 +114,7 @@ public class AntiFireball extends Module {
 
         for (PlayerEntity player : players) {
             float[] rot = RotationUtils.getRotationsToPoint(player.posX, player.posY, player.posZ, baseYaw, basePitch);
-            if (hitsFireballBox(eye, rot[0], rot[1], fireballBox, reach) {
+            if (hitsFireballBox(eye, rot[0], rot[1], fireballBox, reach)) {
                 return rot;
             }
         }
@@ -165,7 +165,7 @@ public class AntiFireball extends Module {
 
         if (onGround.isToggled() && !mc.player.onGround) return null;
 
-        for (Entity entity : mc.world.getEntities() {
+        for (Entity entity : mc.world.getEntities()) {
             if (!(entity instanceof ExplosiveProjectileEntity)) continue;
             if (!fireballs.contains(entity)) continue;
             if (mc.player.getDistanceSqToEntity(entity) > rangeSq) continue;

@@ -87,7 +87,7 @@ public class WebSocket {
     }
 
     public boolean connect(boolean block) {
-        if (!Manager.enableWebSockets.isToggled() {
+        if (!Manager.enableWebSockets.isToggled()) {
             Utils.sendMessage("&cFailed to connect to websockets, websockets are not enabled.");
             return false;
         }

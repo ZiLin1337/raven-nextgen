@@ -46,7 +46,7 @@ public final class ItemSortScoring {
     }
 
     public static double getBowDamage(ItemStack stack) {
-        if (stack == null || !(stack.getItem() instanceof BowItem) {
+        if (stack == null || !(stack.getItem() instanceof BowItem)) {
             return 0.0D;
         }
 
@@ -91,7 +91,7 @@ public final class ItemSortScoring {
     }
 
     public static double getHoeScore(ItemStack stack) {
-        if (stack == null || !(stack.getItem() instanceof HoeItem) {
+        if (stack == null || !(stack.getItem() instanceof HoeItem)) {
             return 0.0D;
         }
 
@@ -121,7 +121,7 @@ public final class ItemSortScoring {
             return 0.0D;
         }
 
-        if (!block.getMaterial().isToolNotRequired() && !stack.canHarvestBlock(block) {
+        if (!block.getMaterial().isToolNotRequired() && !stack.canHarvestBlock(block)) {
             speed *= 0.3F;
         }
 
@@ -133,8 +133,8 @@ public final class ItemSortScoring {
             return 0.0D;
         }
 
-        for (Map.Entry<String, AttributeModifier> entry : stack.getAttributeModifiers().entries() {
-            if (SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName().equals(entry.getKey()) {
+        for (Map.Entry<String, AttributeModifier> entry : stack.getAttributeModifiers().entries()) {
+            if (SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName().equals(entry.getKey())) {
                 return entry.getValue().getAmount();
             }
         }
@@ -143,7 +143,7 @@ public final class ItemSortScoring {
     }
 
     private static double getDurabilityTieBreaker(ItemStack stack) {
-        if (stack == null || !stack.isItemStackDamageable() {
+        if (stack == null || !stack.isItemStackDamageable()) {
             return 0.0D;
         }
 

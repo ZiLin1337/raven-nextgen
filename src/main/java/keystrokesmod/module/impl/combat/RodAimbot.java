@@ -56,11 +56,11 @@ public class RodAimbot extends Module {
 
     
     public void onPreMotion(PreMotionEvent event) {
-        if (!Utils.nullCheck() {
+        if (!Utils.nullCheck()) {
             return;
         }
         if (rightClick || rotate) {
-            if (mc.player.getCurrentEquippedItem() == null || !(mc.player.getCurrentEquippedItem().getItem() instanceof ItemFishingRod) {
+            if (mc.player.getCurrentEquippedItem() == null || !(mc.player.getCurrentEquippedItem().getItem() instanceof ItemFishingRod)) {
                 return;
             }
             float[] rotations = RotationUtils.getRotationsPredicated(entity, (int)predicatedTicks.getInput());
@@ -80,28 +80,28 @@ public class RodAimbot extends Module {
     }
 
     private PlayerEntity getEntity() {
-        for (final PlayerEntity entityPlayer : mc.world.getPlayers() {
+        for (final PlayerEntity entityPlayer : mc.world.getPlayers()) {
             if (entityPlayer != mc.player) {
                 if (entityPlayer.deathTime != 0) {
                     continue;
                 }
-                if (!aimInvis.isToggled() && entityPlayer.isInvisible() {
+                if (!aimInvis.isToggled() && entityPlayer.isInvisible()) {
                     continue;
                 }
-                if (mc.player.getDistanceSqToEntity(entityPlayer) > distance.getInput() * distance.getInput() {
+                if (mc.player.getDistanceSqToEntity(entityPlayer) > distance.getInput() * distance.getInput()) {
                     continue;
                 }
-                if (Utils.isFriended(entityPlayer) {
+                if (Utils.isFriended(entityPlayer)) {
                     continue;
                 }
                 final float n = (float)fov.getInput();
-                if (n != 360.0f && !Utils.inFov(n, entityPlayer) {
+                if (n != 360.0f && !Utils.inFov(n, entityPlayer)) {
                     continue;
                 }
-                if (AntiBot.isBot(entityPlayer) {
+                if (AntiBot.isBot(entityPlayer)) {
                     continue;
                 }
-                if (ignoreTeammates.isToggled() && Utils.isTeammate(entityPlayer) {
+                if (ignoreTeammates.isToggled() && Utils.isTeammate(entityPlayer)) {
                     continue;
                 }
                 return entityPlayer;

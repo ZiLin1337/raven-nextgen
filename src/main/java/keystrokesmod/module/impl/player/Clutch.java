@@ -126,7 +126,7 @@ public class Clutch extends Module {
     
     public void onClientRotation(ClientRotationEvent e) {
         if (!Utils.nullCheck()) return;
-        if (ModuleManager.bedAura != null && ModuleManager.bedAura.shouldOverrideMouseOver() {
+        if (ModuleManager.bedAura != null && ModuleManager.bedAura.shouldOverrideMouseOver()) {
             return;
         }
 
@@ -216,7 +216,7 @@ public class Clutch extends Module {
                 MathHelper.floor_double(mc.player.getY()) - 1,
                 MathHelper.floor_double(mc.player.getZ())
         );
-        if (!canPlaceThrough(below) {
+        if (!canPlaceThrough(below)) {
             disablePlacing(false);
             return;
         }
@@ -248,7 +248,7 @@ public class Clutch extends Module {
     }
 
     private void updateAutoClutch(int ticksExisted) {
-        if (autoClutch.isToggled() {
+        if (autoClutch.isToggled()) {
             int curHurtTime = mc.player.hurtTime;
             if (curHurtTime > prevHurtTime) {
                 autoClutchChecking = true;
@@ -259,7 +259,7 @@ public class Clutch extends Module {
 
             if (autoClutchChecking && !autoClutchActive && !autoClutchLandedGuard) {
                 if (autoClutchCheckCounter == 0 || autoClutchCheckCounter % 3 == 0) {
-                    if (willFallFar(minimumFallDistance.getInput()) {
+                    if (willFallFar(minimumFallDistance.getInput())) {
                         autoClutchActive = true;
                     }
                 }
@@ -281,7 +281,7 @@ public class Clutch extends Module {
                 if (!autoClutchLandedGuard) {
                     autoClutchLandedGuard = true;
                     autoClutchLandedTick = ticksExisted;
-                    if (!willFallSoon() {
+                    if (!willFallSoon()) {
                         autoClutchActive = false;
                         autoClutchChecking = false;
                         autoClutchLandedGuard = false;
@@ -384,7 +384,7 @@ public class Clutch extends Module {
         Vec3d eye = mc.player.getPositionEyes(1.0f);
 
         Vec3d futurePos = playerPos;
-        if (simulateFuturePosition.isToggled() {
+        if (simulateFuturePosition.isToggled()) {
             PredictionState prediction = PredictionState.fromPlayer();
             for (int t = 0; t < 20; t++) {
                 prediction.tick(false);

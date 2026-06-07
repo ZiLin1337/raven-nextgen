@@ -93,42 +93,42 @@ public class MurderMystery extends Module {
 
     
     public void onRenderWordLast(RenderWorldLastEvent e) {
-        if (Utils.nullCheck() {
-            if (!this.isMurderMystery() {
+        if (Utils.nullCheck()) {
+            if (!this.isMurderMystery()) {
                 this.clear();
             }
             else {
                 override = false;
-                for (PlayerEntity en : mc.world.getPlayers() {
-                    if (en != mc.player && !en.isInvisible() {
-                        if (AntiBot.isBot(en) && !highlightDead.isToggled() {
+                for (PlayerEntity en : mc.world.getPlayers()) {
+                    if (en != mc.player && !en.isInvisible()) {
+                        if (AntiBot.isBot(en) && !highlightDead.isToggled()) {
                             continue;
                         }
                         if (en.getHeldItem() != null) {
                             ItemStack heldStack = en.getHeldItem();
                             Item heldItem = heldStack.getItem();
-                            if (murderWeapons.matches(heldStack) {
-                                if (!murderers.contains(en) {
+                            if (murderWeapons.matches(heldStack)) {
+                                if (!murderers.contains(en)) {
                                     murderers.add(en);
-                                    if (alert.isToggled() {
+                                    if (alert.isToggled()) {
                                         mc.player.playSound("note.pling", 1.0F, 1.0F);
                                         Utils.sendMessage("&eAlert: &b" + en.getName() + " &7is the &cmurderer&7! (&d" + (int) mc.player.getDistanceToEntity(en) + "m&7)");
                                     }
                                 }
                             }
-                            else if (heldItem instanceof BowItem && highlightBow.isToggled() && !hasBow.contains(en) {
+                            else if (heldItem instanceof BowItem && highlightBow.isToggled() && !hasBow.contains(en)) {
                                 hasBow.add(en);
                             }
                         }
                         override = true;
                         int rgb = Color.green.getRGB();
-                        if (murderers.contains(en) && highlightMurderer.isToggled() {
+                        if (murderers.contains(en) && highlightMurderer.isToggled()) {
                             rgb = Color.red.getRGB();
                         }
-                        else if (hasBow.contains(en) && highlightBow.isToggled() {
+                        else if (hasBow.contains(en) && highlightBow.isToggled()) {
                             rgb = Color.orange.getRGB();
                         }
-                        else if (!highlightInnocent.isToggled() {
+                        else if (!highlightInnocent.isToggled()) {
                             continue;
                         }
                         if (!highlightDead.isToggled() && getBoundingBoxVolume(en) <= 0.009) {
@@ -137,12 +137,12 @@ public class MurderMystery extends Module {
                         RenderUtils.renderEntity(en, 2, 0.0D, 0.0D, rgb, false);
                     }
                 }
-                if (!goldEsp.isToggled() {
+                if (!goldEsp.isToggled()) {
                     return;
                 }
                 float renderPartialTicks = ((IAccessorMinecraft) mc).getTimer().renderPartialTicks;
                 int n4 = -331703;
-                for (Entity entity : mc.world.getEntities() {
+                for (Entity entity : mc.world.getEntities()) {
                     if (entity instanceof ItemEntity) {
                         if (entity.ticksExisted < 3) {
                             continue;
@@ -194,22 +194,22 @@ public class MurderMystery extends Module {
     }
 
     private boolean isMurderMystery() {
-        if (Utils.isHypixel() {
+        if (Utils.isHypixel()) {
             if (mc.player.getWorldScoreboard() == null || mc.player.getWorldScoreboard().getObjectiveInDisplaySlot(1) == null) {
                 return false;
             }
 
             String d = mc.player.getWorldScoreboard().getObjectiveInDisplaySlot(1).getDisplayName();
-            if (!d.contains("MURDER") && !d.contains("MYSTERY") {
+            if (!d.contains("MURDER") && !d.contains("MYSTERY")) {
                 return false;
             }
 
             Iterator var2 = Utils.getScoreBoardOld().iterator();
 
-            while (var2.hasNext() {
+            while (var2.hasNext()) {
                 String l = (String) var2.next();
                 String s = Utils.stripColor(l);
-                if (s.contains("Role:") || s.contains("Innocents Left:") {
+                if (s.contains("Role:") || s.contains("Innocents Left:")) {
                     return true;
                 }
             }

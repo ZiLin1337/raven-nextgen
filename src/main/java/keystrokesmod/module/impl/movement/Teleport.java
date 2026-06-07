@@ -34,7 +34,7 @@ public class Teleport extends Module {
     public void teleport(BlockPos targetBlock, boolean sendMessage) {
         targetBlock = targetBlock.up(1);
         int packetsSent = 0;
-        if (!instant.isToggled() {
+        if (!instant.isToggled()) {
             ArrayList<Vec3d> pathList = this.path = getPath(targetBlock);
             for (Vec3d pathPos : pathList) {
                 // TODO: Fix for 1.21.4
@@ -55,11 +55,11 @@ public class Teleport extends Module {
 
     
     public void onRenderWorld(RenderWorldLastEvent e) {
-        if (!rightClick.isToggled() || !highlightTarget.isToggled() || this.targetPos == null || !Utils.nullCheck() {
+        if (!rightClick.isToggled() || !highlightTarget.isToggled() || this.targetPos == null || !Utils.nullCheck()) {
             return;
         }
         RenderUtils.renderBlock(targetPos, Color.orange.getRGB(), true, true);
-        if (highlightPath.isToggled() && !instant.isToggled() {
+        if (highlightPath.isToggled() && !instant.isToggled()) {
             int positions = 0;
             for (Vec3d pos : this.path) {
                 if (positions >= 175) {
@@ -87,7 +87,7 @@ public class Teleport extends Module {
 
     
     public void onMouse(MouseEvent mouseEvent) {
-        if (mouseEvent.button != 1 || !mouseEvent.buttonstate || !rightClick.isToggled() || !Utils.nullCheck() {
+        if (mouseEvent.button != 1 || !mouseEvent.buttonstate || !rightClick.isToggled() || !Utils.nullCheck()) {
             return;
         }
         HitResult rayCast = RotationUtils.rayCast(150.0, mc.player.rotationYaw, mc.player.rotationPitch, true);
@@ -103,7 +103,7 @@ public class Teleport extends Module {
     public void onEnable() {
         this.targetPos = null;
         this.path.clear();
-        if (rightClick.isToggled() {
+        if (rightClick.isToggled()) {
             return;
         }
         HitResult rayCast = RotationUtils.rayCast(150.0, mc.player.rotationYaw, mc.player.rotationPitch, true);

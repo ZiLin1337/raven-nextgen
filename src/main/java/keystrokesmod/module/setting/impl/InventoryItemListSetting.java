@@ -35,20 +35,20 @@ public class InventoryItemListSetting extends ItemListSetting {
         getItems().clear(); assignedSlots.clear();
         JsonElement el = data.get(key);
         if (!el.isJsonArray()) return;
-        for (JsonElement e : el.getAsJsonArray() {
+        for (JsonElement e : el.getAsJsonArray()) {
             if (e == null || e.isJsonNull()) continue;
-            if (e.isJsonPrimitive() {
+            if (e.isJsonPrimitive()) {
                 String sid = e.getAsString();
                 if (sid == null || sid.isEmpty() || containsItem(sid)) continue;
                 super.addItem(sid); assignedSlots.put(sid, DEFAULT_SLOT);
-            } else if (e.isJsonObject() {
+            } else if (e.isJsonObject()) {
                 JsonObject o = e.getAsJsonObject();
                 if (!o.has("id")) continue;
                 String sid = o.get("id").getAsString();
                 if (sid == null || sid.isEmpty() || containsItem(sid)) continue;
                 super.addItem(sid);
                 int slot = DEFAULT_SLOT;
-                if (o.has("slot") && o.get("slot").isJsonPrimitive() {
+                if (o.has("slot") && o.get("slot").isJsonPrimitive()) {
                     int cs = o.get("slot").getAsInt();
                     if (cs >= 1 && cs <= 9) slot = cs;
                 }
@@ -58,7 +58,7 @@ public class InventoryItemListSetting extends ItemListSetting {
     }
     @Override public JsonArray toJsonArray() {
         JsonArray arr = new JsonArray();
-        for (String sid : getItems() {
+        for (String sid : getItems()) {
             JsonObject o = new JsonObject();
             o.addProperty("id", sid);
             o.add("slot", new JsonPrimitive(getAssignedSlot(sid)));

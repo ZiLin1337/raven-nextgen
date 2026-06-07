@@ -56,11 +56,11 @@ public class Fly extends Module {
 
     
     public void onCollision(CollisionEvent e) {
-        if (mode.getInput() != 3 || Utils.isBindDown(mc.options.keyBindSneak) {
+        if (mode.getInput() != 3 || Utils.isBindDown(mc.options.keyBindSneak)) {
             this.maxY = mc.player.getPosition().getY();
             return;
         }
-        if (e.blockPos.getY() < (this.keepY.isToggled() ? maxY : mc.player.getY()) {
+        if (e.blockPos.getY() < (this.keepY.isToggled() ? maxY : mc.player.getY())) {
             e.boundingBox = FULL_ABB.offset(e.blockPos.getX(), e.blockPos.getY(), e.blockPos.getZ());
         }
     }
@@ -79,10 +79,10 @@ public class Fly extends Module {
             case 1:
                 mc.player.onGround = true;
                 if (mc.currentScreen == null) {
-                    if (Utils.jumpDown() {
+                    if (Utils.jumpDown()) {
                         mc.player.motionY = 0.3 * verticalSpeed.getInput();
                     }
-                    else if (Utils.jumpDown() {
+                    else if (Utils.jumpDown()) {
                         mc.player.motionY = -0.3 * verticalSpeed.getInput();
                     }
                     else {
@@ -126,7 +126,7 @@ public class Fly extends Module {
                 mc.player.capabilities.setFlySpeed(0.05F);
                 break;
         }
-        if (stopMotion.isToggled() {
+        if (stopMotion.isToggled()) {
             mc.player.motionZ = 0;
             mc.player.motionY = 0;
             mc.player.motionX = 0;
@@ -135,7 +135,7 @@ public class Fly extends Module {
 
     
     public void onRenderTick(TickEvent.RenderTickEvent e) {
-        if (!showBPS.isToggled() || e.phase != TickEvent.Phase.END || !Utils.nullCheck() {
+        if (!showBPS.isToggled() || e.phase != TickEvent.Phase.END || !Utils.nullCheck()) {
             return;
         }
         if (mc.currentScreen != null || mc.options.showDebugInfo) {

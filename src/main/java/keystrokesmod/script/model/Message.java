@@ -19,10 +19,10 @@ public class Message {
 
     public void appendStyle(String style, String action, String styleMessage, String message) {
         ChatStyle chatStyle = new ChatStyle();
-        if (style.equals("HOVER") {
+        if (style.equals("HOVER")) {
             chatStyle.setChatHoverEvent(new HoverEvent(Utils.getEnum(HoverEvent.Action.class, action), new ChatComponentText(styleMessage)));
         }
-        else if (style.equals("CLICK") {
+        else if (style.equals("CLICK")) {
             chatStyle.setChatClickEvent(new ClickEvent(Utils.getEnum(ClickEvent.Action.class, action), styleMessage));
         }
         component.appendSibling(new ChatComponentText(message).setChatStyle(chatStyle));
@@ -34,7 +34,7 @@ public class Message {
 
     public List<Message> getSiblings() {
         List<Message> siblings = new ArrayList<>();
-        for (IChatComponent sibling : this.component.getSiblings() {
+        for (IChatComponent sibling : this.component.getSiblings()) {
             siblings.add(new Message(sibling.getUnformattedTextForChat()));
         }
         return siblings;

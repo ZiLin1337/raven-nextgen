@@ -62,7 +62,7 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
 
     @Override
     public int drawString(String text, float x, float y, int color, boolean shadow) {
-        if (destroyed || text == null || text.isEmpty() {
+        if (destroyed || text == null || text.isEmpty()) {
             return 0;
         }
 
@@ -76,7 +76,7 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
 
     @Override
     public int drawGlyphString(String text, float x, float y, GlyphColorProvider colorProvider, boolean shadow) {
-        if (destroyed || text == null || text.isEmpty() {
+        if (destroyed || text == null || text.isEmpty()) {
             return 0;
         }
 
@@ -90,18 +90,18 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
 
     @Override
     public int getStringWidth(String text) {
-        if (text == null || text.isEmpty() {
+        if (text == null || text.isEmpty()) {
             return 0;
         }
 
         float width = 0.0f;
         for (int i = 0; i < text.length(); i++) {
             char character = text.charAt(i);
-            if (isMalformedSectionPrefix(text, i) {
+            if (isMalformedSectionPrefix(text, i)) {
                 continue;
             }
 
-            if (character == '\u00a7' && i + 1 < text.length() {
+            if (character == '\u00a7' && i + 1 < text.length()) {
                 i++;
                 continue;
             }
@@ -144,7 +144,7 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
 
         destroyed = true;
         deleteGlyphTextures(defaultGlyphs);
-        for (GlyphData glyph : extendedGlyphs.values() {
+        for (GlyphData glyph : extendedGlyphs.values()) {
             deleteGlyphTexture(glyph);
         }
         extendedGlyphs.clear();
@@ -173,11 +173,11 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
 
             for (int i = 0; i < text.length(); i++) {
                 char character = text.charAt(i);
-                if (isMalformedSectionPrefix(text, i) {
+                if (isMalformedSectionPrefix(text, i)) {
                     continue;
                 }
 
-                if (character == '\u00a7' && i + 1 < text.length() {
+                if (character == '\u00a7' && i + 1 < text.length()) {
                     char formatCode = Character.toLowerCase(text.charAt(++i));
                     int colorIndex = COLOR_CODES.indexOf(formatCode);
 
@@ -233,11 +233,11 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
 
             for (int i = 0; i < text.length(); i++) {
                 char character = text.charAt(i);
-                if (isMalformedSectionPrefix(text, i) {
+                if (isMalformedSectionPrefix(text, i)) {
                     continue;
                 }
 
-                if (character == '\u00a7' && i + 1 < text.length() {
+                if (character == '\u00a7' && i + 1 < text.length()) {
                     char formatCode = Character.toLowerCase(text.charAt(++i));
                     int colorIndex = COLOR_CODES.indexOf(formatCode);
 
@@ -389,7 +389,7 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
 
         for (int i = 0; i < ALPHABET.length(); i++) {
             GlyphData glyph = getGlyph(ALPHABET.charAt(i));
-            if (!glyph.hasVisiblePixels() {
+            if (!glyph.hasVisiblePixels()) {
                 continue;
             }
             minTop = Math.min(minTop, glyph.visibleTop);
@@ -403,7 +403,7 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
 
         for (int i = 0; i < ALPHABET.length(); i++) {
             GlyphData glyph = getGlyph(ALPHABET.charAt(i));
-            if (!glyph.hasVisiblePixels() {
+            if (!glyph.hasVisiblePixels()) {
                 continue;
             }
             maxBottom = Math.max(maxBottom, glyph.visibleBottom);
@@ -516,7 +516,7 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
     }
 
     private static boolean isMalformedSectionPrefix(String text, int index) {
-        if (!isFormattingArtifact(text.charAt(index)) {
+        if (!isFormattingArtifact(text.charAt(index))) {
             return false;
         }
 
@@ -525,7 +525,7 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
             if (next == '\u00a7') {
                 return true;
             }
-            if (!isFormattingArtifact(next) {
+            if (!isFormattingArtifact(next)) {
                 return false;
             }
         }

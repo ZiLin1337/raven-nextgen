@@ -28,16 +28,16 @@ public class AntiDebuff extends Module {
         if (!Utils.nullCheck() || mc.player == null) return;
         DrawContext ctx = e.getContext();
         boolean hasDebuff = false;
-        for (StatusEffectInstance effect : mc.player.getStatusEffects() {
-            if (isDebuff(effect) {
+        for (StatusEffectInstance effect : mc.player.getStatusEffects()) {
+            if (isDebuff(effect)) {
                 hasDebuff = true;
                 break;
             }
         }
-        if (hasDebuff && showOverlay.isToggled() {
+        if (hasDebuff && showOverlay.isToggled()) {
             ctx.fill(0, 0, mc.getWindow().getScaledWidth(), mc.getWindow().getScaledHeight(), 0x40FF0000);
         }
-        if (hasDebuff && showWarning.isToggled() {
+        if (hasDebuff && showWarning.isToggled()) {
             String warning = "DEBUFF ACTIVE!";
             int x = mc.getWindow().getScaledWidth() / 2 - mc.textRenderer.getWidth(warning) / 2;
             int y = mc.getWindow().getScaledHeight() / 2 - 20;

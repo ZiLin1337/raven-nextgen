@@ -47,7 +47,7 @@ public class AutoSwap extends Module {
 
     
     public void onSendPacket(SendPacketEvent e) {
-        if (!Utils.nullCheck() || !(e.getPacket() instanceof PlayerInteractBlockC2SPacket) {
+        if (!Utils.nullCheck() || !(e.getPacket() instanceof PlayerInteractBlockC2SPacket)) {
             return;
         }
 
@@ -57,7 +57,7 @@ public class AutoSwap extends Module {
         }
 
         ItemStack stack = packet.getStack();
-        if (stack == null || !(stack.getItem() instanceof BlockItem) {
+        if (stack == null || !(stack.getItem() instanceof BlockItem)) {
             return;
         }
 
@@ -68,12 +68,12 @@ public class AutoSwap extends Module {
 
     
     public void onPrePlayerInteract(PrePlayerInteractEvent e) {
-        if (!Utils.nullCheck() {
+        if (!Utils.nullCheck()) {
             resetState();
             return;
         }
 
-        if (!mc.inGameHasFocus || mc.currentScreen != null || !Utils.isBindDown(mc.options.keyBindUseItem) {
+        if (!mc.inGameHasFocus || mc.currentScreen != null || !Utils.isBindDown(mc.options.keyBindUseItem)) {
             return;
         }
 
@@ -86,7 +86,7 @@ public class AutoSwap extends Module {
             return;
         }
 
-        if (!isWhitelistedBlock(trackedStack) {
+        if (!isWhitelistedBlock(trackedStack)) {
             return;
         }
 
@@ -97,7 +97,7 @@ public class AutoSwap extends Module {
             }
 
             ItemStack candidate = mc.player.inventory.getStackInSlot(slot);
-            if (!matchesTrackedStack(candidate) {
+            if (!matchesTrackedStack(candidate)) {
                 continue;
             }
 
@@ -109,11 +109,11 @@ public class AutoSwap extends Module {
     }
 
     private boolean isWhitelistedBlock(ItemStack stack) {
-        if (!useBlockWhitelist.isToggled() {
+        if (!useBlockWhitelist.isToggled()) {
             return true;
         }
 
-        if (stack == null || !(stack.getItem() instanceof BlockItem) {
+        if (stack == null || !(stack.getItem() instanceof BlockItem)) {
             return false;
         }
 
@@ -130,11 +130,11 @@ public class AutoSwap extends Module {
     }
 
     private boolean matchesTrackedStack(ItemStack stack) {
-        if (trackedStack == null || stack == null || stack.getItem() != trackedStack.getItem() {
+        if (trackedStack == null || stack == null || stack.getItem() != trackedStack.getItem()) {
             return false;
         }
 
-        if (stack.getHasSubtypes() && stack.getMetadata() != trackedStack.getMetadata() {
+        if (stack.getHasSubtypes() && stack.getMetadata() != trackedStack.getMetadata()) {
             return false;
         }
 

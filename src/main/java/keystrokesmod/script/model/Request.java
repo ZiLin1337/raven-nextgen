@@ -53,12 +53,12 @@ public class Request {
     }
 
     public Response fetch() {
-        if (!Manager.enableHttpRequests.isToggled() {
+        if (!Manager.enableHttpRequests.isToggled()) {
             Utils.sendMessage("&cFailed to send http request, http requests are not enabled.");
             return new Response(404, "");
         }
 
-        if (this.url.isEmpty() {
+        if (this.url.isEmpty()) {
             return null;
         }
 
@@ -75,7 +75,7 @@ public class Request {
                 con.setRequestProperty(h[0], h[1]);
             }
 
-            if (this.method.equals("POST") && !this.content.isEmpty() {
+            if (this.method.equals("POST") && !this.content.isEmpty()) {
                 con.setDoOutput(true);
                 byte[] out = this.content.getBytes(StandardCharsets.UTF_8);
                 con.setFixedLengthStreamingMode(out.length);
@@ -111,11 +111,11 @@ public class Request {
             }
 
             List<String[]> respHeaders = new ArrayList<>();
-            for (Map.Entry<String, List<String>> e : con.getHeaderFields().entrySet() {
+            for (Map.Entry<String, List<String>> e : con.getHeaderFields().entrySet()) {
                 if (e.getKey() == null) {
                     continue;
                 }
-                for (String v : e.getValue() {
+                for (String v : e.getValue()) {
                     respHeaders.add(new String[]{e.getKey(), v});
                 }
             }

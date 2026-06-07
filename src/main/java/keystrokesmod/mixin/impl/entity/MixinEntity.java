@@ -39,8 +39,8 @@ public abstract class MixinEntity {
     @ModifyVariable(method = "move", at = @At(value = "STORE", ordinal = 0), name = "bl")
     private boolean injectSafeWalk(boolean original) {
         Entity self = (Entity) (Object) this;
-        if (self != null && self == MinecraftClient.getInstance().player && self.isOnGround() {
-            if (SafeWalk.canSafeWalk() {
+        if (self != null && self == MinecraftClient.getInstance().player && self.isOnGround()) {
+            if (SafeWalk.canSafeWalk()) {
                 return true;
             }
         }

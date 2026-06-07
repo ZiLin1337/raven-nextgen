@@ -50,7 +50,7 @@ public class ChatBypass extends Module {
 
     private String applyFancy(String msg) {
         StringBuilder sb = new StringBuilder();
-        for (char c : msg.toCharArray() {
+        for (char c : msg.toCharArray()) {
             if (c >= 'a' && c <= 'z') sb.append((char) (c - 32));
             else if (c >= 'A' && c <= 'Z') sb.append((char) (c + 32));
             else sb.append(c);
@@ -62,7 +62,7 @@ public class ChatBypass extends Module {
     private String applyGlitch(String msg) {
         StringBuilder sb = new StringBuilder();
         String glitchChars = "\u0300\u0301\u0302\u0303\u0304\u0305\u0306\u0307\u0308\u0309\u030A\u030B";
-        for (char c : msg.toCharArray() {
+        for (char c : msg.toCharArray()) {
             sb.append(c);
             if (random.nextBoolean()) sb.append(glitchChars.charAt(random.nextInt(glitchChars.length())));
         }
@@ -72,7 +72,7 @@ public class ChatBypass extends Module {
     private String applyInvisible(String msg) {
         StringBuilder sb = new StringBuilder();
         String invisible = "\u200B\u200C\u200D\uFEFF";
-        for (char c : msg.toCharArray() {
+        for (char c : msg.toCharArray()) {
             sb.append(c);
             if (random.nextInt(3) == 0) sb.append(invisible.charAt(random.nextInt(invisible.length())));
         }

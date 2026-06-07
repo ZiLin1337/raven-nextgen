@@ -100,7 +100,7 @@ public class KnockbackDelay extends Module {
         long now = System.currentTimeMillis();
         long elapsed = now - velocityReceivedAt;
 
-        if (elapsed >= maximumDelay.getInput() {
+        if (elapsed >= maximumDelay.getInput()) {
             // Re-apply the velocity
             if (mc.player != null) {
                 mc.player.setVelocity(
@@ -127,7 +127,7 @@ public class KnockbackDelay extends Module {
             return "no target in range";
         }
 
-        if (inAir.isToggled() && mc.player != null && mc.player.isOnGround() {
+        if (inAir.isToggled() && mc.player != null && mc.player.isOnGround()) {
             return "not in air";
         }
 
@@ -135,13 +135,13 @@ public class KnockbackDelay extends Module {
             return "not looking at player";
         }
 
-        if (requireLeftMouse.isToggled() && !mc.mouse.isLeftButtonPressed() {
+        if (requireLeftMouse.isToggled() && !mc.mouse.isLeftButtonPressed()) {
             return "LMB not held";
         }
 
         if (onlyWhitelistedItem.isToggled() && mc.player != null) {
             ItemStack held = mc.player.getMainHandStack();
-            if (held.isEmpty() || !whitelistedItems.matches(held) {
+            if (held.isEmpty() || !whitelistedItems.matches(held)) {
                 return "held item not whitelisted";
             }
         }

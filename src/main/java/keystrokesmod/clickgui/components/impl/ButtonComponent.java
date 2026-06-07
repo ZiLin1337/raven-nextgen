@@ -62,7 +62,7 @@ public class ButtonComponent extends Component {
     }
 
     public boolean onClick(int x, int y, int b) {
-        if (this.i(x, y) && b == 0 && this.moduleComponent.isOpened && this.moduleComponent.isVisible(this) {
+        if (this.i(x, y) && b == 0 && this.moduleComponent.isOpened && this.moduleComponent.isVisible(this)) {
             if (this.buttonSetting.isMethodButton) {
                 this.buttonSetting.runMethod();
                 return false;

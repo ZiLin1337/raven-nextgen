@@ -37,12 +37,12 @@ public class Scaffold extends Module {
         if (mc.player == null || mc.world == null) return;
         
         // Tower
-        if (tower.isToggled() && mc.options.jumpKey.isPressed() && !mc.player.isOnGround() {
+        if (tower.isToggled() && mc.options.jumpKey.isPressed() && !mc.player.isOnGround()) {
             mc.player.setVelocity(mc.player.getVelocity().x, 0.42, mc.player.getVelocity().z);
         }
 
         // Auto swap to blocks
-        if (autoSwap.isToggled() && !(mc.player.getMainHandStack().getItem() instanceof BlockItem) {
+        if (autoSwap.isToggled() && !(mc.player.getMainHandStack().getItem() instanceof BlockItem)) {
             if (!swapToBlocks()) return;
         }
 
@@ -55,11 +55,11 @@ public class Scaffold extends Module {
         for (int x = -extendVal; x <= extendVal; x++) {
             for (int z = -extendVal; z <= extendVal; z++) {
                 BlockPos below = playerPos.add(x, -1, z);
-                if (mc.world.getBlockState(below).isAir() {
+                if (mc.world.getBlockState(below).isAir()) {
                     // Find a face to place against
-                    for (Direction face : Direction.values() {
+                    for (Direction face : Direction.values()) {
                         BlockPos neighbor = below.offset(face);
-                        if (!mc.world.getBlockState(neighbor).isAir() {
+                        if (!mc.world.getBlockState(neighbor).isAir()) {
                             targetBlock = below;
                             targetFace = face.getOpposite();
                             break;

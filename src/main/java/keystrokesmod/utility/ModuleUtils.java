@@ -56,8 +56,8 @@ public class ModuleUtils implements IMinecraftInstance {
             isBreaking = true;
         }
 
-        if (e.getPacket() instanceof PlayerInteractBlockC2SPacket && Utils.holdingFireball() {
-            if (Utils.isBindDown(mc.options.keyBindUseItem) {
+        if (e.getPacket() instanceof PlayerInteractBlockC2SPacket && Utils.holdingFireball()) {
+            if (Utils.isBindDown(mc.options.keyBindUseItem)) {
                 fireballTime = System.currentTimeMillis();
                 threwFireball = true;
                 if (mc.player.rotationPitch > 50F) {
@@ -66,7 +66,7 @@ public class ModuleUtils implements IMinecraftInstance {
             }
         }
 
-        if (e.getPacket() instanceof PlayerInteractBlockC2SPacket && Utils.scaffoldDiagonal(false) {
+        if (e.getPacket() instanceof PlayerInteractBlockC2SPacket && Utils.scaffoldDiagonal(false)) {
             if (((PlayerInteractBlockC2SPacket) e.getPacket()).getPlacedBlockDirection() != 1) {
                 int currentFace = ((PlayerInteractBlockC2SPacket) e.getPacket()).getPlacedBlockDirection();
 
@@ -83,13 +83,13 @@ public class ModuleUtils implements IMinecraftInstance {
 
     
     public void onReceivePacket(ReceivePacketEvent e) {
-        if (!Utils.nullCheck() || e.isCanceled() {
+        if (!Utils.nullCheck() || e.isCanceled()) {
             return;
         }
         if (e.getPacket() instanceof ExplosionS2CPacket) {
             ExplosionS2CPacket s27 = (ExplosionS2CPacket) e.getPacket();
             if (threwFireball) {
-                if ((mc.player.getPosition().distanceSq(s27.getX(), s27.getY(), s27.getZ()) <= MAX_EXPLOSION_DIST_SQ) {
+                if ((mc.player.getPosition().distanceSq(s27.getX(), s27.getY(), s27.getZ()) <= MAX_EXPLOSION_DIST_SQ)) {
                     ModuleManager.velocity.disable = false;
                     ModuleManager.antiKnockback.disable = false;
                     threwFireball = false;
@@ -100,7 +100,7 @@ public class ModuleUtils implements IMinecraftInstance {
     }
 
     private void handleAllPacket(Packet<?> packet) {
-        if (!Utils.nullCheck() {
+        if (!Utils.nullCheck()) {
             return;
         }
         if (packet instanceof PlayerInteractBlockC2SPacket && Utils.holdingSword() && !BlockUtils.isInteractable(mc.objectMouseOver) && !isBlocked) {
@@ -171,7 +171,7 @@ public class ModuleUtils implements IMinecraftInstance {
 
     
     public void onPostMotion(PostMotionEvent e) {
-        if (bHopBoostConditions() {
+        if (bHopBoostConditions()) {
             if (firstDamage) {
                 Utils.setSpeed(Utils.getHorizontalSpeed());
                 firstDamage = false;
@@ -180,7 +180,7 @@ public class ModuleUtils implements IMinecraftInstance {
     }
 
     private boolean bHopBoostConditions() {
-        if (ModuleManager.bHop.isEnabled() && ModuleManager.bHop.damageBoost.isToggled() && (!ModuleManager.bHop.damageBoostRequireKey.isToggled() || ModuleManager.bHop.damageBoostKey.isPressed()) {
+        if (ModuleManager.bHop.isEnabled() && ModuleManager.bHop.damageBoost.isToggled() && (!ModuleManager.bHop.damageBoostRequireKey.isToggled() || ModuleManager.bHop.damageBoostKey.isPressed())) {
             return true;
         }
         return false;
@@ -216,7 +216,7 @@ public class ModuleUtils implements IMinecraftInstance {
 
             if ((!ModuleUtils.damage || Velocity.vertical.getInput() == 0) && !mc.player.isCollidedHorizontally) {
 
-                if (!(block instanceof BlockAir) || (blockBelow instanceof BlockAir && blockBelow2 instanceof BlockAir) {
+                if (!(block instanceof BlockAir) || (blockBelow instanceof BlockAir && blockBelow2 instanceof BlockAir)) {
                     resetLowhop();
                 }
                 switch ((int) ModuleManager.bHop.mode.getInput() {
@@ -232,7 +232,7 @@ public class ModuleUtils implements IMinecraftInstance {
                                 mc.player.motionY = mc.player.motionY + 0.08;
                                 break;
                         }
-                        if (ModuleUtils.inAirTicks > 6 && Utils.isMoving() {
+                        if (ModuleUtils.inAirTicks > 6 && Utils.isMoving()) {
                             Utils.setSpeed(Utils.getHorizontalSpeed(mc.player));
                         }
                         if (ModuleUtils.inAirTicks > 8) {
@@ -314,7 +314,7 @@ public class ModuleUtils implements IMinecraftInstance {
 
     
     public void onRenderWorld(RenderWorldLastEvent e) {
-        if (!Utils.nullCheck() {
+        if (!Utils.nullCheck()) {
             return;
         }
         if (ModuleManager.killAura.rotationMode.getInput() == 0 && KillAura.target != null) {

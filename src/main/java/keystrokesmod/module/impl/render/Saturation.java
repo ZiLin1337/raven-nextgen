@@ -36,7 +36,7 @@ public class Saturation extends Module {
     @Override
     public void onUpdate() {
         float current = (float) saturationSlider.getInput();
-        if (!isShaderActive() {
+        if (!isShaderActive()) {
             loadShader();
         }
         if (current != lastSaturation) {

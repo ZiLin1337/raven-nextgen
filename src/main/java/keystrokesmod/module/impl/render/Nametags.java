@@ -157,7 +157,7 @@ public class Nametags extends Module {
 
     
     public void onRenderWorldLast(RenderWorldLastEvent event) {
-        if (!Utils.nullCheck() {
+        if (!Utils.nullCheck()) {
             return;
         }
 
@@ -166,13 +166,13 @@ public class Nametags extends Module {
 
     
     public void onRenderLiving(RenderLivingEvent.Specials.Pre event) {
-        if (!hideVanilla.isToggled() {
+        if (!hideVanilla.isToggled()) {
             return;
         }
 
         if (event.entity instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) event.entity;
-            if (shouldRenderNametag(player) {
+            if (shouldRenderNametag(player)) {
                 event.setCanceled(true);
             }
         }
@@ -191,8 +191,8 @@ public class Nametags extends Module {
         float baseScale = computeBaseScaleValue();
         renderStateCount = 0;
 
-        for (PlayerEntity player : mc.world.getPlayers() {
-            if (!shouldRenderNametag(player) {
+        for (PlayerEntity player : mc.world.getPlayers()) {
+            if (!shouldRenderNametag(player)) {
                 continue;
             }
 
@@ -227,7 +227,7 @@ public class Nametags extends Module {
                 if (helmet != null) totalItems++;
             }
 
-            if (renderStateCount >= renderStates.size() {
+            if (renderStateCount >= renderStates.size()) {
                 renderStates.add(new NametagRenderState());
             }
 
@@ -268,7 +268,7 @@ public class Nametags extends Module {
 
         for (int i = 0; i < renderStateCount; i++) {
             NametagRenderState renderState = renderStates.get(i);
-            if (renderState.player == null || !RenderUtils.isInViewFrustum(renderState.player) {
+            if (renderState.player == null || !RenderUtils.isInViewFrustum(renderState.player)) {
                 continue;
             }
             renderCustomName(renderState, partialTicks, renderManager, textRenderer, itemFontRenderer);
@@ -298,7 +298,7 @@ public class Nametags extends Module {
     private String buildDisplayName(PlayerEntity entity, boolean showDist, float distance) {
         String name;
 
-        if (onlyRenderName.isToggled() {
+        if (onlyRenderName.isToggled()) {
             String formatted = Utils.getFirstColorCode(entity.getDisplayName().getFormattedText());
             String color = (formatted.length() >= 2 && formatted.charAt(0) == '\u00a7') ? formatted : "";
             name = color + entity.getName();
@@ -307,7 +307,7 @@ public class Nametags extends Module {
             name = entity.getDisplayName().getFormattedText();
         }
 
-        if (showHealth.isToggled() {
+        if (showHealth.isToggled()) {
             name = appendHealth(name, entity);
         }
 
@@ -321,10 +321,10 @@ public class Nametags extends Module {
     }
 
     private int resolveRelationshipColor(PlayerEntity entity) {
-        if (Utils.isFriended(entity) {
+        if (Utils.isFriended(entity)) {
             return friendColor.getColor();
         }
-        if (Utils.isEnemy(entity) {
+        if (Utils.isEnemy(entity)) {
             return enemyColor.getColor();
         }
         return -1;
@@ -355,7 +355,7 @@ public class Nametags extends Module {
         double y = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * partialTicks - renderManager.viewerPosY;
         double z = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * partialTicks - renderManager.viewerPosZ;
         float renderScale = state.baseScale;
-        if (autoScale.isToggled() {
+        if (autoScale.isToggled()) {
             renderScale = computeScaleValue((float) Math.sqrt(x * x + y * y + z * z), true);
         }
 
@@ -526,7 +526,7 @@ public class Nametags extends Module {
         StringBuilder builder = new StringBuilder(text.length());
         for (int i = 0; i < text.length(); i++) {
             char character = text.charAt(i);
-            if (character == '\u00a7' && i + 1 < text.length() {
+            if (character == '\u00a7' && i + 1 < text.length()) {
                 i++;
                 continue;
             }
@@ -591,7 +591,7 @@ public class Nametags extends Module {
 
         RenderUtils.renderItemAndEffectIntoGui3D(stack, xPos, yPos);
 
-        if (showEnchants.isToggled() {
+        if (showEnchants.isToggled()) {
             RenderSystem.pushMatrix();
             RenderSystem.scale(0.5, 0.5, 0.5);
             RenderSystem.translate(0, -10, 0);

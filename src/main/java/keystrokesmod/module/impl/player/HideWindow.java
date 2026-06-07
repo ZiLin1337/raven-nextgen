@@ -77,17 +77,17 @@ public class HideWindow extends Module {
             return;
         }
 
-        if (event.gui instanceof HandledScreen && !(event.gui instanceof GuiInventory) {
+        if (event.gui instanceof HandledScreen && !(event.gui instanceof GuiInventory)) {
             if (mc.currentScreen instanceof HandledScreen) {
                 hiddenGui = null;
                 return;
             }
 
             HandledScreen gui = (GuiContainer) event.gui;
-            if (onlyWhileCrouching.isToggled() && !mc.player.isSneaking() {
+            if (onlyWhileCrouching.isToggled() && !mc.player.isSneaking()) {
                 return;
             }
-            if (whitelist.isToggled() && !matchesWhitelist(gui) {
+            if (whitelist.isToggled() && !matchesWhitelist(gui)) {
                 return;
             }
 
@@ -193,8 +193,8 @@ public class HideWindow extends Module {
     private void syncPosition(ScaledResolution resolution) {
         int w = Math.max(1, resolution.getScaledWidth());
         int h = Math.max(1, resolution.getScaledHeight());
-        if (Float.isNaN(relativePosX) || Float.isNaN(relativePosY) {
-            if (Float.isNaN(posX) || Float.isNaN(posY) {
+        if (Float.isNaN(relativePosX) || Float.isNaN(relativePosY)) {
+            if (Float.isNaN(posX) || Float.isNaN(posY)) {
                 relativePosX = DEFAULT_RELATIVE_X;
                 relativePosY = DEFAULT_RELATIVE_Y;
             } else {
@@ -217,16 +217,16 @@ public class HideWindow extends Module {
 
     private boolean matchesWhitelist(GuiContainer gui) {
         java.util.List<String> entries = whitelistEntries.getEntries();
-        if (entries.isEmpty() {
+        if (entries.isEmpty()) {
             return false;
         }
         String title = getContainerTitle(gui);
-        if (title.isEmpty() {
+        if (title.isEmpty()) {
             return false;
         }
         String lower = title.toLowerCase();
         for (String name : entries) {
-            if (lower.contains(name.toLowerCase()) {
+            if (lower.contains(name.toLowerCase())) {
                 return true;
             }
         }

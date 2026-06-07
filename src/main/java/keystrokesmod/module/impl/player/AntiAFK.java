@@ -100,15 +100,15 @@ public class AntiAFK extends Module {
             }
         }
 
-        if (jump.isToggled() && mc.player.isOnGround() && (!jumpWhenCollided.isToggled() || mc.horizontalCollision) {
+        if (jump.isToggled() && mc.player.isOnGround() && (!jumpWhenCollided.isToggled() || mc.horizontalCollision)) {
             mc.player.jump();
         }
 
         if (this.ticks == 0) {
-            if (swapItem.isToggled() {
+            if (swapItem.isToggled()) {
                 mc.player.getInventory().selectedSlot = Utils.randomizeInt(0, 8);
             }
-            if (randomClicks.isToggled() {
+            if (randomClicks.isToggled()) {
                 mc.doAttack();
             }
             this.ticks = h();
@@ -152,7 +152,7 @@ public class AntiAFK extends Module {
     }
 
     private void d() {
-        if (randomizePitch.isToggled() {
+        if (randomizePitch.isToggled()) {
             mc.player.setPitch(RotationUtils.clampPitch((float) (mc.player.getPitch() + a())));
         }
     }

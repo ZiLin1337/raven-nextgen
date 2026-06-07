@@ -90,8 +90,8 @@ public class ModuleManager {
 
     public List<Module> inCategory(Module.category category) {
         ArrayList<Module> categoryModules = new ArrayList<>();
-        for (Module module : this.getModules() {
-            if (module.moduleCategory().equals(category) {
+        for (Module module : this.getModules()) {
+            if (module.moduleCategory().equals(category)) {
                 categoryModules.add(module);
             }
         }
@@ -126,7 +126,7 @@ public class ModuleManager {
                     pkg.replace('.', '/')
                 );
                 if (!dir.exists() || !dir.isDirectory()) continue;
-                for (java.io.File f : dir.listFiles() {
+                for (java.io.File f : dir.listFiles()) {
                     if (!f.getName().endsWith(".class")) continue;
                     String className = f.getName().replace(".class", "");
                     try {
@@ -153,7 +153,7 @@ public class ModuleManager {
         StringBuilder normalized = new StringBuilder(moduleName.length());
         for (int i = 0; i < moduleName.length(); i++) {
             char character = moduleName.charAt(i);
-            if (Character.isLetterOrDigit(character) {
+            if (Character.isLetterOrDigit(character)) {
                 normalized.append(Character.toLowerCase(character));
             }
         }

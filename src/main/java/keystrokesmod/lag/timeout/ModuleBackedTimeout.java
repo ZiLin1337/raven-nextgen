@@ -14,7 +14,7 @@ public final class ModuleBackedTimeout extends AbstractTimeout {
         this.module = module;
         this.secondaryTimeout = secondaryTimeout;
 
-        if (!module.isEnabled() {
+        if (!module.isEnabled()) {
             hasModuleDisabled = true;
         }
     }
@@ -25,7 +25,7 @@ public final class ModuleBackedTimeout extends AbstractTimeout {
 
     @Override
     protected boolean shouldHaveTimedOut() {
-        if (!module.isEnabled() {
+        if (!module.isEnabled()) {
             hasModuleDisabled = true;
         }
 

@@ -134,7 +134,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
     private Map<String, NetworkPlayerInfo> getPlayerInfoMap() {
         Map<String, NetworkPlayerInfo> map = new HashMap<>();
         if (MinecraftClient.getInstance().getNetworkHandler() == null) return map;
-        for (NetworkPlayerInfo info : MinecraftClient.getInstance().getNetworkHandler().getPlayerInfoMap() {
+        for (NetworkPlayerInfo info : MinecraftClient.getInstance().getNetworkHandler().getPlayerInfoMap()) {
             if (info == null) continue;
             GameProfile profile = info.getGameProfile();
             if (profile == null || profile.getName() == null) continue;

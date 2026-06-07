@@ -72,7 +72,7 @@ public class RenderUtils implements IMinecraftInstance {
     }
 
     public static void renderChestBatch(List<BlockPos> positions, int outlineColor, int shadeColor, boolean outline, boolean shade) {
-        if (positions == null || positions.isEmpty() {
+        if (positions == null || positions.isEmpty()) {
             return;
         }
         double vx = mc.getEntityRenderDispatcher().camera.getPos().x;
@@ -373,37 +373,37 @@ public class RenderUtils implements IMinecraftInstance {
         BufferBuilder vb = ts.getBuffer();
         if (shade) {
             vb.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
-            if (faces.contains(Direction.DOWN) {
+            if (faces.contains(Direction.DOWN)) {
                 vb.pos(xPos, yPos, zPos).color(r, g, b, shadeA).next();
                 vb.pos(maxX, yPos, zPos).color(r, g, b, shadeA).next();
                 vb.pos(maxX, yPos, maxZ).color(r, g, b, shadeA).next();
                 vb.pos(xPos, yPos, maxZ).color(r, g, b, shadeA).next();
             }
-            if (faces.contains(Direction.UP) {
+            if (faces.contains(Direction.UP)) {
                 vb.pos(xPos, maxY, zPos).color(r, g, b, shadeA).next();
                 vb.pos(xPos, maxY, maxZ).color(r, g, b, shadeA).next();
                 vb.pos(maxX, maxY, maxZ).color(r, g, b, shadeA).next();
                 vb.pos(maxX, maxY, zPos).color(r, g, b, shadeA).next();
             }
-            if (faces.contains(Direction.NORTH) {
+            if (faces.contains(Direction.NORTH)) {
                 vb.pos(xPos, yPos, zPos).color(r, g, b, shadeA).next();
                 vb.pos(xPos, maxY, zPos).color(r, g, b, shadeA).next();
                 vb.pos(maxX, maxY, zPos).color(r, g, b, shadeA).next();
                 vb.pos(maxX, yPos, zPos).color(r, g, b, shadeA).next();
             }
-            if (faces.contains(Direction.SOUTH) {
+            if (faces.contains(Direction.SOUTH)) {
                 vb.pos(maxX, yPos, maxZ).color(r, g, b, shadeA).next();
                 vb.pos(maxX, maxY, maxZ).color(r, g, b, shadeA).next();
                 vb.pos(xPos, maxY, maxZ).color(r, g, b, shadeA).next();
                 vb.pos(xPos, yPos, maxZ).color(r, g, b, shadeA).next();
             }
-            if (faces.contains(Direction.WEST) {
+            if (faces.contains(Direction.WEST)) {
                 vb.pos(xPos, yPos, zPos).color(r, g, b, shadeA).next();
                 vb.pos(xPos, maxY, zPos).color(r, g, b, shadeA).next();
                 vb.pos(xPos, maxY, maxZ).color(r, g, b, shadeA).next();
                 vb.pos(xPos, yPos, maxZ).color(r, g, b, shadeA).next();
             }
-            if (faces.contains(Direction.EAST) {
+            if (faces.contains(Direction.EAST)) {
                 vb.pos(maxX, yPos, maxZ).color(r, g, b, shadeA).next();
                 vb.pos(maxX, maxY, maxZ).color(r, g, b, shadeA).next();
                 vb.pos(maxX, maxY, zPos).color(r, g, b, shadeA).next();
@@ -414,37 +414,37 @@ public class RenderUtils implements IMinecraftInstance {
         if (outline) {
             RenderSystem.setShaderColor(r, g, b, outlineA);
             vb.begin(VertexFormat.DrawMode.LINES, VertexFormats.POSITION);
-            if (faces.contains(Direction.DOWN) {
+            if (faces.contains(Direction.DOWN)) {
                 vb.pos(xPos, yPos, zPos).next(); vb.pos(maxX, yPos, zPos).next();
                 vb.pos(maxX, yPos, zPos).next(); vb.pos(maxX, yPos, maxZ).next();
                 vb.pos(maxX, yPos, maxZ).next(); vb.pos(xPos, yPos, maxZ).next();
                 vb.pos(xPos, yPos, maxZ).next(); vb.pos(xPos, yPos, zPos).next();
             }
-            if (faces.contains(Direction.UP) {
+            if (faces.contains(Direction.UP)) {
                 vb.pos(xPos, maxY, zPos).next(); vb.pos(maxX, maxY, zPos).next();
                 vb.pos(maxX, maxY, zPos).next(); vb.pos(maxX, maxY, maxZ).next();
                 vb.pos(maxX, maxY, maxZ).next(); vb.pos(xPos, maxY, maxZ).next();
                 vb.pos(xPos, maxY, maxZ).next(); vb.pos(xPos, maxY, zPos).next();
             }
-            if (faces.contains(Direction.NORTH) {
+            if (faces.contains(Direction.NORTH)) {
                 vb.pos(xPos, yPos, zPos).next(); vb.pos(xPos, maxY, zPos).next();
                 vb.pos(xPos, maxY, zPos).next(); vb.pos(maxX, maxY, zPos).next();
                 vb.pos(maxX, maxY, zPos).next(); vb.pos(maxX, yPos, zPos).next();
                 vb.pos(maxX, yPos, zPos).next(); vb.pos(xPos, yPos, zPos).next();
             }
-            if (faces.contains(Direction.SOUTH) {
+            if (faces.contains(Direction.SOUTH)) {
                 vb.pos(xPos, yPos, maxZ).next(); vb.pos(xPos, maxY, maxZ).next();
                 vb.pos(xPos, maxY, maxZ).next(); vb.pos(maxX, maxY, maxZ).next();
                 vb.pos(maxX, maxY, maxZ).next(); vb.pos(maxX, yPos, maxZ).next();
                 vb.pos(maxX, yPos, maxZ).next(); vb.pos(xPos, yPos, maxZ).next();
             }
-            if (faces.contains(Direction.WEST) {
+            if (faces.contains(Direction.WEST)) {
                 vb.pos(xPos, yPos, zPos).next(); vb.pos(xPos, maxY, zPos).next();
                 vb.pos(xPos, maxY, zPos).next(); vb.pos(xPos, maxY, maxZ).next();
                 vb.pos(xPos, maxY, maxZ).next(); vb.pos(xPos, yPos, maxZ).next();
                 vb.pos(xPos, yPos, maxZ).next(); vb.pos(xPos, yPos, zPos).next();
             }
-            if (faces.contains(Direction.EAST) {
+            if (faces.contains(Direction.EAST)) {
                 vb.pos(maxX, yPos, zPos).next(); vb.pos(maxX, maxY, zPos).next();
                 vb.pos(maxX, maxY, zPos).next(); vb.pos(maxX, maxY, maxZ).next();
                 vb.pos(maxX, maxY, maxZ).next(); vb.pos(maxX, yPos, maxZ).next();
@@ -579,7 +579,7 @@ public class RenderUtils implements IMinecraftInstance {
         }
         if (b2) {
             final double h = Utils.getHorizontalSpeed();
-            if (!s.isEmpty() {
+            if (!s.isEmpty()) {
                 s += " ";
             }
             s += Utils.round(h, 3);
@@ -823,12 +823,12 @@ public class RenderUtils implements IMinecraftInstance {
     private static void renderModelColoredQuads(IBakedModel model, float r, float g, float b, float a) {
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder wr = Tessellator.getInstance().getBuffer();
-        for (Direction face : Direction.values() {
-            for (BakedQuad quad : model.getFaceQuads(face) {
+        for (Direction face : Direction.values()) {
+            for (BakedQuad quad : model.getFaceQuads(face)) {
                 drawColoredQuad(wr, quad, r, g, b, a, tessellator);
             }
         }
-        for (BakedQuad quad : model.getGeneralQuads() {
+        for (BakedQuad quad : model.getGeneralQuads()) {
             drawColoredQuad(wr, quad, r, g, b, a, tessellator);
         }
     }
@@ -1188,7 +1188,7 @@ public class RenderUtils implements IMinecraftInstance {
     }
 
     public static Framebuffer createFrameBuffer(Framebuffer framebuffer, boolean depth) {
-        if (needsNewFramebuffer(framebuffer) {
+        if (needsNewFramebuffer(framebuffer)) {
             if (framebuffer != null) {
                 framebuffer.deleteFramebuffer();
             }

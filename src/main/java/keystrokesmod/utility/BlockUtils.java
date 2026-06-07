@@ -92,11 +92,11 @@ public class BlockUtils implements IMinecraftInstance {
                 n += getEnchantmentLevel * getEnchantmentLevel + 1;
             }
         }
-        if (mc.player.isPotionActive(Potion.digSpeed) {
+        if (mc.player.isPotionActive(Potion.digSpeed)) {
             n *= 1.0f + (mc.player.getActivePotionEffect(Potion.digSpeed).getAmplifier() + 1) * 0.2f;
         }
         if (!ignoreSlow) {
-            if (mc.player.isPotionActive(Potion.digSlowdown) {
+            if (mc.player.isPotionActive(Potion.digSlowdown)) {
                 float n2;
                 switch (mc.player.getActivePotionEffect(Potion.digSlowdown).getAmplifier() {
                     case 0: {
@@ -118,7 +118,7 @@ public class BlockUtils implements IMinecraftInstance {
                 }
                 n *= n2;
             }
-            if (mc.player.isInsideOfMaterial(Material.water) && !EnchantmentHelper.getAquaAffinityModifier(mc.player) {
+            if (mc.player.isInsideOfMaterial(Material.water) && !EnchantmentHelper.getAquaAffinityModifier(mc.player)) {
                 n /= 5.0f;
             }
             if (!mc.player.onGround && !ignoreGround) {
@@ -217,7 +217,7 @@ public class BlockUtils implements IMinecraftInstance {
     }
 
     public static boolean replaceable(BlockPos blockPos) {
-        if (!Utils.nullCheck() {
+        if (!Utils.nullCheck()) {
             return true;
         }
         return getBlock(blockPos).isReplaceable(mc.world, blockPos);
@@ -230,7 +230,7 @@ public class BlockUtils implements IMinecraftInstance {
         }
         if (mop.typeOfHit == HitResult.MovingObjectType.BLOCK) {
             final BlockPos mopPos = mop.getBlockPos();
-            if (mopPos.getX() == pos.getX() && mopPos.getY() == pos.getY() && mopPos.getZ() == pos.getZ() {
+            if (mopPos.getX() == pos.getX() && mopPos.getY() == pos.getY() && mopPos.getZ() == pos.getZ()) {
                 return true;
             }
         }
@@ -242,19 +242,19 @@ public class BlockUtils implements IMinecraftInstance {
         for (double offsetY = 0.0; offsetY <= 0.5; offsetY += 0.5) {
             final double y = pos.getY() + offsetY;
             Vec3d vecBlockPoint = new Vec3d(pos.getX() + 1, y, pos.getZ() + 0.5);
-            if (canSeeVecBlock(pos, vecPlayer, vecBlockPoint) {
+            if (canSeeVecBlock(pos, vecPlayer, vecBlockPoint)) {
                 return true;
             }
             vecBlockPoint = new Vec3d(pos.getX(), y, pos.getZ() + 0.5);
-            if (canSeeVecBlock(pos, vecPlayer, vecBlockPoint) {
+            if (canSeeVecBlock(pos, vecPlayer, vecBlockPoint)) {
                 return true;
             }
             vecBlockPoint = new Vec3d(pos.getX() + 0.5, y, (double)(pos.getZ() + 1));
-            if (canSeeVecBlock(pos, vecPlayer, vecBlockPoint) {
+            if (canSeeVecBlock(pos, vecPlayer, vecBlockPoint)) {
                 return true;
             }
             vecBlockPoint = new Vec3d(pos.getX() + 0.5, y, (double)pos.getZ());
-            if (canSeeVecBlock(pos, vecPlayer, vecBlockPoint) {
+            if (canSeeVecBlock(pos, vecPlayer, vecBlockPoint)) {
                 return true;
             }
         }
@@ -318,7 +318,7 @@ public class BlockUtils implements IMinecraftInstance {
     }
 
     public static boolean hasAirNeighbor(BlockPos pos, BlockPos... exclude) {
-        for (Direction f : Direction.values() {
+        for (Direction f : Direction.values()) {
             BlockPos n = pos.offset(f);
             if (mc.world.getBlockState(n).getBlock() != Blocks.AIR) continue;
             boolean excluded = false;
@@ -331,7 +331,7 @@ public class BlockUtils implements IMinecraftInstance {
     }
 
     public static boolean isAdjacentToBed(BlockPos pos) {
-        for (Direction face : Direction.values() {
+        for (Direction face : Direction.values()) {
             if (getBlock(pos.offset(face)) instanceof BedBlock) return true;
         }
         return false;

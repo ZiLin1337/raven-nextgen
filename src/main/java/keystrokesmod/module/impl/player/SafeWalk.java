@@ -34,7 +34,7 @@ public class SafeWalk extends Module {
 
     @Override
     public void onDisable() {
-        if (sneak.isToggled() && Utils.isEdgeOfBlock() {
+        if (sneak.isToggled() && Utils.isEdgeOfBlock()) {
             this.setSneakState(false);
         }
         isSneaking = false;
@@ -43,7 +43,7 @@ public class SafeWalk extends Module {
 
     @Override
     public void onUpdate() {
-        if (motion.getInput() != 1.0 && mc.player.onGround && Utils.isMoving() && settingsMet() {
+        if (motion.getInput() != 1.0 && mc.player.onGround && Utils.isMoving() && settingsMet()) {
             mc.player.motionX *= motion.getInput();
             mc.player.motionZ *= motion.getInput();
         }
@@ -51,12 +51,12 @@ public class SafeWalk extends Module {
 
     
     public void onPreUpdate(PreUpdateEvent e) {
-        if (!sneak.isToggled() || !Utils.nullCheck() {
+        if (!sneak.isToggled() || !Utils.nullCheck()) {
             return;
         }
         boolean edge = mc.player.onGround && Utils.isEdgeOfBlock();
         if (edge) {
-            if (!settingsMet() {
+            if (!settingsMet()) {
                 this.setSneakState(false);
                 return;
             }
@@ -67,7 +67,7 @@ public class SafeWalk extends Module {
         }
         else {
             if (this.isSneaking) {
-                if (!settingsMet() {
+                if (!settingsMet()) {
                     this.setSneakState(false);
                     return;
                 }
@@ -78,7 +78,7 @@ public class SafeWalk extends Module {
                 this.setSneakState(false);
             }
         }
-        if (this.isSneaking && (mc.player.capabilities.isFlying || !settingsMet()) {
+        if (this.isSneaking && (mc.player.capabilities.isFlying || !settingsMet())) {
             this.setSneakState(false);
         }
     }
@@ -98,7 +98,7 @@ public class SafeWalk extends Module {
             return;
         }
 
-        if (!sneakState && Utils.isBindDown(mc.options.keyBindSneak) {
+        if (!sneakState && Utils.isBindDown(mc.options.keyBindSneak)) {
             return;
         }
 
@@ -110,16 +110,16 @@ public class SafeWalk extends Module {
     }
 
     public static boolean canSafeWalk() {
-        if (ModuleManager.safeWalk != null && ModuleManager.safeWalk.isEnabled() {
-            if (disableOnForward.isToggled() && GLFW.glfwGetKey(MinecraftClient.getInstance().getWindow().getHandle(),mc.options.keyBindForward.getKeyCode()) {
+        if (ModuleManager.safeWalk != null && ModuleManager.safeWalk.isEnabled()) {
+            if (disableOnForward.isToggled() && GLFW.glfwGetKey(MinecraftClient.getInstance().getWindow().getHandle(),mc.options.keyBindForward.getKeyCode())) {
                 return false;
             }
             if (pitchCheck.isToggled() && mc.player.rotationPitch < 70) {
                 return false;
             }
-            if (blocksOnly.isToggled() {
+            if (blocksOnly.isToggled()) {
                 ItemStack held = mc.player.getHeldItem();
-                if (held == null || !(held.getItem() instanceof BlockItem) {
+                if (held == null || !(held.getItem() instanceof BlockItem)) {
                     return false;
                 }
             }
@@ -129,13 +129,13 @@ public class SafeWalk extends Module {
     }
 
     private boolean settingsMet() {
-        if (blocksOnly.isToggled() {
+        if (blocksOnly.isToggled()) {
             ItemStack held = mc.player.getHeldItem();
-            if (held == null || !(held.getItem() instanceof BlockItem) {
+            if (held == null || !(held.getItem() instanceof BlockItem)) {
                 return false;
             }
         }
-        if (disableOnForward.isToggled() && GLFW.glfwGetKey(MinecraftClient.getInstance().getWindow().getHandle(),mc.options.keyBindForward.getKeyCode()) {
+        if (disableOnForward.isToggled() && GLFW.glfwGetKey(MinecraftClient.getInstance().getWindow().getHandle(),mc.options.keyBindForward.getKeyCode())) {
             return false;
         }
         if (pitchCheck.isToggled() && mc.player.rotationPitch < 70.0f) {

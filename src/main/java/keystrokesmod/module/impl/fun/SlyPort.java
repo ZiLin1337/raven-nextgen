@@ -37,7 +37,7 @@ public class SlyPort extends Module {
     }
 
     private void teleport(Entity en) {
-        if (playSound.isToggled() {
+        if (playSound.isToggled()) {
             mc.player.playSound("mob.endermen.portal", 1.0F, 1.0F);
         }
 
@@ -45,7 +45,7 @@ public class SlyPort extends Module {
         double x = en.posX - vec.xCoord * 2.5D;
         double z = en.posZ - vec.zCoord * 2.5D;
         mc.player.setPosition(x, mc.player.getY(), z);
-        if (aim.isToggled() {
+        if (aim.isToggled()) {
             Utils.aim(en, 0.0F, false);
         }
 
@@ -56,20 +56,20 @@ public class SlyPort extends Module {
         double range = Math.pow(this.range.getInput(), 2.0D);
         double dist = range + 1.0D;
 
-        for (Entity entities : mc.world.getEntities() {
+        for (Entity entities : mc.world.getEntities()) {
             if (entities == mc.player) {
                 continue;
             }
-            if (!(entities instanceof LivingEntity) {
+            if (!(entities instanceof LivingEntity)) {
                 continue;
             }
             if (((LivingEntity) entities).deathTime != 0) {
                 continue;
             }
-            if (this.playersOnly.isToggled() && !(entities instanceof PlayerEntity) {
+            if (this.playersOnly.isToggled() && !(entities instanceof PlayerEntity)) {
                 continue;
             }
-            if (AntiBot.isBot(entities) {
+            if (AntiBot.isBot(entities)) {
                 continue;
             }
             double distance = mc.player.getDistanceSqToEntity(entities);

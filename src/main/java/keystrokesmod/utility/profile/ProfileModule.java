@@ -26,7 +26,7 @@ public class ProfileModule extends Module {
         }));
         this.registerSetting(new ButtonSetting("Remove profile", () -> {
             String profileName = getName();
-            if (Raven.profileManager.deleteProfile(profileName) {
+            if (Raven.profileManager.deleteProfile(profileName)) {
                 Utils.sendMessage("&7Removed profile: &b" + profileName);
             }
         }));
@@ -39,7 +39,7 @@ public class ProfileModule extends Module {
 
             Raven.currentProfile = profile;
 
-            if (Settings.sendMessage.isToggled() {
+            if (Settings.sendMessage.isToggled()) {
                 Utils.sendMessage("&7Enabled profile: &b" + this.getName());
             }
             saved = true;
@@ -70,9 +70,9 @@ public class ProfileModule extends Module {
         }
 
         String oldName = getName();
-        if (Raven.profileManager.renameProfile(profile, profileNameSetting.getText()) {
+        if (Raven.profileManager.renameProfile(profile, profileNameSetting.getText())) {
             profileNameSetting.setText(profile.getName());
-            if (!oldName.equals(profile.getName()) {
+            if (!oldName.equals(profile.getName())) {
                 Utils.sendMessage("&7Renamed profile: &b" + oldName + " &7to &b" + profile.getName());
             }
         }

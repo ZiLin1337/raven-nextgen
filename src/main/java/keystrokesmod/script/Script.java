@@ -34,7 +34,7 @@ public class Script {
                 return false;
             }
             final File file = new File(Raven.scriptManager.COMPILED_DIR);
-            if (!file.exists() || !file.isDirectory() {
+            if (!file.exists() || !file.isDirectory()) {
                 file.mkdir();
             }
             if (Raven.scriptManager.compiler == null) {
@@ -46,7 +46,7 @@ public class Script {
             compilationOptions.add("-d");
             compilationOptions.add(Raven.scriptManager.COMPILED_DIR);
             compilationOptions.add("-XDuseUnsharedTable");
-            if (!(boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment") {
+            if (!(boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment")) {
                 compilationOptions.add("-classpath");
                 String s = Raven.scriptManager.jarPath;
                 try {
@@ -86,8 +86,8 @@ public class Script {
             return -1;
         }
         Method method = null;
-        for (final Method method2 : this.clazz.getDeclaredMethods() {
-            if (method2.getName().equalsIgnoreCase(s) && method2.getParameterCount() == array.length && method2.getReturnType().equals(Boolean.TYPE) {
+        for (final Method method2 : this.clazz.getDeclaredMethods()) {
+            if (method2.getName().equalsIgnoreCase(s) && method2.getParameterCount() == array.length && method2.getReturnType().equals(Boolean.TYPE)) {
                 method = method2;
                 break;
             }
@@ -111,8 +111,8 @@ public class Script {
                     final StackTraceElement[] stArr = er.getCause().getStackTrace();
                     if (stArr.length > 0) {
                         StackTraceElement st = stArr[0];
-                        for (final StackTraceElement element : er.getCause().getStackTrace() {
-                            if (element.getClassName().equalsIgnoreCase(this.scriptName) {
+                        for (final StackTraceElement element : er.getCause().getStackTrace()) {
+                            if (element.getClassName().equalsIgnoreCase(this.scriptName)) {
                                 st = element;
                                 break;
                             }
@@ -131,7 +131,7 @@ public class Script {
             return null;
         }
         Method method = null;
-        for (Method _method : this.clazz.getDeclaredMethods() {
+        for (Method _method : this.clazz.getDeclaredMethods()) {
             if (_method.getName().equals(methodName) && _method.getReturnType().equals(Float[].class) && _method.getParameterCount() == args.length) {
                 method = _method;
                 break;
@@ -156,8 +156,8 @@ public class Script {
                     StackTraceElement[] stArr = er.getCause().getStackTrace();
                     if (stArr.length > 0) {
                         StackTraceElement st = stArr[0];
-                        for (StackTraceElement element : er.getCause().getStackTrace() {
-                            if (element.getClassName().equalsIgnoreCase(this.scriptName) {
+                        for (StackTraceElement element : er.getCause().getStackTrace()) {
+                            if (element.getClassName().equalsIgnoreCase(this.scriptName)) {
                                 st = element;
                                 break;
                             }
@@ -175,7 +175,7 @@ public class Script {
         this.clazz = null;
         this.instance = null;
         final File file = new File(Raven.scriptManager.COMPILED_DIR + File.separator + this.scriptName + ".class");
-        if (file.exists() {
+        if (file.exists()) {
             file.delete();
         }
     }
@@ -184,7 +184,7 @@ public class Script {
         STARTING_LINE = 0;
         StringBuilder fileCodeContents = new StringBuilder();
         Iterator<String> iterator = Raven.scriptManager.imports.iterator();
-        while (iterator.hasNext() {
+        while (iterator.hasNext()) {
             STARTING_LINE++;
             fileCodeContents.append("import ").append(iterator.next()).append(";\n");
         }
@@ -201,8 +201,8 @@ public class Script {
             return false;
         }
         Method method = null;
-        for (final Method method2 : this.clazz.getDeclaredMethods() {
-            if (method2.getName().equalsIgnoreCase(s) && method2.getParameterCount() == array.length && method2.getReturnType().equals(Void.TYPE) {
+        for (final Method method2 : this.clazz.getDeclaredMethods()) {
+            if (method2.getName().equalsIgnoreCase(s) && method2.getParameterCount() == array.length && method2.getReturnType().equals(Void.TYPE)) {
                 method = method2;
                 break;
             }
@@ -224,8 +224,8 @@ public class Script {
                     final StackTraceElement[] stArr = er.getCause().getStackTrace();
                     if (stArr.length > 0) {
                         StackTraceElement st = stArr[0];
-                        for (final StackTraceElement element : er.getCause().getStackTrace() {
-                            if (element.getClassName().equalsIgnoreCase(this.scriptName) {
+                        for (final StackTraceElement element : er.getCause().getStackTrace()) {
+                            if (element.getClassName().equalsIgnoreCase(this.scriptName)) {
                                 st = element;
                                 break;
                             }

@@ -76,11 +76,11 @@ public class Xray extends Module {
                             continue;
                         }
                         mutablePos.set(playerX + x, blockY, playerZ + z);
-                        if (blocks.contains(mutablePos) {
+                        if (blocks.contains(mutablePos)) {
                             continue;
                         }
                         Block blockState = BlockUtils.getBlockState(mutablePos);
-                        if (blockState != null && canBreak(blockState) {
+                        if (blockState != null && canBreak(blockState)) {
                             blocks.add(new BlockPos(mutablePos.getX(), mutablePos.getY(), mutablePos.getZ()));
                         }
                     }
@@ -98,15 +98,15 @@ public class Xray extends Module {
 
     
     public void onRenderWorld(RenderWorldLastEvent ev) {
-        if (!Utils.nullCheck() {
+        if (!Utils.nullCheck()) {
             return;
         }
-        if (!this.blocks.isEmpty() {
+        if (!this.blocks.isEmpty()) {
             Iterator<BlockPos> iterator = blocks.iterator();
-            while (iterator.hasNext() {
+            while (iterator.hasNext()) {
                 BlockPos blockPos = iterator.next();
                 Block block = BlockUtils.getBlockState(blockPos);
-                if (block == null || !canBreak(block) {
+                if (block == null || !canBreak(block)) {
                     iterator.remove();
                     continue;
                 }
@@ -129,31 +129,31 @@ public class Xray extends Module {
         int red = 0;
         int green = 0;
         int blue = 0;
-        if (b.equals(Blocks.iron_ore) {
+        if (b.equals(Blocks.iron_ore)) {
             red = 255;
             green = 255;
             blue = 255;
         }
-        else if (b.equals(Blocks.gold_ore) {
+        else if (b.equals(Blocks.gold_ore)) {
             red = 255;
             green = 255;
         }
-        else if (b.equals(Blocks.diamond_ore) {
+        else if (b.equals(Blocks.diamond_ore)) {
             green = 220;
             blue = 255;
         }
-        else if (b.equals(Blocks.emerald_ore) {
+        else if (b.equals(Blocks.emerald_ore)) {
             red = 35;
             green = 255;
         }
-        else if (b.equals(Blocks.lapis_ore) {
+        else if (b.equals(Blocks.lapis_ore)) {
             green = 50;
             blue = 255;
         }
-        else if (b.equals(Blocks.redstone_ore) {
+        else if (b.equals(Blocks.redstone_ore)) {
             red = 255;
         }
-        else if (b.equals(Blocks.mob_spawner) {
+        else if (b.equals(Blocks.mob_spawner)) {
             red = 30;
             blue = 135;
         }

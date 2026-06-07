@@ -35,7 +35,7 @@ public class AutoRequeue extends Module {
         if (!message.contains("play again")) return;
         Pattern p = Pattern.compile("/(\\S+)\\s*");
         Matcher m = p.matcher(message);
-        if (m.find() {
+        if (m.find()) {
             receivedCommand = "/" + m.group(1);
             receiveTime = System.currentTimeMillis();
         }

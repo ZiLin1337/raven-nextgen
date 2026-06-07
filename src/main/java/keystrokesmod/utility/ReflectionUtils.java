@@ -36,7 +36,7 @@ public class ReflectionUtils {
             buttonstate = MouseEvent.class.getDeclaredField("buttonstate");
             buttons = Mouse.class.getDeclaredField("buttons");
             for (Class clazz : containerClasses) {
-                for (Field field : clazz.getDeclaredFields() {
+                for (Field field : clazz.getDeclaredFields()) {
                     addToMap(clazz, field);
                 }
             }

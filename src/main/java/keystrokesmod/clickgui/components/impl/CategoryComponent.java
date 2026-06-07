@@ -103,7 +103,7 @@ public class CategoryComponent {
         this.lastHeight = this.y + this.titleHeight + 4;
         this.animationStartHeight = this.lastHeight;
 
-        for (Module mod : Raven.getModuleManager().inCategory(this.category) {
+        for (Module mod : Raven.getModuleManager().inCategory(this.category)) {
             ModuleComponent b = new ModuleComponent(mod, this, moduleRenderY);
             this.modules.add(b);
             moduleRenderY += 16;
@@ -117,7 +117,7 @@ public class CategoryComponent {
         this.modules.clear();
         this.titleHeight = 13;
         float moduleRenderY = this.titleHeight + 3;
-        for (Module mod : Raven.getModuleManager().inCategory(this.category) {
+        for (Module mod : Raven.getModuleManager().inCategory(this.category)) {
             ModuleComponent component = new ModuleComponent(mod, this, moduleRenderY);
             component.restoreOpenState(Boolean.TRUE.equals(openStates.get(mod.getName())));
             this.modules.add(component);
@@ -131,7 +131,7 @@ public class CategoryComponent {
         this.modules.clear();
         this.titleHeight = 13;
         float moduleRenderY = this.titleHeight + 3;
-        if ((this.category == Module.category.profiles && isProfile) || (this.category == Module.category.scripts && !isProfile) {
+        if ((this.category == Module.category.profiles && isProfile) || (this.category == Module.category.scripts && !isProfile)) {
             ModuleComponent manager = new ModuleComponent(isProfile ? new Manager() : new keystrokesmod.script.Manager(), this, moduleRenderY);
             manager.restoreOpenState(Boolean.TRUE.equals(openStates.get(manager.mod.getName())));
             this.modules.add(manager);
@@ -204,7 +204,7 @@ public class CategoryComponent {
     public void onScroll(int mouseScrollInput, float mouseX, float mouseY) {
         for (ModuleComponent mod : this.modules) mod.onScroll(mouseScrollInput);
         if (!hoveringOverCategory || !this.opened) return;
-        if (!Float.isNaN(mouseX) && !Float.isNaN(mouseY) {
+        if (!Float.isNaN(mouseX) && !Float.isNaN(mouseY)) {
             for (ModuleComponent mod : this.modules) {
                 for (Component comp : mod.settings) {
                     if (!mod.isOpened || !mod.isVisible(comp)) continue;
@@ -339,7 +339,7 @@ public class CategoryComponent {
 
     private float getCurrentAnimatedCategoryHeight() {
         if (this.lastHeight > 0) return this.lastHeight;
-        if (!this.modules.isEmpty() && (this.opened || this.smoothTimer != null) {
+        if (!this.modules.isEmpty() && (this.opened || this.smoothTimer != null)) {
             float mh = 0f;
             for (ModuleComponent c : this.modules) mh += c.getHeightF();
             return this.y + this.titleHeight + mh + 4;
@@ -360,7 +360,7 @@ public class CategoryComponent {
         }
         this.opened = opened;
         smoothTimer = null; textTimer = null;
-        if (opened && !this.modules.isEmpty() {
+        if (opened && !this.modules.isEmpty()) {
             CategoryLayoutMetrics lm = computeLayoutMetrics(true);
             this.big = lm.visibleHeight; this.lastHeight = lm.contentBottom;
         } else { this.big = 0f; this.lastHeight = this.y + this.titleHeight + 4; }
@@ -370,7 +370,7 @@ public class CategoryComponent {
     public void onGuiClosed() {
         if (smoothTimer != null || textTimer != null) {
             float fh = this.y + this.titleHeight;
-            if (this.opened && !this.modules.isEmpty() {
+            if (this.opened && !this.modules.isEmpty()) {
                 float mh = 0f;
                 for (ModuleComponent c : this.modules) mh += c.getHeightF();
                 fh += mh + 4;
@@ -404,7 +404,7 @@ public class CategoryComponent {
 
     private static Map<Module.category, CategoryIconStacks> buildCategoryIconStacks() {
         EnumMap<Module.category, CategoryIconStacks> map = new EnumMap<>(Module.category.class);
-        for (Module.category cat : Module.category.values() {
+        for (Module.category cat : Module.category.values()) {
             ItemStack normal = createCategoryIconStack(cat, false);
             ItemStack active = createCategoryIconStack(cat, true);
             if (normal != null && active != null) map.put(cat, new CategoryIconStacks(normal, active));

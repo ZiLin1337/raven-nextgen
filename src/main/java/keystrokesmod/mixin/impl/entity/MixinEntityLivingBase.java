@@ -73,14 +73,14 @@ public abstract class MixinLivingEntity {
         LivingEntity self = (LivingEntity) (Object) this;
         JumpEvent jumpEvent = new JumpEvent(this.getJumpVelocity(), self.getYaw(), self.isSprinting());
         Raven.EVENT_BUS.post(jumpEvent);
-        if (jumpEvent.isCancelled() {
+        if (jumpEvent.isCancelled()) {
             ci.cancel();
             return;
         }
 
         self.setVelocity(self.getVelocity().x, jumpEvent.getMotionY(), self.getVelocity().z);
 
-        if (jumpEvent.applySprint() {
+        if (jumpEvent.applySprint()) {
             float f = jumpEvent.getYaw() * 0.017453292F;
             self.addVelocity(-MathHelper.sin(f) * 0.2F, 0, MathHelper.cos(f) * 0.2F);
         }
@@ -89,12 +89,12 @@ public abstract class MixinLivingEntity {
     // ===== isPotionActive (AntiDebuff) =====
     @Inject(method = "hasStatusEffect", at = @At("HEAD"), cancellable = true)
     private void hasStatusEffect(StatusEffect effect, CallbackInfoReturnable<Boolean> cir) {
-        if (ModuleManager.antiDebuff != null && ModuleManager.antiDebuff.isEnabled() {
+        if (ModuleManager.antiDebuff != null && ModuleManager.antiDebuff.isEnabled()) {
             if ((effect == Registries.STATUS_EFFECT.get(net.minecraft.util.Identifier.ofVanilla("nausea"))
                     && ModuleManager.antiDebuff.removeNausea.isToggled())
                 || (effect == Registries.STATUS_EFFECT.get(net.minecraft.util.Identifier.ofVanilla("blindness"))
                     && ModuleManager.antiDebuff.removeBlindness.isToggled() {
-                if (ModuleManager.antiDebuff.removeSideEffects.isToggled() {
+                if (ModuleManager.antiDebuff.removeSideEffects.isToggled()) {
                     cir.setReturnValue(false);
                 }
             }

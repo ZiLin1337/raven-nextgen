@@ -61,7 +61,7 @@ public class TargetHUD extends Module {
 
     
     public void onRenderTick(TickEvent.RenderTickEvent ev) {
-        if (!Utils.nullCheck() {
+        if (!Utils.nullCheck()) {
             reset();
             return;
         }
@@ -98,7 +98,7 @@ public class TargetHUD extends Module {
 
     
     public void onRenderWorld(RenderWorldLastEvent renderWorldLastEvent) {
-        if (!renderEsp.isToggled() || !Utils.nullCheck() {
+        if (!renderEsp.isToggled() || !Utils.nullCheck()) {
             return;
         }
         if (KillAura.target != null) {
@@ -110,7 +110,7 @@ public class TargetHUD extends Module {
     }
 
     private void drawTargetHUD(Timer fadeTimer, String string, double health) {
-        if (showStatus.isToggled() {
+        if (showStatus.isToggled()) {
             string = string + " " + ((health <= Utils.getTotalHealth(mc.player) / mc.player.getMaxHealth()) ? "§aW" : "§cL");
         }
         final int scaledResolution = /* ScaledResolution removed in 1.21.4 */ null;
@@ -166,7 +166,7 @@ public class TargetHUD extends Module {
             else {
                 lastHealthBar = healthBar;
             }
-            if (healthColor.isToggled() {
+            if (healthColor.isToggled()) {
                 mergedGradientLeft = mergedGradientRight = Utils.mergeAlpha(Utils.getColorForHealth(health), maxAlphaBackground);
             }
             if (lastHealthBar > n14) { // exceeds total width then clamp
@@ -236,7 +236,7 @@ public class TargetHUD extends Module {
             lastHealth = health;
             playerInfo += " " + Utils.getHealthStr(mc.player, true);
             drawTargetHUD(null, playerInfo, health);
-            if (showStatus.isToggled() {
+            if (showStatus.isToggled()) {
                 playerInfo = playerInfo + " " + ((health <= Utils.getTotalHealth(mc.player) / mc.player.getMaxHealth()) ? "§aW" : "§cL");
             }
             int stringWidth = mc.textRenderer.getStringWidth(playerInfo) + 8;

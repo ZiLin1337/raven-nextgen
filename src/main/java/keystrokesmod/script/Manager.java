@@ -46,7 +46,7 @@ public class Manager extends Module {
                 if (Utils.timeBetween(this.lastLoad, currentTimeMillis) > 1500) {
                     this.lastLoad = currentTimeMillis;
                     Raven.scriptManager.loadScripts();
-                    if (Raven.scriptManager.scripts.isEmpty() {
+                    if (Raven.scriptManager.scripts.isEmpty()) {
                         Utils.sendMessage("&7No scripts found.");
                     }
                     else {
@@ -103,14 +103,14 @@ public class Manager extends Module {
 
     private void ensureConfigFileExists() throws IOException {
         final Path configPath = Paths.get(CONFIG_DIR);
-        if (Files.notExists(configPath) {
+        if (Files.notExists(configPath)) {
             Files.createDirectories(configPath.getParent());
             Files.createFile(configPath);
         }
     }
 
     private boolean set(String key, String value) {
-        if (key == null || key.isEmpty() {
+        if (key == null || key.isEmpty()) {
             return false;
         }
         key = key.replace(SEPARATOR, "");
@@ -122,7 +122,7 @@ public class Manager extends Module {
             boolean keyExists = false;
             for (int i = 0; i < lines.size(); ++i) {
                 final String line = lines.get(i);
-                if (line.startsWith(key + SEPARATOR_FULL) {
+                if (line.startsWith(key + SEPARATOR_FULL)) {
                     lines.set(i, entry);
                     keyExists = true;
                     break;
@@ -165,7 +165,7 @@ public class Manager extends Module {
             final Path configPath = new File(CONFIG_DIR).toPath();
             final List<String> lines = Files.readAllLines(configPath);
             for (final String line : lines) {
-                if (line.startsWith(key + SEPARATOR_FULL) {
+                if (line.startsWith(key + SEPARATOR_FULL)) {
                     return line.substring((key + SEPARATOR_FULL).length());
                 }
             }

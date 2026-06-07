@@ -37,7 +37,7 @@ public class Timer extends Module {
 
     @Override
     public void onUpdate() {
-        if (!Utils.nullCheck() {
+        if (!Utils.nullCheck()) {
             return;
         }
 
@@ -57,10 +57,10 @@ public class Timer extends Module {
 
     public static boolean shouldSkipBaseLocalUpdate() {
         Timer timer = keystrokesmod.module.ModuleManager.timer;
-        if (timer == null || !timer.isEnabled() {
+        if (timer == null || !timer.isEnabled()) {
             return false;
         }
-        if (!Utils.nullCheck() {
+        if (!Utils.nullCheck()) {
             return false;
         }
         return timer.speed.getInput() <= 0.0D;

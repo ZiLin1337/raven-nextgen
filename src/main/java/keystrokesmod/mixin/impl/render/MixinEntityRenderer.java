@@ -23,7 +23,7 @@ public class MixinEntityRenderer {
 
     @Redirect(method = "tiltScreenWhenHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/camera/Camera;getRoll()F"))
     private float injectNoHurtCam(Camera camera) {
-        if (ModuleManager.noHurtCam != null && ModuleManager.noHurtCam.isEnabled() {
+        if (ModuleManager.noHurtCam != null && ModuleManager.noHurtCam.isEnabled()) {
             return (float) (camera.getRoll() / 14 * ModuleManager.noHurtCam.multiplier.getInput());
         }
         return camera.getRoll();
@@ -39,7 +39,7 @@ public class MixinEntityRenderer {
 
     @Redirect(method = "tiltScreenWhenHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;hasStatusEffect(Lnet/minecraft/entity/effect/StatusEffect;)Z"))
     private boolean redirectNausea(ClientPlayerEntity player, Object effect) {
-        if (ModuleManager.antiDebuff != null && ModuleManager.antiDebuff.canRemoveNausea(effect) {
+        if (ModuleManager.antiDebuff != null && ModuleManager.antiDebuff.canRemoveNausea(effect)) {
             return false;
         }
         return player.hasStatusEffect((net.minecraft.entity.effect.StatusEffect) effect);
@@ -47,7 +47,7 @@ public class MixinEntityRenderer {
 
     @Redirect(method = "renderFog", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;hasStatusEffect(Lnet/minecraft/entity/effect/StatusEffect;)Z"))
     private boolean redirectFogEffect(ClientPlayerEntity player, Object effect) {
-        if (ModuleManager.antiDebuff != null && ModuleManager.antiDebuff.canRemoveBlindness(effect) {
+        if (ModuleManager.antiDebuff != null && ModuleManager.antiDebuff.canRemoveBlindness(effect)) {
             return false;
         }
         return player.hasStatusEffect((net.minecraft.entity.effect.StatusEffect) effect);

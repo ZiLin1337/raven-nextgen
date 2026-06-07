@@ -75,7 +75,7 @@ public class PotionHUD extends Module {
 
     
     public void onRenderTick(TickEvent.RenderTickEvent event) {
-        if (event.phase != TickEvent.Phase.END || !Utils.nullCheck() {
+        if (event.phase != TickEvent.Phase.END || !Utils.nullCheck()) {
             return;
         }
 
@@ -125,7 +125,7 @@ public class PotionHUD extends Module {
         syncPositionToResolution(resolution);
 
         RenderState state = buildRenderState(editing);
-        if (state.entries.isEmpty() {
+        if (state.entries.isEmpty()) {
             return;
         }
 
@@ -180,7 +180,7 @@ public class PotionHUD extends Module {
             return null;
         }
 
-        if (potionBlacklist.containsPotion(potion.getName()) {
+        if (potionBlacklist.containsPotion(potion.getName())) {
             return null;
         }
 
@@ -237,12 +237,12 @@ public class PotionHUD extends Module {
             float textY = rowTop + state.metrics.textTopPadding - state.metrics.textTopOffset;
             float timerX = rowLeft + entry.labelWidth + entry.gapWidth;
 
-            if (drawBackground.isToggled() {
+            if (drawBackground.isToggled()) {
                 RenderUtils.DrawContextHelper.drawRect(backgroundLeft, rowTop, backgroundRight, backgroundBottom, BACKGROUND_COLOR);
             }
 
             state.renderer.drawString(entry.label, rowLeft, textY, entry.color, textShadow.isToggled());
-            if (!entry.durationText.isEmpty() {
+            if (!entry.durationText.isEmpty()) {
                 state.renderer.drawString(entry.durationText, timerX, textY, TIMER_COLOR, textShadow.isToggled());
             }
 
@@ -278,8 +278,8 @@ public class PotionHUD extends Module {
         int scaledWidth = Math.max(1, resolution.getScaledWidth());
         int scaledHeight = Math.max(1, resolution.getScaledHeight());
 
-        if (Float.isNaN(relativePosX) || Float.isNaN(relativePosY) {
-            if (Float.isNaN(posX) || Float.isNaN(posY) {
+        if (Float.isNaN(relativePosX) || Float.isNaN(relativePosY)) {
+            if (Float.isNaN(posX) || Float.isNaN(posY)) {
                 relativePosX = DEFAULT_RELATIVE_X;
                 relativePosY = DEFAULT_RELATIVE_Y;
             }

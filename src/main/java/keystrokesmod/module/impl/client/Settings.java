@@ -97,7 +97,7 @@ public class Settings extends Module {
         if (mc.currentScreen instanceof GuiInventory) {
             return true;
         }
-        if (mc.currentScreen instanceof GuiChat && setChatAsInventory.isToggled() {
+        if (mc.currentScreen instanceof GuiChat && setChatAsInventory.isToggled()) {
             return true;
         }
         return false;

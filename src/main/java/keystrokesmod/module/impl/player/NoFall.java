@@ -37,13 +37,13 @@ public class NoFall extends Module {
 
     
     public void onPreUpdate(PreUpdateEvent e) {
-        if (reset() {
+        if (reset()) {
             Utils.resetTimer();
             initialY = mc.player.getY();
             isFalling = false;
             return;
         }
-        else if ((double) mc.player.fallDistance >= minFallDistance.getInput() {
+        else if ((double) mc.player.fallDistance >= minFallDistance.getInput()) {
             isFalling = true;
         }
         double predictedY = mc.player.getY() + mc.player.motionY;
@@ -100,16 +100,16 @@ public class NoFall extends Module {
     }
 
     private boolean reset() {
-        if (disableAdventure.isToggled() && mc.interactionManager.getCurrentGameType().isAdventure() {
+        if (disableAdventure.isToggled() && mc.interactionManager.getCurrentGameType().isAdventure()) {
             return true;
         }
-        if (ignoreVoid.isToggled() && isVoid() {
+        if (ignoreVoid.isToggled() && isVoid()) {
             return true;
         }
-        if (Utils.isBedwarsPracticeOrReplay() {
+        if (Utils.isBedwarsPracticeOrReplay()) {
             return true;
         }
-        if (Utils.spectatorCheck() {
+        if (Utils.spectatorCheck()) {
             return true;
         }
         if (mc.player.onGround) {

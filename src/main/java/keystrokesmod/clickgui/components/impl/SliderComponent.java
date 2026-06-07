@@ -104,7 +104,7 @@ public class SliderComponent extends Component {
         float labelX = (float) ((this.moduleComponent.categoryComponent.getX() + 4) * 2) + xOffset;
         float labelY = (float) ((this.moduleComponent.categoryComponent.getY() + this.o + 3) * 2);
 
-        if (shouldPreviewFontSlider() {
+        if (shouldPreviewFontSlider()) {
             drawFontPreview(labelX, labelY, valueText, suffix);
         }
         else {
@@ -141,7 +141,7 @@ public class SliderComponent extends Component {
 
             this.displayedValue = displayedValue + (targetValue - displayedValue) * SLIDER_SPEED;
 
-            if (!shouldCommitOnRelease() {
+            if (!shouldCommitOnRelease()) {
                 if (targetValue == -1) {
                     sliderSetting.setValueRaw(-1);
                 }
@@ -194,7 +194,7 @@ public class SliderComponent extends Component {
 
     @Override
     public boolean onClick(int mouseX, int mouseY, int button) {
-        if ((u(mouseX, mouseY) || i(mouseX, mouseY)) && button == 0 && this.moduleComponent.isOpened && this.moduleComponent.isVisible(this) {
+        if ((u(mouseX, mouseY) || i(mouseX, mouseY)) && button == 0 && this.moduleComponent.isOpened && this.moduleComponent.isVisible(this)) {
             this.heldDown = true;
         }
         return false;
@@ -204,7 +204,7 @@ public class SliderComponent extends Component {
     public void mouseReleased(int mouseX, int mouseY, int button) {
         boolean wasHeldDown = this.heldDown;
         this.heldDown = false;
-        if (button == 0 && wasHeldDown && shouldCommitOnRelease() {
+        if (button == 0 && wasHeldDown && shouldCommitOnRelease()) {
             if (targetValue == -1) {
                 sliderSetting.setValueRaw(-1);
             }

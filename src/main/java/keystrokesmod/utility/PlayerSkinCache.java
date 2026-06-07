@@ -53,7 +53,7 @@ public class PlayerSkinCache {
 
     public static Identifier getSkin(String username, PlayerListEntry playerInfo) {
         String normalized = normalize(username);
-        if (normalized.isEmpty() {
+        if (normalized.isEmpty()) {
             return DefaultPlayerSkin.getDefaultSkin(PlayerEntity.getOfflineUUID("Steve"));
         }
 
@@ -78,7 +78,7 @@ public class PlayerSkinCache {
             return cached;
         }
 
-        if (!LOOKUP_FAILED.contains(normalized) {
+        if (!LOOKUP_FAILED.contains(normalized)) {
             requestSkin(normalized, username);
         }
 
@@ -93,7 +93,7 @@ public class PlayerSkinCache {
     private static void requestSkin(final String normalized, final String username) {
         long now = System.currentTimeMillis();
         CachedProfile cachedProfile = PROFILES.get(normalized);
-        if (cachedProfile != null && !cachedProfile.isExpired(now) {
+        if (cachedProfile != null && !cachedProfile.isExpired(now)) {
             if (cachedProfile.profile == null) {
                 LOOKUP_FAILED.add(normalized);
                 return;
@@ -102,7 +102,7 @@ public class PlayerSkinCache {
             return;
         }
 
-        if (!LOOKUP_IN_FLIGHT.add(normalized) {
+        if (!LOOKUP_IN_FLIGHT.add(normalized)) {
             return;
         }
 

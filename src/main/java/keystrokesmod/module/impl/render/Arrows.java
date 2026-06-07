@@ -67,7 +67,7 @@ public class Arrows extends Module {
         if (event.phase != TickEvent.Phase.END) {
             return;
         }
-        if (mc.currentScreen != null || !Utils.nullCheck() {
+        if (mc.currentScreen != null || !Utils.nullCheck()) {
             return;
         }
         try {
@@ -88,29 +88,29 @@ public class Arrows extends Module {
             return;
         }
 
-        for (PlayerEntity en : mc.world.getPlayers() {
+        for (PlayerEntity en : mc.world.getPlayers()) {
             if (en == null || en == mc.player) {
                 continue;
             }
-            if (AntiBot.isBot(en) {
+            if (AntiBot.isBot(en)) {
                 continue;
             }
-            if (Utils.isTeammate(en) && hideTeammates.isToggled() {
+            if (Utils.isTeammate(en) && hideTeammates.isToggled()) {
                 continue;
             }
 
             int color = -1;
-            if (renderFriends.isToggled() && Utils.isFriended(en) {
+            if (renderFriends.isToggled() && Utils.isFriended(en)) {
                 color = friendColor;
             }
-            else if (renderEnemies.isToggled() && Utils.isEnemy(en) {
+            else if (renderEnemies.isToggled() && Utils.isEnemy(en)) {
                 color = enemyColor;
             }
-            else if (teamColor.isToggled() {
+            else if (teamColor.isToggled()) {
                 color = Utils.getColorFromEntity(en);
             }
 
-            if (renderStateCount >= renderStates.size() {
+            if (renderStateCount >= renderStates.size()) {
                 renderStates.add(new ArrowRenderState());
             }
             renderStates.get(renderStateCount++).set(en, color);
@@ -118,7 +118,7 @@ public class Arrows extends Module {
     }
 
     private void renderIndicatorFor(PlayerEntity en, int color, float partialTicks) {
-        if (renderOnlyOffScreen.isToggled() && RenderUtils.isInViewFrustum(en) {
+        if (renderOnlyOffScreen.isToggled() && RenderUtils.isInViewFrustum(en)) {
             return;
         }
 
@@ -216,7 +216,7 @@ public class Arrows extends Module {
             RenderSystem.translate(renderX, renderY, 0.0);
             RenderSystem.scale(0.8, 0.8, 0.8);
 
-            if (renderDistance.isToggled() {
+            if (renderDistance.isToggled()) {
                 String text = (int) mc.player.getDistanceToEntity(en) + "m";
                 RavenFontRenderer fr = getArrowFontRenderer();
                 fr.drawString(text, (float) (-fr.getStringWidth(text) / 2), -4.0f, -1, true);

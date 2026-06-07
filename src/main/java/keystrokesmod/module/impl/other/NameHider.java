@@ -68,7 +68,7 @@ public class NameHider extends Module {
                 }
 
                 String profileKey = getProfileKey();
-                if (data.has(profileKey) && data.get(profileKey).isJsonPrimitive() {
+                if (data.has(profileKey) && data.get(profileKey).isJsonPrimitive()) {
                     setText(data.getAsJsonPrimitive(profileKey).getAsString());
                 }
             }
@@ -88,7 +88,7 @@ public class NameHider extends Module {
                 }
 
                 String profileKey = getProfileKey();
-                if (data.has(profileKey) && data.get(profileKey).isJsonPrimitive() {
+                if (data.has(profileKey) && data.get(profileKey).isJsonPrimitive()) {
                     setText(data.getAsJsonPrimitive(profileKey).getAsString());
                 }
             }
@@ -97,13 +97,13 @@ public class NameHider extends Module {
     }
 
     public static String getFakeName(String input) {
-        if (!shouldProcessText(input) {
+        if (!shouldProcessText(input)) {
             return input;
         }
 
         refreshCaches();
 
-        if (lastTransformVersion == transformVersion && input.equals(lastInput) {
+        if (lastTransformVersion == transformVersion && input.equals(lastInput)) {
             return lastOutput;
         }
 
@@ -121,14 +121,14 @@ public class NameHider extends Module {
     }
 
     public static Text getPlayerDisplayName(PlayerEntity player, Text original) {
-        if (original == null || !shouldProcessText(original.getString()) {
+        if (original == null || !shouldProcessText(original.getString())) {
             return original;
         }
 
         refreshCaches();
         String originalText = String.valueOf(original.getString());
         String replaced = getDisplayTextForPlayer(player, originalText);
-        if (Objects.equals(originalText, replaced) {
+        if (Objects.equals(originalText, replaced)) {
             return original;
         }
 
@@ -138,7 +138,7 @@ public class NameHider extends Module {
     }
 
     public static String getTabName(PlayerListEntry playerInfo, String original) {
-        if (!shouldProcessText(original) {
+        if (!shouldProcessText(original)) {
             return original;
         }
 
@@ -148,7 +148,7 @@ public class NameHider extends Module {
             return original;
         }
 
-        if (isSelfKey(key) {
+        if (isSelfKey(key)) {
             return replaceNames(original, getTabVisibleNames(playerInfo, key), formattedFakeName);
         }
 
@@ -162,7 +162,7 @@ public class NameHider extends Module {
 
     public static void setFakeName(String name) {
         String normalized = normalizeFakeName(name);
-        if (fakeNameSetting != null && !normalized.equals(fakeNameSetting.getText()) {
+        if (fakeNameSetting != null && !normalized.equals(fakeNameSetting.getText())) {
             fakeNameSetting.setText(normalized);
             return;
         }
@@ -175,7 +175,7 @@ public class NameHider extends Module {
         }
 
         String key = getIdentityKey(player);
-        if (isSelfPlayer(player, key) {
+        if (isSelfPlayer(player, key)) {
             return replaceNames(original, getEntityVisibleNames(player, key), formattedFakeName);
         }
 
@@ -200,13 +200,13 @@ public class NameHider extends Module {
         }
 
         String selfKey = getSelfKey();
-        if (!Objects.equals(cachedSelfKey, selfKey) {
+        if (!Objects.equals(cachedSelfKey, selfKey)) {
             cachedSelfKey = selfKey;
             markCacheDirty();
         }
 
         List<String> selfNames = buildSelfNames();
-        if (!selfNames.equals(cachedSelfNames) {
+        if (!selfNames.equals(cachedSelfNames)) {
             cachedSelfNames = selfNames;
             markCacheDirty();
         }
@@ -242,25 +242,25 @@ public class NameHider extends Module {
         collectTargetsFromTab(targets, protectedNames);
         collectTargetsFromWorld(targets, protectedNames);
 
-        if (targets.isEmpty() {
+        if (targets.isEmpty()) {
             return HideAllCache.EMPTY;
         }
 
         LinkedHashMap<String, List<String>> visibleNamesByKey = new LinkedHashMap<String, List<String>>();
-        for (Map.Entry<String, LinkedHashSet<String>> entry : targets.entrySet() {
+        for (Map.Entry<String, LinkedHashSet<String>> entry : targets.entrySet()) {
             visibleNamesByKey.put(entry.getKey(), sortNames(entry.getValue()));
         }
 
         LinkedHashMap<String, Integer> aliasNumbers = assignAliasNumbers(visibleNamesByKey.keySet());
         List<Map.Entry<String, String>> replacements = new ArrayList<Map.Entry<String, String>>();
-        for (Map.Entry<String, List<String>> entry : visibleNamesByKey.entrySet() {
+        for (Map.Entry<String, List<String>> entry : visibleNamesByKey.entrySet()) {
             Integer aliasNumber = aliasNumbers.get(entry.getKey());
             if (aliasNumber == null) {
                 continue;
             }
 
             String replacement = formattedHideAllPrefix + aliasNumber;
-            for (String visibleName : entry.getValue() {
+            for (String visibleName : entry.getValue()) {
                 replacements.add(new java.util.AbstractMap.SimpleEntry<String, String>(visibleName, replacement));
             }
         }
@@ -282,7 +282,7 @@ public class NameHider extends Module {
         }
 
         PlayerListEntry self = getSelfPlayerInfo();
-        for (PlayerListEntry playerInfo : mc.getNetworkHandler().getPlayerList() {
+        for (PlayerListEntry playerInfo : mc.getNetworkHandler().getPlayerList()) {
             if (playerInfo == null || playerInfo == self) {
                 continue;
             }
@@ -296,7 +296,7 @@ public class NameHider extends Module {
             return;
         }
 
-        for (PlayerEntity player : mc.world.getPlayers() {
+        for (PlayerEntity player : mc.world.getPlayers()) {
             if (player == null || player == mc.player) {
                 continue;
             }
@@ -312,7 +312,7 @@ public class NameHider extends Module {
 
     private static void addTargetName(Map<String, LinkedHashSet<String>> targets, Set<String> protectedNames, String key, String candidate) {
         String normalized = sanitizeName(candidate);
-        if (key == null || normalized.isEmpty() || protectedNames.contains(normalizeName(normalized)) {
+        if (key == null || normalized.isEmpty() || protectedNames.contains(normalizeName(normalized))) {
             return;
         }
 
@@ -330,18 +330,18 @@ public class NameHider extends Module {
 
         for (String key : keys) {
             Integer existing = cachedAliasNumbers.get(key);
-            if (existing != null && usedAliasNumbers.add(existing) {
+            if (existing != null && usedAliasNumbers.add(existing)) {
                 aliasNumbers.put(key, existing);
             }
         }
 
         for (String key : keys) {
-            if (aliasNumbers.containsKey(key) {
+            if (aliasNumbers.containsKey(key)) {
                 continue;
             }
 
             int aliasNumber = MIN_ALIAS_NUMBER;
-            while (usedAliasNumbers.contains(aliasNumber) {
+            while (usedAliasNumbers.contains(aliasNumber)) {
                 aliasNumber++;
             }
             aliasNumbers.put(key, aliasNumber);
@@ -377,7 +377,7 @@ public class NameHider extends Module {
             addName(names, getProfileName(playerInfo));
         }
 
-        if (isSelfPlayer(player, key) {
+        if (isSelfPlayer(player, key)) {
             addNames(names, cachedSelfNames);
         }
 
@@ -389,7 +389,7 @@ public class NameHider extends Module {
         addNames(names, cachedVisibleNamesByKey.get(key));
         addName(names, getProfileName(playerInfo));
 
-        if (isSelfKey(key) {
+        if (isSelfKey(key)) {
             addNames(names, cachedSelfNames);
         }
 
@@ -408,7 +408,7 @@ public class NameHider extends Module {
 
     private static void addName(Set<String> target, String name) {
         String normalized = sanitizeName(name);
-        if (!normalized.isEmpty() {
+        if (!normalized.isEmpty()) {
             target.add(normalized);
         }
     }
@@ -418,7 +418,7 @@ public class NameHider extends Module {
         if (names != null) {
             for (String name : names) {
                 String normalized = sanitizeName(name);
-                if (!normalized.isEmpty() && !sorted.contains(normalized) {
+                if (!normalized.isEmpty() && !sorted.contains(normalized)) {
                     sorted.add(normalized);
                 }
             }
@@ -519,7 +519,7 @@ public class NameHider extends Module {
     private static void applyFakeName(String name) {
         String normalized = normalizeFakeName(name);
         String nextFormattedFakeName = Utils.formatColor(normalized);
-        if (Objects.equals(fakeName, normalized) && Objects.equals(formattedFakeName, nextFormattedFakeName) {
+        if (Objects.equals(fakeName, normalized) && Objects.equals(formattedFakeName, nextFormattedFakeName)) {
             return;
         }
 
@@ -531,7 +531,7 @@ public class NameHider extends Module {
     private static void applyHideAllPrefix(String value) {
         String normalized = normalizeHideAllPrefix(value);
         String nextFormattedHideAllPrefix = Utils.formatColor(normalized);
-        if (Objects.equals(formattedHideAllPrefix, nextFormattedHideAllPrefix) {
+        if (Objects.equals(formattedHideAllPrefix, nextFormattedHideAllPrefix)) {
             return;
         }
 

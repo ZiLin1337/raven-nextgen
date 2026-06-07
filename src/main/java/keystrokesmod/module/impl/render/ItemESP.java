@@ -93,11 +93,11 @@ public class ItemESP extends Module {
         }
 
         double maxDistSq = maxDistance.getInput() * maxDistance.getInput();
-        for (Entity entity : mc.world.getEntities() {
-            if (!(entity instanceof ItemEntity) {
+        for (Entity entity : mc.world.getEntities()) {
+            if (!(entity instanceof ItemEntity)) {
                 continue;
             }
-            if (!RenderUtils.isWithinDistanceSqToRenderView(entity, maxDistSq) {
+            if (!RenderUtils.isWithinDistanceSqToRenderView(entity, maxDistSq)) {
                 continue;
             }
             if (entity.ticksExisted < 3) {
@@ -116,11 +116,11 @@ public class ItemESP extends Module {
 
             int boxColor;
             int textColor;
-            if (item == Items.iron_ingot && renderIron.isToggled() {
+            if (item == Items.iron_ingot && renderIron.isToggled()) {
                 boxColor = -1;
                 textColor = -1;
             }
-            else if (item == Items.GOLD_INGOT && renderGold.isToggled() {
+            else if (item == Items.GOLD_INGOT && renderGold.isToggled()) {
                 boxColor = -331703;
                 textColor = -152;
             }
@@ -140,7 +140,7 @@ public class ItemESP extends Module {
             Integer existingStackCount = stackCounts.get(groupKey);
             stackCounts.put(groupKey, (existingStackCount == null ? 0 : existingStackCount) + entityItem.getItemEntity().stackSize);
 
-            if (renderStateCount >= renderStates.size() {
+            if (renderStateCount >= renderStates.size()) {
                 renderStates.add(new ItemRenderState());
             }
             renderStates.get(renderStateCount++).set(entityItem, boxColor, textColor, groupKey);

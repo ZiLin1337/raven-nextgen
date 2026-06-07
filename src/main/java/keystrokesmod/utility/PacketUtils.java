@@ -28,7 +28,7 @@ public class PacketUtils implements IMinecraftInstance {
     }
 
     public static void sendPacketNoEvent(Packet packet) {
-        if (packet == null || packet.getClass().getSimpleName().startsWith("S") {
+        if (packet == null || packet.getClass().getSimpleName().startsWith("S")) {
             return;
         }
         skipSendEvent.add(packet);

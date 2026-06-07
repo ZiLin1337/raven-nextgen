@@ -100,13 +100,13 @@ public class LagRange extends Module {
             return;
         }
 
-        if (ModuleManager.bedAura != null && ModuleManager.bedAura.isActivelyMining() {
+        if (ModuleManager.bedAura != null && ModuleManager.bedAura.isActivelyMining()) {
             if (isLagging) flushLag();
             return;
         }
 
         Autoblock autoblock = (Autoblock) ModuleManager.getModule(Autoblock.class);
-        if (autoblock != null && autoblock.isActive() {
+        if (autoblock != null && autoblock.isActive()) {
             if (isLagging) flushLag();
             return;
         }
@@ -115,7 +115,7 @@ public class LagRange extends Module {
         boolean moving = isMoving();
 
         PlayerEntity nextTarget = CombatTargeting.findTarget(rangeSq);
-        if (!sameTarget(nextTarget) {
+        if (!sameTarget(nextTarget)) {
             if (isLagging) flushLag();
             lastDistSq = -1;
             hitMarkedEntityId = -1;
@@ -160,14 +160,14 @@ public class LagRange extends Module {
 
                 Raven.lagHandler.releaseExpiredPackets(EnumLagDirection.OUTBOUND, (long) maximumDelay.getInput());
 
-                if (holdingWeapon.isToggled() && !Utils.holdingWeapon() {
+                if (holdingWeapon.isToggled() && !Utils.holdingWeapon()) {
                     flushLag();
                     lastDistSq = distSq;
                     lastTargetHurtTime = currentTarget.hurtTime;
                     return;
                 }
 
-                if (sprintReset.isToggled() {
+                if (sprintReset.isToggled()) {
                     boolean sprintingNow = mc.player.isSprinting();
                     if (sprintingNow && !lastSprintState) {
                         flushLag();
@@ -179,7 +179,7 @@ public class LagRange extends Module {
                     lastSprintState = sprintingNow;
                 }
 
-                if (blockSword.isToggled() {
+                if (blockSword.isToggled()) {
                     boolean blockingNow = mc.player.isBlocking();
                     if (blockingNow && !lastBlockingState) {
                         flushLag();
@@ -191,9 +191,9 @@ public class LagRange extends Module {
                     lastBlockingState = blockingNow;
                 }
 
-                if (usedSplashPotion.isToggled() && mc.player.isUsingItem() {
+                if (usedSplashPotion.isToggled() && mc.player.isUsingItem()) {
                     ItemStack held = mc.player.getHeldItem();
-                    if (held != null && held.getItem() instanceof ItemPotion && ItemPotion.isSplash(held.getMetadata()) {
+                    if (held != null && held.getItem() instanceof ItemPotion && ItemPotion.isSplash(held.getMetadata())) {
                         flushLag();
                         lastDistSq = distSq;
                         lastTargetHurtTime = currentTarget.hurtTime;
@@ -281,7 +281,7 @@ public class LagRange extends Module {
             indicatorInterpFrom = delayedPos;
             indicatorInterpTo = delayedPos;
             indicatorInterpStartMs = nowMs;
-        } else if (serverPosChanged(delayedPos, indicatorInterpTo) {
+        } else if (serverPosChanged(delayedPos, indicatorInterpTo)) {
             double te = Math.min(1.0D, (nowMs - indicatorInterpStartMs) / (double) INDICATOR_INTERP_MS);
             indicatorInterpFrom = lerpVec3d(indicatorInterpFrom, indicatorInterpTo, te);
             indicatorInterpTo = delayedPos;
@@ -317,7 +317,7 @@ public class LagRange extends Module {
         RenderSystem.depthMask(false);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-        if (indicatorFilled.isToggled() {
+        if (indicatorFilled.isToggled()) {
             RenderUtils.drawBoundingBox(box, r, g, b, a);
         }
 

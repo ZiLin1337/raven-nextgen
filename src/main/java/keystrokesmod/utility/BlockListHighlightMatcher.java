@@ -50,12 +50,12 @@ public final class BlockListHighlightMatcher implements BlockHighlightMatcher {
             return false;
         }
         String registryId = nameObj.toString();
-        if (matcherWildcards.containsKey(registryId) {
+        if (matcherWildcards.containsKey(registryId)) {
             return true;
         }
         int meta = block.getMetaFromState(state);
         if (meta != 0) {
-            if (matcherIds.contains(registryId + ":" + meta) {
+            if (matcherIds.contains(registryId + ":" + meta)) {
                 return true;
             }
         }
@@ -73,7 +73,7 @@ public final class BlockListHighlightMatcher implements BlockHighlightMatcher {
         matcherIds = new HashSet<>();
         matcherWildcards = new HashMap<>();
         for (String id : blocks) {
-            if (id.endsWith(":*") {
+            if (id.endsWith(":*")) {
                 String base = id.substring(0, id.length() - 2);
                 matcherWildcards.put(base, null);
             } else {

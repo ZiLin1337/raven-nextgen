@@ -41,13 +41,13 @@ public class Piercing extends Module {
     }
 
     public boolean shouldOverrideMouseOver() {
-        if (!this.isEnabled() {
+        if (!this.isEnabled()) {
             return false;
         }
         if (mc == null || mc.player == null || mc.world == null) {
             return false;
         }
-        if (this.weaponOnly.isToggled() && !Utils.holdingWeapon() {
+        if (this.weaponOnly.isToggled() && !Utils.holdingWeapon()) {
             return false;
         }
         return ignoreBlocks.isToggled()
@@ -68,7 +68,7 @@ public class Piercing extends Module {
 
         double reach = mc.interactionManager.getBlockReachDistance();
         final Vec3d eyes = viewEntity.getPositionEyes(partialTicks);
-        if (mc.interactionManager.extendedReach() {
+        if (mc.interactionManager.extendedReach()) {
             reach = 6.0;
         }
         final Vec3d look = viewEntity.getLook(partialTicks);
@@ -148,7 +148,7 @@ public class Piercing extends Module {
             }
         }
 
-        if (best != null && reach > 3.0 && bestDist > 3.0 && !mc.interactionManager.extendedReach() {
+        if (best != null && reach > 3.0 && bestDist > 3.0 && !mc.interactionManager.extendedReach()) {
             mc.objectMouseOver = new HitResult(
                     HitResult.MovingObjectType.MISS, bestHit, null, new BlockPos(bestHit)
             );

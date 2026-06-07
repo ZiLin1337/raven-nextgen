@@ -42,22 +42,22 @@ public class AntiKnockback extends Module {
 
     
     public void onReceivePacket(ReceivePacketEvent e) {
-        if (!Utils.nullCheck() || LongJump.stopVelocity || e.isCanceled() {
+        if (!Utils.nullCheck() || LongJump.stopVelocity || e.isCanceled()) {
             return;
         }
         if (e.getPacket() instanceof EntityVelocityUpdateS2CPacket) {
             if (((EntityVelocityUpdateS2CPacket) e.getPacket()).getEntityID() == mc.player.getEntityId() && !disable) {
-                if (!cancelBurning.isToggled() && mc.player.isBurning() {
+                if (!cancelBurning.isToggled() && mc.player.isBurning()) {
                     return;
                 }
-                if (disableInLobby.isToggled() && Utils.isLobby() {
+                if (disableInLobby.isToggled() && Utils.isLobby()) {
                     return;
                 }
                 e.setCanceled(true);
-                if (cancel() {
+                if (cancel()) {
                     return;
                 }
-                if (cancelConditions() {
+                if (cancelConditions()) {
                     return;
                 }
                 EntityVelocityUpdateS2CPacket s12PacketEntityVelocity = (EntityVelocityUpdateS2CPacket) e.getPacket();
@@ -74,7 +74,7 @@ public class AntiKnockback extends Module {
                     mc.player.motionZ = ((double) s12PacketEntityVelocity.getMotionZ() / 8000) * horizontal.getInput() / 100.0;
                 }
                 if (boostMultiplier.getInput() != 1) {
-                    if (boostWithLMB.isToggled() && !Mouse.isButtonDown(0) {
+                    if (boostWithLMB.isToggled() && !Mouse.isButtonDown(0)) {
                         return;
                     }
                     Utils.setSpeed(Utils.getHorizontalSpeed() * boostMultiplier.getInput());
@@ -82,14 +82,14 @@ public class AntiKnockback extends Module {
             }
         }
         else if (e.getPacket() instanceof ExplosionS2CPacket && !disable) {
-            if (disableInLobby.isToggled() && Utils.isLobby() {
+            if (disableInLobby.isToggled() && Utils.isLobby()) {
                 return;
             }
             e.setCanceled(true);
-            if (cancelExplosion.isToggled() || cancel() {
+            if (cancelExplosion.isToggled() || cancel()) {
                 return;
             }
-            if (cancelConditions() {
+            if (cancelConditions()) {
                 return;
             }
             ExplosionS2CPacket s27PacketExplosion = (ExplosionS2CPacket) e.getPacket();

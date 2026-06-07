@@ -11,25 +11,25 @@ public class Json {
 
     private Json(JsonElement element) {
         this.element = element;
-        if (element.isJsonObject() {
+        if (element.isJsonObject()) {
             this.type = Type.OBJECT;
         }
-        else if (element.isJsonArray() {
+        else if (element.isJsonArray()) {
             this.type = Type.ARRAY;
         }
-        else if (element.isJsonPrimitive() {
+        else if (element.isJsonPrimitive()) {
             JsonPrimitive prim = element.getAsJsonPrimitive();
-            if (prim.isBoolean() {
+            if (prim.isBoolean()) {
                 this.type = Type.BOOLEAN;
             }
-            else if (prim.isNumber() {
+            else if (prim.isNumber()) {
                 this.type = Type.NUMBER;
             }
             else {
                 this.type = Type.STRING;
             }
         }
-        else if (element.isJsonNull() {
+        else if (element.isJsonNull()) {
             this.type = Type.NULL;
         }
         else {
@@ -131,7 +131,7 @@ public class Json {
     public List<Json> asArray() {
         ensureArray();
         List<Json> list = new ArrayList<>();
-        for (JsonElement el : this.element.getAsJsonArray() {
+        for (JsonElement el : this.element.getAsJsonArray()) {
             list.add(new Json(el));
         }
         return list;
@@ -176,7 +176,7 @@ public class Json {
     public LinkedHashSet<String> keys() {
         ensureObject();
         LinkedHashSet<String> out = new LinkedHashSet<>();
-        for (Map.Entry<String, JsonElement> e : element.getAsJsonObject().entrySet() {
+        for (Map.Entry<String, JsonElement> e : element.getAsJsonObject().entrySet()) {
             out.add(e.getKey());
         }
         return out;

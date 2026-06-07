@@ -67,7 +67,7 @@ public class InventoryItemSearchComponent extends AbstractItemSearchComponent<In
     @Override
     protected void renderSelectedRows(Layout layout, float offsetPx, int firstRow, int end) {
         List<String> items = setting.getItems();
-        if (selectedRowsCache == null || selectedRowsCache.size() != items.size() {
+        if (selectedRowsCache == null || selectedRowsCache.size() != items.size()) {
             selectedRowsCache = new ArrayList<InventorySelectedRowData>();
             for (String sid : items) {
                 List<ItemSearchIndex.ItemEntry> variants = ItemSearchIndex.isGroupedSelection(sid) ? ItemSearchIndex.getSelectionVariants(sid) : null;
@@ -108,7 +108,7 @@ public class InventoryItemSearchComponent extends AbstractItemSearchComponent<In
         if (rowIndex < 0) { draggingStorageId = null; return false; }
         String sid = setting.getItems().get(rowIndex);
         float rowTop = getSelectedTop(layout) - selectedScrollAnim.getValue() + rowIndex * ROW_HEIGHT;
-        if (isOverClose(mouseX, mouseY, rowTop, layout.right) {
+        if (isOverClose(mouseX, mouseY, rowTop, layout.right)) {
             setting.removeItem(sid); invalidateSelectedRows(); listeningStorageId = null; draggingStorageId = null;
             markUnsaved(); clampSelectedScroll(); updateDropdownAnimation(); moduleComponent.updateSettingPositions(); return true;
         }

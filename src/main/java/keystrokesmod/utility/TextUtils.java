@@ -26,9 +26,9 @@ public final class TextUtils {
         StringBuilder output = new StringBuilder(input.length() + replacement.length());
         FormattingState formatting = new FormattingState();
         int index = 0;
-        while (index < input.length() {
+        while (index < input.length()) {
             char current = input.charAt(index);
-            if (isFormattingCode(input, index) {
+            if (isFormattingCode(input, index)) {
                 char code = input.charAt(index + 1);
                 formatting.apply(code);
                 output.append(current).append(code);
@@ -36,7 +36,7 @@ public final class TextUtils {
                 continue;
             }
 
-            if (matchesAtIgnoreCase(input, target, index) && hasNameBoundaries(input, index, target.length()) {
+            if (matchesAtIgnoreCase(input, target, index) && hasNameBoundaries(input, index, target.length())) {
                 output.append(replacement);
                 output.append(formatting.asString());
                 index += target.length();
@@ -61,7 +61,7 @@ public final class TextUtils {
         }
 
         String normalized = Utils.stripColor(value).trim();
-        if (normalized.isEmpty() {
+        if (normalized.isEmpty()) {
             return null;
         }
 
@@ -93,8 +93,8 @@ public final class TextUtils {
 
     private static char nextVisibleChar(String input, int index) {
         int cursor = index;
-        while (cursor < input.length() {
-            if (isFormattingCode(input, cursor) {
+        while (cursor < input.length()) {
+            if (isFormattingCode(input, cursor)) {
                 cursor += 2;
                 continue;
             }
@@ -125,7 +125,7 @@ public final class TextUtils {
 
         private void apply(char code) {
             char normalized = Character.toLowerCase(code);
-            if ((normalized >= '0' && normalized <= '9') || (normalized >= 'a' && normalized <= 'f') {
+            if ((normalized >= '0' && normalized <= '9') || (normalized >= 'a' && normalized <= 'f')) {
                 color = normalized;
                 obfuscated = false;
                 bold = false;

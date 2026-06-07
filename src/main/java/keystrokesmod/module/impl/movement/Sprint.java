@@ -24,7 +24,7 @@ public class Sprint extends Module {
     @Override
     public void onUpdate() {
         if (mc.player == null) return;
-        if (mc.player.hasStatusEffect(StatusEffects.BLINDNESS) && !blindJump.isToggled() {
+        if (mc.player.hasStatusEffect(StatusEffects.BLINDNESS) && !blindJump.isToggled()) {
             mc.player.setSprinting(false);
             return;
         }

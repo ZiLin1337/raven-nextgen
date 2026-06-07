@@ -58,7 +58,7 @@ public class FrozenEntitySync {
      */
     public boolean intercept(Packet<?> packet) {
         if (!active) return false;
-        if (isEntityPacket(packet) {
+        if (isEntityPacket(packet)) {
             liveEntityQueue.add(packet);
         } else {
             deferredQueue.add(packet);
@@ -149,7 +149,7 @@ public class FrozenEntitySync {
             }
         }
 
-        for (Entity entity : mc.world.getEntities() {
+        for (Entity entity : mc.world.getEntities()) {
             if (entity == null || entity.isDead || entity == local) continue;
             if (entity.ridingEntity != null) {
                 if (!entity.ridingEntity.isDead && entity.ridingEntity.riddenByEntity == entity) {

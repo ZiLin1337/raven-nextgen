@@ -29,7 +29,7 @@ public class MixinPlayerControllerMP {
     private void onAttackEntity(PlayerEntity player, Entity target, CallbackInfo ci) {
         AttackEvent event = new AttackEvent(target);
         Raven.EVENT_BUS.post(event);
-        if (event.isCancelled() {
+        if (event.isCancelled()) {
             ci.cancel();
         }
     }
@@ -37,7 +37,7 @@ public class MixinPlayerControllerMP {
     @Unique
     private void raven$fastMineApplyBreakDelay() {
         BedAura bedAura = ModuleManager.bedAura;
-        if (bedAura != null && bedAura.shouldOverrideFastMine() {
+        if (bedAura != null && bedAura.shouldOverrideFastMine()) {
             int delay = bedAura.getBreakDelayTicks();
             if (delay < 5) {
                 this.blockBreakCooldown = delay;
@@ -71,7 +71,7 @@ public class MixinPlayerControllerMP {
     private float fastMineScaleHardness(BlockState state, PlayerEntity player, Object world, BlockPos pos) {
         float hardness = state.calcBlockBreakingDelta(player, player.getWorld(), pos);
         BedAura bedAura = ModuleManager.bedAura;
-        if (bedAura != null && bedAura.shouldOverrideFastMine() {
+        if (bedAura != null && bedAura.shouldOverrideFastMine()) {
             return hardness * bedAura.getBreakSpeedMultiplier();
         }
         FastMine fm = ModuleManager.fastMine;

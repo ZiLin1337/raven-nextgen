@@ -51,7 +51,7 @@ public class BlockSearchComponent extends AbstractSearchListComponent {
     @Override
     protected void renderSelectedRows(Layout layout, float offsetPx, int firstRow, int end) {
         List<String> blocks = setting.getBlocks();
-        if (selectedRowsCache == null || selectedRowsCache.size() != blocks.size() {
+        if (selectedRowsCache == null || selectedRowsCache.size() != blocks.size()) {
             selectedRowsCache = new ArrayList<SelectedRowData>();
             for (String storageId : blocks) {
                 List<BlockSearchIndex.BlockEntry> variants = BlockSearchIndex.isWildcard(storageId) ? BlockSearchIndex.getVariants(BlockSearchIndex.getRegistryId(storageId)) : null;

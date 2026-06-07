@@ -122,10 +122,10 @@ public class KillAura extends Module {
     }
 
     public void onClientRotation(ClientRotationEvent e) {
-        if (ModuleManager.bedAura != null && ModuleManager.bedAura.shouldOverrideMouseOver() {
+        if (ModuleManager.bedAura != null && ModuleManager.bedAura.shouldOverrideMouseOver()) {
             return;
         }
-        if (!basicCondition() || !settingCondition() {
+        if (!basicCondition() || !settingCondition()) {
             setTarget(null);
             return;
         }
@@ -163,7 +163,7 @@ public class KillAura extends Module {
             }
         }
 
-        if (target != null && targetDistance <= attackRange.getInput() {
+        if (target != null && targetDistance <= attackRange.getInput()) {
             attackingEntity = target;
         } else {
             attackingEntity = null;
@@ -198,8 +198,8 @@ public class KillAura extends Module {
 
     
     public void onSetAttackTarget(LivingSetAttackTargetEvent e) {
-        if (e.entity != null && !hostileMobs.contains(e.entity) {
-            if (!(e.target instanceof PlayerEntity) || !e.target.getName().equals(mc.player.getName()) {
+        if (e.entity != null && !hostileMobs.contains(e.entity)) {
+            if (!(e.target instanceof PlayerEntity) || !e.target.getName().equals(mc.player.getName())) {
                 return;
             }
             if (Utils.getBedwarsStatus() == 2 && e.entity instanceof ZombiePiglinEntity) {
@@ -207,7 +207,7 @@ public class KillAura extends Module {
             }
             hostileMobs.add(e.entity);
         }
-        if (e.target == null && hostileMobs.contains(e.entity) {
+        if (e.target == null && hostileMobs.contains(e.entity)) {
             hostileMobs.remove(e.entity);
         }
     }
@@ -222,7 +222,7 @@ public class KillAura extends Module {
     }
 
     private void setTarget(Entity entity) {
-        if (!(entity instanceof LivingEntity) {
+        if (!(entity instanceof LivingEntity)) {
             target = null;
             attackingEntity = null;
             targetDistance = Double.MAX_VALUE;
@@ -237,7 +237,7 @@ public class KillAura extends Module {
         float fovValue = (float) fov.getInput();
 
         List<KillAuraTarget> candidates = new ArrayList<>();
-        for (Entity entity : mc.world.getEntities() {
+        for (Entity entity : mc.world.getEntities()) {
             Candidate candidate = getCandidateTarget(entity, maxRange, fovValue);
             if (candidate == null) {
                 continue;
@@ -249,14 +249,14 @@ public class KillAura extends Module {
             }
         }
 
-        if (prioritizeEnemies.isToggled() {
+        if (prioritizeEnemies.isToggled()) {
             List<KillAuraTarget> enemies = new ArrayList<>();
             for (KillAuraTarget candidate : candidates) {
                 if (candidate.isEnemy) {
                     enemies.add(candidate);
                 }
             }
-            if (!enemies.isEmpty() {
+            if (!enemies.isEmpty()) {
                 candidates = enemies;
             }
         }
@@ -271,7 +271,7 @@ public class KillAura extends Module {
             }
         }
 
-        if (!attackTargets.isEmpty() {
+        if (!attackTargets.isEmpty()) {
             KillAuraTarget selectedAttackTarget = selectAttackTarget(attackTargets);
             if (selectedAttackTarget != null) {
                 setTarget(selectedAttackTarget.entity);
@@ -280,7 +280,7 @@ public class KillAura extends Module {
             return;
         }
 
-        if (!candidates.isEmpty() {
+        if (!candidates.isEmpty()) {
             setTarget(candidates.get(0).entity);
             return;
         }
@@ -298,28 +298,28 @@ public class KillAura extends Module {
             if (Utils.isFriended(player) || player.deathTime != 0) {
                 return null;
             }
-            if (AntiBot.isBot(entity) || (ignoreTeammates.isToggled() && Utils.isTeammate(entity)) {
+            if (AntiBot.isBot(entity) || (ignoreTeammates.isToggled() && Utils.isTeammate(entity))) {
                 return null;
             }
-        } else if (entity instanceof PathAwareEntity && attackMobs.isToggled() {
+        } else if (entity instanceof PathAwareEntity && attackMobs.isToggled()) {
             PathAwareEntity creature = (PathAwareEntity) entity;
             if (creature.tasks == null || creature.isAIDisabled() || creature.deathTime != 0) {
                 return null;
             }
 
             String canonicalName = entity.getClass().getCanonicalName();
-            if (canonicalName == null || !canonicalName.startsWith("net.minecraft.entity.monster.") {
+            if (canonicalName == null || !canonicalName.startsWith("net.minecraft.entity.monster.")) {
                 return null;
             }
         } else {
             return null;
         }
 
-        if (entity.isInvisible() && !targetInvis.isToggled() {
+        if (entity.isInvisible() && !targetInvis.isToggled()) {
             return null;
         }
 
-        if (fovValue != 360.0f && !Utils.inFov(fovValue, entity) {
+        if (fovValue != 360.0f && !Utils.inFov(fovValue, entity)) {
             return null;
         }
 
@@ -332,13 +332,13 @@ public class KillAura extends Module {
     }
 
     private KillAuraTarget buildKillAuraTarget(LivingEntity entity, double distanceToBoundingBox, double maxRange) {
-        if (entity instanceof PathAwareEntity && attackMobs.isToggled() && !isHostile((PathAwareEntity) entity) {
+        if (entity instanceof PathAwareEntity && attackMobs.isToggled() && !isHostile((PathAwareEntity) entity)) {
             return null;
         }
 
         double multipointH = 100;
         double multipointV = 100;
-        if (!RotationUtils.hasValidAimPoint(entity, multipointH, multipointV, maxRange, aimThroughBlocks.isToggled(), aimThroughEntities.isToggled()) {
+        if (!RotationUtils.hasValidAimPoint(entity, multipointH, multipointV, maxRange, aimThroughBlocks.isToggled(), aimThroughEntities.isToggled())) {
             return null;
         }
 
@@ -393,7 +393,7 @@ public class KillAura extends Module {
     }
 
     private boolean isHostile(PathAwareEntity entityCreature) {
-        if (SkyWars.onlyAuraHostiles() {
+        if (SkyWars.onlyAuraHostiles()) {
             if (entityCreature instanceof GiantEntity) {
                 return false;
             }
@@ -406,15 +406,15 @@ public class KillAura extends Module {
             if (Utils.getBedwarsStatus() != 2) {
                 return true;
             }
-            if (!golems.containsKey(entityCreature.getEntityId()) {
+            if (!golems.containsKey(entityCreature.getEntityId())) {
                 double nearestDistance = -1;
                 ArmorStandEntity nearestArmorStand = null;
-                for (Entity entity : mc.world.getEntities() {
-                    if (!(entity instanceof ArmorStandEntity) {
+                for (Entity entity : mc.world.getEntities()) {
+                    if (!(entity instanceof ArmorStandEntity)) {
                         continue;
                     }
                     String stripped = Utils.stripString(entity.getDisplayName().getFormattedText());
-                    if (stripped.contains("[") && stripped.endsWith("]") {
+                    if (stripped.contains("[") && stripped.endsWith("]")) {
                         double distanceSq = entity.getDistanceSq(entityCreature.posX, entityCreature.posY, entityCreature.posZ);
                         if (distanceSq < nearestDistance || nearestDistance == -1) {
                             nearestDistance = distanceSq;
@@ -440,18 +440,18 @@ public class KillAura extends Module {
     }
 
     private boolean basicCondition() {
-        if (!Utils.nullCheck() {
+        if (!Utils.nullCheck()) {
             return false;
         }
         return !mc.player.isDead;
     }
 
     private boolean settingCondition() {
-        if (requireMouseDown.isToggled() && !Mouse.isButtonDown(0) {
+        if (requireMouseDown.isToggled() && !Mouse.isButtonDown(0)) {
             return false;
-        } else if (weaponOnly.isToggled() && !Utils.holdingWeapon() {
+        } else if (weaponOnly.isToggled() && !Utils.holdingWeapon()) {
             return false;
-        } else if (disableWhileMining.isToggled() && Utils.isMining() {
+        } else if (disableWhileMining.isToggled() && Utils.isMining()) {
             return false;
         } else if (disableInInventory.isToggled() && mc.currentScreen != null) {
             return false;
@@ -488,7 +488,7 @@ public class KillAura extends Module {
     }
 
     public void modifyMouseOverFromGetMouseOver(float partialTicks) {
-        if (!shouldOverrideMouseOver() {
+        if (!shouldOverrideMouseOver()) {
             return;
         }
 
@@ -511,13 +511,13 @@ public class KillAura extends Module {
         }
 
         Vec3d hitVec = inside ? (intercept == null ? eyes : intercept.hitVec) : intercept.hitVec;
-        if (!aimThroughBlocks.isToggled() {
+        if (!aimThroughBlocks.isToggled()) {
             HitResult blockHit = mc.world.rayTraceBlocks(eyes, hitVec, false, false, true);
             if (blockHit != null && blockHit.typeOfHit == HitResult.MovingObjectType.BLOCK) {
                 return;
             }
         }
-        if (!aimThroughEntities.isToggled() && RotationUtils.isPathBlockedByEntity(eyes, hitVec, attackingEntity) {
+        if (!aimThroughEntities.isToggled() && RotationUtils.isPathBlockedByEntity(eyes, hitVec, attackingEntity)) {
             return;
         }
 

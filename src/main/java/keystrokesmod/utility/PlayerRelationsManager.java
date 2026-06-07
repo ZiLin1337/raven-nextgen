@@ -67,7 +67,7 @@ public class PlayerRelationsManager implements IMinecraftInstance {
 
     public PlayerRelationsManager() {
         File directory = new File(mc.mcDataDir, "keystrokes");
-        if (!directory.exists() {
+        if (!directory.exists()) {
             directory.mkdirs();
         }
         this.file = new File(directory, "players.json");
@@ -79,7 +79,7 @@ public class PlayerRelationsManager implements IMinecraftInstance {
         active = true;
         middleClickFriends = false;
 
-        if (!file.exists() {
+        if (!file.exists()) {
             syncUtilsViews();
             return;
         }
@@ -91,10 +91,10 @@ public class PlayerRelationsManager implements IMinecraftInstance {
                 return;
             }
 
-            if (root.has("middleClickFriends") {
+            if (root.has("middleClickFriends")) {
                 middleClickFriends = root.get("middleClickFriends").getAsBoolean();
             }
-            if (root.has("active") {
+            if (root.has("active")) {
                 active = root.get("active").getAsBoolean();
             }
 
@@ -134,7 +134,7 @@ public class PlayerRelationsManager implements IMinecraftInstance {
 
     public boolean addRelation(RelationType relationType, String name) {
         String normalized = normalize(name);
-        if (normalized.isEmpty() {
+        if (normalized.isEmpty()) {
             return false;
         }
 
@@ -156,7 +156,7 @@ public class PlayerRelationsManager implements IMinecraftInstance {
 
     public boolean removeRelation(RelationType relationType, String name) {
         String normalized = normalize(name);
-        if (normalized.isEmpty() {
+        if (normalized.isEmpty()) {
             return false;
         }
 
@@ -171,7 +171,7 @@ public class PlayerRelationsManager implements IMinecraftInstance {
 
     public void clearRelation(RelationType relationType) {
         LinkedHashMap<String, String> map = relationType == RelationType.FRIEND ? friends : enemies;
-        if (map.isEmpty() {
+        if (map.isEmpty()) {
             return;
         }
 
@@ -194,7 +194,7 @@ public class PlayerRelationsManager implements IMinecraftInstance {
     public List<PlayerEntry> getEntries(RelationType relationType) {
         LinkedHashMap<String, String> map = getMap(relationType);
         List<PlayerEntry> entries = new ArrayList<PlayerEntry>(map.size());
-        for (Map.Entry<String, String> entry : map.entrySet() {
+        for (Map.Entry<String, String> entry : map.entrySet()) {
             entries.add(new PlayerEntry(entry.getKey(), entry.getValue()));
         }
         return entries;
@@ -230,7 +230,7 @@ public class PlayerRelationsManager implements IMinecraftInstance {
 
     public void refreshDisplayName(String name) {
         String normalized = normalize(name);
-        if (normalized.isEmpty() {
+        if (normalized.isEmpty()) {
             return;
         }
 
@@ -242,12 +242,12 @@ public class PlayerRelationsManager implements IMinecraftInstance {
     }
 
     private boolean refreshDisplayName(LinkedHashMap<String, String> map, String normalized, String displayName) {
-        if (!map.containsKey(normalized) {
+        if (!map.containsKey(normalized)) {
             return false;
         }
 
         String next = normalizeDisplayName(displayName, normalized);
-        if (next.equals(map.get(normalized)) {
+        if (next.equals(map.get(normalized))) {
             return false;
         }
 
@@ -272,10 +272,10 @@ public class PlayerRelationsManager implements IMinecraftInstance {
     private void syncRelationshipsModuleState() {
         if (ModuleManager.relationships != null) {
             ModuleManager.relationships.middleClickFriends.setEnabled(middleClickFriends);
-            if (active && !ModuleManager.relationships.isEnabled() {
+            if (active && !ModuleManager.relationships.isEnabled()) {
                 ModuleManager.relationships.enable();
             }
-            else if (!active && ModuleManager.relationships.isEnabled() {
+            else if (!active && ModuleManager.relationships.isEnabled()) {
                 ModuleManager.relationships.disable();
             }
         }
@@ -324,26 +324,26 @@ public class PlayerRelationsManager implements IMinecraftInstance {
     }
 
     private void loadEntries(JsonElement element, LinkedHashMap<String, String> target) {
-        if (element == null || !element.isJsonArray() {
+        if (element == null || !element.isJsonArray()) {
             return;
         }
 
         JsonArray array = element.getAsJsonArray();
         for (JsonElement entryElement : array) {
-            if (entryElement == null || entryElement.isJsonNull() {
+            if (entryElement == null || entryElement.isJsonNull()) {
                 continue;
             }
 
-            if (entryElement.isJsonPrimitive() {
+            if (entryElement.isJsonPrimitive()) {
                 String raw = entryElement.getAsString();
                 String normalized = normalize(raw);
-                if (!normalized.isEmpty() {
+                if (!normalized.isEmpty()) {
                     target.put(normalized, normalizeDisplayName(raw, normalized));
                 }
                 continue;
             }
 
-            if (!entryElement.isJsonObject() {
+            if (!entryElement.isJsonObject()) {
                 continue;
             }
 
@@ -351,7 +351,7 @@ public class PlayerRelationsManager implements IMinecraftInstance {
             String key = entryObject.has("key") ? entryObject.get("key").getAsString() : "";
             String displayName = entryObject.has("displayName") ? entryObject.get("displayName").getAsString() : key;
             String normalized = normalize(key);
-            if (!normalized.isEmpty() {
+            if (!normalized.isEmpty()) {
                 target.put(normalized, normalizeDisplayName(displayName, normalized));
             }
         }
@@ -359,7 +359,7 @@ public class PlayerRelationsManager implements IMinecraftInstance {
 
     private JsonArray toJsonArray(LinkedHashMap<String, String> map) {
         JsonArray array = new JsonArray();
-        for (Map.Entry<String, String> entry : map.entrySet() {
+        for (Map.Entry<String, String> entry : map.entrySet()) {
             JsonObject object = new JsonObject();
             object.addProperty("key", entry.getKey());
             object.addProperty("displayName", entry.getValue());

@@ -68,7 +68,7 @@ public abstract class AbstractItemSearchComponent<T extends ItemListSetting> ext
             ItemSearchIndex.GroupedItemResult result = cachedResults.get(i);
             float rowTop = layout.contentTop - offsetPx + i * ROW_HEIGHT;
             int bg = i == rowUnderMouse ? 0xFF2A2A3C : ((i % 2 == 0) ? 0xFF1A1A2A : 0xFF1E1E2E);
-            if (result.isSingleVariant() {
+            if (result.isSingleVariant()) {
                 ItemSearchIndex.ItemEntry single = result.variants.get(0);
                 renderStandardRow(single.displayName, single.toItemStack(), layout.left, layout.right, rowTop, bg, false);
             }
