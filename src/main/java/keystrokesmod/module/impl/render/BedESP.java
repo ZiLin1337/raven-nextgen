@@ -229,7 +229,7 @@ public class BedESP extends Module {
             }
         }
 
-        for (Long footKey : new ArrayList<>(defenseWatchRegions.keySet())) {
+        for (Long footKey : new ArrayList<>(defenseWatchRegions.keySet() {
             if (!activeFeet.contains(footKey)) {
                 unregisterDefenseWatch(footKey);
             }
@@ -361,8 +361,8 @@ public class BedESP extends Module {
     }
 
     private static boolean isBedFoot(BlockState st) {
-        return st != null && st.getBlockState().getBlock()) instanceof BedBlock
-                && st.getValue((IProperty) BedBlock.PART) == BedBlock.EnumPartType.FOOT;
+        return st != null && st.getBlock() instanceof BedBlock
+                && st.getValue((Property) BedBlock.PART) == BedBlockPart.FOOT;
     }
 
     private boolean stillHasRenderableBed(BlockPos[] pair) {
@@ -371,8 +371,8 @@ public class BedESP extends Module {
         }
         BlockState a = mc.world.getBlockState(pair[0]);
         BlockState b = mc.world.getBlockState(pair[1]);
-        return a != null && a.getBlockState().getBlock()) instanceof BedBlock
-                || b != null && b.getBlockState().getBlock()) instanceof BedBlock;
+        return a != null && a.getBlock() instanceof BedBlock
+                || b != null && b.getBlock() instanceof BedBlock;
     }
 
     private boolean isLiveBedPair(BlockPos[] pair) {
@@ -381,7 +381,7 @@ public class BedESP extends Module {
         }
         BlockState footState = mc.world.getBlockState(pair[0]);
         BlockState headState = mc.world.getBlockState(pair[1]);
-        return isBedFoot(footState) && headState != null && headState.getBlockState().getBlock()) instanceof BedBlock;
+        return isBedFoot(footState) && headState != null && headState.getBlock() instanceof BedBlock;
     }
 
     private static Box bedWorldBounds(BlockPos foot, BlockPos head, float height) {
@@ -401,10 +401,10 @@ public class BedESP extends Module {
 
     private BlockPos[] footAndHead(BlockPos foot) {
         BlockState st = mc.world.getBlockState(foot);
-        if (!(st.getBlockState().getBlock()) instanceof BedBlock)) {
+        if (!(st.getBlock() instanceof BedBlock)) {
             return null;
         }
-        Direction facing = (Direction) st.getValue((IProperty) BedBlock.FACING);
+        Direction facing = (Direction) st.getValue((Property) BedBlock.FACING);
         return new BlockPos[]{foot, foot.offset(facing)};
     }
 
@@ -432,7 +432,7 @@ public class BedESP extends Module {
             } else {
                 axisAlignedBB = new Box(x, y, z, x + 2.0, y + height, z + 1.0);
             }
-        } else if (blocks[0].getZ() > blocks[1].getZ()) {
+        } else if (blocks[0].getZ() > blocks[1].getZ() {
             axisAlignedBB = new Box(x, y, z - 1.0, x + 1.0, y + height, z + 1.0);
         } else {
             axisAlignedBB = new Box(x, y, z, x + 1.0, y + height, z + 2.0);
@@ -464,7 +464,7 @@ public class BedESP extends Module {
         for (BlockPos bedPart : pair) {
             for (Direction side : Direction.values()) {
                 BlockPos neighbor = bedPart.offset(side);
-                Block neighborBlock = mc.world.getBlockState(neighbor).getBlockState().getBlock());
+                Block neighborBlock = mc.world.getBlockState(neighbor).getBlock();
                 if (neighborBlock == Blocks.AIR) {
                     return true;
                 }
@@ -683,7 +683,7 @@ public class BedESP extends Module {
 
     private boolean accumulateDefenseBlock(BlockPos pos, Map<DefenseBlockKey, Integer> layerCounts, Map<Integer, DefenseBlockKey> resolvedBlockKeys) {
         BlockState state = mc.world.getBlockState(pos);
-        if (state == null || state.getBlockState().getBlock()) == Blocks.AIR) {
+        if (state == null || state.getBlock() == Blocks.AIR) {
             return true;
         }
 
@@ -826,7 +826,7 @@ public class BedESP extends Module {
         LayerOffsets[] layers = getLayerOffsets(foot, head);
         long footKey = foot.toLong();
         if (layers == null) {
-            defenseWatchRegions.put(footKey, new DefenseWatchRegion(head.toLong(), Collections.<Long>emptySet(), Collections.<Long>emptySet()));
+            defenseWatchRegions.put(footKey, new DefenseWatchRegion(head.toLong(), Collections.<Long>emptySet(), Collections.<Long>emptySet());
             return;
         }
 
@@ -990,7 +990,7 @@ public class BedESP extends Module {
             if (stack == null || stack.getItem() == null) {
                 sprite = resolveBlockSprite(state);
                 if (sprite == null) {
-                    stack = fallbackRenderStack(state.getBlockState().getBlock()));
+                    stack = fallbackRenderStack(state.getBlock();
                 } else {
                     stack = null;
                 }
@@ -1009,8 +1009,8 @@ public class BedESP extends Module {
                 return Item.getIdFromItem(stack.getItem()) + ":" + stack.getMetadata();
             }
 
-            Object registryName = Block.blockRegistry.getNameForObject(state.getBlockState().getBlock()));
-            return registryName != null ? registryName.toString() : Integer.toString(Block.getIdFromBlock(state.getBlockState().getBlock())));
+            Object registryName = Registries.BLOCK.getNameForObject(state.getBlock();
+            return registryName != null ? registryName.toString() : Integer.toString(Registries.BLOCK.getRawId(state.getBlock();
         }
 
         private static String getSafeDisplayName(ItemStack stack, String fallback) {
@@ -1072,7 +1072,7 @@ public class BedESP extends Module {
                 return null;
             }
 
-            Block block = state.getBlockState().getBlock());
+            Block block = state.getBlock();
             if (block == Blocks.obsidian) {
                 return DIAMOND_PICKAXE;
             }
@@ -1096,7 +1096,7 @@ public class BedESP extends Module {
     }
 
     private static ItemStack resolveBlockItemStack(BlockState state, BlockPos pos, World world) {
-        Block block = state.getBlockState().getBlock());
+        Block block = state.getBlock();
         try {
             Item item = block.getItem(world, pos);
             if (item == null) {
@@ -1127,7 +1127,7 @@ public class BedESP extends Module {
             return null;
         }
 
-        Block block = state.getBlockState().getBlock());
+        Block block = state.getBlock();
         if (block == Blocks.water || block == Blocks.flowing_water) {
             return Blocks.water.getDefaultState();
         }
@@ -1142,14 +1142,14 @@ public class BedESP extends Module {
     }
 
     private static String getFallbackStateName(BlockState state) {
-        String localizedName = state.getBlockState().getBlock()).getLocalizedName();
+        String localizedName = state.getBlock().getName();
         if (localizedName != null && !localizedName.isEmpty()) {
             return localizedName;
         }
 
-        Object registryName = Block.blockRegistry.getNameForObject(state.getBlockState().getBlock()));
+        Object registryName = Registries.BLOCK.getNameForObject(state.getBlock();
         if (registryName != null) {
-            int meta = state.getBlockState().getBlock()).getMetaFromState(state);
+            int meta = state.getBlock().getMetaFromState(state);
             return meta != 0 ? registryName + ":" + meta : registryName.toString();
         }
 

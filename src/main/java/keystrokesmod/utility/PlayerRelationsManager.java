@@ -84,7 +84,7 @@ public class PlayerRelationsManager implements IMinecraftInstance {
             return;
         }
 
-        try (FileReader reader = new FileReader(file)) {
+        try (FileReader reader = new FileReader(file) {
             JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
             if (root == null) {
                 syncUtilsViews();
@@ -195,7 +195,7 @@ public class PlayerRelationsManager implements IMinecraftInstance {
         LinkedHashMap<String, String> map = getMap(relationType);
         List<PlayerEntry> entries = new ArrayList<PlayerEntry>(map.size());
         for (Map.Entry<String, String> entry : map.entrySet()) {
-            entries.add(new PlayerEntry(entry.getKey(), entry.getValue()));
+            entries.add(new PlayerEntry(entry.getKey(), entry.getValue());
         }
         return entries;
     }
@@ -247,7 +247,7 @@ public class PlayerRelationsManager implements IMinecraftInstance {
         }
 
         String next = normalizeDisplayName(displayName, normalized);
-        if (next.equals(map.get(normalized))) {
+        if (next.equals(map.get(normalized) {
             return false;
         }
 
@@ -314,7 +314,7 @@ public class PlayerRelationsManager implements IMinecraftInstance {
         root.add("friends", toJsonArray(friends));
         root.add("enemies", toJsonArray(enemies));
 
-        try (FileWriter writer = new FileWriter(file)) {
+        try (FileWriter writer = new FileWriter(file) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(root, writer);
         }

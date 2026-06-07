@@ -160,12 +160,12 @@ public class RenderUtils1214 {
     }
     
     // Draw 2D rect using DrawContext
-    public static void DrawContextHelper.drawRect(DrawContext context, int x1, int y1, int x2, int y2, int color) {
+    public static void drawRect(DrawContext context, int x1, int y1, int x2, int y2, int color) {
         context.fill(x1, y1, x2, y2, color);
     }
     
     // Draw gradient rect
-    public static void DrawContextHelper.drawGradientRect(DrawContext context, int x1, int y1, int x2, int y2, int color1, int color2) {
+    public static void drawGradientRect(DrawContext context, int x1, int y1, int x2, int y2, int color1, int color2) {
         context.fillGradient(x1, y1, x2, y2, color1, color2);
     }
     

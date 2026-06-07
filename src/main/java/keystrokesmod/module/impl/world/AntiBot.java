@@ -75,7 +75,7 @@ public class AntiBot extends Module {
         if (entityPlayer.getName().isEmpty()) {
             return true;
         }
-        if (tablist.isToggled() && !getTablist().contains(entityPlayer.getName())) {
+        if (tablist.isToggled() && !getTablist().contains(entityPlayer.getName() {
             return true;
         }
         if (entityPlayer.getHealth() != 20.0f && entityPlayer.getName().startsWith("§c")) {
@@ -104,7 +104,7 @@ public class AntiBot extends Module {
                 if (entityPlayer.getName().contains(" ")) {
                     return true;
                 }
-            } else if (entityPlayer.isInvisible()) {
+            } else if (entityPlayer.isInvisible() {
                 String unformattedText = entityPlayer.getDisplayName().getUnformattedText();
                 if (unformattedText.length() >= 3 && unformattedText.charAt(0) == '§' && unformattedText.charAt(1) == 'c') {
                     return true;

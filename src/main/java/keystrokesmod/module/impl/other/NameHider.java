@@ -121,7 +121,7 @@ public class NameHider extends Module {
     }
 
     public static Text getPlayerDisplayName(PlayerEntity player, Text original) {
-        if (original == null || !shouldProcessText(original.getString())) {
+        if (original == null || !shouldProcessText(original.getString() {
             return original;
         }
 
@@ -162,7 +162,7 @@ public class NameHider extends Module {
 
     public static void setFakeName(String name) {
         String normalized = normalizeFakeName(name);
-        if (fakeNameSetting != null && !normalized.equals(fakeNameSetting.getText())) {
+        if (fakeNameSetting != null && !normalized.equals(fakeNameSetting.getText() {
             fakeNameSetting.setText(normalized);
             return;
         }
@@ -224,7 +224,7 @@ public class NameHider extends Module {
         HideAllCache cache = buildHideAllCache(selfNames);
         if (!cache.visibleNamesByKey.equals(cachedVisibleNamesByKey)
             || !cache.aliasNumbers.equals(cachedAliasNumbers)
-            || !cache.replacements.equals(cachedOtherNameReplacements)) {
+            || !cache.replacements.equals(cachedOtherNameReplacements) {
             cachedVisibleNamesByKey = cache.visibleNamesByKey;
             cachedAliasNumbers = cache.aliasNumbers;
             cachedOtherNameReplacements = cache.replacements;
@@ -248,7 +248,7 @@ public class NameHider extends Module {
 
         LinkedHashMap<String, List<String>> visibleNamesByKey = new LinkedHashMap<String, List<String>>();
         for (Map.Entry<String, LinkedHashSet<String>> entry : targets.entrySet()) {
-            visibleNamesByKey.put(entry.getKey(), sortNames(entry.getValue()));
+            visibleNamesByKey.put(entry.getKey(), sortNames(entry.getValue());
         }
 
         LinkedHashMap<String, Integer> aliasNumbers = assignAliasNumbers(visibleNamesByKey.keySet());
@@ -312,7 +312,7 @@ public class NameHider extends Module {
 
     private static void addTargetName(Map<String, LinkedHashSet<String>> targets, Set<String> protectedNames, String key, String candidate) {
         String normalized = sanitizeName(candidate);
-        if (key == null || normalized.isEmpty() || protectedNames.contains(normalizeName(normalized))) {
+        if (key == null || normalized.isEmpty() || protectedNames.contains(normalizeName(normalized) {
             return;
         }
 

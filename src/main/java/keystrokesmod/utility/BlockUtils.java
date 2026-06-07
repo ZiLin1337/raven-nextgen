@@ -56,7 +56,7 @@ public class BlockUtils implements IMinecraftInstance {
             return false;
         }
         if (!mc.player.isSneaking() || mc.player.getHeldItem() == null) {
-            return isInteractable(BlockUtils.getBlockState().getBlock()mv.getBlockPos()));
+            return isInteractable(BlockUtils.getBlockState(mv).getBlockPos());
         }
         return false;
     }
@@ -129,15 +129,15 @@ public class BlockUtils implements IMinecraftInstance {
     }
 
     public static Block getBlock(BlockPos blockPos) {
-        return getBlockState(blockPos).getBlockState().getBlock());
+        return getBlockState(blockPos).getBlock();
     }
 
     public static Block getBlock(double x, double y, double z) {
-        return getBlockState(new BlockPos(x, y, z)).getBlockState().getBlock());
+        return getBlockState(new BlockPos(x, y, z)).getBlock();
     }
 
     public static Block getBlock(Vec3d position) {
-        return getBlockState(new BlockPos(position.xCoord, position.yCoord, position.zCoord)).getBlockState().getBlock());
+        return getBlockState(new BlockPos(position.xCoord, position.yCoord, position.zCoord)).getBlock();
     }
 
     public static BlockState getBlockState(BlockPos blockPos) {
@@ -150,7 +150,7 @@ public class BlockUtils implements IMinecraftInstance {
     public static Box getBlockSelectionBox(BlockPos pos) {
         if (mc.world == null || pos == null) return null;
         BlockState state = mc.world.getBlockState(pos);
-        Block block = state.getBlockState().getBlock());
+        Block block = state.getBlock();
         block.setBlockBoundsBasedOnState(mc.world, pos);
         Box box = block.getSelectedBoundingBox(mc.world, pos);
         if (box == null) {
@@ -165,7 +165,7 @@ public class BlockUtils implements IMinecraftInstance {
             return null;
         }
         BlockState st = mc.world.getBlockState(pos);
-        Block block = st.getBlockState().getBlock());
+        Block block = st.getBlock();
         Box bb = block.getCollisionShape(mc.world, pos, st);
         if (bb == null) {
             bb = block.getSelectedBoundingBox(mc.world, pos);
@@ -182,7 +182,7 @@ public class BlockUtils implements IMinecraftInstance {
             return null;
         }
         BlockState st = mc.world.getBlockState(pos);
-        Block block = st.getBlockState().getBlock());
+        Block block = st.getBlock();
         Box bb = block.getCollisionShape(mc.world, pos, st);
         if (bb == null) {
             bb = block.getSelectedBoundingBox(mc.world, pos);
@@ -320,10 +320,10 @@ public class BlockUtils implements IMinecraftInstance {
     public static boolean hasAirNeighbor(BlockPos pos, BlockPos... exclude) {
         for (Direction f : Direction.values()) {
             BlockPos n = pos.offset(f);
-            if (mc.world.getBlockState(n).getBlockState().getBlock()) != Blocks.AIR) continue;
+            if (mc.world.getBlockState(n).getBlock() != Blocks.AIR) continue;
             boolean excluded = false;
             for (BlockPos ex : exclude) {
-                if (n.equals(ex)) { excluded = true; break; }
+                if (n.equals(ex) { excluded = true; break; }
             }
             if (!excluded) return true;
         }
@@ -418,7 +418,7 @@ public class BlockUtils implements IMinecraftInstance {
     private static HitResult getBlockCollisionHit(int x, int y, int z, Vec3d start, Vec3d end) {
         BlockPos pos = new BlockPos(x, y, z);
         BlockState state = mc.world.getBlockState(pos);
-        Block block = state.getBlockState().getBlock());
+        Block block = state.getBlock();
         if (!block.canCollideCheck(state, false)) return null;
         return block.collisionRayTrace(mc.world, pos, start, end);
     }

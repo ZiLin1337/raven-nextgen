@@ -595,7 +595,7 @@ public class InvManager extends Module {
 
     private boolean canMergeChestStackIntoInventory(ItemStack chestStack, InventoryData playerData) {
         Item chestItem = chestStack.getItem();
-        if (!isProtectedInventoryItem(chestStack) && !(chestItem instanceof ItemPotion && !isBadPotion(chestStack))) {
+        if (!isProtectedInventoryItem(chestStack) && !(chestItem instanceof ItemPotion && !isBadPotion(chestStack) {
             return false;
         }
 
@@ -619,7 +619,7 @@ public class InvManager extends Module {
 
     private int getDefenceLevel(ItemStack itemStack) {
         return ((ItemArmor)itemStack.getItem()).damageReduceAmount
-                + EnchantmentHelper.getEnchantmentModifierDamage(new ItemStack[] { itemStack }, DamageSource.generic);
+                + EnchantmentHelper.getEnchantmentModifierDamagenew ItemStack[] ) { itemStack }, DamageSource.generic);
     }
 
     private void updateCurrentArmor() {
@@ -663,7 +663,7 @@ public class InvManager extends Module {
                     || desc.contains("moveSlowdown")
                     || desc.contains("weakness")
                     || desc.contains("harm")
-                    || desc.contains("digSlowDown")) {
+                    || desc.contains("digSlowDown") {
                 return true;
             }
         }
@@ -694,7 +694,7 @@ public class InvManager extends Module {
             return playerData.bestShovel >= 0 && efficiency <= playerData.bestShovel;
         }
 
-        if (isProtectedInventoryItem(stack) || (item instanceof ItemPotion && !isBadPotion(stack))) {
+        if (isProtectedInventoryItem(stack) || (item instanceof ItemPotion && !isBadPotion(stack) {
             return false;
         }
 
@@ -1727,7 +1727,7 @@ public class InvManager extends Module {
 
     private boolean hasMatchingStack(InventorySnapshot snapshot, String storageId) {
         for (int inventoryIndex = 0; inventoryIndex < InventorySnapshot.INVENTORY_SIZE; inventoryIndex++) {
-            if (ItemSearchIndex.matches(storageId, snapshot.getSlot(inventoryIndex))) {
+            if (ItemSearchIndex.matches(storageId, snapshot.getSlot(inventoryIndex) {
                 return true;
             }
         }

@@ -41,11 +41,11 @@ public final class BlockListHighlightMatcher implements BlockHighlightMatcher {
         if (state == null) {
             return false;
         }
-        Block block = state.getBlockState().getBlock());
+        Block block = state.getBlock();
         if (block == null) {
             return false;
         }
-        Object nameObj = Block.blockRegistry.getNameForObject(block);
+        Object nameObj = Registries.BLOCK.getNameForObject(block);
         if (nameObj == null) {
             return false;
         }

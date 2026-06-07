@@ -78,7 +78,7 @@ public class SafeWalk extends Module {
                 this.setSneakState(false);
             }
         }
-        if (this.isSneaking && (mc.player.capabilities.isFlying || !settingsMet())) {
+        if (this.isSneaking && (mc.player.capabilities.isFlying || !settingsMet() {
             this.setSneakState(false);
         }
     }
@@ -111,7 +111,7 @@ public class SafeWalk extends Module {
 
     public static boolean canSafeWalk() {
         if (ModuleManager.safeWalk != null && ModuleManager.safeWalk.isEnabled()) {
-            if (disableOnForward.isToggled() && GLFW.glfwGetKey(MinecraftClient.getInstance().getWindow().getHandle(),mc.options.keyBindForward.getKeyCode())) {
+            if (disableOnForward.isToggled() && GLFW.glfwGetKey(MinecraftClient.getInstance().getWindow().getHandle(),mc.options.keyBindForward.getKeyCode() {
                 return false;
             }
             if (pitchCheck.isToggled() && mc.player.rotationPitch < 70) {
@@ -135,7 +135,7 @@ public class SafeWalk extends Module {
                 return false;
             }
         }
-        if (disableOnForward.isToggled() && GLFW.glfwGetKey(MinecraftClient.getInstance().getWindow().getHandle(),mc.options.keyBindForward.getKeyCode())) {
+        if (disableOnForward.isToggled() && GLFW.glfwGetKey(MinecraftClient.getInstance().getWindow().getHandle(),mc.options.keyBindForward.getKeyCode() {
             return false;
         }
         if (pitchCheck.isToggled() && mc.player.rotationPitch < 70.0f) {

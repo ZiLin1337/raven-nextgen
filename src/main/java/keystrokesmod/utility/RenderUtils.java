@@ -233,7 +233,7 @@ public class RenderUtils implements IMinecraftInstance {
         return dx * dx + dy * dy + dz * dz <= maxDistSq;
     }
 
-    public static void DrawContextHelper.drawRect(double left, double top, double right, double bottom, int color) {
+    public static void drawRect(double left, double top, double right, double bottom, int color) {
         float f3 = (color >> 24 & 255) / 255.0F;
         float f = (color >> 16 & 255) / 255.0F;
         float f1 = (color >> 8 & 255) / 255.0F;
@@ -538,7 +538,7 @@ public class RenderUtils implements IMinecraftInstance {
         RenderSystem.disableDepthTest();
         RenderSystem.depthMask(false);
 
-        if (state.getBlock()) instanceof StairsBlock) {
+        if (state.getBlock() instanceof StairsBlock) {
             StairsUtils.drawStairs(pos, state, box, null, vx, vy, vz, overlayColor, outlineColor, outlineColor, outlineColor, shade, outline, (b, face, os, oe, ls, le, ov, ol) -> drawBoxFace(b, face, overlayColor, outlineColor, ov, ol));
         } else {
             Box renderBox = box.offset(-vx, -vy, -vz);
@@ -632,7 +632,7 @@ public class RenderUtils implements IMinecraftInstance {
                     LivingEntity en = (LivingEntity) e;
                     double health = en.getHealth() / en.getMaxHealth();
                     int barHeight = (int) (74.0D * health);
-                    int healthColor = health < 0.3D ? Color.red.getRGB() : (health < 0.5D ? Color.orange.getRGB() : (health < 0.7D ? Color.yellow.getRGB() : Color.green.getRGB()));
+                    int healthColor = health < 0.3D ? Color.red.getRGB() : (health < 0.5D ? Color.orange.getRGB() : (health < 0.7D ? Color.yellow.getRGB() : Color.green.getRGB());
                     RenderSystem.translate(x, y - 0.2D, z);
                     RenderSystem.rotate(-mc.getEntityRenderDispatcher().camera.getYaw(), 0.0D, 1.0D, 0.0D);
                     RenderSystem.disableDepth();
@@ -910,7 +910,7 @@ public class RenderUtils implements IMinecraftInstance {
         RenderSystem.getModelViewStack().popMatrix();
     }
 
-    public static void DrawContextHelper.drawGradientRect(int left, int top, int right, int bottom, int startColor, int endColor) {
+    public static void drawGradientRect(int left, int top, int right, int bottom, int startColor, int endColor) {
         int j;
         if (left < right) {
             j = left;
@@ -980,7 +980,7 @@ public class RenderUtils implements IMinecraftInstance {
 
     }
 
-    public static void DrawContextHelper.drawCircle(double x, double y, double z, double radius, int sides, float lineWidth, int color, boolean chroma) {
+    public static void drawCircle(double x, double y, double z, double radius, int sides, float lineWidth, int color, boolean chroma) {
         float a = (float) (color >> 24 & 255) / 255.0F;
         float r = (float) (color >> 16 & 255) / 255.0F;
         float g = (float) (color >> 8 & 255) / 255.0F;
@@ -1723,7 +1723,7 @@ public class RenderUtils implements IMinecraftInstance {
     }
 
     public static Identifier buildWhiteMaskedTexture(String resourcePath, String registryName, Identifier fallback) {
-        try (InputStream stream = Raven.class.getResourceAsStream(resourcePath)) {
+        try (InputStream stream = Raven.class.getResourceAsStream(resourcePath) {
             if (stream == null) return fallback;
             BufferedImage src = ImageIO.read(stream);
             int w = src.getWidth(), h = src.getHeight();

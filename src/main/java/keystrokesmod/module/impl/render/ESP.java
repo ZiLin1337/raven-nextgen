@@ -14,7 +14,7 @@ public class ESP extends Module {
 
     public ESP() {
         super("ESP", category.render);
-        this.registerSetting(mode = new SliderSetting("Mode", 0, new String[]{"Box", "2D", "Mixed"}));
+        this.registerSettingmode = new SliderSetting("Mode", 0, new String[]) {"Box", "2D", "Mixed"}));
     }
 
     public void onRenderWorld(MatrixStack matrices) {

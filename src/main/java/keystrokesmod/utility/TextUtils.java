@@ -36,7 +36,7 @@ public final class TextUtils {
                 continue;
             }
 
-            if (matchesAtIgnoreCase(input, target, index) && hasNameBoundaries(input, index, target.length())) {
+            if (matchesAtIgnoreCase(input, target, index) && hasNameBoundaries(input, index, target.length() {
                 output.append(replacement);
                 output.append(formatting.asString());
                 index += target.length();

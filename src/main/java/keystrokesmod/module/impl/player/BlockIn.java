@@ -192,7 +192,7 @@ public class BlockIn extends Module {
             if (hitAt != null && hitSide != null && placeAt != null) {
                 if (mc.interactionManager.onPlayerRightClick(
                         mc.player, mc.world, mc.player.getHeldItem(),
-                        hitAt, hitSide, placeAt)) {
+                        hitAt, hitSide, placeAt) {
                     mc.player.swingItem();
                 }
             }
@@ -319,7 +319,7 @@ public class BlockIn extends Module {
             if (!(s.getItem() instanceof BlockItem)) continue;
             if (ignoreBlocksToggle.isToggled() && ignoredBlocks.matches(s)) continue;
 
-            Block block = ((BlockItem) s.getItem()).getBlockState().getBlock());
+            Block block = ((BlockItem) s.getItem()).getBlock();
             float score = BlockUtils.getFistBreakTicks(block);
 
             if (preferStrong ? score > bestScore : score < bestScore) {
@@ -379,7 +379,7 @@ public class BlockIn extends Module {
 
                     BlockPos bp = new BlockPos(x, y, z);
                     if (BlockUtils.replaceable(bp)) continue;
-                    Block block = BlockUtils.getBlockState().getBlock()bp);
+                    Block block = BlockUtils.getBlockState(bp);
                     if (BlockUtils.isInteractable(block) || block instanceof BlockFence || block instanceof BlockWall) continue;
 
                     double d2 = BlockUtils.dist2PointAABB(eye, bp);
@@ -448,7 +448,7 @@ public class BlockIn extends Module {
             Direction face = mop.sideHit;
             if (hitBlock.equals(targetCell) && hitBlock.getY() >= minY
                     && !(face == Direction.DOWN && byY == minY)
-                    && BlockUtils.canPlaceBlockOnSide(held, hitBlock, face)) {
+                    && BlockUtils.canPlaceBlockOnSide(held, hitBlock, face) {
                 return new AimResult(hitBlock, face, c.yaw, c.pitch);
             }
         }
@@ -556,7 +556,7 @@ public class BlockIn extends Module {
         double insetTop = 1 - GRID_INSET - 1e-3;
         double insetBot = GRID_INSET + 1e-3;
 
-        ArrayList<PlacementCandidate> cands = new ArrayList<>(Math.max(16, goals.size() * 6 * (GRID_N + 1) * (GRID_N + 1)));
+        ArrayList<PlacementCandidate> cands = new ArrayList<>(Math.max(16, goals.size() * 6 * (GRID_N + 1) * (GRID_N + 1));
 
         for (BlockPos g : goals) {
             for (SupportOffset s : SUPPORTS) {

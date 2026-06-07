@@ -98,7 +98,7 @@ public class Manager extends Module {
     }
 
     private boolean updateSettingFile() {
-        return set("enable-http-requests", String.valueOf(enableHttpRequests.isToggled())) & set("enable-websockets", String.valueOf(enableWebSockets.isToggled()));
+        return set("enable-http-requests", String.valueOf(enableHttpRequests.isToggled())) & set("enable-websockets", String.valueOf(enableWebSockets.isToggled());
     }
 
     private void ensureConfigFileExists() throws IOException {

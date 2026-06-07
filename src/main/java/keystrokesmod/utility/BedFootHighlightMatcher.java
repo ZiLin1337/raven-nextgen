@@ -9,7 +9,7 @@ public final class BedFootHighlightMatcher implements BlockHighlightMatcher {
 
     @Override
     public boolean matchesBlock(BlockState state) {
-        return state != null && state.getBlockState().getBlock()) instanceof BedBlock;
+        return state != null && state.getBlock() instanceof BedBlock;
     }
 
     @Override
@@ -17,6 +17,6 @@ public final class BedFootHighlightMatcher implements BlockHighlightMatcher {
         if (!matchesBlock(state)) {
             return false;
         }
-        return state.getValue((IProperty) BedBlock.PART) == BedBlock.EnumPartType.FOOT;
+        return state.getValue((Property) BedBlock.PART) == BedBlockPart.FOOT;
     }
 }

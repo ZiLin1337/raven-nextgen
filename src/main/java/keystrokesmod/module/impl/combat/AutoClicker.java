@@ -168,7 +168,7 @@ public class AutoClicker extends Module {
                 else if (mc.objectMouseOver != null) {
                 BlockPos pos = mc.objectMouseOver.getBlockPos();
                 if (pos != null) {
-                    Block block = mc.world.getBlockState(pos).getBlockState().getBlock());
+                    Block block = mc.world.getBlockState(pos).getBlock();
                     if (block != Blocks.AIR && !(block instanceof FluidBlock)) {
                         if (!this.isHoldingBlockBreak) {
                             KeyBinding.setKeyBindState(key, true);

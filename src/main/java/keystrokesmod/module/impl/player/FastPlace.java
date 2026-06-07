@@ -122,12 +122,12 @@ public class FastPlace extends Module {
         }
 
         BlockState state = mc.world.getBlockState(hoveredPos);
-        Block hoveredBlock = state.getBlockState().getBlock());
-        if (hoveredBlock == null || Block.blockRegistry.getNameForObject(hoveredBlock) == null) {
+        Block hoveredBlock = state.getBlock();
+        if (hoveredBlock == null || Registries.BLOCK.getNameForObject(hoveredBlock) == null) {
             return false;
         }
 
-        String registryId = Block.blockRegistry.getNameForObject(hoveredBlock).toString();
+        String registryId = Registries.BLOCK.getNameForObject(hoveredBlock).toString();
         int meta = hoveredBlock.getMetaFromState(state);
         String storageId = meta != 0 ? registryId + ":" + meta : registryId;
         return blockBlacklist.contains(storageId) || blockBlacklist.contains(registryId);
@@ -147,7 +147,7 @@ public class FastPlace extends Module {
         if (pitchCheck.isToggled() && mc.player.rotationPitch < 70.0f) {
             return false;
         }
-        if (ignoredHeldItemsToggle.isToggled() && ignoredHeldItems.matches(mc.player.getHeldItem())) {
+        if (ignoredHeldItemsToggle.isToggled() && ignoredHeldItems.matches(mc.player.getHeldItem() {
             return false;
         }
         if (isBlockedHoverBlock()) {

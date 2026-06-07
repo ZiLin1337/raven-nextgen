@@ -19,7 +19,7 @@ public class TileEntity {
     
     public net.minecraft.block.Block getBlock() {
         if (tileEntity.getWorld() != null) {
-            return tileEntity.getWorld().getBlockState(tileEntity.getPos()).getBlockState().getBlock());
+            return tileEntity.getWorld().getBlockState(tileEntity.getPos()).getBlock();
         }
         return null;
     }

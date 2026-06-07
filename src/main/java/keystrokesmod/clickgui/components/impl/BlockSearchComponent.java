@@ -56,7 +56,7 @@ public class BlockSearchComponent extends AbstractSearchListComponent {
             for (String storageId : blocks) {
                 List<BlockSearchIndex.BlockEntry> variants = BlockSearchIndex.isWildcard(storageId) ? BlockSearchIndex.getVariants(BlockSearchIndex.getRegistryId(storageId)) : null;
                 List<net.minecraft.item.ItemStack> cyclingStacks = null;
-                if (variants != null && !variants.isEmpty()) { cyclingStacks = new ArrayList<net.minecraft.item.ItemStack>(); for (BlockSearchIndex.BlockEntry v : variants) cyclingStacks.add(v.toItemStack()); }
+                if (variants != null && !variants.isEmpty() { cyclingStacks = new ArrayList<net.minecraft.item.ItemStack>(); for (BlockSearchIndex.BlockEntry v : variants) cyclingStacks.add(v.toItemStack()); }
                 selectedRowsCache.add(new SelectedRowData(storageId, BlockSearchIndex.getDisplayName(storageId), BlockSearchIndex.getItemStack(storageId), cyclingStacks));
             }
         }
@@ -82,11 +82,11 @@ public class BlockSearchComponent extends AbstractSearchListComponent {
             if (rowIndex == 0) { collapseExpandedGroup(); return true; }
             if (rowIndex == 1) { setting.addBlock(expandedGroupId + ":*"); afterBlockSelectionAdded(); return true; }
             int vi = rowIndex - 2;
-            if (vi >= 0 && vi < expandedVariants.size()) { setting.addBlock(expandedVariants.get(vi).storageId); afterBlockSelectionAdded(); return true; }
+            if (vi >= 0 && vi < expandedVariants.size() { setting.addBlock(expandedVariants.get(vi).storageId); afterBlockSelectionAdded(); return true; }
             return true;
         }
         BlockSearchIndex.GroupedBlockResult result = cachedResults.get(rowIndex);
-        if (result.isSingleVariant()) { setting.addBlock(result.variants.get(0).storageId); afterBlockSelectionAdded(); return true; }
+        if (result.isSingleVariant() { setting.addBlock(result.variants.get(0).storageId); afterBlockSelectionAdded(); return true; }
         expandedGroupId = result.registryId;
         expandedVariants = new ArrayList<BlockSearchIndex.BlockEntry>();
         for (BlockSearchIndex.BlockEntry entry : result.variants) { if (!setting.contains(entry.storageId)) expandedVariants.add(entry); }
@@ -100,7 +100,7 @@ public class BlockSearchComponent extends AbstractSearchListComponent {
         List<String> blocks = new ArrayList<String>(setting.getBlocks());
         for (int i = 0; i < blocks.size(); i++) {
             float rowTop = getSelectedTop(layout) - offsetPx + i * ROW_HEIGHT;
-            if (isOverClose(mouseX, mouseY, rowTop, layout.right)) { setting.removeBlock(blocks.get(i)); selectedRowsCache = null; notifySelectionListChanged(); return true; }
+            if (isOverClose(mouseX, mouseY, rowTop, layout.right) { setting.removeBlock(blocks.get(i)); selectedRowsCache = null; notifySelectionListChanged(); return true; }
         }
         return false;
     }

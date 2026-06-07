@@ -54,7 +54,7 @@ public class BridgeInfo extends Module {
 
     public BridgeInfo() {
         super("Bridge Info", category.minigames, 0);
-        this.registerSetting(new DescriptionSetting(new String("Only for solos.")));
+        this.registerSetting(new DescriptionSetting(new String("Only for solos."));
         this.registerSetting(new ButtonSetting("Edit position", () -> {
             mc.displayScreen(new EditScreen());
         }));
@@ -197,7 +197,7 @@ public class BridgeInfo extends Module {
 
         public void initGui() {
             super.initGui();
-            this.buttonList.add(this.resetPosition = new ButtonWidgetExt(1, this.width - 90, 5, 85, 20, new String("Reset position")));
+            this.buttonList.add(this.resetPosition = new ButtonWidgetExt(1, this.width - 90, 5, 85, 20, new String("Reset position"));
             this.aX = BridgeInfo.hudX;
             this.aY = BridgeInfo.hudY;
         }

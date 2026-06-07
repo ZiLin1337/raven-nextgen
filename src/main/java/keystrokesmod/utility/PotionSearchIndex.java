@@ -73,7 +73,7 @@ public final class PotionSearchIndex {
                 .thenComparing(scoredEntry -> scoredEntry.entry.displayName, String.CASE_INSENSITIVE_ORDER)
                 .thenComparing(scoredEntry -> scoredEntry.entry.key));
 
-        List<PotionEntry> results = new ArrayList<PotionEntry>(Math.min(MAX_SEARCH_RESULTS, scoredEntries.size()));
+        List<PotionEntry> results = new ArrayList<PotionEntry>(Math.min(MAX_SEARCH_RESULTS, scoredEntries.size());
         for (int i = 0; i < Math.min(MAX_SEARCH_RESULTS, scoredEntries.size()); i++) {
             results.add(scoredEntries.get(i).entry);
         }

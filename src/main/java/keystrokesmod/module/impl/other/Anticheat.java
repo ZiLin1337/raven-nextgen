@@ -66,7 +66,7 @@ public class Anticheat extends Module {
     }
 
     private void alert(PlayerEntity entityPlayer, ButtonSetting mode) {
-        if (Utils.isFriended(entityPlayer) || (ignoreTeammates.isToggled() && Utils.isTeammate(entityPlayer))) {
+        if (Utils.isFriended(entityPlayer) || (ignoreTeammates.isToggled() && Utils.isTeammate(entityPlayer) {
             return;
         }
         if (atlasSuspect.isToggled()) {
@@ -92,9 +92,9 @@ public class Anticheat extends Module {
             hashMap.put(mode, currentTimeMillis);
             flags.put(entityPlayer.getUniqueID(), hashMap);
         }
-        Text chatComponentText = new ChatComponentText(Utils.formatColor("&7[&dR&7]&r " + entityPlayer.getDisplayName().getUnformattedText() + " &7detected for &d" + mode.getName()));
+        Text chatComponentText = new ChatComponentText(Utils.formatColor("&7[&dR&7]&r " + entityPlayer.getDisplayName().getUnformattedText() + " &7detected for &d" + mode.getName());
         ChatStyle chatStyle = new ChatStyle();
-        chatStyle.setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/wdr " + entityPlayer.getName()));
+        chatStyle.setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/wdr " + entityPlayer.getName());
         chatComponentText.appendSibling(new ChatComponentText(Utils.formatColor(" §7[§cWDR§7]")).setChatStyle(chatStyle));
         mc.player.sendMessage(Text.literal(chatComponentText));
         postAntiCheatFlagEvent(mode.getName(), entityPlayer);
@@ -103,7 +103,7 @@ public class Anticheat extends Module {
             lastAlert = currentTimeMillis;
         }
         if (autoReport.isToggled() && !Utils.isFriended(entityPlayer)) {
-            mc.player.sendChatMessage("/wdr " + Utils.stripColor(entityPlayer.getGameProfile().getName()));
+            mc.player.sendChatMessage("/wdr " + Utils.stripColor(entityPlayer.getGameProfile().getName());
         }
     }
 
@@ -165,7 +165,7 @@ public class Anticheat extends Module {
             boolean overAir = true;
             BlockPos blockPos = entityPlayer.getPosition().down(2);
             for (int i = 0; i < 4; ++i) {
-                if (!(BlockUtils.getBlockState().getBlock()blockPos) instanceof BlockAir)) {
+                if (!(BlockUtils.getBlockState(blockPos) instanceof BlockAir)) {
                     overAir = false;
                     break;
                 }

@@ -150,7 +150,7 @@ public class DuelsStats extends Module {
             for (String s : Utils.getScoreBoardOld()) {
                 if (s.contains("Map:")) {
                     ++l;
-                } else if (s.contains("Players:") && s.contains("/2")) {
+                } else if (s.contains("Players:") && s.contains("/2") {
                     ++l;
                 }
             }

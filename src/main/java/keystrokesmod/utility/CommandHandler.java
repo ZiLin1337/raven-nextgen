@@ -90,7 +90,7 @@ public class CommandHandler implements IMinecraftInstance {
             return;
         }
 
-        NameHider.setFakeName(String.join(" ", Arrays.copyOfRange(args, 1, args.length)));
+        NameHider.setFakeName(String.join(" ", Arrays.copyOfRange(args, 1, args.length));
         print("&aName has been set to:", 1);
         print("\"" + NameHider.fakeName + "\"", 0);
     }
@@ -225,7 +225,7 @@ public class CommandHandler implements IMinecraftInstance {
 
         for (Module module : Raven.getModuleManager().getModules()) {
             String moduleName = module.getName().toLowerCase().replace(" ", "");
-            if (moduleName.equals(args[1].toLowerCase())) {
+            if (moduleName.equals(args[1].toLowerCase() {
                 module.setHidden(true);
                 print("&a" + module.getName() + " is now hidden in HUD", 1);
             }
@@ -240,7 +240,7 @@ public class CommandHandler implements IMinecraftInstance {
 
         for (Module module : Raven.getModuleManager().getModules()) {
             String moduleName = module.getName().toLowerCase().replace(" ", "");
-            if (moduleName.equals(args[1].toLowerCase())) {
+            if (moduleName.equals(args[1].toLowerCase() {
                 module.setHidden(false);
                 print("&a" + module.getName() + " is now visible in HUD", 1);
             }

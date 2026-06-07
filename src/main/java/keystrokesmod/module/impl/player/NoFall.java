@@ -115,7 +115,7 @@ public class NoFall extends Module {
         if (mc.player.onGround) {
             return true;
         }
-        if (BlockUtils.getBlockState().getBlock()new BlockPos(mc.player.getX(), mc.player.getY() - 1, mc.player.getZ())) != Blocks.AIR) {
+        if (BlockUtils.getBlockState(new BlockPos(mc.player.getX(), mc.player.getY() - 1, mc.player.getZ())) != Blocks.AIR) {
             return true;
         }
         if (mc.player.motionY > -0.0784) {

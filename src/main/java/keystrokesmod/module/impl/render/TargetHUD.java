@@ -135,7 +135,7 @@ public class TargetHUD extends Module {
                     RoundedUtils.drawRound((float) n6, (float) n7, Math.abs((float) n6 - n8), Math.abs((float) n7 - (n9 + 13)), 8.0f, true, new Color(0, 0, 0, maxAlphaBackground));
                     BlurUtils.bloomEnd(3, bloomRadius);
                     BlurUtils.prepareBlur();
-                    RoundedUtils.drawRound((float) n6, (float) n7, Math.abs((float) n6 - n8), Math.abs((float) n7 - (n9 + 13)), 8.0f, true, new Color(Utils.mergeAlpha(Color.black.getRGB(), maxAlphaOutline)));
+                    RoundedUtils.drawRound((float) n6, (float) n7, Math.abs((float) n6 - n8), Math.abs((float) n7 - (n9 + 13)), 8.0f, true, new Color(Utils.mergeAlpha(Color.black.getRGB(), maxAlphaOutline));
                     BlurUtils.blurEnd(2, blurRadius);
                     break;
                 case 1:
@@ -173,7 +173,7 @@ public class TargetHUD extends Module {
                 lastHealthBar = n14;
             }
 
-            switch ((int) mode.getInput()) { // health bar
+            switch ((int) mode.getInput() { // health bar
                 case 0:
                     RenderUtils.drawRoundedRectangle((float) n13, (float) n15, lastHealthBar, (float) (n15 + 5), 4.0f, Utils.darkenColor(mergedGradientRight, 25));
                     RenderUtils.drawRoundedGradientRect((float) n13, (float) n15, smoothBack ? lastHealthBar : healthBar, (float) (n15 + 5), 4.0f, mergedGradientLeft, mergedGradientLeft, mergedGradientRight, mergedGradientRight);

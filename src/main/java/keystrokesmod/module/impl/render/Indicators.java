@@ -278,7 +278,7 @@ public class Indicators extends Module {
                     renderFireballTrajectory((EntityLargeFireball) entity, event.partialTicks);
                 }
                 else if (entity instanceof EntityArrow && drawArrowTrajectory.isToggled()
-                        && !((IAccessorEntityArrow) entity).getInGround()) {
+                        && !((IAccessorEntityArrow) entity).getInGround() {
                     renderArrowTrajectory((EntityArrow) entity, event.partialTicks);
                 }
                 else if (entity instanceof EntityEnderPearl && drawPearlTrajectory.isToggled()) {
@@ -978,15 +978,15 @@ public class Indicators extends Module {
                     mutablePos.set(x, y, z);
                     BlockState blockState = mc.world.getBlockState(mutablePos);
 
-                    if (blockState.getBlockState().getBlock()).getMaterial() != Material.water) {
+                    if (blockState.getBlock().getMaterial() != Material.water) {
                         continue;
                     }
 
                     double liquidSurfaceY = (double) ((float) (y + 1)
-                            - FluidBlock.getLiquidHeightPercent((Integer) blockState.getValue(FluidBlock.LEVEL)));
+                            - FluidBlock.getLiquidHeightPercent((Integer) blockState.getValue(FluidBlock.LEVEL));
                     if ((double) maxY >= liquidSurfaceY) {
                         inWater = true;
-                        flowDirection = blockState.getBlockState().getBlock()).modifyAcceleration(mc.world, mutablePos, projectile, flowDirection);
+                        flowDirection = blockState.getBlock().modifyAcceleration(mc.world, mutablePos, projectile, flowDirection);
                     }
                 }
             }
@@ -1063,11 +1063,11 @@ public class Indicators extends Module {
                 for (int z = minZ; z < maxZ; ++z) {
                     mutablePos.set(x, y, z);
                     BlockState blockState = mc.world.getBlockState(mutablePos);
-                    Block block = blockState.getBlockState().getBlock());
+                    Block block = blockState.getBlock();
 
                     if ((!props.ignoreBlockWithoutBoundingBox
                             || block.getCollisionShape(mc.world, mutablePos, blockState) != null)
-                            && block.canCollideCheck(blockState, false)) {
+                            && block.canCollideCheck(blockState, false) {
                         collisionBoxes.clear();
                         Box vanillaProjectileBounds = getVanillaProjectileBounds(block, mutablePos);
                         block.addCollisionBoxesToList(mc.world, mutablePos, blockState, sweepBounds, collisionBoxes, null);
@@ -1113,7 +1113,7 @@ public class Indicators extends Module {
         if (font == null) {
             return FONT_OPTIONS[0];
         }
-        int index = (int) Math.max(0, Math.min(font.getOptions().length - 1, font.getInput()));
+        int index = (int) Math.max(0, Math.min(font.getOptions().length - 1, font.getInput());
         return font.getOptions()[index];
     }
 

@@ -70,9 +70,9 @@ public class ProfileModule extends Module {
         }
 
         String oldName = getName();
-        if (Raven.profileManager.renameProfile(profile, profileNameSetting.getText())) {
+        if (Raven.profileManager.renameProfile(profile, profileNameSetting.getText() {
             profileNameSetting.setText(profile.getName());
-            if (!oldName.equals(profile.getName())) {
+            if (!oldName.equals(profile.getName() {
                 Utils.sendMessage("&7Renamed profile: &b" + oldName + " &7to &b" + profile.getName());
             }
         }

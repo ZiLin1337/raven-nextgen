@@ -214,7 +214,7 @@ public class BlockOverlay extends Module {
     private static void drawOverlayGeometry(Minecraft mc, BlockPos pos, Box paddedWorldBox, Direction side, double vx, double vy, double vz, int overlayStart, int overlayEnd, int outlineStart, int outlineEnd, boolean showOverlay, boolean showOutline) {
         Box renderBox = paddedWorldBox.offset(-vx, -vy, -vz);
         BlockState state = mc.world.getBlockState(pos);
-        if (state.getBlockState().getBlock()) instanceof StairsBlock) {
+        if (state.getBlock() instanceof StairsBlock) {
             StairsUtils.drawStairs(pos, state, paddedWorldBox, side, vx, vy, vz, overlayStart, overlayEnd, outlineStart, outlineEnd, showOverlay, showOutline, BlockOverlay::drawFace);
         } else if (side != null) {
             drawFace(renderBox, side, overlayStart, overlayEnd, outlineStart, outlineEnd, showOverlay, showOutline);
@@ -229,7 +229,7 @@ public class BlockOverlay extends Module {
         if (mc.objectMouseOver == null || mc.objectMouseOver.typeOfHit != HitResult.MovingObjectType.BLOCK) return null;
         BlockPos pos = mc.objectMouseOver.getBlockPos();
         if (pos == null) return null;
-        Block block = mc.world.getBlockState(pos).getBlockState().getBlock());
+        Block block = mc.world.getBlockState(pos).getBlock();
         if (block == Blocks.AIR) return null;
         if (block == Blocks.barrier && !barriers.isToggled()) return null;
         if (hidePlants.isToggled() && (block instanceof BlockTallGrass || block instanceof BlockFlower || block instanceof BlockDeadBush || block instanceof BlockDoublePlant)) return null;

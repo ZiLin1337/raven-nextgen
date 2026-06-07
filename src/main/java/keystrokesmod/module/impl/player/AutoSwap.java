@@ -117,8 +117,8 @@ public class AutoSwap extends Module {
             return false;
         }
 
-        Block block = ((BlockItem) stack.getItem()).getBlockState().getBlock());
-        Object registryName = Block.blockRegistry.getNameForObject(block);
+        Block block = ((BlockItem) stack.getItem()).getBlock();
+        Object registryName = Registries.BLOCK.getNameForObject(block);
         if (block == null || registryName == null) {
             return false;
         }

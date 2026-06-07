@@ -71,7 +71,7 @@ public class TNTTimer extends Module {
 
         trackedBedwars = Utils.getBedwarsStatus() != 0;
         for (TntEntity tnt : mc.world.getEntitiesByClass(TntEntity.class,
-                mc.player.getBoundingBox().expand(64), e -> true)) {
+                mc.player.getBoundingBox().expand(64), e -> true) {
             int fuse = trackedBedwars ? (tnt.getFuse() - BEDWARS_FUSE_OFFSET) : tnt.getFuse();
             if (fuse < 1) continue;
             if (trackedTntCount >= trackedTnt.size()) trackedTnt.add(tnt);

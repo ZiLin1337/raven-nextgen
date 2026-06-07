@@ -53,7 +53,7 @@ public class SumoFences extends Module {
         for (BlockPos p : f_p) {
             for (int i = 0; (double) i < fenceHeight.getInput(); ++i) {
                 BlockPos p2 = new BlockPos(p.getX(), p.getY() + i, p.getZ());
-                if (mc.world.getBlockState(p2).getBlockState().getBlock()) == this.fenceState) {
+                if (mc.world.getBlockState(p2).getBlock() == this.fenceState) {
                     mc.world.setBlockState(p2, Blocks.AIR.getDefaultState());
                 }
             }
@@ -89,7 +89,7 @@ public class SumoFences extends Module {
                     for (BlockPos p : f_p) {
                         for (int i = 0; (double) i < fenceHeight.getInput(); ++i) {
                             BlockPos p2 = new BlockPos(p.getX(), p.getY() + i, p.getZ());
-                            if (mc.world.getBlockState(p2).getBlockState().getBlock()) == Blocks.AIR) {
+                            if (mc.world.getBlockState(p2).getBlock() == Blocks.AIR) {
                                 mc.world.setBlockState(p2, SumoFences.this.fenceState);
                             }
                         }
@@ -105,10 +105,10 @@ public class SumoFences extends Module {
             for (String l : Utils.getScoreBoardOld()) {
                 String s = Utils.stripColor(l);
                 if (s.startsWith("Map:")) {
-                    if (this.MAPS.contains(s.substring(5))) {
+                    if (this.MAPS.contains(s.substring(5) {
                         return true;
                     }
-                } else if (s.equals("Mode: Sumo Duel")) {
+                } else if (s.equals("Mode: Sumo Duel") {
                     return true;
                 }
             }

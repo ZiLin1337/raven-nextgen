@@ -98,7 +98,7 @@ public final class BiTrackLagNodeQueue {
         }
 
         private synchronized boolean tick(final @Nullable Packet<?> packet, final @Nullable EnumLagDirection direction) {
-            if (track.isEmpty() && (currentlyAwaiting == null || currentlyAwaiting.getTimeout().isTimedOut())) {
+            if (track.isEmpty() && (currentlyAwaiting == null || currentlyAwaiting.getTimeout().isTimedOut() {
                 currentlyAwaiting = null;
                 return false;
             }

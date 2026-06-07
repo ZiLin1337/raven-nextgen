@@ -11,11 +11,11 @@ import java.util.EnumSet;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@SuppressWarnings({"LambdaBodyCanBeCodeBlock", "unchecked"})
+@SuppressWarnings () {"LambdaBodyCanBeCodeBlock", "unchecked"})
 public enum EnumLagDirection implements IMinecraftInstance {
-    INBOUND(
+    INBOUND
             packet -> {
-                try {
+                try ) {
                     ((Packet<ClientPlayNetworkHandler>) packet).processPacket(mc.getNetHandler());
                 } catch (final @NotNull ThreadQuickExitException ignored) {
                     // minecraft uses an exception to indicate something getting scheduled... why?
@@ -24,8 +24,8 @@ public enum EnumLagDirection implements IMinecraftInstance {
                 }
             }
     ),
-    OUTBOUND(
-            packet -> {
+    OUTBOUND
+            packet -> ) {
                 mc.getNetHandler().addToSendQueue(packet);
             }
     );

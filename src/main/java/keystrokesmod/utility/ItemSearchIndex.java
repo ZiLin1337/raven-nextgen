@@ -108,49 +108,49 @@ public final class ItemSearchIndex {
                 return stack == null;
             }
         },
-        SWORD("@category:sword", "Sword", new ItemStack(Items.DIAMOND_SWORD)) {
+        SWORD("@category:sword", "Sword", new ItemStack(Items.DIAMOND_SWORD) {
             @Override
             boolean matches(ItemStack stack) {
                 return stack != null && stack.getItem() instanceof SwordItem;
             }
         },
-        BOW("@category:bow", "Bow", new ItemStack(Items.BOW)) {
+        BOW("@category:bow", "Bow", new ItemStack(Items.BOW) {
             @Override
             boolean matches(ItemStack stack) {
                 return stack != null && stack.getItem() instanceof BowItem;
             }
         },
-        TOOL("@category:tool", "Tool", new ItemStack(Items.DIAMOND_PICKAXE)) {
+        TOOL("@category:tool", "Tool", new ItemStack(Items.DIAMOND_PICKAXE) {
             @Override
             boolean matches(ItemStack stack) {
                 return stack != null && isToolLike(stack.getItem());
             }
         },
-        AXE("@category:axe", "Axe", new ItemStack(Items.DIAMOND_AXE)) {
+        AXE("@category:axe", "Axe", new ItemStack(Items.DIAMOND_AXE) {
             @Override
             boolean matches(ItemStack stack) {
                 return stack != null && stack.getItem() instanceof AxeItem;
             }
         },
-        PICKAXE("@category:pickaxe", "Pickaxe", new ItemStack(Items.DIAMOND_PICKAXE)) {
+        PICKAXE("@category:pickaxe", "Pickaxe", new ItemStack(Items.DIAMOND_PICKAXE) {
             @Override
             boolean matches(ItemStack stack) {
                 return stack != null && stack.getItem() instanceof PickaxeItem;
             }
         },
-        SHOVEL("@category:shovel", "Shovel", new ItemStack(Items.diamond_shovel)) {
+        SHOVEL("@category:shovel", "Shovel", new ItemStack(Items.diamond_shovel) {
             @Override
             boolean matches(ItemStack stack) {
                 return stack != null && stack.getItem() instanceof ShovelItem;
             }
         },
-        HOE("@category:hoe", "Hoe", new ItemStack(Items.diamond_hoe)) {
+        HOE("@category:hoe", "Hoe", new ItemStack(Items.diamond_hoe) {
             @Override
             boolean matches(ItemStack stack) {
                 return stack != null && stack.getItem() instanceof HoeItem;
             }
         },
-        SHEARS("@category:shears", "Shears", new ItemStack(Items.shears)) {
+        SHEARS("@category:shears", "Shears", new ItemStack(Items.shears) {
             @Override
             boolean matches(ItemStack stack) {
                 return stack != null && stack.getItem() instanceof ItemShears;
@@ -320,7 +320,7 @@ public final class ItemSearchIndex {
             return null;
         }
 
-        if (shouldStoreMeta(stack.getItem())) {
+        if (shouldStoreMeta(stack.getItem() {
             int meta = stack.getMetadata();
             return meta != 0 ? registryId + ":" + meta : registryId;
         }
@@ -573,7 +573,7 @@ public final class ItemSearchIndex {
 
             List<ItemEntry> syntheticVariants = new ArrayList<ItemEntry>();
             for (ItemEntry entry : regularEntries) {
-                if (category.matches(entry.toItemStack())) {
+                if (category.matches(entry.toItemStack() {
                     syntheticVariants.add(entry);
                 }
             }

@@ -20,7 +20,7 @@ public class TextFieldComponent extends AbstractTextInputComponent {
             if (valueWhenFocused != null) {
                 revertToSaved();
             }
-            if (!getTextField().getText().equals(textSetting.getText())) {
+            if (!getTextField().getText().equals(textSetting.getText() {
                 getTextField().setText(textSetting.getText());
             }
         }

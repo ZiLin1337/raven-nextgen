@@ -198,7 +198,7 @@ public class AutoTool extends Module {
             return;
         }
 
-        int slot = Utils.getTool(BlockUtils.getBlockState().getBlock()swapPos));
+        int slot = Utils.getTool(BlockUtils.getBlockState(swapPos));
         if (slot == -1) {
             return;
         }
@@ -241,7 +241,7 @@ public class AutoTool extends Module {
 
     private boolean isUseBlocked() {
         boolean useActive = Utils.isBindDown(mc.options.keyBindUseItem) || mc.player.isUsingItem();
-        if (ignoredHeldItemsToggle.isToggled() && ignoredHeldItems.matches(mc.player.getHeldItem())) {
+        if (ignoredHeldItemsToggle.isToggled() && ignoredHeldItems.matches(mc.player.getHeldItem() {
             return true;
         }
         return useActive;
@@ -263,12 +263,12 @@ public class AutoTool extends Module {
 
     private boolean matchesBlockList(BlockPos blockPos, BlockListSetting blockList) {
         BlockState state = BlockUtils.getBlockState(blockPos);
-        Block hoveredBlock = state.getBlockState().getBlock());
-        if (hoveredBlock == null || Block.blockRegistry.getNameForObject(hoveredBlock) == null) {
+        Block hoveredBlock = state.getBlock();
+        if (hoveredBlock == null || Registries.BLOCK.getNameForObject(hoveredBlock) == null) {
             return false;
         }
 
-        String registryId = Block.blockRegistry.getNameForObject(hoveredBlock).toString();
+        String registryId = Registries.BLOCK.getNameForObject(hoveredBlock).toString();
         int meta = hoveredBlock.getMetaFromState(state);
         String storageId = meta != 0 ? registryId + ":" + meta : registryId;
         return blockList.contains(storageId) || blockList.contains(registryId);

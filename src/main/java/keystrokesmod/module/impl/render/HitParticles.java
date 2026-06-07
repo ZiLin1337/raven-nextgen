@@ -86,7 +86,7 @@ public class HitParticles extends Module {
 
     private static final int[][] PARTICLE_ARGS = new int[][] {
             ARGS_NONE,
-            new int[] { Block.getIdFromBlock(Blocks.netherrack) },
+            new int[] { Registries.BLOCK.getRawId(Blocks.netherrack) },
             ARGS_NONE, ARGS_NONE, ARGS_NONE, ARGS_NONE, ARGS_NONE, ARGS_NONE, ARGS_NONE, ARGS_NONE,
             ARGS_NONE, ARGS_NONE, ARGS_NONE, ARGS_NONE, ARGS_NONE, ARGS_NONE, ARGS_NONE, ARGS_NONE,
             ARGS_NONE, ARGS_NONE, ARGS_NONE, ARGS_NONE, ARGS_NONE, ARGS_NONE

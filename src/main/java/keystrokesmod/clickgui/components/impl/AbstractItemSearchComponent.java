@@ -94,12 +94,12 @@ public abstract class AbstractItemSearchComponent<T extends ItemListSetting> ext
             if (rowIndex == 0) { collapseExpandedGroup(); return true; }
             if (rowIndex == 1) { setting.addItem(expandedAllSelectionStorageId != null ? expandedAllSelectionStorageId : expandedGroupId + ":*"); afterSelectionAdded(); return true; }
             int variantIndex = rowIndex - 2;
-            if (variantIndex >= 0 && variantIndex < expandedVariants.size()) { setting.addItem(expandedVariants.get(variantIndex).storageId); afterSelectionAdded(); return true; }
+            if (variantIndex >= 0 && variantIndex < expandedVariants.size() { setting.addItem(expandedVariants.get(variantIndex).storageId); afterSelectionAdded(); return true; }
             return true;
         }
 
         ItemSearchIndex.GroupedItemResult result = cachedResults.get(rowIndex);
-        if (result.isSingleVariant()) { setting.addItem(result.variants.get(0).storageId); afterSelectionAdded(); return true; }
+        if (result.isSingleVariant() { setting.addItem(result.variants.get(0).storageId); afterSelectionAdded(); return true; }
         expandedGroupId = result.registryId;
         expandedGroupLabel = result.getGroupDisplayName();
         expandedAllSelectionStorageId = result.getAllSelectionStorageId();

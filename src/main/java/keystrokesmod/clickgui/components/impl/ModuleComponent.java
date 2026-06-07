@@ -205,7 +205,7 @@ public class ModuleComponent extends Component {
         int idx = 0;
         while (idx < this.settings.size()) {
             Component co = this.settings.get(idx);
-            if (!isVisibleBase(co)) { idx++; continue; }
+            if (!isVisibleBase(co) { idx++; continue; }
             if (co instanceof GroupComponent) {
                 GroupComponent group = (GroupComponent) co;
                 float progress = group.getAnimationProgress();
@@ -217,7 +217,7 @@ public class ModuleComponent extends Component {
                 float totalChildrenFullHeight = 0f;
                 while (idx < this.settings.size()) {
                     Component child = this.settings.get(idx);
-                    if (!isVisibleBase(child)) { idx++; continue; }
+                    if (!isVisibleBase(child) { idx++; continue; }
                     if (getOwningGroup(child) != group) break;
                     child.updateHeight(childY);
                     float baseH = getBaseComponentHeightF(child);
@@ -431,13 +431,13 @@ public class ModuleComponent extends Component {
         int i = 0;
         while (i < settings.size()) {
             Component c = settings.get(i);
-            if (!isVisibleBase(c)) { i++; continue; }
+            if (!isVisibleBase(c) { i++; continue; }
             if (c instanceof GroupComponent) {
                 ((GroupComponent) c).render();
                 i++;
                 while (i < settings.size()) {
                     Component child = settings.get(i);
-                    if (!isVisibleBase(child)) { i++; continue; }
+                    if (!isVisibleBase(child) { i++; continue; }
                     if (getOwningGroup(child) != c) break;
                     i++;
                 }
@@ -447,7 +447,7 @@ public class ModuleComponent extends Component {
         i = 0;
         while (i < settings.size()) {
             Component c = settings.get(i);
-            if (!isVisibleBase(c)) { i++; continue; }
+            if (!isVisibleBase(c) { i++; continue; }
             if (c instanceof GroupComponent) {
                 GroupComponent group = (GroupComponent) c;
                 i++;
@@ -457,7 +457,7 @@ public class ModuleComponent extends Component {
                 int j = i;
                 while (j < settings.size()) {
                     Component child = settings.get(j);
-                    if (!isVisibleBase(child)) { j++; continue; }
+                    if (!isVisibleBase(child) { j++; continue; }
                     if (getOwningGroup(child) != group) break;
                     groupContentHeight += getBaseComponentHeightF(child);
                     j++;

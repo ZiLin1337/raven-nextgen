@@ -236,7 +236,7 @@ public final class FireballSimulator {
                 for (int z = minZ; z < maxZ; ++z) {
                     mutablePos.set(x, y, z);
                     BlockState blockState = world.getBlockState(mutablePos);
-                    Block block = blockState.getBlockState().getBlock());
+                    Block block = blockState.getBlock();
 
                     if (!block.canCollideCheck(blockState, false)) {
                         continue;
@@ -298,19 +298,19 @@ public final class FireballSimulator {
                     mutablePos.set(x, y, z);
                     BlockState blockState = world.getBlockState(mutablePos);
 
-                    if (blockState.getBlockState().getBlock()).getMaterial() != Material.water) {
+                    if (blockState.getBlock().getMaterial() != Material.water) {
                         continue;
                     }
 
                     double liquidSurfaceY = (double) ((float) (y + 1)
-                            - FluidBlock.getLiquidHeightPercent((Integer) blockState.getValue(FluidBlock.LEVEL)));
+                            - FluidBlock.getLiquidHeightPercent((Integer) blockState.getValue(FluidBlock.LEVEL));
 
                     if ((double) maxY < liquidSurfaceY) {
                         continue;
                     }
 
                     inWater = true;
-                    flow = blockState.getBlockState().getBlock()).modifyAcceleration(world, mutablePos, fireball, flow);
+                    flow = blockState.getBlock().modifyAcceleration(world, mutablePos, fireball, flow);
                 }
             }
         }

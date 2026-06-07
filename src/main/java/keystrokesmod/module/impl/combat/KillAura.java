@@ -199,7 +199,7 @@ public class KillAura extends Module {
     
     public void onSetAttackTarget(LivingSetAttackTargetEvent e) {
         if (e.entity != null && !hostileMobs.contains(e.entity)) {
-            if (!(e.target instanceof PlayerEntity) || !e.target.getName().equals(mc.player.getName())) {
+            if (!(e.target instanceof PlayerEntity) || !e.target.getName().equals(mc.player.getName() {
                 return;
             }
             if (Utils.getBedwarsStatus() == 2 && e.entity instanceof ZombiePiglinEntity) {
@@ -298,10 +298,10 @@ public class KillAura extends Module {
             if (Utils.isFriended(player) || player.deathTime != 0) {
                 return null;
             }
-            if (AntiBot.isBot(entity) || (ignoreTeammates.isToggled() && Utils.isTeammate(entity))) {
+            if (AntiBot.isBot(entity) || (ignoreTeammates.isToggled() && Utils.isTeammate(entity) {
                 return null;
             }
-        } else if (entity instanceof PathAwareEntity && attackMobs.isToggled()) {
+        } else if (entity instanceof PathAwareEntity && attackMobs.isToggled() {
             PathAwareEntity creature = (PathAwareEntity) entity;
             if (creature.tasks == null || creature.isAIDisabled() || creature.deathTime != 0) {
                 return null;
@@ -338,7 +338,7 @@ public class KillAura extends Module {
 
         double multipointH = 100;
         double multipointV = 100;
-        if (!RotationUtils.hasValidAimPoint(entity, multipointH, multipointV, maxRange, aimThroughBlocks.isToggled(), aimThroughEntities.isToggled())) {
+        if (!RotationUtils.hasValidAimPoint(entity, multipointH, multipointV, maxRange, aimThroughBlocks.isToggled(), aimThroughEntities.isToggled() {
             return null;
         }
 
@@ -406,7 +406,7 @@ public class KillAura extends Module {
             if (Utils.getBedwarsStatus() != 2) {
                 return true;
             }
-            if (!golems.containsKey(entityCreature.getEntityId())) {
+            if (!golems.containsKey(entityCreature.getEntityId() {
                 double nearestDistance = -1;
                 ArmorStandEntity nearestArmorStand = null;
                 for (Entity entity : mc.world.getEntities()) {
@@ -449,9 +449,9 @@ public class KillAura extends Module {
     private boolean settingCondition() {
         if (requireMouseDown.isToggled() && !Mouse.isButtonDown(0)) {
             return false;
-        } else if (weaponOnly.isToggled() && !Utils.holdingWeapon()) {
+        } else if (weaponOnly.isToggled() && !Utils.holdingWeapon() {
             return false;
-        } else if (disableWhileMining.isToggled() && Utils.isMining()) {
+        } else if (disableWhileMining.isToggled() && Utils.isMining() {
             return false;
         } else if (disableInInventory.isToggled() && mc.currentScreen != null) {
             return false;

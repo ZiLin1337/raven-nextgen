@@ -97,7 +97,7 @@ public class Entity {
 
     public NetworkPlayer getNetworkPlayer() {
         if (entity instanceof PlayerEntity) {
-            return NetworkPlayer.convert(Raven.mc.getNetworkHandler().getPlayerListEntry(entity.getUuid()));
+            return NetworkPlayer.convert(Raven.mc.getNetworkHandler().getPlayerListEntry(entity.getUuid());
         }
         return null;
     }

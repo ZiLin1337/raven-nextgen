@@ -97,7 +97,7 @@ public class GhostHand extends Module {
         if (blockHit == null) return;
 
         BlockPos hitPos = blockHit.getBlockPos();
-        Block hitBlock = BlockUtils.getBlockState().getBlock()hitPos);
+        Block hitBlock = BlockUtils.getBlockState(hitPos);
         boolean isBed = hitBlock instanceof BedBlock;
         boolean isAdjacent = !isBed && BlockUtils.isAdjacentToBed(hitPos);
         boolean priorityOverride = (priorityBed.isToggled() && isBed)
@@ -189,7 +189,7 @@ public class GhostHand extends Module {
         if (item instanceof ItemTool || item instanceof HoeItem || item instanceof ItemShears) return HeldCategory.TOOL;
         if (item instanceof ItemBucket) return HeldCategory.BUCKET;
         if (item instanceof ItemFlintAndSteel) return HeldCategory.FLINT_STEEL;
-        if (item instanceof BlockItem && ((BlockItem) item).getBlockState().getBlock()) == Blocks.web) return HeldCategory.COBWEB;
+        if (item instanceof BlockItem && ((BlockItem) item).getBlock() == Blocks.web) return HeldCategory.COBWEB;
         return HeldCategory.OTHER;
     }
 }

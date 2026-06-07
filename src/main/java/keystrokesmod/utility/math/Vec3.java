@@ -100,7 +100,7 @@ public class Vec3d {
     }
 
     public float toPitch() {
-        return (float) Math.toDegrees(-Math.atan2(y, Math.sqrt(x * x + z * z)));
+        return (float) Math.toDegrees(-Math.atan2(y, Math.sqrt(x * x + z * z));
     }
 
     @Override

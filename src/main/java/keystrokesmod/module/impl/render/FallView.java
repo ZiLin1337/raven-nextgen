@@ -197,7 +197,7 @@ public class FallView extends Module {
             double percent = (double) finalDamage / currentHealth;
             String healthStr = finalDamage >= currentHealth
                     ? "\u00a74"
-                    : (percent >= 0.7 ? "\u00a7c" : (percent >= 0.5 ? "\u00a76" : (percent >= 0.3 ? "\u00a7e" : "\u00a7a")));
+                    : (percent >= 0.7 ? "\u00a7c" : (percent >= 0.5 ? "\u00a76" : (percent >= 0.3 ? "\u00a7e" : "\u00a7a"));
             damageText = healthStr + Utils.asWholeNum(hearts);
             if (Settings.showHeartSymbol.isToggled()) {
                 damageText += "\u00a7c\u2764\u00a7r";
@@ -261,7 +261,7 @@ public class FallView extends Module {
         int startY = (int) Math.floor(mc.player.getY());
         for (int y = startY; y > -1; y--) {
             BlockPos pos = new BlockPos(Math.floor(x), y, Math.floor(z));
-            if (mc.world.getBlockState(pos).getBlockState().getBlock()).getMaterial() == Material.water) {
+            if (mc.world.getBlockState(pos).getBlock().getMaterial() == Material.water) {
                 return -1;
             }
             if (!Utils.isPlaceable(pos)) {

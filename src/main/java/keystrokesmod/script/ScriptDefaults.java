@@ -230,7 +230,7 @@ public class ScriptDefaults {
                 mc.setScreen(new TitleScreen());
                 return;
             }
-            mc.setScreen(new MultiplayerScreen(new TitleScreen()));
+            mc.setScreen(new MultiplayerScreen(new TitleScreen());
         }
 
         public static float getRenderArmPitch() {
@@ -560,7 +560,7 @@ public class ScriptDefaults {
 
     public static class world {
         public static Block getBlockAt(int x, int y, int z) {
-            BlockState state = BlockUtils.getBlockState(new BlockPos(x, y, z));
+            BlockState state = BlockUtils.getBlockState(new BlockPos(x, y, z);
             if (state == null) return new Block(null, new BlockPos(x, y, z));
             return new Block(state, new BlockPos(x, y, z));
         }

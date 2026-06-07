@@ -51,7 +51,7 @@ public class NetworkUtils {
     public static String getTextFromConnection(HttpURLConnection connection, boolean appendIndent) {
         if (connection != null) {
             try {
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream());
 
                 String result;
                 try {
@@ -109,14 +109,14 @@ public class NetworkUtils {
 
                 String contentType = connection.getContentType();
                 if (contentType != null && contentType.startsWith("image")) {
-                    try (InputStream inputStream = connection.getInputStream()) {
+                    try (InputStream inputStream = connection.getInputStream() {
                         BufferedImage image = TextureUtil.readBufferedImage(inputStream);
                         connection.disconnect();
                         return image;
                     }
                 }
 
-                try (InputStream inputStream = connection.getInputStream()) {
+                try (InputStream inputStream = connection.getInputStream() {
                     String body = IOUtils.toString(inputStream, "UTF-8");
                     String imageURL = "";
 

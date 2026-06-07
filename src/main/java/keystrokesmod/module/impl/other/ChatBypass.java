@@ -64,7 +64,7 @@ public class ChatBypass extends Module {
         String glitchChars = "\u0300\u0301\u0302\u0303\u0304\u0305\u0306\u0307\u0308\u0309\u030A\u030B";
         for (char c : msg.toCharArray()) {
             sb.append(c);
-            if (random.nextBoolean()) sb.append(glitchChars.charAt(random.nextInt(glitchChars.length())));
+            if (random.nextBoolean()) sb.append(glitchChars.charAt(random.nextInt(glitchChars.length());
         }
         return sb.toString();
     }
@@ -74,7 +74,7 @@ public class ChatBypass extends Module {
         String invisible = "\u200B\u200C\u200D\uFEFF";
         for (char c : msg.toCharArray()) {
             sb.append(c);
-            if (random.nextInt(3) == 0) sb.append(invisible.charAt(random.nextInt(invisible.length())));
+            if (random.nextInt(3) == 0) sb.append(invisible.charAt(random.nextInt(invisible.length());
         }
         return sb.toString();
     }

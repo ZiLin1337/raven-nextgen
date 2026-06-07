@@ -53,7 +53,7 @@ public class Speed extends Module {
             if (canFloat && floatConditions() && !requireJump) {
                 e.setPosY(e.getPosY() + 0.0000000000201);
                 if (Utils.isMoving()) {
-                    Utils.setSpeed(getFloatSpeed(getSpeedLevel()));
+                    Utils.setSpeed(getFloatSpeed(getSpeedLevel());
                 }
             }
         }
@@ -86,8 +86,8 @@ public class Speed extends Module {
     }
 
     private boolean allowedBlocks() {
-        Block block = BlockUtils.getBlockState().getBlock()BlockPos.ofFloored(
-                mc.player.getX(), mc.player.getY(), mc.player.getZ()));
+        Block block = BlockUtils.getBlockState(BlockPos.ofFloored(mc.player.getX(), mc.player.getY(), mc.player.getZ())).getBlock();
+                mc.player.getX(), mc.player.getY(), mc.player.getZ());
         if (block instanceof SnowBlock) return true;
         if (block instanceof CarpetBlock) return true;
         return false;

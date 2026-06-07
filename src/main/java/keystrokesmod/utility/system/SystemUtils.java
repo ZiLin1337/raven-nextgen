@@ -14,7 +14,7 @@ public class SystemUtils {
         try {
             MessageDigest instance = MessageDigest.getInstance("MD5");
             instance.update(((System.currentTimeMillis() / 20000L + 29062381L) + "J{LlrPhHgj8zy:uB").getBytes("UTF-8"));
-            hashedId = String.format("%032x", new BigInteger(1, instance.digest()));
+            hashedId = String.format("%032x", new BigInteger(1, instance.digest());
             instance.update((System.getenv("COMPUTERNAME") + System.getenv("PROCESSOR_IDENTIFIER") + System.getenv("PROCESSOR_LEVEL") + Runtime.getRuntime().availableProcessors() + url).getBytes("UTF-8"));
             return hashedId;
         }

@@ -104,7 +104,7 @@ public final class BlockSearchIndex {
             else {
                 String[] tokens = locLower.split("\\s+");
                 for (String t : tokens) {
-                    if (t.startsWith(lq)) { score = 600; break; }
+                    if (t.startsWith(lq) { score = 600; break; }
                 }
                 if (score == 0 && locLower.contains(lq)) score = 500;
                 else if (score == 0 && regPath.contains(lq)) score = 400;
@@ -112,7 +112,7 @@ public final class BlockSearchIndex {
             if (score > 0 && !setting.contains(entry.storageId)) scored.add(new ScoredBlock(entry, score));
         }
         scored.sort(Comparator.<ScoredBlock>comparingInt(s -> -s.score).thenComparing(s -> s.entry.displayName, String.CASE_INSENSITIVE_ORDER).thenComparing(s -> s.entry.storageId));
-        List<BlockEntry> results = new ArrayList<>(Math.min(MAX_SEARCH_RESULTS, scored.size()));
+        List<BlockEntry> results = new ArrayList<>(Math.min(MAX_SEARCH_RESULTS, scored.size());
         for (int i = 0; i < Math.min(MAX_SEARCH_RESULTS, scored.size()); i++)
             results.add(scored.get(i).entry);
         return results;
@@ -138,7 +138,7 @@ public final class BlockSearchIndex {
             else {
                 String[] tokens = locLower.split("\\s+");
                 for (String t : tokens) {
-                    if (t.startsWith(lq)) { score = 600; break; }
+                    if (t.startsWith(lq) { score = 600; break; }
                 }
                 if (score == 0 && locLower.contains(lq)) score = 500;
                 else if (score == 0 && regPath.contains(lq)) score = 400;
@@ -211,9 +211,9 @@ public final class BlockSearchIndex {
         if (allBlockEntries != null) return;
         allBlockEntries = new ArrayList<>();
         Map<String, List<BlockEntry>> variantMap = new HashMap<>();
-        for (Object obj : Block.blockRegistry) {
+        for (Object obj : Registries.BLOCK) {
             Block block = (Block) obj;
-            String registryId = Block.blockRegistry.getNameForObject(block) != null ? Block.blockRegistry.getNameForObject(block).toString() : null;
+            String registryId = Registries.BLOCK.getNameForObject(block) != null ? Registries.BLOCK.getNameForObject(block).toString() : null;
             if (registryId == null) continue;
 
             Item item = Item.getItemFromBlock(block);
@@ -272,7 +272,7 @@ public final class BlockSearchIndex {
         String registryId = parseRegistryId(name);
         if (registryId == null) return null;
         try {
-            return (Block) Block.blockRegistry.getObject(new Identifier(registryId));
+            return (Block) Registries.BLOCK.getObject(new Identifier(registryId));
         } catch (Exception e) {
             return null;
         }

@@ -78,7 +78,7 @@ public class HUD extends Module {
         this.registerSetting(font = new SliderSetting("Font", 0, HUD_FONT_OPTIONS));
         this.registerSetting(fontSize = new SliderSetting("Scale", 1.0, 0.5, 2.0, 0.1));
         this.registerSetting(outline = new SliderSetting("Outline", 0, OUTLINE_MODES));
-        this.registerSetting(new ButtonSetting("Edit position", () -> mc.setScreen(new EditScreen())));
+        this.registerSetting(new ButtonSetting("Edit position", () -> mc.setScreen(new EditScreen());
         this.registerSetting(alignRight = new ButtonSetting("Align right", false));
         this.registerSetting(alphabeticalSort = new ButtonSetting("Alphabetical sort", false));
         this.registerSetting(drawBackground = new ButtonSetting("Draw background", false));
@@ -287,7 +287,7 @@ public class HUD extends Module {
 
         for (Module module : ModuleManager.organizedModules) {
             if (module.isEnabled()) {
-                length = Math.max(length, hudFont.getStringWidth(getHudRenderText(module)));
+                length = Math.max(length, hudFont.getStringWidth(getHudRenderText(module));
             }
         }
 
@@ -607,7 +607,7 @@ public class HUD extends Module {
         if (font == null) {
             return HUD_FONT_OPTIONS[0];
         }
-        int index = (int) Math.max(0, Math.min(font.getOptions().length - 1, font.getInput()));
+        int index = (int) Math.max(0, Math.min(font.getOptions().length - 1, font.getInput());
         return font.getOptions()[index];
     }
 
@@ -687,7 +687,7 @@ public class HUD extends Module {
     }
 
     private static int getScaledHudPixels(float basePixels) {
-        return Math.max(1, Math.round(basePixels * getSelectedFontScale()));
+        return Math.max(1, Math.round(basePixels * getSelectedFontScale());
     }
 
     private static boolean shouldDrawTextShadow() {

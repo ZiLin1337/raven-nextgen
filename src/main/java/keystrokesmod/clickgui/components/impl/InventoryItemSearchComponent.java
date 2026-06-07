@@ -72,8 +72,8 @@ public class InventoryItemSearchComponent extends AbstractItemSearchComponent<In
             for (String sid : items) {
                 List<ItemSearchIndex.ItemEntry> variants = ItemSearchIndex.isGroupedSelection(sid) ? ItemSearchIndex.getSelectionVariants(sid) : null;
                 List<net.minecraft.item.ItemStack> cycling = null;
-                if (variants != null && !variants.isEmpty()) { cycling = new ArrayList<>(); for (ItemSearchIndex.ItemEntry v : variants) cycling.add(v.toItemStack()); }
-                selectedRowsCache.add(new InventorySelectedRowData(sid, ItemSearchIndex.getDisplayName(sid), ItemSearchIndex.getItemStack(sid), cycling, setting.getAssignedSlot(sid)));
+                if (variants != null && !variants.isEmpty() { cycling = new ArrayList<>(); for (ItemSearchIndex.ItemEntry v : variants) cycling.add(v.toItemStack()); }
+                selectedRowsCache.add(new InventorySelectedRowData(sid, ItemSearchIndex.getDisplayName(sid), ItemSearchIndex.getItemStack(sid), cycling, setting.getAssignedSlot(sid));
             }
         }
         for (int i = firstRow; i < end; i++) {

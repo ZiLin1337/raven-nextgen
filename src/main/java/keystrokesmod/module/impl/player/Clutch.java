@@ -184,7 +184,7 @@ public class Clutch extends Module {
 
         placeQueued = false;
         if (placeAtBlock != null && hitSide != null && hitVec != null
-                && mc.interactionManager.onPlayerRightClick(mc.player, mc.world, mc.player.getHeldItem(), placeAtBlock, hitSide, hitVec)) {
+                && mc.interactionManager.onPlayerRightClick(mc.player, mc.world, mc.player.getHeldItem(), placeAtBlock, hitSide, hitVec) {
             if (hitSide != Direction.UP) clutchBlocksPlaced++;
             lastPlaced = placeAtBlock;
             mc.player.swingItem();
@@ -259,7 +259,7 @@ public class Clutch extends Module {
 
             if (autoClutchChecking && !autoClutchActive && !autoClutchLandedGuard) {
                 if (autoClutchCheckCounter == 0 || autoClutchCheckCounter % 3 == 0) {
-                    if (willFallFar(minimumFallDistance.getInput())) {
+                    if (willFallFar(minimumFallDistance.getInput() {
                         autoClutchActive = true;
                     }
                 }
@@ -513,8 +513,8 @@ public class Clutch extends Module {
             ItemStack stack = mc.player.inventory.mainInventory[slot];
             if (stack == null || stack.stackSize == 0 || !(stack.getItem() instanceof BlockItem)) continue;
 
-            Block block = ((BlockItem) stack.getItem()).getBlockState().getBlock());
-            Identifier id = Block.blockRegistry.getNameForObject(block);
+            Block block = ((BlockItem) stack.getItem()).getBlock();
+            Identifier id = Registries.BLOCK.getNameForObject(block);
             if (id == null) continue;
 
             Integer score = BLOCK_SCORE.get(id.getResourcePath());
@@ -572,7 +572,7 @@ public class Clutch extends Module {
     }
 
     private boolean canPlaceThrough(BlockPos pos) {
-        Block block = BlockUtils.getBlockState().getBlock()pos);
+        Block block = BlockUtils.getBlockState(pos);
         Material material = block.getMaterial();
         return material == Material.air || material == Material.water || material == Material.lava || block == Blocks.fire;
     }

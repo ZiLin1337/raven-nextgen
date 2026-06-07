@@ -218,16 +218,16 @@ public class Trajectories extends Module {
                     mutablePos.set(x, y, z);
                     BlockState blockState = mc.world.getBlockState(mutablePos);
 
-                    if (blockState.getBlockState().getBlock()).getMaterial() != Material.water) {
+                    if (blockState.getBlock().getMaterial() != Material.water) {
                         continue;
                     }
 
                     double liquidSurfaceY = (double) ((float) (y + 1) -
-                            FluidBlock.getLiquidHeightPercent((Integer) blockState.getValue(FluidBlock.LEVEL)));
+                            FluidBlock.getLiquidHeightPercent((Integer) blockState.getValue(FluidBlock.LEVEL));
 
                     if ((double) maxY >= liquidSurfaceY) {
                         inWater = true;
-                        flowDirection = blockState.getBlockState().getBlock()).modifyAcceleration(mc.world, mutablePos, mc.player, flowDirection);
+                        flowDirection = blockState.getBlock().modifyAcceleration(mc.world, mutablePos, mc.player, flowDirection);
                     }
                 }
             }
@@ -386,11 +386,11 @@ public class Trajectories extends Module {
                 for (int z = minZ; z < maxZ; ++z) {
                     mutablePos.set(x, y, z);
                     BlockState blockState = mc.world.getBlockState(mutablePos);
-                    Block block = blockState.getBlockState().getBlock());
+                    Block block = blockState.getBlock();
 
                     if ((!props.ignoreBlockWithoutBoundingBox
                             || block.getCollisionShape(mc.world, mutablePos, blockState) != null)
-                            && block.canCollideCheck(blockState, false)) {
+                            && block.canCollideCheck(blockState, false) {
                         collisionBoxes.clear();
                         Box vanillaProjectileBounds = getVanillaProjectileBounds(block, mutablePos);
                         block.addCollisionBoxesToList(mc.world, mutablePos, blockState, sweepBounds, collisionBoxes, null);
@@ -461,7 +461,7 @@ public class Trajectories extends Module {
                 }
 
                 double t = remainingDistance / segmentLength;
-                clippedPoints.add(new double[] {
+                clippedPoints.addnew double[] ) {
                         previousPoint[0] + deltaX * t,
                         previousPoint[1] + deltaY * t,
                         previousPoint[2] + deltaZ * t
@@ -486,7 +486,7 @@ public class Trajectories extends Module {
             return held;
         }
         if (item == Items.POTION) {
-            if (ItemPotion.isSplash(held.getMetadata())) {
+            if (ItemPotion.isSplash(held.getMetadata() {
                 return held;
             }
             return null;
@@ -624,9 +624,9 @@ public class Trajectories extends Module {
                 int subCount = (int) Math.ceil(hitT * SUB);
                 for (int s = 0; s < subCount; s++) {
                     double t = (double) s / SUB;
-                    renderPoints.add(new double[]{posX + motX * t - rm.viewerPosX, posY + motY * t - rm.viewerPosY, posZ + motZ * t - rm.viewerPosZ});
+                    renderPoints.addnew double[]) {posX + motX * t - rm.viewerPosX, posY + motY * t - rm.viewerPosY, posZ + motZ * t - rm.viewerPosZ});
                 }
-                renderPoints.add(new double[]{bestHitVec.xCoord - rm.viewerPosX, bestHitVec.yCoord - rm.viewerPosY, bestHitVec.zCoord - rm.viewerPosZ});
+                renderPoints.addnew double[]) {bestHitVec.xCoord - rm.viewerPosX, bestHitVec.yCoord - rm.viewerPosY, bestHitVec.zCoord - rm.viewerPosZ});
                 hitEntity = bestEntity;
                 hitEntityBox = bestBox;
                 hitType = HIT_ENTITY;
@@ -647,15 +647,15 @@ public class Trajectories extends Module {
                 int subCount = (int) Math.ceil(hitT * SUB);
                 for (int s = 0; s < subCount; s++) {
                     double t = (double) s / SUB;
-                    renderPoints.add(new double[]{posX + motX * t - rm.viewerPosX, posY + motY * t - rm.viewerPosY, posZ + motZ * t - rm.viewerPosZ});
+                    renderPoints.addnew double[]) {posX + motX * t - rm.viewerPosX, posY + motY * t - rm.viewerPosY, posZ + motZ * t - rm.viewerPosZ});
                 }
-                renderPoints.add(new double[]{hitVec.xCoord - rm.viewerPosX, hitVec.yCoord - rm.viewerPosY, hitVec.zCoord - rm.viewerPosZ});
+                renderPoints.addnew double[]) {hitVec.xCoord - rm.viewerPosX, hitVec.yCoord - rm.viewerPosY, hitVec.zCoord - rm.viewerPosZ});
                 hitBlock = blockMop;
                 break outer;
             }
             for (int s = 0; s < SUB; s++) {
                 double t = (double) s / SUB;
-                renderPoints.add(new double[]{posX + motX * t - rm.viewerPosX, posY + motY * t - rm.viewerPosY, posZ + motZ * t - rm.viewerPosZ});
+                renderPoints.addnew double[]) {posX + motX * t - rm.viewerPosX, posY + motY * t - rm.viewerPosY, posZ + motZ * t - rm.viewerPosZ});
             }
             posX = nextX;
             posY = nextY;
@@ -717,7 +717,7 @@ public class Trajectories extends Module {
             Box renderBox = new Box(hitEntityBox.minX - hitEntity.posX + ex, hitEntityBox.minY - hitEntity.posY + ey, hitEntityBox.minZ - hitEntity.posZ + ez, hitEntityBox.maxX - hitEntity.posX + ex, hitEntityBox.maxY - hitEntity.posY + ey, hitEntityBox.maxZ - hitEntity.posZ + ez);
             RenderSystem.setShaderColor(r, g, b, 1.0f);
             RenderUtils.drawOutlinedBox(renderBox, rm.viewerPosX, rm.viewerPosY, rm.viewerPosZ);
-        } else if (hitBlock != null && !showLanding.isToggled()) {
+        } else if (hitBlock != null && !showLanding.isToggled() {
             BlockPos bpos = hitBlock.getBlockPos();
             Box selBox = BlockUtils.getBlockSelectionBox(bpos);
             if (selBox != null) {

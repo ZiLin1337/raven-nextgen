@@ -62,7 +62,7 @@ public class ChestESP extends Module {
     }
 
     public static void onRenderChestPost() {
-        if (!Boolean.TRUE.equals(CHEST_CHAMS_ACTIVE.get())) {
+        if (!Boolean.TRUE.equals(CHEST_CHAMS_ACTIVE.get() {
             return;
         }
         CHEST_CHAMS_ACTIVE.set(false);
@@ -176,7 +176,7 @@ public class ChestESP extends Module {
 
             List<BlockPos> visibleBatch = new ArrayList<>();
             for (BlockPos pos : trackedBatch) {
-                if (RenderUtils.isInViewFrustum(getChestBoundingBox(pos))) {
+                if (RenderUtils.isInViewFrustum(getChestBoundingBox(pos) {
                     visibleBatch.add(pos);
                 }
             }

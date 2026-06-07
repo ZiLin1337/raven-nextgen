@@ -30,7 +30,7 @@ public class InventoryItemListSetting extends ItemListSetting {
         String key = null;
         if (data.has(getProfileKey())) key = getProfileKey();
         else if (data.has(getName())) key = getName();
-        else { for (String k : getLegacyProfileKeys()) { if (data.has(k)) { key = k; break; } } }
+        else { for (String k : getLegacyProfileKeys() { if (data.has(k) { key = k; break; } } }
         if (key == null) return;
         getItems().clear(); assignedSlots.clear();
         JsonElement el = data.get(key);
@@ -41,7 +41,7 @@ public class InventoryItemListSetting extends ItemListSetting {
                 String sid = e.getAsString();
                 if (sid == null || sid.isEmpty() || containsItem(sid)) continue;
                 super.addItem(sid); assignedSlots.put(sid, DEFAULT_SLOT);
-            } else if (e.isJsonObject()) {
+            } else if (e.isJsonObject() {
                 JsonObject o = e.getAsJsonObject();
                 if (!o.has("id")) continue;
                 String sid = o.get("id").getAsString();
@@ -61,7 +61,7 @@ public class InventoryItemListSetting extends ItemListSetting {
         for (String sid : getItems()) {
             JsonObject o = new JsonObject();
             o.addProperty("id", sid);
-            o.add("slot", new JsonPrimitive(getAssignedSlot(sid)));
+            o.add("slot", new JsonPrimitive(getAssignedSlot(sid));
             arr.add(o);
         }
         return arr;

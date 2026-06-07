@@ -96,7 +96,7 @@ public class Freecam extends Module {
             double rad;
             double dx;
             double dz;
-            if (GLFW.glfwGetKey(MinecraftClient.getInstance().getWindow().getHandle(),mc.options.keyBindForward.getKeyCode())) {
+            if (GLFW.glfwGetKey(MinecraftClient.getInstance().getWindow().getHandle(),mc.options.keyBindForward.getKeyCode() {
                 rad = (double) freeEntity.rotationYawHead * 0.017453292519943295D;
                 dx = -1.0D * Math.sin(rad) * s;
                 dz = Math.cos(rad) * s;
@@ -104,7 +104,7 @@ public class Freecam extends Module {
                 freeEntity.posZ += dz;
             }
 
-            if (GLFW.glfwGetKey(MinecraftClient.getInstance().getWindow().getHandle(),mc.options.keyBindBack.getKeyCode())) {
+            if (GLFW.glfwGetKey(MinecraftClient.getInstance().getWindow().getHandle(),mc.options.keyBindBack.getKeyCode() {
                 rad = (double) freeEntity.rotationYawHead * 0.017453292519943295D;
                 dx = -1.0D * Math.sin(rad) * s;
                 dz = Math.cos(rad) * s;
@@ -112,7 +112,7 @@ public class Freecam extends Module {
                 freeEntity.posZ -= dz;
             }
 
-            if (GLFW.glfwGetKey(MinecraftClient.getInstance().getWindow().getHandle(),mc.options.keyBindLeft.getKeyCode())) {
+            if (GLFW.glfwGetKey(MinecraftClient.getInstance().getWindow().getHandle(),mc.options.keyBindLeft.getKeyCode() {
                 rad = (double) (freeEntity.rotationYawHead - 90.0F) * 0.017453292519943295D;
                 dx = -1.0D * Math.sin(rad) * s;
                 dz = Math.cos(rad) * s;
@@ -120,7 +120,7 @@ public class Freecam extends Module {
                 freeEntity.posZ += dz;
             }
 
-            if (GLFW.glfwGetKey(MinecraftClient.getInstance().getWindow().getHandle(),mc.options.keyBindRight.getKeyCode())) {
+            if (GLFW.glfwGetKey(MinecraftClient.getInstance().getWindow().getHandle(),mc.options.keyBindRight.getKeyCode() {
                 rad = (double) (freeEntity.rotationYawHead + 90.0F) * 0.017453292519943295D;
                 dx = -1.0D * Math.sin(rad) * s;
                 dz = Math.cos(rad) * s;
@@ -132,7 +132,7 @@ public class Freecam extends Module {
                 freeEntity.posY += 0.93D * s;
             }
 
-            if (GLFW.glfwGetKey(MinecraftClient.getInstance().getWindow().getHandle(),mc.options.keyBindSneak.getKeyCode())) {
+            if (GLFW.glfwGetKey(MinecraftClient.getInstance().getWindow().getHandle(),mc.options.keyBindSneak.getKeyCode() {
                 freeEntity.posY -= 0.93D * s;
             }
 

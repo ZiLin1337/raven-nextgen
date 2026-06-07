@@ -66,7 +66,7 @@ public class PotionHUD extends Module {
         this.registerSetting(verticalAlignment = new SliderSetting("Vertical Alignment", 0, VERTICAL_ALIGNMENT_OPTIONS, "Direction"));
         this.registerSetting(font = new SliderSetting("Font", 0, FONT_OPTIONS));
         this.registerSetting(scale = new SliderSetting("Scale", 1.0, 0.5, 2.0, 0.1));
-        this.registerSetting(new ButtonSetting("Edit position", () -> mc.displayScreen(new EditScreen())));
+        this.registerSetting(new ButtonSetting("Edit position", () -> mc.displayScreen(new EditScreen());
         this.registerSetting(excludePermanent = new ButtonSetting("Exclude permanent", false));
         this.registerSetting(drawBackground = new ButtonSetting("Draw background", false));
         this.registerSetting(textShadow = new ButtonSetting("Text shadow", true));
@@ -180,7 +180,7 @@ public class PotionHUD extends Module {
             return null;
         }
 
-        if (potionBlacklist.containsPotion(potion.getName())) {
+        if (potionBlacklist.containsPotion(potion.getName() {
             return null;
         }
 
@@ -307,7 +307,7 @@ public class PotionHUD extends Module {
     }
 
     private String getSelectedFontName() {
-        int index = (int) Math.max(0, Math.min(font.getOptions().length - 1, font.getInput()));
+        int index = (int) Math.max(0, Math.min(font.getOptions().length - 1, font.getInput());
         return font.getOptions()[index];
     }
 

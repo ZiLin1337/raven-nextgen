@@ -204,7 +204,7 @@ public class RotationHelper {
 
         if (forward == 0 && strafe == 0) return;
 
-        double angle = MathHelper.wrapDegrees(Math.toDegrees(getDirection(mc.player.getYaw(), forward, strafe)));
+        double angle = MathHelper.wrapDegrees(Math.toDegrees(getDirection(mc.player.getYaw(), forward, strafe));
 
         float closestForward = 0, closestStrafe = 0, closestDiff = Float.MAX_VALUE;
         for (float pfRaw = -1F; pfRaw <= 1F; pfRaw += 1F) {
@@ -212,7 +212,7 @@ public class RotationHelper {
                 if (pfRaw == 0 && psRaw == 0) continue;
                 float predictedForward = pfRaw * sneakMultiplier;
                 float predictedStrafe = psRaw * sneakMultiplier;
-                double predictedAngle = MathHelper.wrapDegrees(Math.toDegrees(getDirection(yaw, predictedForward, predictedStrafe)));
+                double predictedAngle = MathHelper.wrapDegrees(Math.toDegrees(getDirection(yaw, predictedForward, predictedStrafe));
                 double diff = Math.abs(angle - predictedAngle);
                 if (diff < closestDiff) {
                     closestDiff = (float) diff;

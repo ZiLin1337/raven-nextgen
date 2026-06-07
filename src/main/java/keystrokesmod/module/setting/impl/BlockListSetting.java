@@ -45,11 +45,11 @@ public class BlockListSetting extends Setting {
         String key = null;
         if (data.has(getProfileKey())) key = getProfileKey();
         else if (data.has(getName())) key = getName();
-        else { for (String k : legacyProfileKeys) { if (data.has(k)) { key = k; break; } } }
+        else { for (String k : legacyProfileKeys) { if (data.has(k) { key = k; break; } } }
         if (key == null) return;
         blocks.clear();
         JsonElement el = data.get(key);
-        if (el.isJsonArray()) { for (JsonElement e : el.getAsJsonArray()) blocks.add(e.getAsString()); }
+        if (el.isJsonArray() { for (JsonElement e : el.getAsJsonArray()) blocks.add(e.getAsString()); }
     }
     public JsonArray toJsonArray() {
         JsonArray arr = new JsonArray();

@@ -180,7 +180,7 @@ public class ModuleUtils implements IMinecraftInstance {
     }
 
     private boolean bHopBoostConditions() {
-        if (ModuleManager.bHop.isEnabled() && ModuleManager.bHop.damageBoost.isToggled() && (!ModuleManager.bHop.damageBoostRequireKey.isToggled() || ModuleManager.bHop.damageBoostKey.isPressed())) {
+        if (ModuleManager.bHop.isEnabled() && ModuleManager.bHop.damageBoost.isToggled() && (!ModuleManager.bHop.damageBoostRequireKey.isToggled() || ModuleManager.bHop.damageBoostKey.isPressed() {
             return true;
         }
         return false;
@@ -208,9 +208,9 @@ public class ModuleUtils implements IMinecraftInstance {
         groundTicks = !mc.player.onGround ? 0 : ++groundTicks;
         stillTicks = Utils.isMoving() ? 0 : ++stillTicks;
 
-        Block blockBelow = BlockUtils.getBlockState().getBlock()new BlockPos(mc.player.getX(), mc.player.getY() - 1, mc.player.getZ()));
-        Block blockBelow2 = BlockUtils.getBlockState().getBlock()new BlockPos(mc.player.getX(), mc.player.getY() - 2, mc.player.getZ()));
-        Block block = BlockUtils.getBlockState().getBlock()new BlockPos(mc.player.getX(), mc.player.getY(), mc.player.getZ()));
+        Block blockBelow = BlockUtils.getBlockState(new BlockPos(mc.player.getX(), mc.player.getY() - 1, mc.player.getZ());
+        Block blockBelow2 = BlockUtils.getBlockState(new BlockPos(mc.player.getX(), mc.player.getY() - 2, mc.player.getZ());
+        Block block = BlockUtils.getBlockState(new BlockPos(mc.player.getX(), mc.player.getY(), mc.player.getZ());
 
         if (ModuleManager.bHop.didMove) {
 

@@ -56,7 +56,7 @@ public class ShaderUtils {
                                         "    smp7.rgb *= smp7.a;\n" +
                                         "    sum += smp7 * 2.0;\n" +
                                         "    vec4 result = sum / 12.0;\n" +
-                                        "    gl_FragColor = vec4(result.rgb / result.a, mix(result.a, 1.0 - exp(-result.a * exposure), step(0.0, lastPass)));\n" +
+                                        "    gl_FragColor = vec4(result.rgb / result.a, mix(result.a, 1.0 - exp(-result.a * exposure), step(0.0, lastPass));\n" +
                                         "}";
     private final String glowShader = "#version 120\n" +
                                       "\n" +
@@ -86,7 +86,7 @@ public class ShaderUtils {
                                       "        innerColor += (colorCurrent1 + colorCurrent2) * weights[int(r)];\n" +
                                       "    }\n" +
                                       "\n" +
-                                      "    gl_FragColor = vec4(innerColor.rgb / innerColor.a, mix(innerColor.a, 1.0 - exp(-innerColor.a * exposure), step(0.0, direction.y)));\n" +
+                                      "    gl_FragColor = vec4(innerColor.rgb / innerColor.a, mix(innerColor.a, 1.0 - exp(-innerColor.a * exposure), step(0.0, direction.y));\n" +
                                       "}\n";
     private final String roundRectTexture = "#version 120\n" +
                                             "\n" +
@@ -167,7 +167,7 @@ public class ShaderUtils {
                                          "\n" +
                                          "    vec4 result = sum / 12.0;\n" +
                                          "    float checkAlpha = texture2D(textureToCheck, gl_TexCoord[0].st).a;\n" +
-                                         "    gl_FragColor = vec4(result.rgb / result.a, mix(result.a, result.a * (1.0 - checkAlpha), float(check)));\n" +
+                                         "    gl_FragColor = vec4(result.rgb / result.a, mix(result.a, result.a * (1.0 - checkAlpha), float(check));\n" +
                                          "}\n";
     private final String kawaseDownBloom = "#version 120\n" +
                                            "\n" +
@@ -304,7 +304,7 @@ public class ShaderUtils {
                                                "    vec2 halfSize = rectSize * .5;\n" +
                                                "    \n" +
                                                "   // use the bottom leftColor as the alpha\n" +
-                                               "    float smoothedAlpha =  (1.0-smoothstep(0.0, 2., roundSDF(halfSize - (gl_TexCoord[0].st * rectSize), halfSize - radius - 1., radius)));\n" +
+                                               "    float smoothedAlpha =  (1.0-smoothstep(0.0, 2., roundSDF(halfSize - (gl_TexCoord[0].st * rectSize), halfSize - radius - 1., radius));\n" +
                                                "    vec4 gradient = createGradient(st, color1, color2, color3, color4);    gl_FragColor = vec4(gradient.rgb, gradient.a * smoothedAlpha);\n" +
                                                "}";
     private final String roundedRect = "#version 120\n" +

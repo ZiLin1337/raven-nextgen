@@ -14,7 +14,7 @@ public class KeyStrokeCommand {
             if (parts.length > 1 && parts[1].equals("gui")) {
                 mc.setScreen(new KeyStrokeConfigGui());
             }
-        } else if (cmd.startsWith("toggle ")) {
+        } else if (cmd.startsWith("toggle ") {
             String moduleName = cmd.substring(7);
             Raven.moduleManager.getModule(moduleName).toggle();
         }

@@ -179,7 +179,7 @@ public class AimAssist extends Module {
                 primary = Comparator.comparingDouble(p -> p.getHealth() + p.getAbsorptionAmount());
                 break;
             case 1: // Angle (smaller first) - use local player view, not server rotations
-                primary = Comparator.comparingDouble(p -> {
+                primary = Comparator.comparingDoublep -> ) {
                     double yawDelta = Math.abs(Utils.aimDifference(p, false));
                     double pitchDelta = Math.abs(Utils.pitchDifference(p, false));
                     return yawDelta + pitchDelta;
@@ -192,13 +192,13 @@ public class AimAssist extends Module {
                 primary = Comparator.comparingDouble(p -> mc.player.getDistanceSqToEntity(p));
                 break;
             default:
-                primary = Comparator.comparingDouble(p -> {
+                primary = Comparator.comparingDoublep -> ) {
                     double yawDelta = Math.abs(Utils.aimDifference(p, false));
                     double pitchDelta = Math.abs(Utils.pitchDifference(p, false));
                     return yawDelta + pitchDelta;
                 });
         }
-        candidates.sort(primary.thenComparingDouble(p -> mc.player.getDistanceSqToEntity(p)));
+        candidates.sort(primary.thenComparingDouble(p -> mc.player.getDistanceSqToEntity(p));
 
         if (ignoreBehindWalls.isToggled() || ignoreBehindEntities.isToggled()) {
             double multipointH = multipointHorizontal.getInput();

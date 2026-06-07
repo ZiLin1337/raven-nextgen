@@ -193,7 +193,7 @@ public class LagRange extends Module {
 
                 if (usedSplashPotion.isToggled() && mc.player.isUsingItem()) {
                     ItemStack held = mc.player.getHeldItem();
-                    if (held != null && held.getItem() instanceof ItemPotion && ItemPotion.isSplash(held.getMetadata())) {
+                    if (held != null && held.getItem() instanceof ItemPotion && ItemPotion.isSplash(held.getMetadata() {
                         flushLag();
                         lastDistSq = distSq;
                         lastTargetHurtTime = currentTarget.hurtTime;
@@ -230,7 +230,7 @@ public class LagRange extends Module {
             lastDistSq = distSq;
 
             if (hurtTime == 0 && weaponOk && moving
-                    && (closing && outsideMinDist || hitStart)) {
+                    && (closing && outsideMinDist || hitStart) {
                 startLag();
             }
         } else {
@@ -281,7 +281,7 @@ public class LagRange extends Module {
             indicatorInterpFrom = delayedPos;
             indicatorInterpTo = delayedPos;
             indicatorInterpStartMs = nowMs;
-        } else if (serverPosChanged(delayedPos, indicatorInterpTo)) {
+        } else if (serverPosChanged(delayedPos, indicatorInterpTo) {
             double te = Math.min(1.0D, (nowMs - indicatorInterpStartMs) / (double) INDICATOR_INTERP_MS);
             indicatorInterpFrom = lerpVec3d(indicatorInterpFrom, indicatorInterpTo, te);
             indicatorInterpTo = delayedPos;

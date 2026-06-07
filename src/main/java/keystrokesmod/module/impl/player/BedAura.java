@@ -222,7 +222,7 @@ public class BedAura extends Module {
     }
 
     public int getBreakDelayTicks() {
-        return Math.max(0, Math.min(5, (int) (breakDelay.getInput() / 50.0)));
+        return Math.max(0, Math.min(5, (int) (breakDelay.getInput() / 50.0));
     }
 
     public float getAuraBreakProgress() {
@@ -298,7 +298,7 @@ public class BedAura extends Module {
         targetSide = best.side;
         miningActive = true;
 
-        equipBestHotbarTool(BlockUtils.getBlockState().getBlock()targetPos));
+        equipBestHotbarTool(BlockUtils.getBlockState(targetPos));
 
         float baseYaw = e.yaw != null ? e.yaw : RotationUtils.serverRotations[0];
         float basePitch = e.pitch != null ? e.pitch : RotationUtils.serverRotations[1];
@@ -316,7 +316,7 @@ public class BedAura extends Module {
             return;
         }
         BlockState st = mc.world.getBlockState(targetPos);
-        Block b = st.getBlockState().getBlock());
+        Block b = st.getBlock();
         if (b == null || b == Blocks.AIR) {
             return;
         }
@@ -361,7 +361,7 @@ public class BedAura extends Module {
                         continue;
                     }
                     Vec3d center = bedCenter(pair);
-                    if (!inFov(center, (float) fov.getInput())) {
+                    if (!inFov(center, (float) fov.getInput() {
                         continue;
                     }
                     seenFeet.add(foot);
@@ -375,26 +375,26 @@ public class BedAura extends Module {
 
     private BlockPos[] footHeadPair(BlockPos at) {
         BlockState st = mc.world.getBlockState(at);
-        if (!(st.getBlockState().getBlock()) instanceof BedBlock)) {
+        if (!(st.getBlock() instanceof BedBlock)) {
             return null;
         }
-        BedBlock.EnumPartType part = (BedBlock.EnumPartType) st.getValue(BedBlock.PART);
+        BedBlockPart part = (BedBlockPart) st.getValue(BedBlock.PART);
         Direction facing = (Direction) st.getValue(BedBlock.FACING);
-        BlockPos foot = part == BedBlock.EnumPartType.FOOT ? at : at.offset(facing.getOpposite());
+        BlockPos foot = part == BedBlockPart.FOOT ? at : at.offset(facing.getOpposite());
         BlockState footSt = mc.world.getBlockState(foot);
-        if (!(footSt.getBlockState().getBlock()) instanceof BedBlock)) {
+        if (!(footSt.getBlock() instanceof BedBlock)) {
             return null;
         }
-        if (footSt.getValue(BedBlock.PART) != BedBlock.EnumPartType.FOOT) {
+        if (footSt.getValue(BedBlock.PART) != BedBlockPart.FOOT) {
             return null;
         }
         Direction footFacing = (Direction) footSt.getValue(BedBlock.FACING);
         BlockPos head = foot.offset(footFacing);
         BlockState hs = mc.world.getBlockState(head);
-        if (!(hs.getBlockState().getBlock()) instanceof BedBlock)) {
+        if (!(hs.getBlock() instanceof BedBlock)) {
             return null;
         }
-        if (hs.getValue(BedBlock.PART) != BedBlock.EnumPartType.HEAD) {
+        if (hs.getValue(BedBlock.PART) != BedBlockPart.HEAD) {
             return null;
         }
         if (hs.getValue(BedBlock.FACING) != footFacing) {
@@ -463,7 +463,7 @@ public class BedAura extends Module {
 
     private void sortBedsByEyeDistance(List<BlockPos[]> pairs) {
         Vec3d eye = mc.player.getPositionEyes(1f);
-        pairs.sort(Comparator.comparingDouble(p -> eye.squareDistanceTo(bedCenter(p))));
+        pairs.sort(Comparator.comparingDouble(p -> eye.squareDistanceTo(bedCenter(p));
     }
 
     private Choice pickBestOnClosestBedWithCandidates(List<BlockPos[]> sortedPairs, double reachSq, float curProg, BlockPos breaking) {
@@ -487,7 +487,7 @@ public class BedAura extends Module {
     }
 
     private double scoreChoice(Choice ch, float curProg, BlockPos breaking) {
-        Block block = BlockUtils.getBlockState().getBlock()ch.pos);
+        Block block = BlockUtils.getBlockState(ch).pos);
         float bestHotbar = BlockUtils.maxDigRateAcrossSlots(block, PlayerInventory.getHotbarSize());
         if (bestHotbar <= 0) {
             return Double.POSITIVE_INFINITY;
@@ -522,7 +522,7 @@ public class BedAura extends Module {
                         continue;
                     }
                     BlockState st = mc.world.getBlockState(n);
-                    Block b = st.getBlockState().getBlock());
+                    Block b = st.getBlock();
                     if (b == Blocks.AIR || b instanceof BedBlock) {
                         continue;
                     }
@@ -542,7 +542,7 @@ public class BedAura extends Module {
         for (BlockPos bp : pair) {
             for (Direction f : Direction.values()) {
                 BlockPos n = bp.offset(f);
-                if (mc.world.getBlockState(n).getBlockState().getBlock()) == Blocks.AIR) {
+                if (mc.world.getBlockState(n).getBlock() == Blocks.AIR) {
                     return true;
                 }
             }
@@ -552,7 +552,7 @@ public class BedAura extends Module {
 
     private void addBlockCandidate(BlockPos pos, double reachSq, List<Choice> out) {
         BlockState st = mc.world.getBlockState(pos);
-        Block block = st.getBlockState().getBlock());
+        Block block = st.getBlock();
         if (block == Blocks.AIR) {
             return;
         }
@@ -576,7 +576,7 @@ public class BedAura extends Module {
                 (hit.zCoord - eye.zCoord) * 0.01
         ));
         Direction side = BlockUtils.facingFromBlockCenterToPoint(pos, hit);
-        if (trace != null && trace.hitVec != null && trace.sideHit != null && pos.equals(trace.getBlockPos())) {
+        if (trace != null && trace.hitVec != null && trace.sideHit != null && pos.equals(trace.getBlockPos() {
             hit = trace.hitVec;
             side = trace.sideHit;
         }

@@ -49,7 +49,7 @@ public class ColorSetting extends Setting {
     public float getBrightness() { return Color.RGBtoHSB(red,green,blue,null)[2]; }
 
     public void setFromHSB(float h, float s, float b) {
-        int rgb = Color.HSBtoRGB(h/360f, Math.max(0f,Math.min(1f,s)), Math.max(0f,Math.min(1f,b)));
+        int rgb = Color.HSBtoRGB(h/360f, Math.max(0f,Math.min(1f,s)), Math.max(0f,Math.min(1f,b));
         this.red=(rgb>>16)&0xFF; this.green=(rgb>>8)&0xFF; this.blue=rgb&0xFF;
     }
     public void setHue(float h) { float[] hsb=Color.RGBtoHSB(red,green,blue,null); setFromHSB(h,hsb[1],hsb[2]); }

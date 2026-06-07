@@ -333,7 +333,7 @@ public class Displace extends Module {
         BlockPos.Mutable blockPos = new BlockPos.Mutable();
         for (int blockX = minX; blockX < maxX; blockX++) {
             for (int blockZ = minZ; blockZ < maxZ; blockZ++) {
-                if (!mc.world.isBlockLoaded(blockPos.set(blockX, 64, blockZ))) {
+                if (!mc.world.isBlockLoaded(blockPos.set(blockX, 64, blockZ) {
                     return true;
                 }
 
@@ -344,7 +344,7 @@ public class Displace extends Module {
 
                     blockPos.set(blockX, blockY, blockZ);
                     BlockState state = mc.world.getBlockState(blockPos);
-                    state.getBlockState().getBlock()).addCollisionBoxesToList(mc.world, blockPos, state, box, collisions, target);
+                    state.getBlock().addCollisionBoxesToList(mc.world, blockPos, state, box, collisions, target);
                     if (!collisions.isEmpty()) {
                         return true;
                     }
@@ -361,7 +361,7 @@ public class Displace extends Module {
         int endY = Math.max(0, startY - VOID_SCAN_DEPTH);
 
         for (int blockY = startY; blockY >= endY; blockY--) {
-            if (!mc.world.isAirBlock(new BlockPos(blockX, blockY, blockZ))) {
+            if (!mc.world.isAirBlock(new BlockPos(blockX, blockY, blockZ) {
                 return false;
             }
         }

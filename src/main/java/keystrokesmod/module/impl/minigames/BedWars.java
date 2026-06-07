@@ -75,7 +75,7 @@ public class BedWars extends Module {
                     BlockPos blockPos = entry.getKey();
                     Long receivedMs = entry.getValue();
 
-                    if (!(mc.world.getBlockState(blockPos).getBlockState().getBlock()) instanceof BlockObsidian) && Utils.timeBetween(System.currentTimeMillis(), receivedMs) >= 500) {
+                    if (!(mc.world.getBlockState(blockPos).getBlock() instanceof BlockObsidian) && Utils.timeBetween(System.currentTimeMillis(), receivedMs) >= 500) {
                         iterator.remove();
                         continue;
                     }
@@ -146,9 +146,9 @@ public class BedWars extends Module {
                             double distance = Math.round(mc.player.getDistanceToEntity(p));
                             handleAlert(itemType, p.getDisplayName().getFormattedText(), Utils.asWholeNum(distance));
                         }
-                    } else if (lastHeldMap.containsKey(name)) {
+                    } else if (lastHeldMap.containsKey(name) {
                         String itemType = lastHeldMap.get(name);
-                        if (!itemType.equals(getItemType(item))) {
+                        if (!itemType.equals(getItemType(item) {
                             lastHeldMap.remove(name);
                         }
                     }
@@ -163,7 +163,7 @@ public class BedWars extends Module {
             PlayerInteractBlockC2SPacket p = (PlayerInteractBlockC2SPacket) e.getPacket();
             if (p.getPlacedBlockDirection() != 255 && p.getStack() != null && p.getStack().getItem() != null) {
                 if (p.getStack().getItem() instanceof ItemMonsterPlacer) {
-                    Class<? extends Entity> oclass = EntityList.stringToClassMapping.get(ItemMonsterPlacer.getEntityName(p.getStack()));
+                    Class<? extends Entity> oclass = EntityList.stringToClassMapping.get(ItemMonsterPlacer.getEntityName(p.getStack());
                     if (oclass == null) {
                         return;
                     }
@@ -179,7 +179,7 @@ public class BedWars extends Module {
     public void onReceivePacket(ReceivePacketEvent e) {
         if (e.getPacket() instanceof S23PacketBlockChange) {
             S23PacketBlockChange p = (S23PacketBlockChange) e.getPacket();
-            if (p.getBlockState() != null && p.getBlockState().getBlockState().getBlock()) instanceof BlockObsidian && isNextToBed(p.getBlockPosition())) {
+            if (p.getBlockState() != null && p.getBlock() instanceof BlockObsidian && isNextToBed(p.getBlockPosition() {
                 this.obsidianPos.put(p.getBlockPosition(), System.currentTimeMillis());
             }
         }
@@ -188,7 +188,7 @@ public class BedWars extends Module {
     private boolean isNextToBed(BlockPos blockPos) {
         for (Direction enumFacing : Direction.values()) {
             BlockPos offset = blockPos.offset(enumFacing);
-            if (BlockUtils.getBlockState().getBlock()offset) instanceof BedBlock) {
+            if (BlockUtils.getBlockState(offset) instanceof BedBlock) {
                 return true;
             }
         }
