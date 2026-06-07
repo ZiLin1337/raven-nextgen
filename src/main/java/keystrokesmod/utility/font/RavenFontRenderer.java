@@ -13,10 +13,10 @@ public interface RavenFontRenderer {
             Text textObj = Text.literal(text);
             if (shadow) {
                 // 1.21.4: drawWithShadow returns int
-                return mc.textRenderer.drawWithShadow(String.valueOf(), x, y, color);
+                return mc.textRenderer.drawWithShadow(text, x, y, color);
             } else {
                 // 1.21.4: draw returns int
-                return mc.textRenderer.draw(String.valueOf(), x, y, color);
+                return mc.textRenderer.draw(text, x, y, color);
             }
         } catch (Exception e) {
             return 0;

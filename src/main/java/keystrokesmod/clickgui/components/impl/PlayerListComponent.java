@@ -63,7 +63,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
     @Override public void onScroll(int scroll) {
         if (!moduleComponent.isOpened || !moduleComponent.isVisible(this)) return;
         if (!capturesCategoryScroll(lastMouseX, lastMouseY)) return;
-        float delta = (float) keystrokesmod.module.impl.client.0.getInput() * (scroll / 120f);
+        float delta = (float) mc.mouse.getHorizontalMouseVelocity() * (scroll / 120f);
         if (delta != 0f) selectedScrollAnim.extend(-delta);
         clampSelectedScroll();
     }

@@ -86,7 +86,7 @@ public class PlayerESP extends Module {
             Box box_bb = player.getBoundingBox().offset(-cameraPos.x, -cameraPos.y, -cameraPos.z);
             
             if (box.isToggled()) {
-                RenderUtils.drawOutlinedBox();
+                RenderUtils.drawOutlinedBox();
             }
             if (outline.isToggled()) {
                 // RenderUtils.drawOutline removed
