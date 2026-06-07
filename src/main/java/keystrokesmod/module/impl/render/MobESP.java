@@ -1,6 +1,6 @@
 package keystrokesmod.module.impl.render;
 
-// import keystrokesmod.mixin.impl.accessor.// IAccessorEntityRenderer;
+// import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
 import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
@@ -345,9 +345,9 @@ public class MobESP extends Module {
         }
         // mc.gameRenderer.callSetupCameraTransform // Method not available
 
-        double playerX = en.prevX + (en.getX() - en.prevX) * partialTicks - // 0.0;
-        double playerY = en.prevY + (en.getY() - en.prevY) * partialTicks - // 0.0;
-        double playerZ = en.prevZ + (en.getZ() - en.prevZ) * partialTicks - // 0.0;
+        double playerX = en.prevX + (en.getX() - en.prevX) * partialTicks;
+        double playerY = en.prevY + (en.getY() - en.prevY) * partialTicks;
+        double playerZ = en.prevZ + (en.getZ() - en.prevZ) * partialTicks;
 
         Box bbox = en.getBoundingBox().expand(0.1D + expand, 0.1D + expand, 0.1D + expand);
         Box axis = new Box(
