@@ -171,7 +171,7 @@ public class RenderUtils implements IMinecraftInstance {
         int glBottom = (int) Math.floor((screenH - bottomGui) * scale);
         int glTop = (int) Math.ceil((screenH - y) * scale);
         int scaledHeight = Math.max(0, glTop - glBottom);
-        boolean wasEnabled = // GL11.isEnabled replaced(// // GL11 constant);
+        boolean wasEnabled = GL11.isEnabled(GL11.GL_SCISSOR_TEST);
         int[] saved = scissorPushStack[scissorPushDepth++];
         if (scissorPushDepth > SCISSOR_PUSH_STACK_DEPTH) throw new IllegalStateException("Scissor stack overflow");
         if (wasEnabled) {
@@ -205,7 +205,7 @@ public class RenderUtils implements IMinecraftInstance {
 
     public static boolean isInViewFrustum(final Entity entity) {
         if (entity == null) return false;
-        return isInViewFrustum(entity.getBoundingBox()) || // ignoreFrustumCheck deprecated;
+        return isInViewFrustum(entity.getBoundingBox()) || ignoreFrustumCheck;
     }
 
     public static boolean isInViewFrustum(final Box bb) {
