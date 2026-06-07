@@ -19,36 +19,12 @@ public class ClickGuiTextField {
     private static final int SELECTION_COLOR = 0x804A90E2;
     private static final int CURSOR_COLOR = 0xFFD0D0D0;
 
-    private static final Field LINE_SCROLL_OFFSET_FIELD = ReflectionHelper.findField(
-        TextFieldWidget.class,
-        "lineScrollOffset",
-        "field_146225_q"
-    );
-    private static final Field CURSOR_POSITION_FIELD = ReflectionHelper.findField(
-        TextFieldWidget.class,
-        "cursorPosition",
-        "field_146224_r"
-    );
-    private static final Field SELECTION_END_FIELD = ReflectionHelper.findField(
-        TextFieldWidget.class,
-        "selectionEnd",
-        "field_146223_s"
-    );
-    private static final Field ENABLED_COLOR_FIELD = ReflectionHelper.findField(
-        TextFieldWidget.class,
-        "enabledColor",
-        "field_146222_t"
-    );
-    private static final Field DISABLED_COLOR_FIELD = ReflectionHelper.findField(
-        TextFieldWidget.class,
-        "disabledColor",
-        "field_146221_u"
-    );
-    private static final Field IS_ENABLED_FIELD = ReflectionHelper.findField(
-        TextFieldWidget.class,
-        "isEnabled",
-        "field_146226_p"
-    );
+    // Reflection removed for 1.21.4
+    // Reflection removed for 1.21.4
+    // Reflection removed for 1.21.4
+    // Reflection removed for 1.21.4
+    // Reflection removed for 1.21.4
+    // Reflection removed for 1.21.4
 
     private static int nextId;
 
@@ -66,17 +42,10 @@ public class ClickGuiTextField {
     public ClickGuiTextField(String placeholder, int maxLength, float textScale) {
         this.placeholder = placeholder == null ? "" : placeholder;
         this.textScale = textScale;
-        this.textField = new TextFieldWidget(
-            nextId++,
-            mc.fontRendererObj,
-            0,
-            0,
-            100,
-            20
-        );
-        this.textField.setMaxStringLength(maxLength);
-        this.textField.setEnableBackgroundDrawing(false);
-        this.textField.setCanLoseFocus(true);
+        this.textField = new TextFieldWidget(nextId++, MinecraftClient.getInstance().textRenderer, 0, 0, 100, 20, net.minecraft.text.Text.literal(""));
+        this.textField.setMaxLength(maxLength);
+        this.textField.// setEnableBackgroundDrawing removed;
+        this.textField.// setCanLoseFocus removed;
     }
 
     public void render(float left, float top, float right, float bottom) {
@@ -118,7 +87,7 @@ public class ClickGuiTextField {
             lastCursorTick = System.currentTimeMillis();
             cursorVisible = !cursorVisible;
         }
-        textField.updateCursorCounter();
+        // updateCursorCounter removed;
     }
 
     public boolean contains(int mouseX, int mouseY, float left, float top, float right, float bottom) {
@@ -126,7 +95,7 @@ public class ClickGuiTextField {
     }
 
     public boolean textboxKeyTyped(char typedChar, int keyCode) {
-        return textField.textboxKeyTyped(typedChar, keyCode);
+        return textField.charTyped(typedChar, keyCode);
     }
 
     public String getText() {
@@ -232,18 +201,12 @@ public class ClickGuiTextField {
         GL11.glPopMatrix();
     }
 
-    private static int getIntField(TextFieldWidget textField, Field field, int fallback) {
-        try {
-            return field.getInt(textField);
-        } catch (IllegalAccessException ignored) {
+    // getIntField removed catch (IllegalAccessException ignored) {
             return fallback;
         }
     }
 
-    private static boolean getBooleanField(TextFieldWidget textField, Field field, boolean fallback) {
-        try {
-            return field.getBoolean(textField);
-        } catch (IllegalAccessException ignored) {
+    // getBooleanField removed catch (IllegalAccessException ignored) {
             return fallback;
         }
     }

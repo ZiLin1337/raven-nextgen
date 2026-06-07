@@ -164,7 +164,7 @@ public class BindComponent extends Component {
 
     public void keyTyped(char t, int keybind) {
         if (!isBinding) return;
-        if (keybind == GLFW.GLFW_KEY_KEY_0 || keybind == GLFW.GLFW_KEY_KEY_ESCAPE) {
+        if (keybind == GLFW.GLFW_KEY_KEY_0 || keybind == GLFW.GLFW_KEY_ESCAPE) {
             if (moduleComponent.mod instanceof Gui) moduleComponent.mod.setBind(54);
             else if (keySetting != null) keySetting.setKey(0);
             else moduleComponent.mod.setBind(0);
@@ -185,7 +185,7 @@ public class BindComponent extends Component {
 
     public String getKeyAsStr(boolean isKey) {
         int key = isKey ? keySetting.getKey() : moduleComponent.mod.getKeycode();
-        return key >= 1000 ? ((key == 1069 || key == 1070) ? getScroll(key) : "M" + (key - 1000)) : GLFW.GLFW_KEY_getKeyName(key);
+        return key >= 1000 ? ((key == 1069 || key == 1070) ? getScroll(key) : "M" + (key - 1000)) : GLFW.glfwGetKeyName(key);
     }
 
     public String getScroll(int key) {
