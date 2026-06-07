@@ -5,8 +5,23 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [],
   "client": [
-    "client.MixinMinecraft",
-    "render.MixinFontRenderer"
+    "client.MixinMinecraftClient",
+    "client.MixinClientPlayerEntity",
+    "client.MixinGameRenderer",
+    "client.MixinKeyboard",
+    "client.MixinMouse",
+    "client.MixinPlayerController",
+    "client.MixinGameOptions",
+    "entity.MixinEntity",
+    "entity.MixinLivingEntity",
+    "entity.MixinPlayerEntity",
+    "render.MixinDrawContext",
+    "render.MixinInGameHud",
+    "render.MixinTextRenderer",
+    "world.MixinClientWorld",
+    "world.MixinWorld",
+    "network.MixinClientPlayNetworkHandler",
+    "network.MixinClientConnection"
   ],
   "injectors": {
     "defaultRequire": 1
