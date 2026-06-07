@@ -93,8 +93,8 @@ public abstract class AbstractSearchListComponent extends AbstractTextInputCompo
     @Override
     public void keyTyped(char typedChar, int keyCode) {
         if (!moduleComponent.isOpened) return;
-        if (keyCode == Keyboard.KEY_ESCAPE && isSearchFocused()) { if (!handleSearchEscape()) unfocusSearch(); return; }
-        if ((keyCode == Keyboard.KEY_RETURN || keyCode == Keyboard.KEY_NUMPADENTER) && isSearchFocused()) { unfocusSearch(); return; }
+        if (keyCode == GLFW.GLFW_KEY_KEY_ESCAPE && isSearchFocused()) { if (!handleSearchEscape()) unfocusSearch(); return; }
+        if ((keyCode == GLFW.GLFW_KEY_KEY_RETURN || keyCode == GLFW.GLFW_KEY_KEY_NUMPADENTER) && isSearchFocused()) { unfocusSearch(); return; }
         if (getTextField().textboxKeyTyped(typedChar, keyCode)) {
             onSearchTextChanged(getTextField().getText());
             dropdownScrollAnim.reset(0);
@@ -106,7 +106,7 @@ public abstract class AbstractSearchListComponent extends AbstractTextInputCompo
     @Override
     public void onScroll(int scroll) {
         if (!moduleComponent.isOpened || !moduleComponent.isVisible(this)) return;
-        float scrollSpeed = (float) Gui.scrollSpeed.getInput();
+        float scrollSpeed = (float) 0.getInput();
         float delta = scrollSpeed * (scroll / 120f);
         if (isMouseOverDropdown()) { if (delta != 0f) dropdownScrollAnim.extend(-delta); clampDropdownScroll(); return; }
         if (isMouseOverSelectedList() && getSelectedEntryCount() > MAX_VISIBLE_SELECTED) { if (delta != 0f) selectedScrollAnim.extend(-delta); clampSelectedScroll(); }

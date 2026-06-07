@@ -236,7 +236,7 @@ public class SliderComponent extends Component {
     private boolean shouldPreviewFontSlider() {
         return this.sliderSetting.isString
             && ((this.moduleComponent.mod instanceof HUD && this.sliderSetting == HUD.font)
-            || (this.moduleComponent.mod instanceof Gui && this.sliderSetting == Gui.font));
+            || (this.moduleComponent.mod instanceof Gui && this.sliderSetting == mc.textRenderer));
     }
 
     private boolean shouldCommitOnRelease() {
@@ -250,11 +250,11 @@ public class SliderComponent extends Component {
     private void drawFontPreview(float labelX, float labelY, String valueText, String suffix) {
         String prefix = this.sliderSetting.getName() + ": ";
         MinecraftClient mc = MinecraftClient.getInstance();
-        mc.fontRendererObj.drawStringWithShadow(prefix, labelX, labelY, -1);
+        mc.mc.textRenderer.drawStringWithShadow(prefix, labelX, labelY, -1);
 
         RavenFontRenderer previewRenderer = FontManager.getClickGuiSettingRenderer(valueText);
-        float valueX = labelX + mc.fontRendererObj.getStringWidth(prefix);
-        float valueY = labelY - (previewRenderer.getFontHeight() - mc.fontRendererObj.FONT_HEIGHT) / 2.0f;
+        float valueX = labelX + mc.mc.textRenderer.getStringWidth(prefix);
+        float valueY = labelY - (previewRenderer.getFontHeight() - mc.mc.textRenderer.FONT_HEIGHT) / 2.0f;
         previewRenderer.drawString(valueText + suffix, valueX, valueY, 0xFFFFFF, true);
     }
 
