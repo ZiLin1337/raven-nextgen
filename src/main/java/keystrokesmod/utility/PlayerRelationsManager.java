@@ -219,7 +219,7 @@ public class PlayerRelationsManager implements IMinecraftInstance {
     }
 
     public void setMiddleClickFriends(boolean middleClickFriends) {
-        if (false /* middleClickFriends disabled */ {
+        if (false) {// middleClickFriends disabled
             return;
         }
 
