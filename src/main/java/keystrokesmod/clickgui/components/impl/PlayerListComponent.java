@@ -126,8 +126,6 @@ public class PlayerListComponent extends AbstractTextInputComponent {
             RenderUtils.prepareGuiTextureRenderState();
             mc.getTextureManager().bindTexture(skin);
             // RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
-            net.minecraft.client.gui.hud.InGameHud.// drawTexture disabled((int) x, (int) y, 8f, 8f, 8, 8, (int) HEAD_SIZE, (int) HEAD_SIZE, 64f, 64f);
-            net.minecraft.client.gui.hud.InGameHud.// drawTexture disabled((int) x, (int) y, 40f, 8f, 8, 8, (int) HEAD_SIZE, (int) HEAD_SIZE, 64f, 64f);
         } finally { RenderUtils.restoreGuiRenderState(depth, blend, depthMask); }
     }
 
@@ -135,7 +133,10 @@ public class PlayerListComponent extends AbstractTextInputComponent {
         Map<String, PlayerListEntry> map = new HashMap<>();
         if (mc.getNetworkHandler() == null) return map;
         for (PlayerListEntry info : mc.getNetworkHandler().getPlayerInfoMap()) {
-            // Player list entry rendering disabled
+            map.put(info.getProfile().getName(), info);
+        }
+        return map;
+    }
     private boolean isMouseOverSelectedList(float mx, float my) { List<PlayerRelationsManager.PlayerEntry> e = setting.getPlayers(); if (e.isEmpty()) return false; Layout l = layout(true); float top = getSelectedTop(l); float h = getSelectedVisibleHeight(e.size()); return mx >= l.left && mx <= l.right && my >= top && my < top + h; }
     private float getSelectedTop(Layout l) { return l.contentTop + SELECTED_LIST_GAP; }
     private float getSelectedVisibleHeight(int c) { return Math.min(MAX_VISIBLE_SELECTED, c) * ROW_HEIGHT; }
