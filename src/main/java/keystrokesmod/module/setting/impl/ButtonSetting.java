@@ -80,7 +80,7 @@ public class ButtonSetting extends Setting {
         else if (data.has(legacyKey)) key = legacyKey;
         else {
             for (String legacyProfileKey : legacyProfileKeys) {
-                if (data.has(legacyProfileKey)) { key = legacyProfileKey; break; }
+                if (data.has(legacyProfileKey) { key = legacyProfileKey; break; }
             }
         }
         if (key != null && data.get(key).isJsonPrimitive() && !this.isMethodButton) {

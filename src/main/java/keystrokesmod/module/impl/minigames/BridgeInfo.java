@@ -55,9 +55,9 @@ public class BridgeInfo extends Module {
     public BridgeInfo() {
         super("Bridge Info", category.minigames, 0);
         this.registerSetting(new DescriptionSetting(new String("Only for solos.")));
-        this.registerSetting(new ButtonSetting("Edit position", () ->)) {
+        this.registerSetting(new ButtonSetting("Edit position", () -> {
             mc.displayScreen(new EditScreen());
-        }));
+        });
     }
 
     @Override

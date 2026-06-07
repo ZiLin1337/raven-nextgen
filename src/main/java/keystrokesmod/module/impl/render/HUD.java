@@ -347,7 +347,7 @@ public class HUD extends Module {
         @Override
         public void init() {
             super.init();
-            this.resetPosition = ButtonWidget.builder(Text.literal("Reset position"), button ->) {
+            this.resetPosition = ButtonWidget.builder(Text.literal("Reset position"), button -> {
                 HUD.resetPosition();
                 this.actualX = HUD.posX;
                 this.actualY = HUD.posY;

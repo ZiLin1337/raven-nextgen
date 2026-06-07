@@ -162,7 +162,7 @@ public class SliderComponent extends Component {
             if (this.sliderSetting.getInput() != this.sliderSetting.getMin()
                 && ModuleManager.hud != null
                 && ModuleManager.hud.isEnabled()
-                && !ModuleManager.organizedModules.isEmpty()) {
+                && !ModuleManager.organizedModules.isEmpty() {
                 ModuleManager.sort();
             }
 

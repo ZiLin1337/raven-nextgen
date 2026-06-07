@@ -124,7 +124,7 @@ public class SpeedBuilders extends Module {
                     if (info != null && !info.isPlaced) {
                         if (autoSwap.isToggled()) {
                             int requiredMeta = info.requiredState.getBlock().getMetaFromState(info.requiredState);
-                            int slot = getSlot(info.requiredState.getBlock()), requiredMeta);
+                            int slot = getSlot(info.requiredState.getBlock(), requiredMeta);
                             if (slot != -1 && slot != mc.player.inventory.currentItem) {
                                 mc.player.inventory.currentItem = slot;
                             }

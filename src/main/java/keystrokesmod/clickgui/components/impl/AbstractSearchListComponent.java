@@ -82,9 +82,9 @@ public abstract class AbstractSearchListComponent extends AbstractTextInputCompo
     public boolean onClick(int mouseX, int mouseY, int button) {
         if (!moduleComponent.isOpened || !moduleComponent.isVisible(this)) return false;
         Layout layout = layout(true);
-        if (button == 0 && handleDropdownClick(mouseX, mouseY, layout)) { onDropdownClickHandled(mouseX, mouseY); return true; }
-        if (button == 0 && handleSelectedEntryClick(mouseX, mouseY, layout)) { onSelectedEntryClickHandled(mouseX, mouseY); return true; }
-        if (handleTextFieldFocusClick(mouseX, mouseY, layout)) { onSearchFocusHandled(mouseX, mouseY); return true; }
+        if (button == 0 && handleDropdownClick(mouseX, mouseY, layout) { onDropdownClickHandled(mouseX, mouseY); return true; }
+        if (button == 0 && handleSelectedEntryClick(mouseX, mouseY, layout) { onSelectedEntryClickHandled(mouseX, mouseY); return true; }
+        if (handleTextFieldFocusClick(mouseX, mouseY, layout) { onSearchFocusHandled(mouseX, mouseY); return true; }
         if (isSearchFocused()) unfocusSearch();
         onOutsideClick(mouseX, mouseY, button);
         return false;
@@ -94,7 +94,7 @@ public abstract class AbstractSearchListComponent extends AbstractTextInputCompo
     public void keyTyped(char typedChar, int keyCode) {
         if (!moduleComponent.isOpened) return;
         if (keyCode == GLFW.GLFW_KEY_ESCAPE && isSearchFocused()) { if (!handleSearchEscape()) unfocusSearch(); return; }
-        if ((keyCode == GLFW.GLFW_KEY_RETURN || keyCode == GLFW.GLFW_KEY_NUMPADENTER) && isSearchFocused()) { unfocusSearch(); return; }
+        if ((keyCode == GLFW.GLFW_KEY_RETURN || keyCode == GLFW.GLFW_KEY_NUMPADENTER) && isSearchFocused() { unfocusSearch(); return; }
         if (getTextField().textboxKeyTyped(typedChar, keyCode)) {
             onSearchTextChanged(getTextField().getText());
             dropdownScrollAnim.reset(0);
@@ -156,7 +156,7 @@ public abstract class AbstractSearchListComponent extends AbstractTextInputCompo
     protected final void updateDropdownAnimation() { float newTarget = computeDropdownTarget(); if (newTarget != dropdownAnimTargetH) { dropdownAnimStartH = dropdownAnimH; dropdownAnimTargetH = newTarget; dropdownAnimTimer = new Timer(ANIMATION_DURATION); dropdownAnimTimer.start(); } }
     protected final void notifySelectionListChanged() { markUnsaved(); updateDropdownAnimation(); moduleComponent.updateSettingPositions(); }
     protected final void markUnsaved() { if (Raven.currentProfile != null) Raven.currentProfile.getModule().saved = false; }
-    protected final ItemStack getPreviewStack(SelectedRowData row) { if (row == null) return null; if (row.cyclingStacks != null && !row.cyclingStacks.isEmpty()) return row.cyclingStacks.get((int) ((System.currentTimeMillis() / 1000L) % row.cyclingStacks.size()); return row.stack; }
+    protected final ItemStack getPreviewStack(SelectedRowData row) { if (row == null) return null; if (row.cyclingStacks != null && !row.cyclingStacks.isEmpty()) return row.cyclingStacks.get((int) ((System.currentTimeMillis() / 1000L) % row.cyclingStacks.size())); return row.stack; }
 
     protected final void renderBackRow(float left, float right, float rowTop, int bgColor, String groupName) {
         RenderUtils.DrawContextHelper.drawRect(left, rowTop, right, rowTop + ROW_HEIGHT - 1f, bgColor);
@@ -222,7 +222,7 @@ public abstract class AbstractSearchListComponent extends AbstractTextInputCompo
         return mouseX >= layout.left && mouseX <= layout.right && mouseY >= top && mouseY < top + getSelectedVisibleHeight();
     }
 
-    protected final boolean isMouseOverDropdown()) { return isMouseOverDropdown(lastMouseX, lastMouseY); }
+    protected final boolean isMouseOverDropdown() { return isMouseOverDropdown(lastMouseX, lastMouseY); }
     protected final boolean isMouseOverSelectedList() { return isMouseOverSelectedList(lastMouseX, lastMouseY); }
 
     private float computeDropdownTarget() { int rows = getDropdownRowCount(); return (isSearchFocused() && rows > 0) ? Math.min(MAX_VISIBLE_RESULTS, rows) * ROW_HEIGHT : 0f; }
@@ -261,7 +261,7 @@ public abstract class AbstractSearchListComponent extends AbstractTextInputCompo
     }
 
     private boolean handleTextFieldFocusClick(int mouseX, int mouseY, Layout layout) {
-        if (isTextFieldClicked(mouseX, mouseY, layout)) { setTextFieldFocused(true); onSearchFieldFocused(); updateDropdownAnimation(); return true; }
+        if (isTextFieldClicked(mouseX, mouseY, layout) { setTextFieldFocused(true); onSearchFieldFocused(); updateDropdownAnimation(); return true; }
         return false;
     }
 

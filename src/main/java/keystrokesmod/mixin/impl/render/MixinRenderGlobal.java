@@ -14,7 +14,7 @@ public class MixinRenderGlobal {
     @Redirect(method = "setupTerrain", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getYaw(F)F"))
     private float redirectSetupTerrainYaw(Entity entity, float tickDelta) {
         if (ModuleManager.freelook != null && ModuleManager.freelook.isEnabled()
-                && Freelook.perspectiveToggled && entity == MinecraftClient.getInstance().getCameraEntity()) {
+                && Freelook.perspectiveToggled && entity == MinecraftClient.getInstance().getCameraEntity() {
             return Freelook.cameraYaw;
         }
         return entity.getYaw(tickDelta);
@@ -23,7 +23,7 @@ public class MixinRenderGlobal {
     @Redirect(method = "setupTerrain", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getPitch(F)F"))
     private float redirectSetupTerrainPitch(Entity entity, float tickDelta) {
         if (ModuleManager.freelook != null && ModuleManager.freelook.isEnabled()
-                && Freelook.perspectiveToggled && entity == MinecraftClient.getInstance().getCameraEntity()) {
+                && Freelook.perspectiveToggled && entity == MinecraftClient.getInstance().getCameraEntity() {
             return Freelook.cameraPitch;
         }
         return entity.getPitch(tickDelta);

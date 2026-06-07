@@ -100,7 +100,7 @@ public class BlockSearchComponent extends AbstractSearchListComponent {
         List<String> blocks = new ArrayList<String>(setting.getBlocks());
         for (int i = 0; i < blocks.size(); i++) {
             float rowTop = getSelectedTop(layout) - offsetPx + i * ROW_HEIGHT;
-            if (isOverClose(mouseX, mouseY, rowTop, layout.right)) { setting.removeBlock(blocks.get(i)); selectedRowsCache = null; notifySelectionListChanged(); return true; }
+            if (isOverClose(mouseX, mouseY, rowTop, layout.right) { setting.removeBlock(blocks.get(i)); selectedRowsCache = null; notifySelectionListChanged(); return true; }
         }
         return false;
     }

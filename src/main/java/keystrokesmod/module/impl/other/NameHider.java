@@ -54,7 +54,7 @@ public class NameHider extends Module {
 
     public NameHider() {
         super("Name Hider", Module.category.other);
-        this.registerSetting(fakeNameSetting = new TextSetting("Fake name", 48)) {
+        this.registerSetting(fakeNameSetting = new TextSetting("Fake name", 48) {
             @Override
             public void setText(String text) {
                 super.setText(normalizeFakeName(text));
@@ -74,7 +74,7 @@ public class NameHider extends Module {
             }
         });
         this.registerSetting(hideAllNames = new ButtonSetting("Hide all names", false));
-        this.registerSetting(hideAllPrefixSetting = new TextSetting("Hide-all prefix", 24)) {
+        this.registerSetting(hideAllPrefixSetting = new TextSetting("Hide-all prefix", 24) {
             @Override
             public void setText(String text) {
                 super.setText(normalizeHideAllPrefix(text));
@@ -224,7 +224,7 @@ public class NameHider extends Module {
         HideAllCache cache = buildHideAllCache(selfNames);
         if (!cache.visibleNamesByKey.equals(cachedVisibleNamesByKey)
             || !cache.aliasNumbers.equals(cachedAliasNumbers)
-            || !cache.replacements.equals(cachedOtherNameReplacements) {
+            || !cache.replacements.equals(cachedOtherNameReplacements)) {
             cachedVisibleNamesByKey = cache.visibleNamesByKey;
             cachedAliasNumbers = cache.aliasNumbers;
             cachedOtherNameReplacements = cache.replacements;
@@ -265,7 +265,7 @@ public class NameHider extends Module {
             }
         }
 
-        replacements.sort(new Comparator<Map.Entry<String, String>>()) {
+        replacements.sort(new Comparator<Map.Entry<String, String>>() {
             @Override
             public int compare(Map.Entry<String, String> first, Map.Entry<String, String> second) {
                 int lengthCompare = Integer.compare(second.getKey().length(), first.getKey().length());
@@ -423,7 +423,7 @@ public class NameHider extends Module {
                 }
             }
         }
-        Collections.sort(sorted, new Comparator<String>()) {
+        Collections.sort(sorted, new Comparator<String>() {
             @Override
             public int compare(String first, String second) {
                 int lengthCompare = Integer.compare(second.length(), first.length());

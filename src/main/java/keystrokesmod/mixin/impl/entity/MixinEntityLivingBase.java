@@ -44,7 +44,7 @@ public abstract class MixinLivingEntity {
 
         if (Settings.fullBody != null && Settings.rotateBody != null
                 && !Settings.fullBody.isToggled() && Settings.rotateBody.isToggled()
-                && self instanceof ClientPlayerEntity && PreMotionEvent.setRenderYaw()) {
+                && self instanceof ClientPlayerEntity && PreMotionEvent.setRenderYaw() {
             if (this.handSwingProgress > 0F) {
                 rotationYaw = RotationUtils.renderYaw;
             }

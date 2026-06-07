@@ -37,7 +37,7 @@ public class Manager extends Module {
         super("Manager", category.scripts);
         this.registerSetting(createScriptName = new TextSetting("Script name", "", "Type a script name...", 32, this::createScript));
         this.registerSetting(new ButtonSetting("Create script", this::createScript));
-        this.registerSetting(new ButtonSetting("Load scripts", () ->)) {
+        this.registerSetting(new ButtonSetting("Load scripts", () -> {
             if (Raven.scriptManager.compiler == null) {
                 Utils.sendMessage("&cCompiler error, JDK not found");
             }
@@ -65,8 +65,8 @@ public class Manager extends Module {
                     Utils.sendMessage("&cYou are on cooldown.");
                 }
             }
-        }));
-        this.registerSetting(new ButtonSetting("Open folder", () ->)) {
+        });
+        this.registerSetting(new ButtonSetting("Open folder", () -> {
             try {
                 Desktop.getDesktop().open(Raven.scriptManager.directory);
             }
@@ -74,15 +74,15 @@ public class Manager extends Module {
                 Raven.scriptManager.directory.mkdirs();
                 Utils.sendMessage("&cError locating folder, recreated.");
             }
-        }));
-        this.registerSetting(new ButtonSetting("View documentation", () ->)) {
+        });
+        this.registerSetting(new ButtonSetting("View documentation", () -> {
             try {
                 Desktop.getDesktop().browse(new URI(DOCUMENTATION_URL));
             }
             catch (Throwable t) {
                 Sys.openURL(DOCUMENTATION_URL);
             }
-        }));
+        });
         this.registerSetting(new DescriptionSetting("Privacy"));
         this.registerSetting(enableHttpRequests = new ButtonSetting("Enable http requests", true));
         this.registerSetting(enableWebSockets = new ButtonSetting("Enable websockets", true));
