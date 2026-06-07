@@ -1,17 +1,16 @@
 package keystrokesmod.utility.font;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.text.Text;
 
 public interface RavenFontRenderer {
     
     default int drawString(String text, float x, float y, int color, boolean shadow) {
-        TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
         if (shadow) {
-            // 使用正确的1.21.4 API: drawWithShadow(Text, float, float, int)
-            return textRenderer.drawWithShadow(Text.literal(text), x, y, color);
+            // 1.21.4 的正确签名: drawWithShadow(Text, float, float, int)
+            return MinecraftClient.getInstance().textRenderer.drawWithShadow(Text.literal(text), x, y, color);
         } else {
+            // 非阴影绘制暂时返回0
             return 0;
         }
     }

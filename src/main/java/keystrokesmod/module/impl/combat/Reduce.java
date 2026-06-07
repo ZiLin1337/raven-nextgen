@@ -20,7 +20,7 @@ public class Reduce extends Module {
     public void onKnockback(Object e) {
         double h = (100.0 - horizontal.getInput()) / 100.0;
         double v = (100.0 - vertical.getInput()) / 100.0;
-        e.setHorizontal(e.getHorizontal() * h);
-        e.setVertical(e.getVertical() * v);
+        // TODO: getHorizontal not available on 1.21.4 event
+        // TODO: getVertical not available on 1.21.4 event
     }
 }

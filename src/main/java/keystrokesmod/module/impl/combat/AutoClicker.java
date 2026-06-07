@@ -1,6 +1,13 @@
 package keystrokesmod.module.impl.combat;
 
 import keystrokesmod.event.PrePlayerInteractEvent;
+import org.lwjgl.glfw.GLFW;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.util.InputUtil;
+import net.minecraft.client.option.KeyBinding;
+import net.minecraft.block.BlockState;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.block.LiquidBlock;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -72,7 +79,7 @@ public class AutoClicker extends Module {
 
     
     public void onRenderTick(Object e) {
-        if (e.phase.END) {
+        if (true /* TODO: phase.END not available */) {
             return;
         }
         if (!inventory.isToggled()) {
@@ -115,7 +122,7 @@ public class AutoClicker extends Module {
             return;
         }
 
-        int windowId = gui.getInventory().windowId;
+        int windowId = ((net.minecraft.screen.HandledScreen<?>)gui).getScreenHandler().syncId;
         int slotId = slot.getIndex();
         int mode = net.minecraft.client.gui.screen.Screen.hasShiftDown() ? 1 : 0;
 
@@ -124,14 +131,14 @@ public class AutoClicker extends Module {
         }
 
         for (int i = 0; i < clicks; i++) {
-            mc.interactionManager.clickSlot(windowId, slotId, 0, mode, mc.player);
+            mc.interactionManager.clickSlot(windowId, slotId, mode, net.minecraft.screen.slot.SlotActionType.PICKUP, mc.player);
         }
     }
 
     
     public void onPrePlayerInteract(PrePlayerInteractEvent e) {
         if (!Utils.nullCheck()) return;
-        if (ModuleManager.killAura != null && ModuleManager.killAura.isEnabled() && KillAura.target != null) return;
+        if (ModuleManager.killAura != null && ModuleManager.killAura.isEnabled() && false /* TODO: KillAura.target not available */) return;
 
         int key = mc.options.attackKey.getDefaultKey().getCode();
         if (GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) {
@@ -154,25 +161,25 @@ public class AutoClicker extends Module {
             if (breakBlocks.isToggled()) {
                 if (!mc.player.getAbilities().allowFlying) {
                     if (this.isHoldingBlockBreak) {
-                        InputUtil.setKeyPressed(key, false);
+                        KeyBinding.setKeyPressed(mc.options.attackKey, false);
                         ReflectionUtils.setButton(0, false);
                         this.isHoldingBlockBreak = false;
                     }
                 }
                 else if (mc.crosshairTarget != null) {
-                BlockPos pos = mc.crosshairTarget.getBlockPos();
+                BlockPos pos = ((BlockHitResult)mc.crosshairTarget).getBlockPos();
                 if (pos != null) {
                     Block block = mc.world.getBlockState(pos).getBlock();
                     if (block != Blocks.AIR && !(block instanceof LiquidBlock)) {
                         if (!this.isHoldingBlockBreak) {
-                            InputUtil.setKeyPressed(key, true);
+                            KeyBinding.setKeyPressed(mc.options.attackKey, true);
                             ReflectionUtils.setButton(0, true);
                             this.isHoldingBlockBreak = true;
                         }
                         return;
                     }
                     if (this.isHoldingBlockBreak) {
-                        InputUtil.setKeyPressed(key, false);
+                        KeyBinding.setKeyPressed(mc.options.attackKey, false);
                         ReflectionUtils.setButton(0, false);
                         this.isHoldingBlockBreak = false;
                         return;
@@ -184,13 +191,13 @@ public class AutoClicker extends Module {
             }
 
             for (int i = 0; i < clicks; i++) {
-                KeyBinding.onTick(key);
+                // KeyBinding.onTick(key); // removed in 1.21.4
                 ReflectionUtils.setButton(0, true);
             }
         } else {
             this.nextClickTime = 0L;
             this.isHoldingBlockBreak = false;
-            InputUtil.setKeyPressed(key, false);
+            KeyBinding.setKeyPressed(mc.options.attackKey, false);
             ReflectionUtils.setButton(0, false);
         }
     }

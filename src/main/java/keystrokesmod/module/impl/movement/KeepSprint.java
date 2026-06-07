@@ -2,6 +2,7 @@ package keystrokesmod.module.impl.movement;
 
 import keystrokesmod.Raven;
 import keystrokesmod.event.PreMotionEvent;
+import keystrokesmod.module.impl.combat.KillAura;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.Utils;

@@ -59,20 +59,20 @@ public class NoFall extends Module {
         }
         if (isFalling && mode.getInput() == 2) {
             if (distanceFallen >= dynamic) {
-                ((IAccessorMinecraft) mc).getTimer().timerSpeed = (0.7399789F + (float) Utils.randomizeDouble(-0.012, 0.012));
-                mc.getNetHandler().networkHandler.sendPacket(new C03PacketPlayer(true));
+                // TODO: IAccessorMinecraft.getTimer() not available = (0.7399789F + (float) Utils.randomizeDouble(-0.012, 0.012));
+                mc.player.networkHandler.networkHandler.sendPacket(new net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket.OnGroundOnly(true));
                 initialY = mc.player.getY();
             }
         }
         if (isFalling && mode.getInput() == 3) {
             if (mc.player.age % 2 == 0) {
-                ((IAccessorMinecraft) mc).getTimer().timerSpeed = (float) Utils.randomizeDouble(0.5, 0.50201);
+                // TODO: IAccessorMinecraft.getTimer() not available = (float) Utils.randomizeDouble(0.5, 0.50201);
             }
             else {
-                ((IAccessorMinecraft) mc).getTimer().timerSpeed = (float) 1;
+                // TODO: IAccessorMinecraft.getTimer() not available = (float) 1;
             }
             if (distanceFallen >= 3) {
-                mc.getNetHandler().networkHandler.sendPacket(new C03PacketPlayer(true));
+                mc.player.networkHandler.networkHandler.sendPacket(new net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket.OnGroundOnly(true));
                 initialY = mc.player.getY();
             }
         }

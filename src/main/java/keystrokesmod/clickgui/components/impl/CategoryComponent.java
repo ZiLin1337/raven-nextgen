@@ -318,7 +318,7 @@ public class CategoryComponent {
             // DiffuseLighting.enableGuiLighting(); - removed in 1.21.4
             GL11.glDisable(GL11.GL_BLEND);
             GL11.glTranslated(x / scale, y / scale, 0);
-            renderItem.renderItem(null, stack, 0, 0, 0);
+            // TODO: renderItem not compatible with 1.21.4 API
             GL11.glEnable(GL11.GL_BLEND);
             // DiffuseLighting.disableGuiLighting(); - removed in 1.21.4
         }

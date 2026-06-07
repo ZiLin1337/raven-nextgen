@@ -259,7 +259,7 @@ public class ModuleComponent extends Component {
         if (this.mod.script != null && this.mod.script.error) button_rgb = INVALID_COLOR;
         if (this.mod.moduleCategory() == Module.category.profiles && !(this.mod instanceof Manager)
                 && !((ProfileModule) this.mod).saved && Raven.currentProfile != null
-                && Raven.currentProfile.getModule() == this.mod) button_rgb = UNSAVED_COLOR;
+                && false /* TODO: profile not implemented */) button_rgb = UNSAVED_COLOR;
         boolean scissorRequired = smoothTimer != null;
         RavenFontRenderer titleRenderer = Gui.getClickGuiHeaderFontRenderer();
         if (hasModuleHeader()) {
@@ -332,7 +332,7 @@ public class ModuleComponent extends Component {
         if (hasModuleHeader() && this.overModuleName(x, y) && mouse == 0 && this.mod.canBeEnabled()) {
             this.mod.toggle();
             if (this.mod.moduleCategory() != Module.category.profiles && Raven.currentProfile != null)
-                Raven.currentProfile.getModule().saved = false;
+                /* TODO: profile not implemented */;
             return true;
         }
         if (hasModuleHeader() && this.overModuleName(x, y) && mouse == 1) {
@@ -493,7 +493,7 @@ public class ModuleComponent extends Component {
         int[] saved = scissorStack[scissorDepth++];
         if (wasEnabled) {
             SCISSOR_BOX.clear();
-            GL11.glGetInteger(GL11.GL_SCISSOR_BOX, SCISSOR_BOX);
+            // GL11.glGetInteger removed - not supported in 1.21.4
             saved[0] = 1;
             saved[1] = SCISSOR_BOX.get(0);
             saved[2] = SCISSOR_BOX.get(1);
