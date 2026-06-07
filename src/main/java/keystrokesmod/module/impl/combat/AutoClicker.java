@@ -92,7 +92,7 @@ public class AutoClicker extends Module {
             inventoryNextClickTime = 0L;
             return;
         }
-        if ((GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) != 0) {
+        if ((GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) {
             inventoryNextClickTime = 0L;
             return;
         }
@@ -170,7 +170,7 @@ mc.options.attackKey.setPressed(false);
                 BlockPos pos = ((BlockHitResult)mc.crosshairTarget).getBlockPos();
                 if (pos != null) {
                     Block block = mc.world.getBlockState(pos).getBlock();
-                    if (block != Blocks.AIR && block.getFluidState().isEmpty()) {
+                    if (block != Blocks.AIR && block.getDefaultState().getFluidState().isEmpty()) {
                         if (!this.isHoldingBlockBreak) {
 mc.options.attackKey.setPressed(false);
                             ReflectionUtils.setButton(0, true);

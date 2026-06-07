@@ -110,21 +110,21 @@ public class Trajectories extends Module {
     private ButtonSetting onlyWhenHolding;
 
     public Trajectories() {
-        super("Trajectories", category.render);
-        this.registerSetting(disableUnchargedBow = new ButtonSetting("Disable uncharged bow", true));
-        this.registerSetting(highlightEntities = new ButtonSetting("Highlight on entity", true));
-        this.registerSetting(shortenLine = new ButtonSetting("Shorten line", false));
-        this.registerSetting(lineThickness = new SliderSetting("Line thickness", 2.0, 1.0, 5.0, 0.1));
+        super("Trajectories", category.render]);
+        this.registerSetting(disableUnchargedBow = new ButtonSetting("Disable uncharged bow", true)]);
+        this.registerSetting(highlightEntities = new ButtonSetting("Highlight on entity", true)]);
+        this.registerSetting(shortenLine = new ButtonSetting("Shorten line", false)]);
+        this.registerSetting(lineThickness = new SliderSetting("Line thickness", 2.0, 1.0, 5.0, 0.1)]);
 
-        this.registerSetting(defaultColor = new ColorSetting("Default", 170, 0, 255));
-        this.registerSetting(enemyColor = new ColorSetting("Enemy Hit", 255, 50, 50));
-        this.registerSetting(wallColor = new ColorSetting("Wall Hit", 50, 255, 50));
-        this.registerSetting(groundColor = new ColorSetting("Ground Hit", 85, 255, 255));
+        this.registerSetting(defaultColor = new ColorSetting("Default", 170, 0, 255)]);
+        this.registerSetting(enemyColor = new ColorSetting("Enemy Hit", 255, 50, 50)]);
+        this.registerSetting(wallColor = new ColorSetting("Wall Hit", 50, 255, 50)]);
+        this.registerSetting(groundColor = new ColorSetting("Ground Hit", 85, 255, 255)]);
 
-        this.registerSetting(maxTicks = new SliderSetting("Max ticks", 100.0, 30.0, 200.0, 10.0));
-        this.registerSetting(showLanding = new ButtonSetting("Show landing", true));
-        this.registerSetting(onlyWhenHolding = new ButtonSetting("Only when holding", true));
-        this.registerSetting(addPlayerVelocity = new ButtonSetting("Add player velocity", false));
+        this.registerSetting(maxTicks = new SliderSetting("Max ticks", 100.0, 30.0, 200.0, 10.0)]);
+        this.registerSetting(showLanding = new ButtonSetting("Show landing", true)]);
+        this.registerSetting(onlyWhenHolding = new ButtonSetting("Only when holding", true)]);
+        this.registerSetting(addPlayerVelocity = new ButtonSetting("Add player velocity", false)]);
     }
 
     private static final double ARROW_WATER_DRAG = 0.6D;
@@ -144,7 +144,7 @@ public class Trajectories extends Module {
     private static final double ENTITY_HIT_EXPANSION = 0.3D;
 
     private float getBowVelocity(float partialTicks) {
-        int timeLeft = mc.player.getItemInUseCount();
+        int timeLeft = mc.player.getItemInUseCount(]);
         float drawTicks = (72000 - timeLeft) + partialTicks;
         float f = drawTicks / 20.0f;
         f = (f * f + f * 2.0f) / 3.0f;
@@ -154,23 +154,23 @@ public class Trajectories extends Module {
 
     private TrajectoryProps getProjectileProperties(Item item, PlayerEntity player, float partialTicks) {
         if (item == Items.bow) {
-            float vel = getBowVelocity(partialTicks);
-            return new TrajectoryProps(PhysicsModel.ARROW, 0.05, 0.99, ARROW_WATER_DRAG, 0.5, 0.5, 0.5, vel, false, true);
+            float vel = getBowVelocity(partialTicks]);
+            return new TrajectoryProps(PhysicsModel.ARROW, 0.05, 0.99, ARROW_WATER_DRAG, 0.5, 0.5, 0.5, vel, false, true]);
         }
         if (item == Items.ender_pearl) {
-            return new TrajectoryProps(PhysicsModel.THROWABLE, 0.03, 0.99, THROWABLE_WATER_DRAG, 0.25, 0.25, 0.25, 1.5, true, false);
+            return new TrajectoryProps(PhysicsModel.THROWABLE, 0.03, 0.99, THROWABLE_WATER_DRAG, 0.25, 0.25, 0.25, 1.5, true, false]);
         }
         if (item == Items.snowball || item == Items.egg) {
-            return new TrajectoryProps(PhysicsModel.THROWABLE, 0.03, 0.99, THROWABLE_WATER_DRAG, 0.25, 0.25, 0.25, 1.5, true, false);
+            return new TrajectoryProps(PhysicsModel.THROWABLE, 0.03, 0.99, THROWABLE_WATER_DRAG, 0.25, 0.25, 0.25, 1.5, true, false]);
         }
         if (item == Items.experience_bottle) {
-            return new TrajectoryProps(PhysicsModel.THROWABLE, 0.07, 0.99, THROWABLE_WATER_DRAG, 0.25, 0.25, 0.25, 0.7, true, false);
+            return new TrajectoryProps(PhysicsModel.THROWABLE, 0.07, 0.99, THROWABLE_WATER_DRAG, 0.25, 0.25, 0.25, 0.7, true, false]);
         }
         if (item == Items.potionitem) {
-            return new TrajectoryProps(PhysicsModel.THROWABLE, 0.05, 0.99, THROWABLE_WATER_DRAG, 0.25, 0.25, 0.25, 0.5, true, false);
+            return new TrajectoryProps(PhysicsModel.THROWABLE, 0.05, 0.99, THROWABLE_WATER_DRAG, 0.25, 0.25, 0.25, 0.5, true, false]);
         }
         if (item == Items.fishing_rod) {
-            return new TrajectoryProps(PhysicsModel.FISH_HOOK, 0.04, FISH_HOOK_DRAG, FISH_HOOK_DRAG, 0.25, 0.25, 0.25, 1.5, false, false);
+            return new TrajectoryProps(PhysicsModel.FISH_HOOK, 0.04, FISH_HOOK_DRAG, FISH_HOOK_DRAG, 0.25, 0.25, 0.25, 1.5, false, false]);
         }
         return null;
     }
@@ -179,70 +179,70 @@ public class Trajectories extends Module {
 
     private boolean isHypixelBedwars() {
         if (!Utils.isHypixel() || mc.world == null) return false;
-        net.minecraft.scoreboard.Scoreboard sb = mc.world.getScoreboard();
+        net.minecraft.scoreboard.Scoreboard sb = mc.world.getScoreboard(]);
         if (sb == null) return false;
-        net.minecraft.scoreboard.ScoreObjective objective = sb.getObjectiveInDisplaySlot(1);
-        return objective != null && Utils.stripString(objective.getDisplayName()).contains("BED WARS");
+        net.minecraft.scoreboard.ScoreObjective objective = sb.getObjectiveInDisplaySlot(1]);
+        return objective != null && Utils.stripString(objective.getDisplayName()).contains("BED WARS"]);
     }
 
     private boolean isBedbugSnowball(ItemStack stack) {
         if (stack == null || stack.getItem() != Items.snowball) return false;
-        String name = stack.getDisplayName();
+        String name = stack.getDisplayName(]);
         if (name == null) return false;
-        return Utils.stripString(name).toLowerCase().contains("bedbug");
+        return Utils.stripString(name).toLowerCase().contains("bedbug"]);
     }
 
     private FluidState sampleFluidState(double posX, double posY, double posZ, TrajectoryProps props) {
-        Box entityBox = getEntityBox(posX, posY, posZ, props);
+        Box entityBox = getEntityBox(posX, posY, posZ, props]);
         Box waterCheckBox = entityBox.expand(0.0D, WATER_CHECK_EXPAND_Y, 0.0D)
-                .contract(WATER_CHECK_CONTRACT, WATER_CHECK_CONTRACT, WATER_CHECK_CONTRACT);
+                .contract(WATER_CHECK_CONTRACT, WATER_CHECK_CONTRACT, WATER_CHECK_CONTRACT]);
 
-        int minX = MathHelper.floor_double(waterCheckBox.minX);
-        int maxX = MathHelper.floor_double(waterCheckBox.maxX + 1.0D);
-        int minY = MathHelper.floor_double(waterCheckBox.minY);
-        int maxY = MathHelper.floor_double(waterCheckBox.maxY + 1.0D);
-        int minZ = MathHelper.floor_double(waterCheckBox.minZ);
-        int maxZ = MathHelper.floor_double(waterCheckBox.maxZ + 1.0D);
+        int minX = MathHelper.floor_double(waterCheckBox.minX]);
+        int maxX = MathHelper.floor_double(waterCheckBox.maxX + 1.0D]);
+        int minY = MathHelper.floor_double(waterCheckBox.minY]);
+        int maxY = MathHelper.floor_double(waterCheckBox.maxY + 1.0D]);
+        int minZ = MathHelper.floor_double(waterCheckBox.minZ]);
+        int maxZ = MathHelper.floor_double(waterCheckBox.maxZ + 1.0D]);
 
         if (!mc.world.isAreaLoaded(new BlockPos(minX, minY, minZ), new BlockPos(maxX, maxY, maxZ), true)) {
-            return new FluidState(false, false, new Vec3d(0.0D, 0.0D, 0.0D));
+            return new FluidState(false, false, new Vec3d(0.0D, 0.0D, 0.0D)]);
         }
 
         boolean inWater = false;
-        Vec3d flowDirection = new Vec3d(0.0D, 0.0D, 0.0D);
-        BlockPos.Mutable mutablePos = new BlockPos.Mutable();
+        Vec3d flowDirection = new Vec3d(0.0D, 0.0D, 0.0D]);
+        BlockPos.Mutable mutablePos = new BlockPos.Mutable(]);
 
         for (int x = minX; x < maxX; ++x) {
             for (int y = minY; y < maxY; ++y) {
                 for (int z = minZ; z < maxZ; ++z) {
-                    mutablePos.set(x, y, z);
-                    BlockState blockState = mc.world.getBlockState(mutablePos);
+                    mutablePos.set(x, y, z]);
+                    BlockState blockState = mc.world.getBlockState(mutablePos]);
 
                     if (blockState.getBlock().getMaterial() != Material.water) {
                         continue;
                     }
 
                     double liquidSurfaceY = (double) ((float) (y + 1) -
-                            LiquidBlock.getLiquidHeightPercent((Integer) blockState.getValue(LiquidBlock.LEVEL)));
+                            LiquidBlock.getLiquidHeightPercent((Integer) blockState.getValue(LiquidBlock.LEVEL))]);
 
                     if ((double) maxY >= liquidSurfaceY) {
                         inWater = true;
-                        flowDirection = blockState.getBlock().modifyAcceleration(mc.world, mutablePos, mc.player, flowDirection);
+                        flowDirection = blockState.getBlock().modifyAcceleration(mc.world, mutablePos, mc.player, flowDirection]);
                     }
                 }
             }
         }
 
         if (flowDirection.lengthVector() > 0.0D) {
-            flowDirection = flowDirection.normalize();
+            flowDirection = flowDirection.normalize(]);
         }
 
         boolean inLava = mc.world.isMaterialInBB(
                 entityBox.expand(LAVA_CHECK_EXPAND_XZ, LAVA_CHECK_EXPAND_Y, LAVA_CHECK_EXPAND_XZ),
                 Material.lava
-        );
+        ]);
 
-        return new FluidState(inWater, inLava, flowDirection);
+        return new FluidState(inWater, inLava, flowDirection]);
     }
 
     private Box getEntityBox(double posX, double posY, double posZ, TrajectoryProps props) {
@@ -253,11 +253,11 @@ public class Trajectories extends Module {
                 posX + props.width * 0.5D,
                 posY + props.height,
                 posZ + props.width * 0.5D
-        );
+        ]);
     }
 
     private double sampleWaterSubmersion(double posX, double posY, double posZ, TrajectoryProps props) {
-        Box entityBox = getEntityBox(posX, posY, posZ, props);
+        Box entityBox = getEntityBox(posX, posY, posZ, props]);
         double submersion = 0.0D;
 
         for (int slice = 0; slice < FISH_HOOK_WATER_SLICE_COUNT; ++slice) {
@@ -271,7 +271,7 @@ public class Trajectories extends Module {
                     entityBox.maxX,
                     maxSliceY,
                     entityBox.maxZ
-            );
+            ]);
 
             if (mc.world.isAABBInMaterial(sliceBox, Material.water)) {
                 submersion += 1.0D / (double) FISH_HOOK_WATER_SLICE_COUNT;
@@ -301,7 +301,7 @@ public class Trajectories extends Module {
 
     private void tickFishingHookVelocity(double posX, double posY, double posZ, TrajectoryProps props, double[] mot) {
         double drag = props.drag;
-        double waterSubmersion = sampleWaterSubmersion(posX, posY, posZ, props);
+        double waterSubmersion = sampleWaterSubmersion(posX, posY, posZ, props]);
         double buoyancy = waterSubmersion * 2.0D - 1.0D;
 
         mot[1] += FISH_HOOK_BUOYANCY_ACCELERATION * buoyancy;
@@ -318,18 +318,18 @@ public class Trajectories extends Module {
 
     private void tickPostMoveVelocity(double posX, double posY, double posZ, TrajectoryProps props, FluidState fluidState, double[] mot) {
         if (props.physicsModel == PhysicsModel.FISH_HOOK) {
-            tickFishingHookVelocity(posX, posY, posZ, props, mot);
+            tickFishingHookVelocity(posX, posY, posZ, props, mot]);
             return;
         }
 
         if (fluidState.inLava && !fluidState.inWater) {
             // Vanilla 1.8.9 projectiles still use air drag in lava; lava only affects burning state.
         }
-        tickVelocity(props, fluidState, mot);
+        tickVelocity(props, fluidState, mot]);
     }
 
     private Box expandEntityCollisionBox(Box box) {
-        return box.expand(ENTITY_HIT_EXPANSION, ENTITY_HIT_EXPANSION, ENTITY_HIT_EXPANSION);
+        return box.expand(ENTITY_HIT_EXPANSION, ENTITY_HIT_EXPANSION, ENTITY_HIT_EXPANSION]);
     }
 
     private Box getBlockSweepBounds(Vec3d start, Vec3d end) {
@@ -340,76 +340,76 @@ public class Trajectories extends Module {
                 Math.max(start.xCoord, end.xCoord),
                 Math.max(start.yCoord, end.yCoord),
                 Math.max(start.zCoord, end.zCoord)
-        );
+        ]);
     }
 
     private Box getVanillaProjectileBounds(Block block, BlockPos pos) {
-        block.setBlockBoundsBasedOnState(mc.world, pos);
-        return block.getSelectedBoundingBox(mc.world, pos);
+        block.setBlockBoundsBasedOnState(mc.world, pos]);
+        return block.getSelectedBoundingBox(mc.world, pos]);
     }
 
     private Box intersectBoxes(Box first, Box second) {
-        double minX = Math.max(first.minX, second.minX);
-        double minY = Math.max(first.minY, second.minY);
-        double minZ = Math.max(first.minZ, second.minZ);
-        double maxX = Math.min(first.maxX, second.maxX);
-        double maxY = Math.min(first.maxY, second.maxY);
-        double maxZ = Math.min(first.maxZ, second.maxZ);
+        double minX = Math.max(first.minX, second.minX]);
+        double minY = Math.max(first.minY, second.minY]);
+        double minZ = Math.max(first.minZ, second.minZ]);
+        double maxX = Math.min(first.maxX, second.maxX]);
+        double maxY = Math.min(first.maxY, second.maxY]);
+        double maxZ = Math.min(first.maxZ, second.maxZ]);
 
         if (maxX - minX <= 1.0E-7D || maxY - minY <= 1.0E-7D || maxZ - minZ <= 1.0E-7D) {
             return null;
         }
 
-        return new Box(minX, minY, minZ, maxX, maxY, maxZ);
+        return new Box(minX, minY, minZ, maxX, maxY, maxZ]);
     }
 
     private BlockCollisionResult rayTraceBlockCollisionBoxes(Vec3d start, Vec3d end, TrajectoryProps props) {
-        Box sweepBounds = getBlockSweepBounds(start, end);
-        int minX = MathHelper.floor_double(sweepBounds.minX);
-        int maxX = MathHelper.floor_double(sweepBounds.maxX + 1.0D);
-        int minY = MathHelper.floor_double(sweepBounds.minY);
-        int maxY = MathHelper.floor_double(sweepBounds.maxY + 1.0D);
-        int minZ = MathHelper.floor_double(sweepBounds.minZ);
-        int maxZ = MathHelper.floor_double(sweepBounds.maxZ + 1.0D);
+        Box sweepBounds = getBlockSweepBounds(start, end]);
+        int minX = MathHelper.floor_double(sweepBounds.minX]);
+        int maxX = MathHelper.floor_double(sweepBounds.maxX + 1.0D]);
+        int minY = MathHelper.floor_double(sweepBounds.minY]);
+        int maxY = MathHelper.floor_double(sweepBounds.maxY + 1.0D]);
+        int minZ = MathHelper.floor_double(sweepBounds.minZ]);
+        int maxZ = MathHelper.floor_double(sweepBounds.maxZ + 1.0D]);
 
         if (!mc.world.isAreaLoaded(new BlockPos(minX, minY, minZ), new BlockPos(maxX, maxY, maxZ), true)) {
-            return new BlockCollisionResult(null, Double.MAX_VALUE);
+            return new BlockCollisionResult(null, Double.MAX_VALUE]);
         }
 
-        List<Box> collisionBoxes = new ArrayList<>();
-        BlockPos.Mutable mutablePos = new BlockPos.Mutable();
+        List<Box> collisionBoxes = new ArrayList<>(]);
+        BlockPos.Mutable mutablePos = new BlockPos.Mutable(]);
         HitResult bestHit = null;
         double bestDistanceSq = Double.MAX_VALUE;
 
         for (int x = minX; x < maxX; ++x) {
             for (int y = minY; y < maxY; ++y) {
                 for (int z = minZ; z < maxZ; ++z) {
-                    mutablePos.set(x, y, z);
-                    BlockState blockState = mc.world.getBlockState(mutablePos);
-                    Block block = blockState.getBlock();
+                    mutablePos.set(x, y, z]);
+                    BlockState blockState = mc.world.getBlockState(mutablePos]);
+                    Block block = blockState.getBlock(]);
 
                     if ((!props.ignoreBlockWithoutBoundingBox
                             || block.getCollisionBoundingBox(mc.world, mutablePos, blockState) != null)
                             && block.canCollideCheck(blockState, false)) {
-                        collisionBoxes.clear();
-                        Box vanillaProjectileBounds = getVanillaProjectileBounds(block, mutablePos);
-                        block.addCollisionBoxesToList(mc.world, mutablePos, blockState, sweepBounds, collisionBoxes, null);
+                        collisionBoxes.clear(]);
+                        Box vanillaProjectileBounds = getVanillaProjectileBounds(block, mutablePos]);
+                        block.addCollisionBoxesToList(mc.world, mutablePos, blockState, sweepBounds, collisionBoxes, null]);
 
                         for (Box collisionBox : collisionBoxes) {
-                            Box projectileCollisionBox = intersectBoxes(collisionBox, vanillaProjectileBounds);
+                            Box projectileCollisionBox = intersectBoxes(collisionBox, vanillaProjectileBounds]);
                             if (projectileCollisionBox == null) {
                                 continue;
                             }
 
-                            HitResult hit = projectileCollisionBox.calculateIntercept(start, end);
+                            HitResult hit = projectileCollisionBox.calculateIntercept(start, end]);
                             if (hit == null) {
                                 continue;
                             }
 
-                            double distanceSq = start.squareDistanceTo(hit.hitVec);
+                            double distanceSq = start.squareDistanceTo(hit.hitVec]);
                             if (distanceSq + COLLISION_EPSILON_SQ < bestDistanceSq) {
                                 bestDistanceSq = distanceSq;
-                                bestHit = new MovingObjectPosition(hit.hitVec, hit.sideHit, new BlockPos(mutablePos));
+                                bestHit = new MovingObjectPosition(hit.hitVec, hit.sideHit, new BlockPos(mutablePos)]);
                             }
                         }
                     }
@@ -417,19 +417,19 @@ public class Trajectories extends Module {
             }
         }
 
-        return new BlockCollisionResult(bestHit, bestDistanceSq);
+        return new BlockCollisionResult(bestHit, bestDistanceSq]);
     }
 
     private BlockCollisionResult getNearestBlockCollision(Vec3d start, Vec3d end, TrajectoryProps props) {
-        HitResult vanillaHit = mc.world.rayTraceBlocks(start, end, false, props.ignoreBlockWithoutBoundingBox, false);
+        HitResult vanillaHit = mc.world.rayTraceBlocks(start, end, false, props.ignoreBlockWithoutBoundingBox, false]);
         double vanillaDistanceSq = vanillaHit != null ? start.squareDistanceTo(vanillaHit.hitVec) : Double.MAX_VALUE;
 
-        BlockCollisionResult collisionBoxHit = rayTraceBlockCollisionBoxes(start, end, props);
+        BlockCollisionResult collisionBoxHit = rayTraceBlockCollisionBoxes(start, end, props]);
         if (collisionBoxHit.hit != null && collisionBoxHit.distanceSq + COLLISION_EPSILON_SQ < vanillaDistanceSq) {
             return collisionBoxHit;
         }
 
-        return new BlockCollisionResult(vanillaHit, vanillaDistanceSq);
+        return new BlockCollisionResult(vanillaHit, vanillaDistanceSq]);
     }
 
     private List<double[]> clipRenderPoints(List<double[]> renderPoints, double hiddenDistance) {
@@ -437,16 +437,16 @@ public class Trajectories extends Module {
             return renderPoints;
         }
 
-        List<double[]> clippedPoints = new ArrayList<>();
+        List<double[]> clippedPoints = new ArrayList<>(]);
         double remainingDistance = hiddenDistance;
-        double[] previousPoint = renderPoints.get(0);
+        double[] previousPoint = renderPoints.get(0]);
 
-        for (int i = 1; i < renderPoints.size(); ++i) {
-            double[] currentPoint = renderPoints.get(i);
+        for (int i = 1; i < renderPoints.size(]); ++i) {
+            double[] currentPoint = renderPoints.get(i]);
             double deltaX = currentPoint[0] - previousPoint[0];
             double deltaY = currentPoint[1] - previousPoint[1];
             double deltaZ = currentPoint[2] - previousPoint[2];
-            double segmentLength = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+            double segmentLength = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ]);
 
             if (remainingDistance > 0.0D) {
                 if (segmentLength <= 1.0E-7D) {
@@ -465,11 +465,11 @@ public class Trajectories extends Module {
                         previousPoint[0] + deltaX * t,
                         previousPoint[1] + deltaY * t,
                         previousPoint[2] + deltaZ * t
-                });
-                clippedPoints.add(currentPoint);
+                }]);
+                clippedPoints.add(currentPoint]);
                 remainingDistance = 0.0D;
             } else {
-                clippedPoints.add(currentPoint);
+                clippedPoints.add(currentPoint]);
             }
 
             previousPoint = currentPoint;
@@ -479,9 +479,9 @@ public class Trajectories extends Module {
     }
 
     private ItemStack getHeldProjectile(PlayerEntity player) {
-        ItemStack held = player.getMainHandStack();
+        ItemStack held = player.getMainHandStack(]);
         if (held == null) return null;
-        Item item = held.getItem();
+        Item item = held.getItem(]);
         if (item == Items.ender_pearl || item == Items.snowball || item == Items.egg || item == Items.experience_bottle) {
             return held;
         }
@@ -507,12 +507,12 @@ public class Trajectories extends Module {
         }
         PlayerEntity player = mc.player;
         float partialTicks = e.partialTicks;
-        ItemStack heldStack = getHeldProjectile(player);
+        ItemStack heldStack = getHeldProjectile(player]);
         if (onlyWhenHolding.isToggled() && heldStack == null) return;
         if (heldStack == null) return;
 
-        Item item = heldStack.getItem();
-        TrajectoryProps props = getProjectileProperties(item, player, partialTicks);
+        Item item = heldStack.getItem(]);
+        TrajectoryProps props = getProjectileProperties(item, player, partialTicks]);
         if (props == null) return;
 
         double velocity = props.initialVelocity;
@@ -522,17 +522,17 @@ public class Trajectories extends Module {
 
         if (item == Items.bow && disableUnchargedBow.isToggled() && (!player.isUsingItem() || velocity < 0.1)) return;
 
-        float yaw = (float) Math.toRadians(player.getYaw());
-        float pitch = (float) Math.toRadians(player.getPitch());
+        float yaw = (float) Math.toRadians(player.getYaw()]);
+        float pitch = (float) Math.toRadians(player.getPitch()]);
         double posX = player.lastTickPosX + (player.posX - player.lastTickPosX) * partialTicks - MathHelper.cos(yaw) * 0.16f;
         double posY = player.lastTickPosY + (player.posY - player.lastTickPosY) * partialTicks + player.getEyeHeight() - 0.10;
         double posZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * partialTicks - MathHelper.sin(yaw) * 0.16f;
-        double hiddenRenderDistance = mc.options.thirdPersonView == 0 ? FIRST_PERSON_RENDER_CLIP_DISTANCE : 0.0D;
+        double hiddenRenderDistance = mc.options.getPerspective().ordinal() == 0 ? FIRST_PERSON_RENDER_CLIP_DISTANCE : 0.0D;
 
-        double motX = -MathHelper.sin(yaw) * MathHelper.cos(pitch);
-        double motY = -MathHelper.sin(pitch);
-        double motZ = MathHelper.cos(yaw) * MathHelper.cos(pitch);
-        double len = Math.sqrt(motX * motX + motY * motY + motZ * motZ);
+        double motX = -MathHelper.sin(yaw) * MathHelper.cos(pitch]);
+        double motY = -MathHelper.sin(pitch]);
+        double motZ = MathHelper.cos(yaw) * MathHelper.cos(pitch]);
+        double len = Math.sqrt(motX * motX + motY * motY + motZ * motZ]);
         motX /= len;
         motY /= len;
         motZ /= len;
@@ -548,33 +548,33 @@ public class Trajectories extends Module {
 
         double[] mot = new double[]{motX, motY, motZ};
         if (props.requiresInitialTickCorrection) {
-            FluidState fluidState = sampleFluidState(posX, posY, posZ, props);
-            applyWaterFlowAcceleration(fluidState, mot);
-            tickVelocity(props, fluidState, mot);
+            FluidState fluidState = sampleFluidState(posX, posY, posZ, props]);
+            applyWaterFlowAcceleration(fluidState, mot]);
+            tickVelocity(props, fluidState, mot]);
             motX = mot[0];
             motY = mot[1];
             motZ = mot[2];
         }
 
-        List<double[]> renderPoints = new ArrayList<>();
+        List<double[]> renderPoints = new ArrayList<>(]);
         HitResult hitBlock = null;
         Entity hitEntity = null;
         Box hitEntityBox = null;
         int hitType = HIT_NONE;
         Vec3d hitPos = null;
         Vec3d terminalPos = null;
-        EntityRenderDispatcher rm = mc.getEntityRenderDispatcher();
-        final int maxSteps = (int) maxTicks.getInput();
+        EntityRenderDispatcher rm = mc.getEntityRenderDispatcher(]);
+        final int maxSteps = (int) maxTicks.getInput(]);
         final int SUB = 4;
         final double hw = props.hitboxRadius;
 
         outer:
         for (int i = 0; i < maxSteps; i++) {
-            FluidState fluidState = sampleFluidState(posX, posY, posZ, props);
+            FluidState fluidState = sampleFluidState(posX, posY, posZ, props]);
             mot[0] = motX;
             mot[1] = motY;
             mot[2] = motZ;
-            applyWaterFlowAcceleration(fluidState, mot);
+            applyWaterFlowAcceleration(fluidState, mot]);
             motX = mot[0];
             motY = mot[1];
             motZ = mot[2];
@@ -583,17 +583,17 @@ public class Trajectories extends Module {
             double nextY = posY + motY;
             double nextZ = posZ + motZ;
 
-            Vec3d start = new Vec3d(posX, posY, posZ);
-            Vec3d end = new Vec3d(nextX, nextY, nextZ);
-            BlockCollisionResult blockCollision = getNearestBlockCollision(start, end, props);
+            Vec3d start = new Vec3d(posX, posY, posZ]);
+            Vec3d end = new Vec3d(nextX, nextY, nextZ]);
+            BlockCollisionResult blockCollision = getNearestBlockCollision(start, end, props]);
             HitResult blockMop = blockCollision.hit;
             double blockDistSq = blockCollision.distanceSq;
             Vec3d clampedEnd = blockMop != null
                     ? new Vec3d(blockMop.hitVec.xCoord, blockMop.hitVec.yCoord, blockMop.hitVec.zCoord)
                     : end;
 
-            Box broadBox = new Box(posX - hw, posY - hw, posZ - hw, posX + hw, posY + hw, posZ + hw).addCoord(motX, motY, motZ).expand(1.0, 1.0, 1.0);
-            List<Entity> candidates = mc.world.getEntitiesWithinAABBExcludingEntity(mc.getRenderViewEntity(), broadBox);
+            Box broadBox = new Box(posX - hw, posY - hw, posZ - hw, posX + hw, posY + hw, posZ + hw).addCoord(motX, motY, motZ).expand(1.0, 1.0, 1.0]);
+            List<Entity> candidates = mc.world.getEntitiesWithinAABBExcludingEntity(mc.getCameraEntity(), broadBox]);
             Entity bestEntity = null;
             Vec3d bestHitVec = null;
             Box bestBox = null;
@@ -605,12 +605,12 @@ public class Trajectories extends Module {
                 if (((LivingEntity) en).deathTime != 0) continue;
                 if (en instanceof PlayerEntity && AntiBot.isBot(en)) continue;
 
-                Box entityBox = en.getEntityBoundingBox();
-                Box expandedEntityBox = expandEntityCollisionBox(entityBox);
-                HitResult mop = expandedEntityBox.calculateIntercept(start, clampedEnd);
+                Box entityBox = en.getEntityBoundingBox(]);
+                Box expandedEntityBox = expandEntityCollisionBox(entityBox]);
+                HitResult mop = expandedEntityBox.calculateIntercept(start, clampedEnd]);
                 if (mop == null) continue;
 
-                double dSq = start.squareDistanceTo(mop.hitVec);
+                double dSq = start.squareDistanceTo(mop.hitVec]);
                 if (dSq + COLLISION_EPSILON_SQ < bestDistSq) {
                     bestDistSq = dSq;
                     bestEntity = en;
@@ -619,14 +619,14 @@ public class Trajectories extends Module {
                 }
             }
             if (bestEntity != null) {
-                double hitT = Math.sqrt(bestDistSq) / Math.sqrt(motX * motX + motY * motY + motZ * motZ);
-                hitT = Math.max(0, Math.min(1, hitT));
-                int subCount = (int) Math.ceil(hitT * SUB);
+                double hitT = Math.sqrt(bestDistSq) / Math.sqrt(motX * motX + motY * motY + motZ * motZ]);
+                hitT = Math.max(0, Math.min(1, hitT)]);
+                int subCount = (int) Math.ceil(hitT * SUB]);
                 for (int s = 0; s < subCount; s++) {
                     double t = (double) s / SUB;
-                    renderPoints.add(new double[]{posX + motX * t - rm.viewerPosX, posY + motY * t - rm.viewerPosY, posZ + motZ * t - rm.viewerPosZ});
+                    renderPoints.add(new double[]{posX + motX * t - rm.viewerPosX, posY + motY * t - rm.viewerPosY, posZ + motZ * t - rm.viewerPosZ}]);
                 }
-                renderPoints.add(new double[]{bestHitVec.xCoord - rm.viewerPosX, bestHitVec.yCoord - rm.viewerPosY, bestHitVec.zCoord - rm.viewerPosZ});
+                renderPoints.add(new double[]{bestHitVec.xCoord - rm.viewerPosX, bestHitVec.yCoord - rm.viewerPosY, bestHitVec.zCoord - rm.viewerPosZ}]);
                 hitEntity = bestEntity;
                 hitEntityBox = bestBox;
                 hitType = HIT_ENTITY;
@@ -635,7 +635,7 @@ public class Trajectories extends Module {
             }
             if (blockMop != null) {
                 Vec3d hitVec = blockMop.hitVec;
-                int side = blockMop.sideHit.getIndex();
+                int side = blockMop.sideHit.getIndex(]);
                 hitType = (side == 0 || side == 1) ? HIT_GROUND : HIT_WALL;
                 hitPos = hitVec;
                 double segLenSq = motX * motX + motY * motY + motZ * motZ;
@@ -643,29 +643,29 @@ public class Trajectories extends Module {
                 double hitDy = hitVec.yCoord - posY;
                 double hitDz = hitVec.zCoord - posZ;
                 double hitT = segLenSq > 0 ? Math.sqrt((hitDx * hitDx + hitDy * hitDy + hitDz * hitDz) / segLenSq) : 0;
-                hitT = Math.max(0, Math.min(1, hitT));
-                int subCount = (int) Math.ceil(hitT * SUB);
+                hitT = Math.max(0, Math.min(1, hitT)]);
+                int subCount = (int) Math.ceil(hitT * SUB]);
                 for (int s = 0; s < subCount; s++) {
                     double t = (double) s / SUB;
-                    renderPoints.add(new double[]{posX + motX * t - rm.viewerPosX, posY + motY * t - rm.viewerPosY, posZ + motZ * t - rm.viewerPosZ});
+                    renderPoints.add(new double[]{posX + motX * t - rm.viewerPosX, posY + motY * t - rm.viewerPosY, posZ + motZ * t - rm.viewerPosZ}]);
                 }
-                renderPoints.add(new double[]{hitVec.xCoord - rm.viewerPosX, hitVec.yCoord - rm.viewerPosY, hitVec.zCoord - rm.viewerPosZ});
+                renderPoints.add(new double[]{hitVec.xCoord - rm.viewerPosX, hitVec.yCoord - rm.viewerPosY, hitVec.zCoord - rm.viewerPosZ}]);
                 hitBlock = blockMop;
                 break outer;
             }
             for (int s = 0; s < SUB; s++) {
                 double t = (double) s / SUB;
-                renderPoints.add(new double[]{posX + motX * t - rm.viewerPosX, posY + motY * t - rm.viewerPosY, posZ + motZ * t - rm.viewerPosZ});
+                renderPoints.add(new double[]{posX + motX * t - rm.viewerPosX, posY + motY * t - rm.viewerPosY, posZ + motZ * t - rm.viewerPosZ}]);
             }
             posX = nextX;
             posY = nextY;
             posZ = nextZ;
-            terminalPos = new Vec3d(posX, posY, posZ);
+            terminalPos = new Vec3d(posX, posY, posZ]);
 
             mot[0] = motX;
             mot[1] = motY;
             mot[2] = motZ;
-            tickPostMoveVelocity(posX, posY, posZ, props, fluidState, mot);
+            tickPostMoveVelocity(posX, posY, posZ, props, fluidState, mot]);
             motX = mot[0];
             motY = mot[1];
             motZ = mot[2];
@@ -679,27 +679,27 @@ public class Trajectories extends Module {
 
         int color;
         switch (hitType) {
-            case HIT_ENTITY: color = enemyColor.getColor(); break;
-            case HIT_WALL: color = wallColor.getColor(); break;
-            case HIT_GROUND: color = groundColor.getColor(); break;
-            default: color = defaultColor.getColor(); break;
+            case HIT_ENTITY: color = enemyColor.getColor(]); break;
+            case HIT_WALL: color = wallColor.getColor(]); break;
+            case HIT_GROUND: color = groundColor.getColor(]); break;
+            default: color = defaultColor.getColor(]); break;
         }
         float r = ((color >> 16) & 0xFF) / 255.0f;
         float g = ((color >> 8) & 0xFF) / 255.0f;
         float b = (color & 0xFF) / 255.0f;
 
-        GL11.glPushMatrix();
-        GL11.glEnable(GL11.GL_LINE_SMOOTH);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
-        GL11.glDepthMask(false);
+        GL11.glPushMatrix(]);
+        GL11.glEnable(GL11.GL_LINE_SMOOTH]);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA]);
+        GL11.glEnable(GL11.GL_BLEND]);
+        GL11.glDisable(GL11.GL_TEXTURE_2D]);
+        GL11.glDisable(GL11.GL_DEPTH_TEST]);
+        GL11.glDepthMask(false]);
 
-        float lineW = (float) lineThickness.getInput();
-        GL11.glColor4f(r, g, b, 1.0f);
-        GL11.glLineWidth(lineW);
-        GL11.glBegin(GL11.GL_LINE_STRIP);
+        float lineW = (float) lineThickness.getInput(]);
+        GL11.glColor4f(r, g, b, 1.0f]);
+        GL11.glLineWidth(lineW]);
+        GL11.glBegin(GL11.GL_LINE_STRIP]);
         boolean first = true;
         for (double[] pt : clipRenderPoints(renderPoints, hiddenRenderDistance)) {
             if (first && shortenLine.isToggled()) {
@@ -707,57 +707,57 @@ public class Trajectories extends Module {
                 continue;
             }
             first = false;
-            GL11.glVertex3d(pt[0], pt[1], pt[2]);
+            GL11.glVertex3d(pt[0], pt[1], pt[2]]);
         }
-        GL11.glEnd();
+        GL11.glEnd(]);
         if (hitEntity != null && highlightEntities.isToggled() && hitEntityBox != null) {
             double ex = hitEntity.lastTickPosX + (hitEntity.posX - hitEntity.lastTickPosX) * partialTicks;
             double ey = hitEntity.lastTickPosY + (hitEntity.posY - hitEntity.lastTickPosY) * partialTicks;
             double ez = hitEntity.lastTickPosZ + (hitEntity.posZ - hitEntity.lastTickPosZ) * partialTicks;
-            Box renderBox = new Box(hitEntityBox.minX - hitEntity.posX + ex, hitEntityBox.minY - hitEntity.posY + ey, hitEntityBox.minZ - hitEntity.posZ + ez, hitEntityBox.maxX - hitEntity.posX + ex, hitEntityBox.maxY - hitEntity.posY + ey, hitEntityBox.maxZ - hitEntity.posZ + ez);
-            GL11.glColor4f(r, g, b, 1.0f);
-            RenderUtils.drawOutlinedBox(renderBox, rm.viewerPosX, rm.viewerPosY, rm.viewerPosZ);
+            Box renderBox = new Box(hitEntityBox.minX - hitEntity.posX + ex, hitEntityBox.minY - hitEntity.posY + ey, hitEntityBox.minZ - hitEntity.posZ + ez, hitEntityBox.maxX - hitEntity.posX + ex, hitEntityBox.maxY - hitEntity.posY + ey, hitEntityBox.maxZ - hitEntity.posZ + ez]);
+            GL11.glColor4f(r, g, b, 1.0f]);
+            RenderUtils.drawOutlinedBox(renderBox, rm.viewerPosX, rm.viewerPosY, rm.viewerPosZ]);
         } else if (hitBlock != null && !showLanding.isToggled()) {
-            BlockPos bpos = hitBlock.getBlockPos();
-            Box selBox = BlockUtils.getBlockSelectionBox(bpos);
+            BlockPos bpos = hitBlock.getBlockPos(]);
+            Box selBox = BlockUtils.getBlockSelectionBox(bpos]);
             if (selBox != null) {
-                GL11.glColor4f(r, g, b, 1.0f);
-                RenderUtils.drawOutlinedBox(selBox, rm.viewerPosX, rm.viewerPosY, rm.viewerPosZ);
+                GL11.glColor4f(r, g, b, 1.0f]);
+                RenderUtils.drawOutlinedBox(selBox, rm.viewerPosX, rm.viewerPosY, rm.viewerPosZ]);
             }
         }
         if (showLanding.isToggled() && hitPos != null) {
-            renderLandingIndicator(hitPos, rm.viewerPosX, rm.viewerPosY, rm.viewerPosZ, r, g, b, hitType);
+            renderLandingIndicator(hitPos, rm.viewerPosX, rm.viewerPosY, rm.viewerPosZ, r, g, b, hitType]);
         }
-        GL11.glDisable(GL11.GL_BLEND);
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
-        GL11.glDepthMask(true);
-        GL11.glDisable(GL11.GL_LINE_SMOOTH);
-        GL11.glPopMatrix();
+        GL11.glDisable(GL11.GL_BLEND]);
+        GL11.glEnable(GL11.GL_TEXTURE_2D]);
+        GL11.glEnable(GL11.GL_DEPTH_TEST]);
+        GL11.glDepthMask(true]);
+        GL11.glDisable(GL11.GL_LINE_SMOOTH]);
+        GL11.glPopMatrix(]);
     }
 
     private void renderLandingIndicator(Vec3d hitPos, double camX, double camY, double camZ, float r, float g, float b, int hitType) {
         double boxSize = hitType == HIT_ENTITY ? 0.4 : 0.2;
-        Box worldBox = new Box(hitPos.xCoord - boxSize, hitPos.yCoord - boxSize, hitPos.zCoord - boxSize, hitPos.xCoord + boxSize, hitPos.yCoord + boxSize, hitPos.zCoord + boxSize);
-        GL11.glLineWidth(2.0f);
-        GL11.glColor4f(r, g, b, 1.0f);
-        RenderUtils.drawOutlinedBox(worldBox, camX, camY, camZ);
-        Box renderBox = worldBox.offset(-camX, -camY, -camZ);
-        GL11.glColor4f(r, g, b, 0.3f);
-        RenderUtils.drawBoundingBox(renderBox, r, g, b, 0.3f);
+        Box worldBox = new Box(hitPos.xCoord - boxSize, hitPos.yCoord - boxSize, hitPos.zCoord - boxSize, hitPos.xCoord + boxSize, hitPos.yCoord + boxSize, hitPos.zCoord + boxSize]);
+        GL11.glLineWidth(2.0f]);
+        GL11.glColor4f(r, g, b, 1.0f]);
+        RenderUtils.drawOutlinedBox(worldBox, camX, camY, camZ]);
+        Box renderBox = worldBox.offset(-camX, -camY, -camZ]);
+        GL11.glColor4f(r, g, b, 0.3f]);
+        RenderUtils.drawBoundingBox(renderBox, r, g, b, 0.3f]);
         double x = hitPos.xCoord - camX;
         double y = hitPos.yCoord - camY;
         double z = hitPos.zCoord - camZ;
         double crossSize = hitType == HIT_ENTITY ? 0.5 : 0.3;
-        GL11.glLineWidth(1.5f);
-        GL11.glColor4f(r, g, b, 1.0f);
-        GL11.glBegin(GL11.GL_LINES);
-        GL11.glVertex3d(x - crossSize, y, z);
-        GL11.glVertex3d(x + crossSize, y, z);
-        GL11.glVertex3d(x, y - crossSize, z);
-        GL11.glVertex3d(x, y + crossSize, z);
-        GL11.glVertex3d(x, y, z - crossSize);
-        GL11.glVertex3d(x, y, z + crossSize);
-        GL11.glEnd();
+        GL11.glLineWidth(1.5f]);
+        GL11.glColor4f(r, g, b, 1.0f]);
+        GL11.glBegin(GL11.GL_LINES]);
+        GL11.glVertex3d(x - crossSize, y, z]);
+        GL11.glVertex3d(x + crossSize, y, z]);
+        GL11.glVertex3d(x, y - crossSize, z]);
+        GL11.glVertex3d(x, y + crossSize, z]);
+        GL11.glVertex3d(x, y, z - crossSize]);
+        GL11.glVertex3d(x, y, z + crossSize]);
+        GL11.glEnd(]);
     }
 }

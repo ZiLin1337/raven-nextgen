@@ -101,7 +101,7 @@ public class SafeWalk extends Module {
             return;
         }
 
-        GLFW.glfwSetInputMode(mc.getWindow().getHandle(), GLFW.GLFW_KEY_S, sneakState);
+        GLFW.glfwSetInputMode(mc.getWindow().getHandle(), GLFW.GLFW_KEY_S, sneakState ? GLFW.GLFW_CURSOR_HIDDEN : GLFW.GLFW_CURSOR_NORMAL);
         if (sneakState) {
             // KeyBinding.onTick removed in 1.21.4
         }

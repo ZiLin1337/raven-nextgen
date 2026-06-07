@@ -95,9 +95,9 @@ public class Freelook extends Module {
 
     private void enterPerspective() {
         perspectiveToggled = true;
-        previousPerspective = mc.options.thirdPersonView;
+        previousPerspective = mc.options.getPerspective().ordinal();
         applyThirdPersonView(1);
-        lastFov = mc.options.fovSetting;
+        lastFov = mc.options.getFov().floatValue();
     }
 
     public void resetPerspective() {
@@ -106,8 +106,8 @@ public class Freelook extends Module {
         if (mc.currentScreen == null && mc.isWindowFocused()) {
             mc.mouseHelper.grabMouseCursor();
         }
-        if (hold.isToggled() || mc.options.fovSetting == lastFov || customFov.isToggled()) {
-            mc.options.fovSetting = lastFov;
+        if (hold.isToggled() || mc.options.getFov().floatValue() == lastFov || customFov.isToggled()) {
+            mc.options.getFov().floatValue() = lastFov;
         }
     }
 
@@ -136,7 +136,7 @@ public class Freelook extends Module {
                 cameraPitch = Math.max(-90f, Math.min(90f, cameraPitch));
             }
             if (fl.customFov.isToggled()) {
-                mc.options.fovSetting = (float) fl.fov.getInput();
+                mc.options.getFov().floatValue() = (float) fl.fov.getInput();
             }
         }
         return false;
@@ -150,7 +150,7 @@ public class Freelook extends Module {
             if (mc.currentScreen == null && mc.isWindowFocused()) {
                 mc.mouseHelper.grabMouseCursor();
             }
-            mc.options.fovSetting = lastFov;
+            mc.options.getFov().floatValue() = lastFov;
         }
     }
 
@@ -161,16 +161,16 @@ public class Freelook extends Module {
             view = 2;
         }
 
-        mc.options.thirdPersonView = view;
-        if (mc.entityRenderer != null) {
+        mc.options.getPerspective().ordinal() = view;
+        if (mc.gameRenderer != null) {
             if (view == 0) {
-                mc.entityRenderer.loadEntityShader(mc.getRenderViewEntity());
+                // mc.gameRenderer.loadEntityShader(mc.getCameraEntity()); // not available in 1.21.4
             } else if (view == 1) {
-                mc.entityRenderer.loadEntityShader((Entity) null);
+                // mc.gameRenderer.loadEntityShader((Entity) null); // not available in 1.21.4
             }
         }
-        if (mc.renderGlobal != null) {
-            mc.renderGlobal.setDisplayListEntitiesDirty();
+        if (mc.worldRenderer != null) {
+            // mc.worldRenderer.setDisplayListEntitiesDirty(); // not available in 1.21.4
         }
     }
 }

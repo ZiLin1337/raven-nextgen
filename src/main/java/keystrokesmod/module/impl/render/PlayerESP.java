@@ -174,8 +174,8 @@ public void onRenderWorld(Object e) {
 
         RenderSystem.pushMatrix();
         RenderSystem.pushAttrib();
-        outlineFramebuffer.bindnet.minecraft.client.gl.Framebuffer(false);
-        ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(partialTicks, 0);
+        outlineFramebuffer.bind(false);
+        // TODO: IAccessorEntityRenderer not available in 1.21.4
         boolean shadows = mc.options.entityShadows;
         mc.options.entityShadows = false;
         renderingOutlinePass = true;
@@ -195,14 +195,14 @@ public void onRenderWorld(Object e) {
         renderingOutlinePass = false;
 
         mc.options.entityShadows = shadows;
-        mc.entityRenderer.disableLightmap();
-        mc.entityRenderer.setupOverlayRendering();
-        mc.getnet.minecraft.client.gl.Framebuffer().bindnet.minecraft.client.gl.Framebuffer(false);
+        // mc.gameRenderer.disableLightmap(); // not available in 1.21.4
+        // mc.gameRenderer.setupOverlayRendering(); // not available in 1.21.4
+        mc.getFramebuffer().bind(false);
         outlineShader.use();
         RenderUtils.drawnet.minecraft.client.gl.FramebufferFullscreen(outlineFramebuffer);
         outlineShader.stop();
         outlineFramebuffer.framebufferClear();
-        mc.getnet.minecraft.client.gl.Framebuffer().bindnet.minecraft.client.gl.Framebuffer(false);
+        mc.getFramebuffer().bind(false);
         RenderSystem.popAttrib();
         RenderSystem.popMatrix();
     }
@@ -329,9 +329,9 @@ public void onRenderWorld(Object e) {
         }
 
          scaledResolution = null; // int removed for 1.21.4
-        ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(partialTicks, 0);
+        // TODO: IAccessorEntityRenderer not available in 1.21.4
         projectionContext = RenderUtils.captureProjectionContext(projectionContext, mc.getWindow().getScaleFactor());
-        mc.entityRenderer.setupOverlayRendering();
+        // mc.gameRenderer.setupOverlayRendering(); // not available in 1.21.4
 
         int screenWidth = scaledResolution.getScaledWidth();
         int screenHeight = scaledResolution.getScaledHeight();
