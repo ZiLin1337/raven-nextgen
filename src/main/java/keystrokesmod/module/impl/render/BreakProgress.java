@@ -67,7 +67,7 @@ public class BreakProgress extends Module {
                 break;
             }
             case 1: {
-                double timeLeft = Utils.round((double) ((1.0f - this.progress) / BlockUtils.getBlockHardness(BlockUtils.getBlockState(this).block)), mc.player.getHeldItem(), false, false) / 20.0, 1;
+                double timeLeft = Utils.round((double) ((1.0f - this.progress) / BlockUtils.getBlockHardness(BlockUtils.getBlockState(this).block)), 1) / 20.0;
                 this.progressStr = timeLeft == 0 ? "0" : timeLeft + "s";
                 break;
             }
