@@ -126,7 +126,7 @@ public class NameHider extends Module {
         }
 
         refreshCaches();
-        String originalText = original.getString();
+        String originalText = String.valueOf(original.getString());
         String replaced = getDisplayTextForPlayer(player, originalText);
         if (Objects.equals(originalText, replaced)) {
             return original;
@@ -434,7 +434,7 @@ public class NameHider extends Module {
     }
 
     private static String replaceNames(String input, Iterable<String> names, String replacement) {
-        String replaced = TextUtils.replaceAllKeepingFormatting(input, names, replacement);
+        String replaced = String.valueOf(TextUtils.replaceAllKeepingFormatting(input, names, replacement));
         return replaced == null ? input : replaced;
     }
 

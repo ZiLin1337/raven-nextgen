@@ -272,11 +272,11 @@ public class PlayerRelationsManager implements IMinecraftInstance {
     private void syncRelationshipsModuleState() {
         if (ModuleManager.getModules() != null) {
             ModuleManager.getModules().middleClickFriends.setEnabled(middleClickFriends);
-            if (active && !ModuleManager.getModules().isEnabled()) {
-                ModuleManager.getModules().enable();
+            if (active && !ModuleManager.getModules()!= null) {
+                ModuleManager.getModules()// enable disabled;
             }
-            else if (!active && ModuleManager.getModules().isEnabled()) {
-                ModuleManager.getModules().disable();
+            else if (!active && ModuleManager.getModules()!= null) {
+                ModuleManager.getModules()// disable disabled;
             }
         }
     }

@@ -192,19 +192,19 @@ public abstract class AbstractSearchListComponent extends AbstractTextInputCompo
 
     protected final void renderItemInRow(ItemStack stack, float x, float rowTop) {
         if (stack == null) return;
-        RenderItem renderItem = mc.getRenderItem();
+        net.minecraft.client.render.item.ItemRenderer renderItem = mc.getnet.minecraft.client.render.item.ItemRenderer();
         double scale = 0.55;
         float px = (float) (x / scale);
         float py = (float) ((rowTop + (LIST_ROW_VISUAL_HEIGHT - (float)(16 * scale)) / 2f) / scale);
-        GlStateManager.pushMatrix();
-        GlStateManager.scale(scale, scale, scale);
-        GlStateManager.translate(px, py, 0f);
-        RenderHelper.enableGUIStandardItemLighting();
-        GlStateManager.disableBlend();
+        // pushMatrix disabled;
+        // scale(scale, scale, scale);
+        // translate(px, py, 0f);
+        // enableGUIStandardItemLighting disabled;
+        // disableBlend disabled;
         renderItem.renderItemAndEffectIntoGUI(stack, 0, 0);
-        GlStateManager.enableBlend();
+        // enableBlend disabled;
         RenderHelper.disableStandardItemLighting();
-        GlStateManager.popMatrix();
+        // popMatrix disabled;
     }
 
     protected final boolean isMouseOverDropdown(float mouseX, float mouseY) {

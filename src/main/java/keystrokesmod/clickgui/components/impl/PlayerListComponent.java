@@ -71,7 +71,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
     @Override public void onGuiClosed() { super.onGuiClosed(); getTextField().setText(""); selectedScrollAnim.reset(0f); }
     @Override public float getHeightF() { int c = setting.getPlayers().size(); float h = c == 0 ? 0f : SELECTED_LIST_GAP + Math.min(MAX_VISIBLE_SELECTED, c) * ROW_HEIGHT; return (2f * ROW_HEIGHT) + h; }
     @Override public boolean isBaseVisible() { return setting.visible; }
-    @Override public String getGroupName() { return setting.getCategory() != null ? setting.getCategory().getName() : ""; }
+    @Override public String getGroupName() { return setting.category != null ? setting.category.getName() : ""; }
     public boolean capturesCategoryScroll(float x, float y) { return setting.getPlayers().size() > MAX_VISIBLE_SELECTED && isMouseOverSelectedList(x, y); }
     public boolean containsClick(int x, int y) { Layout l = layout(true); return isTextFieldClicked(x, y, l) || isMouseOverSelectedList(x, y); }
     public void onExternalDataChanged() { clampSelectedScroll(); }

@@ -44,7 +44,7 @@ public class InventoryItemSearchComponent extends AbstractItemSearchComponent<In
     public void keyTyped(char typedChar, int keyCode) {
         if (!moduleComponent.isOpened) return;
         if (listeningStorageId != null) {
-            if (keyCode == Keyboard.KEY_ESCAPE) { listeningStorageId = null; return; }
+            if (keyCode == GLFW.GLFW_KEY_KEY_ESCAPE) { listeningStorageId = null; return; }
             int slot = getHotbarSlotForKey(keyCode);
             if (slot != -1) {
                 setting.setAssignedSlot(listeningStorageId, slot);

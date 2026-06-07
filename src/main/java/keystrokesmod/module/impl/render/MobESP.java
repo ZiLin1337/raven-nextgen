@@ -279,7 +279,7 @@ public class MobESP extends Module {
 
         // RenderSystem.pushMatrix();
         // RenderSystem.pushAttrib();
-        outlineFramebuffer.beginWrite(false);
+        // outlineFramebuffer.beginWrite() disabled
         // mc.gameRenderer.callSetupCameraTransform(partialTicks, 0); // Method not available
         boolean shadows = true;
         // mc.options.getEntityShadows() assignment not supported
@@ -327,7 +327,7 @@ public class MobESP extends Module {
             RenderUtils.renderEntity(en, 1, 0, 0, rgb, redOnDamage.isToggled());
         }
         if (shaded.isToggled()) {
-            if (null == null || !false || null.isEmpty()) {
+            if (null == null || !false || false) {
                 RenderUtils.renderEntity(en, 2, 0, 0, rgb, redOnDamage.isToggled());
             }
         }
@@ -345,9 +345,9 @@ public class MobESP extends Module {
         }
         // mc.gameRenderer.callSetupCameraTransform // Method not available
 
-        double playerX = en.prevX + (en.getX() - en.prevX) * partialTicks - mc.getEntityRenderDispatcher().mc.gameRenderer.getCamera().getPos().x;
-        double playerY = en.prevY + (en.getY() - en.prevY) * partialTicks - mc.getEntityRenderDispatcher().mc.gameRenderer.getCamera().getPos().y;
-        double playerZ = en.prevZ + (en.getZ() - en.prevZ) * partialTicks - mc.getEntityRenderDispatcher().mc.gameRenderer.getCamera().getPos().z;
+        double playerX = en.prevX + (en.getX() - en.prevX) * partialTicks - mc.getEntityRenderDispatcher().0.0;
+        double playerY = en.prevY + (en.getY() - en.prevY) * partialTicks - mc.getEntityRenderDispatcher().0.0;
+        double playerZ = en.prevZ + (en.getZ() - en.prevZ) * partialTicks - mc.getEntityRenderDispatcher().0.0;
 
         Box bbox = en.getBoundingBox().expand(0.1D + expand, 0.1D + expand, 0.1D + expand);
         Box axis = new Box(
@@ -408,8 +408,8 @@ public class MobESP extends Module {
         // setupOverlayRendering;
 
          res = null; // int removed for 1.21.4
-        int screenWidth = res.getScaledWidth();
-        int screenHeight = res.getScaledHeight();
+        int screenWidth = mc.getWindow().getScaledWidth();
+        int screenHeight = mc.getWindow().getScaledHeight();
 
         minX = Math.max(0, minX);
         minY = Math.max(0, minY);

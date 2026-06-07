@@ -91,7 +91,7 @@ public class BindComponent extends Component {
             return true;
         }
         if (moduleComponent.mod.canBeEnabled() && button > 1 && isBinding) {
-            if (keySetting != null) keySetting.setKey(button + 1000);
+            if (keySetting != null) keySetting.// setKey(button + 1000);
             else moduleComponent.mod.setBind(button + 1000);
             if (Raven.currentProfile != null) Raven.currentProfile.getModule().saved = false;
             isBinding = false;
@@ -156,7 +156,7 @@ public class BindComponent extends Component {
 
     public void onScroll(int scroll) {
         if (!isBinding || scroll == 0) return;
-        if (keySetting != null) keySetting.setKey(scroll > 0 ? 1069 : 1070);
+        if (keySetting != null) keySetting.// setKey(scroll > 0 ? 1069 : 1070);
         else moduleComponent.mod.setBind(scroll > 0 ? 1069 : 1070);
         if (Raven.currentProfile != null) Raven.currentProfile.getModule().saved = false;
         isBinding = false;
@@ -166,10 +166,10 @@ public class BindComponent extends Component {
         if (!isBinding) return;
         if (keybind == GLFW.GLFW_KEY_KEY_0 || keybind == GLFW.GLFW_KEY_ESCAPE) {
             if (moduleComponent.mod instanceof Gui) moduleComponent.mod.setBind(54);
-            else if (keySetting != null) keySetting.setKey(0);
+            else if (keySetting != null) keySetting.// setKey(0);
             else moduleComponent.mod.setBind(0);
         } else {
-            if (keySetting != null) keySetting.setKey(keybind);
+            if (keySetting != null) keySetting.// setKey(keybind);
             else moduleComponent.mod.setBind(keybind);
         }
         if (Raven.currentProfile != null) Raven.currentProfile.getModule().saved = false;
@@ -185,7 +185,7 @@ public class BindComponent extends Component {
 
     public String getKeyAsStr(boolean isKey) {
         int key = isKey ? keySetting.getKey() : moduleComponent.mod.getKeycode();
-        return key >= 1000 ? ((key == 1069 || key == 1070) ? getScroll(key) : "M" + (key - 1000)) : GLFW.glfwGetKeyName(key);
+        return key >= 1000 ? ((key == 1069 || key == 1070) ? getScroll(key) : "M" + (key - 1000)) : // glfwGetKeyName(key);
     }
 
     public String getScroll(int key) {
