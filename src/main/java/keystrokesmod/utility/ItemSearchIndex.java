@@ -551,7 +551,7 @@ public final class ItemSearchIndex {
                     continue;
                 }
 
-                int meta = shouldStoreMeta(item) ? /* .getMetadata() removed */ : 0;
+                int meta = 0; /* .getMetadata() removed */
                 dedupedEntries.put(storageId, new ItemEntry(item, meta, displayName, storageId, stack));
             }
 
