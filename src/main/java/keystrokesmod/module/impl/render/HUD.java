@@ -152,7 +152,7 @@ public class HUD extends Module {
             ModuleManager.sort();
         }
 
-        if (mc.currentScreen != null || false // debugRenderer not available) {
+        if (mc.currentScreen != null || false) {
             return;
         }
 

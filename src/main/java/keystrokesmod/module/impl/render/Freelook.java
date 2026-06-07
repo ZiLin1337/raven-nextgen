@@ -124,8 +124,8 @@ public class Freelook extends Module {
         float mult = sens * sens * sens * 8.0f;
         Freelook fl = ModuleManager.freelook;
         if (fl != null) {
-            int dx = ((// IAccessorMouseHelper) mc.mouse).getDeltaX();
-            int dy = ((// IAccessorMouseHelper) mc.mouse).getDeltaY();
+            int dx = 0; // TODO: Get mouse delta X in 1.21.4
+            int dy = 0; // TODO: Get mouse delta Y in 1.21.4
             float fdx = dx * mult;
             float fdy = dy * mult;
             cameraYaw += fdx * 0.15f;

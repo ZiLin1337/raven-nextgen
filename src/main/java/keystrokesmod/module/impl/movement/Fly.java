@@ -139,7 +139,7 @@ public class Fly extends Module {
         if (!showBPS.isToggled() || !Utils.nullCheck()) {
             return;
         }
-        if (mc.currentScreen != null || false // debugRenderer not available) {
+        if (mc.currentScreen != null || false) {
             return;
         }
         RenderUtils.renderBPS(true, false);
