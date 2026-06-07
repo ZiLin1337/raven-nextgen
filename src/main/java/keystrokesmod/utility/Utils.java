@@ -7,7 +7,7 @@ import keystrokesmod.helper.MouseHelper;
 import keystrokesmod.mixin.impl.accessor.IAccessorGuiIngame;
 import keystrokesmod.mixin.impl.accessor.IAccessorItemFood;
 import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
-import keystrokesmod.mixin.impl.accessor.IAccessorPlayerControllerMP;
+// Removed accessor
 import keystrokesmod.Raven;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
@@ -29,7 +29,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Items;
 import net.minecraft.inventory.ContainerPlayer;
 import net.minecraft.item.*;
@@ -44,7 +44,7 @@ import net.minecraft.util.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.input.Mouse;
+import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -125,7 +125,7 @@ public class Utils implements IMinecraftInstance {
                 float cornerOffsetY = (float) ((i >> 1 & 1) * 2 - 1) * 0.1F;
                 float cornerOffsetZ = (float) ((i >> 2 & 1) * 2 - 1) * 0.1F;
 
-                MovingObjectPosition rayTraceResult = mc.world.rayTraceBlocks(new Vec3(interpolatedX + cornerOffsetX, interpolatedY + cornerOffsetY, interpolatedZ + cornerOffsetZ), new Vec3((interpolatedX - offsetX + cornerOffsetX + cornerOffsetZ), (interpolatedY - offsetY + cornerOffsetY), (interpolatedZ - offsetZ + cornerOffsetZ)));
+                HitResult rayTraceResult = mc.world.rayTraceBlocks(new Vec3(interpolatedX + cornerOffsetX, interpolatedY + cornerOffsetY, interpolatedZ + cornerOffsetZ), new Vec3((interpolatedX - offsetX + cornerOffsetX + cornerOffsetZ), (interpolatedY - offsetY + cornerOffsetY), (interpolatedZ - offsetZ + cornerOffsetZ)));
 
                 if (rayTraceResult != null) {
                     double blockHitDistance = rayTraceResult.hitVec.distanceTo(new Vec3(interpolatedX, interpolatedY, interpolatedZ));
@@ -155,7 +155,7 @@ public class Utils implements IMinecraftInstance {
         sendMessage("&7player: &r" + isPlayer);
         sendMessage("&7dist eye: &d" + round(getDistanceToEye(ent), 2));
         sendMessage("&7min dist: &d" + round(Math.sqrt(raycastDistanceSq(ent, 12.0, false)), 2));
-        IChatComponent displayName = ent.getDisplayName();
+        Text displayName = ent.getDisplayName();
         boolean hasDisplayName = displayName != null;
         if (isPlayer) {
             PlayerEntity p = (PlayerEntity)ent;
@@ -210,7 +210,7 @@ public class Utils implements IMinecraftInstance {
                 if (entity.canBeCollidedWith()) {
                     float cbs = entity.getCollisionBorderSize();
                     Box axis = entity.getEntityBoundingBox().expand((double)cbs, (double)cbs, (double)cbs);
-                    MovingObjectPosition mop = axis.calculateIntercept(eyeVec, sumVec);
+                    HitResult mop = axis.calculateIntercept(eyeVec, sumVec);
                     if (mop != null) {
                         return eyeVec.squareDistanceTo(mop.hitVec);
                     }
@@ -270,7 +270,7 @@ public class Utils implements IMinecraftInstance {
             }
         }
 
-        IChatComponent displayNameComponent = entity.getDisplayName();
+        Text displayNameComponent = entity.getDisplayName();
         if (displayNameComponent == null) {
             return -1;
         }
@@ -370,7 +370,7 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static boolean canSeeVec(Vec3 vecPlayer, Vec3 vecTarget) {
-        MovingObjectPosition mop = mc.world.rayTraceBlocks(vecPlayer, vecTarget, false, false, false);
+        HitResult mop = mc.world.rayTraceBlocks(vecPlayer, vecTarget, false, false, false);
         return mop == null || mop.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK;
     }
 
@@ -1043,7 +1043,7 @@ public class Utils implements IMinecraftInstance {
         }
     }
 
-    public static MovingObjectPosition getTarget(final double reach, final float yaw, final float pitch) {
+    public static HitResult getTarget(final double reach, final float yaw, final float pitch) {
         Vec3 eyeVec = mc.player.getPositionEyes(1.0f);
         float y = -yaw * 0.017453292f;
         float p = -pitch * 0.017453292f;
@@ -1071,7 +1071,7 @@ public class Utils implements IMinecraftInstance {
         if (axis == null) {
             return false;
         }
-        final MovingObjectPosition mop = axis.calculateIntercept(eyeVec, sumVec);
+        final HitResult mop = axis.calculateIntercept(eyeVec, sumVec);
         return mop != null;
     }
 
@@ -1318,11 +1318,11 @@ public class Utils implements IMinecraftInstance {
         double reach = mc.playerController.getBlockReachDistance();
         float yaw = mc.player.rotationYaw;
         float pitch = mc.player.rotationPitch;
-        MovingObjectPosition entityHit = RotationUtils.rayTrace(reach, 1.0f, new float[] { yaw, pitch }, null);
+        HitResult entityHit = RotationUtils.rayTrace(reach, 1.0f, new float[] { yaw, pitch }, null);
         if (entityHit != null && entityHit.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY) {
             return false;
         }
-        MovingObjectPosition blockHit = RotationUtils.rayCastBlock(reach, yaw, pitch);
+        HitResult blockHit = RotationUtils.rayCastBlock(reach, yaw, pitch);
         return blockHit != null && blockHit.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && blockHit.getBlockPos() != null;
     }
 
@@ -1342,7 +1342,7 @@ public class Utils implements IMinecraftInstance {
     public static LivingEntity raytrace(int range) {
         Entity entity = null;
         PlayerEntity self = (Freecam.freeEntity == null) ? mc.player : Freecam.freeEntity;
-        MovingObjectPosition rayTrace = self.rayTrace(range, 1.0f);
+        HitResult rayTrace = self.rayTrace(range, 1.0f);
         final Vec3 getPositionEyes = self.getPositionEyes(1.0f);
         final float rotationYaw = self.rotationYaw;
         final float rotationPitch = self.rotationPitch;
@@ -1359,7 +1359,7 @@ public class Utils implements IMinecraftInstance {
             if (entity2.canBeCollidedWith()) {
                 final float getCollisionBorderSize = entity2.getCollisionBorderSize();
                 final Box expand = entity2.getEntityBoundingBox().expand((double)getCollisionBorderSize, (double)getCollisionBorderSize, (double)getCollisionBorderSize);
-                final MovingObjectPosition calculateIntercept = expand.calculateIntercept(getPositionEyes, addVector);
+                final HitResult calculateIntercept = expand.calculateIntercept(getPositionEyes, addVector);
                 if (expand.isVecInside(getPositionEyes)) {
                     if (0.0 < n3 || n3 == 0.0) {
                         entity = entity2;
@@ -1543,7 +1543,7 @@ public class Utils implements IMinecraftInstance {
         if (block == null) {
             return false;
         }
-        if (BlockUtils.isInteractable(block) || block instanceof BlockSnow || block instanceof BlockWeb || block instanceof BlockSapling || block instanceof BlockDaylightDetector || block instanceof BlockBeacon || block instanceof BlockBanner || block instanceof BlockEndPortalFrame || block instanceof BlockEndPortal || block instanceof BlockLever || block instanceof BlockButton || block instanceof BlockSkull || block instanceof BlockLiquid || block instanceof BlockCactus || block instanceof BlockDoublePlant || block instanceof BlockLilyPad || block instanceof BlockCarpet || block instanceof BlockTripWire || block instanceof BlockTripWireHook || block instanceof BlockTallGrass || block instanceof BlockFlower || block instanceof BlockFlowerPot || block instanceof BlockSign || block instanceof BlockLadder || block instanceof BlockTorch || block instanceof BlockRedstoneTorch || block instanceof BlockStairs || block instanceof BlockSlab || block instanceof BlockFence || block instanceof BlockPane || block instanceof BlockStainedGlassPane || block instanceof BlockGravel || block instanceof BlockClay || block instanceof BlockSand || block instanceof BlockSoulSand || block instanceof BlockRailBase) {
+        if (BlockUtils.isInteractable(block) || block instanceof BlockSnow || block instanceof BlockWeb || block instanceof BlockSapling || block instanceof BlockDaylightDetector || block instanceof BlockBeacon || block instanceof BlockBanner || block instanceof BlockEndPortalFrame || block instanceof BlockEndPortal || block instanceof BlockLever || block instanceof BlockButton || block instanceof BlockSkull || block instanceof FluidBlock || block instanceof BlockCactus || block instanceof BlockDoublePlant || block instanceof BlockLilyPad || block instanceof BlockCarpet || block instanceof BlockTripWire || block instanceof BlockTripWireHook || block instanceof BlockTallGrass || block instanceof BlockFlower || block instanceof BlockFlowerPot || block instanceof BlockSign || block instanceof BlockLadder || block instanceof BlockTorch || block instanceof BlockRedstoneTorch || block instanceof BlockStairs || block instanceof BlockSlab || block instanceof BlockFence || block instanceof BlockPane || block instanceof BlockStainedGlassPane || block instanceof BlockGravel || block instanceof BlockClay || block instanceof BlockSand || block instanceof BlockSoulSand || block instanceof BlockRailBase) {
             return false;
         }
         return true;

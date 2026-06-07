@@ -11,7 +11,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.block.material.Material;
 import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
@@ -112,11 +112,11 @@ public class FallView extends Module {
             return;
         }
 
-        PotionEffect jumpEffect = mc.player.getActivePotionEffect(Potion.jump);
+        StatusEffectInstance jumpEffect = mc.player.getActivePotionEffect(Potion.jump);
         float jumpAmplifier = jumpEffect != null ? (float) (jumpEffect.getAmplifier() + 1) : 0.0f;
         int jumpBoostLevel = jumpEffect != null ? jumpEffect.getAmplifier() + 1 : 0;
 
-        PotionEffect resistanceEffect = mc.player.getActivePotionEffect(Potion.resistance);
+        StatusEffectInstance resistanceEffect = mc.player.getActivePotionEffect(Potion.resistance);
         boolean hasResistance = resistanceEffect != null;
         int resistanceLevel = hasResistance ? resistanceEffect.getAmplifier() + 1 : 0;
 

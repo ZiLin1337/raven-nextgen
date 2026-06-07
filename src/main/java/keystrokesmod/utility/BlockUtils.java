@@ -8,15 +8,15 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.EnumDyeColor;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.Vec3d;
 
 public class BlockUtils implements IMinecraftInstance {
     public static boolean isSamePos(BlockPos blockPos, BlockPos blockPos2) {
@@ -224,7 +224,7 @@ public class BlockUtils implements IMinecraftInstance {
     }
 
     public static boolean canSeeVecBlock(final BlockPos pos, final Vec3 vecPlayer, final Vec3 vecBlockPoint) {
-        final MovingObjectPosition mop = mc.world.rayTraceBlocks(vecPlayer, vecBlockPoint, false, false, false);
+        final HitResult mop = mc.world.rayTraceBlocks(vecPlayer, vecBlockPoint, false, false, false);
         if (mop == null) {
             return true;
         }
@@ -305,7 +305,7 @@ public class BlockUtils implements IMinecraftInstance {
     }
 
     public static boolean canPlaceBlockOnSide(ItemStack stack, BlockPos pos, Direction side) {
-        if (stack == null || !(stack.getItem() instanceof ItemBlock)) return false;
+        if (stack == null || !(stack.getItem() instanceof BlockItem)) return false;
         return ((ItemBlock) stack.getItem()).canPlaceBlockOnSide(
                 mc.world, pos, side, mc.player, stack);
     }
@@ -337,7 +337,7 @@ public class BlockUtils implements IMinecraftInstance {
         return false;
     }
 
-    public static MovingObjectPosition traverseBlocksAlongRay(Vec3 start, Vec3 end,
+    public static HitResult traverseBlocksAlongRay(Vec3 start, Vec3 end,
             boolean wantBed, boolean wantAdjacent) {
         if (mc.world == null) return null;
         if (Double.isNaN(start.xCoord) || Double.isNaN(start.yCoord) || Double.isNaN(start.zCoord)) return null;
@@ -350,9 +350,9 @@ public class BlockUtils implements IMinecraftInstance {
         int curY = MathHelper.floor_double(start.yCoord);
         int curZ = MathHelper.floor_double(start.zCoord);
 
-        MovingObjectPosition firstHit = null;
+        HitResult firstHit = null;
 
-        MovingObjectPosition candidate = getBlockCollisionHit(curX, curY, curZ, start, end);
+        HitResult candidate = getBlockCollisionHit(curX, curY, curZ, start, end);
         if (candidate != null) {
             if (isBedOrAdjacentMatch(candidate.getBlockPos(), wantBed, wantAdjacent)) return candidate;
             firstHit = candidate;
@@ -415,7 +415,7 @@ public class BlockUtils implements IMinecraftInstance {
         return firstHit;
     }
 
-    private static MovingObjectPosition getBlockCollisionHit(int x, int y, int z, Vec3 start, Vec3 end) {
+    private static HitResult getBlockCollisionHit(int x, int y, int z, Vec3 start, Vec3 end) {
         BlockPos pos = new BlockPos(x, y, z);
         BlockState state = mc.world.getBlockState(pos);
         Block block = state.getBlock();

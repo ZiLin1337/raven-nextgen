@@ -12,7 +12,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 
 import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.fml.client.config.GuiButtonExt;
 
@@ -140,7 +140,7 @@ public class PotionHUD extends Module {
         RavenFontRenderer renderer = getFontRenderer();
         LayoutMetrics metrics = LayoutMetrics.from(renderer, getSelectedScale());
         ArrayList<PotionEntry> entries = new ArrayList<PotionEntry>();
-        Collection<PotionEffect> activeEffects = mc.player.getActivePotionEffects();
+        Collection<StatusEffectInstance> activeEffects = mc.player.getActivePotionEffects();
 
         if (activeEffects != null) {
             for (PotionEffect effect : activeEffects) {

@@ -11,13 +11,13 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.util.math.MatrixStack;
 
-import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.network.play.server.S2EPacketCloseWindow;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.GuiOpenEvent;
-import net.minecraftforge.event.world.WorldEvent;
+// Removed Forge event
+// Removed Forge event
 import net.minecraftforge.fml.client.config.GuiButtonExt;
 
 import java.io.IOException;
@@ -35,7 +35,7 @@ public class HideWindow extends Module {
     private final ButtonSetting whitelist;
     private final StringListSetting whitelistEntries;
 
-    private GuiContainer hiddenGui;
+    private HandledScreen hiddenGui;
 
     private float posX = Float.NaN;
     private float posY = Float.NaN;
@@ -77,13 +77,13 @@ public class HideWindow extends Module {
             return;
         }
 
-        if (event.gui instanceof GuiContainer && !(event.gui instanceof GuiInventory)) {
-            if (mc.currentScreen instanceof GuiContainer) {
+        if (event.gui instanceof HandledScreen && !(event.gui instanceof GuiInventory)) {
+            if (mc.currentScreen instanceof HandledScreen) {
                 hiddenGui = null;
                 return;
             }
 
-            GuiContainer gui = (GuiContainer) event.gui;
+            HandledScreen gui = (GuiContainer) event.gui;
             if (onlyWhileCrouching.isToggled() && !mc.player.isSneaking()) {
                 return;
             }

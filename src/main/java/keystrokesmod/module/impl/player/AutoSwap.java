@@ -2,15 +2,15 @@ package keystrokesmod.module.impl.player;
 
 import keystrokesmod.event.PrePlayerInteractEvent;
 import keystrokesmod.event.SendPacketEvent;
-import keystrokesmod.mixin.impl.accessor.IAccessorPlayerControllerMP;
+// Removed accessor
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.BlockListSetting;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
 
 public class AutoSwap extends Module {
     private final ButtonSetting useBlockWhitelist;
@@ -47,17 +47,17 @@ public class AutoSwap extends Module {
 
     
     public void onSendPacket(SendPacketEvent e) {
-        if (!Utils.nullCheck() || !(e.getPacket() instanceof C08PacketPlayerBlockPlacement)) {
+        if (!Utils.nullCheck() || !(e.getPacket() instanceof PlayerInteractBlockC2SPacket)) {
             return;
         }
 
-        C08PacketPlayerBlockPlacement packet = (C08PacketPlayerBlockPlacement) e.getPacket();
+        PlayerInteractBlockC2SPacket packet = (C08PacketPlayerBlockPlacement) e.getPacket();
         if (packet.getPlacedBlockDirection() == 255) {
             return;
         }
 
         ItemStack stack = packet.getStack();
-        if (stack == null || !(stack.getItem() instanceof ItemBlock)) {
+        if (stack == null || !(stack.getItem() instanceof BlockItem)) {
             return;
         }
 
@@ -113,7 +113,7 @@ public class AutoSwap extends Module {
             return true;
         }
 
-        if (stack == null || !(stack.getItem() instanceof ItemBlock)) {
+        if (stack == null || !(stack.getItem() instanceof BlockItem)) {
             return false;
         }
 

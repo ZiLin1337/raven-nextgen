@@ -18,13 +18,13 @@ import net.minecraft.block.BlockFence;
 import net.minecraft.block.BlockWall;
 import net.minecraft.client.util.math.MatrixStack;
 
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.client.option.KeyBinding;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
-import net.minecraftforge.client.event.MouseEvent;
+// Removed Forge event
 
-import org.lwjgl.input.Mouse;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.*;
 
@@ -124,7 +124,7 @@ public class BlockIn extends Module {
         float[] sm = RotationUtils.smoothRotation(baseYaw, basePitch, aimYaw, aimPitch,
                 (int) speed.getInput(), (float) randomization.getInput());
         double r = REACH;
-        MovingObjectPosition mop = RotationUtils.rayCastBlock(r, sm[0], sm[1]);
+        HitResult mop = RotationUtils.rayCastBlock(r, sm[0], sm[1]);
 
         if (mop != null) {
             BlockPos hitBlock = mop.getBlockPos();
@@ -316,7 +316,7 @@ public class BlockIn extends Module {
         for (int slot = 8; slot >= 0; --slot) {
             ItemStack s = mc.player.inventory.mainInventory[slot];
             if (s == null || s.stackSize == 0) continue;
-            if (!(s.getItem() instanceof ItemBlock)) continue;
+            if (!(s.getItem() instanceof BlockItem)) continue;
             if (ignoreBlocksToggle.isToggled() && ignoredBlocks.matches(s)) continue;
 
             Block block = ((ItemBlock) s.getItem()).getBlock();
@@ -442,7 +442,7 @@ public class BlockIn extends Module {
 
         int byY = targetCell.getY();
         for (RotationCandidate c : cands) {
-            MovingObjectPosition mop = RotationUtils.rayCastBlock(reachVal, c.yaw, c.pitch);
+            HitResult mop = RotationUtils.rayCastBlock(reachVal, c.yaw, c.pitch);
             if (mop == null) continue;
             BlockPos hitBlock = mop.getBlockPos();
             Direction face = mop.sideHit;
@@ -538,7 +538,7 @@ public class BlockIn extends Module {
         float curYaw = RotationUtils.serverRotations[0];
         float curPitch = RotationUtils.serverRotations[1];
 
-        MovingObjectPosition now = RotationUtils.rayCastBlock(reachVal, curYaw, curPitch);
+        HitResult now = RotationUtils.rayCastBlock(reachVal, curYaw, curPitch);
         if (now != null) {
             BlockPos support = now.getBlockPos();
             Direction faceHit = now.sideHit;
@@ -608,7 +608,7 @@ public class BlockIn extends Module {
     }
 
     private AimResult tryPlacement(double reachVal, float yaw, float pit, BlockPos expectedSupport, Direction expectedFace, BlockPos goal) {
-        MovingObjectPosition mop = RotationUtils.rayCastBlock(reachVal, yaw, pit);
+        HitResult mop = RotationUtils.rayCastBlock(reachVal, yaw, pit);
         if (mop == null) return null;
         BlockPos hitBlock = mop.getBlockPos();
         Direction faceHit = mop.sideHit;

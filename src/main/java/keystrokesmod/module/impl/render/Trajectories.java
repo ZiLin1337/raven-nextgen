@@ -9,14 +9,14 @@ import keystrokesmod.utility.BlockUtils;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockLiquid;
+import net.minecraft.block.FluidBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.BlockState;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityArmorStand;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.decoration.ArmorStandEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 
 import net.minecraft.item.ItemBow;
@@ -81,7 +81,7 @@ public class Trajectories extends Module {
     }
 
     private static final class BlockCollisionResult {
-        final MovingObjectPosition hit;
+        final HitResult hit;
         final double distanceSq;
 
         BlockCollisionResult(MovingObjectPosition hit, double distanceSq) {
@@ -152,7 +152,7 @@ public class Trajectories extends Module {
         return f * 2.0f * 1.5f;
     }
 
-    private TrajectoryProps getProjectileProperties(Item item, EntityPlayer player, float partialTicks) {
+    private TrajectoryProps getProjectileProperties(Item item, PlayerEntity player, float partialTicks) {
         if (item == Items.bow) {
             float vel = getBowVelocity(partialTicks);
             return new TrajectoryProps(PhysicsModel.ARROW, 0.05, 0.99, ARROW_WATER_DRAG, 0.5, 0.5, 0.5, vel, false, true);
@@ -378,7 +378,7 @@ public class Trajectories extends Module {
 
         List<Box> collisionBoxes = new ArrayList<>();
         BlockPos.Mutable mutablePos = new BlockPos.Mutable();
-        MovingObjectPosition bestHit = null;
+        HitResult bestHit = null;
         double bestDistanceSq = Double.MAX_VALUE;
 
         for (int x = minX; x < maxX; ++x) {
@@ -401,7 +401,7 @@ public class Trajectories extends Module {
                                 continue;
                             }
 
-                            MovingObjectPosition hit = projectileCollisionBox.calculateIntercept(start, end);
+                            HitResult hit = projectileCollisionBox.calculateIntercept(start, end);
                             if (hit == null) {
                                 continue;
                             }
@@ -421,7 +421,7 @@ public class Trajectories extends Module {
     }
 
     private BlockCollisionResult getNearestBlockCollision(Vec3 start, Vec3 end, TrajectoryProps props) {
-        MovingObjectPosition vanillaHit = mc.world.rayTraceBlocks(start, end, false, props.ignoreBlockWithoutBoundingBox, false);
+        HitResult vanillaHit = mc.world.rayTraceBlocks(start, end, false, props.ignoreBlockWithoutBoundingBox, false);
         double vanillaDistanceSq = vanillaHit != null ? start.squareDistanceTo(vanillaHit.hitVec) : Double.MAX_VALUE;
 
         BlockCollisionResult collisionBoxHit = rayTraceBlockCollisionBoxes(start, end, props);
@@ -505,7 +505,7 @@ public class Trajectories extends Module {
         if (!Utils.nullCheck() || mc.world == null) {
             return;
         }
-        EntityPlayer player = mc.player;
+        PlayerEntity player = mc.player;
         float partialTicks = e.partialTicks;
         ItemStack heldStack = getHeldProjectile(player);
         if (onlyWhenHolding.isToggled() && heldStack == null) return;
@@ -557,7 +557,7 @@ public class Trajectories extends Module {
         }
 
         List<double[]> renderPoints = new ArrayList<>();
-        MovingObjectPosition hitBlock = null;
+        HitResult hitBlock = null;
         Entity hitEntity = null;
         Box hitEntityBox = null;
         int hitType = HIT_NONE;
@@ -586,7 +586,7 @@ public class Trajectories extends Module {
             Vec3 start = new Vec3(posX, posY, posZ);
             Vec3 end = new Vec3(nextX, nextY, nextZ);
             BlockCollisionResult blockCollision = getNearestBlockCollision(start, end, props);
-            MovingObjectPosition blockMop = blockCollision.hit;
+            HitResult blockMop = blockCollision.hit;
             double blockDistSq = blockCollision.distanceSq;
             Vec3 clampedEnd = blockMop != null
                     ? new Vec3(blockMop.hitVec.xCoord, blockMop.hitVec.yCoord, blockMop.hitVec.zCoord)
@@ -599,15 +599,15 @@ public class Trajectories extends Module {
             Box bestBox = null;
             double bestDistSq = blockDistSq;
             for (Entity en : candidates) {
-                if (!(en instanceof EntityLivingBase)) continue;
-                if (en instanceof EntityArmorStand) continue;
+                if (!(en instanceof LivingEntity)) continue;
+                if (en instanceof ArmorStandEntity) continue;
                 if (!en.canBeCollidedWith()) continue;
                 if (((EntityLivingBase) en).deathTime != 0) continue;
-                if (en instanceof EntityPlayer && AntiBot.isBot(en)) continue;
+                if (en instanceof PlayerEntity && AntiBot.isBot(en)) continue;
 
                 Box entityBox = en.getEntityBoundingBox();
                 Box expandedEntityBox = expandEntityCollisionBox(entityBox);
-                MovingObjectPosition mop = expandedEntityBox.calculateIntercept(start, clampedEnd);
+                HitResult mop = expandedEntityBox.calculateIntercept(start, clampedEnd);
                 if (mop == null) continue;
 
                 double dSq = start.squareDistanceTo(mop.hitVec);

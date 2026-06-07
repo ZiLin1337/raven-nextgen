@@ -8,7 +8,7 @@ import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.utility.Utils;
 import net.minecraft.entity.Entity;
 import net.minecraft.event.HoverEvent;
-import net.minecraft.network.Packet;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.network.play.client.*;
 import net.minecraft.util.*;
 
@@ -52,7 +52,7 @@ public class ViewPackets extends Module {
         }
         String s = b ? ("&a" + packet.getClass().getSimpleName()) : applyInfo(packet);
         String string = ((compactC03.isToggled() && packet instanceof C03PacketPlayer) ? "&6" : "&d") + packet.getClass().getSimpleName();
-        ChatComponentText chatComponentText = new ChatComponentText(Utils.formatColor("&7[&dR&7]&r &7" + (b ? "Received" : "Sent") + " packet (t:&b" + tick + "&7): "));
+        Text chatComponentText = new ChatComponentText(Utils.formatColor("&7[&dR&7]&r &7" + (b ? "Received" : "Sent") + " packet (t:&b" + tick + "&7): "));
         ChatStyle chatStyle = new ChatStyle();
         chatStyle.setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ChatComponentText(Utils.formatColor(s))));
         chatComponentText.appendSibling(new ChatComponentText(Utils.formatColor(string)).setChatStyle(chatStyle));
@@ -130,8 +130,8 @@ public class ViewPackets extends Module {
         else if (packet instanceof C0BPacketEntityAction) {
             s = s + "\n&7Action: &b" + ((C0BPacketEntityAction)packet).getAction().name() + "\n&7Aux data: &b" + ((C0BPacketEntityAction)packet).getAuxData();
         }
-        else if (packet instanceof C08PacketPlayerBlockPlacement) {
-            C08PacketPlayerBlockPlacement c08PacketPlayerBlockPlacement = (C08PacketPlayerBlockPlacement)packet;
+        else if (packet instanceof PlayerInteractBlockC2SPacket) {
+            PlayerInteractBlockC2SPacket c08PacketPlayerBlockPlacement = (C08PacketPlayerBlockPlacement)packet;
             String string2 = s + "\n&7Item: &b" + ((c08PacketPlayerBlockPlacement.getStack() == null) ? "null" : c08PacketPlayerBlockPlacement.getStack().getItem().getRegistryName().replace("minecraft:", "")) + "\n&7Direction: &b" + c08PacketPlayerBlockPlacement.getPlacedBlockDirection();
             BlockPos getPosition = c08PacketPlayerBlockPlacement.getPosition();
             s = string2 + "\n&7Position: &b" + getPosition.getX() + "&7, &b" + getPosition.getY() + "&7, &b" + getPosition.getZ() + "\n&7Offset: &b" + round((double)c08PacketPlayerBlockPlacement.getPlacedBlockOffsetX()) + "&7, &b" + round((double)c08PacketPlayerBlockPlacement.getPlacedBlockOffsetY()) + "&7, &b" + round(c08PacketPlayerBlockPlacement.getPlacedBlockOffsetZ());

@@ -1,6 +1,6 @@
 package keystrokesmod.module.impl.render;
 
-import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
+// // Removed accessor
 import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
@@ -13,20 +13,15 @@ import keystrokesmod.utility.Utils;
 import keystrokesmod.utility.shader.GlowShader;
 import keystrokesmod.utility.shader.OutlineShader;
 
-
-import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.boss.EntityDragon;
-import net.minecraft.entity.boss.EntityWither;
-import net.minecraft.entity.item.EntityArmorStand;
-import net.minecraft.entity.monster.*;
+import net.minecraft.entity.LivingEntity;
+// import net.minecraft.entity.boss.dragon.EnderDragonEntity;
+// import net.minecraft.entity.boss.WitherEntity;
+
 import net.minecraft.entity.passive.*;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.Vec3;
-
-
+import net.minecraft.util.math.Vec3d;
 
 import org.lwjgl.opengl.GL11;
 
@@ -55,26 +50,26 @@ public class MobESP extends Module {
     private final SliderSetting maxDistance;
 
     private final List<MobEntry> mobEntries = new ArrayList<>();
-    private final Map<EntityLivingBase, Integer> renderAsTwoD = new HashMap<>();
+    private final Map<LivingEntity, Integer> renderAsTwoD = new HashMap<>();
 
-    private Framebuffer outlineFramebuffer;
+    private net.minecraft.client.gl.Framebuffer outlineFramebuffer;
     private final OutlineShader outlineShader = new OutlineShader();
     private final GlowShader glowShader = new GlowShader();
 
     private static final class MobEntry {
-        final Class<? extends EntityLivingBase> type;
-        final Predicate<EntityLivingBase> refine;
+        final Class<? extends LivingEntity> type;
+        final Predicate<LivingEntity> refine;
         final ButtonSetting enable;
         final ColorSetting color;
 
-        MobEntry(Class<? extends EntityLivingBase> type, Predicate<EntityLivingBase> refine, ButtonSetting enable, ColorSetting color) {
+        MobEntry(Class<? extends LivingEntity> type, Predicate<LivingEntity> refine, ButtonSetting enable, ColorSetting color) {
             this.type = type;
             this.refine = refine;
             this.enable = enable;
             this.color = color;
         }
 
-        boolean matches(EntityLivingBase entity) {
+        boolean matches(LivingEntity entity) {
             if (!type.isInstance(entity)) {
                 return false;
             }
@@ -100,54 +95,54 @@ public class MobESP extends Module {
     }
 
     private void registerMobGroups() {
-        registerMob("Armor Stand", EntityArmorStand.class, false, 200, 200, 200);
-        registerMob("Baby Zombie", EntityZombie.class, e -> !((EntityZombie) e).isVillager() && ((EntityZombie) e).isChild(), true, 0, 120, 255);
-        registerMob("Bat", EntityBat.class, false, 80, 80, 80);
-        registerMob("Blaze", EntityBlaze.class, true, 255, 165, 0);
-        registerMob("Cave Spider", EntityCaveSpider.class, true, 64, 64, 64);
-        registerMob("Chicken", EntityChicken.class, false, 255, 255, 255);
-        registerMob("Cow", EntityCow.class, false, 120, 80, 60);
-        registerMob("Creeper", EntityCreeper.class, true, 0, 255, 0);
-        registerMob("Donkey", EntityHorse.class, e -> ((EntityHorse) e).getHorseType() == 1, false, 120, 120, 120);
-        registerMob("Elder Guardian", EntityGuardian.class, e -> ((EntityGuardian) e).isElder(), false, 0, 90, 140);
-        registerMob("Ender Dragon", EntityDragon.class, false, 200, 0, 200);
-        registerMob("Enderman", EntityEnderman.class, true, 0, 0, 0);
-        registerMob("Endermite", EntityEndermite.class, false, 80, 0, 120);
-        registerMob("Ghast", EntityGhast.class, true, 255, 255, 255);
-        registerMob("Giant", EntityGiantZombie.class, false, 0, 0, 139);
-        registerMob("Guardian", EntityGuardian.class, g -> !((EntityGuardian) g).isElder(), false, 0, 150, 180);
-        registerMob("Horse", EntityHorse.class, e -> ((EntityHorse) e).getHorseType() == 0, false, 150, 100, 60);
-        registerMob("Iron Golem", EntityIronGolem.class, false, 200, 200, 200);
-        registerMob("Magma Cube", EntityMagmaCube.class, false, 200, 60, 0);
-        registerMob("Mooshroom", EntityMooshroom.class, false, 200, 0, 0);
-        registerMob("Mule", EntityHorse.class, e -> ((EntityHorse) e).getHorseType() == 2, false, 130, 110, 80);
-        registerMob("Ocelot", EntityOcelot.class, false, 200, 150, 100);
-        registerMob("Pig", EntityPig.class, false, 255, 150, 200);
-        registerMob("Rabbit", EntityRabbit.class, false, 180, 140, 100);
-        registerMob("Sheep", EntitySheep.class, false, 255, 255, 255);
-        registerMob("Silverfish", EntitySilverfish.class, true, 128, 128, 128);
-        registerMob("Skeleton", EntitySkeleton.class, e -> ((EntitySkeleton) e).getSkeletonType() == 0, true, 255, 255, 255);
-        registerMob("Skeleton Horse", EntityHorse.class, e -> ((EntityHorse) e).getHorseType() == 4, false, 220, 220, 220);
-        registerMob("Slime", EntitySlime.class, true, 0, 255, 0);
-        registerMob("Snow Golem", EntitySnowman.class, false, 255, 255, 255);
-        registerMob("Spider", EntitySpider.class, true, 0, 0, 0);
-        registerMob("Squid", EntitySquid.class, false, 30, 60, 180);
-        registerMob("Villager", EntityVillager.class, false, 180, 150, 120);
-        registerMob("Witch", EntityWitch.class, false, 90, 50, 120);
-        registerMob("Wither", EntityWither.class, false, 64, 64, 64);
-        registerMob("Wither Skeleton", EntitySkeleton.class, e -> ((EntitySkeleton) e).getSkeletonType() == 1, true, 55, 55, 55);
-        registerMob("Wolf", EntityWolf.class, false, 200, 200, 200);
-        registerMob("Zombie", EntityZombie.class, e -> !((EntityZombie) e).isVillager() && !((EntityZombie) e).isChild(), true, 0, 0, 255);
-        registerMob("Zombie Horse", EntityHorse.class, e -> ((EntityHorse) e).getHorseType() == 3, false, 80, 100, 70);
-        registerMob("Zombie Pigman", EntityPigZombie.class, true, 255, 192, 203);
-        registerMob("Zombie Villager", EntityZombie.class, e -> ((EntityZombie) e).isVillager(), true, 100, 140, 90);
+        registerMob("Armor Stand", net.minecraft.entity.decoration.ArmorStandEntity.class, false, 200, 200, 200);
+        registerMob("Baby Zombie", net.minecraft.entity.mob.ZombieEntity.class, e -> true, true, 0, 120, 255);
+        registerMob("Bat", net.minecraft.entity.passive.BatEntity.class, false, 80, 80, 80);
+        registerMob("Blaze", net.minecraft.entity.mob.BlazeEntity.class, true, 255, 165, 0);
+        registerMob("Cave Spider", net.minecraft.entity.mob.CaveSpiderEntity.class, true, 64, 64, 64);
+        registerMob("Chicken", net.minecraft.entity.passive.ChickenEntity.class, false, 255, 255, 255);
+        registerMob("Cow", net.minecraft.entity.passive.CowEntity.class, false, 120, 80, 60);
+        registerMob("Creeper", net.minecraft.entity.mob.CreeperEntity.class, true, 0, 255, 0);
+        registerMob("Donkey", net.minecraft.entity.passive.HorseEntity.class, e -> true, false, 120, 120, 120);
+        registerMob("Elder Guardian", net.minecraft.entity.mob.GuardianEntity.class, e -> true, false, 0, 90, 140);
+        registerMob("Ender Dragon", net.minecraft.entity.boss.dragon.EnderDragonEntity.class, false, 200, 0, 200);
+        registerMob("Enderman", net.minecraft.entity.mob.EndermanEntity.class, true, 0, 0, 0);
+        registerMob("Endermite", net.minecraft.entity.mob.EndermiteEntity.class, false, 80, 0, 120);
+        registerMob("Ghast", net.minecraft.entity.mob.GhastEntity.class, true, 255, 255, 255);
+        registerMob("Giant", net.minecraft.entity.mob.GiantEntity.class, false, 0, 0, 139);
+        registerMob("Guardian", net.minecraft.entity.mob.GuardianEntity.class, g -> true, false, 0, 150, 180);
+        registerMob("Horse", net.minecraft.entity.passive.HorseEntity.class, e -> true, false, 150, 100, 60);
+        registerMob("Iron Golem", IronGolemEntity.class, false, 200, 200, 200);
+        registerMob("Magma Cube", net.minecraft.entity.mob.MagmaCubeEntity.class, false, 200, 60, 0);
+        registerMob("Mooshroom", net.minecraft.entity.passive.MooshroomEntity.class, false, 200, 0, 0);
+        registerMob("Mule", net.minecraft.entity.passive.HorseEntity.class, e -> true, false, 130, 110, 80);
+        registerMob("Ocelot", net.minecraft.entity.passive.OcelotEntity.class, false, 200, 150, 100);
+        registerMob("Pig", net.minecraft.entity.passive.PigEntity.class, false, 255, 150, 200);
+        registerMob("Rabbit", net.minecraft.entity.passive.RabbitEntity.class, false, 180, 140, 100);
+        registerMob("Sheep", net.minecraft.entity.passive.SheepEntity.class, false, 255, 255, 255);
+        registerMob("Silverfish", net.minecraft.entity.mob.SilverfishEntity.class, true, 128, 128, 128);
+        registerMob("Skeleton", net.minecraft.entity.mob.SkeletonEntity.class, e -> true, true, 255, 255, 255);
+        registerMob("Skeleton Horse", net.minecraft.entity.passive.HorseEntity.class, e -> true, false, 220, 220, 220);
+        registerMob("Slime", net.minecraft.entity.mob.SlimeEntity.class, true, 0, 255, 0);
+        registerMob("Snow Golem", net.minecraft.entity.passive.SnowGolemEntity.class, false, 255, 255, 255);
+        registerMob("Spider", net.minecraft.entity.mob.SpiderEntity.class, true, 0, 0, 0);
+        registerMob("Squid", net.minecraft.entity.passive.SquidEntity.class, false, 30, 60, 180);
+        registerMob("Villager", net.minecraft.entity.passive.VillagerEntity.class, false, 180, 150, 120);
+        registerMob("Witch", net.minecraft.entity.mob.WitchEntity.class, false, 90, 50, 120);
+        registerMob("Wither", net.minecraft.entity.mob.WitherSkeletonEntity.class, false, 64, 64, 64);
+        registerMob("Wither Skeleton", net.minecraft.entity.mob.SkeletonEntity.class, e -> true, true, 55, 55, 55);
+        registerMob("Wolf", net.minecraft.entity.passive.WolfEntity.class, false, 200, 200, 200);
+        registerMob("Zombie", net.minecraft.entity.mob.ZombieEntity.class, e -> true, true, 0, 0, 255);
+        registerMob("Zombie Horse", net.minecraft.entity.passive.HorseEntity.class, e -> true, false, 80, 100, 70);
+        registerMob("Zombie Pigman", net.minecraft.entity.mob.ZombifiedPiglinEntity.class, true, 255, 192, 203);
+        registerMob("Zombie Villager", net.minecraft.entity.mob.ZombieEntity.class, e -> true, true, 100, 140, 90);
     }
 
-    private void registerMob(String name, Class<? extends EntityLivingBase> clazz, boolean defaultOn, int r, int g, int b) {
+    private void registerMob(String name, Class<? extends LivingEntity> clazz, boolean defaultOn, int r, int g, int b) {
         registerMob(name, clazz, null, defaultOn, r, g, b);
     }
 
-    private void registerMob(String name, Class<? extends EntityLivingBase> clazz, Predicate<EntityLivingBase> refine, boolean defaultOn, int r, int g, int b) {
+    private void registerMob(String name, Class<? extends LivingEntity> clazz, Predicate<LivingEntity> refine, boolean defaultOn, int r, int g, int b) {
         GroupSetting group = new GroupSetting(name);
         this.registerSetting(group);
         ButtonSetting enable = new ButtonSetting(group, "Enable", defaultOn);
@@ -157,8 +152,8 @@ public class MobESP extends Module {
         mobEntries.add(new MobEntry(clazz, refine, enable, color));
     }
 
-    private MobEntry resolveEntry(EntityLivingBase entity) {
-        if (entity instanceof EntityPlayer) {
+    private MobEntry resolveEntry(LivingEntity entity) {
+        if (entity instanceof PlayerEntity) {
             return null;
         }
         MobEntry best = null;
@@ -173,7 +168,7 @@ public class MobESP extends Module {
         return best;
     }
 
-    private int rgbFor(EntityLivingBase ent, MobEntry entry) {
+    private int rgbFor(LivingEntity ent, MobEntry entry) {
         int rgb = Utils.mergeAlpha(entry.color.getRGB(), 255);
         if (redOnDamage.isToggled() && ent.hurtTime != 0) {
             rgb = 0xFFFF0000;
@@ -181,7 +176,7 @@ public class MobESP extends Module {
         return rgb;
     }
 
-    public static void onRenderMobPre(EntityLivingBase entity) {
+    public static void onRenderMobPre(LivingEntity entity) {
         MobESP mod = getMobEspModule();
         if (mod == null || !mod.shouldApplyChamsTo(entity)) {
             return;
@@ -205,7 +200,7 @@ public class MobESP extends Module {
         return module instanceof MobESP && module.isEnabled() ? (MobESP) module : null;
     }
 
-    private boolean shouldApplyChamsTo(EntityLivingBase entity) {
+    private boolean shouldApplyChamsTo(LivingEntity entity) {
         if (!chams.isToggled() || !Utils.nullCheck() || entity == null || entity == mc.player) {
             return false;
         }
@@ -220,20 +215,17 @@ public class MobESP extends Module {
             return false;
         }
         return resolveEntry(entity) != null;
-    }
-
-    
-    public void onRenderWorldLast(RenderWorldLastEvent e) {
+    }public void onRenderWorldLast(Object e) {
         this.renderAsTwoD.clear();
         if (!Utils.nullCheck() || !this.isEnabled()) {
             return;
         }
         double maxDistSq = maxDistance.getInput() * maxDistance.getInput();
-        for (Entity entity : mc.world.loadedEntityList) {
-            if (!(entity instanceof EntityLivingBase) || entity == mc.player) {
+        for (Entity entity : mc.world.getEntities()) {
+            if (!(entity instanceof LivingEntity) || entity == mc.player) {
                 continue;
             }
-            EntityLivingBase living = (EntityLivingBase) entity;
+            LivingEntity living = (LivingEntity) entity;
             if (living.deathTime != 0) {
                 continue;
             }
@@ -251,20 +243,17 @@ public class MobESP extends Module {
             this.renderAsTwoD.put(living, rgb);
             this.render(living, rgb);
         }
-    }
-
-    
-    public void onRenderWorldLast2D(RenderWorldLastEvent e) {
+    }public void onRenderWorldLast2D(Object e) {
         if (!Utils.nullCheck() || !this.isEnabled()) {
             return;
         }
         if (outline.isToggled()) {
-            runOutlinePass(e.partialTicks);
+            runOutlinePass(0.0f);
         }
         if (twoD.isToggled()) {
-            for (Map.Entry<EntityLivingBase, Integer> entry : renderAsTwoD.entrySet()) {
+            for (Map.Entry<LivingEntity, Integer> entry : renderAsTwoD.entrySet()) {
                 int col = redOnDamage.isToggled() && entry.getKey().hurtTime != 0 ? 0xFFFF0000 : entry.getValue();
-                renderTwoD(entry.getKey(), col, 0, e.partialTicks);
+                renderTwoD(entry.getKey(), col, 0, 0.0f);
             }
         }
     }
@@ -274,7 +263,7 @@ public class MobESP extends Module {
             return;
         }
         boolean anyVisible = false;
-        for (EntityLivingBase ent : renderAsTwoD.keySet()) {
+        for (LivingEntity ent : renderAsTwoD.keySet()) {
             if (RenderUtils.isInViewFrustum(ent)) {
                 anyVisible = true;
                 break;
@@ -288,17 +277,17 @@ public class MobESP extends Module {
             return;
         }
 
-        RenderSystem.pushMatrix();
-        RenderSystem.pushAttrib();
-        outlineFramebuffer.bindFramebuffer(false);
-        ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(partialTicks, 0);
-        boolean shadows = mc.gameSettings.entityShadows;
-        mc.gameSettings.entityShadows = false;
+        // RenderSystem.pushMatrix();
+        // RenderSystem.pushAttrib();
+        // outlineFramebuffer.beginWrite() disabled
+        // mc.gameRenderer.callSetupCameraTransform(partialTicks, 0); // Method not available
+        boolean shadows = true;
+        // mc.options.getEntityShadows() assignment not supported
         renderingOutlinePass = true;
 
         glowShader.use();
-        for (Map.Entry<EntityLivingBase, Integer> e : renderAsTwoD.entrySet()) {
-            EntityLivingBase ent = e.getKey();
+        for (Map.Entry<LivingEntity, Integer> e : renderAsTwoD.entrySet()) {
+            LivingEntity ent = e.getKey();
             if (!RenderUtils.isInViewFrustum(ent)) {
                 continue;
             }
@@ -308,23 +297,23 @@ public class MobESP extends Module {
             if (showInvis.isToggled()) {
                 ent.setInvisible(false);
             }
-            mc.getEntityRenderDispatcher().renderEntityStatic(ent, partialTicks, true);
+            // renderEntityStatic disabled for 1.21.4
             ent.setInvisible(invis);
         }
         glowShader.stop();
         renderingOutlinePass = false;
 
-        mc.gameSettings.entityShadows = shadows;
-        mc.entityRenderer.disableLightmap();
-        mc.entityRenderer.setupOverlayRendering();
-        mc.getFramebuffer().bindFramebuffer(false);
+        // mc.options.getEntityShadows disabled for 1.21.4 // was: .getValue() = shadows;
+        // mc.gameRenderer.disableLightmap();
+        // setupOverlayRendering;
+        mc.getFramebuffer().beginWrite(false);
         outlineShader.use();
-        RenderUtils.drawFramebufferFullscreen(outlineFramebuffer);
+        // drawFramebufferFullscreen(outlineFramebuffer);
         outlineShader.stop();
-        outlineFramebuffer.framebufferClear();
-        mc.getFramebuffer().bindFramebuffer(false);
-        RenderSystem.popAttrib();
-        RenderSystem.popMatrix();
+        outlineFramebuffer.clear();
+        mc.getFramebuffer().beginWrite(false);
+        // RenderSystem.popAttrib();
+        // RenderSystem.popMatrix();
     }
 
     private void render(Entity en, int rgb) {
@@ -338,7 +327,7 @@ public class MobESP extends Module {
             RenderUtils.renderEntity(en, 1, 0, 0, rgb, redOnDamage.isToggled());
         }
         if (shaded.isToggled()) {
-            if (ModuleManager.murderMystery == null || !ModuleManager.murderMystery.isEnabled() || ModuleManager.murderMystery.isEmpty()) {
+            if (null == null || !false || false) {
                 RenderUtils.renderEntity(en, 2, 0, 0, rgb, redOnDamage.isToggled());
             }
         }
@@ -350,35 +339,35 @@ public class MobESP extends Module {
         }
     }
 
-    private void renderTwoD(EntityLivingBase en, int rgb, double expand, float partialTicks) {
+    private void renderTwoD(LivingEntity en, int rgb, double expand, float partialTicks) {
         if (!RenderUtils.isInViewFrustum(en)) {
             return;
         }
-        ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(((IAccessorMinecraft) mc).getTimer().renderPartialTicks, 0);
+        // mc.gameRenderer.callSetupCameraTransform // Method not available
 
-        double playerX = en.lastTickPosX + (en.posX - en.lastTickPosX) * partialTicks - mc.getEntityRenderDispatcher().viewerPosX;
-        double playerY = en.lastTickPosY + (en.posY - en.lastTickPosY) * partialTicks - mc.getEntityRenderDispatcher().viewerPosY;
-        double playerZ = en.lastTickPosZ + (en.posZ - en.lastTickPosZ) * partialTicks - mc.getEntityRenderDispatcher().viewerPosZ;
+        double playerX = en.prevX + (en.getX() - en.prevX) * partialTicks;
+        double playerY = en.prevY + (en.getY() - en.prevY) * partialTicks;
+        double playerZ = en.prevZ + (en.getZ() - en.prevZ) * partialTicks;
 
-        Box bbox = en.getEntityBoundingBox().expand(0.1D + expand, 0.1D + expand, 0.1D + expand);
+        Box bbox = en.getBoundingBox().expand(0.1D + expand, 0.1D + expand, 0.1D + expand);
         Box axis = new Box(
-                bbox.minX - en.posX + playerX,
-                bbox.minY - en.posY + playerY,
-                bbox.minZ - en.posZ + playerZ,
-                bbox.maxX - en.posX + playerX,
-                bbox.maxY - en.posY + playerY,
-                bbox.maxZ - en.posZ + playerZ
+                bbox.minX - en.getX() + playerX,
+                bbox.minY - en.getY() + playerY,
+                bbox.minZ - en.getZ() + playerZ,
+                bbox.maxX - en.getX() + playerX,
+                bbox.maxY - en.getY() + playerY,
+                bbox.maxZ - en.getZ() + playerZ
         );
 
-        Vec3[] corners = new Vec3[8];
-        corners[0] = new Vec3(axis.minX, axis.minY, axis.minZ);
-        corners[1] = new Vec3(axis.minX, axis.minY, axis.maxZ);
-        corners[2] = new Vec3(axis.minX, axis.maxY, axis.minZ);
-        corners[3] = new Vec3(axis.minX, axis.maxY, axis.maxZ);
-        corners[4] = new Vec3(axis.maxX, axis.minY, axis.minZ);
-        corners[5] = new Vec3(axis.maxX, axis.minY, axis.maxZ);
-        corners[6] = new Vec3(axis.maxX, axis.maxY, axis.minZ);
-        corners[7] = new Vec3(axis.maxX, axis.maxY, axis.maxZ);
+        Vec3d[] corners = new Vec3d[8];
+        corners[0] = new Vec3d(axis.minX, axis.minY, axis.minZ);
+        corners[1] = new Vec3d(axis.minX, axis.minY, axis.maxZ);
+        corners[2] = new Vec3d(axis.minX, axis.maxY, axis.minZ);
+        corners[3] = new Vec3d(axis.minX, axis.maxY, axis.maxZ);
+        corners[4] = new Vec3d(axis.maxX, axis.minY, axis.minZ);
+        corners[5] = new Vec3d(axis.maxX, axis.minY, axis.maxZ);
+        corners[6] = new Vec3d(axis.maxX, axis.maxY, axis.minZ);
+        corners[7] = new Vec3d(axis.maxX, axis.maxY, axis.maxZ);
 
         double minX = Double.MAX_VALUE;
         double minY = Double.MAX_VALUE;
@@ -386,17 +375,17 @@ public class MobESP extends Module {
         double maxY = Double.MIN_VALUE;
 
         boolean isInView = false;
-         scaledResolution = /* ScaledResolution removed in 1.21.4 */ null;
+         // ScaledResolution removed; use window directly
 
-        for (Vec3 corner : corners) {
-            Vec3 screenVec = RenderUtils.convertTo2D(scaledResolution.getScaleFactor(), corner.xCoord, corner.yCoord, corner.zCoord);
+        for (Vec3d corner : corners) {
+            Vec3d screenVec = RenderUtils.convertTo2D((int)mc.getWindow().getScaleFactor(), corner.x, corner.y, corner.z);
             if (screenVec != null) {
-                if (screenVec.zCoord >= 1.0003684 || screenVec.zCoord <= 0) {
+                if (screenVec.z >= 1.0003684 || screenVec.z <= 0) {
                     continue;
                 }
                 isInView = true;
-                double screenX = screenVec.xCoord;
-                double screenY = screenVec.yCoord;
+                double screenX = screenVec.x;
+                double screenY = screenVec.y;
                 if (screenX < minX) {
                     minX = screenX;
                 }
@@ -416,11 +405,11 @@ public class MobESP extends Module {
             return;
         }
 
-        mc.entityRenderer.setupOverlayRendering();
+        // setupOverlayRendering;
 
-         res = /* ScaledResolution removed in 1.21.4 */ null;
-        int screenWidth = res.getScaledWidth();
-        int screenHeight = res.getScaledHeight();
+         // res = null; // disabled
+        int screenWidth = mc.getWindow().getScaledWidth();
+        int screenHeight = mc.getWindow().getScaledHeight();
 
         minX = Math.max(0, minX);
         minY = Math.max(0, minY);

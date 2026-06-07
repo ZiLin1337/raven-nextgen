@@ -1,6 +1,6 @@
 package keystrokesmod.utility.shader;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import org.lwjgl.opengl.GL20;
 
 public class OutlineShader extends OutlineESPShader {

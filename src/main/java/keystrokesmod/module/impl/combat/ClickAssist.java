@@ -7,11 +7,11 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.helper.MouseHelper;
 import keystrokesmod.utility.Utils;
 
-import net.minecraft.item.ItemBlock;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.event.MouseEvent;
+// Removed Forge event
 
-import org.lwjgl.input.Mouse;
+import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 
@@ -100,7 +100,7 @@ public class ClickAssist extends Module {
                         }
                         if (blocksOnly.isToggled()) {
                             ItemStack item = mc.player.getHeldItem();
-                            if (item == null || !(item.getItem() instanceof ItemBlock)) {
+                            if (item == null || !(item.getItem() instanceof BlockItem)) {
                                 this.fix(1);
                                 return;
                             }

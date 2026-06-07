@@ -5,7 +5,7 @@ import net.minecraft.item.Items;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.util.StatCollector;
 
 import java.util.ArrayList;
@@ -193,7 +193,7 @@ public final class PotionSearchIndex {
         int bestScore = Integer.MIN_VALUE;
 
         for (int metadata = 0; metadata <= MAX_POTION_META; metadata++) {
-            List<PotionEffect> effects = potionItem.getEffects(metadata);
+            List<StatusEffectInstance> effects = potionItem.getEffects(metadata);
             if (effects == null || effects.isEmpty()) {
                 continue;
             }

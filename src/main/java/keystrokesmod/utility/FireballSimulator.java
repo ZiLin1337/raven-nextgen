@@ -1,7 +1,7 @@
 package keystrokesmod.utility;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockLiquid;
+import net.minecraft.block.FluidBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -11,8 +11,8 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public final class FireballSimulator {
     private static final float WATER_MOTION_FACTOR = 0.8F;
 
     private static final class BlockCollisionResult {
-        private final MovingObjectPosition collision;
+        private final HitResult collision;
         private final Vec3 impactPosition;
         private final double distanceSq;
 
@@ -93,10 +93,10 @@ public final class FireballSimulator {
             Vec3 end = new Vec3(posX + motionX, posY + motionY, posZ + motionZ);
             Box sweepBounds = getSweepBounds(posX, posY, posZ, motionX, motionY, motionZ, width, height);
             BlockCollisionResult blockCollision = getBlockCollision(world, start, end, sweepBounds, halfWidth, height);
-            MovingObjectPosition blockHit = blockCollision.collision;
+            HitResult blockHit = blockCollision.collision;
             Vec3 searchEnd = blockCollision.impactPosition != null ? blockCollision.impactPosition : end;
             double bestDistanceSq = blockCollision.distanceSq;
-            MovingObjectPosition bestEntityHit = null;
+            HitResult bestEntityHit = null;
             Vec3 bestEntityImpact = null;
 
             Box searchBox = sweepBounds
@@ -118,7 +118,7 @@ public final class FireballSimulator {
                         height,
                         ENTITY_HIT_EXPANSION
                 );
-                MovingObjectPosition entityHit = expandedBox.calculateIntercept(start, searchEnd);
+                HitResult entityHit = expandedBox.calculateIntercept(start, searchEnd);
 
                 if (entityHit == null && expandedBox.isVecInside(start)) {
                     entityHit = new MovingObjectPosition(candidate, start);
@@ -227,7 +227,7 @@ public final class FireballSimulator {
 
         List<Box> collisionBoxes = new ArrayList<>();
         BlockPos.Mutable mutablePos = new BlockPos.Mutable();
-        MovingObjectPosition bestCollision = null;
+        HitResult bestCollision = null;
         Vec3 bestImpactPosition = null;
         double bestDistanceSq = Double.MAX_VALUE;
 
@@ -247,7 +247,7 @@ public final class FireballSimulator {
 
                     for (Box collisionBox : collisionBoxes) {
                         Box expandedBox = expandTargetForProjectile(collisionBox, halfWidth, projectileHeight, 0.0D);
-                        MovingObjectPosition collision = expandedBox.calculateIntercept(start, end);
+                        HitResult collision = expandedBox.calculateIntercept(start, end);
 
                         if (collision == null && expandedBox.isVecInside(start)) {
                             collision = new MovingObjectPosition(start, Direction.UP, new BlockPos(mutablePos));
@@ -344,13 +344,13 @@ public final class FireballSimulator {
 
     public static final class Result {
         private final HitType hitType;
-        private final MovingObjectPosition collision;
+        private final HitResult collision;
         private final Vec3 hitPosition;
         private final Vec3 impactPosition;
         private final Vec3 finalPosition;
         private final int simulatedTicks;
 
-        private Result(HitType hitType, MovingObjectPosition collision, Vec3 hitPosition, Vec3 impactPosition,
+        private Result(HitType hitType, HitResult collision, Vec3 hitPosition, Vec3 impactPosition,
                        Vec3 finalPosition, int simulatedTicks) {
             this.hitType = hitType;
             this.collision = collision;
@@ -376,7 +376,7 @@ public final class FireballSimulator {
             return hitType == HitType.ENTITY;
         }
 
-        public MovingObjectPosition getCollision() {
+        public HitResult getCollision() {
             return collision;
         }
 

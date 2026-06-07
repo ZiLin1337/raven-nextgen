@@ -11,14 +11,14 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemEnderPearl;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.Vec3;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import net.minecraft.util.math.Vec3d;
+// Removed Forge event
 
 import java.awt.*;
 import java.util.*;
@@ -29,7 +29,7 @@ public class SkyWars extends Module {
     public ButtonSetting onlyAuraHostileMobs;
     public ButtonSetting renderTimeWarp;
 
-    public Map<EntityPlayer, Long> strengthPlayers = new HashMap<>();
+    public Map<PlayerEntity, Long> strengthPlayers = new HashMap<>();
     private Map<String, SpawnEggInfo> entitySpawnQueue = new LinkedHashMap<>(); // type name, spawn info
     private Map<Vec3, Long> timeWarpPositions = new LinkedHashMap<>(); // position when thrown, time when thrown
     public List<Integer> spawnedMobs = new ArrayList<>(); // entity id
@@ -69,7 +69,7 @@ public class SkyWars extends Module {
         }
         isSkyWarsTeams = customMode == 1;
         long duration = isSkyWarsTeams ? 2000 : 5000;
-        ArrayList<EntityPlayer> keysList = new ArrayList<>(strengthPlayers.keySet());
+        ArrayList<PlayerEntity> keysList = new ArrayList<>(strengthPlayers.keySet());
         for (EntityPlayer entityPlayer : keysList) {
             long storedTime = strengthPlayers.get(entityPlayer);
             long timePassed = System.currentTimeMillis() - storedTime;
@@ -177,8 +177,8 @@ public class SkyWars extends Module {
 
     
     public void onSendPacket(SendPacketEvent e) {
-        if (e.getPacket() instanceof C08PacketPlayerBlockPlacement) {
-            C08PacketPlayerBlockPlacement p = (C08PacketPlayerBlockPlacement) e.getPacket();
+        if (e.getPacket() instanceof PlayerInteractBlockC2SPacket) {
+            PlayerInteractBlockC2SPacket p = (C08PacketPlayerBlockPlacement) e.getPacket();
             if (p.getPlacedBlockDirection() != 255 && p.getStack() != null && p.getStack().getItem() != null) {
                 if (!(p.getStack().getItem() instanceof ItemMonsterPlacer)) {
                     return;

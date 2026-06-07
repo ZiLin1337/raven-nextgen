@@ -10,7 +10,7 @@ import keystrokesmod.utility.StairsUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.block.BlockDeadBush;
 import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.BlockFlower;
@@ -24,7 +24,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.hit.HitResult;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 
 

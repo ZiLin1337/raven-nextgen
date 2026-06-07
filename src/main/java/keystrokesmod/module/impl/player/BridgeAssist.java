@@ -12,10 +12,10 @@ import keystrokesmod.script.model.SimulatedPlayer;
 import keystrokesmod.utility.BlockUtils;
 import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.client.option.KeyBinding;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
 import net.minecraft.util.*;
 
 import java.util.ArrayList;
@@ -105,7 +105,7 @@ public class BridgeAssist extends Module {
         }
         if (holdingBlocks.isToggled()) {
             ItemStack held = mc.player.getHeldItem();
-            if (held == null || !(held.getItem() instanceof ItemBlock)) {
+            if (held == null || !(held.getItem() instanceof BlockItem)) {
                 clearSneak(e);
                 return;
             }
@@ -148,8 +148,8 @@ public class BridgeAssist extends Module {
 
     
     public void onSendPacket(SendPacketEvent e) {
-        if (e.getPacket() instanceof C08PacketPlayerBlockPlacement) {
-            C08PacketPlayerBlockPlacement c08 = (C08PacketPlayerBlockPlacement) e.getPacket();
+        if (e.getPacket() instanceof PlayerInteractBlockC2SPacket) {
+            PlayerInteractBlockC2SPacket c08 = (C08PacketPlayerBlockPlacement) e.getPacket();
             if (c08.getPlacedBlockDirection() != 255 && sneakingFromModule && sneakKeyPressed.isToggled()) {
                 placed = true;
             }
@@ -165,7 +165,7 @@ public class BridgeAssist extends Module {
         }
 
         ItemStack held = mc.player.getHeldItem();
-        if (held == null || !(held.getItem() instanceof ItemBlock)) return;
+        if (held == null || !(held.getItem() instanceof BlockItem)) return;
         if (lookingDown.isToggled() && mc.player.rotationPitch < 70f) return;
         if (notMovingForward.isToggled() && mc.player.movementInput.moveForward > 0f) return;
 
@@ -312,7 +312,7 @@ public class BridgeAssist extends Module {
             if (step > 1.8f) step = 1.8f;
             pitch += step;
             float samplePitch = Math.min(pitch, 90f);
-            MovingObjectPosition mop = RotationUtils.rayCastBlock(reach, yaw, samplePitch);
+            HitResult mop = RotationUtils.rayCastBlock(reach, yaw, samplePitch);
             if (mop == null) continue;
             Direction hitFace = mop.sideHit;
             if (hitFace == Direction.UP || hitFace == Direction.DOWN) continue;

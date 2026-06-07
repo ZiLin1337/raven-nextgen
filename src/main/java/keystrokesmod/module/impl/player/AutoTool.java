@@ -3,7 +3,7 @@ package keystrokesmod.module.impl.player;
 import keystrokesmod.event.PrePlayerInteractEvent;
 import keystrokesmod.event.PreSlotScrollEvent;
 import keystrokesmod.event.SlotUpdateEvent;
-import keystrokesmod.mixin.impl.accessor.IAccessorPlayerControllerMP;
+// Removed accessor
 import keystrokesmod.mixin.interfaces.IMixinItemRenderer;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.BlockListSetting;
@@ -17,9 +17,9 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.hit.HitResult;
 
-import org.lwjgl.input.Mouse;
+import org.lwjgl.glfw.GLFW;
 
 public class AutoTool extends Module {
     private final GroupSetting timingGroup;
@@ -136,7 +136,7 @@ public class AutoTool extends Module {
             return;
         }
 
-        MovingObjectPosition hoverResult = RotationUtils.rayTraceBlockIfNoEntityInFront(
+        HitResult hoverResult = RotationUtils.rayTraceBlockIfNoEntityInFront(
             mc.playerController.getBlockReachDistance(),
             mc.player.rotationYaw,
             mc.player.rotationPitch
@@ -188,7 +188,7 @@ public class AutoTool extends Module {
             return;
         }
 
-        MovingObjectPosition swapResult = mc.objectMouseOver;
+        HitResult swapResult = mc.objectMouseOver;
         BlockPos swapPos = swapResult != null
             && swapResult.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK
             ? swapResult.getBlockPos()

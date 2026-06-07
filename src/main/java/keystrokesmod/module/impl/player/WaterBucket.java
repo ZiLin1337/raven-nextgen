@@ -7,13 +7,13 @@ import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.utility.Utils;
-import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.hit.HitResult;
 
 public class WaterBucket extends Module {
     public ButtonSetting pickupWater;
@@ -49,7 +49,7 @@ public class WaterBucket extends Module {
         if (!fallCheck()) {
             return;
         }
-        MovingObjectPosition mop = Utils.getTarget(mc.playerController.getBlockReachDistance(), mc.player.rotationYaw, silentAim.isToggled() ? 90.0f : mc.player.rotationPitch);
+        HitResult mop = Utils.getTarget(mc.playerController.getBlockReachDistance(), mc.player.rotationYaw, silentAim.isToggled() ? 90.0f : mc.player.rotationPitch);
         if (mop == null || mop.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK || mop.sideHit != Direction.UP) {
             return;
         }

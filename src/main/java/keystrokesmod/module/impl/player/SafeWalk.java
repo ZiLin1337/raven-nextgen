@@ -6,12 +6,12 @@ import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.Utils;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.client.option.KeyBinding;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.event.GuiOpenEvent;
+// Removed Forge event
 
-import org.lwjgl.input.Keyboard;
+import org.lwjgl.glfw.GLFW;
 
 public class SafeWalk extends Module {
     private SliderSetting sneakDelay;
@@ -119,7 +119,7 @@ public class SafeWalk extends Module {
             }
             if (blocksOnly.isToggled()) {
                 ItemStack held = mc.player.getHeldItem();
-                if (held == null || !(held.getItem() instanceof ItemBlock)) {
+                if (held == null || !(held.getItem() instanceof BlockItem)) {
                     return false;
                 }
             }
@@ -131,7 +131,7 @@ public class SafeWalk extends Module {
     private boolean settingsMet() {
         if (blocksOnly.isToggled()) {
             ItemStack held = mc.player.getHeldItem();
-            if (held == null || !(held.getItem() instanceof ItemBlock)) {
+            if (held == null || !(held.getItem() instanceof BlockItem)) {
                 return false;
             }
         }

@@ -10,15 +10,15 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.Utils;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockLiquid;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.block.FluidBlock;
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 
-import org.lwjgl.input.Mouse;
+import org.lwjgl.glfw.GLFW;
 
-import net.minecraft.inventory.Slot;
+import net.minecraft.screen.slot.Slot;
 
 import java.lang.reflect.Field;
 import java.util.Random;
@@ -87,7 +87,7 @@ public class AutoClicker extends Module {
         if (!Utils.nullCheck()) {
             return;
         }
-        if (!(mc.currentScreen instanceof GuiContainer)) {
+        if (!(mc.currentScreen instanceof HandledScreen)) {
             inventoryNextClickTime = 0L;
             return;
         }
@@ -115,7 +115,7 @@ public class AutoClicker extends Module {
             return;
         }
 
-        GuiContainer gui = (GuiContainer) mc.currentScreen;
+        HandledScreen gui = (GuiContainer) mc.currentScreen;
         Slot slot = getHoveredSlot(gui);
         if (slot == null || slot.slotNumber < 0) {
             return;
@@ -169,7 +169,7 @@ public class AutoClicker extends Module {
                 BlockPos pos = mc.objectMouseOver.getBlockPos();
                 if (pos != null) {
                     Block block = mc.world.getBlockState(pos).getBlock();
-                    if (block != Blocks.AIR && !(block instanceof BlockLiquid)) {
+                    if (block != Blocks.AIR && !(block instanceof FluidBlock)) {
                         if (!this.isHoldingBlockBreak) {
                             KeyBinding.setKeyBindState(key, true);
                             ReflectionUtils.setButton(0, true);

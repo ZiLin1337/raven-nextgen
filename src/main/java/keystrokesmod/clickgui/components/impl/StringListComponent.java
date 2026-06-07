@@ -5,7 +5,7 @@ import keystrokesmod.utility.Theme;
 import keystrokesmod.module.setting.impl.StringListSetting;
 import keystrokesmod.utility.RenderUtils;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.input.Keyboard;
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;
@@ -59,8 +59,8 @@ public class StringListComponent extends AbstractTextInputComponent {
     @Override
     public void keyTyped(char typedChar, int keyCode) {
         if (!moduleComponent.isOpened || !isTextFieldFocused()) return;
-        if (keyCode == Keyboard.KEY_ESCAPE) { getTextField().setText(""); setTextFieldFocused(false); return; }
-        if (keyCode == Keyboard.KEY_RETURN || keyCode == Keyboard.KEY_NUMPADENTER) { submitText(); setTextFieldFocused(false); return; }
+        if (keyCode == GLFW.GLFW_KEY_ESCAPE) { getTextField().setText(""); setTextFieldFocused(false); return; }
+        if (keyCode == GLFW.GLFW_KEY_RETURN || keyCode == GLFW.GLFW_KEY_NUMPADENTER) { submitText(); setTextFieldFocused(false); return; }
         getTextField().textboxKeyTyped(typedChar, keyCode);
     }
 

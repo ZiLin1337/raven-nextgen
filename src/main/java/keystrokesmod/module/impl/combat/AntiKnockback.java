@@ -8,10 +8,10 @@ import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.DescriptionSetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.Utils;
-import net.minecraft.network.play.server.S12PacketEntityVelocity;
-import net.minecraft.network.play.server.S27PacketExplosion;
+import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
+import net.minecraft.network.packet.s2c.play.ExplosionS2CPacket;
 
-import org.lwjgl.input.Mouse;
+import org.lwjgl.glfw.GLFW;
 
 public class AntiKnockback extends Module {
     private SliderSetting horizontal;
@@ -45,7 +45,7 @@ public class AntiKnockback extends Module {
         if (!Utils.nullCheck() || LongJump.stopVelocity || e.isCanceled()) {
             return;
         }
-        if (e.getPacket() instanceof S12PacketEntityVelocity) {
+        if (e.getPacket() instanceof EntityVelocityUpdateS2CPacket) {
             if (((S12PacketEntityVelocity) e.getPacket()).getEntityID() == mc.player.getEntityId() && !disable) {
                 if (!cancelBurning.isToggled() && mc.player.isBurning()) {
                     return;
@@ -60,7 +60,7 @@ public class AntiKnockback extends Module {
                 if (cancelConditions()) {
                     return;
                 }
-                S12PacketEntityVelocity s12PacketEntityVelocity = (S12PacketEntityVelocity) e.getPacket();
+                EntityVelocityUpdateS2CPacket s12PacketEntityVelocity = (S12PacketEntityVelocity) e.getPacket();
                 if (horizontal.getInput() == 0 && vertical.getInput() > 0) {
                     mc.player.motionY = ((double) s12PacketEntityVelocity.getMotionY() / 8000) * vertical.getInput() / 100.0;
                 }
@@ -81,7 +81,7 @@ public class AntiKnockback extends Module {
                 }
             }
         }
-        else if (e.getPacket() instanceof S27PacketExplosion && !disable) {
+        else if (e.getPacket() instanceof ExplosionS2CPacket && !disable) {
             if (disableInLobby.isToggled() && Utils.isLobby()) {
                 return;
             }
@@ -92,7 +92,7 @@ public class AntiKnockback extends Module {
             if (cancelConditions()) {
                 return;
             }
-            S27PacketExplosion s27PacketExplosion = (S27PacketExplosion) e.getPacket();
+            ExplosionS2CPacket s27PacketExplosion = (S27PacketExplosion) e.getPacket();
             if (horizontal.getInput() == 0 && vertical.getInput() > 0) {
                 mc.player.motionY += s27PacketExplosion.func_149144_d() * vertical.getInput() / 100.0;
             }

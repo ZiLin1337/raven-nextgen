@@ -10,9 +10,9 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 
-import org.lwjgl.input.Mouse;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -140,7 +140,7 @@ public class AimAssist extends Module {
             }
         }
 
-        List<EntityPlayer> candidates = new ArrayList<>();
+        List<PlayerEntity> candidates = new ArrayList<>();
         for (EntityPlayer entityPlayer : mc.world.playerEntities) {
             if (entityPlayer == mc.player || entityPlayer.deathTime != 0) {
                 continue;
@@ -173,7 +173,7 @@ public class AimAssist extends Module {
             return null;
         }
 
-        Comparator<EntityPlayer> primary;
+        Comparator<PlayerEntity> primary;
         switch ((int) sortMode.getInput()) {
             case 0: // Health (lower first)
                 primary = Comparator.comparingDouble(p -> p.getHealth() + p.getAbsorptionAmount());
@@ -186,7 +186,7 @@ public class AimAssist extends Module {
                 });
                 break;
             case 2: // Hurt time (lower first)
-                primary = Comparator.<EntityPlayer>comparingInt(p -> p.hurtTime);
+                primary = Comparator.<PlayerEntity>comparingInt(p -> p.hurtTime);
                 break;
             case 3: // Distance (closer first)
                 primary = Comparator.comparingDouble(p -> mc.player.getDistanceSqToEntity(p));

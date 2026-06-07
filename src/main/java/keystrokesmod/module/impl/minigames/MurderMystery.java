@@ -11,7 +11,7 @@ import keystrokesmod.utility.Utils;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Items;
 import net.minecraft.item.Item;
@@ -35,8 +35,8 @@ public class MurderMystery extends Module {
     private final ButtonSetting highlightDead;
     private final ButtonSetting goldEsp;
 
-    private final List<EntityPlayer> murderers = new ArrayList<EntityPlayer>();
-    private final List<EntityPlayer> hasBow = new ArrayList<EntityPlayer>();
+    private final List<PlayerEntity> murderers = new ArrayList<PlayerEntity>();
+    private final List<PlayerEntity> hasBow = new ArrayList<PlayerEntity>();
 
     private boolean override;
 

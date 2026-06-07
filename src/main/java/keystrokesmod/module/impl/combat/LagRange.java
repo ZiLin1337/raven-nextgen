@@ -18,11 +18,11 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 import org.lwjgl.opengl.GL11;
 
@@ -43,7 +43,7 @@ public class LagRange extends Module {
     private final SliderSetting indicatorLineWidth;
     private final ButtonSetting indicatorFilled;
 
-    private EntityPlayer currentTarget;
+    private PlayerEntity currentTarget;
     private double lastDistSq = -1;
     private boolean isLagging;
     private int lastSelfHurtTime;
@@ -114,7 +114,7 @@ public class LagRange extends Module {
         double rangeSq = range.getInput() * range.getInput();
         boolean moving = isMoving();
 
-        EntityPlayer nextTarget = CombatTargeting.findTarget(rangeSq);
+        PlayerEntity nextTarget = CombatTargeting.findTarget(rangeSq);
         if (!sameTarget(nextTarget)) {
             if (isLagging) flushLag();
             lastDistSq = -1;

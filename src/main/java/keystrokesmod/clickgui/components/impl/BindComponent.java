@@ -10,7 +10,7 @@ import keystrokesmod.utility.Theme;
 import keystrokesmod.utility.font.RavenFontRenderer;
 import keystrokesmod.utility.profile.ProfileModule;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.input.Keyboard;
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
 public class BindComponent extends Component {
@@ -164,7 +164,7 @@ public class BindComponent extends Component {
 
     public void keyTyped(char t, int keybind) {
         if (!isBinding) return;
-        if (keybind == Keyboard.KEY_0 || keybind == Keyboard.KEY_ESCAPE) {
+        if (keybind == Keyboard.KEY_0 || keybind == GLFW.GLFW_KEY_ESCAPE) {
             if (moduleComponent.mod instanceof Gui) moduleComponent.mod.setBind(54);
             else if (keySetting != null) keySetting.setKey(0);
             else moduleComponent.mod.setBind(0);

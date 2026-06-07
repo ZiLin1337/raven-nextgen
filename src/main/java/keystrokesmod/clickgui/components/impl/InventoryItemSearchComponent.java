@@ -5,8 +5,8 @@ import keystrokesmod.module.setting.impl.InventoryItemListSetting;
 import keystrokesmod.utility.ItemSearchIndex;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.font.RavenFontRenderer;
-import net.minecraft.client.Minecraft;
-import org.lwjgl.input.Keyboard;
+import net.minecraft.client.MinecraftClient;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +45,7 @@ public class InventoryItemSearchComponent extends AbstractItemSearchComponent<In
     public void keyTyped(char typedChar, int keyCode) {
         if (!moduleComponent.isOpened) return;
         if (listeningStorageId != null) {
-            if (keyCode == Keyboard.KEY_ESCAPE) { listeningStorageId = null; return; }
+            if (keyCode == GLFW.GLFW_KEY_ESCAPE) { listeningStorageId = null; return; }
             int slot = getHotbarSlotForKey(keyCode);
             if (slot != -1) {
                 setting.setAssignedSlot(listeningStorageId, slot);

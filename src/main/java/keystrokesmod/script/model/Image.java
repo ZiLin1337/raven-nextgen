@@ -2,7 +2,7 @@ package keystrokesmod.script.model;
 
 import keystrokesmod.script.ScriptDefaults;
 import keystrokesmod.utility.NetworkUtils;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.ScaledResolution;
 
 import java.awt.image.BufferedImage;

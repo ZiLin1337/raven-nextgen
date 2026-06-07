@@ -7,8 +7,8 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.ProfileUtils;
 import keystrokesmod.utility.NetworkUtils;
 import keystrokesmod.utility.Utils;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import net.minecraft.entity.player.PlayerEntity;
+// Removed Forge event
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +51,7 @@ public class DuelsStats extends Module {
     @Override
     public void onUpdate() {
         if (this.id() && this.en.isEmpty()) {
-            List<EntityPlayer> players = mc.world.playerEntities;
+            List<PlayerEntity> players = mc.world.playerEntities;
             players.remove(mc.player);
 
             for (EntityPlayer player : players) {

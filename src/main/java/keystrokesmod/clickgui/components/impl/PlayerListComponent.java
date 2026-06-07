@@ -7,11 +7,11 @@ import keystrokesmod.module.setting.impl.PlayerListSetting;
 import keystrokesmod.utility.PlayerRelationsManager;
 import keystrokesmod.utility.PlayerSkinCache;
 import keystrokesmod.utility.RenderUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.input.Keyboard;
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
 import java.util.HashMap;
@@ -55,8 +55,8 @@ public class PlayerListComponent extends AbstractTextInputComponent {
     @Override
     public void keyTyped(char typedChar, int keyCode) {
         if (!moduleComponent.isOpened || !isTextFieldFocused()) return;
-        if (keyCode == Keyboard.KEY_ESCAPE) { getTextField().setText(""); setTextFieldFocused(false); return; }
-        if (keyCode == Keyboard.KEY_RETURN || keyCode == Keyboard.KEY_NUMPADENTER) { submitText(); setTextFieldFocused(false); return; }
+        if (keyCode == GLFW.GLFW_KEY_ESCAPE) { getTextField().setText(""); setTextFieldFocused(false); return; }
+        if (keyCode == GLFW.GLFW_KEY_RETURN || keyCode == GLFW.GLFW_KEY_NUMPADENTER) { submitText(); setTextFieldFocused(false); return; }
         getTextField().textboxKeyTyped(typedChar, keyCode);
     }
 
@@ -116,7 +116,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
         return false;
     }
 
-    private void renderPlayerHead(PlayerRelationsManager.PlayerEntry entry, NetworkPlayerInfo playerInfo, float x, float y) {
+    private void renderPlayerHead(PlayerRelationsManager.PlayerEntry entry, PlayerListEntry playerInfo, float x, float y) {
         ResourceLocation skin = PlayerSkinCache.getSkin(entry.getDisplayName(), playerInfo);
         if (skin == null) return;
         boolean depth = GL11.glIsEnabled(GL11.GL_DEPTH_TEST);

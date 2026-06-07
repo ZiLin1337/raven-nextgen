@@ -8,10 +8,10 @@ import net.minecraft.client.gui.inventory.GuiDispenser;
 import net.minecraft.client.gui.inventory.GuiFurnace;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.inventory.*;
-import net.minecraftforge.client.event.MouseEvent;
+// Removed Forge event
 
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
-import org.lwjgl.input.Mouse;
+import org.lwjgl.glfw.GLFW;
 
 import java.lang.reflect.Field;
 import java.nio.ByteBuffer;

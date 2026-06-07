@@ -11,18 +11,18 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.util.math.MatrixStack;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityArmorStand;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.decoration.ArmorStandEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.block.Blocks;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
+// Removed Forge event
 
 import net.minecraftforge.fml.client.config.GuiButtonExt;
 
-import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
-import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
+// Removed Forge event
+// Removed Forge event
 
 import java.awt.*;
 import java.io.IOException;
@@ -68,16 +68,16 @@ public class BridgeInfo extends Module {
     @Override
     public void onUpdate() {
         if (!this.enemyName.isEmpty() && this.isBridge()) {
-            EntityPlayer enem = null;
+            PlayerEntity enem = null;
             Iterator var2 = mc.world.loadedEntityList.iterator();
 
             while (var2.hasNext()) {
                 Entity e = (Entity) var2.next();
-                if (e instanceof EntityPlayer) {
+                if (e instanceof PlayerEntity) {
                     if (e.getName().equals(this.enemyName)) {
                         enem = (EntityPlayer) e;
                     }
-                } else if (e instanceof EntityArmorStand) {
+                } else if (e instanceof ArmorStandEntity) {
                     if (e.getName().contains(this.start)) {
                         this.g1p = e.getPosition();
                     }
@@ -103,7 +103,7 @@ public class BridgeInfo extends Module {
 
             for (int i = 0; i < 9; ++i) {
                 ItemStack stack = mc.player.inventory.getStackInSlot(i);
-                if (stack != null && stack.getItem() instanceof ItemBlock && ((ItemBlock) stack.getItem()).block.equals(Blocks.stained_hardened_clay)) {
+                if (stack != null && stack.getItem() instanceof BlockItem && ((ItemBlock) stack.getItem()).block.equals(Blocks.stained_hardened_clay)) {
                     blc2 += stack.stackSize;
                 }
             }

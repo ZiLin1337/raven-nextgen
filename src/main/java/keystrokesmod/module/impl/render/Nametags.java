@@ -1,6 +1,6 @@
 package keystrokesmod.module.impl.render;
 
-import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
+// Removed accessor
 import keystrokesmod.module.Module;
 import keystrokesmod.module.impl.world.AntiBot;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -18,7 +18,7 @@ import net.minecraft.client.render.BufferBuilder;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBow;
@@ -69,7 +69,7 @@ public class Nametags extends Module {
     private int renderStateCount = 0;
 
     private static class NametagRenderState {
-        private EntityPlayer player;
+        private PlayerEntity player;
         private String displayName;
         private int stringHalfWidth;
         private int teamColor;
@@ -170,8 +170,8 @@ public class Nametags extends Module {
             return;
         }
 
-        if (event.entity instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) event.entity;
+        if (event.entity instanceof PlayerEntity) {
+            PlayerEntity player = (EntityPlayer) event.entity;
             if (shouldRenderNametag(player)) {
                 event.setCanceled(true);
             }
@@ -346,7 +346,7 @@ public class Nametags extends Module {
     }
 
     private void renderCustomName(NametagRenderState state, float partialTicks, EntityRenderDispatcher renderManager, RavenFontRenderer textRenderer, FontRenderer itemFontRenderer) {
-        EntityPlayer entity = state.player;
+        PlayerEntity entity = state.player;
         if (entity == null || entity.isDead || entity.deathTime > 0) {
             return;
         }
@@ -548,7 +548,7 @@ public class Nametags extends Module {
         return FontManager.getNametagRenderer(getSelectedFontName());
     }
 
-    private String appendHealth(String name, EntityPlayer entity) {
+    private String appendHealth(String name, PlayerEntity entity) {
         float health = Math.max(0.0f, entity.getHealth());
         float maxHealth = entity.getMaxHealth();
         if (maxHealth <= 0.0f) maxHealth = 20.0f;

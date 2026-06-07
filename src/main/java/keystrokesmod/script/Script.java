@@ -2,7 +2,7 @@ package keystrokesmod.script;
 
 import keystrokesmod.Raven;
 import keystrokesmod.utility.Utils;
-import net.minecraft.launchwrapper.Launch;
+// Removed launchwrapper
 
 import javax.tools.StandardJavaFileManager;
 import java.io.File;

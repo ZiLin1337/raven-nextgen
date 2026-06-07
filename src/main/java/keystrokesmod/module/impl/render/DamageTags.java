@@ -15,9 +15,9 @@ import net.minecraft.client.render.BufferBuilder;
 
 import net.minecraft.entity.DataWatcher;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityArmorStand;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.decoration.ArmorStandEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.play.server.S1CPacketEntityMetadata;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.MathHelper;
@@ -246,12 +246,12 @@ public class DamageTags extends Module {
         QueuedMetadataUpdate update;
         while ((update = pendingUpdates.poll()) != null) {
             Entity entity = mc.world.getEntityByID(update.entityId);
-            if (!(entity instanceof EntityLivingBase) || entity instanceof EntityArmorStand || entity == mc.player) {
+            if (!(entity instanceof LivingEntity) || entity instanceof ArmorStandEntity || entity == mc.player) {
                 trackedStates.remove(update.entityId);
                 continue;
             }
 
-            EntityLivingBase living = (EntityLivingBase) entity;
+            LivingEntity living = (EntityLivingBase) entity;
             HealthSnapshot previous = trackedStates.get(update.entityId);
 
             float newHealth = update.hasHealth ? update.health : getHealth(living);
@@ -282,17 +282,17 @@ public class DamageTags extends Module {
 
         trackedStates.entrySet().removeIf(entry -> {
             Entity entity = mc.world.getEntityByID(entry.getKey());
-            return !(entity instanceof EntityLivingBase) || entity instanceof EntityArmorStand || entity == mc.player;
+            return !(entity instanceof LivingEntity) || entity instanceof ArmorStandEntity || entity == mc.player;
         });
 
         List<Entity> loaded = mc.world.loadedEntityList;
         for (int i = 0, n = loaded.size(); i < n; i++) {
             Entity entity = loaded.get(i);
-            if (!(entity instanceof EntityLivingBase) || entity instanceof EntityArmorStand || entity == mc.player) {
+            if (!(entity instanceof LivingEntity) || entity instanceof ArmorStandEntity || entity == mc.player) {
                 continue;
             }
 
-            EntityLivingBase living = (EntityLivingBase) entity;
+            LivingEntity living = (EntityLivingBase) entity;
             trackedStates.put(entity.getEntityId(), new HealthSnapshot(getHealth(living), getAbsorption(living)));
         }
     }
@@ -461,7 +461,7 @@ public class DamageTags extends Module {
     }
 
     private float getAbsorption(EntityLivingBase living) {
-        if (living instanceof EntityPlayer) {
+        if (living instanceof PlayerEntity) {
             return Math.max(0.0F, ((EntityPlayer) living).getAbsorptionAmount());
         }
         return 0.0F;

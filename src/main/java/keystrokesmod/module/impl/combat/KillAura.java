@@ -3,7 +3,7 @@ package keystrokesmod.module.impl.combat;
 import keystrokesmod.event.ClientRotationEvent;
 import keystrokesmod.event.PrePlayerInteractEvent;
 import keystrokesmod.helper.RotationHelper;
-import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
+// Removed accessor
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.impl.minigames.SkyWars;
@@ -13,24 +13,24 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.ReflectionUtils;
 import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.client.render.EntityRenderer;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityArmorStand;
-import net.minecraft.entity.monster.EntityGiantZombie;
-import net.minecraft.entity.monster.EntityIronGolem;
-import net.minecraft.entity.monster.EntityPigZombie;
-import net.minecraft.entity.monster.EntitySilverfish;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.decoration.ArmorStandEntity;
+import net.minecraft.entity.mob.GiantEntity;
+import net.minecraft.entity.mob.IronGolemEntity;
+import net.minecraft.entity.mob.ZombiePiglinEntity;
+import net.minecraft.entity.mob.SilverfishEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.Vec3d;
 
-import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
+// Removed Forge event
 
-import org.lwjgl.input.Mouse;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.*;
 
@@ -60,8 +60,8 @@ public class KillAura extends Module {
     private String[] rotationModes = new String[]{"Silent", "Lock view", "None"};
     private String[] sortModes = new String[]{"Distance", "Health", "Hurt time", "Yaw"};
 
-    public static EntityLivingBase target;
-    public static EntityLivingBase attackingEntity;
+    public static LivingEntity target;
+    public static LivingEntity attackingEntity;
 
     public boolean isRequireMouseDown() {
         return requireMouseDown.isToggled();
@@ -199,10 +199,10 @@ public class KillAura extends Module {
     
     public void onSetAttackTarget(LivingSetAttackTargetEvent e) {
         if (e.entity != null && !hostileMobs.contains(e.entity)) {
-            if (!(e.target instanceof EntityPlayer) || !e.target.getName().equals(mc.player.getName())) {
+            if (!(e.target instanceof PlayerEntity) || !e.target.getName().equals(mc.player.getName())) {
                 return;
             }
-            if (Utils.getBedwarsStatus() == 2 && e.entity instanceof EntityPigZombie) {
+            if (Utils.getBedwarsStatus() == 2 && e.entity instanceof ZombiePiglinEntity) {
                 return;
             }
             hostileMobs.add(e.entity);
@@ -222,7 +222,7 @@ public class KillAura extends Module {
     }
 
     private void setTarget(Entity entity) {
-        if (!(entity instanceof EntityLivingBase)) {
+        if (!(entity instanceof LivingEntity)) {
             target = null;
             attackingEntity = null;
             targetDistance = Double.MAX_VALUE;
@@ -289,20 +289,20 @@ public class KillAura extends Module {
     }
 
     private Candidate getCandidateTarget(Entity entity, double maxRange, float fovValue) {
-        if (!(entity instanceof EntityLivingBase) || entity == mc.player || entity.isDead) {
+        if (!(entity instanceof LivingEntity) || entity == mc.player || entity.isDead) {
             return null;
         }
 
-        if (entity instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) entity;
+        if (entity instanceof PlayerEntity) {
+            PlayerEntity player = (EntityPlayer) entity;
             if (Utils.isFriended(player) || player.deathTime != 0) {
                 return null;
             }
             if (AntiBot.isBot(entity) || (ignoreTeammates.isToggled() && Utils.isTeammate(entity))) {
                 return null;
             }
-        } else if (entity instanceof EntityCreature && attackMobs.isToggled()) {
-            EntityCreature creature = (EntityCreature) entity;
+        } else if (entity instanceof PathAwareEntity && attackMobs.isToggled()) {
+            PathAwareEntity creature = (EntityCreature) entity;
             if (creature.tasks == null || creature.isAIDisabled() || creature.deathTime != 0) {
                 return null;
             }
@@ -332,7 +332,7 @@ public class KillAura extends Module {
     }
 
     private KillAuraTarget buildKillAuraTarget(EntityLivingBase entity, double distanceToBoundingBox, double maxRange) {
-        if (entity instanceof EntityCreature && attackMobs.isToggled() && !isHostile((EntityCreature) entity)) {
+        if (entity instanceof PathAwareEntity && attackMobs.isToggled() && !isHostile((EntityCreature) entity)) {
             return null;
         }
 
@@ -342,7 +342,7 @@ public class KillAura extends Module {
             return null;
         }
 
-        boolean isEnemyPlayer = entity instanceof EntityPlayer && Utils.isEnemy((EntityPlayer) entity);
+        boolean isEnemyPlayer = entity instanceof PlayerEntity && Utils.isEnemy((EntityPlayer) entity);
         return new KillAuraTarget(
                 entity,
                 distanceToBoundingBox,
@@ -394,23 +394,23 @@ public class KillAura extends Module {
 
     private boolean isHostile(EntityCreature entityCreature) {
         if (SkyWars.onlyAuraHostiles()) {
-            if (entityCreature instanceof EntityGiantZombie) {
+            if (entityCreature instanceof GiantEntity) {
                 return false;
             }
             return !ModuleManager.skyWars.spawnedMobs.contains(entityCreature.getEntityId());
-        } else if (entityCreature instanceof EntitySilverfish) {
+        } else if (entityCreature instanceof SilverfishEntity) {
             String teamColor = Utils.getFirstColorCode(entityCreature.getCustomNameTag());
             String teamColorSelf = Utils.getFirstColorCode(mc.player.getDisplayName().getFormattedText());
             return teamColor.isEmpty() || (!teamColorSelf.equals(teamColor) && !Utils.isTeammate(entityCreature));
-        } else if (entityCreature instanceof EntityIronGolem) {
+        } else if (entityCreature instanceof IronGolemEntity) {
             if (Utils.getBedwarsStatus() != 2) {
                 return true;
             }
             if (!golems.containsKey(entityCreature.getEntityId())) {
                 double nearestDistance = -1;
-                EntityArmorStand nearestArmorStand = null;
+                ArmorStandEntity nearestArmorStand = null;
                 for (Entity entity : mc.world.loadedEntityList) {
-                    if (!(entity instanceof EntityArmorStand)) {
+                    if (!(entity instanceof ArmorStandEntity)) {
                         continue;
                     }
                     String stripped = Utils.stripString(entity.getDisplayName().getFormattedText());
@@ -433,7 +433,7 @@ public class KillAura extends Module {
             } else {
                 return !golems.getOrDefault(entityCreature.getEntityId(), false);
             }
-        } else if (entityCreature instanceof EntityPigZombie && Utils.getBedwarsStatus() != 2) {
+        } else if (entityCreature instanceof ZombiePiglinEntity && Utils.getBedwarsStatus() != 2) {
             return false;
         }
         return hostileMobs.contains(entityCreature);
@@ -504,7 +504,7 @@ public class KillAura extends Module {
 
         float border = attackingEntity.getCollisionBorderSize();
         Box bb = attackingEntity.getEntityBoundingBox().expand(border, border, border);
-        MovingObjectPosition intercept = bb.calculateIntercept(eyes, rayEnd);
+        HitResult intercept = bb.calculateIntercept(eyes, rayEnd);
         boolean inside = bb.isVecInside(eyes);
         if (!inside && intercept == null) {
             return;
@@ -512,7 +512,7 @@ public class KillAura extends Module {
 
         Vec3 hitVec = inside ? (intercept == null ? eyes : intercept.hitVec) : intercept.hitVec;
         if (!aimThroughBlocks.isToggled()) {
-            MovingObjectPosition blockHit = mc.world.rayTraceBlocks(eyes, hitVec, false, false, true);
+            HitResult blockHit = mc.world.rayTraceBlocks(eyes, hitVec, false, false, true);
             if (blockHit != null && blockHit.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
                 return;
             }
@@ -531,7 +531,7 @@ public class KillAura extends Module {
     }
 
     private static final class Candidate {
-        final EntityLivingBase entity;
+        final LivingEntity entity;
         final double distance;
 
         Candidate(EntityLivingBase entity, double distance) {
@@ -541,7 +541,7 @@ public class KillAura extends Module {
     }
 
     static class KillAuraTarget {
-        final EntityLivingBase entity;
+        final LivingEntity entity;
         final double distance;
         final float health;
         final int hurttime;

@@ -1,7 +1,7 @@
 package keystrokesmod.utility;
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.item.BlockItem;
 
 public class PlayerData {
     public double speed;
@@ -51,7 +51,7 @@ public class PlayerData {
         else {
             this.noSlowTicks = 0;
         }
-        if (entityPlayer.rotationPitch >= 70.0f && entityPlayer.getHeldItem() != null && entityPlayer.getHeldItem().getItem() instanceof ItemBlock) {
+        if (entityPlayer.rotationPitch >= 70.0f && entityPlayer.getHeldItem() != null && entityPlayer.getHeldItem().getItem() instanceof BlockItem) {
             if (entityPlayer.swingProgressInt == 1) {
                 if (!this.sneaking && entityPlayer.isSneaking()) {
                     ++this.sneakTicks;

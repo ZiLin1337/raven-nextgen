@@ -9,11 +9,11 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
-import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraftforge.client.event.MouseEvent;
+import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
+import net.minecraft.util.hit.HitResult;
+// Removed Forge event
 
-import org.lwjgl.input.Keyboard;
+import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 
@@ -186,7 +186,7 @@ public class Freecam extends Module {
             }
         }
         if (!allowPlacing.isToggled()) {
-            if (e.getPacket() instanceof C08PacketPlayerBlockPlacement) {
+            if (e.getPacket() instanceof PlayerInteractBlockC2SPacket) {
                 e.setCanceled(true);
             }
         }

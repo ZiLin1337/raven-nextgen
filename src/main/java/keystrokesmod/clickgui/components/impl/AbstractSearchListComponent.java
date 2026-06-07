@@ -6,13 +6,13 @@ import keystrokesmod.module.impl.client.Gui;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Theme;
 import keystrokesmod.utility.Timer;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.input.Keyboard;
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;
@@ -93,8 +93,8 @@ public abstract class AbstractSearchListComponent extends AbstractTextInputCompo
     @Override
     public void keyTyped(char typedChar, int keyCode) {
         if (!moduleComponent.isOpened) return;
-        if (keyCode == Keyboard.KEY_ESCAPE && isSearchFocused()) { if (!handleSearchEscape()) unfocusSearch(); return; }
-        if ((keyCode == Keyboard.KEY_RETURN || keyCode == Keyboard.KEY_NUMPADENTER) && isSearchFocused()) { unfocusSearch(); return; }
+        if (keyCode == GLFW.GLFW_KEY_ESCAPE && isSearchFocused()) { if (!handleSearchEscape()) unfocusSearch(); return; }
+        if ((keyCode == GLFW.GLFW_KEY_RETURN || keyCode == GLFW.GLFW_KEY_NUMPADENTER) && isSearchFocused()) { unfocusSearch(); return; }
         if (getTextField().textboxKeyTyped(typedChar, keyCode)) {
             onSearchTextChanged(getTextField().getText());
             dropdownScrollAnim.reset(0);

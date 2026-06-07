@@ -15,12 +15,12 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import net.minecraft.util.*;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
-import net.minecraftforge.client.event.MouseEvent;
+// Removed Forge event
+// Removed Forge event
 
 import java.awt.*;
 import java.util.*;
@@ -115,7 +115,7 @@ public class SpeedBuilders extends Module {
             }
 
             if (getLookInfo() != null) {
-                MovingObjectPosition mop = getLookInfo();
+                HitResult mop = getLookInfo();
                 if (mop.sideHit != null) {
                     BlockPos targetPos = mop.getBlockPos();
                     BlockPos facePos = targetPos.offset(mop.sideHit);
@@ -148,7 +148,7 @@ public class SpeedBuilders extends Module {
             return;
         }
         if (e.button == 1 && antiMiss.isToggled() && getLookInfo() != null && getGameStatus() == 2) {
-            MovingObjectPosition mop = getLookInfo();
+            HitResult mop = getLookInfo();
             if (mop.sideHit != null) {
                 BlockPos targetPos = mop.getBlockPos();
                 BlockPos facePos = targetPos.offset(mop.sideHit);
@@ -400,7 +400,7 @@ public class SpeedBuilders extends Module {
             return true;
         }
 
-        if (!(item instanceof ItemBlock)) {
+        if (!(item instanceof BlockItem)) {
             return false;
         }
 
@@ -421,8 +421,8 @@ public class SpeedBuilders extends Module {
         return heldBlock == requiredBlock && heldMeta == requiredMeta;
     }
 
-    public MovingObjectPosition getLookInfo() {
-        MovingObjectPosition movingObjectPosition = mc.objectMouseOver;
+    public HitResult getLookInfo() {
+        HitResult movingObjectPosition = mc.objectMouseOver;
         if (movingObjectPosition == null || movingObjectPosition.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK || movingObjectPosition.getBlockPos() == null) {
             return null;
         }
@@ -439,7 +439,7 @@ public class SpeedBuilders extends Module {
 
         for (int i = 0; i < 9; ++i) {
             ItemStack itemStack = mc.player.inventory.mainInventory[i];
-            if (itemStack != null && itemStack.getItem() instanceof ItemBlock && itemStack.stackSize > 0) {
+            if (itemStack != null && itemStack.getItem() instanceof BlockItem && itemStack.stackSize > 0) {
                 Block invBlock = ((ItemBlock) itemStack.getItem()).getBlock();
                 int invMeta = itemStack.getItemDamage();
 
@@ -464,7 +464,7 @@ public class SpeedBuilders extends Module {
     }
 
     private boolean correctPlaceState(BlockState requiredState, BlockPos blockPos, Direction enumFacing, Vec3 hitVec, ItemStack heldItem) {
-        if (requiredState == null || blockPos == null || enumFacing == null || hitVec == null || heldItem == null || !(heldItem.getItem() instanceof ItemBlock)) {
+        if (requiredState == null || blockPos == null || enumFacing == null || hitVec == null || heldItem == null || !(heldItem.getItem() instanceof BlockItem)) {
             return false;
         }
 
@@ -472,7 +472,7 @@ public class SpeedBuilders extends Module {
             return true;
         }
 
-        ItemBlock itemBlock = (ItemBlock) heldItem.getItem();
+        BlockItem itemBlock = (ItemBlock) heldItem.getItem();
         Block block = itemBlock.getBlock();
         int meta = heldItem.getItemDamage();
 

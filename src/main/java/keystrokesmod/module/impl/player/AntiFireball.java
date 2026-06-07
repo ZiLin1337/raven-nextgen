@@ -11,13 +11,13 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.ReflectionUtils;
 import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
-import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.Vec3d;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -102,7 +102,7 @@ public class AntiFireball extends Module {
         Box fireballBox = fireball.getEntityBoundingBox().expand(borderSize, borderSize, borderSize);
         double reach = mc.playerController.getBlockReachDistance();
 
-        List<EntityPlayer> players = new ArrayList<>();
+        List<PlayerEntity> players = new ArrayList<>();
         for (EntityPlayer player : mc.world.playerEntities) {
             if (player == mc.player || player.deathTime != 0) continue;
             if (Utils.isFriended(player)) continue;
@@ -128,7 +128,7 @@ public class AntiFireball extends Module {
     private boolean hitsFireballBox(Vec3 eye, float yaw, float pitch, Box box, double range) {
         Vec3 look = Utils.getLookVec(yaw, pitch);
         Vec3 end = eye.addVector(look.xCoord * range, look.yCoord * range, look.zCoord * range);
-        MovingObjectPosition intercept = box.calculateIntercept(eye, end);
+        HitResult intercept = box.calculateIntercept(eye, end);
         return intercept != null;
     }
 
@@ -138,7 +138,7 @@ public class AntiFireball extends Module {
         if (onGround.isToggled() && !mc.player.onGround) return;
         if (fireball == null) return;
 
-        MovingObjectPosition mop = mc.objectMouseOver;
+        HitResult mop = mc.objectMouseOver;
         if (mop == null || mop.typeOfHit != MovingObjectPosition.MovingObjectType.ENTITY || mop.entityHit != fireball) {
             nextClickTime = 0;
             ReflectionUtils.setButton(0, false);

@@ -1,7 +1,7 @@
 package keystrokesmod.utility;
 
 import keystrokesmod.Raven;
-import net.minecraft.network.Packet;
+import net.minecraft.network.packet.Packet;
 
 import net.minecraft.util.math.BlockPos;
 

@@ -13,20 +13,20 @@ import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.block.Blocks;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
-import net.minecraftforge.client.event.MouseEvent;
+import net.minecraft.util.math.Vec3d;
+// Removed Forge event
 
-import org.lwjgl.input.Mouse;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -157,7 +157,7 @@ public class Clutch extends Module {
         float[] smoothed = getRotationsSmoothed(baseYaw, basePitch, aimYaw, aimPitch, false);
 
         if (placing && targetHitPos != null) {
-            MovingObjectPosition mop = RotationUtils.rayCastBlock(reach.getInput(), smoothed[0], smoothed[1]);
+            HitResult mop = RotationUtils.rayCastBlock(reach.getInput(), smoothed[0], smoothed[1]);
             if (mop != null && targetHitPos.equals(mop.getBlockPos()) && targetSide == mop.sideHit) {
                 int maxBlocks = (int) maxDistance.getInput();
                 if (maxBlocks == 0 || clutchBlocksPlaced < maxBlocks) {
@@ -479,7 +479,7 @@ public class Clutch extends Module {
 
         for (RotationCandidate candidate : candidates) {
             float yaw = unwrapYaw(candidate.yaw, RotationUtils.serverRotations[0]);
-            MovingObjectPosition ray = RotationUtils.rayCastBlock(reachVal, yaw, candidate.pitch);
+            HitResult ray = RotationUtils.rayCastBlock(reachVal, yaw, candidate.pitch);
             if (ray == null) continue;
 
             Direction face = ray.sideHit;
@@ -511,7 +511,7 @@ public class Clutch extends Module {
 
         for (int slot = 8; slot >= 0; --slot) {
             ItemStack stack = mc.player.inventory.mainInventory[slot];
-            if (stack == null || stack.stackSize == 0 || !(stack.getItem() instanceof ItemBlock)) continue;
+            if (stack == null || stack.stackSize == 0 || !(stack.getItem() instanceof BlockItem)) continue;
 
             Block block = ((ItemBlock) stack.getItem()).getBlock();
             ResourceLocation id = Block.blockRegistry.getNameForObject(block);
@@ -631,7 +631,7 @@ public class Clutch extends Module {
     }
 
     private static class AimResult {
-        final MovingObjectPosition ray;
+        final HitResult ray;
         final float yaw;
         final float pitch;
 

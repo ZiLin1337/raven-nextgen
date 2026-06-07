@@ -7,11 +7,11 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.MovingObjectPosition.MovingObjectType;
-import net.minecraftforge.client.event.MouseEvent;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.HitResult.MovingObjectType;
+// Removed Forge event
 
-import org.lwjgl.input.Mouse;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.Arrays;
 import java.util.List;
@@ -63,7 +63,7 @@ public class SumoFences extends Module {
     
     public void onMouse(MouseEvent e) {
         if (e.buttonstate && (e.button == 0 || e.button == 1) && Utils.nullCheck() && this.isSumo()) {
-            MovingObjectPosition over = mc.objectMouseOver;
+            HitResult over = mc.objectMouseOver;
             if (over != null && over.typeOfHit == MovingObjectType.BLOCK) {
                 int x = over.getBlockPos().getX();
                 int z = over.getBlockPos().getZ();

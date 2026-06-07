@@ -1,7 +1,7 @@
 package keystrokesmod.clickgui.components.impl;
 
 import keystrokesmod.module.setting.impl.TextSetting;
-import org.lwjgl.input.Keyboard;
+import org.lwjgl.glfw.GLFW;
 
 public class TextFieldComponent extends AbstractTextInputComponent {
     public final TextSetting textSetting;
@@ -56,13 +56,13 @@ public class TextFieldComponent extends AbstractTextInputComponent {
             return;
         }
 
-        if (keyCode == Keyboard.KEY_ESCAPE) {
+        if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
             revertToSaved();
             setTextFieldFocused(false);
             return;
         }
 
-        if (keyCode == Keyboard.KEY_RETURN || keyCode == Keyboard.KEY_NUMPADENTER) {
+        if (keyCode == GLFW.GLFW_KEY_RETURN || keyCode == GLFW.GLFW_KEY_NUMPADENTER) {
             textSetting.submit();
             valueWhenFocused = null;
             getTextField().setText(textSetting.getText());

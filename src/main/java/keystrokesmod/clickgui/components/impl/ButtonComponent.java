@@ -7,7 +7,7 @@ import keystrokesmod.module.impl.client.Gui;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.utility.font.RavenFontRenderer;
 import keystrokesmod.utility.profile.ProfileModule;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;

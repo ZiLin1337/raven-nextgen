@@ -3,8 +3,8 @@ package keystrokesmod.utility;
 import keystrokesmod.event.ReceivePacketEvent;
 import keystrokesmod.event.SendPacketEvent;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.network.Packet;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.network.play.client.C09PacketHeldItemChange;
 
 import java.util.concurrent.atomic.AtomicInteger;

@@ -8,14 +8,14 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.Utils;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityArmorStand;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.item.EntityItemFrame;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
-import net.minecraftforge.client.event.MouseEvent;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.Vec3d;
+// Removed Forge event
 
 import org.lwjgl.opengl.GL11;
 
@@ -28,7 +28,7 @@ public class HitBox extends Module {
     public ButtonSetting playersOnly;
     public ButtonSetting weaponOnly;
     private Entity pointedEntity;
-    private MovingObjectPosition mv;
+    private HitResult mv;
 
     public HitBox() {
         super("Hitboxes", category.combat, 0);
@@ -56,7 +56,7 @@ public class HitBox extends Module {
         if (c == null) {
             return;
         }
-        if (c instanceof EntityPlayer) {
+        if (c instanceof PlayerEntity) {
             if (Utils.isFriended((EntityPlayer) c)) {
                 return;
             }
@@ -71,7 +71,7 @@ public class HitBox extends Module {
     public void onRenderWorld(RenderWorldLastEvent e) {
         if (showHitbox.isToggled() && Utils.nullCheck()) {
             for (Entity en : mc.world.loadedEntityList) {
-                if (en != mc.player && en instanceof EntityLivingBase && ((EntityLivingBase) en).deathTime == 0 && !(en instanceof EntityArmorStand) && !en.isInvisible()) {
+                if (en != mc.player && en instanceof LivingEntity && ((EntityLivingBase) en).deathTime == 0 && !(en instanceof ArmorStandEntity) && !en.isInvisible()) {
                     this.rh(en, Color.WHITE);
                 }
             }
@@ -107,7 +107,7 @@ public class HitBox extends Module {
                 if (entity.canBeCollidedWith()) {
                     float ex = (float) ((double) entity.getCollisionBorderSize() * getExpand(entity));
                     Box ax = entity.getEntityBoundingBox().expand((double) ex, (double) ex, (double) ex);
-                    MovingObjectPosition mop = ax.calculateIntercept(vec3, vec5);
+                    HitResult mop = ax.calculateIntercept(vec3, vec5);
                     if (ax.isVecInside(vec3)) {
                         if (0.0D < d3 || d3 == 0.0D) {
                             pointedEntity = entity;
@@ -134,7 +134,7 @@ public class HitBox extends Module {
 
             if (pointedEntity != null && (d3 < d2 || mv == null)) {
                 mv = new MovingObjectPosition(pointedEntity, vec6);
-                if (pointedEntity instanceof EntityLivingBase || pointedEntity instanceof EntityItemFrame) {
+                if (pointedEntity instanceof LivingEntity || pointedEntity instanceof EntityItemFrame) {
                     return pointedEntity;
                 }
             }
@@ -143,7 +143,7 @@ public class HitBox extends Module {
     }
 
     private void rh(Entity e, Color c) {
-        if (e instanceof EntityLivingBase) {
+        if (e instanceof LivingEntity) {
             float partialTicks = ((IAccessorMinecraft) mc).getTimer().renderPartialTicks;
             double x = e.lastTickPosX + (e.posX - e.lastTickPosX) * (double) partialTicks - mc.getEntityRenderDispatcher().viewerPosX;
             double y = e.lastTickPosY + (e.posY - e.lastTickPosY) * (double) partialTicks - mc.getEntityRenderDispatcher().viewerPosY;

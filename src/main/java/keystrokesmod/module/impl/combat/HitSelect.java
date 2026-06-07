@@ -9,9 +9,9 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.CombatTargeting;
 import keystrokesmod.utility.Utils;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.Potion;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.hit.HitResult;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -41,7 +41,7 @@ public class HitSelect extends Module {
 
     private final String[] modes = new String[] { "Burst", "Criticals" };
 
-    private EntityPlayer currentTarget;
+    private PlayerEntity currentTarget;
     private final Map<Integer, TargetState> targetStates = new HashMap<>();
     private int lastSelfHurtTime;
     private boolean takingKnockback;
@@ -102,7 +102,7 @@ public class HitSelect extends Module {
         int currentTick = tickCounter;
         pruneTargetStates();
 
-        EntityPlayer nextTarget = CombatTargeting.findTarget(HIT_RANGE_SQ);
+        PlayerEntity nextTarget = CombatTargeting.findTarget(HIT_RANGE_SQ);
         updateCurrentTarget(nextTarget, currentTick);
         updateSelfDamage(currentTick);
         updateTargetDamage(currentTick);
@@ -128,7 +128,7 @@ public class HitSelect extends Module {
             return;
         }
 
-        EntityPlayer clickedTarget = CombatTargeting.asValidPlayer(event.objectMouseOver == null ? null : event.objectMouseOver.entityHit, HIT_RANGE_SQ);
+        PlayerEntity clickedTarget = CombatTargeting.asValidPlayer(event.objectMouseOver == null ? null : event.objectMouseOver.entityHit, HIT_RANGE_SQ);
         if (clickedTarget == null) {
             return;
         }
@@ -429,7 +429,7 @@ public class HitSelect extends Module {
         state.predictedBurstWindowEndTick = -1;
     }
 
-    private void syncPredictedBurstWindow(TargetState state, EntityPlayer target, int currentTick) {
+    private void syncPredictedBurstWindow(TargetState state, PlayerEntity target, int currentTick) {
         if (state.predictedBurstWindowEndTick >= 0 && currentTick >= state.predictedBurstWindowEndTick) {
             clearPredictedBurstWindow(state);
         }
@@ -468,7 +468,7 @@ public class HitSelect extends Module {
         while (iterator.hasNext()) {
             Map.Entry<Integer, TargetState> entry = iterator.next();
             Entity entity = mc.world.getEntityByID(entry.getKey());
-            if (!(entity instanceof EntityPlayer) || entity.isDead || ((EntityPlayer) entity).deathTime != 0) {
+            if (!(entity instanceof PlayerEntity) || entity.isDead || ((EntityPlayer) entity).deathTime != 0) {
                 iterator.remove();
             }
         }

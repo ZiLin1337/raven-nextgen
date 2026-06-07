@@ -14,7 +14,7 @@ import keystrokesmod.utility.shader.RoundedUtils;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 
 import net.minecraftforge.fml.client.config.GuiButtonExt;
 
@@ -33,11 +33,11 @@ public class TargetHUD extends Module {
     private ButtonSetting healthColor;
     private Timer fadeTimer;
     private Timer healthBarTimer = null;
-    private EntityLivingBase target;
+    private LivingEntity target;
     private long lastAliveMS;
     private double lastHealth;
     private float lastHealthBar;
-    public EntityLivingBase renderEntity;
+    public LivingEntity renderEntity;
     public int posX = 70;
     public int posY = 30;
     private String[] modes = new String[]{ "Modern", "Legacy" };

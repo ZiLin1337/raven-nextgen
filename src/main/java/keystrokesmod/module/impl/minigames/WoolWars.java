@@ -14,20 +14,20 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockStairs;
-import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.EnumDyeColor;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraftforge.client.event.MouseEvent;
+import net.minecraft.util.hit.HitResult;
+// Removed Forge event
 
-import org.lwjgl.input.Mouse;
+import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public class WoolWars extends Module {
 
     private BlockPos middlePos;
     private BlockPos miningPos;
-    private MovingObjectPosition placeMop;
+    private HitResult placeMop;
 
     private float curBlockDamageMP;
     private int delay;
@@ -122,7 +122,7 @@ public class WoolWars extends Module {
                             int j = 20;
                             while (j < 90) {
                                 float pitch = RotationUtils.clampPitch((float) (j + randomRotationOffset()));
-                                MovingObjectPosition mop = Utils.getTarget(lastRange, yaw, pitch);
+                                HitResult mop = Utils.getTarget(lastRange, yaw, pitch);
                                 if (mop != null && mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && BlockUtils.isBlockPosEqual(BlockUtils.offsetPos(mop), closestPos)) {
                                     placeMop = mop;
                                     placingYaw = yaw;
@@ -269,7 +269,7 @@ public class WoolWars extends Module {
         EnumDyeColor teamColor = null;
         for (int i = 0; i < InventoryPlayer.getHotbarSize(); ++i) {
             ItemStack stack = mc.player.inventory.getStackInSlot(i);
-            if (stack != null && stack.getItem() instanceof ItemBlock && ((ItemBlock) stack.getItem()).getBlock() == Blocks.wool) {
+            if (stack != null && stack.getItem() instanceof BlockItem && ((ItemBlock) stack.getItem()).getBlock() == Blocks.wool) {
                 teamColor = EnumDyeColor.byMetadata(stack.getMetadata());
                 break;
             }
@@ -291,7 +291,7 @@ public class WoolWars extends Module {
         for (int slot = 0; slot < InventoryPlayer.getHotbarSize(); ++slot) {
             ItemStack stack = mc.player.inventory.getStackInSlot(slot);
             if (stack != null) {
-                if (stack.getItem() instanceof ItemBlock) {
+                if (stack.getItem() instanceof BlockItem) {
                     Block block = ((ItemBlock) stack.getItem()).getBlock();
                     if (BlockUtils.isNormalBlock(block)) {
                         return slot;

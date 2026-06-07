@@ -5,8 +5,8 @@ import keystrokesmod.event.PreAttackEvent;
 import keystrokesmod.event.PrePlayerInteractEvent;
 import keystrokesmod.event.PreSlotScrollEvent;
 import keystrokesmod.event.SlotUpdateEvent;
-import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
-import keystrokesmod.mixin.impl.accessor.IAccessorPlayerControllerMP;
+// Removed accessor
+// Removed accessor
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.impl.combat.KillAura;
@@ -22,15 +22,15 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BedBlock;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.client.render.EntityRenderer;
+import net.minecraft.client.option.KeyBinding;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.*;
-import net.minecraftforge.client.event.MouseEvent;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
+// Removed Forge event
+// Removed Forge event
 
-import org.lwjgl.input.Mouse;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.*;
 
@@ -249,7 +249,7 @@ public class BedAura extends Module {
             return;
         }
 
-        MovingObjectPosition mop = new MovingObjectPosition(targetHitVec, targetSide, targetPos);
+        HitResult mop = new MovingObjectPosition(targetHitVec, targetSide, targetPos);
         mc.objectMouseOver = mop;
         mc.pointedEntity = null;
 
@@ -570,7 +570,7 @@ public class BedAura extends Module {
             return;
         }
 
-        MovingObjectPosition trace = block.collisionRayTrace(mc.world, pos, eye, hit.addVector(
+        HitResult trace = block.collisionRayTrace(mc.world, pos, eye, hit.addVector(
                 (hit.xCoord - eye.xCoord) * 0.01,
                 (hit.yCoord - eye.yCoord) * 0.01,
                 (hit.zCoord - eye.zCoord) * 0.01

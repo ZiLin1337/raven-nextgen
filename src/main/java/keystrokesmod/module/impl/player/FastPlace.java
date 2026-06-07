@@ -11,11 +11,11 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import keystrokesmod.utility.Utils;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.hit.HitResult;
 
 public class FastPlace extends Module {
     public SliderSetting tickDelay;
@@ -88,17 +88,17 @@ public class FastPlace extends Module {
 
     
     public void onSendPacket(SendPacketEvent e) {
-        if (!Utils.nullCheck() || !(e.getPacket() instanceof C08PacketPlayerBlockPlacement)) {
+        if (!Utils.nullCheck() || !(e.getPacket() instanceof PlayerInteractBlockC2SPacket)) {
             return;
         }
 
-        C08PacketPlayerBlockPlacement packet = (C08PacketPlayerBlockPlacement) e.getPacket();
+        PlayerInteractBlockC2SPacket packet = (C08PacketPlayerBlockPlacement) e.getPacket();
         if (packet.getPlacedBlockDirection() != 255) {
             return;
         }
 
         ItemStack packetStack = packet.getStack();
-        if (packetStack == null || !(packetStack.getItem() instanceof ItemBlock)) {
+        if (packetStack == null || !(packetStack.getItem() instanceof BlockItem)) {
             return;
         }
 
@@ -140,7 +140,7 @@ public class FastPlace extends Module {
     private boolean canFastPlace(long now, boolean requireActivationDelay) {
         if (blocksOnly.isToggled()) {
             ItemStack item = mc.player.getHeldItem();
-            if (item == null || !(item.getItem() instanceof ItemBlock)) {
+            if (item == null || !(item.getItem() instanceof BlockItem)) {
                 return false;
             }
         }

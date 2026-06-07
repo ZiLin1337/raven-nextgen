@@ -2,7 +2,7 @@ package keystrokesmod.lag.api;
 
 import keystrokesmod.utility.IMinecraftInstance;
 import keystrokesmod.utility.Utils;
-import net.minecraft.network.Packet;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.network.ThreadQuickExitException;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import org.jetbrains.annotations.NotNull;

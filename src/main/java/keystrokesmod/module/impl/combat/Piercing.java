@@ -7,9 +7,9 @@ import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.Utils;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.EntityItemFrame;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.*;
 
 public class Piercing extends Module {
@@ -87,14 +87,14 @@ public class Piercing extends Module {
                         .addCoord(look.xCoord * reach, look.yCoord * reach, look.zCoord * reach)
                         .expand(1.0, 1.0, 1.0), Predicates.and(EntitySelectors.NOT_SPECTATING, Entity::canBeCollidedWith)
         )) {
-            if ((this.ignoreNonPlayer.isToggled() && !(e instanceof EntityPlayer)) || (this.ignoreTeammates.isToggled() && Utils.isTeammate(e))
-                    || AntiBot.isBot(e) || (e instanceof EntityPlayer && Utils.isFriended((EntityPlayer) e))) {
+            if ((this.ignoreNonPlayer.isToggled() && !(e instanceof PlayerEntity)) || (this.ignoreTeammates.isToggled() && Utils.isTeammate(e))
+                    || AntiBot.isBot(e) || (e instanceof PlayerEntity && Utils.isFriended((EntityPlayer) e))) {
                 continue;
             }
 
             final float cb = e.getCollisionBorderSize();
             final Box bb = e.getEntityBoundingBox().expand(cb, cb, cb);
-            final MovingObjectPosition hit = bb.calculateIntercept(eyes, rayEnd);
+            final HitResult hit = bb.calculateIntercept(eyes, rayEnd);
             final boolean inside = bb.isVecInside(eyes);
 
             if (!inside && hit == null) continue;
@@ -158,7 +158,7 @@ public class Piercing extends Module {
 
         if (best != null) {
             mc.objectMouseOver = new MovingObjectPosition(best, bestHit);
-            if (best instanceof EntityLivingBase || best instanceof EntityItemFrame) {
+            if (best instanceof LivingEntity || best instanceof EntityItemFrame) {
                 mc.pointedEntity = best;
             }
         }

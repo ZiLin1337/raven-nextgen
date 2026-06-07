@@ -1,6 +1,6 @@
 package keystrokesmod.module.impl.render;
 
-import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
+// Removed accessor
 import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.impl.world.AntiBot;
@@ -12,8 +12,8 @@ import keystrokesmod.utility.font.FontManager;
 import keystrokesmod.utility.font.RavenFontRenderer;
 
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.Vec3;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.Vec3d;
 
 
 import org.lwjgl.opengl.GL11;
@@ -239,7 +239,7 @@ public class Arrows extends Module {
     }
 
     private static final class ArrowRenderState {
-        private EntityPlayer player;
+        private PlayerEntity player;
         private int color;
 
         private void set(EntityPlayer player, int color) {

@@ -7,9 +7,9 @@ import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
 // Removed 1.8.9 packet import
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
-import net.minecraftforge.client.event.MouseEvent;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.Vec3d;
+// Removed Forge event
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -90,7 +90,7 @@ public class Teleport extends Module {
         if (mouseEvent.button != 1 || !mouseEvent.buttonstate || !rightClick.isToggled() || !Utils.nullCheck()) {
             return;
         }
-        MovingObjectPosition rayCast = RotationUtils.rayCast(150.0, mc.player.rotationYaw, mc.player.rotationPitch, true);
+        HitResult rayCast = RotationUtils.rayCast(150.0, mc.player.rotationYaw, mc.player.rotationPitch, true);
         if (rayCast == null || rayCast.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) {
             return;
         }
@@ -106,7 +106,7 @@ public class Teleport extends Module {
         if (rightClick.isToggled()) {
             return;
         }
-        MovingObjectPosition rayCast = RotationUtils.rayCast(150.0, mc.player.rotationYaw, mc.player.rotationPitch, true);
+        HitResult rayCast = RotationUtils.rayCast(150.0, mc.player.rotationYaw, mc.player.rotationPitch, true);
         if (rayCast == null || rayCast.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) {
             return;
         }

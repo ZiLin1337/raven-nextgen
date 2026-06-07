@@ -3,7 +3,7 @@ package keystrokesmod.utility;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.entity.PlayerEntitySP;
 import net.minecraft.entity.Entity;
-import net.minecraft.network.Packet;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.network.play.server.*;
 
 import java.util.Queue;

@@ -8,7 +8,7 @@ import keystrokesmod.module.impl.render.HUD;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import keystrokesmod.module.ModuleManager;
-import net.minecraft.network.Packet;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.network.play.client.*;
 
 import net.minecraft.util.math.BlockPos;
@@ -56,7 +56,7 @@ public class ModuleUtils implements IMinecraftInstance {
             isBreaking = true;
         }
 
-        if (e.getPacket() instanceof C08PacketPlayerBlockPlacement && Utils.holdingFireball()) {
+        if (e.getPacket() instanceof PlayerInteractBlockC2SPacket && Utils.holdingFireball()) {
             if (Utils.isBindDown(mc.gameSettings.keyBindUseItem)) {
                 fireballTime = System.currentTimeMillis();
                 threwFireball = true;
@@ -66,7 +66,7 @@ public class ModuleUtils implements IMinecraftInstance {
             }
         }
 
-        if (e.getPacket() instanceof C08PacketPlayerBlockPlacement && Utils.scaffoldDiagonal(false)) {
+        if (e.getPacket() instanceof PlayerInteractBlockC2SPacket && Utils.scaffoldDiagonal(false)) {
             if (((C08PacketPlayerBlockPlacement) e.getPacket()).getPlacedBlockDirection() != 1) {
                 int currentFace = ((C08PacketPlayerBlockPlacement) e.getPacket()).getPlacedBlockDirection();
 
@@ -86,8 +86,8 @@ public class ModuleUtils implements IMinecraftInstance {
         if (!Utils.nullCheck() || e.isCanceled()) {
             return;
         }
-        if (e.getPacket() instanceof S27PacketExplosion) {
-            S27PacketExplosion s27 = (S27PacketExplosion) e.getPacket();
+        if (e.getPacket() instanceof ExplosionS2CPacket) {
+            ExplosionS2CPacket s27 = (S27PacketExplosion) e.getPacket();
             if (threwFireball) {
                 if ((mc.player.getPosition().distanceSq(s27.getX(), s27.getY(), s27.getZ()) <= MAX_EXPLOSION_DIST_SQ)) {
                     ModuleManager.velocity.disable = false;
@@ -103,7 +103,7 @@ public class ModuleUtils implements IMinecraftInstance {
         if (!Utils.nullCheck()) {
             return;
         }
-        if (packet instanceof C08PacketPlayerBlockPlacement && Utils.holdingSword() && !BlockUtils.isInteractable(mc.objectMouseOver) && !isBlocked) {
+        if (packet instanceof PlayerInteractBlockC2SPacket && Utils.holdingSword() && !BlockUtils.isInteractable(mc.objectMouseOver) && !isBlocked) {
             isBlocked = true;
         }
         else if (packet instanceof C07PacketPlayerDigging && isBlocked) {

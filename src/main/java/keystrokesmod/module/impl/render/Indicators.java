@@ -1,7 +1,7 @@
 package keystrokesmod.module.impl.render;
 
 import keystrokesmod.mixin.impl.accessor.IAccessorEntityArrow;
-import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
+// Removed accessor
 import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.impl.world.AntiBot;
@@ -15,24 +15,24 @@ import keystrokesmod.utility.Utils;
 import keystrokesmod.utility.font.FontManager;
 import keystrokesmod.utility.font.RavenFontRenderer;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockLiquid;
+import net.minecraft.block.FluidBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.BlockState;
 
 
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityArmorStand;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.hit.HitResult;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityEnderPearl;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.*;
 import net.minecraft.item.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 
 
@@ -82,7 +82,7 @@ public class Indicators extends Module {
     }
 
     private static final class BlockCollisionResult {
-        final MovingObjectPosition hit;
+        final HitResult hit;
         final double distanceSq;
 
         private BlockCollisionResult(MovingObjectPosition hit, double distanceSq) {
@@ -625,7 +625,7 @@ public class Indicators extends Module {
             Vec3 start = new Vec3(posX, posY, posZ);
             Vec3 end = new Vec3(nextX, nextY, nextZ);
             BlockCollisionResult blockCollision = getNearestBlockCollision(start, end, props);
-            MovingObjectPosition blockHit = blockCollision.hit;
+            HitResult blockHit = blockCollision.hit;
             double bestDistanceSq = blockCollision.distanceSq;
             Vec3 clampedEnd = blockHit != null ? blockHit.hitVec : end;
 
@@ -640,10 +640,10 @@ public class Indicators extends Module {
 
             Vec3 bestEntityHit = null;
             for (Entity entity : mc.world.getEntitiesWithinAABBExcludingEntity(projectile, broadBox)) {
-                if (!(entity instanceof EntityLivingBase)) {
+                if (!(entity instanceof LivingEntity)) {
                     continue;
                 }
-                if (entity instanceof EntityArmorStand) {
+                if (entity instanceof ArmorStandEntity) {
                     continue;
                 }
                 if (!entity.canBeCollidedWith()) {
@@ -652,7 +652,7 @@ public class Indicators extends Module {
                 if (((EntityLivingBase) entity).deathTime != 0) {
                     continue;
                 }
-                if (entity instanceof EntityPlayer && AntiBot.isBot(entity)) {
+                if (entity instanceof PlayerEntity && AntiBot.isBot(entity)) {
                     continue;
                 }
                 if (owner != null && entity.isEntityEqual(owner) && ticksInAir < props.ignoreOwnerTicks) {
@@ -664,7 +664,7 @@ public class Indicators extends Module {
                         ENTITY_HIT_EXPANSION,
                         ENTITY_HIT_EXPANSION
                 );
-                MovingObjectPosition entityHit = expandedBox.calculateIntercept(start, clampedEnd);
+                HitResult entityHit = expandedBox.calculateIntercept(start, clampedEnd);
                 if (entityHit == null) {
                     continue;
                 }
@@ -1055,7 +1055,7 @@ public class Indicators extends Module {
 
         List<Box> collisionBoxes = new ArrayList<>();
         BlockPos.Mutable mutablePos = new BlockPos.Mutable();
-        MovingObjectPosition bestHit = null;
+        HitResult bestHit = null;
         double bestDistanceSq = Double.MAX_VALUE;
 
         for (int x = minX; x < maxX; ++x) {
@@ -1078,7 +1078,7 @@ public class Indicators extends Module {
                                 continue;
                             }
 
-                            MovingObjectPosition hit = projectileCollisionBox.calculateIntercept(start, end);
+                            HitResult hit = projectileCollisionBox.calculateIntercept(start, end);
                             if (hit == null) {
                                 continue;
                             }
@@ -1098,7 +1098,7 @@ public class Indicators extends Module {
     }
 
     private BlockCollisionResult getNearestBlockCollision(Vec3 start, Vec3 end, ProjectileTrajectoryProps props) {
-        MovingObjectPosition vanillaHit = mc.world.rayTraceBlocks(start, end, false, props.ignoreBlockWithoutBoundingBox, false);
+        HitResult vanillaHit = mc.world.rayTraceBlocks(start, end, false, props.ignoreBlockWithoutBoundingBox, false);
         double vanillaDistanceSq = vanillaHit != null ? start.squareDistanceTo(vanillaHit.hitVec) : Double.MAX_VALUE;
 
         BlockCollisionResult collisionBoxHit = rayTraceBlockCollisionBoxes(start, end, props);

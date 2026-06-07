@@ -14,7 +14,7 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Items;
 import net.minecraft.inventory.ContainerChest;
@@ -24,7 +24,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemAppleGold;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemAxe;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemEgg;
 import net.minecraft.item.ItemEnderPearl;
 import net.minecraft.item.ItemPickaxe;
@@ -33,7 +33,7 @@ import net.minecraft.item.ItemSnowball;
 import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.util.DamageSource;
 
 import java.util.ArrayList;
@@ -634,7 +634,7 @@ public class InvManager extends Module {
             return false;
         }
 
-        List<PotionEffect> effects = ((ItemPotion)itemStack.getItem()).getEffects(itemStack);
+        List<StatusEffectInstance> effects = ((ItemPotion)itemStack.getItem()).getEffects(itemStack);
         if (effects == null) {
             return false;
         }
@@ -652,7 +652,7 @@ public class InvManager extends Module {
             return false;
         }
 
-        List<PotionEffect> effects = ((ItemPotion)itemStack.getItem()).getEffects(itemStack);
+        List<StatusEffectInstance> effects = ((ItemPotion)itemStack.getItem()).getEffects(itemStack);
         if (effects == null || effects.isEmpty()) {
             return true;
         }
@@ -1960,7 +1960,7 @@ public class InvManager extends Module {
                         bestShovel = efficiency;
                     }
                 }
-                else if (!(item instanceof ItemBlock) && itemStack.getMaxStackSize() == 1) {
+                else if (!(item instanceof BlockItem) && itemStack.getMaxStackSize() == 1) {
                     uniqueSingles.add(Item.getIdFromItem(item));
                 }
             }

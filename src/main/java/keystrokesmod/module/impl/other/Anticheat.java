@@ -12,11 +12,11 @@ import keystrokesmod.utility.PlayerData;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.BlockAir;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.event.ClickEvent;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.item.BlockItem;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.text.Text;
 import net.minecraft.util.ChatStyle;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -92,7 +92,7 @@ public class Anticheat extends Module {
             hashMap.put(mode, currentTimeMillis);
             flags.put(entityPlayer.getUniqueID(), hashMap);
         }
-        ChatComponentText chatComponentText = new ChatComponentText(Utils.formatColor("&7[&dR&7]&r " + entityPlayer.getDisplayName().getUnformattedText() + " &7detected for &d" + mode.getName()));
+        Text chatComponentText = new ChatComponentText(Utils.formatColor("&7[&dR&7]&r " + entityPlayer.getDisplayName().getUnformattedText() + " &7detected for &d" + mode.getName()));
         ChatStyle chatStyle = new ChatStyle();
         chatStyle.setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/wdr " + entityPlayer.getName()));
         chatComponentText.appendSibling(new ChatComponentText(Utils.formatColor(" §7[§cWDR§7]")).setChatStyle(chatStyle));
@@ -161,7 +161,7 @@ public class Anticheat extends Module {
             alert(entityPlayer, noSlow);
             return;
         }
-        if (scaffold.isToggled() && entityPlayer.isSwingInProgress && entityPlayer.rotationPitch >= 70.0f && entityPlayer.getHeldItem() != null && entityPlayer.getHeldItem().getItem() instanceof ItemBlock && playerData.fastTick >= 20 && entityPlayer.ticksExisted - playerData.lastSneakTick >= 30 && entityPlayer.ticksExisted - playerData.aboveVoidTicks >= 20) {
+        if (scaffold.isToggled() && entityPlayer.isSwingInProgress && entityPlayer.rotationPitch >= 70.0f && entityPlayer.getHeldItem() != null && entityPlayer.getHeldItem().getItem() instanceof BlockItem && playerData.fastTick >= 20 && entityPlayer.ticksExisted - playerData.lastSneakTick >= 30 && entityPlayer.ticksExisted - playerData.aboveVoidTicks >= 20) {
             boolean overAir = true;
             BlockPos blockPos = entityPlayer.getPosition().down(2);
             for (int i = 0; i < 4; ++i) {

@@ -13,18 +13,18 @@ import net.minecraft.block.BedBlock;
 import net.minecraft.block.BlockObsidian;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
-import net.minecraft.entity.monster.EntityIronGolem;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.mob.IronGolemEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.item.ItemEnderPearl;
 import net.minecraft.item.ItemFireball;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
 import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 import java.awt.*;
 import java.util.*;
@@ -97,7 +97,7 @@ public class BedWars extends Module {
             spawnedMobs.clear();
         }
         else {
-            if (e.entity != null && e.entity instanceof EntityIronGolem) {
+            if (e.entity != null && e.entity instanceof IronGolemEntity) {
                 if (Utils.getBedwarsStatus() != 2) {
                     return;
                 }
@@ -159,8 +159,8 @@ public class BedWars extends Module {
 
     
     public void onSendPacket(SendPacketEvent e) {
-        if (e.getPacket() instanceof C08PacketPlayerBlockPlacement) {
-            C08PacketPlayerBlockPlacement p = (C08PacketPlayerBlockPlacement) e.getPacket();
+        if (e.getPacket() instanceof PlayerInteractBlockC2SPacket) {
+            PlayerInteractBlockC2SPacket p = (C08PacketPlayerBlockPlacement) e.getPacket();
             if (p.getPlacedBlockDirection() != 255 && p.getStack() != null && p.getStack().getItem() != null) {
                 if (p.getStack().getItem() instanceof ItemMonsterPlacer) {
                     Class<? extends Entity> oclass = EntityList.stringToClassMapping.get(ItemMonsterPlacer.getEntityName(p.getStack()));

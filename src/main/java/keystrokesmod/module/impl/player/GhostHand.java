@@ -1,7 +1,7 @@
 package keystrokesmod.module.impl.player;
 
 import com.google.common.base.Predicates;
-import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
+// Removed accessor
 import keystrokesmod.module.Module;
 import keystrokesmod.module.impl.world.AntiBot;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -10,13 +10,13 @@ import keystrokesmod.utility.BlockUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BedBlock;
-import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.render.EntityRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.*;
 import net.minecraft.util.*;
-import org.lwjgl.input.Mouse;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.List;
 
@@ -93,7 +93,7 @@ public class GhostHand extends Module {
         double reach = mc.playerController.getBlockReachDistance();
         if (mc.playerController.extendedReach()) reach = 6.0;
 
-        MovingObjectPosition blockHit = findPrioritizedBlock(viewEntity, reach, partialTicks);
+        HitResult blockHit = findPrioritizedBlock(viewEntity, reach, partialTicks);
         if (blockHit == null) return;
 
         BlockPos hitPos = blockHit.getBlockPos();
@@ -128,7 +128,7 @@ public class GhostHand extends Module {
                 if (e == viewEntity) continue;
                 float cb = e.getCollisionBorderSize();
                 Box bb = e.getEntityBoundingBox().expand(cb, cb, cb);
-                MovingObjectPosition intercept = bb.calculateIntercept(eyes, blockHitVec);
+                HitResult intercept = bb.calculateIntercept(eyes, blockHitVec);
                 boolean inside = bb.isVecInside(eyes);
                 if (!inside && intercept == null) continue;
                 double dist = inside ? 0.0 : eyes.distanceTo(intercept.hitVec);
@@ -152,7 +152,7 @@ public class GhostHand extends Module {
         }
     }
 
-    private MovingObjectPosition findPrioritizedBlock(Entity viewEntity, double reach, float partialTicks) {
+    private HitResult findPrioritizedBlock(Entity viewEntity, double reach, float partialTicks) {
         Vec3 eyes = viewEntity.getPositionEyes(partialTicks);
         Vec3 look = viewEntity.getLook(partialTicks);
         Vec3 rayEnd = eyes.addVector(look.xCoord * reach, look.yCoord * reach, look.zCoord * reach);
@@ -173,8 +173,8 @@ public class GhostHand extends Module {
     }
 
     private boolean obstructionAllowed(Entity e) {
-        if (!(e instanceof EntityPlayer)) return throughNonPlayer.isToggled();
-        EntityPlayer player = (EntityPlayer) e;
+        if (!(e instanceof PlayerEntity)) return throughNonPlayer.isToggled();
+        PlayerEntity player = (EntityPlayer) e;
         if (AntiBot.isBot(player)) return throughBots.isToggled();
         if (Utils.isFriended(player) || Utils.isTeammate(player)) return throughFriendlies.isToggled();
         return throughEnemies.isToggled();
@@ -189,7 +189,7 @@ public class GhostHand extends Module {
         if (item instanceof ItemTool || item instanceof ItemHoe || item instanceof ItemShears) return HeldCategory.TOOL;
         if (item instanceof ItemBucket) return HeldCategory.BUCKET;
         if (item instanceof ItemFlintAndSteel) return HeldCategory.FLINT_STEEL;
-        if (item instanceof ItemBlock && ((ItemBlock) item).getBlock() == Blocks.web) return HeldCategory.COBWEB;
+        if (item instanceof BlockItem && ((ItemBlock) item).getBlock() == Blocks.web) return HeldCategory.COBWEB;
         return HeldCategory.OTHER;
     }
 }
