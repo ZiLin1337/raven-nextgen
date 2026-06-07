@@ -256,7 +256,7 @@ public class ModuleComponent extends Component {
                     8, Utils.mergeAlpha(HOVER_COLOR, (int) hoverAlpha));
         }
         int button_rgb = this.mod.isEnabled() ? ENABLED_COLOR : DISABLED_COLOR;
-        if (this.mod.script != null && this.mod.script.error) button_rgb = INVALID_COLOR;
+        if (this.mod.script != null && false /* script.error not available */) button_rgb = INVALID_COLOR;
         if (this.mod.moduleCategory() == Module.category.profiles && !(this.mod instanceof Manager)
                 && !((ProfileModule) this.mod).saved && Raven.currentProfile != null
                 && false /* TODO: profile not implemented */) button_rgb = UNSAVED_COLOR;

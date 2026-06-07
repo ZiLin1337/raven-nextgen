@@ -52,7 +52,7 @@ public class Module {
     public Module(Script script) {
         super();
         this.enabled = false;
-        this.moduleName = script.name;
+        this.moduleName = script.getScriptName();
         this.script = script;
         this.keycode = 0;
         this.moduleCategory = category.scripts;
@@ -92,7 +92,7 @@ public class Module {
     }
 
     public boolean canBeEnabled() {
-        if (this.script != null && script.error) {
+        if (this.script != null && script.isCompiled()) {
             return false;
         }
         return this.canBeEnabled;

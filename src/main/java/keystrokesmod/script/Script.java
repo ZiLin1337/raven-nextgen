@@ -1,7 +1,7 @@
 package keystrokesmod.script;
 
 import keystrokesmod.Raven;
-import keystrokesmod.script.model.JavaSourceFromString;
+
 
 import javax.tools.*;
 import java.io.*;
@@ -11,6 +11,8 @@ import java.util.*;
 
 public class Script {
     private final String scriptName;
+    public String name;
+    public boolean error;
     private final String codeStr;
     private final int STARTING_LINE = 1;
     private boolean compiled = false;

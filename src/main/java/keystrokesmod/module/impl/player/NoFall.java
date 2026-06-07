@@ -60,7 +60,7 @@ public class NoFall extends Module {
         if (isFalling && mode.getInput() == 2) {
             if (distanceFallen >= dynamic) {
                 // TODO: IAccessorMinecraft.getTimer() not available = (0.7399789F + (float) Utils.randomizeDouble(-0.012, 0.012));
-                mc.player.networkHandler.networkHandler.sendPacket(new net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket.OnGroundOnly(true));
+                mc.player.networkHandler.sendPacket(new net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket.OnGroundOnly(true, mc.player.isOnGround()));
                 initialY = mc.player.getY();
             }
         }
@@ -72,7 +72,7 @@ public class NoFall extends Module {
                 // TODO: IAccessorMinecraft.getTimer() not available = (float) 1;
             }
             if (distanceFallen >= 3) {
-                mc.player.networkHandler.networkHandler.sendPacket(new net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket.OnGroundOnly(true));
+                mc.player.networkHandler.sendPacket(new net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket.OnGroundOnly(true, mc.player.isOnGround()));
                 initialY = mc.player.getY();
             }
         }
@@ -97,7 +97,7 @@ public class NoFall extends Module {
     }
 
     private boolean reset() {
-        if (disableAdventure.isToggled() && mc.interactionManager.getCurrentGameType().isAdventure()) {
+        if (disableAdventure.isToggled() && true /* TODO: getCurrentGameType not available */) {
             return true;
         }
         if (ignoreVoid.isToggled() && isVoid()) {
@@ -112,7 +112,7 @@ public class NoFall extends Module {
         if (mc.player.isOnGround()) {
             return true;
         }
-        if (BlockUtils.getBlock(new BlockPos(mc.player.getX(), mc.player.getY() - 1, mc.player.getZ())) != Blocks.AIR) {
+        if (BlockUtils.getBlock(new BlockPos((int)mc.player.getX(), (int)(mc.player.getY() - 1), (int)mc.player.getZ())) != Blocks.AIR) {
             return true;
         }
         if (mc.player.getVelocity().y > -0.0784) {
@@ -124,7 +124,7 @@ public class NoFall extends Module {
         if (isVoid() && mc.player.getY() <= 41) {
             return true;
         }
-        if (mc.player.getAbilities().isFlying) {
+        if (mc.player.getAbilities().allowFlying) {
             return true;
         }
         return false;

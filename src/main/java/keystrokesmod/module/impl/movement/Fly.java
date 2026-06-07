@@ -51,13 +51,13 @@ public class Fly extends Module {
     @Override
     public void onEnable() {
         this.canFly = mc.player.getAbilities().allowFlying;
-        this.maxY = mc.player.getPos().getY();
+        this.maxY = (int) mc.player.getPos().getY();
     }
 
     
     public void onCollision(CollisionEvent e) {
         if (mode.getInput() != 3 || Utils.isBindDown(mc.options.sneakKey)) {
-            this.maxY = mc.player.getPos().getY();
+            this.maxY = (int) mc.player.getPos().getY();
             return;
         }
         if (0 /* TODO: blockPos not available */ < (this.keepY.isToggled() ? maxY : mc.player.getY())) {
@@ -140,7 +140,7 @@ public class Fly extends Module {
         if (!showBPS.isToggled() || !Utils.nullCheck()) {
             return;
         }
-        if (mc.currentScreen != null || mc.options.debugRenderer) {
+        if (mc.currentScreen != null || mc.options.hasDebugInfo) {
             return;
         }
         RenderUtils.renderBPS(true, false);

@@ -1,6 +1,8 @@
 package keystrokesmod.module.impl.player;
 
 import keystrokesmod.event.PreUpdateEvent;
+import org.lwjgl.glfw.GLFW;
+import net.minecraft.client.option.KeyBinding;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -40,8 +42,8 @@ public class SafeWalk extends Module {
     @Override
     public void onUpdate() {
         if (motion.getInput() != 1.0 && mc.player.isOnGround() && Utils.isMoving() && settingsMet()) {
-            mc.player.getVelocity().x *= motion.getInput();
-            mc.player.getVelocity().z *= motion.getInput();
+            // TODO: velocity multiply not supported
+            // TODO: velocity multiply not supported
         }
     }
 
@@ -74,7 +76,7 @@ public class SafeWalk extends Module {
                 this.setSneakState(false);
             }
         }
-        if (this.isSneaking && (mc.player.getAbilities().isFlying || !settingsMet())) {
+        if (this.isSneaking && (mc.player.getAbilities().allowFlying || !settingsMet())) {
             this.setSneakState(false);
         }
     }
@@ -82,7 +84,7 @@ public class SafeWalk extends Module {
     
     // TODO: Replace GuiOpenEvent with proper event
     public void onGuiOpen(Object e) {
-        if (sneak.isToggled() && e.gui == null) {
+        if (sneak.isToggled() && true /* e.gui not available */) {
             this.isSneaking = mc.player.isSneaking();
         }
     }
@@ -95,20 +97,20 @@ public class SafeWalk extends Module {
             return;
         }
 
-        if (!sneakState && Utils.isBindDown(mc.options.keyBindSneak)) {
+        if (!sneakState && Utils.isBindDown(mc.options.sneakKey)) {
             return;
         }
 
-        InputUtil.setKeyPressed(mc.options.keyBindSneak.getKeyCode(), sneakState);
+        GLFW.glfwSetInputMode(mc.getWindow().getHandle(), GLFW.GLFW_KEY_S,, sneakState);
         if (sneakState) {
-            KeyBinding.onTick(mc.options.keyBindSneak.getKeyCode());
+            // KeyBinding.onTick removed in 1.21.4
         }
         this.isSneaking = sneakState;
     }
 
     public static boolean canSafeWalk() {
         if (ModuleManager.safeWalk != null && ModuleManager.safeWalk.isEnabled()) {
-            if (disableOnForward.isToggled() && Keyboard.isKeyDown(mc.options.keyBindForward.getKeyCode())) {
+            if (disableOnForward.isToggled() && GLFW.glfwGetKey(mc.getWindow().getHandle(), mc.options.forwardKey.getDefaultKey().getCode()) == GLFW.GLFW_PRESS) {
                 return false;
             }
             if (pitchCheck.isToggled() && mc.player.getPitch() < 70) {
@@ -116,7 +118,7 @@ public class SafeWalk extends Module {
             }
             if (blocksOnly.isToggled()) {
                 ItemStack held = mc.player.getMainHandStack();
-                if (held == null || !(held.getItem() instanceof ItemBlock)) {
+                if (held == null || !(held.getItem() instanceof net.minecraft.item.BlockItem)) {
                     return false;
                 }
             }
@@ -128,11 +130,11 @@ public class SafeWalk extends Module {
     private boolean settingsMet() {
         if (blocksOnly.isToggled()) {
             ItemStack held = mc.player.getMainHandStack();
-            if (held == null || !(held.getItem() instanceof ItemBlock)) {
+            if (held == null || !(held.getItem() instanceof net.minecraft.item.BlockItem)) {
                 return false;
             }
         }
-        if (disableOnForward.isToggled() && Keyboard.isKeyDown(mc.options.keyBindForward.getKeyCode())) {
+        if (disableOnForward.isToggled() && GLFW.glfwGetKey(mc.getWindow().getHandle(), mc.options.forwardKey.getDefaultKey().getCode()) == GLFW.GLFW_PRESS) {
             return false;
         }
         if (pitchCheck.isToggled() && mc.player.getPitch() < 70.0f) {

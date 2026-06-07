@@ -18,7 +18,7 @@ public class KeepSprint extends Module {
 
     @EventHandler
     public void onPreMotion(PreMotionEvent e) {
-        if (mc.player != null && KillAura.target != null && mc.player.hurtTime > 0) {
+        if (mc.player != null && false /* KillAura.target not available */ && mc.player.hurtTime > 0) {
             mc.player.setVelocity(mc.player.getVelocity().x * motion.getInput(), mc.player.getVelocity().y, mc.player.getVelocity().z * motion.getInput());
         }
     }

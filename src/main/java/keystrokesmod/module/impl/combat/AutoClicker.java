@@ -3,11 +3,11 @@ package keystrokesmod.module.impl.combat;
 import keystrokesmod.event.PrePlayerInteractEvent;
 import org.lwjgl.glfw.GLFW;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.InputUtil;
+// import net.minecraft.util.InputUtil; // removed in 1.21.4
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.block.LiquidBlock;
+// import net.minecraft.block.LiquidBlock; // use Block with fluid check
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -92,7 +92,7 @@ public class AutoClicker extends Module {
             inventoryNextClickTime = 0L;
             return;
         }
-        if (!GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) {
+        if ((GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) == 0) {
             inventoryNextClickTime = 0L;
             return;
         }
@@ -122,7 +122,7 @@ public class AutoClicker extends Module {
             return;
         }
 
-        int windowId = ((net.minecraft.screen.HandledScreen<?>)gui).getScreenHandler().syncId;
+        int windowId = 0 /* TODO: windowId not available */;
         int slotId = slot.getIndex();
         int mode = net.minecraft.client.gui.screen.Screen.hasShiftDown() ? 1 : 0;
 
@@ -141,7 +141,7 @@ public class AutoClicker extends Module {
         if (ModuleManager.killAura != null && ModuleManager.killAura.isEnabled() && false /* TODO: KillAura.target not available */) return;
 
         int key = mc.options.attackKey.getDefaultKey().getCode();
-        if (GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) {
+        if (GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) == 0) {
             long now = System.currentTimeMillis();
             if (nextClickTime == 0) {
                 nextClickTime = now + nextDelay();
@@ -161,7 +161,7 @@ public class AutoClicker extends Module {
             if (breakBlocks.isToggled()) {
                 if (!mc.player.getAbilities().allowFlying) {
                     if (this.isHoldingBlockBreak) {
-                        KeyBinding.setKeyPressed(mc.options.attackKey, false);
+                        mc.options.attackKey.setPressed();
                         ReflectionUtils.setButton(0, false);
                         this.isHoldingBlockBreak = false;
                     }
@@ -170,16 +170,16 @@ public class AutoClicker extends Module {
                 BlockPos pos = ((BlockHitResult)mc.crosshairTarget).getBlockPos();
                 if (pos != null) {
                     Block block = mc.world.getBlockState(pos).getBlock();
-                    if (block != Blocks.AIR && !(block instanceof LiquidBlock)) {
+                    if (block != Blocks.AIR && block.getFluidState().isEmpty()) {
                         if (!this.isHoldingBlockBreak) {
-                            KeyBinding.setKeyPressed(mc.options.attackKey, true);
+                            mc.options.attackKey.setPressed();
                             ReflectionUtils.setButton(0, true);
                             this.isHoldingBlockBreak = true;
                         }
                         return;
                     }
                     if (this.isHoldingBlockBreak) {
-                        KeyBinding.setKeyPressed(mc.options.attackKey, false);
+                        mc.options.attackKey.setPressed();
                         ReflectionUtils.setButton(0, false);
                         this.isHoldingBlockBreak = false;
                         return;
@@ -197,7 +197,7 @@ public class AutoClicker extends Module {
         } else {
             this.nextClickTime = 0L;
             this.isHoldingBlockBreak = false;
-            KeyBinding.setKeyPressed(mc.options.attackKey, false);
+            mc.options.attackKey.setPressed();
             ReflectionUtils.setButton(0, false);
         }
     }

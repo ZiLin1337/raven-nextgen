@@ -119,8 +119,8 @@ public class LongJump extends Module {
     
     public void onCollision(CollisionEvent event) {
         if (this.startY != null && !manual.isToggled() && boostTicks <= 0) {
-            BlockPos blockPos = event.blockPos;
-            if (event.block.isPassable(mc.world, blockPos) && blockPos.getY() <= this.startY) {
+            BlockPos blockPos = event.pos;
+            if (event.state.isSolidBlock(mc.world, event.pos) && blockPos.getY() <= this.startY) {
                 event.boundingBox = new Box(blockPos.getX() - 2.0D, blockPos.getY() - 1.0D, blockPos.getZ() - 2.0D, blockPos.getX() + 2.0D, blockPos.getY() + 1.0D, blockPos.getZ() + 2.0D);
             }
         }
@@ -248,7 +248,7 @@ public class LongJump extends Module {
             if (fireballSlot != -1) {
                 fireballTime = System.currentTimeMillis();
                 if (!manual.isToggled()) {
-                    mc.player.networkHandler.networkHandler.sendPacket(new Object(mc.player.getMainHandStack()));
+                    mc.player.networkHandler.sendPacket(new Object(mc.player.getMainHandStack()));
                     //((IAccessorMinecraft) mc).callRightClickMouse();
                 }
                 mc.player.swingHand(Hand.MAIN_HAND);
@@ -273,7 +273,7 @@ public class LongJump extends Module {
         if (!function) {
             return;
         }
-        mc.player.input.jumping = false;
+        // mc.player.input.jumping = false; // TODO: verify field name
         if (rotateTick > 0 || fireballTime > 0) {
             if (Utils.isMoving()) e.setForward(1);
             e.setStrafe(0);

@@ -8,8 +8,10 @@ import keystrokesmod.event.PreAttackEvent;
 import keystrokesmod.event.PrePlayerInteractEvent;
 import keystrokesmod.event.PreSlotScrollEvent;
 import keystrokesmod.event.SlotUpdateEvent;
-// import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
+// import keystrokesmod.mixin.impl.accessor.// TODO: Accessor not available
 
+import org.lwjgl.glfw.GLFW;
+import net.minecraft.util.hit.BlockHitResult;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.impl.combat.KillAura;
@@ -25,7 +27,7 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BedBlock;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft./* TODO: field not available */.player.PlayerInventory;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.*;
 
@@ -75,7 +77,7 @@ public class BedAura extends Module {
         this.registerSetting(whitelistOwnBed = new ButtonSetting("Whitelist own bed", true));
         this.registerSetting(prioritizeKillAura = new ButtonSetting("Prioritize KillAura", false));
         this.registerSetting(swapGroup = new GroupSetting("Swap"));
-        this.registerSetting(switchBackWhenDone = new ButtonSetting(swapGroup, "Switch back when done", true, "Swap to previous slot"));
+        this.registerSetting(switchBackWhenDone = new ButtonSetting(swapGroup, "Switch back when done", true, "Swap to previous /* TODO: field not available */"));
         this.registerSetting(overrideSwapBack = new ButtonSetting(swapGroup, "Override swap back", true));
         this.registerSetting(renderOutline = new ButtonSetting("Render block outline", true));
         this.registerSetting(outlineColor = new ColorSetting("Outline color", 255, 64, 64, 229));
@@ -101,14 +103,14 @@ public class BedAura extends Module {
         }
 
         if (pendingSpawnAnchorCapture && Utils.getBedwarsStatus() == 2) {
-            spawnAnchor = mc.player.getPosition();
+            spawnAnchor = mc.player.getPos();
             pendingSpawnAnchorCapture = false;
         }
     }
 
     
     public void onWorldJoin(Object e) {
-        if (e.entity == mc.player) {
+        if (e./* TODO: field not available */ == mc.player) {
             resetSpawnTracking();
         }
     }
@@ -119,7 +121,7 @@ public class BedAura extends Module {
             return;
         }
 
-        String strippedMessage = Utils.stripColor(event.message.getString());
+        String strippedMessage = Utils.stripColor(event./* TODO: field not available */.getString());
         if (strippedMessage.startsWith(" ") && strippedMessage.contains("Protect your bed and destroy the enemy beds.")) {
             pendingSpawnAnchorCapture = true;
             waitingForRespawn = false;
@@ -139,31 +141,31 @@ public class BedAura extends Module {
         if (!shouldSuppressManualMouse()) {
             return;
         }
-        if (e.button == 0 || e.button == 1) {
-            e.setCanceled(true);
+        if (e./* TODO: field not available */ == 0 || e./* TODO: field not available */ == 1) {
+            e./* TODO: field not available */(true);
         }
     }public void onPreAttack(PreAttackEvent e) {
         if (!shouldSuppressManualMouse()) {
             return;
         }
-        e.setCanceled(true);
+        e./* TODO: field not available */(true);
     }public void onSlotScroll(PreSlotScrollEvent e) {
         if (!shouldSuppressManualMouse()) {
             return;
         }
         if (hasSwapped && overrideSwapBack.isToggled() && Utils.nullCheck()) {
-            int slot = Integer.compare(e.slot, 0);
-            previousSlot = Math.floorMod(mc.player.getInventory().selectedSlot - slot, PlayerInventory.getHotbarSize());
+            int /* TODO: field not available */ = Integer.compare(e./* TODO: field not available */, 0);
+            previousSlot = Math.floorMod(mc.player.getInventory().selectedSlot - /* TODO: field not available */, PlayerInventory.getHotbarSize());
         }
-        e.setCanceled(true);
+        e./* TODO: field not available */(true);
     }public void onSlotUpdate(SlotUpdateEvent e) {
         if (!shouldSuppressManualMouse() || hotbarProgrammaticDepth > 0) {
             return;
         }
         if (hasSwapped && overrideSwapBack.isToggled()) {
-            previousSlot = e.slot;
+            previousSlot = e./* TODO: field not available */;
         }
-        e.setCanceled(true);
+        e./* TODO: field not available */(true);
     }
 
     private boolean shouldSuppressManualMouse() {
@@ -181,10 +183,10 @@ public class BedAura extends Module {
             return;
         }
         int atk = mc.options.attackKey.getDefaultKey().getCode();
-        int use = mc.options.keyBindUseItem.getKeyCode();
-        InputUtil.setKeyPressed(atk, false);
-        InputUtil.setKeyPressed(use, false);
-        InputUtil.setKeyPressed(atk, true);
+        int use = mc.options.useItemKey.getKeyCode();
+        // TODO: InputUtil not available;
+        // TODO: InputUtil not available;
+        // TODO: InputUtil not available;
     }
 
     public BlockPos getAuraTargetPos() {
@@ -212,7 +214,7 @@ public class BedAura extends Module {
         if (!canMineBlocks() || !miningActive || mc.interactionManager == null) {
             return 0f;
         }
-        IAccessorClientPlayerInteractionManager pc = (IAccessorClientPlayerInteractionManager) mc.interactionManager;
+        // TODO: Accessor not available
         BlockPos currentBlock = pc.getCurrentBlock();
         if (targetPos == null || currentBlock == null || !targetPos.equals(currentBlock)) {
             return 0f;
@@ -228,17 +230,17 @@ public class BedAura extends Module {
         if (!shouldOverrideMouseOver()) {
             return;
         }
-        if (mc.getRenderViewEntity() == null) {
+        if (mc.player /* getRenderViewEntity not available */ == null) {
             return;
         }
 
-        HitResult mop = new MovingObjectPosition(targetHitVec, targetSide, targetPos);
+        HitResult mop = new BlockHitResult(targetHitVec, targetSide, targetPos);
         mc.crosshairTarget = mop;
-        mc.pointedEntity = null;
+        // mc.pointedEntity = null;
 
-        EntityRenderer renderer = mc.entityRenderer;
-        if (renderer instanceof IAccessorEntityRenderer) {
-            ((IAccessorEntityRenderer) renderer).setPointedEntity(null);
+        EntityRenderer renderer = mc.worldRenderer;
+        if (renderer instanceof // TODO: Accessor not available
+            ((// TODO: Accessor not available
         }
     }public void onClientRotation(ClientRotationEvent e) {
         if (!isEnabled() || !Utils.nullCheck() || mc.currentScreen != null || !canMineBlocks()) {
@@ -249,7 +251,7 @@ public class BedAura extends Module {
             resetMining();
             return;
         }
-        if (e.scriptRotations) {
+        if (false /* scriptRotations not available */) {
             resetMining();
             return;
         }
@@ -280,10 +282,10 @@ public class BedAura extends Module {
 
         equipBestHotbarTool(BlockUtils.getBlock(targetPos));
 
-        float baseYaw = e.yaw != null ? e.yaw : RotationUtils.serverRotations[0];
-        float basePitch = e.pitch != null ? e.pitch : RotationUtils.serverRotations[1];
+        float baseYaw = e.getYaw() != null ? e.getYaw() : RotationUtils.serverRotations[0];
+        float basePitch = e.getPitch() != null ? e.getPitch() : RotationUtils.serverRotations[1];
         float[] r = RotationUtils.getRotationsToPoint(
-                targetHitVec.xCoord, targetHitVec.yCoord, targetHitVec.zCoord,
+                targetHitVec.x, targetHitVec.y, targetHitVec.z,
                 baseYaw, basePitch
         );
         e.setYaw(r[0]);
@@ -309,8 +311,8 @@ public class BedAura extends Module {
         if (switchBackWhenDone.isToggled() && previousSlot != -1 && Utils.nullCheck()) {
             setSlot(previousSlot);
         }
-        InputUtil.setKeyPressed(mc.options.attackKey.getDefaultKey().getCode(), GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS);
-        InputUtil.setKeyPressed(mc.options.keyBindUseItem.getKeyCode(), GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS);
+        // TODO: InputUtil not available.getCode(), GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS);
+        // TODO: InputUtil not available, GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS);
         hotbarProgrammaticDepth = 0;
         targetPos = null;
         targetHitVec = null;
@@ -323,7 +325,7 @@ public class BedAura extends Module {
         bedPairsCache.clear();
         Set<BlockPos> seenFeet = new HashSet<>();
         int ri = (int) Math.ceil(searchRange);
-        BlockPos origin = new BlockPos(mc.player);
+        BlockPos origin = new BlockPos((int)mc.player.getX(), (int)mc.player.getY(), (int)mc.player.getZ());
 
         for (int dx = -ri; dx <= ri; dx++) {
             for (int dy = -ri; dy <= ri; dy++) {
@@ -358,14 +360,14 @@ public class BedAura extends Module {
         if (!(st.getBlock() instanceof BedBlock)) {
             return null;
         }
-        BedBlock.EnumPartType part = (BedBlock.EnumPartType) st.getValue(BedBlock.PART);
+        /* BedBlock.EnumPartType */ Object part = (/* BedBlock.EnumPartType */ Object) st.getValue(BedBlock.PART);
         Direction facing = (Direction) st.getValue(BedBlock.FACING);
-        BlockPos foot = part == BedBlock.EnumPartType.FOOT ? at : at.offset(facing.getOpposite());
+        BlockPos foot = part == /* BedBlock.EnumPartType */ Object.FOOT ? at : at.offset(facing.getOpposite());
         BlockState footSt = mc.world.getBlockState(foot);
         if (!(footSt.getBlock() instanceof BedBlock)) {
             return null;
         }
-        if (footSt.getValue(BedBlock.PART) != BedBlock.EnumPartType.FOOT) {
+        if (footSt.getValue(BedBlock.PART) != /* BedBlock.EnumPartType */ Object.FOOT) {
             return null;
         }
         Direction footFacing = (Direction) footSt.getValue(BedBlock.FACING);
@@ -374,7 +376,7 @@ public class BedAura extends Module {
         if (!(hs.getBlock() instanceof BedBlock)) {
             return null;
         }
-        if (hs.getValue(BedBlock.PART) != BedBlock.EnumPartType.HEAD) {
+        if (hs.getValue(BedBlock.PART) != /* BedBlock.EnumPartType */ Object.HEAD) {
             return null;
         }
         if (hs.getValue(BedBlock.FACING) != footFacing) {
@@ -411,14 +413,14 @@ public class BedAura extends Module {
         if (len < 1e-6) {
             return true;
         }
-        to = new Vec3d(to.xCoord / len, to.yCoord / len, to.zCoord / len);
-        double dot = look.xCoord * to.xCoord + look.yCoord * to.yCoord + look.zCoord * to.zCoord;
+        to = new Vec3d(to.x / len, to.y / len, to.z / len);
+        double dot = look.x * to.x + look.y * to.y + look.z * to.z;
         double ang = Math.acos(MathHelper.clamp_double(dot, -1.0, 1.0)) * (180.0 / Math.PI);
         return ang <= fovDeg * 0.5;
     }
 
     private Choice chooseBestTarget(double reachSq) {
-        IAccessorClientPlayerInteractionManager pc = (IAccessorClientPlayerInteractionManager) mc.interactionManager;
+        // TODO: Accessor not available
         float curProg = pc.getCurBlockDamageMP();
         BlockPos breaking = pc.getCurrentBlock();
 
@@ -551,9 +553,9 @@ public class BedAura extends Module {
         }
 
         HitResult trace = block.collisionRayTrace(mc.world, pos, eye, hit.addVector(
-                (hit.xCoord - eye.xCoord) * 0.01,
-                (hit.yCoord - eye.yCoord) * 0.01,
-                (hit.zCoord - eye.zCoord) * 0.01
+                (hit.x - eye.x) * 0.01,
+                (hit.y - eye.y) * 0.01,
+                (hit.z - eye.z) * 0.01
         ));
         Direction side = BlockUtils.facingFromBlockCenterToPoint(pos, hit);
         if (trace != null && trace.hitVec != null && trace.sideHit != null && pos.equals(trace.getBlockPos())) {
@@ -568,27 +570,27 @@ public class BedAura extends Module {
     }
 
     private void equipBestHotbarTool(Block block) {
-        int slot = Utils.getTool(block);
-        if (slot < 0) {
+        int /* TODO: field not available */ = Utils.getTool(block);
+        if (/* TODO: field not available */ < 0) {
             return;
         }
-        if (previousSlot == -1 && slot != mc.player.getInventory().selectedSlot) {
+        if (previousSlot == -1 && /* TODO: field not available */ != mc.player.getInventory().selectedSlot) {
             previousSlot = mc.player.getInventory().selectedSlot;
         }
-        if (slot != mc.player.getInventory().selectedSlot) {
-            setSlot(slot);
+        if (/* TODO: field not available */ != mc.player.getInventory().selectedSlot) {
+            setSlot(/* TODO: field not available */);
         }
     }
 
-    private void setSlot(int slot) {
-        if (slot == -1 || slot == mc.player.getInventory().selectedSlot) {
+    private void setSlot(int /* TODO: field not available */) {
+        if (/* TODO: field not available */ == -1 || /* TODO: field not available */ == mc.player.getInventory().selectedSlot) {
             return;
         }
         hotbarProgrammaticDepth++;
         try {
-            mc.player.getInventory().selectedSlot = slot;
+            mc.player.getInventory().selectedSlot = /* TODO: field not available */;
             hasSwapped = true;
-            ((IAccessorClientPlayerInteractionManager) mc.interactionManager).callSyncCurrentPlayItem();
+            ((// TODO: Accessor not available
         } finally {
             hotbarProgrammaticDepth--;
         }
