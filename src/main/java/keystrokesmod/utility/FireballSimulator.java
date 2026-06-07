@@ -302,7 +302,7 @@ public final class FireballSimulator {
                         continue;
                     }
 
-                    double liquidSurfaceY = (double) ((float) (y + 1)
+                    double liquidSurfaceY = (double) ((float) (y + 1))
                             - FluidBlock.getLiquidHeightPercent((Integer) blockState.getValue(FluidBlock.LEVEL));
 
                     if ((double) maxY < liquidSurfaceY) {
