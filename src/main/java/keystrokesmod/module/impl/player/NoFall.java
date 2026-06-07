@@ -80,7 +80,7 @@ public class NoFall extends Module {
 
     
     public void onPreMotion(PreMotionEvent e) {
-        switch ((int) mode.getInput() {
+        switch ((int) mode.getInput()) {
             case 0:
                 e.setOnGround(true);
                 break;

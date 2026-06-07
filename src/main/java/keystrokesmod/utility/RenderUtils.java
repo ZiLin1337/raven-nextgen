@@ -1723,7 +1723,7 @@ public class RenderUtils implements IMinecraftInstance {
     }
 
     public static Identifier buildWhiteMaskedTexture(String resourcePath, String registryName, Identifier fallback) {
-        try (InputStream stream = Raven.class.getResourceAsStream(resourcePath) {
+        try (InputStream stream = Raven.class.getResourceAsStream(resourcePath)) {
             if (stream == null) return fallback;
             BufferedImage src = ImageIO.read(stream);
             int w = src.getWidth(), h = src.getHeight();
@@ -1769,8 +1769,8 @@ public class RenderUtils implements IMinecraftInstance {
             return;
         }
         boolean depthEnabled = // GL11.isEnabled replaced(// // GL11 constant);
-        boolean blendEnabled = // GL11.isEnabled replaced(// // GL11 constant);
-        boolean depthMask = GL11.glGetBoolean(// // GL11 constant);
+        boolean blendEnabled = GL11.glIsEnabled(GL11.GL_BLEND);
+        boolean depthMask = GL11.glGetBoolean(GL11.GL_DEPTH_WRITEMASK);
 
         prepareGuiTextureRenderState();
         mc.getTextureManager().bindTexture(texture);

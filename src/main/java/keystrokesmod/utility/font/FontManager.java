@@ -198,7 +198,7 @@ public final class FontManager {
     }
 
     private static byte[] readFontData(String fileName) {
-        try (InputStream inputStream = FontManager.class.getResourceAsStream(RESOURCE_ROOT + fileName) {
+        try (InputStream inputStream = FontManager.class.getResourceAsStream(RESOURCE_ROOT + fileName)) {
             if (inputStream == null) {
                 return null;
             }

@@ -98,7 +98,7 @@ public class BlockUtils implements IMinecraftInstance {
         if (!ignoreSlow) {
             if (mc.player.isPotionActive(Potion.digSlowdown)) {
                 float n2;
-                switch (mc.player.getActivePotionEffect(Potion.digSlowdown).getAmplifier() {
+                switch (mc.player.getActivePotionEffect(Potion.digSlowdown).getAmplifier()) {
                     case 0: {
                         n2 = 0.3f;
                         break;
@@ -323,7 +323,7 @@ public class BlockUtils implements IMinecraftInstance {
             if (mc.world.getBlockState(n).getBlock() != Blocks.AIR) continue;
             boolean excluded = false;
             for (BlockPos ex : exclude) {
-                if (n.equals(ex) { excluded = true; break; }
+                if (n.equals(ex)) { excluded = true; break; }
             }
             if (!excluded) return true;
         }

@@ -514,7 +514,7 @@ public class RotationUtils implements IMinecraftInstance {
         }
 
         List<Vec3d> backups = buildBackupPoints(entity, eye);
-        Collections.sort(backups, Comparator.comparingDouble(p -> ) {
+        Collections.sort(backups, Comparator.comparingDouble(p -> {
             double dx = p.xCoord - eye.xCoord;
             double dy = p.yCoord - eye.yCoord;
             double dz = p.zCoord - eye.zCoord;
@@ -555,7 +555,7 @@ public class RotationUtils implements IMinecraftInstance {
         }
 
         List<Vec3d> backups = buildBackupPoints(entity, eye);
-        Collections.sort(backups, Comparator.comparingDouble(p -> ) {
+        Collections.sort(backups, Comparator.comparingDouble(p -> {
             double dx = p.xCoord - eye.xCoord;
             double dy = p.yCoord - eye.yCoord;
             double dz = p.zCoord - eye.zCoord;

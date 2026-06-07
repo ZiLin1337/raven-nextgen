@@ -60,7 +60,7 @@ public class ProfileManager {
             profileData.put(module.getName(), settings);
         }
         File file = new File(PROFILES_DIR, profileName + ".json");
-        try (FileWriter writer = new FileWriter(file) {
+        try (FileWriter writer = new FileWriter(file)) {
             GSON.toJson(profileData, writer);
         } catch (IOException e) {
             e.printStackTrace();

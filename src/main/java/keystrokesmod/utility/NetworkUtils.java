@@ -109,14 +109,14 @@ public class NetworkUtils {
 
                 String contentType = connection.getContentType();
                 if (contentType != null && contentType.startsWith("image")) {
-                    try (InputStream inputStream = connection.getInputStream() {
+                    try (InputStream inputStream = connection.getInputStream()) {
                         BufferedImage image = TextureUtil.readBufferedImage(inputStream);
                         connection.disconnect();
                         return image;
                     }
                 }
 
-                try (InputStream inputStream = connection.getInputStream() {
+                try (InputStream inputStream = connection.getInputStream()) {
                     String body = IOUtils.toString(inputStream, "UTF-8");
                     String imageURL = "";
 
