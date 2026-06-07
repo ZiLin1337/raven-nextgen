@@ -28,7 +28,7 @@ public class ClickGuiTextField {
         this.placeholder = placeholder == null ? "" : placeholder;
         this.textScale = textScale;
         MinecraftClient mc = MinecraftClient.getInstance();
-        this.textField = new TextFieldWidget(nextId++, MinecraftClient.getInstance().textRenderer, 0, 0, 100, 20, Text.literal(""));
+        this.textField = new TextFieldWidget(MinecraftClient.getInstance().textRenderer, 0, 0, 100, 20, Text.literal(""));
         this.textField.setMaxLength(maxLength);
     }
 

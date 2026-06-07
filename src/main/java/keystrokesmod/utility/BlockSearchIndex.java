@@ -211,9 +211,9 @@ public final class BlockSearchIndex {
         if (allBlockEntries != null) return;
         allBlockEntries = new ArrayList<>();
         Map<String, List<BlockEntry>> variantMap = new HashMap<>();
-        for (Object obj : Registries.BLOCK /* blockRegistry */) {
+        for (Object obj : Registries.BLOCK) {
             Block block = (Block) obj;
-            String registryId = Registries.BLOCK /* blockRegistry */.getNameForObject(block) != null ? Registries.BLOCK /* blockRegistry */.getNameForObject(block).toString() : null;
+            String registryId = Registries.BLOCK.getNameForObject(block) != null ? Registries.BLOCK.getNameForObject(block).toString() : null;
             if (registryId == null) continue;
 
             Item item = null /* getItemFromBlock disabled */;
@@ -272,7 +272,7 @@ public final class BlockSearchIndex {
         String registryId = parseRegistryId(name);
         if (registryId == null) return null;
         try {
-            return (Block) Registries.BLOCK /* blockRegistry */.getObject(Identifier.of(registryId));
+            return (Block) Registries.BLOCK.getObject(Identifier.of(registryId));
         } catch (Exception e) {
             return null;
         }

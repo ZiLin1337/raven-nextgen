@@ -352,7 +352,7 @@ public class NameHider extends Module {
     }
 
     private static List<String> buildSelfNames() {
-        rememberSelfName(mc.player.getName().getString().getString());
+        rememberSelfName(mc.player.getName().getString());
 
         PlayerListEntry selfPlayerInfo = getSelfPlayerInfo();
         if (selfPlayerInfo != null) {
@@ -451,7 +451,7 @@ public class NameHider extends Module {
         if (selfPlayerInfo != null) {
             return getIdentityKey(selfPlayerInfo);
         }
-        return mc.player == null ? null : getIdentityKey(mc.player.getUuid(), mc.player.getName().getString().getString());
+        return mc.player == null ? null : getIdentityKey(mc.player.getUuid(), mc.player.getName().getString());
     }
 
     private static boolean isSelfPlayer(PlayerEntity player, String key) {
