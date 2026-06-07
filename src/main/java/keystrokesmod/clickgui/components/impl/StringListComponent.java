@@ -69,7 +69,7 @@ public class StringListComponent extends AbstractTextInputComponent {
     public void onScroll(int scroll) {
         if (!moduleComponent.isOpened || !moduleComponent.isVisible(this)) return;
         if (!capturesCategoryScroll(lastMouseX, lastMouseY)) return;
-        float delta = (float) keystrokesmod.module.impl.client.0 * (scroll / 120f);
+        float delta = (float) 0 * (scroll / 120f);
         if (delta != 0f) selectedScrollAnim.extend(-delta);
         clampSelectedScroll();
     }

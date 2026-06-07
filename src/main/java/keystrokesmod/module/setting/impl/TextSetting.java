@@ -7,9 +7,12 @@ public class TextSetting extends Setting {
     private String value;
     
     public TextSetting(String name, String defaultValue) {
-    public TextSetting(String name, int maxLength) { this(name, "", maxLength); }
         super(name);
         this.value = defaultValue;
+    }
+    
+    public TextSetting(String name, int maxLength) {
+        this(name, "");
     }
     
     public TextSetting(String name, String defaultValue, String description) {

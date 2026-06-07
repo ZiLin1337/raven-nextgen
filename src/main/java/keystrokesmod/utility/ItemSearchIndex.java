@@ -667,7 +667,7 @@ public final class ItemSearchIndex {
 
     private static Item getItemForName(String registryId) {
         try {
-            return (Item) net.minecraft.registry.Registries.ITEM.get(/* getObject disabled Identifier.of(registryId));
+            return (Item) net.minecraft.registry.Registries.ITEM.get(Identifier.of(registryId));
         }
         catch (Exception ignored) {
             return null;
