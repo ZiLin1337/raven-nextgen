@@ -44,8 +44,6 @@ public class ClickGuiTextField {
         this.textScale = textScale;
         this.textField = new TextFieldWidget(nextId++, MinecraftClient.getInstance().textRenderer, 0, 0, 100, 20, net.minecraft.text.Text.literal(""));
         this.textField.setMaxLength(maxLength);
-        this.textField.
-        this.textField.// setCanLoseFocus removed;
     }
 
     public void render(float left, float top, float right, float bottom) {
@@ -201,4 +199,4 @@ public class ClickGuiTextField {
         GL11.glPopMatrix();
     }
 
-    
+    }
