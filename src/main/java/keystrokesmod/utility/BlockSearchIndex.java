@@ -112,7 +112,7 @@ public final class BlockSearchIndex {
             if (score > 0 && !setting.contains(entry.storageId)) scored.add(new ScoredBlock(entry, score));
         }
         scored.sort(Comparator.<ScoredBlock>comparingInt(s -> -s.score).thenComparing(s -> s.entry.displayName, String.CASE_INSENSITIVE_ORDER).thenComparing(s -> s.entry.storageId));
-        List<BlockEntry> results = new ArrayList<>(Math.min(MAX_SEARCH_RESULTS, scored.size());
+        List<BlockEntry> results = new ArrayList<>(Math.min(MAX_SEARCH_RESULTS, scored.size()));
         for (int i = 0; i < Math.min(MAX_SEARCH_RESULTS, scored.size()); i++)
             results.add(scored.get(i).entry);
         return results;

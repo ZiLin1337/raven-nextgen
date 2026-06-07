@@ -21,7 +21,7 @@ public class ScriptDiagnosticListener implements DiagnosticListener<JavaFileObje
         if (javaFileObject != null) {
             int indentIndex = message.indexOf("\n");
             String error = diagnostic.getMessage(Locale.getDefault());
-            Utils.sendDebugMessage(" §7err: §c" + (indentIndex == -1 ? error : error.substring(0, indentIndex));
+            Utils.sendDebugMessage(" §7err: §c" + (indentIndex == -1 ? error : error.substring(0, indentIndex)));
             Utils.sendDebugMessage(" §7line: §c" + (diagnostic.getLineNumber() - ((JavaSourceFromString) diagnostic.getSource()).extraLines));
             String sourceContent = ((JavaSourceFromString) diagnostic.getSource()).getCharContent(true).toString();
             int startPos = (int) diagnostic.getStartPosition();

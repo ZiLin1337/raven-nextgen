@@ -103,7 +103,7 @@ public final class SharedBlockHighlightCache {
         if (!anyConsumerActive()) {
             return;
         }
-        scanQueue.addLastnew long[]) {chunkX, chunkZ});
+        scanQueue.addLast(new long[]) {chunkX, chunkZ});
         for (UpdateListener listener : updateListeners) {
             listener.onChunkQueued(chunkX, chunkZ);
         }

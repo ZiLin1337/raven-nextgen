@@ -54,7 +54,7 @@ public class ViewPackets extends Module {
         String string = ((compactC03.isToggled() && packet instanceof PlayerMoveC2SPacket) ? "&6" : "&d") + packet.getClass().getSimpleName();
         Text chatComponentText = new ChatComponentText(Utils.formatColor("&7[&dR&7]&r &7" + (b ? "Received" : "Sent") + " packet (t:&b" + tick + "&7): "));
         ChatStyle chatStyle = new ChatStyle();
-        chatStyle.setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ChatComponentText(Utils.formatColor(s));
+        chatStyle.setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ChatComponentText(Utils.formatColor(s))));
         chatComponentText.appendSibling(new ChatComponentText(Utils.formatColor(string)).setChatStyle(chatStyle));
         mc.player.sendMessage(Text.literal(chatComponentText));
     }
@@ -76,7 +76,7 @@ public class ViewPackets extends Module {
         if (ignoreC0F.isToggled() && e.getPacket() instanceof C0FPacketConfirmTransaction) {
             return;
         }
-        if (e.getPacket() instanceof PlayerMoveC2SPacket && (ignoreC03.isToggled() || (compactC03.isToggled() && (packet == null || packet instanceof PlayerMoveC2SPacket) {
+        if (e.getPacket() instanceof PlayerMoveC2SPacket && (ignoreC03.isToggled() || (compactC03.isToggled() && (packet == null || packet instanceof PlayerMoveC2SPacket)))) {
             return;
         }
         sendMessage(packet = e.getPacket(), false);
@@ -99,7 +99,7 @@ public class ViewPackets extends Module {
         if (ignoreC0F.isToggled() && e.getPacket() instanceof C0FPacketConfirmTransaction) {
             return;
         }
-        if (e.getPacket() instanceof PlayerMoveC2SPacket && (ignoreC03.isToggled() || (compactC03.isToggled() && (packet == null || packet instanceof PlayerMoveC2SPacket) {
+        if (e.getPacket() instanceof PlayerMoveC2SPacket && (ignoreC03.isToggled() || (compactC03.isToggled() && (packet == null || packet instanceof PlayerMoveC2SPacket)))) {
             return;
         }
         sendMessage(packet = e.getPacket(), false);

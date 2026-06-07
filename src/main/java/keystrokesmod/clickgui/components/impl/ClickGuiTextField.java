@@ -88,7 +88,7 @@ public class ClickTextFieldWidget {
         RavenFontRenderer renderer = Gui.getClickGuiSettingFontRenderer();
 
         String fullText = textField.getText();
-        int lineScrollOffset = Math.max(0, Math.min(getIntField(textField, LINE_SCROLL_OFFSET_FIELD, 0), fullText.length());
+        int lineScrollOffset = Math.max(0, Math.min(getIntField(textField, LINE_SCROLL_OFFSET_FIELD, 0), fullText.length()));
         String visibleText = getVisibleText(fullText, lineScrollOffset, width, renderer);
         int cursorPosition = getIntField(textField, CURSOR_POSITION_FIELD, fullText.length());
         int selectionEnd = getIntField(textField, SELECTION_END_FIELD, cursorPosition);
@@ -105,7 +105,7 @@ public class ClickTextFieldWidget {
         if (!visibleText.isEmpty()) {
             drawSelection(textLeft, top, backgroundBottom, renderer, visibleText, cursorPosition, selectionEnd, visibleStart, visibleEnd);
             drawScaledText(visibleText, textLeft, textY, textColor, renderer);
-        } else if (!textField.isFocused() && !placeholder.isEmpty() {
+        } else if (!textField.isFocused() && !placeholder.isEmpty()) {
             drawScaledText("\u00A77" + placeholder, textLeft, textY, 0xAAAAAA, renderer);
         }
 

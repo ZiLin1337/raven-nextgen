@@ -89,7 +89,7 @@ public class BridgeAssist extends Module {
             return;
         }
 
-        if (requireSneak && (!manualSneak || (e.getForward() == 0 && e.getStrafe() == 0) {
+        if (requireSneak && (!manualSneak || (e.getForward() == 0 && e.getStrafe() == 0))) {
             if (!manualSneak) resetUnsneak();
             repressSneak(e);
             return;
@@ -129,7 +129,7 @@ public class BridgeAssist extends Module {
         double offset = computeEdgeOffset(sim.getEntityBoundingBox());
 
         if (Double.isNaN(offset)) {
-            if (e.isJump() && (sneakOnJump.getInput() <= 0 || (e.getForward() == 0 && e.getStrafe() == 0) {
+            if (e.isJump() && (sneakOnJump.getInput() <= 0 || (e.getForward() == 0 && e.getStrafe() == 0))) {
                 if (sneakingFromModule) tryReleaseSneak(e, true);
             } else if (mc.player.onGround) {
                 pressSneak(e, true);
@@ -213,7 +213,7 @@ public class BridgeAssist extends Module {
     private void releaseSneak(PrePlayerInputEvent e, boolean resetDelay) {
         if (!sneakKeyPressed.isToggled()) {
             e.setSneak(false);
-        } else if (sneakingFromModule && isManualSneak() && (placed || !mc.player.onGround) {
+        } else if (sneakingFromModule && isManualSneak() && (placed || !mc.player.onGround)) {
             KeyBinding.setKeyBindState(mc.options.keyBindSneak.getKeyCode(), false);
             e.setSneak(false);
             forceRelease = true;

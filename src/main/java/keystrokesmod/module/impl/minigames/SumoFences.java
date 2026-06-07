@@ -105,10 +105,10 @@ public class SumoFences extends Module {
             for (String l : Utils.getScoreBoardOld()) {
                 String s = Utils.stripColor(l);
                 if (s.startsWith("Map:")) {
-                    if (this.MAPS.contains(s.substring(5) {
+                    if (this.MAPS.contains(s.substring(5))) {
                         return true;
                     }
-                } else if (s.equals("Mode: Sumo Duel") {
+                } else if (s.equals("Mode: Sumo Duel")) {
                     return true;
                 }
             }

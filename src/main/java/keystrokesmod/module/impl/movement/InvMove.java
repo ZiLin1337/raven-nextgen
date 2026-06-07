@@ -86,7 +86,7 @@ public class InvMove extends Module {
                     case 1: slowedMotion = 0.615; break;
                     case 2: slowedMotion = 0.3; break;
                 }
-                Utils.setSpeed(Utils.getHorizontalSpeed() * (slowWhenNecessary.isToggled() ? slowedMotion : motion.getInput());
+                Utils.setSpeed(Utils.getHorizontalSpeed() * (slowWhenNecessary.isToggled() ? slowedMotion : motion.getInput()));
             }
         }
 
@@ -100,7 +100,7 @@ public class InvMove extends Module {
         boolean foodLvlMet = mc.player.getHungerManager().getFoodLevel() > 6 || mc.player.getAbilities().allowFlying;
         if ((mc.options.sprintKey.isPressed() || (ModuleManager.sprint != null && ModuleManager.sprint.isEnabled()))
                 && mc.player.input.movementForward >= 0.8F && foodLvlMet && !mc.player.isSprinting()
-                && allowSprinting.isToggled() {
+                && allowSprinting.isToggled()) {
             mc.player.setSprinting(true);
         }
         if (!allowSprinting.isToggled()) {
@@ -132,7 +132,7 @@ public class InvMove extends Module {
         if (mc.currentScreen == null) return false;
         if (Settings.inInventory()) {
             if (inventory.getInput() == 0) return false;
-        } else if (!Settings.inInventory() && chestAndOthers.getInput() == 0 && !isClickGui() {
+        } else if (!Settings.inInventory() && chestAndOthers.getInput() == 0 && !isClickGui()) {
             return false;
         }
         return true;

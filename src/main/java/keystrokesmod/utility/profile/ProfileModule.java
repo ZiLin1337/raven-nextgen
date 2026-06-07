@@ -19,12 +19,12 @@ public class ProfileModule extends Module {
         this.profile = profile;
         this.displayName = name;
         this.registerSetting(profileNameSetting = new TextSetting("Profile name", name, "Type a new profile name...", 32, this::renameProfile));
-        this.registerSetting(new ButtonSetting("Save profile", () -> {
+        this.registerSetting(new ButtonSetting("Save profile", () ->)) {
             Utils.sendMessage("&7Saved profile: &b" + getName());
             Raven.profileManager.saveProfile(this.profile);
             saved = true;
         }));
-        this.registerSetting(new ButtonSetting("Remove profile", () -> {
+        this.registerSetting(new ButtonSetting("Remove profile", () ->)) {
             String profileName = getName();
             if (Raven.profileManager.deleteProfile(profileName)) {
                 Utils.sendMessage("&7Removed profile: &b" + profileName);
@@ -70,9 +70,9 @@ public class ProfileModule extends Module {
         }
 
         String oldName = getName();
-        if (Raven.profileManager.renameProfile(profile, profileNameSetting.getText() {
+        if (Raven.profileManager.renameProfile(profile, profileNameSetting.getText())) {
             profileNameSetting.setText(profile.getName());
-            if (!oldName.equals(profile.getName() {
+            if (!oldName.equals(profile.getName())) {
                 Utils.sendMessage("&7Renamed profile: &b" + oldName + " &7to &b" + profile.getName());
             }
         }

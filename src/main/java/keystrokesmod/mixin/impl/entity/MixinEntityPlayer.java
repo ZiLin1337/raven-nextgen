@@ -83,7 +83,7 @@ public abstract class MixinPlayerEntity {
 
                             if (ModuleManager.reduce != null && ModuleManager.reduce.isEnabled()) {
                                 Reduce.reduce(target);
-                            } else if (ModuleManager.keepSprint != null && ModuleManager.keepSprint.isEnabled() {
+                            } else if (ModuleManager.keepSprint != null && ModuleManager.keepSprint.isEnabled()) {
                                 KeepSprint.keepSprint(target);
                             } else {
                                 self.setVelocity(self.getVelocity().x * 0.6D,
@@ -139,7 +139,7 @@ public abstract class MixinPlayerEntity {
     @Inject(method = "isBlocking", at = @At("RETURN"), cancellable = true)
     private void isBlocking(CallbackInfoReturnable<Boolean> cir) {
         if (!cir.getReturnValue() && BlockAnimationUtils.shouldForceBlockAnimation(
-                (PlayerEntity) (Object) this, this.getMainHandStack() {
+                (PlayerEntity) (Object) this, this.getMainHandStack()) {
             cir.setReturnValue(true);
         }
     }

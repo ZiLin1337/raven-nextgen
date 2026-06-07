@@ -58,7 +58,7 @@ public class RotationUtils implements IMinecraftInstance {
         float yaw = mc.player.rotationYaw + deltaYaw;
 
         double distance = MathHelper.sqrt_double(x * x + z * z);
-        float angleToBlockPitch = (float) (-(Math.atan2(y, distance) * (180 / Math.PI));
+        float angleToBlockPitch = (float) (-(Math.atan2(y, distance) * (180 / Math.PI)));
         float deltaPitch = MathHelper.wrapAngleTo180_float(angleToBlockPitch - mc.player.rotationPitch);
         float pitch = mc.player.rotationPitch + deltaPitch;
 
@@ -77,7 +77,7 @@ public class RotationUtils implements IMinecraftInstance {
         float yaw = mc.player.rotationYaw + deltaYaw;
 
         double distance = MathHelper.sqrt_double(x * x + z * z);
-        float angleToBlockPitch = (float) (-(Math.atan2(y, distance) * (180 / Math.PI));
+        float angleToBlockPitch = (float) (-(Math.atan2(y, distance) * (180 / Math.PI)));
         float deltaPitch = MathHelper.wrapAngleTo180_float(angleToBlockPitch - mc.player.rotationPitch);
         float pitch = mc.player.rotationPitch + deltaPitch;
 
@@ -96,7 +96,7 @@ public class RotationUtils implements IMinecraftInstance {
         float yaw = mc.player.rotationYaw + deltaYaw;
 
         double distance = MathHelper.sqrt_double(x * x + z * z);
-        float angleToBlockPitch = (float) (-(Math.atan2(y, distance) * (180 / Math.PI));
+        float angleToBlockPitch = (float) (-(Math.atan2(y, distance) * (180 / Math.PI)));
         float deltaPitch = MathHelper.wrapAngleTo180_float(angleToBlockPitch - mc.player.rotationPitch);
         float pitch = mc.player.rotationPitch + deltaPitch;
 
@@ -129,7 +129,7 @@ public class RotationUtils implements IMinecraftInstance {
     }
 
     public static double distanceFromYaw(final Entity entity, final boolean b) {
-        return Math.abs(MathHelper.wrapAngleTo180_double(i(entity.posX, entity.posZ) - ((b && PreMotionEvent.setRenderYaw()) ? RotationUtils.renderYaw : mc.player.rotationYaw));
+        return Math.abs(MathHelper.wrapAngleTo180_double(i(entity.posX, entity.posZ) - ((b && PreMotionEvent.setRenderYaw()) ? RotationUtils.renderYaw : mc.player.rotationYaw)));
     }
 
     public static float i(final double n, final double n2) {
@@ -368,8 +368,8 @@ public class RotationUtils implements IMinecraftInstance {
         }
 
         double ratio = dimU / dimV;
-        int gridU = Math.max(2, (int) Math.round(Math.sqrt(targetPoints * ratio));
-        int gridV = Math.max(2, (int) Math.round(Math.sqrt(targetPoints / ratio));
+        int gridU = Math.max(2, (int) Math.round(Math.sqrt(targetPoints * ratio)));
+        int gridV = Math.max(2, (int) Math.round(Math.sqrt(targetPoints / ratio)));
 
         for (int i = 0; i < gridU; i++) {
             double u = uMin + (uMax - uMin) * i / (gridU - 1);

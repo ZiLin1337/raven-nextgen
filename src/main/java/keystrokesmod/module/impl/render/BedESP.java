@@ -229,7 +229,7 @@ public class BedESP extends Module {
             }
         }
 
-        for (Long footKey : new ArrayList<>(defenseWatchRegions.keySet() {
+        for (Long footKey : new ArrayList<>(defenseWatchRegions.keySet())) {
             if (!activeFeet.contains(footKey)) {
                 unregisterDefenseWatch(footKey);
             }
@@ -432,7 +432,7 @@ public class BedESP extends Module {
             } else {
                 axisAlignedBB = new Box(x, y, z, x + 2.0, y + height, z + 1.0);
             }
-        } else if (blocks[0].getZ() > blocks[1].getZ() {
+        } else if (blocks[0].getZ() > blocks[1].getZ()) {
             axisAlignedBB = new Box(x, y, z - 1.0, x + 1.0, y + height, z + 1.0);
         } else {
             axisAlignedBB = new Box(x, y, z, x + 1.0, y + height, z + 2.0);
@@ -826,7 +826,7 @@ public class BedESP extends Module {
         LayerOffsets[] layers = getLayerOffsets(foot, head);
         long footKey = foot.toLong();
         if (layers == null) {
-            defenseWatchRegions.put(footKey, new DefenseWatchRegion(head.toLong(), Collections.<Long>emptySet(), Collections.<Long>emptySet());
+            defenseWatchRegions.put(footKey, new DefenseWatchRegion(head.toLong(), Collections.<Long>emptySet(), Collections.<Long>emptySet()));
             return;
         }
 
@@ -990,7 +990,7 @@ public class BedESP extends Module {
             if (stack == null || stack.getItem() == null) {
                 sprite = resolveBlockSprite(state);
                 if (sprite == null) {
-                    stack = fallbackRenderStack(state.getBlock();
+                    stack = fallbackRenderStack(state.getBlock());
                 } else {
                     stack = null;
                 }
@@ -1009,8 +1009,8 @@ public class BedESP extends Module {
                 return Item.getIdFromItem(stack.getItem()) + ":" + stack.getMetadata();
             }
 
-            Object registryName = Registries.BLOCK.getNameForObject(state.getBlock();
-            return registryName != null ? registryName.toString() : Integer.toString(Registries.BLOCK.getRawId(state.getBlock();
+            Object registryName = Registries.BLOCK.getNameForObject(state.getBlock());
+            return registryName != null ? registryName.toString() : Integer.toString(Registries.BLOCK.getRawId(state.getBlock()));
         }
 
         private static String getSafeDisplayName(ItemStack stack, String fallback) {
@@ -1147,7 +1147,7 @@ public class BedESP extends Module {
             return localizedName;
         }
 
-        Object registryName = Registries.BLOCK.getNameForObject(state.getBlock();
+        Object registryName = Registries.BLOCK.getNameForObject(state.getBlock());
         if (registryName != null) {
             int meta = state.getBlock().getMetaFromState(state);
             return meta != 0 ? registryName + ":" + meta : registryName.toString();

@@ -67,7 +67,7 @@ public class Utils implements IMinecraftInstance {
             // Chat feedback is owned by callers (e.g. .enemy command) — avoid double messages with sendMessage + replyWithHeader
             return Raven.playerRelationsManager.addEnemy(name);
         }
-        if (enemies.add(name.toLowerCase() {
+        if (enemies.add(name.toLowerCase())) {
             sendMessage("&7Added enemy&7: &b" + name);
             return true;
         }
@@ -78,7 +78,7 @@ public class Utils implements IMinecraftInstance {
         if (Raven.playerRelationsManager != null) {
             return Raven.playerRelationsManager.removeEnemy(name);
         }
-        if (enemies.remove(name.toLowerCase() {
+        if (enemies.remove(name.toLowerCase())) {
             sendMessage("&7Removed enemy&7: &b" + name);
             return true;
         }
@@ -86,11 +86,11 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static float getCameraYaw() {
-        return (float) Math.toDegrees(Math.atan2(ActiveRenderInfo.getRotationZ(), ActiveRenderInfo.getRotationX());
+        return (float) Math.toDegrees(Math.atan2(ActiveRenderInfo.getRotationZ(), ActiveRenderInfo.getRotationX()));
     }
 
     public static float getCameraPitch() {
-        return (float) Math.toDegrees(Math.acos(ActiveRenderInfo.getRotationXZ());
+        return (float) Math.toDegrees(Math.acos(ActiveRenderInfo.getRotationXZ()));
     }
 
     public static Vec3d getCameraPos(double renderPartialTicks) {
@@ -125,7 +125,7 @@ public class Utils implements IMinecraftInstance {
                 float cornerOffsetY = (float) ((i >> 1 & 1) * 2 - 1) * 0.1F;
                 float cornerOffsetZ = (float) ((i >> 2 & 1) * 2 - 1) * 0.1F;
 
-                HitResult rayTraceResult = mc.world.rayTraceBlocks(new Vec3d(interpolatedX + cornerOffsetX, interpolatedY + cornerOffsetY, interpolatedZ + cornerOffsetZ), new Vec3d((interpolatedX - offsetX + cornerOffsetX + cornerOffsetZ), (interpolatedY - offsetY + cornerOffsetY), (interpolatedZ - offsetZ + cornerOffsetZ));
+                HitResult rayTraceResult = mc.world.rayTraceBlocks(new Vec3d(interpolatedX + cornerOffsetX, interpolatedY + cornerOffsetY, interpolatedZ + cornerOffsetZ), new Vec3d((interpolatedX - offsetX + cornerOffsetX + cornerOffsetZ), (interpolatedY - offsetY + cornerOffsetY), (interpolatedZ - offsetZ + cornerOffsetZ)));
 
                 if (rayTraceResult != null) {
                     double blockHitDistance = rayTraceResult.hitVec.distanceTo(new Vec3d(interpolatedX, interpolatedY, interpolatedZ));
@@ -162,7 +162,7 @@ public class Utils implements IMinecraftInstance {
             UUID uuid = p.getUniqueID();
             sendMessage("&7uuid: &d" + uuid.toString() + " &b" + uuid.variant() + " " + uuid.version());
             PlayerListEntry clientPlayer = mc.getNetHandler().getPlayerInfo(p.getUniqueID());
-            sendMessage("&7ping: &d" + ((clientPlayer == null) ? "&cnot found" : clientPlayer.getResponseTime());
+            sendMessage("&7ping: &d" + ((clientPlayer == null) ? "&cnot found" : clientPlayer.getResponseTime()));
             sendMessage("&7teammate: &r" + isTeammate(p));
             sendMessage("&7tablist: &r" + isInTabList(p));
             if (p.getTeam() != null) {
@@ -226,7 +226,7 @@ public class Utils implements IMinecraftInstance {
 
     public static boolean isInTabList(PlayerEntity p) {
         for (PlayerListEntry playerInfo : mc.getNetHandler().getPlayerInfoMap()) {
-            if (playerInfo.getGameProfile().equals(p.getGameProfile() {
+            if (playerInfo.getGameProfile().equals(p.getGameProfile())) {
                 return true;
             }
         }
@@ -341,16 +341,16 @@ public class Utils implements IMinecraftInstance {
         double z = player.posZ;
         Vec3d vecPlayer = mc.player.getPositionEyes(1.0f);
         double shoulderHeight = player.getEyeHeight() - 0.2;
-        if (canSeeVec(vecPlayer, new Vec3d(x + 0.3, shoulderHeight, z) {
+        if (canSeeVec(vecPlayer, new Vec3d(x + 0.3, shoulderHeight, z))) {
             return true;
         }
-        if (canSeeVec(vecPlayer, new Vec3d(x - 0.3, shoulderHeight, z) {
+        if (canSeeVec(vecPlayer, new Vec3d(x - 0.3, shoulderHeight, z))) {
             return true;
         }
-        if (canSeeVec(vecPlayer, new Vec3d(x, shoulderHeight, z + 0.3) {
+        if (canSeeVec(vecPlayer, new Vec3d(x, shoulderHeight, z + 0.3))) {
             return true;
         }
-        if (canSeeVec(vecPlayer, new Vec3d(x, shoulderHeight, z - 0.3) {
+        if (canSeeVec(vecPlayer, new Vec3d(x, shoulderHeight, z - 0.3))) {
             return true;
         }
         for (double d = player.getEyeHeight() + 0.2; d > 0.0; d -= 0.2) {
@@ -378,7 +378,7 @@ public class Utils implements IMinecraftInstance {
         ArrayList<PlayerListEntry> list = new ArrayList<>(mc.getNetHandler().getPlayerInfoMap());
         removeDuplicates(list);
         if (removeSelf) {
-            list.remove(mc.getNetHandler().getPlayerInfo(mc.player.getUniqueID());
+            list.remove(mc.getNetHandler().getPlayerInfo(mc.player.getUniqueID()));
         }
         return list;
     }
@@ -393,7 +393,7 @@ public class Utils implements IMinecraftInstance {
         if (Raven.playerRelationsManager != null) {
             return Raven.playerRelationsManager.removeFriend(name);
         }
-        if (friends.remove(name.toLowerCase() {
+        if (friends.remove(name.toLowerCase())) {
             sendMessage("&7Removed &afriend&7: &b" + name);
             return true;
         }
@@ -418,9 +418,9 @@ public class Utils implements IMinecraftInstance {
         if (Raven.playerRelationsManager != null) {
             return Raven.playerRelationsManager.addFriend(name);
         }
-        if (friends.add(name.toLowerCase() {
+        if (friends.add(name.toLowerCase())) {
             sendMessage("&7Added &afriend&7: &b" + name);
-            if (enemies.contains(name.toLowerCase() {
+            if (enemies.contains(name.toLowerCase())) {
                 enemies.remove(name.toLowerCase());
             }
             return true;
@@ -511,14 +511,14 @@ public class Utils implements IMinecraftInstance {
     public static void sendMessage(String txt) {
         if (nullCheck()) {
             String m = formatColor("&7[&dR&7]&r " + txt);
-            mc.player.sendMessage(Text.literal(new ChatComponentText(m));
+            mc.player.sendMessage(Text.literal(new ChatComponentText(m)));
         }
     }
 
     public static void sendMessageStr(String txt) {
         if (nullCheck()) {
             String m = formatColor("&7[&dR&7]&r " + txt);
-            mc.player.sendMessage(Text.literal(new ChatComponentText(m));
+            mc.player.sendMessage(Text.literal(new ChatComponentText(m)));
         }
     }
 
@@ -529,7 +529,7 @@ public class Utils implements IMinecraftInstance {
 
     public static void sendDebugMessage(String message) {
         if (nullCheck()) {
-            mc.player.sendMessage(Text.literal(new ChatComponentText("§7[§dR§7]§r " + message));
+            mc.player.sendMessage(Text.literal(new ChatComponentText("§7[§dR§7]§r " + message)));
         }
     }
 
@@ -545,7 +545,7 @@ public class Utils implements IMinecraftInstance {
 
     public static void sendRawMessage(String txt) {
         if (nullCheck()) {
-            mc.player.sendMessage(Text.literal(new ChatComponentText(formatColor(txt));
+            mc.player.sendMessage(Text.literal(new ChatComponentText(formatColor(txt))));
         }
     }
 
@@ -632,7 +632,7 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static int getColorForHealth(double health) {
-        return ((health < 0.3) ? -43691 : ((health < 0.5) ? -22016 : ((health < 0.7) ? -171 : -11141291));
+        return ((health < 0.3) ? -43691 : ((health < 0.5) ? -22016 : ((health < 0.7) ? -171 : -11141291)));
     }
 
     public static String formatColor(String txt) {
@@ -805,7 +805,7 @@ public class Utils implements IMinecraftInstance {
     public static boolean isTeammate(Entity entity) {
         try {
             Entity teamMate = entity;
-            if (mc.player.isOnSameTeam((LivingEntity) entity) || mc.player.getDisplayName().getUnformattedText().startsWith(teamMate.getDisplayName().getUnformattedText().substring(0, 2)) || getNetworkDisplayName().startsWith(teamMate.getDisplayName().getUnformattedText().substring(0, 2) {
+            if (mc.player.isOnSameTeam((LivingEntity) entity) || mc.player.getDisplayName().getUnformattedText().startsWith(teamMate.getDisplayName().getUnformattedText().substring(0, 2)) || getNetworkDisplayName().startsWith(teamMate.getDisplayName().getUnformattedText().substring(0, 2))) {
                 return true;
             }
         }
@@ -948,7 +948,7 @@ public class Utils implements IMinecraftInstance {
             }
         }
         if (list.size() > 15) {
-            scores = new ArrayList<>(Lists.newArrayList(Iterables.skip(list, list.size() - 15));
+            scores = new ArrayList<>(Lists.newArrayList(Iterables.skip(list, list.size() - 15)));
         } else {
             scores = list;
         }
@@ -956,7 +956,7 @@ public class Utils implements IMinecraftInstance {
         for (final Score score : scores) {
             ++index;
             final ScorePlayerTeam team = scoreboard.getPlayersTeam(score.getPlayerName());
-            lines.add(ScorePlayerTeam.formatPlayerName(team, score.getPlayerName());
+            lines.add(ScorePlayerTeam.formatPlayerName(team, score.getPlayerName()));
             if (index == scores.size()) {
                 lines.add(objective.getDisplayName());
             }
@@ -1067,7 +1067,7 @@ public class Utils implements IMinecraftInstance {
         final float f4 = MathHelper.sin(p);
         final Vec3d lookVec = new Vec3d(f2 * f3, f4, f * f3);
         final Vec3d sumVec = eyeVec.addVector(lookVec.xCoord * reach, lookVec.yCoord * reach, lookVec.zCoord * reach);
-        final Box axis = BlockUtils.getBlockState(pos).getCollisionShape(mc.world, pos, BlockUtils.getBlockState(pos);
+        final Box axis = BlockUtils.getBlockState(pos).getCollisionShape(mc.world, pos, BlockUtils.getBlockState(pos));
         if (axis == null) {
             return false;
         }
@@ -1100,7 +1100,7 @@ public class Utils implements IMinecraftInstance {
             y--;
         }
         for (int i = (int) Math.floor(y); i > -1; i--) {
-            if (!isPlaceable(new BlockPos(entity.posX, i, entity.posZ) {
+            if (!isPlaceable(new BlockPos(entity.posX, i, entity.posZ))) {
                 fallDistance = y - i;
                 break;
             }
@@ -1240,7 +1240,7 @@ public class Utils implements IMinecraftInstance {
 
         for (int i = 0; i < line.length(); i++) {
             char ch = line.charAt(i);
-            if (ch == '\"' && (i == 0 || line.charAt(i - 1) != '\\') {
+            if (ch == '\"' && (i == 0 || line.charAt(i - 1) != '\\')) {
                 inString = !inString;
                 continue;
             }
@@ -1459,7 +1459,7 @@ public class Utils implements IMinecraftInstance {
                     while (var5.hasNext()) {
                         score = (Score) var5.next();
                         ScorePlayerTeam team = scoreboard.getPlayersTeam(score.getPlayerName());
-                        lines.add(ScorePlayerTeam.formatPlayerName(team, score.getPlayerName());
+                        lines.add(ScorePlayerTeam.formatPlayerName(team, score.getPlayerName()));
                     }
 
                     return lines;

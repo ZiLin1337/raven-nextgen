@@ -61,7 +61,7 @@ public class Script {
                 return false;
             }
             try {
-                final SecureClassLoader secureClassLoader = new SecureClassLoadernew URL[]) {file.toURI().toURL()}, Launch.classLoader);
+                final SecureClassLoader secureClassLoader = new SecureClassLoader(new URL[] {file.toURI().toURL()}, Launch.classLoader);
                 this.clazz = secureClassLoader.loadClass(this.scriptName);
                 this.instance = this.clazz.newInstance();
                 secureClassLoader.close();

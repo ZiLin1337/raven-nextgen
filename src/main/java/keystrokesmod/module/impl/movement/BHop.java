@@ -59,7 +59,7 @@ public class BHop extends Module {
         if (ModuleManager.moduleManager.getModule("LongJump").isEnabled()) return;
 
         if (mode.getInput() >= 1) {
-            if (mc.player.isOnGround() && (!jumpMoving.isToggled() || Utils.isMoving() {
+            if (mc.player.isOnGround() && (!jumpMoving.isToggled() || Utils.isMoving())) {
                 if (mc.player.input.movementForward <= -0.5 && mc.player.input.movementSideways == 0
                         && KillAura.target == null && !mc.player.horizontalCollision) {
                     setRotation = true;

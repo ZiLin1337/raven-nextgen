@@ -516,7 +516,7 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
     }
 
     private static boolean isMalformedSectionPrefix(String text, int index) {
-        if (!isFormattingArtifact(text.charAt(index) {
+        if (!isFormattingArtifact(text.charAt(index))) {
             return false;
         }
 

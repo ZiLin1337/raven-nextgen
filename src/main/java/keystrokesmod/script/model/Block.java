@@ -30,7 +30,7 @@ public class Block {
     }
 
     public Block(double x, double y, double z) {
-        this(BlockUtils.getBlockState(BlockPos.ofFloored(x, y, z).getBlock(), BlockPos.ofFloored(x, y, z));
+        this(BlockUtils.getBlockState(BlockPos.ofFloored(x, y, z).getBlock(), BlockPos.ofFloored(x, y, z)));
     }
 
     public Block(String name, Vec3d position) {
@@ -43,7 +43,7 @@ public class Block {
     }
 
     public Block(Vec3d position) {
-        this(BlockUtils.getBlockState(BlockPos.ofFloored(position.x, position.y, position.z).getBlock(), BlockPos.ofFloored(position.x, position.y, position.z));
+        this(BlockUtils.getBlockState(BlockPos.ofFloored(position.x, position.y, position.z).getBlock(), BlockPos.ofFloored(position.x, position.y, position.z)));
     }
 
     public boolean isAir() { return isAir; }

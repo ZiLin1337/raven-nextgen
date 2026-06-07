@@ -147,7 +147,7 @@ public class FastPlace extends Module {
         if (pitchCheck.isToggled() && mc.player.rotationPitch < 70.0f) {
             return false;
         }
-        if (ignoredHeldItemsToggle.isToggled() && ignoredHeldItems.matches(mc.player.getHeldItem() {
+        if (ignoredHeldItemsToggle.isToggled() && ignoredHeldItems.matches(mc.player.getHeldItem())) {
             return false;
         }
         if (isBlockedHoverBlock()) {

@@ -110,7 +110,7 @@ public class AntiFireball extends Module {
             if (AntiBot.isBot(player)) continue;
             players.add(player);
         }
-        players.sort(Comparator.comparingDouble(p -> mc.player.getDistanceSqToEntity(p));
+        players.sort(Comparator.comparingDouble(p -> mc.player.getDistanceSqToEntity(p)));
 
         for (PlayerEntity player : players) {
             float[] rot = RotationUtils.getRotationsToPoint(player.posX, player.posY, player.posZ, baseYaw, basePitch);

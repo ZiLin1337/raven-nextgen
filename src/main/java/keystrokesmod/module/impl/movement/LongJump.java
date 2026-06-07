@@ -189,7 +189,7 @@ public class LongJump extends Module {
         } else {
             motionDecayVal = (int) motionDecay.getInput();
         }
-        if (stopTime == -1 && ++boostTicks > (!temporaryFlightKey() ? 33/*flat motion ticks*/ : (!notMoving ? 32/*normal motion ticks*/ : 33/*vertical motion ticks*/) {
+        if (stopTime == -1 && ++boostTicks > (!temporaryFlightKey() ? 33/*flat motion ticks*/ : (!notMoving ? 32/*normal motion ticks*/ : 33/*vertical motion ticks*/))) {
             disabled();
             return;
         }
@@ -404,7 +404,7 @@ public class LongJump extends Module {
 
     private void modifyVertical() {
         if (verticalMotion.getInput() != 0) {
-            double ver = ((!notMoving ? verticalMotion.getInput() : 1.16 /*vertical*/) * (1.0 / (1.0 + (0.05 * getSpeedLevel()))) + Utils.randomizeDouble(0.0001, 0.1);
+            double ver = ((!notMoving ? verticalMotion.getInput() : 1.16 /*vertical*/) * (1.0 / (1.0 + (0.05 * getSpeedLevel()))) + Utils.randomizeDouble(0.0001, 0.1));
             double decay = motionDecay.getInput() / 1000;
             if (boostTicks > 1 && !temporaryFlightKey()) {
                 if (boostTicks > 1 || boostTicks <= (!notMoving ? 32/*horizontal motion ticks*/ : 33/*vertical motion ticks*/)) {

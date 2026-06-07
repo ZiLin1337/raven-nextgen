@@ -556,7 +556,7 @@ public class BlockIn extends Module {
         double insetTop = 1 - GRID_INSET - 1e-3;
         double insetBot = GRID_INSET + 1e-3;
 
-        ArrayList<PlacementCandidate> cands = new ArrayList<>(Math.max(16, goals.size() * 6 * (GRID_N + 1) * (GRID_N + 1));
+        ArrayList<PlacementCandidate> cands = new ArrayList<>(Math.max(16, goals.size() * 6 * (GRID_N + 1) * (GRID_N + 1)));
 
         for (BlockPos g : goals) {
             for (SupportOffset s : SUPPORTS) {

@@ -134,7 +134,7 @@ public final class ItemSortScoring {
         }
 
         for (Map.Entry<String, AttributeModifier> entry : stack.getAttributeModifiers().entries()) {
-            if (SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName().equals(entry.getKey() {
+            if (SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName().equals(entry.getKey())) {
                 return entry.getValue().getAmount();
             }
         }

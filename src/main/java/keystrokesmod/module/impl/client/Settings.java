@@ -85,7 +85,7 @@ public class Settings extends Module {
                     continue;
                 }
                 BufferedImage bufferedImage = ImageIO.read(stream);
-                loadedCapes.add(mc.renderEngine.getDynamicTextureLocation(name, new DynamicTexture(bufferedImage));
+                loadedCapes.add(mc.renderEngine.getDynamicTextureLocation(name, new DynamicTexture(bufferedImage)));
             }
         }
         catch (Exception e) {

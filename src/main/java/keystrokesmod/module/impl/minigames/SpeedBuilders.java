@@ -106,7 +106,7 @@ public class SpeedBuilders extends Module {
                     continue;
                 }
 
-                if (currentState.equals(requiredState) ||(requiredState.getBlock() instanceof BlockLeaves && (currentState.getBlock().equals(requiredState.getBlock() {
+                if (currentState.equals(requiredState) ||(requiredState.getBlock() instanceof BlockLeaves && (currentState.getBlock().equals(requiredState.getBlock())))) {
                     entry.getValue().isPlaced = true;
                 }
                 else {
@@ -129,7 +129,7 @@ public class SpeedBuilders extends Module {
                                 mc.player.inventory.currentItem = slot;
                             }
                         }
-                        if ((hoverPlace.isToggled()) && holdingSameBlock(info.requiredState) && correctPlaceState(info.requiredState, targetPos, mop.sideHit, mop.hitVec, mc.player.getHeldItem() {
+                        if ((hoverPlace.isToggled()) && holdingSameBlock(info.requiredState) && correctPlaceState(info.requiredState, targetPos, mop.sideHit, mop.hitVec, mc.player.getHeldItem())) {
                             if (lastPlaceTick++ < placeDelay.getInput()) {
                                 return;
                             }
@@ -154,7 +154,7 @@ public class SpeedBuilders extends Module {
                 BlockPos facePos = targetPos.offset(mop.sideHit);
 
                 BuildBlockInfo info = buildInfo.get(facePos);
-                if (info == null || !holdingSameBlock(info.requiredState) || !correctPlaceState(info.requiredState, targetPos, mop.sideHit, mop.hitVec, mc.player.getHeldItem() {
+                if (info == null || !holdingSameBlock(info.requiredState) || !correctPlaceState(info.requiredState, targetPos, mop.sideHit, mop.hitVec, mc.player.getHeldItem())) {
                     e.setCanceled(true);
                 }
             }
@@ -476,7 +476,7 @@ public class SpeedBuilders extends Module {
         Block block = itemBlock.getBlock();
         int meta = heldItem.getItemDamage();
 
-        Vec3d relativeHitVec = hitVec.subtract(new Vec3d(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        Vec3d relativeHitVec = hitVec.subtract(new Vec3d(blockPos.getX(), blockPos.getY(), blockPos.getZ()));
 
         BlockState simulatedState = block.onBlockPlaced(mc.world, blockPos, enumFacing,
                 (float) relativeHitVec.xCoord, (float) relativeHitVec.yCoord, (float) relativeHitVec.zCoord, meta, mc.player);

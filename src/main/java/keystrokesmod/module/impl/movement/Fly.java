@@ -60,7 +60,7 @@ public class Fly extends Module {
             this.maxY = mc.player.getPosition().getY();
             return;
         }
-        if (e.blockPos.getY() < (this.keepY.isToggled() ? maxY : mc.player.getY() {
+        if (e.blockPos.getY() < (this.keepY.isToggled() ? maxY : mc.player.getY())) {
             e.boundingBox = FULL_ABB.offset(e.blockPos.getX(), e.blockPos.getY(), e.blockPos.getZ());
         }
     }
@@ -73,7 +73,7 @@ public class Fly extends Module {
         switch ((int) mode.getInput()) {
             case 0:
                 mc.player.motionY = 0.0;
-                mc.player.capabilities.setFlySpeed((float)(0.05000000074505806 * horizontalSpeed.getInput());
+                mc.player.capabilities.setFlySpeed((float)(0.05000000074505806 * horizontalSpeed.getInput()));
                 mc.player.capabilities.isFlying = true;
                 break;
             case 1:

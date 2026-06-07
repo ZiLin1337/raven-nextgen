@@ -146,9 +146,9 @@ public class BedWars extends Module {
                             double distance = Math.round(mc.player.getDistanceToEntity(p));
                             handleAlert(itemType, p.getDisplayName().getFormattedText(), Utils.asWholeNum(distance));
                         }
-                    } else if (lastHeldMap.containsKey(name) {
+                    } else if (lastHeldMap.containsKey(name)) {
                         String itemType = lastHeldMap.get(name);
-                        if (!itemType.equals(getItemType(item) {
+                        if (!itemType.equals(getItemType(item))) {
                             lastHeldMap.remove(name);
                         }
                     }
@@ -163,7 +163,7 @@ public class BedWars extends Module {
             PlayerInteractBlockC2SPacket p = (PlayerInteractBlockC2SPacket) e.getPacket();
             if (p.getPlacedBlockDirection() != 255 && p.getStack() != null && p.getStack().getItem() != null) {
                 if (p.getStack().getItem() instanceof ItemMonsterPlacer) {
-                    Class<? extends Entity> oclass = EntityList.stringToClassMapping.get(ItemMonsterPlacer.getEntityName(p.getStack());
+                    Class<? extends Entity> oclass = EntityList.stringToClassMapping.get(ItemMonsterPlacer.getEntityName(p.getStack()));
                     if (oclass == null) {
                         return;
                     }
@@ -179,7 +179,7 @@ public class BedWars extends Module {
     public void onReceivePacket(ReceivePacketEvent e) {
         if (e.getPacket() instanceof S23PacketBlockChange) {
             S23PacketBlockChange p = (S23PacketBlockChange) e.getPacket();
-            if (p.getBlockState() != null && p.getBlock() instanceof BlockObsidian && isNextToBed(p.getBlockPosition() {
+            if (p.getBlockState() != null && p.getBlock() instanceof BlockObsidian && isNextToBed(p.getBlockPosition())) {
                 this.obsidianPos.put(p.getBlockPosition(), System.currentTimeMillis());
             }
         }

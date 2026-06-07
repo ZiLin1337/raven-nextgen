@@ -33,7 +33,7 @@ public class Request {
     }
 
     public void addHeader(final String header, final String value) {
-        this.headers.addnew String[]) {header, value});
+        this.headers.add(new String[]{header, value});
     }
 
     public void setUserAgent(String userAgent) {
@@ -82,13 +82,13 @@ public class Request {
                 con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
                 con.connect();
 
-                try (OutputStream os = con.getOutputStream() {
+                try (OutputStream os = con.getOutputStream()) {
                     os.write(out);
                 }
             }
 
             String contents = "";
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()) {
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
                 StringBuilder sb = new StringBuilder();
                 String line;
                 while ((line = br.readLine()) != null) {
@@ -99,7 +99,7 @@ public class Request {
             catch (IOException er1) {
                 InputStream es = con.getErrorStream();
                 if (es != null) {
-                    try (BufferedReader br = new BufferedReader(new InputStreamReader(es) {
+                    try (BufferedReader br = new BufferedReader(new InputStreamReader(es))) {
                         StringBuilder sb = new StringBuilder();
                         String line;
                         while ((line = br.readLine()) != null) {
@@ -116,7 +116,7 @@ public class Request {
                     continue;
                 }
                 for (String v : e.getValue()) {
-                    respHeaders.addnew String[] ) { e.getKey(), v });
+                    respHeaders.add(new String[]{e.getKey(), v});
                 }
             }
 

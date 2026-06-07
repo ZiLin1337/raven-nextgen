@@ -46,7 +46,7 @@ public class HideWindow extends Module {
         super("Hide Window", category.player);
         this.registerSetting(iconColor = new ColorSetting("Icon color", 255, 255, 255));
         this.registerSetting(iconScale = new SliderSetting("Icon scale", 1.0, 0.5, 3.0, 0.1));
-        this.registerSetting(new ButtonSetting("Edit position", () -> mc.displayScreen(new EditScreen());
+        this.registerSetting(new ButtonSetting("Edit position", () -> mc.displayScreen(new EditScreen())));
         this.registerSetting(onlyWhileCrouching = new ButtonSetting("Only while crouching", false));
         this.registerSetting(whitelist = new ButtonSetting("Whitelist", false));
         this.registerSetting(whitelistEntries = new StringListSetting("Whitelist names", "e.g. Upgrades & Traps", 128));
@@ -226,7 +226,7 @@ public class HideWindow extends Module {
         }
         String lower = title.toLowerCase();
         for (String name : entries) {
-            if (lower.contains(name.toLowerCase() {
+            if (lower.contains(name.toLowerCase())) {
                 return true;
             }
         }

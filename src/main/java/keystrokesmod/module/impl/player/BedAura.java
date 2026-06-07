@@ -222,7 +222,7 @@ public class BedAura extends Module {
     }
 
     public int getBreakDelayTicks() {
-        return Math.max(0, Math.min(5, (int) (breakDelay.getInput() / 50.0));
+        return Math.max(0, Math.min(5, (int) (breakDelay.getInput() / 50.0)));
     }
 
     public float getAuraBreakProgress() {
@@ -361,7 +361,7 @@ public class BedAura extends Module {
                         continue;
                     }
                     Vec3d center = bedCenter(pair);
-                    if (!inFov(center, (float) fov.getInput() {
+                    if (!inFov(center, (float) fov.getInput())) {
                         continue;
                     }
                     seenFeet.add(foot);
@@ -463,7 +463,7 @@ public class BedAura extends Module {
 
     private void sortBedsByEyeDistance(List<BlockPos[]> pairs) {
         Vec3d eye = mc.player.getPositionEyes(1f);
-        pairs.sort(Comparator.comparingDouble(p -> eye.squareDistanceTo(bedCenter(p));
+        pairs.sort(Comparator.comparingDouble(p -> eye.squareDistanceTo(bedCenter(p))));
     }
 
     private Choice pickBestOnClosestBedWithCandidates(List<BlockPos[]> sortedPairs, double reachSq, float curProg, BlockPos breaking) {
@@ -576,7 +576,7 @@ public class BedAura extends Module {
                 (hit.zCoord - eye.zCoord) * 0.01
         ));
         Direction side = BlockUtils.facingFromBlockCenterToPoint(pos, hit);
-        if (trace != null && trace.hitVec != null && trace.sideHit != null && pos.equals(trace.getBlockPos() {
+        if (trace != null && trace.hitVec != null && trace.sideHit != null && pos.equals(trace.getBlockPos())) {
             hit = trace.hitVec;
             side = trace.sideHit;
         }

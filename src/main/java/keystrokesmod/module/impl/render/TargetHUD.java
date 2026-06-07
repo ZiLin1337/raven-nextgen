@@ -47,7 +47,7 @@ public class TargetHUD extends Module {
         this.registerSetting(new DescriptionSetting("Only works with KillAura."));
         this.registerSetting(mode = new SliderSetting("Mode", 1, modes));
         this.registerSetting(theme = new SliderSetting("Theme", 0, Theme.themes));
-        this.registerSetting(new ButtonSetting("Edit position", () -> {
+        this.registerSetting(new ButtonSetting("Edit position", () ->)) {
             mc.displayScreen(new EditScreen());
         }));
         this.registerSetting(renderEsp = new ButtonSetting("Render ESP", true));
@@ -135,7 +135,7 @@ public class TargetHUD extends Module {
                     RoundedUtils.drawRound((float) n6, (float) n7, Math.abs((float) n6 - n8), Math.abs((float) n7 - (n9 + 13)), 8.0f, true, new Color(0, 0, 0, maxAlphaBackground));
                     BlurUtils.bloomEnd(3, bloomRadius);
                     BlurUtils.prepareBlur();
-                    RoundedUtils.drawRound((float) n6, (float) n7, Math.abs((float) n6 - n8), Math.abs((float) n7 - (n9 + 13)), 8.0f, true, new Color(Utils.mergeAlpha(Color.black.getRGB(), maxAlphaOutline));
+                    RoundedUtils.drawRound((float) n6, (float) n7, Math.abs((float) n6 - n8), Math.abs((float) n7 - (n9 + 13)), 8.0f, true, new Color(Utils.mergeAlpha(Color.black.getRGB(), maxAlphaOutline)));
                     BlurUtils.blurEnd(2, blurRadius);
                     break;
                 case 1:

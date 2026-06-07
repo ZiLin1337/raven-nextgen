@@ -81,7 +81,7 @@ public class Xray extends Module {
                         }
                         Block blockState = BlockUtils.getBlockState(mutablePos);
                         if (blockState != null && canBreak(blockState)) {
-                            blocks.add(new BlockPos(mutablePos.getX(), mutablePos.getY(), mutablePos.getZ());
+                            blocks.add(new BlockPos(mutablePos.getX(), mutablePos.getY(), mutablePos.getZ()));
                         }
                     }
                 }
@@ -119,7 +119,7 @@ public class Xray extends Module {
         if (p == null) {
             return;
         }
-        int[] rgb = this.getColor(BlockUtils.getBlockState(p).getBlock();
+        int[] rgb = this.getColor(BlockUtils.getBlockState(p).getBlock());
         if (rgb[0] + rgb[1] + rgb[2] != 0) {
             RenderUtils.renderBlock(p, (new Color(rgb[0], rgb[1], rgb[2])).getRGB(), false, true);
         }

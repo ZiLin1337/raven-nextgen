@@ -53,7 +53,7 @@ public class Speed extends Module {
             if (canFloat && floatConditions() && !requireJump) {
                 e.setPosY(e.getPosY() + 0.0000000000201);
                 if (Utils.isMoving()) {
-                    Utils.setSpeed(getFloatSpeed(getSpeedLevel());
+                    Utils.setSpeed(getFloatSpeed(getSpeedLevel()));
                 }
             }
         }

@@ -36,7 +36,7 @@ public class Track extends Command {
                 reply("&cCleared all tracking data");
                 break;
             case "list":
-                reply("&bTracked players: " + String.join(", ", trackedPlayers.keySet());
+                reply("&bTracked players: " + String.join(", ", trackedPlayers.keySet()));
                 break;
             default:
                 reply("&7Unknown action: " + action);
@@ -49,7 +49,7 @@ public class Track extends Command {
             String name = entry.getKey();
             for (PlayerEntity p : mc.world.getPlayers()) {
                 if (p.getName().getString().equalsIgnoreCase(name)) {
-                    entry.getValue().addnew double[]) {p.getX(), p.getY(), p.getZ()});
+                    entry.getValue().add(new double[]) {p.getX(), p.getY(), p.getZ()});
                     break;
                 }
             }

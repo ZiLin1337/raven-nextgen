@@ -293,7 +293,7 @@ public class DamageTags extends Module {
             }
 
             LivingEntity living = (LivingEntity) entity;
-            trackedStates.put(entity.getEntityId(), new HealthSnapshot(getHealth(living), getAbsorption(living));
+            trackedStates.put(entity.getEntityId(), new HealthSnapshot(getHealth(living), getAbsorption(living)));
         }
     }
 
@@ -313,7 +313,7 @@ public class DamageTags extends Module {
         double z = interpolate(living.lastTickPosZ, living.posZ, partialTicks);
         y += getStackOffset(x, y, z, nowMillis);
 
-        long durationMs = Math.max(1L, Math.round(duration.getInput());
+        long durationMs = Math.max(1L, Math.round(duration.getInput()));
         String text = (delta > 0.0F ? "+" : "-") + fastOneDecimal(Math.abs(delta));
         int color = delta > 0.0F ? 0xFF55FF55 : 0xFFFF5555;
         RavenFontRenderer fr = getDamageTagFontRenderer();
@@ -503,7 +503,7 @@ public class DamageTags extends Module {
         if (font == null) {
             return FONT_OPTIONS[0];
         }
-        int index = (int) Math.max(0, Math.min(font.getOptions().length - 1, font.getInput());
+        int index = (int) Math.max(0, Math.min(font.getOptions().length - 1, font.getInput()));
         return font.getOptions()[index];
     }
 

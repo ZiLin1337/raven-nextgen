@@ -16,6 +16,6 @@ public class Boost extends Module {
     public void onPreMotion(PreMotionEvent e) {
         if (!Utils.nullCheck() || mc.player == null) return;
         if (mc.player.isOnGround() || mc.player.fallDistance < 0.5f) return;
-        mc.player.setVelocity(mc.player.getVelocity().multiply(speed.getInput());
+        mc.player.setVelocity(mc.player.getVelocity().multiply(speed.getInput()));
     }
 }

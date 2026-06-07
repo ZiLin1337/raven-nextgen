@@ -198,7 +198,7 @@ public class AimAssist extends Module {
                     return yawDelta + pitchDelta;
                 });
         }
-        candidates.sort(primary.thenComparingDouble(p -> mc.player.getDistanceSqToEntity(p));
+        candidates.sort(primary.thenComparingDouble(p -> mc.player.getDistanceSqToEntity(p)));
 
         if (ignoreBehindWalls.isToggled() || ignoreBehindEntities.isToggled()) {
             double multipointH = multipointHorizontal.getInput();

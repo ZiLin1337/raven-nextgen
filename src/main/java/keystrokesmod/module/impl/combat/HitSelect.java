@@ -122,7 +122,7 @@ public class HitSelect extends Module {
         }
 
         if (clickType == ClickType.MISSED_SWING) {
-            if (shouldCancel(missedSwingsCancelRate.getInput() {
+            if (shouldCancel(missedSwingsCancelRate.getInput())) {
                 cancelClick(event);
             }
             return;
@@ -140,7 +140,7 @@ public class HitSelect extends Module {
         boolean shouldBlock = (blockMask & BLOCK_WAIT_FIRST) != 0
                 || (blockMask & BLOCK_PREDICTED_BURST) != 0
                 || applyPauseDuration(state, blockMask & ~BLOCK_PREDICTED_BURST, currentTick);
-        if (shouldBlock && shouldCancel(inCombatCancelRate.getInput() {
+        if (shouldBlock && shouldCancel(inCombatCancelRate.getInput())) {
             cancelClick(event);
             return;
         }

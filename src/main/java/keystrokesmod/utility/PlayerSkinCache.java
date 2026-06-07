@@ -106,12 +106,12 @@ public class PlayerSkinCache {
             return;
         }
 
-        LOOKUP_EXECUTOR.execute(new Runnable() {
+        LOOKUP_EXECUTOR.execute(new Runnable()) {
             @Override
             public void run() {
                 try {
                     final GameProfile[] holder = new GameProfile[1];
-                    PROFILE_REPOSITORY.findProfilesByNamesnew String[]) {username}, Agent.MINECRAFT, new ProfileLookupCallback() {
+                    PROFILE_REPOSITORY.findProfilesByNames(new String[]) {username}, Agent.MINECRAFT, new ProfileLookupCallback() {
                         @Override
                         public void onProfileLookupSucceeded(GameProfile profile) {
                             holder[0] = profile;
@@ -172,7 +172,7 @@ public class PlayerSkinCache {
             return;
         }
 
-        minecraft.addScheduledTask(new Runnable() {
+        minecraft.addScheduledTask(new Runnable()) {
             @Override
             public void run() {
                 Identifier location = MinecraftClient.getInstance().getSkinManager().loadSkin(skinTexture, Type.SKIN);

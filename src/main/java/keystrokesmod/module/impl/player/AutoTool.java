@@ -241,7 +241,7 @@ public class AutoTool extends Module {
 
     private boolean isUseBlocked() {
         boolean useActive = Utils.isBindDown(mc.options.keyBindUseItem) || mc.player.isUsingItem();
-        if (ignoredHeldItemsToggle.isToggled() && ignoredHeldItems.matches(mc.player.getHeldItem() {
+        if (ignoredHeldItemsToggle.isToggled() && ignoredHeldItems.matches(mc.player.getHeldItem())) {
             return true;
         }
         return useActive;

@@ -187,7 +187,7 @@ public class MobESP extends Module {
     }
 
     public static void onRenderMobPost() {
-        if (!Boolean.TRUE.equals(MOB_CHAMS_ACTIVE.get() {
+        if (!Boolean.TRUE.equals(MOB_CHAMS_ACTIVE.get())) {
             return;
         }
         MOB_CHAMS_ACTIVE.set(false);

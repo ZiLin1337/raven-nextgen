@@ -230,7 +230,7 @@ public class Arrows extends Module {
         if (font == null) {
             return FONT_OPTIONS[0];
         }
-        int index = (int) Math.max(0, Math.min(font.getOptions().length - 1, font.getInput());
+        int index = (int) Math.max(0, Math.min(font.getOptions().length - 1, font.getInput()));
         return font.getOptions()[index];
     }
 

@@ -100,7 +100,7 @@ public abstract class MixinLivingEntityRenderer<T extends LivingEntity> {
                     this.nameHider$entity.getDisplayName()
             );
         }
-        return Text.literal(NameHider.getFakeName(text.getString());
+        return Text.literal(NameHider.getFakeName(text.getString()));
     }
 
     @Inject(method = "renderLabelIfPresent", at = @At("RETURN"))

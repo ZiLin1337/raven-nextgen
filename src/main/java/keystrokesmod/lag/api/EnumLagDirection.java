@@ -11,24 +11,20 @@ import java.util.EnumSet;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@SuppressWarnings () {"LambdaBodyCanBeCodeBlock", "unchecked"})
+@SuppressWarnings({"LambdaBodyCanBeCodeBlock", "unchecked"})
 public enum EnumLagDirection implements IMinecraftInstance {
-    INBOUND
-            packet -> {
-                try ) {
+    INBOUND(packet -> {
+                try {
                     ((Packet<ClientPlayNetworkHandler>) packet).processPacket(mc.getNetHandler());
                 } catch (final @NotNull ThreadQuickExitException ignored) {
                     // minecraft uses an exception to indicate something getting scheduled... why?
                 } catch (final @NotNull Exception e) {
                     Utils.sendDebugMessage("error while handling packet: " + packet.getClass().getSimpleName());
                 }
-            }
-    ),
-    OUTBOUND
-            packet -> ) {
+            }),
+    OUTBOUND(packet -> {
                 mc.getNetHandler().addToSendQueue(packet);
-            }
-    );
+            });
 
     public static final @NotNull Set<EnumLagDirection> ONLY_INBOUND = EnumSet.of(INBOUND);
     public static final @NotNull Set<EnumLagDirection> ONLY_OUTBOUND = EnumSet.of(OUTBOUND);

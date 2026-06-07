@@ -65,7 +65,7 @@ public class WaterBucket extends Module {
         }
         lastPlace = now;
         this.useCurrentItem();
-        if (!(shouldPickup = pickupWater.isToggled() {
+        if (!(shouldPickup = pickupWater.isToggled())) {
             this.lastSlot = -1;
         }
         if (Raven.DEBUG) {
@@ -117,7 +117,7 @@ public class WaterBucket extends Module {
     }
 
     private void useCurrentItem() {
-        mc.getNetHandler().addToSendQueue(new PlayerInteractBlockC2SPacket(mc.player.getHeldItem());
+        mc.getNetHandler().addToSendQueue(new PlayerInteractBlockC2SPacket(mc.player.getHeldItem()));
     }
 
     private boolean isItem(ItemStack itemStack, Item item) {

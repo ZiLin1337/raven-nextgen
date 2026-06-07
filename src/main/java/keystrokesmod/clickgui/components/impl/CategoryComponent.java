@@ -119,7 +119,7 @@ public class CategoryComponent {
         float moduleRenderY = this.titleHeight + 3;
         for (Module mod : Raven.getModuleManager().inCategory(this.category)) {
             ModuleComponent component = new ModuleComponent(mod, this, moduleRenderY);
-            component.restoreOpenState(Boolean.TRUE.equals(openStates.get(mod.getName());
+            component.restoreOpenState(Boolean.TRUE.equals(openStates.get(mod.getName())));
             this.modules.add(component);
             moduleRenderY += 16;
         }
@@ -133,14 +133,14 @@ public class CategoryComponent {
         float moduleRenderY = this.titleHeight + 3;
         if ((this.category == Module.category.profiles && isProfile) || (this.category == Module.category.scripts && !isProfile)) {
             ModuleComponent manager = new ModuleComponent(isProfile ? new Manager() : new keystrokesmod.script.Manager(), this, moduleRenderY);
-            manager.restoreOpenState(Boolean.TRUE.equals(openStates.get(manager.mod.getName());
+            manager.restoreOpenState(Boolean.TRUE.equals(openStates.get(manager.mod.getName())));
             this.modules.add(manager);
             if ((Raven.profileManager == null && isProfile) || (Raven.scriptManager == null && !isProfile)) return;
             if (isProfile) {
                 for (Profile profile : Raven.profileManager.profiles) {
                     moduleRenderY += 16;
                     ModuleComponent b = new ModuleComponent(profile.getModule(), this, moduleRenderY);
-                    b.restoreOpenState(Boolean.TRUE.equals(openStates.get(profile.getModule().getName());
+                    b.restoreOpenState(Boolean.TRUE.equals(openStates.get(profile.getModule().getName())));
                     this.modules.add(b);
                 }
             } else {
@@ -149,7 +149,7 @@ public class CategoryComponent {
                 for (Module m : sorted) {
                     moduleRenderY += 16;
                     ModuleComponent b = new ModuleComponent(m, this, moduleRenderY);
-                    b.restoreOpenState(Boolean.TRUE.equals(openStates.get(m.getName());
+                    b.restoreOpenState(Boolean.TRUE.equals(openStates.get(m.getName())));
                     this.modules.add(b);
                 }
             }
@@ -165,10 +165,10 @@ public class CategoryComponent {
 
     private void syncAfterModuleReload() {
         CategoryLayoutMetrics lm = computeLayoutMetrics(this.opened || this.smoothTimer != null);
-        float clamped = Math.max(lm.minScrollY, Math.min(this.y, scrollAnim.getTarget());
+        float clamped = Math.max(lm.minScrollY, Math.min(this.y, scrollAnim.getTarget()));
         this.moduleY = clamped;
         scrollAnim.reset(clamped);
-        if (this.opened && !this.modules.isEmpty() { this.big = lm.visibleHeight; this.lastHeight = lm.contentBottom; return; }
+        if (this.opened && !this.modules.isEmpty()) { this.big = lm.visibleHeight; this.lastHeight = lm.contentBottom; return; }
         if (!this.opened && this.smoothTimer == null) this.big = 0f;
         this.lastHeight = this.y + this.titleHeight + 4;
     }

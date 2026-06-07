@@ -632,7 +632,7 @@ public class RenderUtils implements IMinecraftInstance {
                     LivingEntity en = (LivingEntity) e;
                     double health = en.getHealth() / en.getMaxHealth();
                     int barHeight = (int) (74.0D * health);
-                    int healthColor = health < 0.3D ? Color.red.getRGB() : (health < 0.5D ? Color.orange.getRGB() : (health < 0.7D ? Color.yellow.getRGB() : Color.green.getRGB());
+                    int healthColor = health < 0.3D ? Color.red.getRGB() : (health < 0.5D ? Color.orange.getRGB() : (health < 0.7D ? Color.yellow.getRGB() : Color.green.getRGB()));
                     RenderSystem.translate(x, y - 0.2D, z);
                     RenderSystem.rotate(-mc.getEntityRenderDispatcher().camera.getYaw(), 0.0D, 1.0D, 0.0D);
                     RenderSystem.disableDepth();
@@ -1723,7 +1723,7 @@ public class RenderUtils implements IMinecraftInstance {
     }
 
     public static Identifier buildWhiteMaskedTexture(String resourcePath, String registryName, Identifier fallback) {
-        try (InputStream stream = Raven.class.getResourceAsStream(resourcePath) {
+        try (InputStream stream = Raven.class.getResourceAsStream(resourcePath)) {
             if (stream == null) return fallback;
             BufferedImage src = ImageIO.read(stream);
             int w = src.getWidth(), h = src.getHeight();

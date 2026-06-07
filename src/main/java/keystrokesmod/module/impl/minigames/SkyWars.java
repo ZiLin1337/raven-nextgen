@@ -183,7 +183,7 @@ public class SkyWars extends Module {
                 if (!(p.getStack().getItem() instanceof ItemMonsterPlacer)) {
                     return;
                 }
-                Class<? extends Entity> oclass = EntityList.stringToClassMapping.get(ItemMonsterPlacer.getEntityName(p.getStack());
+                Class<? extends Entity> oclass = EntityList.stringToClassMapping.get(ItemMonsterPlacer.getEntityName(p.getStack()));
                 if (oclass == null) {
                     return;
                 }

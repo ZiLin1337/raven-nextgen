@@ -93,7 +93,7 @@ public class Freelook extends Module {
             } else {
                 enterPerspective();
             }
-        } else if (hold.isToggled() {
+        } else if (hold.isToggled()) {
             resetPerspective();
         }
     }

@@ -153,7 +153,7 @@ public class AntiAFK extends Module {
 
     private void d() {
         if (randomizePitch.isToggled()) {
-            mc.player.setPitch(RotationUtils.clampPitch((float) (mc.player.getPitch() + a());
+            mc.player.setPitch(RotationUtils.clampPitch((float) (mc.player.getPitch() + a())));
         }
     }
 

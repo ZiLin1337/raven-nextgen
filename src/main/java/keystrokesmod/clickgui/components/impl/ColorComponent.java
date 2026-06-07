@@ -231,7 +231,7 @@ public class ColorComponent extends Component {
             cachedHue = Math.max(0, Math.min(360, (mouseY - sqTop) / SQUARE_SIZE * 360f));
             colorSetting.setFromHSB(cachedHue, cachedSat, cachedBri);
             markUnsaved();
-        } else if (dragMode == 3 && colorSetting.hasAlpha() {
+        } else if (dragMode == 3 && colorSetting.hasAlpha()) {
             float a = Math.max(0, Math.min(1, (mouseY - sqTop) / SQUARE_SIZE));
             colorSetting.setAlpha((int) (a * 255));
             markUnsaved();

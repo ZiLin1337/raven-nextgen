@@ -87,7 +87,7 @@ public class Piercing extends Module {
                         .addCoord(look.xCoord * reach, look.yCoord * reach, look.zCoord * reach)
                         .expand(1.0, 1.0, 1.0), Predicates.and(EntitySelectors.NOT_SPECTATING, Entity::canBeCollidedWith) {
             if ((this.ignoreNonPlayer.isToggled() && !(e instanceof PlayerEntity)) || (this.ignoreTeammates.isToggled() && Utils.isTeammate(e))
-                    || AntiBot.isBot(e) || (e instanceof PlayerEntity && Utils.isFriended((PlayerEntity) e) {
+                    || AntiBot.isBot(e) || (e instanceof PlayerEntity && Utils.isFriended((PlayerEntity) e)) {
                 continue;
             }
 

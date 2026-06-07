@@ -259,7 +259,7 @@ public class Clutch extends Module {
 
             if (autoClutchChecking && !autoClutchActive && !autoClutchLandedGuard) {
                 if (autoClutchCheckCounter == 0 || autoClutchCheckCounter % 3 == 0) {
-                    if (willFallFar(minimumFallDistance.getInput() {
+                    if (willFallFar(minimumFallDistance.getInput())) {
                         autoClutchActive = true;
                     }
                 }

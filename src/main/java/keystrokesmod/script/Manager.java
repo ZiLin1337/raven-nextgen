@@ -37,7 +37,7 @@ public class Manager extends Module {
         super("Manager", category.scripts);
         this.registerSetting(createScriptName = new TextSetting("Script name", "", "Type a script name...", 32, this::createScript));
         this.registerSetting(new ButtonSetting("Create script", this::createScript));
-        this.registerSetting(new ButtonSetting("Load scripts", () -> {
+        this.registerSetting(new ButtonSetting("Load scripts", () ->)) {
             if (Raven.scriptManager.compiler == null) {
                 Utils.sendMessage("&cCompiler error, JDK not found");
             }
@@ -66,7 +66,7 @@ public class Manager extends Module {
                 }
             }
         }));
-        this.registerSetting(new ButtonSetting("Open folder", () -> {
+        this.registerSetting(new ButtonSetting("Open folder", () ->)) {
             try {
                 Desktop.getDesktop().open(Raven.scriptManager.directory);
             }
@@ -75,7 +75,7 @@ public class Manager extends Module {
                 Utils.sendMessage("&cError locating folder, recreated.");
             }
         }));
-        this.registerSetting(new ButtonSetting("View documentation", () -> {
+        this.registerSetting(new ButtonSetting("View documentation", () ->)) {
             try {
                 Desktop.getDesktop().browse(new URI(DOCUMENTATION_URL));
             }
@@ -98,7 +98,7 @@ public class Manager extends Module {
     }
 
     private boolean updateSettingFile() {
-        return set("enable-http-requests", String.valueOf(enableHttpRequests.isToggled())) & set("enable-websockets", String.valueOf(enableWebSockets.isToggled());
+        return set("enable-http-requests", String.valueOf(enableHttpRequests.isToggled())) & set("enable-websockets", String.valueOf(enableWebSockets.isToggled()));
     }
 
     private void ensureConfigFileExists() throws IOException {

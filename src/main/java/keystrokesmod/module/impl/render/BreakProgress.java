@@ -51,7 +51,7 @@ public class BreakProgress extends Module {
         RenderSystem.depthMask(false);
         RenderSystem.disableDepth();
         RenderSystem.enableBlend(GL11.GL_BLEND);
-        int colorAlpha = Utils.mergeAlpha(-1, Math.max(10, (int) (255 * progress));
+        int colorAlpha = Utils.mergeAlpha(-1, Math.max(10, (int) (255 * progress)));
         mc.textRenderer.drawString(this.progressStr, (float) (-mc.textRenderer.getStringWidth(this.progressStr) / 2), -3.0f, fadeIn.isToggled() ? colorAlpha : -1, true);
         RenderSystem.disableBlend(GL11.GL_BLEND);
         RenderSystem.enableDepth();

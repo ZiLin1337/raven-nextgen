@@ -17,7 +17,7 @@ public class AutoWho extends Module {
     public AutoWho() {
         super("Auto Who", category.minigames);
         this.registerSetting(new DescriptionSetting("Automatically execute /who."));
-        this.registerSetting(new DescriptionSetting(Utils.formatColor("Use '&enick [nick]&r' when nicked."));
+        this.registerSetting(new DescriptionSetting(Utils.formatColor("Use '&enick [nick]&r' when nicked.")));
         this.registerSetting(artifical = new ButtonSetting("Artificial", false));
         this.registerSetting(hideMessage = new ButtonSetting("Hide message", false));
         this.registerSetting(removeBots = new ButtonSetting("Remove bots", true));
@@ -85,7 +85,7 @@ public class AutoWho extends Module {
                 }
             }
             if (hideMessage.isToggled()) {
-                Utils.log.info("[CHAT] " + (online + mc.player.getName());
+                Utils.log.info("[CHAT] " + (online + mc.player.getName()));
                 return;
             }
             Utils.sendRawMessage(online + mc.player.getDisplayName().getFormattedText());
