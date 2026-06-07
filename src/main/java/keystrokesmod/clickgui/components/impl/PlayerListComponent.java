@@ -48,7 +48,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
         Layout layout = layout(true);
         if (button == 0 && isTextFieldClicked(mouseX, mouseY, layout)) { setTextFieldFocused(true); return true; }
         if (button == 0 && handleSelectedEntryClick(mouseX, mouseY, layout)) return true;
-        if (isTextFieldFocused()) { getTextField().setText(""); setTextFieldFocused(false); }
+        if (isTextFieldFocused() { getTextField().setText(""); setTextFieldFocused(false); }
         return false;
     }
 

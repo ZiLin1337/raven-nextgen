@@ -12,7 +12,7 @@ public class HideAll extends Command {
     public void execute(CommandInput input) {
         int count = 0;
         for (Module m : Raven.moduleManager.getModules()) {
-            if (m.isEnabled()) { m.disable(); count++; }
+            if (m.isEnabled() { m.disable(); count++; }
         }
         reply("&7Disabled &b" + count + " &7modules.");
     }

@@ -284,7 +284,7 @@ public class Utils implements IMinecraftInstance {
     }
 
     private static int getColorFromFormattingCode(char formatCode) {
-        switch (Character.toLowerCase(formatCode)) {
+        switch (Character.toLowerCase(formatCode) {
             case '0':
                 return ColorConstants.BLACK;
             case '1':

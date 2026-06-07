@@ -196,7 +196,7 @@ public class PotionHUD extends Module {
         final int directionMultiplier = (int) sortDirection.getInput() == 1 ? 1 : -1;
 
         if ((int) sortMode.getInput() == 0) {
-            entries.sort(new Comparator<PotionEntry>()) {
+            entries.sort(new Comparator<PotionEntry>() {
                 @Override
                 public int compare(PotionEntry first, PotionEntry second) {
                     return Integer.compare(first.durationTicks, second.durationTicks) * directionMultiplier;
@@ -205,7 +205,7 @@ public class PotionHUD extends Module {
             return;
         }
 
-        entries.sort(new Comparator<PotionEntry>()) {
+        entries.sort(new Comparator<PotionEntry>() {
             @Override
             public int compare(PotionEntry first, PotionEntry second) {
                 return Integer.compare(first.totalWidth, second.totalWidth) * directionMultiplier;

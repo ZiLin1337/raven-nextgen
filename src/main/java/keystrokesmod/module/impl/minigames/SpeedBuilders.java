@@ -287,7 +287,7 @@ public class SpeedBuilders extends Module {
             buildInfo.clear();
             doneCollecting = false;
         }
-        if (stripped.startsWith("Player eliminated: " + Utils.getServerName()) && stripped.endsWith("%)")) {
+        if (stripped.startsWith("Player eliminated: " + Utils.getServerName()) && stripped.endsWith("%)") {
             eliminated = true;
         }
     }

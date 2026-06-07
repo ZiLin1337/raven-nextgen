@@ -174,7 +174,7 @@ public class AimAssist extends Module {
         }
 
         Comparator<PlayerEntity> primary;
-        switch ((int) sortMode.getInput()) {
+        switch ((int) sortMode.getInput() {
             case 0: // Health (lower first)
                 primary = Comparator.comparingDouble(p -> p.getHealth() + p.getAbsorptionAmount());
                 break;

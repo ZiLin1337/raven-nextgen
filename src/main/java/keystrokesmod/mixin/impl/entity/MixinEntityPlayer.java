@@ -139,7 +139,7 @@ public abstract class MixinPlayerEntity {
     @Inject(method = "isBlocking", at = @At("RETURN"), cancellable = true)
     private void isBlocking(CallbackInfoReturnable<Boolean> cir) {
         if (!cir.getReturnValue() && BlockAnimationUtils.shouldForceBlockAnimation(
-                (PlayerEntity) (Object) this, this.getMainHandStack()) {
+                (PlayerEntity) (Object) this, this.getMainHandStack() {
             cir.setReturnValue(true);
         }
     }

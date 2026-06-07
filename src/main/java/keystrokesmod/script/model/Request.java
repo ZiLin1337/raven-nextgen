@@ -82,13 +82,13 @@ public class Request {
                 con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
                 con.connect();
 
-                try (OutputStream os = con.getOutputStream()) {
+                try (OutputStream os = con.getOutputStream() {
                     os.write(out);
                 }
             }
 
             String contents = "";
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream())) {
                 StringBuilder sb = new StringBuilder();
                 String line;
                 while ((line = br.readLine()) != null) {
@@ -98,7 +98,7 @@ public class Request {
             }
             catch (IOException er1) {
                 InputStream es = con.getErrorStream();
-                if (es != null)) {
+                if (es != null) {
                     try (BufferedReader br = new BufferedReader(new InputStreamReader(es))) {
                         StringBuilder sb = new StringBuilder();
                         String line;

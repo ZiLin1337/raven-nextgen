@@ -85,7 +85,7 @@ public class BHop extends Module {
             }
             if (!mc.player.isOnGround()) hopping = false;
         }
-        switch ((int) mode.getInput()) {
+        switch ((int) mode.getInput() {
             case 0:
                 if (Utils.isMoving()) {
                     if (mc.player.isOnGround()) mc.player.jump();

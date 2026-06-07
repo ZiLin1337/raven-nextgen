@@ -98,7 +98,7 @@ public class BlockUtils implements IMinecraftInstance {
         if (!ignoreSlow)) {
             if (mc.player.isPotionActive(Potion.digSlowdown)) {
                 float n2;
-                switch (mc.player.getActivePotionEffect(Potion.digSlowdown).getAmplifier()) {
+                switch (mc.player.getActivePotionEffect(Potion.digSlowdown).getAmplifier() {
                     case 0: {
                         n2 = 0.3f;
                         break;

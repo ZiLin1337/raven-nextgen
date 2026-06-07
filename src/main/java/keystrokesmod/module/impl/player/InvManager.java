@@ -1529,7 +1529,7 @@ public class InvManager extends Module {
             }
         }
 
-        sources.sort(new Comparator<MergeSource>()) {
+        sources.sort(new Comparator<MergeSource>() {
             @Override
             public int compare(MergeSource first, MergeSource second) {
                 int comparison = Integer.compare(first.type.ordinal(), second.type.ordinal());

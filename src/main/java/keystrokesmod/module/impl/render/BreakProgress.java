@@ -61,7 +61,7 @@ public class BreakProgress extends Module {
     }
 
     private void setProgress() {
-        switch ((int) mode.getInput()) {
+        switch ((int) mode.getInput() {
             case 0: {
                 this.progressStr = (int) (100.0 * (this.progress / 1.0)) + "%";
                 break;

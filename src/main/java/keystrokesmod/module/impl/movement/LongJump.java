@@ -189,7 +189,7 @@ public class LongJump extends Module {
         } else {
             motionDecayVal = (int) motionDecay.getInput();
         }
-        if (stopTime == -1 && ++boostTicks > (!temporaryFlightKey() ? 33/*flat motion ticks*/ : (!notMoving ? 32/*normal motion ticks*/ : 33/*vertical motion ticks*/))) {
+        if (stopTime == -1 && ++boostTicks > (!temporaryFlightKey() ? 33/*flat motion ticks*/ : (!notMoving ? 32/*normal motion ticks*/ : 33/*vertical motionticks*/))) {
             disabled();
             return;
         }

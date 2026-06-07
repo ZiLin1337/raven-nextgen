@@ -106,7 +106,7 @@ public class PlayerSkinCache {
             return;
         }
 
-        LOOKUP_EXECUTOR.execute(new Runnable()) {
+        LOOKUP_EXECUTOR.execute(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -172,7 +172,7 @@ public class PlayerSkinCache {
             return;
         }
 
-        minecraft.addScheduledTask(new Runnable()) {
+        minecraft.addScheduledTask(new Runnable() {
             @Override
             public void run() {
                 Identifier location = MinecraftClient.getInstance().getSkinManager().loadSkin(skinTexture, Type.SKIN);

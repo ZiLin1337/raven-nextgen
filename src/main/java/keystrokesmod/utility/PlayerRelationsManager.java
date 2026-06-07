@@ -84,7 +84,7 @@ public class PlayerRelationsManager implements IMinecraftInstance {
             return;
         }
 
-        try (FileReader reader = new FileReader(file)) {
+        try (FileReader reader = new FileReader(file) {
             JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
             if (root == null)) {
                 syncUtilsViews();
@@ -314,7 +314,7 @@ public class PlayerRelationsManager implements IMinecraftInstance {
         root.add("friends", toJsonArray(friends));
         root.add("enemies", toJsonArray(enemies));
 
-        try (FileWriter writer = new FileWriter(file)) {
+        try (FileWriter writer = new FileWriter(file) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(root, writer);
         }

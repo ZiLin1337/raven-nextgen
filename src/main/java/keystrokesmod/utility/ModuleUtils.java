@@ -219,7 +219,7 @@ public class ModuleUtils implements IMinecraftInstance {
                 if (!(block instanceof BlockAir) || (blockBelow instanceof BlockAir && blockBelow2 instanceof BlockAir)) {
                     resetLowhop();
                 }
-                switch ((int) ModuleManager.bHop.mode.getInput()) {
+                switch ((int) ModuleManager.bHop.mode.getInput() {
                     case 2: // 9 tick
                         switch (simpleY) {
                             case 13:
