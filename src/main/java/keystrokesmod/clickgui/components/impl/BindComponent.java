@@ -185,7 +185,7 @@ public class BindComponent extends Component {
 
     public String getKeyAsStr(boolean isKey) {
         int key = isKey ? keySetting.getKey() : moduleComponent.mod.getKeycode();
-        return key >= 1000 ? ((key == 1069 || key == 1070) ? getScroll(key) : "M" + (key - 1000)) : // glfwGetKeyName(key);
+        return key >= 1000 ? ((key == 1069 || key == 1070) ? getScroll(key) : "M" + (key - 1000)) : String.valueOf(key); // getKeyName disabled
     }
 
     public String getScroll(int key) {
