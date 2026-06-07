@@ -11,10 +11,14 @@ import keystrokesmod.utility.Timer;
 import keystrokesmod.utility.Utils;
 import keystrokesmod.utility.shader.BlurUtils;
 import keystrokesmod.utility.shader.RoundedUtils;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
 
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.EntityLivingBase;
+
+import net.minecraftforge.fml.client.config.GuiButtonExt;
+
+
 
 import org.lwjgl.opengl.GL11;
 
@@ -29,11 +33,11 @@ public class TargetHUD extends Module {
     private ButtonSetting healthColor;
     private Timer fadeTimer;
     private Timer healthBarTimer = null;
-    private LivingEntity target;
+    private EntityLivingBase target;
     private long lastAliveMS;
     private double lastHealth;
     private float lastHealthBar;
-    public LivingEntity renderEntity;
+    public EntityLivingBase renderEntity;
     public int posX = 70;
     public int posY = 30;
     private String[] modes = new String[]{ "Modern", "Legacy" };
@@ -56,7 +60,7 @@ public class TargetHUD extends Module {
     }
 
     
-    public void onRenderTick(Object ev) {
+    public void onRenderTick(TickEvent.RenderTickEvent ev) {
         if (!Utils.nullCheck()) {
             reset();
             return;
@@ -78,9 +82,9 @@ public class TargetHUD extends Module {
             else {
                 return;
             }
-            String playerInfo = target.getDisplayName().getString();
+            String playerInfo = target.getDisplayName().getFormattedText();
             double health = target.getHealth() / target.getMaxHealth();
-            if (target.isRemoved()) {
+            if (target.isDead) {
                 health = 0;
             }
             if (health != lastHealth) {
@@ -91,7 +95,9 @@ public class TargetHUD extends Module {
             drawTargetHUD(fadeTimer, playerInfo, health);
         }
     }
-public void onRenderWorld(Object renderWorldLastEvent) {
+
+    (priority = EST)
+    public void onRenderWorld(RenderWorldLastEvent renderWorldLastEvent) {
         if (!renderEsp.isToggled() || !Utils.nullCheck()) {
             return;
         }
@@ -107,16 +113,15 @@ public void onRenderWorld(Object renderWorldLastEvent) {
         if (showStatus.isToggled()) {
             string = string + " " + ((health <= Utils.getTotalHealth(mc.player) / mc.player.getMaxHealth()) ? "§aW" : "§cL");
         }
-        final int screenWidth = mc.getWindow().getScaledWidth();
-        final int screenHeight = mc.getWindow().getScaledHeight();
+        final  scaledResolution = new (mc);
         final int padding = 8;
-        final int targetStrWithPadding = MinecraftClient.getInstance().textRenderer.getStringWidth(string) + padding;
-        final int x = (screenWidth / 2 - targetStrWithPadding / 2) + posX;
-        final int y = (screenHeight / 2 + 15) + posY;
+        final int targetStrWithPadding = mc.textRenderer.getStringWidth(string) + padding;
+        final int x = (scaledResolution.getScaledWidth() / 2 - targetStrWithPadding / 2) + posX;
+        final int y = (scaledResolution.getScaledHeight() / 2 + 15) + posY;
         final int n6 = x - padding;
         final int n7 = y - padding;
         final int n8 = x + targetStrWithPadding;
-        final int n9 = y + (MinecraftClient.getInstance().textRenderer.FONT_HEIGHT + 5) - 6 + padding;
+        final int n9 = y + (mc.textRenderer.FONT_HEIGHT + 5) - 6 + padding;
         final int alpha = (fadeTimer == null) ? 255 : (255 - fadeTimer.getValueInt(0, 255, 1));
         if (alpha > 0) {
             final int maxAlphaOutline = (alpha > 110) ? 110 : alpha;
@@ -179,7 +184,7 @@ public void onRenderWorld(Object renderWorldLastEvent) {
             }
             GL11.glPushMatrix();
             GL11.glEnable(GL11.GL_BLEND);
-            MinecraftClient.getInstance().textRenderer.drawString(string, (float) x, (float) y, (new Color(220, 220, 220, 255).getRGB() & 0xFFFFFF) | Utils.clamp(alpha + 15) << 24, true);
+            mc.textRenderer.drawString(string, (float) x, (float) y, (new Color(220, 220, 220, 255).getRGB() & 0xFFFFFF) | Utils.clamp(alpha + 15) << 24, true);
             GL11.glDisable(GL11.GL_BLEND);
             GL11.glPopMatrix();
         }
@@ -196,8 +201,8 @@ public void onRenderWorld(Object renderWorldLastEvent) {
         renderEntity = null;
     }
 
-    class EditScreen extends Screen {
-        ButtonWidget resetPosition;
+    class EditScreen extends GuiScreen {
+        GuiButtonExt resetPosition;
         boolean d = false;
         int miX = 0;
         int miY = 0;
@@ -213,20 +218,19 @@ public void onRenderWorld(Object renderWorldLastEvent) {
 
         public void initGui() {
             super.initGui();
-            this.buttonList.add(this.resetPosition = new ButtonWidget(1, this.width - 90, this.height - 25, 85, 20, "Reset position"));
+            this.buttonList.add(this.resetPosition = new GuiButtonExt(1, this.width - 90, this.height - 25, 85, 20, "Reset position"));
             this.aX = posX;
             this.aY = posY;
         }
 
         public void drawScreen(int mX, int mY, float pt) {
-            final int scrW = mc.getWindow().getScaledWidth();
-            final int scrH = mc.getWindow().getScaledHeight();
+             res = new (this.mc);
             drawRect(0, 0, this.width, this.height, -1308622848);
             int miX = this.aX;
             int miY = this.aY;
-            String playerInfo = mc.player.getDisplayName().getString();
+            String playerInfo = mc.player.getDisplayName().getFormattedText();
             double health = mc.player.getHealth() / mc.player.getMaxHealth();
-            if (mc.player.isRemoved()) {
+            if (mc.player.isDead) {
                 health = 0;
             }
             lastHealth = health;
@@ -235,9 +239,9 @@ public void onRenderWorld(Object renderWorldLastEvent) {
             if (showStatus.isToggled()) {
                 playerInfo = playerInfo + " " + ((health <= Utils.getTotalHealth(mc.player) / mc.player.getMaxHealth()) ? "§aW" : "§cL");
             }
-            int stringWidth = MinecraftClient.getInstance().textRenderer.getStringWidth(playerInfo) + 8;
-            int maX = (scrW / 2 - stringWidth / 2) + miX + MinecraftClient.getInstance().textRenderer.getStringWidth(playerInfo) + 8;
-            int maY = (scrH / 2 + 15) +  miY + (MinecraftClient.getInstance().textRenderer.FONT_HEIGHT + 5) - 6 + 8;
+            int stringWidth = mc.textRenderer.getStringWidth(playerInfo) + 8;
+            int maX = (res.getScaledWidth() / 2 - stringWidth / 2) + miX + mc.textRenderer.getStringWidth(playerInfo) + 8;
+            int maY = (res.getScaledHeight() / 2 + 15) +  miY + (mc.textRenderer.FONT_HEIGHT + 5) - 6 + 8;
             this.miX = miX;
             this.miY = miY;
             this.maX = maX;
@@ -246,8 +250,8 @@ public void onRenderWorld(Object renderWorldLastEvent) {
             posX = miX;
             posY = miY;
             String edit = "Edit the HUD position by dragging.";
-            int x = scrW / 2 - fontRendererObj.getStringWidth(edit) / 2;
-            int y = mc.getWindow().getScaledHeight() / 2 - 20;
+            int x = res.getScaledWidth() / 2 - fontRendererObj.getStringWidth(edit) / 2;
+            int y = res.getScaledHeight() / 2 - 20;
             RenderUtils.drawColoredString(edit, '-', x, y, 2L, 0L, true, this.mc.textRenderer);
 
             try {
@@ -285,7 +289,7 @@ public void onRenderWorld(Object renderWorldLastEvent) {
 
         }
 
-        public void actionPerformed(ButtonWidget b) {
+        public void actionPerformed(GuiButton b) {
             if (b == this.resetPosition) {
                 this.aX = posX = 70;
                 this.aY = posY = 30;

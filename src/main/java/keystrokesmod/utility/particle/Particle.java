@@ -1,14 +1,14 @@
 package keystrokesmod.utility.particle;
 
-import keystrokesmod.utility.math.Vec3d;
+import keystrokesmod.utility.math.Vec3;
 
 /**
  * Single particle with position, velocity, and lifetime.
  */
 public class Particle {
-    private Vec3d position;
-    private Vec3d velocity;
-    private Vec3d acceleration;
+    private Vec3 position;
+    private Vec3 velocity;
+    private Vec3 acceleration;
     private int lifetime;
     private int maxLifetime;
     private float size;
@@ -16,10 +16,10 @@ public class Particle {
     private float alpha;
     private boolean dead;
 
-    public Particle(Vec3d position, Vec3d velocity, int lifetime, float size, int color) {
+    public Particle(Vec3 position, Vec3 velocity, int lifetime, float size, int color) {
         this.position = position.clone();
         this.velocity = velocity.clone();
-        this.acceleration = new Vec3d(0, -0.05, 0); // Gravity
+        this.acceleration = new Vec3(0, -0.05, 0); // Gravity
         this.lifetime = lifetime;
         this.maxLifetime = lifetime;
         this.size = size;
@@ -37,8 +37,8 @@ public class Particle {
         alpha = Math.max(0, (float) lifetime / maxLifetime);
     }
 
-    public Vec3d getPosition() { return position; }
-    public Vec3d getVelocity() { return velocity; }
+    public Vec3 getPosition() { return position; }
+    public Vec3 getVelocity() { return velocity; }
     public float getSize() { return size; }
     public int getColor() { return color; }
     public float getAlpha() { return alpha; }
@@ -46,9 +46,9 @@ public class Particle {
     public int getLifetime() { return lifetime; }
     public int getMaxLifetime() { return maxLifetime; }
 
-    public void setPosition(Vec3d position) { this.position = position; }
-    public void setVelocity(Vec3d velocity) { this.velocity = velocity; }
-    public void setAcceleration(Vec3d acceleration) { this.acceleration = acceleration; }
+    public void setPosition(Vec3 position) { this.position = position; }
+    public void setVelocity(Vec3 velocity) { this.velocity = velocity; }
+    public void setAcceleration(Vec3 acceleration) { this.acceleration = acceleration; }
     public void setSize(float size) { this.size = size; }
     public void setColor(int color) { this.color = color; }
 }

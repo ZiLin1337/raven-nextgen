@@ -2,10 +2,7 @@ package keystrokesmod.module.impl.movement;
 
 import keystrokesmod.event.PrePlayerInputEvent;
 import keystrokesmod.event.*;
-// import IMixinItemRenderer removed
-import org.lwjgl.glfw.GLFW;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.Vec3d;
+import keystrokesmod.mixin.interfaces.IMixinItemRenderer;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -15,11 +12,14 @@ import keystrokesmod.utility.ModuleUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.item.Items;
 import net.minecraft.item.ItemStack;
-
-// TODO: Remove Forge packet imports
-
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+import net.minecraft.network.play.server.*;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
+
+import org.lwjgl.input.Keyboard;
 
 public class LongJump extends Module {
     private SliderSetting mode;
@@ -75,7 +75,7 @@ public class LongJump extends Module {
 
         this.registerSetting(manual = new ButtonSetting("Manual", false));
         this.registerSetting(onlyWithVelocity = new ButtonSetting("Only while velocity enabled", false));
-        this.registerSetting(disableKey = new KeySetting("Disable key", GLFW.GLFW_KEY_SPACE));
+        this.registerSetting(disableKey = new KeySetting("Disable key", Keyboard.KEY_SPACE));
 
         this.registerSetting(boostSetting = new SliderSetting("Horizontal boost", 1.7, 0.0, 2.0, 0.05));
         this.registerSetting(verticalMotion = new SliderSetting("Vertical motion", 0, 0.4, 0.9, 0.01));
@@ -86,7 +86,7 @@ public class LongJump extends Module {
         this.registerSetting(hideExplosion = new ButtonSetting("Hide explosion", false));
         this.registerSetting(spoofItem = new ButtonSetting("Spoof item", false));
 
-        this.registerSetting(temporaryFlightKey = new KeySetting("Vertical key", GLFW.GLFW_KEY_SPACE));
+        this.registerSetting(temporaryFlightKey = new KeySetting("Vertical key", Keyboard.KEY_SPACE));
     }
 
     @Override
@@ -110,8 +110,6 @@ public class LongJump extends Module {
         }
     }
 
-    private double vec3d_x, vec3d_y, vec3d_z;
-
     public void onDisable() {
         disabled();
     }
@@ -119,8 +117,8 @@ public class LongJump extends Module {
     
     public void onCollision(CollisionEvent event) {
         if (this.startY != null && !manual.isToggled() && boostTicks <= 0) {
-            BlockPos blockPos = event.pos;
-            if (event.state.isSolidBlock(mc.world, event.pos) && blockPos.getY() <= this.startY) {
+            BlockPos blockPos = event.blockPos;
+            if (event.block.isPassable(mc.world, blockPos) && blockPos.getY() <= this.startY) {
                 event.boundingBox = new Box(blockPos.getX() - 2.0D, blockPos.getY() - 1.0D, blockPos.getZ() - 2.0D, blockPos.getX() + 2.0D, blockPos.getY() + 1.0D, blockPos.getZ() + 2.0D);
             }
         }
@@ -147,7 +145,7 @@ public class LongJump extends Module {
             if (manual.isToggled() && !enabled) {
                 if (ModuleUtils.threwFireballLow) {
                     ModuleManager.velocity.disable = true;
-                    // ModuleManager.antiKnockback.disable = true; // TODO: needs package access
+                    ModuleManager.antiKnockback.disable = true;
                     enabled();
                 }
             }
@@ -155,8 +153,8 @@ public class LongJump extends Module {
         }
 
         if (spoofItem.isToggled()) {
-            // TODO: IMixinItemRenderer not available in 1.21.4
-            // TODO: IMixinItemRenderer not available in 1.21.4
+            ((IMixinItemRenderer) mc.getItemRenderer()).setCancelUpdate(true);
+            ((IMixinItemRenderer) mc.getItemRenderer()).setCancelReset(true);
         }
 
         if (enabled) {
@@ -169,9 +167,9 @@ public class LongJump extends Module {
             int fireballSlot = setupFireballSlot(true);
             if (fireballSlot != -1) {
                 if (!manual.isToggled()) {
-                    lastSlot = mc.player.getInventory().selectedSlot;
-                    if (mc.player.getInventory().selectedSlot != fireballSlot) {
-                        mc.player.getInventory().selectedSlot = fireballSlot;
+                    lastSlot = mc.player.inventory.currentItem;
+                    if (mc.player.inventory.currentItem != fireballSlot) {
+                        mc.player.inventory.currentItem = fireballSlot;
                     }
 
                 }
@@ -216,28 +214,31 @@ public class LongJump extends Module {
             }
         }
 
-        if (mc.player.isOnGround() && boostTicks > 2) {
+        if (mc.player.onGround && boostTicks > 2) {
             disabled();
         }
 
         if (firstSlot != -1) {
-            mc.player.getInventory().selectedSlot = firstSlot;
+            mc.player.inventory.currentItem = firstSlot;
         }
-    }public void onPreMotion(PreMotionEvent e) {
+    }
+
+    (priority = )
+    public void onPreMotion(PreMotionEvent e) {
         if (!Utils.nullCheck()) {
             return;
         }
         if (rotateTick == 1) {
             if ((invertYaw.isToggled() || stopMovement.isToggled()) && !notMoving) {
                 if (!stopMovement.isToggled()) {
-                    yaw = mc.player.getYaw() - 180f;
+                    yaw = mc.player.rotationYaw - 180f;
                     pitch = 90f;
                 } else {
-                    yaw = mc.player.getYaw() - 180f;
+                    yaw = mc.player.rotationYaw - 180f;
                     pitch = 66.3f;//(float) pitchVal.getInput();
                 }
             } else {
-                yaw = mc.player.getYaw();
+                yaw = mc.player.rotationYaw;
                 pitch = 90f;
             }
             e.setRotations(yaw, pitch);
@@ -248,11 +249,11 @@ public class LongJump extends Module {
             if (fireballSlot != -1) {
                 fireballTime = System.currentTimeMillis();
                 if (!manual.isToggled()) {
-                    // PlayerInteractItemC2SPacket needs PacketByteBuf in 1.21.4
+                    mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.player.getHeldItem()));
                     //((IAccessorMinecraft) mc).callRightClickMouse();
                 }
-                mc.player.swingHand(Hand.MAIN_HAND);
-                // mc.getItemRenderer().resetEquippedProgress(); // removed in 1.21.4
+                mc.player.swingItem();
+                mc.getItemRenderer().resetEquippedProgress();
                 stopVelocity = true;
                 //Utils.sendMessage("Right click");
             }
@@ -269,11 +270,13 @@ public class LongJump extends Module {
         }
 
     }
+
+    (priority = ) // called last in order to apply fix
     public void onMoveInput(PrePlayerInputEvent e) {
         if (!function) {
             return;
         }
-        // mc.player.input.jumping = false; // TODO: verify field name
+        mc.player.movementInput.jump = false;
         if (rotateTick > 0 || fireballTime > 0) {
             if (Utils.isMoving()) e.setForward(1);
             e.setStrafe(0);
@@ -295,10 +298,10 @@ public class LongJump extends Module {
         if (!function) {
             return;
         }
-        Object packet = e.getPacket();
-        if (packet instanceof net.minecraft.network.packet.s2c.play.ExplosionS2CPacket) {
-            net.minecraft.network.packet.s2c.play.ExplosionS2CPacket s27 = (net.minecraft.network.packet.s2c.play.ExplosionS2CPacket) packet;
-            if (fireballTime == 0 || mc.player.getPos().squaredDistanceTo((double)(double)0 /* getPlayerKnockback disabled */, (double)(double)0, (double)(double)0) > MAX_EXPLOSION_DIST_SQ) {
+        Packet packet = e.getPacket();
+        if (packet instanceof S27PacketExplosion) {
+            S27PacketExplosion s27 = (S27PacketExplosion) packet;
+            if (fireballTime == 0 || mc.player.getPosition().distanceSq(s27.getX(), s27.getY(), s27.getZ()) > MAX_EXPLOSION_DIST_SQ) {
                 e.setCanceled(true);
                 //Utils.sendMessage("0 fb time / out of dist");
             }
@@ -310,12 +313,12 @@ public class LongJump extends Module {
             //Utils.sendMessage("set start vals");
 
             //client.print(client.getPlayer().getTicksExisted() + " s27 " + boostTicks + " " + client.getPlayer().getHurtTime() + " " + client.getPlayer().getSpeed());
-        } else if (packet instanceof net.minecraft.network.packet.s2c.play.ExplosionS2CPacket) {
+        } else if (packet instanceof S08PacketPlayerPosLook) {
             Utils.sendMessage("&cReceived setback, disabling.");
             disabled();
         }
 
-        if (hideExplosion.isToggled() && fireballTime != 0 && (packet instanceof Object || packet instanceof Object || packet instanceof Object)) {
+        if (hideExplosion.isToggled() && fireballTime != 0 && (packet instanceof S0EPacketSpawnObject || packet instanceof S2APacketParticles || packet instanceof S29PacketSoundEffect)) {
             e.setCanceled(true);
         }
     }
@@ -323,8 +326,8 @@ public class LongJump extends Module {
     private int getFireballSlot() {
         int n = -1;
         for (int i = 0; i < 9; ++i) {
-            final ItemStack getStackInSlot = mc.player.getInventory().getStack(i);
-            if (getStackInSlot != null && getStackInSlot.getItem() == Items.FIRE_CHARGE) {
+            final ItemStack getStackInSlot = mc.player.inventory.getStackInSlot(i);
+            if (getStackInSlot != null && getStackInSlot.getItem() == Items.fire_charge) {
                 n = i;
                 break;
             }
@@ -369,10 +372,10 @@ public class LongJump extends Module {
     private void resetSlot() {
         if (lastSlot != -1 && !manual.isToggled()) {
             if (spoofItem.isToggled()) {
-                // TODO: IMixinItemRenderer not available in 1.21.4
-                // TODO: IMixinItemRenderer not available in 1.21.4
+                ((IMixinItemRenderer) mc.getItemRenderer()).setCancelUpdate(false);
+                ((IMixinItemRenderer) mc.getItemRenderer()).setCancelReset(false);
             }
-            mc.player.getInventory().selectedSlot = lastSlot;
+            mc.player.inventory.currentItem = lastSlot;
             lastSlot = -1;
             firstSlot = -1;
         }
@@ -380,8 +383,8 @@ public class LongJump extends Module {
     }
 
     private int getSpeedLevel() {
-        for (net.minecraft.entity.effect.StatusEffectInstance potionEffect : mc.player.getStatusEffects()) {
-            if (potionEffect.getTranslationKey().contains("speed")) {
+        for (PotionEffect potionEffect : mc.player.getActivePotionEffects()) {
+            if (potionEffect.getEffectName().equals("potion.moveSpeed")) {
                 return potionEffect.getAmplifier() + 1;
             }
             return 0;
@@ -408,13 +411,13 @@ public class LongJump extends Module {
             double decay = motionDecay.getInput() / 1000;
             if (boostTicks > 1 && !temporaryFlightKey()) {
                 if (boostTicks > 1 || boostTicks <= (!notMoving ? 32/*horizontal motion ticks*/ : 33/*vertical motion ticks*/)) {
-                    vec3d_y = Utils.randomizeDouble(0.0101, 0.01);
+                    mc.player.motionY = Utils.randomizeDouble(0.0101, 0.01);
                 }
             } else {
                 if (boostTicks >= 1 && boostTicks <= (!notMoving ? 32/*horizontal motion ticks*/ : 33/*vertical motion ticks*/)) {
-                    vec3d_y = ver - boostTicks * decay;
+                    mc.player.motionY = ver - boostTicks * decay;
                 } else if (boostTicks >= (!notMoving ? 32/*horizontal motion ticks*/ : 33/*vertical motion ticks*/) + 3) {
-                    vec3d_y = mc.player.getVelocity().y + 0.028;
+                    mc.player.motionY = mc.player.motionY + 0.028;
                     Utils.sendMessage("?");
                 }
             }

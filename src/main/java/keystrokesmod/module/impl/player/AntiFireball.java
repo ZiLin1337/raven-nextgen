@@ -11,12 +11,13 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.ReflectionUtils;
 import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.FireballEntity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -32,7 +33,7 @@ public class AntiFireball extends Module {
     private final ButtonSetting onGround;
     private final ButtonSetting sneakWhileActive;
 
-    public FireballEntity fireball;
+    public EntityFireball fireball;
     private final HashSet<Entity> fireballs = new HashSet<>();
 
     private long nextClickTime;
@@ -68,7 +69,7 @@ public class AntiFireball extends Module {
     public void onPrePlayerInput(PrePlayerInputEvent e) {
         if (!Utils.nullCheck()) return;
         if (fireball != null && sneakWhileActive.isToggled() && !mc.player.isRiding()
-                && !mc.player.getAbilities().isFlying) {
+                && !mc.player.capabilities.isFlying) {
             e.setSneak(true);
         }
     }
@@ -79,7 +80,7 @@ public class AntiFireball extends Module {
         if (ModuleManager.bedAura != null && ModuleManager.bedAura.shouldOverrideMouseOver()) {
             return;
         }
-        if (onGround.isToggled() && !mc.player.isOnGround()) return;
+        if (onGround.isToggled() && !mc.player.onGround) return;
         if (fireball == null) return;
 
         float baseYaw = e.yaw != null ? e.yaw : RotationUtils.serverRotations[0];
@@ -96,13 +97,13 @@ public class AntiFireball extends Module {
     }
 
     private float[] computeAimRotations(float baseYaw, float basePitch) {
-        Vec3d eye = mc.player.getPositionEyes(1.0f);
+        Vec3 eye = mc.player.getPositionEyes(1.0f);
         float borderSize = fireball.getCollisionBorderSize();
-        Box fireballBox = fireball.getBoundingBox().expand(borderSize, borderSize, borderSize);
-        double reach = mc.interactionManager.getBlockReachDistance();
+        Box fireballBox = fireball.getEntityBoundingBox().expand(borderSize, borderSize, borderSize);
+        double reach = mc.playerController.getBlockReachDistance();
 
-        List<PlayerEntity> players = new ArrayList<>();
-        for (PlayerEntity player : mc.world.world.getPlayers()) {
+        List<EntityPlayer> players = new ArrayList<>();
+        for (EntityPlayer player : mc.world.playerEntities) {
             if (player == mc.player || player.deathTime != 0) continue;
             if (Utils.isFriended(player)) continue;
             if (Utils.isTeammate(player)) continue;
@@ -111,7 +112,7 @@ public class AntiFireball extends Module {
         }
         players.sort(Comparator.comparingDouble(p -> mc.player.getDistanceSqToEntity(p)));
 
-        for (PlayerEntity player : players) {
+        for (EntityPlayer player : players) {
             float[] rot = RotationUtils.getRotationsToPoint(player.posX, player.posY, player.posZ, baseYaw, basePitch);
             if (hitsFireballBox(eye, rot[0], rot[1], fireballBox, reach)) {
                 return rot;
@@ -124,21 +125,21 @@ public class AntiFireball extends Module {
         return RotationUtils.getRotationsToPoint(centerX, topY, centerZ, baseYaw, basePitch);
     }
 
-    private boolean hitsFireballBox(Vec3d eye, float yaw, float pitch, Box box, double range) {
-        Vec3d look = Utils.getLookVec(yaw, pitch);
-        Vec3d end = eye.addVector(look.x * range, look.y * range, look.z * range);
-        HitResult intercept = box.calculateIntercept(eye, end);
+    private boolean hitsFireballBox(Vec3 eye, float yaw, float pitch, Box box, double range) {
+        Vec3 look = Utils.getLookVec(yaw, pitch);
+        Vec3 end = eye.addVector(look.xCoord * range, look.yCoord * range, look.zCoord * range);
+        MovingObjectPosition intercept = box.calculateIntercept(eye, end);
         return intercept != null;
     }
 
     
     public void onPrePlayerInteract(PrePlayerInteractEvent e) {
         if (!Utils.nullCheck() || mc.currentScreen != null) return;
-        if (onGround.isToggled() && !mc.player.isOnGround()) return;
+        if (onGround.isToggled() && !mc.player.onGround) return;
         if (fireball == null) return;
 
-        HitResult mop = mc.crosshairTarget;
-        if (mop == null || mop.typeOfHit != HitResult.MovingObjectType.ENTITY || mop.entityHit != fireball) {
+        MovingObjectPosition mop = mc.objectMouseOver;
+        if (mop == null || mop.typeOfHit != MovingObjectPosition.MovingObjectType.ENTITY || mop.entityHit != fireball) {
             nextClickTime = 0;
             ReflectionUtils.setButton(0, false);
             return;
@@ -149,37 +150,37 @@ public class AntiFireball extends Module {
             nextClickTime = now;
         }
 
-        int key = mc.options.attackKey.getDefaultKey().getCode();
+        int key = mc.gameSettings.keyBindAttack.getKeyCode();
         while (nextClickTime <= now) {
-            InputUtil.setKeyPressed(key, true);
+            KeyBinding.setKeyBindState(key, true);
             KeyBinding.onTick(key);
             ReflectionUtils.setButton(0, true);
             nextClickTime += nextDelay();
         }
     }
 
-    private FireballEntity getFireball() {
+    private EntityFireball getFireball() {
         double rangeSq = range.getInput() * range.getInput();
         float fovVal = (float) fov.getInput();
 
-        if (onGround.isToggled() && !mc.player.isOnGround()) return null;
+        if (onGround.isToggled() && !mc.player.onGround) return null;
 
-        for (Entity entity : mc.world.world.getEntities()) {
-            if (!(entity instanceof FireballEntity)) continue;
+        for (Entity entity : mc.world.loadedEntityList) {
+            if (!(entity instanceof EntityFireball)) continue;
             if (!fireballs.contains(entity)) continue;
             if (mc.player.getDistanceSqToEntity(entity) > rangeSq) continue;
             if (fovVal != 360.0f && !Utils.inFov(fovVal, entity)) continue;
-            return (FireballEntity) entity;
+            return (EntityFireball) entity;
         }
         return null;
     }
 
     
-    public void onEntityJoin(Object e) {
+    public void onEntityJoin(EntityJoinWorldEvent e) {
         if (!Utils.nullCheck()) return;
         if (e.entity == mc.player) {
             fireballs.clear();
-        } else if (e.entity instanceof FireballEntity && mc.player.getDistanceSqToEntity(e.entity) > 16.0) {
+        } else if (e.entity instanceof EntityFireball && mc.player.getDistanceSqToEntity(e.entity) > 16.0) {
             fireballs.add(e.entity);
         }
     }

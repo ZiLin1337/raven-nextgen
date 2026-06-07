@@ -3,7 +3,7 @@ package keystrokesmod.module.impl.movement;
 import keystrokesmod.Raven;
 import keystrokesmod.event.JumpEvent;
 import keystrokesmod.event.PreUpdateEvent;
-
+import keystrokesmod.event.SendPacketEvent;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.impl.client.Settings;

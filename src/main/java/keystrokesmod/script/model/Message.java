@@ -1,62 +1,55 @@
 package keystrokesmod.script.model;
 
 import keystrokesmod.utility.Utils;
-import net.minecraft.text.ClickEvent;
-import net.minecraft.text.HoverEvent;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
+import net.minecraft.event.ClickEvent;
+import net.minecraft.event.HoverEvent;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatStyle;
+import net.minecraft.util.IChatComponent;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Message {
-    public MutableText component;
-    
+    public ChatComponentText component;
+
     public Message(String message) {
-        this.component = Text.literal(message);
+        this.component = new ChatComponentText(message);
     }
-    
+
     public void appendStyle(String style, String action, String styleMessage, String message) {
-        Style chatStyle = Style.EMPTY;
+        ChatStyle chatStyle = new ChatStyle();
         if (style.equals("HOVER")) {
-            HoverEvent.Action<?> hoverAction = Utils.getEnum(HoverEvent.Action.class, action);
-            if (hoverAction != null) {
-                chatStyle = chatStyle.withHoverEvent(new HoverEvent(hoverAction, Text.literal(styleMessage)));
-            }
-        } else if (style.equals("CLICK")) {
-            ClickEvent.Action clickAction = Utils.getEnum(ClickEvent.Action.class, action);
-            if (clickAction != null) {
-                chatStyle = chatStyle.withClickEvent(new ClickEvent(clickAction, styleMessage));
-            }
+            chatStyle.setChatHoverEvent(new HoverEvent(Utils.getEnum(HoverEvent.Action.class, action), new ChatComponentText(styleMessage)));
         }
-        MutableText sibling = Text.literal(message).styled(s -> chatStyle);
-        this.component.append(sibling);
+        else if (style.equals("CLICK")) {
+            chatStyle.setChatClickEvent(new ClickEvent(Utils.getEnum(ClickEvent.Action.class, action), styleMessage));
+        }
+        component.appendSibling(new ChatComponentText(message).setChatStyle(chatStyle));
     }
-    
+
     public void append(String append) {
-        this.component.append(Text.literal(append));
+        component.appendSibling(new ChatComponentText(append));
     }
-    
+
     public List<Message> getSiblings() {
         List<Message> siblings = new ArrayList<>();
-        for (Text sibling : this.component.getSiblings()) {
-            siblings.add(new Message(sibling.getString()));
+        for (IChatComponent sibling : this.component.getSiblings()) {
+            siblings.add(new Message(sibling.getUnformattedTextForChat()));
         }
         return siblings;
     }
-    
+
     public String getStyle() {
-        return this.component.getStyle().toString();
+        return this.component.getChatStyle().toString();
     }
-    
+
     public String getText() {
-        return this.component.getString();
+        return this.component.getUnformattedTextForChat();
     }
-    
+
     @Override
     public String toString() {
-        return "TextComponent{text='" + this.component.getString() + '\'' +
-               ", siblings=" + this.component.getSiblings() +
-               ", style=" + this.component.getStyle() + '}';
+        return "TextComponent{text='" + this.component.getUnformattedTextForChat() + '\'' + ", siblings=" + this.component.getSiblings() + ", style=" + this.component.getChatStyle() + '}';
     }
 }

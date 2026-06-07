@@ -41,7 +41,7 @@ public class Module {
         this.moduleCategory = moduleCategory;
         this.keycode = keycode;
         this.enabled = false;
-        mc = mc;
+        mc = MinecraftClient.getInstance();
         this.settings = new ArrayList();
     }
 
@@ -52,7 +52,7 @@ public class Module {
     public Module(Script script) {
         super();
         this.enabled = false;
-        this.moduleName = script.getScriptName();
+        this.moduleName = script.name;
         this.script = script;
         this.keycode = 0;
         this.moduleCategory = category.scripts;
@@ -92,7 +92,7 @@ public class Module {
     }
 
     public boolean canBeEnabled() {
-        if (this.script != null && script.isCompiled()) {
+        if (this.script != null && script.error) {
             return false;
         }
         return this.canBeEnabled;

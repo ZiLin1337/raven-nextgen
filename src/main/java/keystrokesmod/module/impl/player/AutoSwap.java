@@ -1,15 +1,16 @@
 package keystrokesmod.module.impl.player;
-import keystrokesmod.event.SendPacketEvent;
 
 import keystrokesmod.event.PrePlayerInteractEvent;
-
+import keystrokesmod.event.SendPacketEvent;
+import keystrokesmod.mixin.impl.accessor.IAccessorPlayerControllerMP;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.BlockListSetting;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
-
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 
 public class AutoSwap extends Module {
     private final ButtonSetting useBlockWhitelist;
@@ -46,11 +47,11 @@ public class AutoSwap extends Module {
 
     
     public void onSendPacket(SendPacketEvent e) {
-        if (!Utils.nullCheck() || !(e.getPacket() instanceof PlayerInteractBlockC2SPacket)) {
+        if (!Utils.nullCheck() || !(e.getPacket() instanceof C08PacketPlayerBlockPlacement)) {
             return;
         }
 
-        PlayerInteractBlockC2SPacket packet = (PlayerInteractBlockC2SPacket) e.getPacket();
+        C08PacketPlayerBlockPlacement packet = (C08PacketPlayerBlockPlacement) e.getPacket();
         if (packet.getPlacedBlockDirection() == 255) {
             return;
         }
@@ -62,7 +63,7 @@ public class AutoSwap extends Module {
 
         trackedStack = stack.copy();
         trackedStack.stackSize = 1;
-        lastPlaceSlot = mc.player.getInventory().selectedSlot;
+        lastPlaceSlot = mc.player.inventory.currentItem;
     }
 
     
@@ -72,15 +73,15 @@ public class AutoSwap extends Module {
             return;
         }
 
-        if (!mc.isWindowFocused() || mc.currentScreen != null || !Utils.isBindDown(mc.options.keyBindUseItem)) {
+        if (!mc.inGameHasFocus || mc.currentScreen != null || !Utils.isBindDown(mc.gameSettings.keyBindUseItem)) {
             return;
         }
 
-        if (trackedStack == null || lastPlaceSlot == -1 || mc.player.getInventory().selectedSlot != lastPlaceSlot) {
+        if (trackedStack == null || lastPlaceSlot == -1 || mc.player.inventory.currentItem != lastPlaceSlot) {
             return;
         }
 
-        ItemStack held = mc.player.getMainHandStack();
+        ItemStack held = mc.player.getHeldItem();
         if (held != null && held.stackSize > 0) {
             return;
         }
@@ -141,12 +142,12 @@ public class AutoSwap extends Module {
     }
 
     private void swapToSlot(int slot) {
-        if (slot == -1 || slot == mc.player.getInventory().selectedSlot) {
+        if (slot == -1 || slot == mc.player.inventory.currentItem) {
             return;
         }
 
-        mc.player.getInventory().selectedSlot = slot;
-        ((IAccessorClientPlayerInteractionManager) mc.interactionManager).callSyncCurrentPlayItem();
+        mc.player.inventory.currentItem = slot;
+        ((IAccessorPlayerControllerMP) mc.playerController).callSyncCurrentPlayItem();
     }
 
     private void resetState() {

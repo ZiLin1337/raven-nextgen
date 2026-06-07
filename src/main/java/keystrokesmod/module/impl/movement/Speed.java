@@ -67,7 +67,7 @@ public class Speed extends Module {
 
     private boolean floatConditions() {
         int edgeY = (int) Math.round((mc.player.getY() % 1.0) * 100.0);
-        if (ModuleManager.getModule("BHop").isEnabled()) {
+        if (ModuleManager.moduleManager.getModule("BHop").isEnabled()) {
             requireJump = true;
             return false;
         }

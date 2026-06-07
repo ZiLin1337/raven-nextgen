@@ -1,13 +1,12 @@
 package keystrokesmod.lag.queue;
 
-import net.minecraft.network.packet.Packet;
 import keystrokesmod.lag.api.EnumLagDirection;
 import keystrokesmod.lag.api.LagRequest;
 import keystrokesmod.lag.handler.AbstractFastTrackProvider;
 import keystrokesmod.lag.queue.node.api.AbstractLagNode;
 import keystrokesmod.lag.queue.node.impl.AddRequestLagNode;
 import keystrokesmod.lag.queue.node.impl.PacketLagNode;
-
+import net.minecraft.network.Packet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -31,7 +30,7 @@ public final class BiTrackLagNodeQueue {
         outgoingState.clear();
     }
 
-    public boolean tick(final Object packet, final @Nullable EnumLagDirection direction) {
+    public boolean tick(final @Nullable Packet<?> packet, final @Nullable EnumLagDirection direction) {
         if ((packet == null) != (direction == null)) {
             throw new NullPointerException();
         }
@@ -98,7 +97,7 @@ public final class BiTrackLagNodeQueue {
             track.add(new AddRequestLagNode(request));
         }
 
-        private synchronized boolean tick(final Object packet, final @Nullable EnumLagDirection direction) {
+        private synchronized boolean tick(final @Nullable Packet<?> packet, final @Nullable EnumLagDirection direction) {
             if (track.isEmpty() && (currentlyAwaiting == null || currentlyAwaiting.getTimeout().isTimedOut())) {
                 currentlyAwaiting = null;
                 return false;

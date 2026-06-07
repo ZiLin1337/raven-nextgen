@@ -27,7 +27,10 @@ public class NullMove extends Module {
         this.prevD = false;
         this.lastForwardSign = 0;
         this.lastStrafeSign = 0;
-    }public void onPrePlayerInput(PrePlayerInputEvent e) {
+    }
+
+    (priority = )
+    public void onPrePlayerInput(PrePlayerInputEvent e) {
         if (!this.isEnabled() || !Utils.nullCheck()) {
             return;
         }
@@ -35,10 +38,10 @@ public class NullMove extends Module {
             return;
         }
 
-        boolean w = mc.options.keyBindForward.isKeyDown();
-        boolean s = mc.options.keyBindBack.isKeyDown();
-        boolean a = mc.options.keyBindLeft.isKeyDown();
-        boolean d = mc.options.keyBindRight.isKeyDown();
+        boolean w = mc.gameSettings.keyBindForward.isKeyDown();
+        boolean s = mc.gameSettings.keyBindBack.isKeyDown();
+        boolean a = mc.gameSettings.keyBindLeft.isKeyDown();
+        boolean d = mc.gameSettings.keyBindRight.isKeyDown();
 
         if (w && !this.prevW) {
             this.lastForwardSign = 1;

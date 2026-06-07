@@ -4,8 +4,9 @@ import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.DescriptionSetting;
 import keystrokesmod.utility.Utils;
-import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.scoreboard.Team;
+import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.scoreboard.ScorePlayerTeam;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 public class AutoWho extends Module {
     private ButtonSetting artifical;
@@ -42,11 +43,11 @@ public class AutoWho extends Module {
     }
 
     
-    public void onChatReceive(Object e) {
+    public void onChatReceive(ClientChatReceivedEvent e) {
         if (e.type == 2 || !Utils.nullCheck()) {
             return;
         }
-        final String r = Utils.stripColor(e.message.getString());
+        final String r = Utils.stripColor(e.message.getUnformattedText());
         if (r.isEmpty()) {
             return;
         }
@@ -73,7 +74,7 @@ public class AutoWho extends Module {
     private void artificial() {
         if (artifical.isToggled()) {
             String online = hideMessage.isToggled() ? "ONLINE: " : "&b&lONLINE: &r";
-            for (PlayerListEntry networkPlayerInfo : Utils.getTablist(true)) {
+            for (NetworkPlayerInfo networkPlayerInfo : Utils.getTablist(true)) {
                 if (removeBots.isToggled() && networkPlayerInfo.getResponseTime() > 1) {
                     continue;
                 }
@@ -87,7 +88,7 @@ public class AutoWho extends Module {
                 Utils.log.info("[CHAT] " + (online + mc.player.getName()));
                 return;
             }
-            Utils.sendRawMessage(online + mc.player.getDisplayName().getString());
+            Utils.sendRawMessage(online + mc.player.getDisplayName().getFormattedText());
         } else {
             mc.player.sendChatMessage("/who");
         }

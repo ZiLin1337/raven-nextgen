@@ -6,14 +6,13 @@ import keystrokesmod.module.impl.client.Gui;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Theme;
 import keystrokesmod.utility.Timer;
-import net.minecraft.client.MinecraftClient;
-import org.lwjgl.glfw.GLFW;
-import com.mojang.blaze3d.platform.GlStateManager;
-// RenderHelper removed in 1.21
-import net.minecraft.client.render.item.ItemRenderer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.util.ResourceLocation;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;
@@ -94,8 +93,8 @@ public abstract class AbstractSearchListComponent extends AbstractTextInputCompo
     @Override
     public void keyTyped(char typedChar, int keyCode) {
         if (!moduleComponent.isOpened) return;
-        if (keyCode == GLFW.GLFW_KEY_ESCAPE && isSearchFocused()) { if (!handleSearchEscape()) unfocusSearch(); return; }
-        if ((keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER) && isSearchFocused()) { unfocusSearch(); return; }
+        if (keyCode == Keyboard.KEY_ESCAPE && isSearchFocused()) { if (!handleSearchEscape()) unfocusSearch(); return; }
+        if ((keyCode == Keyboard.KEY_RETURN || keyCode == Keyboard.KEY_NUMPADENTER) && isSearchFocused()) { unfocusSearch(); return; }
         if (getTextField().textboxKeyTyped(typedChar, keyCode)) {
             onSearchTextChanged(getTextField().getText());
             dropdownScrollAnim.reset(0);
@@ -107,7 +106,7 @@ public abstract class AbstractSearchListComponent extends AbstractTextInputCompo
     @Override
     public void onScroll(int scroll) {
         if (!moduleComponent.isOpened || !moduleComponent.isVisible(this)) return;
-        float scrollSpeed = 1.0f;
+        float scrollSpeed = (float) Gui.scrollSpeed.getInput();
         float delta = scrollSpeed * (scroll / 120f);
         if (isMouseOverDropdown()) { if (delta != 0f) dropdownScrollAnim.extend(-delta); clampDropdownScroll(); return; }
         if (isMouseOverSelectedList() && getSelectedEntryCount() > MAX_VISIBLE_SELECTED) { if (delta != 0f) selectedScrollAnim.extend(-delta); clampSelectedScroll(); }
@@ -156,12 +155,12 @@ public abstract class AbstractSearchListComponent extends AbstractTextInputCompo
     protected final void clampSelectedScroll() { float maxScrollPx = Math.max(0f, (getSelectedEntryCount() - MAX_VISIBLE_SELECTED) * ROW_HEIGHT); selectedScrollAnim.clampTarget(0f, maxScrollPx); }
     protected final void updateDropdownAnimation() { float newTarget = computeDropdownTarget(); if (newTarget != dropdownAnimTargetH) { dropdownAnimStartH = dropdownAnimH; dropdownAnimTargetH = newTarget; dropdownAnimTimer = new Timer(ANIMATION_DURATION); dropdownAnimTimer.start(); } }
     protected final void notifySelectionListChanged() { markUnsaved(); updateDropdownAnimation(); moduleComponent.updateSettingPositions(); }
-    protected final void markUnsaved() { if (Raven.currentProfile != null) Raven.currentProfile /* getModule disabled */.saved = false; }
+    protected final void markUnsaved() { if (Raven.currentProfile != null) Raven.currentProfile.getModule().saved = false; }
     protected final ItemStack getPreviewStack(SelectedRowData row) { if (row == null) return null; if (row.cyclingStacks != null && !row.cyclingStacks.isEmpty()) return row.cyclingStacks.get((int) ((System.currentTimeMillis() / 1000L) % row.cyclingStacks.size())); return row.stack; }
 
     protected final void renderBackRow(float left, float right, float rowTop, int bgColor, String groupName) {
         RenderUtils.drawRect(left, rowTop, right, rowTop + ROW_HEIGHT - 1f, bgColor);
-        Identifier arrow = RenderUtils.getIcon(ARROW_ICON_PATH);
+        ResourceLocation arrow = RenderUtils.getIcon(ARROW_ICON_PATH);
         if (arrow != null) RenderUtils.drawIcon(arrow, left + 2f, rowTop + (LIST_ROW_VISUAL_HEIGHT - CLOSE_SIZE) / 2f, CLOSE_SIZE, 0xFFFFFFFF);
         drawListRowText(groupName != null ? groupName : "Back", left + 13f, rowTop, 0xFFCCCCCC);
     }
@@ -178,7 +177,7 @@ public abstract class AbstractSearchListComponent extends AbstractTextInputCompo
     }
 
     protected final void renderCloseIcon(float right, float rowTop) {
-        Identifier close = RenderUtils.getIcon(CLOSE_ICON_PATH);
+        ResourceLocation close = RenderUtils.getIcon(CLOSE_ICON_PATH);
         if (close == null) return;
         float closeX = right - CLOSE_SIZE - CLOSE_PAD;
         float closeY = rowTop + (LIST_ROW_VISUAL_HEIGHT - CLOSE_SIZE) / 2f;
@@ -193,19 +192,19 @@ public abstract class AbstractSearchListComponent extends AbstractTextInputCompo
 
     protected final void renderItemInRow(ItemStack stack, float x, float rowTop) {
         if (stack == null) return;
-        net.minecraft.client.render.item.ItemRenderer renderItem = MinecraftClient.getInstance().gameRenderer;
+        RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
         double scale = 0.55;
         float px = (float) (x / scale);
         float py = (float) ((rowTop + (LIST_ROW_VISUAL_HEIGHT - (float)(16 * scale)) / 2f) / scale);
-        // pushMatrix disabled;
-        // scale(scale, scale, scale);
-        // translate(px, py, 0f);
-        // enableGUIStandardItemLighting disabled;
-        // disableBlend disabled;
-        // renderItemAndEffectIntoGUI disabled
-        // enableBlend disabled;
-        // RenderHelper disabled
-        // popMatrix disabled;
+        GlStateManager.pushMatrix();
+        GlStateManager.scale(scale, scale, scale);
+        GlStateManager.translate(px, py, 0f);
+        RenderHelper.enableGUIStandardItemLighting();
+        GlStateManager.disableBlend();
+        renderItem.renderItemAndEffectIntoGUI(stack, 0, 0);
+        GlStateManager.enableBlend();
+        RenderHelper.disableStandardItemLighting();
+        GlStateManager.popMatrix();
     }
 
     protected final boolean isMouseOverDropdown(float mouseX, float mouseY) {

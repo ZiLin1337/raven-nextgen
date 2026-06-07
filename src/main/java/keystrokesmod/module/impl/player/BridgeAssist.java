@@ -1,13 +1,8 @@
 package keystrokesmod.module.impl.player;
-import keystrokesmod.event.SendPacketEvent;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Direction;
 
 import keystrokesmod.event.ClientRotationEvent;
 import keystrokesmod.event.PrePlayerInputEvent;
-
+import keystrokesmod.event.SendPacketEvent;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -17,9 +12,10 @@ import keystrokesmod.script.model.SimulatedPlayer;
 import keystrokesmod.utility.BlockUtils;
 import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
-
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-
+import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.util.*;
 
 import java.util.ArrayList;
@@ -83,7 +79,7 @@ public class BridgeAssist extends Module {
 
     
     public void onPrePlayerInput(PrePlayerInputEvent e) {
-        if (!Utils.nullCheck() || mc.currentScreen != null || mc.player.getAbilities().isFlying) return;
+        if (!Utils.nullCheck() || mc.currentScreen != null || mc.player.capabilities.isFlying) return;
 
         boolean manualSneak = isManualSneak();
         boolean requireSneak = sneakKeyPressed.isToggled();
@@ -103,21 +99,21 @@ public class BridgeAssist extends Module {
             clearSneak(e);
             return;
         }
-        if (lookingDown.isToggled() && mc.player.getPitch() < 70) {
+        if (lookingDown.isToggled() && mc.player.rotationPitch < 70) {
             clearSneak(e);
             return;
         }
         if (holdingBlocks.isToggled()) {
-            ItemStack held = mc.player.getMainHandStack();
+            ItemStack held = mc.player.getHeldItem();
             if (held == null || !(held.getItem() instanceof ItemBlock)) {
                 clearSneak(e);
                 return;
             }
         }
 
-        if (e.isJump() && mc.player.isOnGround() && (e.getForward() != 0 || e.getStrafe() != 0) && sneakOnJump.getInput() > 0) {
+        if (e.isJump() && mc.player.onGround && (e.getForward() != 0 || e.getStrafe() != 0) && sneakOnJump.getInput() > 0) {
             if (!requireSneak || forceRelease) {
-                sneakJumpStartTick = mc.player.age;
+                sneakJumpStartTick = mc.player.ticksExisted;
                 double raw = sneakOnJump.getInput() / 50.0;
                 int base = (int) raw;
                 sneakJumpDelayTicks = base + (Math.random() < (raw - base) ? 1 : 0);
@@ -130,12 +126,12 @@ public class BridgeAssist extends Module {
         sim.movementInput.sneak = false;
         sim.tick();
 
-        double offset = computeEdgeOffset(sim.getBoundingBox());
+        double offset = computeEdgeOffset(sim.getEntityBoundingBox());
 
         if (Double.isNaN(offset)) {
             if (e.isJump() && (sneakOnJump.getInput() <= 0 || (e.getForward() == 0 && e.getStrafe() == 0))) {
                 if (sneakingFromModule) tryReleaseSneak(e, true);
-            } else if (mc.player.isOnGround()) {
+            } else if (mc.player.onGround) {
                 pressSneak(e, true);
             } else if (sneakingFromModule) {
                 tryReleaseSneak(e, true);
@@ -152,8 +148,8 @@ public class BridgeAssist extends Module {
 
     
     public void onSendPacket(SendPacketEvent e) {
-        if (e.getPacket() instanceof PlayerInteractBlockC2SPacket) {
-            PlayerInteractBlockC2SPacket c08 = (PlayerInteractBlockC2SPacket) e.getPacket();
+        if (e.getPacket() instanceof C08PacketPlayerBlockPlacement) {
+            C08PacketPlayerBlockPlacement c08 = (C08PacketPlayerBlockPlacement) e.getPacket();
             if (c08.getPlacedBlockDirection() != 255 && sneakingFromModule && sneakKeyPressed.isToggled()) {
                 placed = true;
             }
@@ -163,18 +159,18 @@ public class BridgeAssist extends Module {
     
     public void onClientRotation(ClientRotationEvent e) {
         if (!prePlace.isToggled()) return;
-        if (!Utils.nullCheck() || mc.currentScreen != null || mc.player.getAbilities().isFlying) return;
+        if (!Utils.nullCheck() || mc.currentScreen != null || mc.player.capabilities.isFlying) return;
         if (ModuleManager.bedAura != null && ModuleManager.bedAura.shouldOverrideMouseOver()) {
             return;
         }
 
-        ItemStack held = mc.player.getMainHandStack();
+        ItemStack held = mc.player.getHeldItem();
         if (held == null || !(held.getItem() instanceof ItemBlock)) return;
-        if (lookingDown.isToggled() && mc.player.getPitch() < 70f) return;
+        if (lookingDown.isToggled() && mc.player.rotationPitch < 70f) return;
         if (notMovingForward.isToggled() && mc.player.movementInput.moveForward > 0f) return;
 
         float basePitch = e.pitch != null ? e.pitch : RotationUtils.serverRotations[1];
-        double reach = mc.interactionManager.getBlockReachDistance();
+        double reach = mc.playerController.getBlockReachDistance();
 
         TargetResult target = findTarget(basePitch, reach);
         if (target == null) return;
@@ -194,7 +190,7 @@ public class BridgeAssist extends Module {
     }
 
     private void tryReleaseSneak(PrePlayerInputEvent e, boolean resetDelay) {
-        int existed = mc.player.age;
+        int existed = mc.player.ticksExisted;
         if (unsneakStartTick == -1 && sneakJumpStartTick == -1) {
             unsneakStartTick = existed;
             double raw = (unsneakDelay.getInput() - 50) / 50.0;
@@ -217,8 +213,8 @@ public class BridgeAssist extends Module {
     private void releaseSneak(PrePlayerInputEvent e, boolean resetDelay) {
         if (!sneakKeyPressed.isToggled()) {
             e.setSneak(false);
-        } else if (sneakingFromModule && isManualSneak() && (placed || !mc.player.isOnGround())) {
-            InputUtil.setKeyPressed(mc.options.keyBindSneak.getKeyCode(), false);
+        } else if (sneakingFromModule && isManualSneak() && (placed || !mc.player.onGround)) {
+            KeyBinding.setKeyBindState(mc.gameSettings.keyBindSneak.getKeyCode(), false);
             e.setSneak(false);
             forceRelease = true;
         } else if (forceRelease) {
@@ -232,7 +228,7 @@ public class BridgeAssist extends Module {
 
     private void repressSneak(PrePlayerInputEvent e) {
         if (forceRelease && isManualSneak()) {
-            InputUtil.setKeyPressed(mc.options.keyBindSneak.getKeyCode(), true);
+            KeyBinding.setKeyBindState(mc.gameSettings.keyBindSneak.getKeyCode(), true);
             e.setSneak(true);
         }
         forceRelease = false;
@@ -252,7 +248,7 @@ public class BridgeAssist extends Module {
     }
 
     private boolean isManualSneak() {
-        return Utils.isBindDown(mc.options.keyBindSneak);
+        return Utils.isBindDown(mc.gameSettings.keyBindSneak);
     }
 
     private double computeEdgeOffset(Box simBox) {
@@ -281,9 +277,9 @@ public class BridgeAssist extends Module {
     }
 
     private TargetResult findTarget(float currentPitch, double reach) {
-        float yaw = mc.player.getYaw();
+        float yaw = mc.player.rotationYaw;
 
-        Box bbox = mc.player.getBoundingBox();
+        Box bbox = mc.player.getEntityBoundingBox();
         int standY = MathHelper.floor_double(bbox.minY) - 1;
         int minX = MathHelper.floor_double(bbox.minX);
         int maxX = MathHelper.floor_double(bbox.maxX);
@@ -316,7 +312,7 @@ public class BridgeAssist extends Module {
             if (step > 1.8f) step = 1.8f;
             pitch += step;
             float samplePitch = Math.min(pitch, 90f);
-            HitResult mop = RotationUtils.rayCastBlock(reach, yaw, samplePitch);
+            MovingObjectPosition mop = RotationUtils.rayCastBlock(reach, yaw, samplePitch);
             if (mop == null) continue;
             Direction hitFace = mop.sideHit;
             if (hitFace == Direction.UP || hitFace == Direction.DOWN) continue;

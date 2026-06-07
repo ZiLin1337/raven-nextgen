@@ -11,8 +11,8 @@ import net.minecraft.util.Hand;
 public class C0A extends CPacket {
     public C0A() {
         super(new HandSwingC2SPacket(
-            mc.player != null 
-                ? mc.player.getActiveHand() 
+            MinecraftClient.getInstance().player != null 
+                ? MinecraftClient.getInstance().player.getActiveHand() 
                 : Hand.MAIN_HAND
         ));
     }

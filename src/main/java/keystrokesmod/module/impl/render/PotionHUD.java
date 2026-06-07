@@ -1,6 +1,4 @@
 package keystrokesmod.module.impl.render;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffect;
 
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -10,12 +8,15 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import keystrokesmod.utility.font.FontManager;
 import keystrokesmod.utility.font.RavenFontRenderer;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
 
-import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.StatCollector;
+import net.minecraftforge.fml.client.config.GuiButtonExt;
 
-import net.minecraft.text.Text;
+
 
 import java.awt.Color;
 import java.io.IOException;
@@ -57,7 +58,7 @@ public class PotionHUD extends Module {
     private float relativePosX = Float.NaN;
     private float relativePosY = Float.NaN;
     public PotionHUD() {
-        super("StatusEffect HUD", category.render);
+        super("Potion HUD", category.render);
         this.registerSetting(timeFormat = new SliderSetting("Time Format", 0, TIME_FORMAT_OPTIONS));
         this.registerSetting(sortMode = new SliderSetting("Sort By", 0, SORT_OPTIONS));
         this.registerSetting(sortDirection = new SliderSetting("Sort Direction", 0, SORT_DIRECTION_OPTIONS));
@@ -69,16 +70,16 @@ public class PotionHUD extends Module {
         this.registerSetting(excludePermanent = new ButtonSetting("Exclude permanent", false));
         this.registerSetting(drawBackground = new ButtonSetting("Draw background", false));
         this.registerSetting(textShadow = new ButtonSetting("Text shadow", true));
-        this.registerSetting(potionBlacklist = new PotionListSetting("Blacklisted potions", "Potions", "StatusEffect blacklist"));
+        this.registerSetting(potionBlacklist = new PotionListSetting("Blacklisted potions", "Potions", "Potion blacklist"));
     }
 
     
-    public void onRenderTick(Object event) {
+    public void onRenderTick(TickEvent.RenderTickEvent event) {
         if (event.phase != TickEvent.Phase.END || !Utils.nullCheck()) {
             return;
         }
 
-        if (mc.currentScreen != null || mc.options.showDebugInfo) {
+        if (mc.currentScreen != null || mc.gameSettings.showDebugInfo) {
             return;
         }
 
@@ -112,7 +113,7 @@ public class PotionHUD extends Module {
     }
 
     public void setAbsolutePosition(float absoluteX, float absoluteY) {
-        setAbsolutePosition(absoluteX, absoluteY, null);
+        setAbsolutePosition(absoluteX, absoluteY, new (mc));
     }
 
     public void resetPosition() {
@@ -120,8 +121,8 @@ public class PotionHUD extends Module {
     }
 
     private void render(boolean editing) {
-        final int screenWidth = mc.getWindow().getScaledWidth();
-        final int screenHeight = mc.getWindow().getScaledHeight();
+         resolution = new (mc);
+        syncPositionToResolution(resolution);
 
         RenderState state = buildRenderState(editing);
         if (state.entries.isEmpty()) {
@@ -139,10 +140,10 @@ public class PotionHUD extends Module {
         RavenFontRenderer renderer = getFontRenderer();
         LayoutMetrics metrics = LayoutMetrics.from(renderer, getSelectedScale());
         ArrayList<PotionEntry> entries = new ArrayList<PotionEntry>();
-        Collection<StatusEffectInstance> activeEffects = mc.player.getActiveStatusEffectInstances();
+        Collection<PotionEffect> activeEffects = mc.player.getActivePotionEffects();
 
         if (activeEffects != null) {
-            for (StatusEffectInstance effect : activeEffects) {
+            for (PotionEffect effect : activeEffects) {
                 PotionEntry entry = buildEntry(effect, renderer);
                 if (entry != null) {
                     entries.add(entry);
@@ -164,7 +165,7 @@ public class PotionHUD extends Module {
         return new RenderState(renderer, metrics, entries, maxWidth);
     }
 
-    private PotionEntry buildEntry(StatusEffectInstance effect, RavenFontRenderer renderer) {
+    private PotionEntry buildEntry(PotionEffect effect, RavenFontRenderer renderer) {
         if (effect == null) {
             return null;
         }
@@ -174,7 +175,7 @@ public class PotionHUD extends Module {
             return null;
         }
 
-        StatusEffect potion = StatusEffect.potionTypes[effect.getPotionID()];
+        Potion potion = Potion.potionTypes[effect.getPotionID()];
         if (potion == null) {
             return null;
         }
@@ -265,17 +266,17 @@ public class PotionHUD extends Module {
         RenderUtils.drawRect(right - 1.0f, top, right, bottom, EDIT_OUTLINE_COLOR);
     }
 
-    private void adjustAnchorForLayoutChanges(int resolution, RenderState state) {
+    private void adjustAnchorForLayoutChanges( resolution, RenderState state) {
         syncPositionToResolution(resolution);
     }
 
     private void syncPositionToResolution() {
-        syncPositionToResolution(0);
+        syncPositionToResolution(new (mc));
     }
 
-    private void syncPositionToResolution(int resolution) {
-        int scaledWidth = Math.max(1, mc.getWindow().getScaledWidth());
-        int scaledHeight = Math.max(1, mc.getWindow().getScaledHeight());
+    private void syncPositionToResolution( resolution) {
+        int scaledWidth = Math.max(1, resolution.getScaledWidth());
+        int scaledHeight = Math.max(1, resolution.getScaledHeight());
 
         if (Float.isNaN(relativePosX) || Float.isNaN(relativePosY)) {
             if (Float.isNaN(posX) || Float.isNaN(posY)) {
@@ -292,11 +293,11 @@ public class PotionHUD extends Module {
         posY = relativePosY * scaledHeight;
     }
 
-    private void setAbsolutePosition(float absoluteX, float absoluteY, int resolution) {
+    private void setAbsolutePosition(float absoluteX, float absoluteY,  resolution) {
         posX = absoluteX;
         posY = absoluteY;
-        int scaledWidth = Math.max(1, mc.getWindow().getScaledWidth());
-        int scaledHeight = Math.max(1, mc.getWindow().getScaledHeight());
+        int scaledWidth = Math.max(1, resolution.getScaledWidth());
+        int scaledHeight = Math.max(1, resolution.getScaledHeight());
         relativePosX = absoluteX / scaledWidth;
         relativePosY = absoluteY / scaledHeight;
     }
@@ -314,7 +315,7 @@ public class PotionHUD extends Module {
         return (float) scale.getInput();
     }
 
-    private String getPotionLabel(StatusEffectInstance effect, StatusEffect potion) {
+    private String getPotionLabel(PotionEffect effect, Potion potion) {
         String label = StatCollector.translateToLocal(effect.getEffectName());
         if (effect.getAmplifier() >= 1) {
             label += " " + toRomanNumeral(effect.getAmplifier() + 1);
@@ -442,8 +443,8 @@ public class PotionHUD extends Module {
         return builder.toString();
     }
 
-    private class EditScreen extends Screen {
-        private ButtonWidget resetPosition;
+    private class EditScreen extends GuiScreen {
+        private GuiButtonExt resetPosition;
         private boolean dragging;
         private float minX;
         private float minY;
@@ -459,27 +460,26 @@ public class PotionHUD extends Module {
         @Override
         public void initGui() {
             super.initGui();
-            this.buttonList.add(this.resetPosition = new ButtonWidget(1, this.width - 90, this.height - 25, 85, 20, "Reset position"));
-            syncPositionToResolution(0);
+            this.buttonList.add(this.resetPosition = new GuiButtonExt(1, this.width - 90, this.height - 25, 85, 20, "Reset position"));
+            syncPositionToResolution(new (this.mc));
             this.actualX = posX;
             this.actualY = posY;
         }
 
         @Override
         public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-             final int scrW = mc.getWindow().getScaledWidth();
-            final int scrH = mc.getWindow().getScaledHeight();
+             resolution = new (this.mc);
             if (!this.dragging) {
-                syncPositionToResolution(0);
+                syncPositionToResolution(resolution);
                 this.actualX = posX;
                 this.actualY = posY;
             }
 
             drawRect(0, 0, this.width, this.height, -1308622848);
-            setAbsolutePosition(this.actualX, this.actualY, 0);
+            setAbsolutePosition(this.actualX, this.actualY, resolution);
 
             RenderState state = buildRenderState(true);
-            adjustAnchorForLayoutChanges(0, state);
+            adjustAnchorForLayoutChanges(resolution, state);
             Bounds bounds = renderState(state);
             drawBounds(bounds);
 
@@ -491,8 +491,8 @@ public class PotionHUD extends Module {
             this.actualY = posY;
 
             String message = "Edit the HUD position by dragging.";
-            int textX = mc.getWindow().getScaledWidth() / 2 - this.fontRendererObj.getStringWidth(message) / 2;
-            int textY = mc.getWindow().getScaledHeight() / 2 - 20;
+            int textX = resolution.getScaledWidth() / 2 - this.fontRendererObj.getStringWidth(message) / 2;
+            int textY = resolution.getScaledHeight() / 2 - 20;
             RenderUtils.drawColoredString(message, '-', textX, textY, 2L, 0L, true, this.mc.textRenderer);
 
             try {
@@ -533,7 +533,7 @@ public class PotionHUD extends Module {
         }
 
         @Override
-        public void actionPerformed(ButtonWidget button) {
+        public void actionPerformed(GuiButton button) {
             if (button == this.resetPosition) {
                 resetPosition();
                 this.actualX = posX;

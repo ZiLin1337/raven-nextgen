@@ -1,5 +1,6 @@
 package keystrokesmod.utility;
 
+import com.mojang.authlib.Agent;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.GameProfileRepository;
 import com.mojang.authlib.ProfileLookupCallback;
@@ -9,9 +10,9 @@ import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import keystrokesmod.Raven;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.client.texture.PlayerSkinProvider;
+import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Identifier;
+import net.minecraft.util.ResourceLocation;
 
 import java.net.Proxy;
 import java.util.Collections;
@@ -39,7 +40,7 @@ public class PlayerSkinCache {
         }
     }
 
-    private static final Map<String, Identifier> SKINS = new ConcurrentHashMap<String, Identifier>();
+    private static final Map<String, ResourceLocation> SKINS = new ConcurrentHashMap<String, ResourceLocation>();
     private static final Map<String, UUID> UUIDS = new ConcurrentHashMap<String, UUID>();
     private static final Map<String, CachedProfile> PROFILES = new ConcurrentHashMap<String, CachedProfile>();
     private static final Set<String> LOOKUP_IN_FLIGHT = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
@@ -50,7 +51,7 @@ public class PlayerSkinCache {
     private PlayerSkinCache() {
     }
 
-    public static Identifier getSkin(String username, PlayerListEntry playerInfo) {
+    public static ResourceLocation getSkin(String username, PlayerListEntry playerInfo) {
         String normalized = normalize(username);
         if (normalized.isEmpty()) {
             return DefaultPlayerSkin.getDefaultSkin(PlayerEntity.getOfflineUUID("Steve"));
@@ -65,14 +66,14 @@ public class PlayerSkinCache {
             if (profile.getName() != null && Raven.playerRelationsManager != null) {
                 Raven.playerRelationsManager.refreshDisplayName(profile.getName());
             }
-            Identifier location = playerInfo.getLocationSkin();
+            ResourceLocation location = playerInfo.getLocationSkin();
             if (location != null) {
                 SKINS.put(normalized, location);
                 return location;
             }
         }
 
-        Identifier cached = SKINS.get(normalized);
+        ResourceLocation cached = SKINS.get(normalized);
         if (cached != null) {
             return cached;
         }
@@ -128,7 +129,7 @@ public class PlayerSkinCache {
                         return;
                     }
 
-                    MinecraftClient minecraft = mc;
+                    Minecraft minecraft = MinecraftClient.getInstance();
                     GameProfile filledProfile = minecraft.getSessionService().fillProfileProperties(profile, false);
                     if (filledProfile == null) {
                         cacheProfile(normalized, null);
@@ -163,7 +164,7 @@ public class PlayerSkinCache {
             Raven.playerRelationsManager.refreshDisplayName(profile.getName());
         }
 
-        MinecraftClient minecraft = mc;
+        Minecraft minecraft = MinecraftClient.getInstance();
         Map<Type, MinecraftProfileTexture> textures = minecraft.getSkinManager().loadSkinFromCache(profile);
         final MinecraftProfileTexture skinTexture = textures == null ? null : textures.get(Type.SKIN);
         if (skinTexture == null) {
@@ -174,7 +175,7 @@ public class PlayerSkinCache {
         minecraft.addScheduledTask(new Runnable() {
             @Override
             public void run() {
-                Identifier location = mc.getSkinManager().loadSkin(skinTexture, Type.SKIN);
+                ResourceLocation location = MinecraftClient.getInstance().getSkinManager().loadSkin(skinTexture, Type.SKIN);
                 if (location != null) {
                     SKINS.put(normalized, location);
                     LOOKUP_FAILED.remove(normalized);

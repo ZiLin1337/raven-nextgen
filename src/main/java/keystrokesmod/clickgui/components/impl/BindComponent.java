@@ -1,6 +1,5 @@
 package keystrokesmod.clickgui.components.impl;
 
-import org.lwjgl.glfw.GLFW;
 import keystrokesmod.Raven;
 import keystrokesmod.clickgui.components.Component;
 import keystrokesmod.module.Module;
@@ -10,8 +9,8 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Theme;
 import keystrokesmod.utility.font.RavenFontRenderer;
 import keystrokesmod.utility.profile.ProfileModule;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.util.ResourceLocation;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 public class BindComponent extends Component {
@@ -84,7 +83,7 @@ public class BindComponent extends Component {
         if (!overSetting(x, y) || !moduleComponent.isOpened || !moduleComponent.isVisible(this)) return false;
         if (button == 0 && moduleComponent.mod.moduleCategory() != Module.category.profiles && overEyeIcon(x, y)) {
             moduleComponent.mod.setHidden(!moduleComponent.mod.isHidden());
-            if (Raven.currentProfile != null) Raven.currentProfile /* getParent disabled */.saved = false;
+            if (Raven.currentProfile != null) Raven.currentProfile.getModule().saved = false;
             return true;
         }
         if (moduleComponent.mod.canBeEnabled() && button == 0 && overBindText(x, y)) {
@@ -92,9 +91,9 @@ public class BindComponent extends Component {
             return true;
         }
         if (moduleComponent.mod.canBeEnabled() && button > 1 && isBinding) {
-            // keySetting.setKey disabled
-            // setBind disabled
-            if (Raven.currentProfile != null) Raven.currentProfile /* getParent disabled */.saved = false;
+            if (keySetting != null) keySetting.setKey(button + 1000);
+            else moduleComponent.mod.setBind(button + 1000);
+            if (Raven.currentProfile != null) Raven.currentProfile.getModule().saved = false;
             isBinding = false;
             return true;
         }
@@ -157,23 +156,23 @@ public class BindComponent extends Component {
 
     public void onScroll(int scroll) {
         if (!isBinding || scroll == 0) return;
-        // keySetting.setKey disabled
-        // setBind disabled
-        if (Raven.currentProfile != null) Raven.currentProfile /* getParent disabled */.saved = false;
+        if (keySetting != null) keySetting.setKey(scroll > 0 ? 1069 : 1070);
+        else moduleComponent.mod.setBind(scroll > 0 ? 1069 : 1070);
+        if (Raven.currentProfile != null) Raven.currentProfile.getModule().saved = false;
         isBinding = false;
     }
 
     public void keyTyped(char t, int keybind) {
         if (!isBinding) return;
-        if (keybind == GLFW.GLFW_KEY_0 || keybind == GLFW.GLFW_KEY_ESCAPE) {
+        if (keybind == Keyboard.KEY_0 || keybind == Keyboard.KEY_ESCAPE) {
             if (moduleComponent.mod instanceof Gui) moduleComponent.mod.setBind(54);
-            // keySetting.setKey disabled
-            // setBind disabled
+            else if (keySetting != null) keySetting.setKey(0);
+            else moduleComponent.mod.setBind(0);
         } else {
-            // keySetting.setKey disabled
-            /* setBind removed */
+            if (keySetting != null) keySetting.setKey(keybind);
+            else moduleComponent.mod.setBind(keybind);
         }
-        if (Raven.currentProfile != null) Raven.currentProfile /* getParent disabled */.saved = false;
+        if (Raven.currentProfile != null) Raven.currentProfile.getModule().saved = false;
         isBinding = false;
     }
 
@@ -185,8 +184,8 @@ public class BindComponent extends Component {
     }
 
     public String getKeyAsStr(boolean isKey) {
-        int key = isKey ? keySetting.getKeyCode() : moduleComponent.mod.getKeycode();
-        return key >= 1000 ? ((key == 1069 || key == 1070) ? getScroll(key) : "M" + (key - 1000)) : String.valueOf(key); // getKeyName disabled
+        int key = isKey ? keySetting.getKey() : moduleComponent.mod.getKeycode();
+        return key >= 1000 ? ((key == 1069 || key == 1070) ? getScroll(key) : "M" + (key - 1000)) : Keyboard.getKeyName(key);
     }
 
     public String getScroll(int key) {

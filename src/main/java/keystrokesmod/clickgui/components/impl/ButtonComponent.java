@@ -7,7 +7,7 @@ import keystrokesmod.module.impl.client.Gui;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.utility.font.RavenFontRenderer;
 import keystrokesmod.utility.profile.ProfileModule;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
@@ -70,7 +70,7 @@ public class ButtonComponent extends Component {
             this.buttonSetting.toggle();
             this.mod.guiButtonToggled(this.buttonSetting);
             if (Raven.currentProfile != null && !this.mod.ignoreOnSave) {
-                Raven.currentProfile.saved = false;
+                Raven.currentProfile.getModule().saved = false;
             }
         }
         return false;

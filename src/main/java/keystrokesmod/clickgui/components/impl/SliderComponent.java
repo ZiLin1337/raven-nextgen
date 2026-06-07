@@ -11,7 +11,7 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import keystrokesmod.utility.font.FontManager;
 import keystrokesmod.utility.font.RavenFontRenderer;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.Color;
@@ -167,7 +167,7 @@ public class SliderComponent extends Component {
             }
 
             if (Raven.currentProfile != null) {
-                Raven.currentProfile /* getParent disabled */.saved = false;
+                Raven.currentProfile.getModule().saved = false;
             }
         }
     }
@@ -236,7 +236,7 @@ public class SliderComponent extends Component {
     private boolean shouldPreviewFontSlider() {
         return this.sliderSetting.isString
             && ((this.moduleComponent.mod instanceof HUD && this.sliderSetting == HUD.font)
-            || (this.moduleComponent.mod instanceof Gui && false));
+            || (this.moduleComponent.mod instanceof Gui && this.sliderSetting == Gui.font));
     }
 
     private boolean shouldCommitOnRelease() {
@@ -249,12 +249,12 @@ public class SliderComponent extends Component {
 
     private void drawFontPreview(float labelX, float labelY, String valueText, String suffix) {
         String prefix = this.sliderSetting.getName() + ": ";
-        MinecraftClient mc = MinecraftClient.getInstance();
-        // textRenderer.drawStringWithShadow(prefix, labelX, labelY, -1);
+        Minecraft mc = Minecraft.getMinecraft();
+        mc.fontRendererObj.drawStringWithShadow(prefix, labelX, labelY, -1);
 
         RavenFontRenderer previewRenderer = FontManager.getClickGuiSettingRenderer(valueText);
-        float valueX = labelX + MinecraftClient.getInstance().textRenderer.getWidth(prefix);
-        float valueY = labelY - (previewRenderer.getFontHeight() - MinecraftClient.getInstance().textRenderer.fontHeight) / 2.0f;
+        float valueX = labelX + mc.fontRendererObj.getStringWidth(prefix);
+        float valueY = labelY - (previewRenderer.getFontHeight() - mc.fontRendererObj.FONT_HEIGHT) / 2.0f;
         previewRenderer.drawString(valueText + suffix, valueX, valueY, 0xFFFFFF, true);
     }
 
@@ -265,6 +265,6 @@ public class SliderComponent extends Component {
 
     @Override
     public boolean isBaseVisible() {
-        return this.sliderSetting.isVisible();
+        return this.sliderSetting.visible;
     }
 }

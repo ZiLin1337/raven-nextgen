@@ -10,13 +10,15 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.BlockUtils;
 import keystrokesmod.utility.PlayerData;
 import keystrokesmod.utility.Utils;
-import net.minecraft.block.Blocks;
+import net.minecraft.block.BlockAir;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.text.ClickEvent;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.event.ClickEvent;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.text.Text;
-import net.minecraft.text.Style;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatStyle;
+import net.minecraftforge.common.MinecraftForge;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -63,7 +65,7 @@ public class Anticheat extends Module {
         lastClientBoundPacket = System.currentTimeMillis();
     }
 
-    private void alert(PlayerEntity entityPlayer, ButtonSetting mode) {
+    private void alert(EntityPlayer entityPlayer, ButtonSetting mode) {
         if (Utils.isFriended(entityPlayer) || (ignoreTeammates.isToggled() && Utils.isTeammate(entityPlayer))) {
             return;
         }
@@ -77,7 +79,7 @@ public class Anticheat extends Module {
         }
         long currentTimeMillis = System.currentTimeMillis();
         if (interval.getInput() > 0.0) {
-            HashMap<ButtonSetting, Long> hashMap = flags.get(entityPlayer.getUuid());
+            HashMap<ButtonSetting, Long> hashMap = flags.get(entityPlayer.getUniqueID());
             if (hashMap == null) {
                 hashMap = new HashMap<>();
             }
@@ -88,12 +90,12 @@ public class Anticheat extends Module {
                 }
             }
             hashMap.put(mode, currentTimeMillis);
-            flags.put(entityPlayer.getUuid(), hashMap);
+            flags.put(entityPlayer.getUniqueID(), hashMap);
         }
-        ChatComponentText chatComponentText = new net.minecraft.text.Text.literal(Utils.formatColor("&7[&dR&7]&r " + entityPlayer.getDisplayName().getString() + " &7detected for &d" + mode.getName()));
+        ChatComponentText chatComponentText = new ChatComponentText(Utils.formatColor("&7[&dR&7]&r " + entityPlayer.getDisplayName().getUnformattedText() + " &7detected for &d" + mode.getName()));
         ChatStyle chatStyle = new ChatStyle();
         chatStyle.setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/wdr " + entityPlayer.getName()));
-        chatComponentText.appendSibling(new net.minecraft.text.Text.literal(Utils.formatColor(" §7[§cWDR§7]")).setChatStyle(chatStyle));
+        chatComponentText.appendSibling(new ChatComponentText(Utils.formatColor(" §7[§cWDR§7]")).setChatStyle(chatStyle));
         mc.player.addChatMessage(chatComponentText);
         postAntiCheatFlagEvent(mode.getName(), entityPlayer);
         if (shouldPing.isToggled() && Utils.timeBetween(lastAlert, currentTimeMillis) >= 1500L) {
@@ -110,7 +112,7 @@ public class Anticheat extends Module {
         if (mc.isSingleplayer()) {
             return;
         }
-        for (PlayerEntity entityPlayer : mc.world.world.getPlayers()) {
+        for (EntityPlayer entityPlayer : mc.world.playerEntities) {
             if (entityPlayer == null) {
                 continue;
             }
@@ -120,7 +122,7 @@ public class Anticheat extends Module {
             if (AntiBot.isBot(entityPlayer)) {
                 continue;
             }
-            PlayerData data = players.get(entityPlayer.getUuid());
+            PlayerData data = players.get(entityPlayer.getUniqueID());
             if (data == null) {
                 data = new PlayerData();
             }
@@ -128,12 +130,12 @@ public class Anticheat extends Module {
             this.performCheck(entityPlayer, data);
             data.updateServerPos(entityPlayer);
             data.updateSneak(entityPlayer);
-            players.put(entityPlayer.getUuid(), data);
+            players.put(entityPlayer.getUniqueID(), data);
         }
     }
 
     
-    public void onEntityJoin(Object e) {
+    public void onEntityJoin(EntityJoinWorldEvent e) {
         if (e.entity == mc.player) {
             players.clear();
             flags.clear();
@@ -146,7 +148,7 @@ public class Anticheat extends Module {
         lastAlert = 0L;
     }
 
-    private void performCheck(PlayerEntity entityPlayer, PlayerData playerData) {
+    private void performCheck(EntityPlayer entityPlayer, PlayerData playerData) {
         if (autoBlock.isToggled() && playerData.autoBlockTicks >= 10) {
             alert(entityPlayer, autoBlock);
             return;
@@ -159,7 +161,7 @@ public class Anticheat extends Module {
             alert(entityPlayer, noSlow);
             return;
         }
-        if (scaffold.isToggled() && entityPlayer.isSwingInProgress && entityPlayer.getPitch() >= 70.0f && entityPlayer.getMainHandStack() != null && entityPlayer.getMainHandStack().getItem() instanceof ItemBlock && playerData.fastTick >= 20 && entityPlayer.age - playerData.lastSneakTick >= 30 && entityPlayer.age - playerData.aboveVoidTicks >= 20) {
+        if (scaffold.isToggled() && entityPlayer.isSwingInProgress && entityPlayer.rotationPitch >= 70.0f && entityPlayer.getHeldItem() != null && entityPlayer.getHeldItem().getItem() instanceof ItemBlock && playerData.fastTick >= 20 && entityPlayer.ticksExisted - playerData.lastSneakTick >= 30 && entityPlayer.ticksExisted - playerData.aboveVoidTicks >= 20) {
             boolean overAir = true;
             BlockPos blockPos = entityPlayer.getPosition().down(2);
             for (int i = 0; i < 4; ++i) {
@@ -174,7 +176,7 @@ public class Anticheat extends Module {
                 return;
             }
         }
-        if (noFall.isToggled() && !entityPlayer.getAbilities().isFlying && Utils.timeBetween(System.currentTimeMillis(), lastClientBoundPacket) <= 150) {
+        if (noFall.isToggled() && !entityPlayer.capabilities.isFlying && Utils.timeBetween(System.currentTimeMillis(), lastClientBoundPacket) <= 150) {
             double serverPosX = entityPlayer.serverPosX / 32;
             double serverPosY = entityPlayer.serverPosY / 32;
             double serverPosZ= entityPlayer.serverPosZ / 32;

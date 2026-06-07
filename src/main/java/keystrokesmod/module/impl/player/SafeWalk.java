@@ -1,15 +1,17 @@
 package keystrokesmod.module.impl.player;
 
 import keystrokesmod.event.PreUpdateEvent;
-import org.lwjgl.glfw.GLFW;
-import net.minecraft.client.option.KeyBinding;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.Utils;
-
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.event.GuiOpenEvent;
+
+import org.lwjgl.input.Keyboard;
 
 public class SafeWalk extends Module {
     private SliderSetting sneakDelay;
@@ -41,9 +43,9 @@ public class SafeWalk extends Module {
 
     @Override
     public void onUpdate() {
-        if (motion.getInput() != 1.0 && mc.player.isOnGround() && Utils.isMoving() && settingsMet()) {
-            // TODO: velocity multiply not supported
-            // TODO: velocity multiply not supported
+        if (motion.getInput() != 1.0 && mc.player.onGround && Utils.isMoving() && settingsMet()) {
+            mc.player.motionX *= motion.getInput();
+            mc.player.motionZ *= motion.getInput();
         }
     }
 
@@ -52,7 +54,7 @@ public class SafeWalk extends Module {
         if (!sneak.isToggled() || !Utils.nullCheck()) {
             return;
         }
-        boolean edge = mc.player.isOnGround() && Utils.isEdgeOfBlock();
+        boolean edge = mc.player.onGround && Utils.isEdgeOfBlock();
         if (edge) {
             if (!settingsMet()) {
                 this.setSneakState(false);
@@ -76,15 +78,14 @@ public class SafeWalk extends Module {
                 this.setSneakState(false);
             }
         }
-        if (this.isSneaking && (mc.player.getAbilities().allowFlying || !settingsMet())) {
+        if (this.isSneaking && (mc.player.capabilities.isFlying || !settingsMet())) {
             this.setSneakState(false);
         }
     }
 
     
-    // TODO: Replace GuiOpenEvent with proper event
-    public void onGuiOpen(Object e) {
-        if (sneak.isToggled() && true /* e.gui not available */) {
+    public void onGuiOpen(GuiOpenEvent e) {
+        if (sneak.isToggled() && e.gui == null) {
             this.isSneaking = mc.player.isSneaking();
         }
     }
@@ -97,28 +98,28 @@ public class SafeWalk extends Module {
             return;
         }
 
-        if (!sneakState && Utils.isBindDown(mc.options.sneakKey)) {
+        if (!sneakState && Utils.isBindDown(mc.gameSettings.keyBindSneak)) {
             return;
         }
 
-        GLFW.glfwSetInputMode(mc.getWindow().getHandle(), GLFW.GLFW_KEY_S, sneakState ? GLFW.GLFW_CURSOR_HIDDEN : GLFW.GLFW_CURSOR_NORMAL);
+        KeyBinding.setKeyBindState(mc.gameSettings.keyBindSneak.getKeyCode(), sneakState);
         if (sneakState) {
-            // KeyBinding.onTick removed in 1.21.4
+            KeyBinding.onTick(mc.gameSettings.keyBindSneak.getKeyCode());
         }
         this.isSneaking = sneakState;
     }
 
     public static boolean canSafeWalk() {
         if (ModuleManager.safeWalk != null && ModuleManager.safeWalk.isEnabled()) {
-            if (disableOnForward.isToggled() && GLFW.glfwGetKey(mc.getWindow().getHandle(), mc.options.forwardKey.getDefaultKey().getCode()) == GLFW.GLFW_PRESS) {
+            if (disableOnForward.isToggled() && Keyboard.isKeyDown(mc.gameSettings.keyBindForward.getKeyCode())) {
                 return false;
             }
-            if (pitchCheck.isToggled() && mc.player.getPitch() < 70) {
+            if (pitchCheck.isToggled() && mc.player.rotationPitch < 70) {
                 return false;
             }
             if (blocksOnly.isToggled()) {
-                ItemStack held = mc.player.getMainHandStack();
-                if (held == null || !(held.getItem() instanceof net.minecraft.item.BlockItem)) {
+                ItemStack held = mc.player.getHeldItem();
+                if (held == null || !(held.getItem() instanceof ItemBlock)) {
                     return false;
                 }
             }
@@ -129,15 +130,15 @@ public class SafeWalk extends Module {
 
     private boolean settingsMet() {
         if (blocksOnly.isToggled()) {
-            ItemStack held = mc.player.getMainHandStack();
-            if (held == null || !(held.getItem() instanceof net.minecraft.item.BlockItem)) {
+            ItemStack held = mc.player.getHeldItem();
+            if (held == null || !(held.getItem() instanceof ItemBlock)) {
                 return false;
             }
         }
-        if (disableOnForward.isToggled() && GLFW.glfwGetKey(mc.getWindow().getHandle(), mc.options.forwardKey.getDefaultKey().getCode()) == GLFW.GLFW_PRESS) {
+        if (disableOnForward.isToggled() && Keyboard.isKeyDown(mc.gameSettings.keyBindForward.getKeyCode())) {
             return false;
         }
-        if (pitchCheck.isToggled() && mc.player.getPitch() < 70.0f) {
+        if (pitchCheck.isToggled() && mc.player.rotationPitch < 70.0f) {
             return false;
         }
         return true;

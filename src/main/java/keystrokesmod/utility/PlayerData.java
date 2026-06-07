@@ -1,6 +1,7 @@
 package keystrokesmod.utility;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemBlock;
 
 public class PlayerData {
     public double speed;
@@ -20,14 +21,14 @@ public class PlayerData {
     public double serverPosZ;
 
     public void update(PlayerEntity entityPlayer) {
-        final int ticksExisted = entityPlayer.age;
+        final int ticksExisted = entityPlayer.ticksExisted;
         this.posX = entityPlayer.posX - entityPlayer.lastTickPosX;
         this.posY = entityPlayer.posY - entityPlayer.lastTickPosY;
         this.posZ = entityPlayer.posZ - entityPlayer.lastTickPosZ;
         this.speed = Math.max(Math.abs(this.posX), Math.abs(this.posZ));
         if (this.speed >= 0.07) {
             ++this.fastTick;
-            this.age = ticksExisted;
+            this.ticksExisted = ticksExisted;
         }
         else {
             this.fastTick = 0;
@@ -50,7 +51,7 @@ public class PlayerData {
         else {
             this.noSlowTicks = 0;
         }
-        if (entityPlayer.getPitch() >= 70.0f && entityPlayer.getMainHandStack() != null && entityPlayer.getMainHandStack().getItem() instanceof ItemBlock) {
+        if (entityPlayer.rotationPitch >= 70.0f && entityPlayer.getHeldItem() != null && entityPlayer.getHeldItem().getItem() instanceof ItemBlock) {
             if (entityPlayer.swingProgressInt == 1) {
                 if (!this.sneaking && entityPlayer.isSneaking()) {
                     ++this.sneakTicks;

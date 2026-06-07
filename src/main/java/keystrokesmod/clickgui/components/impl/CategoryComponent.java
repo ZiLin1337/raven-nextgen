@@ -17,7 +17,7 @@ import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.DamageComponent;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -32,10 +32,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
-import net.minecraft.client.MinecraftClient;
-
 public class CategoryComponent {
-    private MinecraftClient mc = MinecraftClient.getInstance();
     private static long interactionSequence;
     private static final Map<Module.category, CategoryIconStacks> CATEGORY_ICON_STACKS = buildCategoryIconStacks();
 
@@ -140,11 +137,14 @@ public class CategoryComponent {
             this.modules.add(manager);
             if ((Raven.profileManager == null && isProfile) || (Raven.scriptManager == null && !isProfile)) return;
             if (isProfile) {
-                // TODO: Profile system not implemented yet
-                // for (Profile profile : Raven.profileManager.profiles) { ... }
+                for (Profile profile : Raven.profileManager.profiles) {
+                    moduleRenderY += 16;
+                    ModuleComponent b = new ModuleComponent(profile.getModule(), this, moduleRenderY);
+                    b.restoreOpenState(Boolean.TRUE.equals(openStates.get(profile.getModule().getName())));
+                    this.modules.add(b);
+                }
             } else {
-                // TODO: Script system not implemented yet
-                Collection<Module> mods = new ArrayList<>();
+                Collection<Module> mods = Raven.scriptManager.scripts.values();
                 List<Module> sorted = mods.stream().sorted(Comparator.comparing(Module::getName, String.CASE_INSENSITIVE_ORDER)).collect(Collectors.toList());
                 for (Module m : sorted) {
                     moduleRenderY += 16;
@@ -215,7 +215,7 @@ public class CategoryComponent {
             }
         }
         this.markInteracted();
-        float scrollSpeed = (float) 0.0f;
+        float scrollSpeed = (float) Gui.scrollSpeed.getInput();
         float minScrollY = computeMinScrollY();
         float maxScrollY = this.y;
         float delta = scrollSpeed * (mouseScrollInput / 120f);
@@ -260,8 +260,8 @@ public class CategoryComponent {
         this.lastHeight = extra;
         GL11.glPushMatrix();
         RenderUtils.drawRoundedGradientOutlinedRectangle(this.x - 2, this.y, this.x + this.width + 2, extra, 10, TRANSLUCENT_BACKGROUND,
-                ((opened || hovering) && false) ? RenderUtils.setAlpha(Utils.getChroma(2, 0), 0.5) : REGULAR_OUTLINE,
-                ((opened || hovering) && false) ? RenderUtils.setAlpha(Utils.getChroma(2, 700), 0.5) : REGULAR_OUTLINE2);
+                ((opened || hovering) && Gui.rainBowOutlines.isToggled()) ? RenderUtils.setAlpha(Utils.getChroma(2, 0), 0.5) : REGULAR_OUTLINE,
+                ((opened || hovering) && Gui.rainBowOutlines.isToggled()) ? RenderUtils.setAlpha(Utils.getChroma(2, 700), 0.5) : REGULAR_OUTLINE2);
         renderItemForCategory(this.category, (int) (this.x + 1), (int) (this.y + 4), opened || hovering);
         titleRenderer.drawString(this.category.name(), namePos, this.y + 4, CATEGORY_NAME_COLOR, false);
         float moduleAreaTop = this.y + this.titleHeight + 3;
@@ -308,19 +308,19 @@ public class CategoryComponent {
     public boolean overRect(int x, int y) { return x >= this.x - 2 && x <= this.x + this.width + 2 && y >= this.y && y <= lastHeight; }
 
     private void renderItemForCategory(Module.category category, int x, int y, boolean enchant) {
-        ItemRenderer renderItem = mc.getItemRenderer();
+        ItemRenderer renderItem = MinecraftClient.getInstance().getItemRenderer();
         double scale = 0.55;
         GL11.glPushMatrix();
         GL11.glScaled(scale, scale, scale);
         CategoryIconStacks icons = CATEGORY_ICON_STACKS.get(category);
         ItemStack stack = icons == null ? null : (enchant ? icons.activeStack : icons.normalStack);
         if (stack != null) {
-            // DiffuseLighting.enableGuiLighting(); - removed in 1.21.4
+            DiffuseLighting.enableGuiLighting();
             GL11.glDisable(GL11.GL_BLEND);
             GL11.glTranslated(x / scale, y / scale, 0);
-            // TODO: renderItem not compatible with 1.21.4 API
+            renderItem.renderItem(null, stack, 0, 0, 0);
             GL11.glEnable(GL11.GL_BLEND);
-            // DiffuseLighting.disableGuiLighting(); - removed in 1.21.4
+            DiffuseLighting.disableGuiLighting();
         }
         GL11.glPopMatrix();
     }
@@ -429,24 +429,8 @@ public class CategoryComponent {
             default: return null;
         }
         if (active) {
-            // TODO: Fix enchantment API for 1.21.4 - stack.addEnchantment(...);
+            stack.addEnchantment(Registries.ENCHANTMENT.getEntry(Enchantments.UNBREAKING), 2);
         }
         return stack;
-    }
-
-
-    // Added for ClickGui compatibility
-    public boolean isMouseOver(int x, int y) {
-        return overTitle(x, y) || overCategory(x, y);
-    }
-    public void onClick(int mx, int my, int button) {
-        mouseClicked(!this.opened);
-        markInteracted();
-    }
-    public void onMouseRelease() {
-        overTitle(false);
-    }
-    public void onMouseMove(int mx, int my) {
-        mousePosition(mx, my, true);
     }
 }

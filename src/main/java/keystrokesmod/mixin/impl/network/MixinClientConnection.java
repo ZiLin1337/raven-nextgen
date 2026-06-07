@@ -3,7 +3,7 @@ package keystrokesmod.mixin.impl.network;
 import keystrokesmod.Raven;
 import keystrokesmod.event.DispatchPacketEvent;
 import keystrokesmod.event.ReceivePacketEvent;
-
+import keystrokesmod.event.SendPacketEvent;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.packet.Packet;
@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinClientConnection {
     @Inject(method = "send(Lnet/minecraft/network/packet/Packet;)V", at = @At("HEAD"), cancellable = true)
     private void onSendPacket(Packet<?> packet, CallbackInfo ci) {
-        // SendPacketEvent disabled
+        SendPacketEvent event = new SendPacketEvent();
         Raven.EVENT_BUS.post(event);
         if (event.isCancelled()) {
             ci.cancel();

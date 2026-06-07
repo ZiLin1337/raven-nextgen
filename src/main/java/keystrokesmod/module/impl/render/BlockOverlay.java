@@ -1,6 +1,5 @@
 package keystrokesmod.module.impl.render;
 
-import keystrokesmod.event.DrawBlockHighlightEvent;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.ColorSetting;
@@ -10,21 +9,24 @@ import keystrokesmod.utility.BlockUtils;
 import keystrokesmod.utility.StairsUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.block.DeadBushBlock;
-import net.minecraft.block.TallPlantBlock;
-import net.minecraft.block.FlowerBlock;
+import net.minecraft.block.BlockStairs;
+import net.minecraft.client.Minecraft;
+import net.minecraft.block.BlockDeadBush;
+import net.minecraft.block.BlockDoublePlant;
+import net.minecraft.block.BlockFlower;
+import net.minecraft.block.BlockTallGrass;
 import net.minecraft.block.BlockState;
+
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.BufferRenderer;
-import net.minecraft.client.render.VertexFormats;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraftforge.client.event.DrawBlockHighlightEvent;
+
 
 import org.lwjgl.opengl.GL11;
 
@@ -98,7 +100,9 @@ public class BlockOverlay extends Module {
     public String getInfo() {
         return RENDER_MODES[(int) renderMode.getInput()];
     }
-public void onDrawBlockHighlight(DrawBlockHighlightEvent e) {
+
+    (priority = EST)
+    public void onDrawBlockHighlight(DrawBlockHighlightEvent e) {
         int mode = (int) renderMode.getInput();
         if (mode == 0) {
             e.setCanceled(true);
@@ -116,7 +120,7 @@ public void onDrawBlockHighlight(DrawBlockHighlightEvent e) {
         boolean showOutline = outlineVisible.isToggled();
         if (!showOverlay && !showOutline) return;
 
-        Direction side = (mode == 2) ? mc.crosshairTarget.sideHit : null;
+        Direction side = (mode == 2) ? mc.objectMouseOver.sideHit : null;
         renderCustomBlockOverlay(pos, side, showOverlay, showOutline);
     }
 
@@ -165,7 +169,7 @@ public void onDrawBlockHighlight(DrawBlockHighlightEvent e) {
     }
 
     public static void renderBlockOutline(BlockPos pos, int outlineArgbStart, int outlineArgbEnd, float lineWidth, boolean depthless) {
-        MinecraftClient m = mc;
+        Minecraft m = Minecraft.getMinecraft();
         if (m.theWorld == null || pos == null) {
             return;
         }
@@ -207,10 +211,10 @@ public void onDrawBlockHighlight(DrawBlockHighlightEvent e) {
         }
     }
 
-    private static void drawOverlayGeometry(MinecraftClient mc, BlockPos pos, Box paddedWorldBox, Direction side, double vx, double vy, double vz, int overlayStart, int overlayEnd, int outlineStart, int outlineEnd, boolean showOverlay, boolean showOutline) {
+    private static void drawOverlayGeometry(Minecraft mc, BlockPos pos, Box paddedWorldBox, Direction side, double vx, double vy, double vz, int overlayStart, int overlayEnd, int outlineStart, int outlineEnd, boolean showOverlay, boolean showOutline) {
         Box renderBox = paddedWorldBox.offset(-vx, -vy, -vz);
         BlockState state = mc.world.getBlockState(pos);
-        if (state.getBlock() instanceof StairsBlock) {
+        if (state.getBlock() instanceof BlockStairs) {
             StairsUtils.drawStairs(pos, state, paddedWorldBox, side, vx, vy, vz, overlayStart, overlayEnd, outlineStart, outlineEnd, showOverlay, showOutline, BlockOverlay::drawFace);
         } else if (side != null) {
             drawFace(renderBox, side, overlayStart, overlayEnd, outlineStart, outlineEnd, showOverlay, showOutline);
@@ -222,8 +226,8 @@ public void onDrawBlockHighlight(DrawBlockHighlightEvent e) {
     }
 
     private BlockPos getFocusedBlock() {
-        if (mc.crosshairTarget == null || mc.crosshairTarget.typeOfHit != HitResult.MovingObjectType.BLOCK) return null;
-        BlockPos pos = mc.crosshairTarget.getBlockPos();
+        if (mc.objectMouseOver == null || mc.objectMouseOver.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) return null;
+        BlockPos pos = mc.objectMouseOver.getBlockPos();
         if (pos == null) return null;
         Block block = mc.world.getBlockState(pos).getBlock();
         if (block == Blocks.AIR) return null;
@@ -263,23 +267,24 @@ public void onDrawBlockHighlight(DrawBlockHighlightEvent e) {
 
     private static void drawFace(Box box, Direction face, int os, int oe, int ls, int le, boolean overlay, boolean outline) {
         Tessellator ts = Tessellator.getInstance();
+        WorldRenderer wr = ts.getWorldRenderer();
         if (overlay) {
-            BufferBuilder wr = ts.begin(7, VertexFormats.POSITION_COLOR);
+            wr.begin(7, VertexFormats.POSITION_COLOR);
             addFaceVertices(wr, face, box, os, oe);
-            BufferRenderer.drawWithGlobalProgram(wr.end());
+            ts.draw();
         }
         if (outline) {
-            BufferBuilder wr = ts.begin(2, VertexFormats.POSITION_COLOR);
+            wr.begin(2, VertexFormats.POSITION_COLOR);
             addFaceVertices(wr, face, box, ls, le);
-            BufferRenderer.drawWithGlobalProgram(wr.end());
+            ts.draw();
         }
     }
 
-    private static void v(BufferBuilder wr, double x, double y, double z, int color) {
+    private static void v(WorldRenderer wr, double x, double y, double z, int color) {
         wr.pos(x, y, z).color((color >> 16) & 0xFF, (color >> 8) & 0xFF, color & 0xFF, (color >> 24) & 0xFF).endVertex();
     }
 
-    private static void addFaceVertices(BufferBuilder wr, Direction face, Box box, int start, int end) {
+    private static void addFaceVertices(WorldRenderer wr, Direction face, Box box, int start, int end) {
         switch (face) {
             case UP:
                 v(wr, box.minX, box.maxY, box.maxZ, start);

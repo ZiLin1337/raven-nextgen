@@ -1,7 +1,4 @@
 package keystrokesmod.module.impl.player;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 
 import keystrokesmod.event.ClientRotationEvent;
 import keystrokesmod.event.PreUpdateEvent;
@@ -17,12 +14,17 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
-import net.minecraft.block.FenceBlock;
-import net.minecraft.block.WallBlock;
+import net.minecraft.block.BlockFence;
+import net.minecraft.block.BlockWall;
 import net.minecraft.client.util.math.MatrixStack;
 
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
+import net.minecraftforge.client.event.MouseEvent;
+
+import org.lwjgl.input.Mouse;
 
 import java.util.*;
 
@@ -65,7 +67,7 @@ public class BlockIn extends Module {
 
     private BlockPos hitAt;
     private Direction hitSide;
-    private Vec3d placeAt;
+    private Vec3 placeAt;
 
     private float fillCount;
     private float lastFillCount = -1;
@@ -122,7 +124,7 @@ public class BlockIn extends Module {
         float[] sm = RotationUtils.smoothRotation(baseYaw, basePitch, aimYaw, aimPitch,
                 (int) speed.getInput(), (float) randomization.getInput());
         double r = REACH;
-        HitResult mop = RotationUtils.rayCastBlock(r, sm[0], sm[1]);
+        MovingObjectPosition mop = RotationUtils.rayCastBlock(r, sm[0], sm[1]);
 
         if (mop != null) {
             BlockPos hitBlock = mop.getBlockPos();
@@ -172,12 +174,12 @@ public class BlockIn extends Module {
 
         if (!placing) enablePlacing();
 
-        if (mc.options.keyBindAttack.isKeyDown() || mc.options.keyBindUseItem.isKeyDown()) {
+        if (mc.gameSettings.keyBindAttack.isKeyDown() || mc.gameSettings.keyBindUseItem.isKeyDown()) {
             clearAim();
         }
 
-        InputUtil.setKeyPressed(mc.options.attackKey.getDefaultKey().getCode(), false);
-        InputUtil.setKeyPressed(mc.options.keyBindUseItem.getKeyCode(), false);
+        KeyBinding.setKeyBindState(mc.gameSettings.keyBindAttack.getKeyCode(), false);
+        KeyBinding.setKeyBindState(mc.gameSettings.keyBindUseItem.getKeyCode(), false);
         equipPlannedSlot();
     }
 
@@ -188,10 +190,10 @@ public class BlockIn extends Module {
         if (placeQueued) {
             placeQueued = false;
             if (hitAt != null && hitSide != null && placeAt != null) {
-                if (mc.interactionManager.onPlayerRightClick(
-                        mc.player, mc.world, mc.player.getMainHandStack(),
+                if (mc.playerController.onPlayerRightClick(
+                        mc.player, mc.world, mc.player.getHeldItem(),
                         hitAt, hitSide, placeAt)) {
-                    mc.player.swingHand(Hand.MAIN_HAND);
+                    mc.player.swingItem();
                 }
             }
         }
@@ -222,8 +224,8 @@ public class BlockIn extends Module {
     }
 
     
-    public void onRenderTick(Object e) {
-        if (e.phase.END || !Utils.nullCheck()) return;
+    public void onRenderTick(TickEvent.RenderTickEvent e) {
+        if (e.phase != TickEvent.Phase.END || !Utils.nullCheck()) return;
         if (fillCount <= 0) return;
 
         long elapsed = System.currentTimeMillis() - animStartTime;
@@ -233,7 +235,9 @@ public class BlockIn extends Module {
         } else {
             circleProgress = animTargetProgress;
         }
-float cx = sr.getScaledWidth() / 2f - 1f;
+
+        ScaledResolution sr = new ScaledResolution(mc);
+        float cx = sr.getScaledWidth() / 2f - 1f;
         float cy = sr.getScaledHeight() / 2f;
         float radius = 10f;
         float thickness = 3f;
@@ -255,8 +259,9 @@ float cx = sr.getScaledWidth() / 2f - 1f;
 
         RenderUtils.draw2DCircleArc(cx, cy, radius, startAngle, endAngle, thickness, color);
     }
-// TODO: Replace MouseEvent
-    public void onMouse(Object e) {
+
+    (priority = EST)
+    public void onMouse(MouseEvent e) {
         if (placing && e.button > -1) {
             e.setCanceled(true);
         }
@@ -270,14 +275,14 @@ float cx = sr.getScaledWidth() / 2f - 1f;
         if (placing) return;
         placing = true;
         slotWasSwapped = false;
-        prevSlot = mc.player.getInventory().selectedSlot;
+        prevSlot = mc.player.inventory.currentItem;
     }
 
     private void disablePlacing() {
         if (!placing) return;
 
-        if (slotWasSwapped && prevSlot != -1 && prevSlot != mc.player.getInventory().selectedSlot) {
-            mc.player.getInventory().selectedSlot = prevSlot;
+        if (slotWasSwapped && prevSlot != -1 && prevSlot != mc.player.inventory.currentItem) {
+            mc.player.inventory.currentItem = prevSlot;
         }
 
         placing = false;
@@ -286,8 +291,8 @@ float cx = sr.getScaledWidth() / 2f - 1f;
         plannedSlot = -1;
 
         if (mc.currentScreen == null) {
-            InputUtil.setKeyPressed(mc.options.attackKey.getDefaultKey().getCode(), GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS);
-            InputUtil.setKeyPressed(mc.options.keyBindUseItem.getKeyCode(), GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS);
+            KeyBinding.setKeyBindState(mc.gameSettings.keyBindAttack.getKeyCode(), Mouse.isButtonDown(0));
+            KeyBinding.setKeyBindState(mc.gameSettings.keyBindUseItem.getKeyCode(), Mouse.isButtonDown(1));
         }
     }
 
@@ -297,9 +302,9 @@ float cx = sr.getScaledWidth() / 2f - 1f;
     }
 
     private void equipPlannedSlot() {
-        int cur = mc.player.getInventory().selectedSlot;
+        int cur = mc.player.inventory.currentItem;
         if (plannedSlot != -1 && plannedSlot != cur) {
-            mc.player.getInventory().selectedSlot = plannedSlot;
+            mc.player.inventory.currentItem = plannedSlot;
             slotWasSwapped = true;
         }
     }
@@ -341,41 +346,41 @@ float cx = sr.getScaledWidth() / 2f - 1f;
     }
 
     private AimResult roofAim() {
-        Vec3d pos = new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ());
+        Vec3 pos = new Vec3(mc.player.getX(), mc.player.getY(), mc.player.getZ());
         BlockPos aboveHead = new BlockPos(
-                MathHelper.floor_double(pos.x),
-                MathHelper.floor_double(pos.y) + 2,
-                MathHelper.floor_double(pos.z)
+                MathHelper.floor_double(pos.xCoord),
+                MathHelper.floor_double(pos.yCoord) + 2,
+                MathHelper.floor_double(pos.zCoord)
         );
         if (!BlockUtils.replaceable(aboveHead)) return null;
 
         if (plannedSlot < 0 || plannedSlot > 8) return null;
         ItemStack held = mc.player.inventory.mainInventory[plannedSlot];
         double r = REACH;
-        Vec3d eye = new Vec3d(pos.x, pos.y + mc.player.getEyeHeight(), pos.z);
+        Vec3 eye = new Vec3(pos.xCoord, pos.yCoord + mc.player.getEyeHeight(), pos.zCoord);
         double r2 = r * r;
         double rp12 = (r + 1) * (r + 1);
 
-        int minY = MathHelper.floor_double(eye.y) + 1;
-        int maxY = MathHelper.floor_double(eye.y + r);
-        int minX = MathHelper.floor_double(eye.x - r);
-        int maxX = MathHelper.floor_double(eye.x + r);
-        int minZ = MathHelper.floor_double(eye.z - r);
-        int maxZ = MathHelper.floor_double(eye.z + r);
+        int minY = MathHelper.floor_double(eye.yCoord) + 1;
+        int maxY = MathHelper.floor_double(eye.yCoord + r);
+        int minX = MathHelper.floor_double(eye.xCoord - r);
+        int maxX = MathHelper.floor_double(eye.xCoord + r);
+        int minZ = MathHelper.floor_double(eye.zCoord - r);
+        int maxZ = MathHelper.floor_double(eye.zCoord + r);
 
         ArrayList<BlockCandidate> cands = new ArrayList<>();
         for (int y = minY; y <= maxY; y++) {
             for (int x = minX; x <= maxX; x++) {
                 for (int z = minZ; z <= maxZ; z++) {
-                    double dx = (x + 0.5) - eye.x;
-                    double dy = (y + 0.5) - eye.y;
-                    double dz = (z + 0.5) - eye.z;
+                    double dx = (x + 0.5) - eye.xCoord;
+                    double dy = (y + 0.5) - eye.yCoord;
+                    double dz = (z + 0.5) - eye.zCoord;
                     if (dx * dx + dy * dy + dz * dz > rp12) continue;
 
                     BlockPos bp = new BlockPos(x, y, z);
                     if (BlockUtils.replaceable(bp)) continue;
                     Block block = BlockUtils.getBlock(bp);
-                    if (BlockUtils.isInteractable(block) || block instanceof FenceBlock || block instanceof WallBlock) continue;
+                    if (BlockUtils.isInteractable(block) || block instanceof BlockFence || block instanceof BlockWall) continue;
 
                     double d2 = BlockUtils.dist2PointAABB(eye, bp);
                     if (d2 > r2) continue;
@@ -394,13 +399,13 @@ float cx = sr.getScaledWidth() / 2f - 1f;
         return null;
     }
 
-    private AimResult getBestRotationsToBlock(ItemStack held, BlockPos targetCell, Vec3d eye, double reachVal, int minY) {
+    private AimResult getBestRotationsToBlock(ItemStack held, BlockPos targetCell, Vec3 eye, double reachVal, int minY) {
         float baseYaw = RotationUtils.serverRotations[0];
         float basePitch = RotationUtils.serverRotations[1];
 
-        boolean faceUp = Math.abs(eye.y - (targetCell.getY() + 1)) < Math.abs(eye.y - targetCell.getY());
-        boolean faceSouth = Math.abs(eye.z - (targetCell.getZ() + 1)) < Math.abs(eye.z - targetCell.getZ());
-        boolean faceEast = Math.abs(eye.x - (targetCell.getX() + 1)) < Math.abs(eye.x - targetCell.getX());
+        boolean faceUp = Math.abs(eye.yCoord - (targetCell.getY() + 1)) < Math.abs(eye.yCoord - targetCell.getY());
+        boolean faceSouth = Math.abs(eye.zCoord - (targetCell.getZ() + 1)) < Math.abs(eye.zCoord - targetCell.getZ());
+        boolean faceEast = Math.abs(eye.xCoord - (targetCell.getX() + 1)) < Math.abs(eye.xCoord - targetCell.getX());
 
         double bx = targetCell.getX(), by = targetCell.getY(), bz = targetCell.getZ();
         double jit = GRID_STEP * 0.1;
@@ -437,7 +442,7 @@ float cx = sr.getScaledWidth() / 2f - 1f;
 
         int byY = targetCell.getY();
         for (RotationCandidate c : cands) {
-            HitResult mop = RotationUtils.rayCastBlock(reachVal, c.yaw, c.pitch);
+            MovingObjectPosition mop = RotationUtils.rayCastBlock(reachVal, c.yaw, c.pitch);
             if (mop == null) continue;
             BlockPos hitBlock = mop.getBlockPos();
             Direction face = mop.sideHit;
@@ -458,7 +463,7 @@ float cx = sr.getScaledWidth() / 2f - 1f;
         );
         BlockPos head = feet.up();
         double r = REACH;
-        Vec3d eye = mc.player.getPositionEyes(1.0f);
+        Vec3 eye = mc.player.getPositionEyes(1.0f);
 
         ArrayList<BlockPos> baseline = new ArrayList<>(8);
         for (Direction dir : HORIZONTALS) {
@@ -474,15 +479,15 @@ float cx = sr.getScaledWidth() / 2f - 1f;
         }
         if (primaryGoals.isEmpty()) return null;
 
-        Vec3d enemyPos = Utils.getClosestPlayerPos(100);
+        Vec3 enemyPos = Utils.getClosestPlayerPos(100);
         if (enemyPos != null) {
             baseline.sort((a, b) -> {
-                double da = sq(a.getX() + 0.5 - enemyPos.x)
-                        + sq(a.getY() + 0.5 - enemyPos.y)
-                        + sq(a.getZ() + 0.5 - enemyPos.z);
-                double db = sq(b.getX() + 0.5 - enemyPos.x)
-                        + sq(b.getY() + 0.5 - enemyPos.y)
-                        + sq(b.getZ() + 0.5 - enemyPos.z);
+                double da = sq(a.getX() + 0.5 - enemyPos.xCoord)
+                        + sq(a.getY() + 0.5 - enemyPos.yCoord)
+                        + sq(a.getZ() + 0.5 - enemyPos.zCoord);
+                double db = sq(b.getX() + 0.5 - enemyPos.xCoord)
+                        + sq(b.getY() + 0.5 - enemyPos.yCoord)
+                        + sq(b.getZ() + 0.5 - enemyPos.zCoord);
                 return Double.compare(da, db);
             });
             int picked = 0;
@@ -525,7 +530,7 @@ float cx = sr.getScaledWidth() / 2f - 1f;
         return null;
     }
 
-    private AimResult findBestForGoals(List<BlockPos> goals, double reachVal, Vec3d eye) {
+    private AimResult findBestForGoals(List<BlockPos> goals, double reachVal, Vec3 eye) {
         if (goals == null || goals.isEmpty()) return null;
         if (plannedSlot < 0 || plannedSlot > 8) return null;
 
@@ -533,7 +538,7 @@ float cx = sr.getScaledWidth() / 2f - 1f;
         float curYaw = RotationUtils.serverRotations[0];
         float curPitch = RotationUtils.serverRotations[1];
 
-        HitResult now = RotationUtils.rayCastBlock(reachVal, curYaw, curPitch);
+        MovingObjectPosition now = RotationUtils.rayCastBlock(reachVal, curYaw, curPitch);
         if (now != null) {
             BlockPos support = now.getBlockPos();
             Direction faceHit = now.sideHit;
@@ -603,7 +608,7 @@ float cx = sr.getScaledWidth() / 2f - 1f;
     }
 
     private AimResult tryPlacement(double reachVal, float yaw, float pit, BlockPos expectedSupport, Direction expectedFace, BlockPos goal) {
-        HitResult mop = RotationUtils.rayCastBlock(reachVal, yaw, pit);
+        MovingObjectPosition mop = RotationUtils.rayCastBlock(reachVal, yaw, pit);
         if (mop == null) return null;
         BlockPos hitBlock = mop.getBlockPos();
         Direction faceHit = mop.sideHit;

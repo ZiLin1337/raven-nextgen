@@ -66,7 +66,7 @@ public class PlayerRelationsManager implements IMinecraftInstance {
     private boolean middleClickFriends;
 
     public PlayerRelationsManager() {
-        File directory = new File(mc.runDirectory, "keystrokes");
+        File directory = new File(mc.mcDataDir, "keystrokes");
         if (!directory.exists()) {
             directory.mkdirs();
         }
@@ -219,11 +219,11 @@ public class PlayerRelationsManager implements IMinecraftInstance {
     }
 
     public void setMiddleClickFriends(boolean middleClickFriends) {
-        if (false) {// middleClickFriends disabled
+        if (this.middleClickFriends == middleClickFriends) {
             return;
         }
 
-        // middleClickFriends disabled
+        this.middleClickFriends = middleClickFriends;
         save();
         syncRelationshipsModuleState();
     }
@@ -270,21 +270,19 @@ public class PlayerRelationsManager implements IMinecraftInstance {
     }
 
     private void syncRelationshipsModuleState() {
-        if (ModuleManager.modules != null) {
-            // middleClickFriends disabled
-            if (active && ModuleManager.modules == null || ModuleManager.modules != null && !ModuleManager.modules.isEmpty()) {
-                // empty body
-
+        if (ModuleManager.relationships != null) {
+            ModuleManager.relationships.middleClickFriends.setEnabled(middleClickFriends);
+            if (active && !ModuleManager.relationships.isEnabled()) {
+                ModuleManager.relationships.enable();
             }
-            else if (!active && ModuleManager.modules!= null) {
-                // empty body
-
+            else if (!active && ModuleManager.relationships.isEnabled()) {
+                ModuleManager.relationships.disable();
             }
         }
     }
 
     private void refreshRelationshipsModuleUi() {
-        if (Raven.clickGui == null || ClickGui.categories == null || ModuleManager.modules == null) {
+        if (Raven.clickGui == null || ClickGui.categories == null || ModuleManager.relationships == null) {
             return;
         }
 
@@ -294,7 +292,7 @@ public class PlayerRelationsManager implements IMinecraftInstance {
             }
 
             for (ModuleComponent moduleComponent : categoryComponent.modules) {
-                if (moduleComponent.mod != ModuleManager.modules) {
+                if (moduleComponent.mod != ModuleManager.relationships) {
                     continue;
                 }
 

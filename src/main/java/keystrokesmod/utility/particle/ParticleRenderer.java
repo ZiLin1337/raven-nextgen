@@ -1,8 +1,8 @@
 package keystrokesmod.utility.particle;
 
-import keystrokesmod.utility.math.Vec3d;
+import keystrokesmod.utility.math.Vec3;
 import net.minecraft.client.MinecraftClient;
-
+import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.BufferRenderer;
 import net.minecraft.client.render.VertexFormat;
@@ -21,7 +21,7 @@ public class ParticleRenderer {
     public static void render(ParticleEngine engine) {
         if (engine.isEmpty()) return;
 
-        Vec3d cameraPos = mc.gameRenderer.getCamera().getPos();
+        Vec3 cameraPos = mc.gameRenderer.getCamera().getPos();
 
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -35,7 +35,7 @@ public class ParticleRenderer {
         buffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
 
         for (Particle particle : engine.getParticles()) {
-            Vec3d pos = particle.getPosition().subtract(cameraPos);
+            Vec3 pos = particle.getPosition().subtract(cameraPos);
             float size = particle.getSize();
             int color = particle.getColor();
             float alpha = particle.getAlpha();

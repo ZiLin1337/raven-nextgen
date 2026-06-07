@@ -1,9 +1,8 @@
 package keystrokesmod.module.impl.combat;
-import keystrokesmod.event.SendPacketEvent;
 
 import keystrokesmod.event.PreMotionEvent;
 import keystrokesmod.event.PrePlayerInputEvent;
-
+import keystrokesmod.event.SendPacketEvent;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -30,7 +29,7 @@ import net.minecraft.util.Hand;
 
 /**
  * High combat protocol sword blocking (1.21.4).
- * In modern MinecraftClient, swords cannot block - only shields can.
+ * In modern Minecraft, swords cannot block - only shields can.
  * This module simulates sword blocking by using a shield in the offhand.
  * Inspired by LiquidBounce's SwordBlock + KillAuraAutoBlock.
  */
@@ -77,7 +76,7 @@ public class Autoblock extends Module {
         wasBlocking = false;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPreMotion(PreMotionEvent e) {
         if (!Utils.nullCheck()) return;
 
@@ -95,8 +94,8 @@ public class Autoblock extends Module {
                 && ModuleManager.killAura.isEnabled()
                 && KillAura.target != null;
 
-        boolean lmbDown = mc.mouseHelper.isLeftButtonPressed() || killAuraActive;
-        boolean rmbDown = mc.mouseHelper.isRightButtonPressed();
+        boolean lmbDown = mc.mouse.isLeftButtonPressed() || killAuraActive;
+        boolean rmbDown = mc.mouse.isRightButtonPressed();
 
         // Check use conditions
         boolean shouldBlock = currentTarget != null;
@@ -160,7 +159,7 @@ public class Autoblock extends Module {
     }
 
     private void startBlocking(ClientPlayerEntity player) {
-        if (player == null || player.isRemoved()) return;
+        if (player == null || player.isDead()) return;
 
         // Check if we have a shield in offhand or mainhand
         boolean canBlock = canBlockWithCurrentItems(player);

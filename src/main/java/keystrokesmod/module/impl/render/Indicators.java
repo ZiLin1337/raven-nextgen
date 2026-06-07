@@ -1,7 +1,7 @@
 package keystrokesmod.module.impl.render;
 
-// import IAccessorEntityArrow removed
-// import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
+import keystrokesmod.mixin.impl.accessor.IAccessorEntityArrow;
+import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
 import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.impl.world.AntiBot;
@@ -15,21 +15,26 @@ import keystrokesmod.utility.Utils;
 import keystrokesmod.utility.font.FontManager;
 import keystrokesmod.utility.font.RavenFontRenderer;
 import net.minecraft.block.Block;
-
+import net.minecraft.block.BlockLiquid;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.BlockState;
 
-import net.minecraft.entity.LivingEntity;
+
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.projectile.thrown.EnderPearlEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.item.EntityEnderPearl;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.*;
 import net.minecraft.item.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.Vec3;
+
+
 
 import org.lwjgl.opengl.GL11;
 
@@ -68,32 +73,32 @@ public class Indicators extends Module {
 
     private static final class FluidState {
         final boolean inWater;
-        final Vec3d flowDirection;
+        final Vec3 flowDirection;
 
-        private FluidState(boolean inWater, Vec3d flowDirection) {
+        private FluidState(boolean inWater, Vec3 flowDirection) {
             this.inWater = inWater;
             this.flowDirection = flowDirection;
         }
     }
 
     private static final class BlockCollisionResult {
-        final HitResult hit;
+        final MovingObjectPosition hit;
         final double distanceSq;
 
-        private BlockCollisionResult(HitResult hit, double distanceSq) {
+        private BlockCollisionResult(MovingObjectPosition hit, double distanceSq) {
             this.hit = hit;
             this.distanceSq = distanceSq;
         }
     }
 
     private static final class TrajectoryPrediction {
-        final List<Vec3d> points;
-        final Vec3d impactPosition;
+        final List<Vec3> points;
+        final Vec3 impactPosition;
         final BlockPos hitBlockPos;
         final double width;
         final double height;
 
-        private TrajectoryPrediction(List<Vec3d> points, Vec3d impactPosition, BlockPos hitBlockPos,
+        private TrajectoryPrediction(List<Vec3> points, Vec3 impactPosition, BlockPos hitBlockPos,
                                      double width, double height) {
             this.points = points;
             this.impactPosition = impactPosition;
@@ -149,7 +154,7 @@ public class Indicators extends Module {
     private static final double ARROW_TRAJECTORY_MARKER_OUTER_BACK_SWEEP = 0.05D;
     private static final String[] FONT_OPTIONS = FontManager.getHudFontOptions();
     private int tickCounter;
-    private final Map<Entity, Vec3d> lastPosition = new HashMap<>();
+    private final Map<Entity, Vec3> lastPosition = new HashMap<>();
     private final Set<Entity> entitiesToRender = new HashSet<>();
 
     private String[] arrowTypes = new String[] { "Caret", "Greater than", "Triangle" };
@@ -195,7 +200,7 @@ public class Indicators extends Module {
     }
 
     
-    public void onClientTick(Object event) {
+    public void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase != TickEvent.Phase.END || !Utils.nullCheck()) {
             return;
         }
@@ -206,7 +211,7 @@ public class Indicators extends Module {
         Set<Entity> seen = new HashSet<>();
         entitiesToRender.clear();
         double px = mc.player.getX(), py = mc.player.getY(), pz = mc.player.getZ();
-        for (Entity en : mc.world.world.getEntities()) {
+        for (Entity en : mc.world.loadedEntityList) {
             if (en == null || en == mc.player) {
                 continue;
             }
@@ -215,30 +220,30 @@ public class Indicators extends Module {
                 continue;
             }
             seen.add(en);
-            Vec3d posThen = lastPosition.get(en);
+            Vec3 posThen = lastPosition.get(en);
             if (onlyWhenApproaching.isToggled()) {
                 if (posThen == null) {
-                    lastPosition.put(en, new Vec3d(en.posX, en.posY, en.posZ));
+                    lastPosition.put(en, new Vec3(en.posX, en.posY, en.posZ));
                     continue;
                 }
                 double distanceThen = Math.sqrt(
-                        (px - posThen.x) * (px - posThen.x) +
-                                (py - posThen.y) * (py - posThen.y) +
-                                (pz - posThen.z) * (pz - posThen.z));
-                double distanceNow = mc.player.distanceTo(en);
+                        (px - posThen.xCoord) * (px - posThen.xCoord) +
+                                (py - posThen.yCoord) * (py - posThen.yCoord) +
+                                (pz - posThen.zCoord) * (pz - posThen.zCoord));
+                double distanceNow = mc.player.getDistanceToEntity(en);
                 if (distanceThen - distanceNow <= MIN_NET_TOWARD_BLOCKS) {
-                    lastPosition.put(en, new Vec3d(en.posX, en.posY, en.posZ));
+                    lastPosition.put(en, new Vec3(en.posX, en.posY, en.posZ));
                     continue;
                 }
             }
             entitiesToRender.add(en);
-            lastPosition.put(en, new Vec3d(en.posX, en.posY, en.posZ));
+            lastPosition.put(en, new Vec3(en.posX, en.posY, en.posZ));
         }
         lastPosition.keySet().retainAll(seen);
     }
 
     
-    public void onRenderTick(Object event) {
+    public void onRenderTick(TickEvent.RenderTickEvent event) {
         if (event.phase != TickEvent.Phase.END) {
             return;
         }
@@ -258,26 +263,26 @@ public class Indicators extends Module {
     }
 
     
-    public void onRenderWorld(Object event) {
+    public void onRenderWorld(RenderWorldLastEvent event) {
         if (!Utils.nullCheck() || mc.world == null || !hasEnabledWorldTrajectories()) {
             return;
         }
 
         try {
-            for (Entity entity : mc.world.world.getEntities()) {
+            for (Entity entity : mc.world.loadedEntityList) {
                 if (!canRender(entity)) {
                     continue;
                 }
 
-                if (entity instanceof FireballEntity && drawFireballTrajectory.isToggled()) {
-                    renderFireballTrajectory((FireballEntity) entity, event.partialTicks);
+                if (entity instanceof EntityLargeFireball && drawFireballTrajectory.isToggled()) {
+                    renderFireballTrajectory((EntityLargeFireball) entity, event.partialTicks);
                 }
-                else if (entity instanceof ArrowEntity && drawArrowTrajectory.isToggled()
-                        && !((IAccessorArrowEntity) entity).getInGround()) {
-                    renderArrowTrajectory((ArrowEntity) entity, event.partialTicks);
+                else if (entity instanceof EntityArrow && drawArrowTrajectory.isToggled()
+                        && !((IAccessorEntityArrow) entity).getInGround()) {
+                    renderArrowTrajectory((EntityArrow) entity, event.partialTicks);
                 }
-                else if (entity instanceof EnderPearlEntity && drawPearlTrajectory.isToggled()) {
-                    renderPearlTrajectory((EnderPearlEntity) entity, event.partialTicks);
+                else if (entity instanceof EntityEnderPearl && drawPearlTrajectory.isToggled()) {
+                    renderPearlTrajectory((EntityEnderPearl) entity, event.partialTicks);
                 }
             }
         }
@@ -288,8 +293,8 @@ public class Indicators extends Module {
         if (en == null) {
             return null;
         }
-        if (en instanceof ArrowEntity) {
-            if (((IAccessorArrowEntity) en).getInGround()) {
+        if (en instanceof EntityArrow) {
+            if (((IAccessorEntityArrow) en).getInGround()) {
                 return null;
             }
             return new ItemStack(Items.arrow);
@@ -297,7 +302,7 @@ public class Indicators extends Module {
         if (en instanceof EntityFireball) {
             return new ItemStack(Items.fire_charge);
         }
-        if (en instanceof EnderPearlEntity) {
+        if (en instanceof EntityEnderPearl) {
             return new ItemStack(Items.ender_pearl);
         }
         if (en instanceof EntityEgg) {
@@ -310,13 +315,13 @@ public class Indicators extends Module {
     }
 
     private boolean canRender(Entity entity) {
-        if (entity instanceof ArrowEntity && !((IAccessorArrowEntity) entity).getInGround() && renderArrows.isToggled()) {
+        if (entity instanceof EntityArrow && !((IAccessorEntityArrow) entity).getInGround() && renderArrows.isToggled()) {
             return true;
         }
-        else if (entity instanceof FireballEntity && renderFireballs.isToggled()) {
+        else if (entity instanceof EntityLargeFireball && renderFireballs.isToggled()) {
             return true;
         }
-        else if (entity instanceof EnderPearlEntity && renderPearls.isToggled()) {
+        else if (entity instanceof EntityEnderPearl && renderPearls.isToggled()) {
             return true;
         }
         else if (entity instanceof EntityEgg && renderEggs.isToggled()) {
@@ -345,18 +350,18 @@ public class Indicators extends Module {
         double y = en.lastTickPosY + (en.posY - en.lastTickPosY) * partialTicks - mc.getEntityRenderDispatcher().viewerPosY + en.height / 2;
         double z = en.lastTickPosZ + (en.posZ - en.lastTickPosZ) * partialTicks - mc.getEntityRenderDispatcher().viewerPosZ;
 
-        ((IAccessorEntityRenderer) mc.gameRenderer).callSetupCameraTransform(((IAccessorMinecraft) mc).getTimer().renderPartialTicks, 0);
+        ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(((IAccessorMinecraft) mc).getTimer().renderPartialTicks, 0);
 
-         scaledResolution = null; // int removed for 1.21.4
-        Vec3d vec = RenderUtils.convertTo2D(mc.getWindow().getScaleFactor(), x, y, z);
+         scaledResolution = new (mc);
+        Vec3 vec = RenderUtils.convertTo2D(scaledResolution.getScaleFactor(), x, y, z);
 
         if (vec != null) {
-            mc.gameRenderer.setupOverlayRendering();
-             res = null; // int removed for 1.21.4
+            mc.entityRenderer.setupOverlayRendering();
+             res = new (mc);
 
-            double dx = vec.x - res.getScaledWidth() / 2.0;
-            double dy = vec.y - res.getScaledHeight() / 2.0;
-            boolean inFrustum = vec.z < 1.0003684;
+            double dx = vec.xCoord - res.getScaledWidth() / 2.0;
+            double dy = vec.yCoord - res.getScaledHeight() / 2.0;
+            boolean inFrustum = vec.zCoord < 1.0003684;
 
             if (!inFrustum) {
                 dx *= -1.0;
@@ -436,7 +441,7 @@ public class Indicators extends Module {
             RenderSystem.scale(0.8, 0.8, 0.8);
 
             if (renderDistance.isToggled()) {
-                String text = (int) mc.player.distanceTo(en) + "m";
+                String text = (int) mc.player.getDistanceToEntity(en) + "m";
                 RavenFontRenderer fr = getIndicatorFontRenderer();
                 fr.drawString(text, (float) (-fr.getStringWidth(text) / 2), -4.0f, -1, true);
             }
@@ -505,9 +510,9 @@ public class Indicators extends Module {
         }
     }
 
-    private void renderFireballTrajectory(FireballEntity fireball, float partialTicks) {
+    private void renderFireballTrajectory(EntityLargeFireball fireball, float partialTicks) {
         FireballSimulator.Result result = FireballSimulator.simulate(fireball);
-        Vec3d impactPosition = result.getImpactPosition();
+        Vec3 impactPosition = result.getImpactPosition();
 
         if (impactPosition == null) {
             return;
@@ -519,7 +524,7 @@ public class Indicators extends Module {
         double startX = fireball.lastTickPosX + (fireball.posX - fireball.lastTickPosX) * partialTicks;
         double startY = fireball.lastTickPosY + (fireball.posY - fireball.lastTickPosY) * partialTicks + fireball.height * 0.5D;
         double startZ = fireball.lastTickPosZ + (fireball.posZ - fireball.lastTickPosZ) * partialTicks;
-        double endY = impactPosition.y + fireball.height * 0.5D;
+        double endY = impactPosition.yCoord + fireball.height * 0.5D;
         Color fireballColor = itemColors.isToggled() ? getColorForItem(new ItemStack(Items.fire_charge)) : Color.WHITE;
         float red = fireballColor.getRed() / 255.0F;
         float green = fireballColor.getGreen() / 255.0F;
@@ -537,7 +542,7 @@ public class Indicators extends Module {
         GL11.glColor4f(red, green, blue, 1.0F);
         GL11.glBegin(GL11.GL_LINES);
         GL11.glVertex3d(startX - viewerX, startY - viewerY, startZ - viewerZ);
-        GL11.glVertex3d(impactPosition.x - viewerX, endY - viewerY, impactPosition.z - viewerZ);
+        GL11.glVertex3d(impactPosition.xCoord - viewerX, endY - viewerY, impactPosition.zCoord - viewerZ);
         GL11.glEnd();
 
         Box impactBox = getImpactBox(fireball, impactPosition);
@@ -554,7 +559,7 @@ public class Indicators extends Module {
         GL11.glPopMatrix();
     }
 
-    private void renderArrowTrajectory(ArrowEntity arrowEntity, float partialTicks) {
+    private void renderArrowTrajectory(EntityArrow arrowEntity, float partialTicks) {
         ProjectileTrajectoryProps props = new ProjectileTrajectoryProps(
                 ARROW_GRAVITY,
                 PROJECTILE_DRAG,
@@ -573,7 +578,7 @@ public class Indicators extends Module {
         );
     }
 
-    private void renderPearlTrajectory(EnderPearlEntity pearlEntity, float partialTicks) {
+    private void renderPearlTrajectory(EntityEnderPearl pearlEntity, float partialTicks) {
         ProjectileTrajectoryProps props = new ProjectileTrajectoryProps(
                 THROWABLE_GRAVITY,
                 PROJECTILE_DRAG,
@@ -597,13 +602,13 @@ public class Indicators extends Module {
         double posX = projectile.posX;
         double posY = projectile.posY;
         double posZ = projectile.posZ;
-        double motionX = projectile.getVelocity().x;
-        double motionY = projectile.getVelocity().y;
-        double motionZ = projectile.getVelocity().z;
-        int ticksInAir = Math.max(0, projectile.age);
+        double motionX = projectile.motionX;
+        double motionY = projectile.motionY;
+        double motionZ = projectile.motionZ;
+        int ticksInAir = Math.max(0, projectile.ticksExisted);
 
-        List<Vec3d> points = new ArrayList<>();
-        points.add(new Vec3d(posX, posY, posZ));
+        List<Vec3> points = new ArrayList<>();
+        points.add(new Vec3(posX, posY, posZ));
 
         for (int tick = 0; tick < PROJECTILE_TRAJECTORY_MAX_TICKS; tick++) {
             FluidState fluidState = sampleFluidState(posX, posY, posZ, props.width, props.height, projectile);
@@ -617,12 +622,12 @@ public class Indicators extends Module {
             double nextY = posY + motionY;
             double nextZ = posZ + motionZ;
 
-            Vec3d start = new Vec3d(posX, posY, posZ);
-            Vec3d end = new Vec3d(nextX, nextY, nextZ);
+            Vec3 start = new Vec3(posX, posY, posZ);
+            Vec3 end = new Vec3(nextX, nextY, nextZ);
             BlockCollisionResult blockCollision = getNearestBlockCollision(start, end, props);
-            HitResult blockHit = blockCollision.hit;
+            MovingObjectPosition blockHit = blockCollision.hit;
             double bestDistanceSq = blockCollision.distanceSq;
-            Vec3d clampedEnd = blockHit != null ? blockHit.hitVec : end;
+            Vec3 clampedEnd = blockHit != null ? blockHit.hitVec : end;
 
             Box broadBox = new Box(
                     posX - props.hitboxRadius,
@@ -633,33 +638,33 @@ public class Indicators extends Module {
                     posZ + props.hitboxRadius
             ).addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D);
 
-            Vec3d bestEntityHit = null;
+            Vec3 bestEntityHit = null;
             for (Entity entity : mc.world.getEntitiesWithinAABBExcludingEntity(projectile, broadBox)) {
-                if (!(entity instanceof LivingEntity)) {
+                if (!(entity instanceof EntityLivingBase)) {
                     continue;
                 }
-                if (entity instanceof ArmorStandEntity) {
+                if (entity instanceof EntityArmorStand) {
                     continue;
                 }
                 if (!entity.canBeCollidedWith()) {
                     continue;
                 }
-                if (((LivingEntity) entity).deathTime != 0) {
+                if (((EntityLivingBase) entity).deathTime != 0) {
                     continue;
                 }
-                if (entity instanceof PlayerEntity && AntiBot.isBot(entity)) {
+                if (entity instanceof EntityPlayer && AntiBot.isBot(entity)) {
                     continue;
                 }
                 if (owner != null && entity.isEntityEqual(owner) && ticksInAir < props.ignoreOwnerTicks) {
                     continue;
                 }
 
-                Box expandedBox = entity.getBoundingBox().expand(
+                Box expandedBox = entity.getEntityBoundingBox().expand(
                         ENTITY_HIT_EXPANSION,
                         ENTITY_HIT_EXPANSION,
                         ENTITY_HIT_EXPANSION
                 );
-                HitResult entityHit = expandedBox.calculateIntercept(start, clampedEnd);
+                MovingObjectPosition entityHit = expandedBox.calculateIntercept(start, clampedEnd);
                 if (entityHit == null) {
                     continue;
                 }
@@ -700,11 +705,11 @@ public class Indicators extends Module {
         return new TrajectoryPrediction(points, null, null, props.width, props.height);
     }
 
-    private void addFullSegmentPoints(List<Vec3d> points, double posX, double posY, double posZ,
+    private void addFullSegmentPoints(List<Vec3> points, double posX, double posY, double posZ,
                                       double motionX, double motionY, double motionZ) {
         for (int step = 1; step <= PROJECTILE_TRAJECTORY_SUBDIVISIONS; step++) {
             double t = (double) step / (double) PROJECTILE_TRAJECTORY_SUBDIVISIONS;
-            points.add(new Vec3d(
+            points.add(new Vec3(
                     posX + motionX * t,
                     posY + motionY * t,
                     posZ + motionZ * t
@@ -712,12 +717,12 @@ public class Indicators extends Module {
         }
     }
 
-    private void addHitSegmentPoints(List<Vec3d> points, double posX, double posY, double posZ,
-                                     double motionX, double motionY, double motionZ, Vec3d hitVec) {
+    private void addHitSegmentPoints(List<Vec3> points, double posX, double posY, double posZ,
+                                     double motionX, double motionY, double motionZ, Vec3 hitVec) {
         double segmentLengthSq = motionX * motionX + motionY * motionY + motionZ * motionZ;
-        double hitDx = hitVec.x - posX;
-        double hitDy = hitVec.y - posY;
-        double hitDz = hitVec.z - posZ;
+        double hitDx = hitVec.xCoord - posX;
+        double hitDy = hitVec.yCoord - posY;
+        double hitDz = hitVec.zCoord - posZ;
         double hitDistanceSq = hitDx * hitDx + hitDy * hitDy + hitDz * hitDz;
         double hitT = segmentLengthSq > 0.0D ? Math.sqrt(hitDistanceSq / segmentLengthSq) : 0.0D;
         hitT = Math.max(0.0D, Math.min(1.0D, hitT));
@@ -725,7 +730,7 @@ public class Indicators extends Module {
 
         for (int step = 1; step < subCount; step++) {
             double t = (double) step / (double) PROJECTILE_TRAJECTORY_SUBDIVISIONS;
-            points.add(new Vec3d(
+            points.add(new Vec3(
                     posX + motionX * t,
                     posY + motionY * t,
                     posZ + motionZ * t
@@ -763,8 +768,8 @@ public class Indicators extends Module {
         GL11.glBegin(GL11.GL_LINE_STRIP);
         GL11.glVertex3d(startX - viewerX, startY - viewerY, startZ - viewerZ);
         for (int i = 1; i < prediction.points.size(); i++) {
-            Vec3d point = prediction.points.get(i);
-            GL11.glVertex3d(point.x - viewerX, point.y - viewerY, point.z - viewerZ);
+            Vec3 point = prediction.points.get(i);
+            GL11.glVertex3d(point.xCoord - viewerX, point.yCoord - viewerY, point.zCoord - viewerZ);
         }
         GL11.glEnd();
 
@@ -774,7 +779,7 @@ public class Indicators extends Module {
             RenderUtils.drawBoundingBox(impactBox.offset(-viewerX, -viewerY, -viewerZ), red, green, blue, FIREBALL_TRAJECTORY_SHADE_ALPHA);
         }
 
-        if (projectile instanceof ArrowEntity) {
+        if (projectile instanceof EntityArrow) {
             renderArrowTrajectoryStartMarker(prediction, projectile, partialTicks, startX, startY, startZ, viewerX, viewerY, viewerZ, red, green, blue);
         }
 
@@ -792,57 +797,57 @@ public class Indicators extends Module {
                                                   double startX, double startY, double startZ,
                                                   double viewerX, double viewerY, double viewerZ,
                                                   float red, float green, float blue) {
-        Vec3d direction = getArrowTrajectoryMarkerDirection(prediction, projectile, startX, startY, startZ);
+        Vec3 direction = getArrowTrajectoryMarkerDirection(prediction, projectile, startX, startY, startZ);
         if (direction == null) {
             return;
         }
 
-        Vec3d armAxisA = getPerpendicularUnitVector(direction);
+        Vec3 armAxisA = getPerpendicularUnitVector(direction);
         if (armAxisA == null) {
             return;
         }
 
-        Vec3d armAxisB = normalizeVec3d(cross(direction, armAxisA));
+        Vec3 armAxisB = normalizeVec3(cross(direction, armAxisA));
         if (armAxisB == null) {
             return;
         }
 
-        double centerX = startX - direction.x * ARROW_TRAJECTORY_MARKER_BACK_OFFSET;
-        double centerY = startY - direction.y * ARROW_TRAJECTORY_MARKER_BACK_OFFSET;
-        double centerZ = startZ - direction.z * ARROW_TRAJECTORY_MARKER_BACK_OFFSET;
-        double spinAngle = (projectile.age + partialTicks) * ARROW_TRAJECTORY_MARKER_SPIN_SPEED;
+        double centerX = startX - direction.xCoord * ARROW_TRAJECTORY_MARKER_BACK_OFFSET;
+        double centerY = startY - direction.yCoord * ARROW_TRAJECTORY_MARKER_BACK_OFFSET;
+        double centerZ = startZ - direction.zCoord * ARROW_TRAJECTORY_MARKER_BACK_OFFSET;
+        double spinAngle = (projectile.ticksExisted + partialTicks) * ARROW_TRAJECTORY_MARKER_SPIN_SPEED;
         double cosine = Math.cos(spinAngle);
         double sine = Math.sin(spinAngle);
-        Vec3d rotatedArmAxisA = rotateMarkerAxis(armAxisA, armAxisB, cosine, sine);
-        Vec3d rotatedArmAxisB = rotateMarkerAxis(armAxisB, armAxisA, cosine, -sine);
+        Vec3 rotatedArmAxisA = rotateMarkerAxis(armAxisA, armAxisB, cosine, sine);
+        Vec3 rotatedArmAxisB = rotateMarkerAxis(armAxisB, armAxisA, cosine, -sine);
 
         GL11.glLineWidth(ARROW_TRAJECTORY_MARKER_LINE_WIDTH);
         GL11.glColor4f(red, green, blue, ARROW_TRAJECTORY_MARKER_ALPHA);
         GL11.glBegin(GL11.GL_LINES);
         addMarkerSegment(centerX, centerY, centerZ, rotatedArmAxisA, direction, viewerX, viewerY, viewerZ);
-        addMarkerSegment(centerX, centerY, centerZ, new Vec3d(-rotatedArmAxisA.x, -rotatedArmAxisA.y, -rotatedArmAxisA.z), direction, viewerX, viewerY, viewerZ);
+        addMarkerSegment(centerX, centerY, centerZ, new Vec3(-rotatedArmAxisA.xCoord, -rotatedArmAxisA.yCoord, -rotatedArmAxisA.zCoord), direction, viewerX, viewerY, viewerZ);
         addMarkerSegment(centerX, centerY, centerZ, rotatedArmAxisB, direction, viewerX, viewerY, viewerZ);
-        addMarkerSegment(centerX, centerY, centerZ, new Vec3d(-rotatedArmAxisB.x, -rotatedArmAxisB.y, -rotatedArmAxisB.z), direction, viewerX, viewerY, viewerZ);
+        addMarkerSegment(centerX, centerY, centerZ, new Vec3(-rotatedArmAxisB.xCoord, -rotatedArmAxisB.yCoord, -rotatedArmAxisB.zCoord), direction, viewerX, viewerY, viewerZ);
         GL11.glEnd();
     }
 
-    private void addMarkerSegment(double centerX, double centerY, double centerZ, Vec3d axis, Vec3d direction,
+    private void addMarkerSegment(double centerX, double centerY, double centerZ, Vec3 axis, Vec3 direction,
                                   double viewerX, double viewerY, double viewerZ) {
         GL11.glVertex3d(
-                centerX + axis.x * ARROW_TRAJECTORY_MARKER_INNER_RADIUS - direction.x * ARROW_TRAJECTORY_MARKER_INNER_BACK_SWEEP - viewerX,
-                centerY + axis.y * ARROW_TRAJECTORY_MARKER_INNER_RADIUS - direction.y * ARROW_TRAJECTORY_MARKER_INNER_BACK_SWEEP - viewerY,
-                centerZ + axis.z * ARROW_TRAJECTORY_MARKER_INNER_RADIUS - direction.z * ARROW_TRAJECTORY_MARKER_INNER_BACK_SWEEP - viewerZ
+                centerX + axis.xCoord * ARROW_TRAJECTORY_MARKER_INNER_RADIUS - direction.xCoord * ARROW_TRAJECTORY_MARKER_INNER_BACK_SWEEP - viewerX,
+                centerY + axis.yCoord * ARROW_TRAJECTORY_MARKER_INNER_RADIUS - direction.yCoord * ARROW_TRAJECTORY_MARKER_INNER_BACK_SWEEP - viewerY,
+                centerZ + axis.zCoord * ARROW_TRAJECTORY_MARKER_INNER_RADIUS - direction.zCoord * ARROW_TRAJECTORY_MARKER_INNER_BACK_SWEEP - viewerZ
         );
         GL11.glVertex3d(
-                centerX + axis.x * ARROW_TRAJECTORY_MARKER_OUTER_RADIUS - direction.x * ARROW_TRAJECTORY_MARKER_OUTER_BACK_SWEEP - viewerX,
-                centerY + axis.y * ARROW_TRAJECTORY_MARKER_OUTER_RADIUS - direction.y * ARROW_TRAJECTORY_MARKER_OUTER_BACK_SWEEP - viewerY,
-                centerZ + axis.z * ARROW_TRAJECTORY_MARKER_OUTER_RADIUS - direction.z * ARROW_TRAJECTORY_MARKER_OUTER_BACK_SWEEP - viewerZ
+                centerX + axis.xCoord * ARROW_TRAJECTORY_MARKER_OUTER_RADIUS - direction.xCoord * ARROW_TRAJECTORY_MARKER_OUTER_BACK_SWEEP - viewerX,
+                centerY + axis.yCoord * ARROW_TRAJECTORY_MARKER_OUTER_RADIUS - direction.yCoord * ARROW_TRAJECTORY_MARKER_OUTER_BACK_SWEEP - viewerY,
+                centerZ + axis.zCoord * ARROW_TRAJECTORY_MARKER_OUTER_RADIUS - direction.zCoord * ARROW_TRAJECTORY_MARKER_OUTER_BACK_SWEEP - viewerZ
         );
     }
 
-    private Vec3d getArrowTrajectoryMarkerDirection(TrajectoryPrediction prediction, Entity projectile,
+    private Vec3 getArrowTrajectoryMarkerDirection(TrajectoryPrediction prediction, Entity projectile,
                                                    double startX, double startY, double startZ) {
-        Vec3d direction = normalizeVec3d(new Vec3d(projectile.getVelocity().x, projectile.getVelocity().y, projectile.getVelocity().z));
+        Vec3 direction = normalizeVec3(new Vec3(projectile.motionX, projectile.motionY, projectile.motionZ));
         if (direction != null) {
             return direction;
         }
@@ -851,49 +856,49 @@ public class Indicators extends Module {
             return null;
         }
 
-        Vec3d nextPoint = prediction.points.get(1);
-        return normalizeVec3d(new Vec3d(
-                nextPoint.x - startX,
-                nextPoint.y - startY,
-                nextPoint.z - startZ
+        Vec3 nextPoint = prediction.points.get(1);
+        return normalizeVec3(new Vec3(
+                nextPoint.xCoord - startX,
+                nextPoint.yCoord - startY,
+                nextPoint.zCoord - startZ
         ));
     }
 
-    private Vec3d getPerpendicularUnitVector(Vec3d direction) {
-        Vec3d reference = Math.abs(direction.y) < 0.9D
-                ? new Vec3d(0.0D, 1.0D, 0.0D)
-                : new Vec3d(1.0D, 0.0D, 0.0D);
-        return normalizeVec3d(cross(direction, reference));
+    private Vec3 getPerpendicularUnitVector(Vec3 direction) {
+        Vec3 reference = Math.abs(direction.yCoord) < 0.9D
+                ? new Vec3(0.0D, 1.0D, 0.0D)
+                : new Vec3(1.0D, 0.0D, 0.0D);
+        return normalizeVec3(cross(direction, reference));
     }
 
-    private Vec3d rotateMarkerAxis(Vec3d primaryAxis, Vec3d secondaryAxis, double primaryWeight, double secondaryWeight) {
-        return new Vec3d(
-                primaryAxis.x * primaryWeight + secondaryAxis.x * secondaryWeight,
-                primaryAxis.y * primaryWeight + secondaryAxis.y * secondaryWeight,
-                primaryAxis.z * primaryWeight + secondaryAxis.z * secondaryWeight
+    private Vec3 rotateMarkerAxis(Vec3 primaryAxis, Vec3 secondaryAxis, double primaryWeight, double secondaryWeight) {
+        return new Vec3(
+                primaryAxis.xCoord * primaryWeight + secondaryAxis.xCoord * secondaryWeight,
+                primaryAxis.yCoord * primaryWeight + secondaryAxis.yCoord * secondaryWeight,
+                primaryAxis.zCoord * primaryWeight + secondaryAxis.zCoord * secondaryWeight
         );
     }
 
-    private Vec3d cross(Vec3d a, Vec3d b) {
-        return new Vec3d(
-                a.y * b.z - a.z * b.y,
-                a.z * b.x - a.x * b.z,
-                a.x * b.y - a.y * b.x
+    private Vec3 cross(Vec3 a, Vec3 b) {
+        return new Vec3(
+                a.yCoord * b.zCoord - a.zCoord * b.yCoord,
+                a.zCoord * b.xCoord - a.xCoord * b.zCoord,
+                a.xCoord * b.yCoord - a.yCoord * b.xCoord
         );
     }
 
-    private Vec3d normalizeVec3d(Vec3d vector) {
-        double lengthSq = vector.x * vector.x + vector.y * vector.y + vector.z * vector.z;
+    private Vec3 normalizeVec3(Vec3 vector) {
+        double lengthSq = vector.xCoord * vector.xCoord + vector.yCoord * vector.yCoord + vector.zCoord * vector.zCoord;
         if (lengthSq <= 1.0E-6D) {
             return null;
         }
 
         double invLength = 1.0D / Math.sqrt(lengthSq);
-        return new Vec3d(vector.x * invLength, vector.y * invLength, vector.z * invLength);
+        return new Vec3(vector.xCoord * invLength, vector.yCoord * invLength, vector.zCoord * invLength);
     }
 
     private Box getPredictedImpactBox(Entity projectile, TrajectoryPrediction prediction) {
-        if (projectile instanceof ArrowEntity) {
+        if (projectile instanceof EntityArrow) {
             return getProjectileImpactBox(prediction);
         }
 
@@ -919,24 +924,24 @@ public class Indicators extends Module {
     private Box getProjectileImpactBox(TrajectoryPrediction prediction) {
         double halfWidth = prediction.width * 0.5D;
         return new Box(
-                prediction.impactPosition.x - halfWidth,
-                prediction.impactPosition.y,
-                prediction.impactPosition.z - halfWidth,
-                prediction.impactPosition.x + halfWidth,
-                prediction.impactPosition.y + prediction.height,
-                prediction.impactPosition.z + halfWidth
+                prediction.impactPosition.xCoord - halfWidth,
+                prediction.impactPosition.yCoord,
+                prediction.impactPosition.zCoord - halfWidth,
+                prediction.impactPosition.xCoord + halfWidth,
+                prediction.impactPosition.yCoord + prediction.height,
+                prediction.impactPosition.zCoord + halfWidth
         );
     }
 
-    private Box getImpactBox(FireballEntity fireball, Vec3d impactPosition) {
+    private Box getImpactBox(EntityLargeFireball fireball, Vec3 impactPosition) {
         double halfWidth = fireball.width * 0.5D;
         return new Box(
-                impactPosition.x - halfWidth,
-                impactPosition.y,
-                impactPosition.z - halfWidth,
-                impactPosition.x + halfWidth,
-                impactPosition.y + fireball.height,
-                impactPosition.z + halfWidth
+                impactPosition.xCoord - halfWidth,
+                impactPosition.yCoord,
+                impactPosition.zCoord - halfWidth,
+                impactPosition.xCoord + halfWidth,
+                impactPosition.yCoord + fireball.height,
+                impactPosition.zCoord + halfWidth
         );
     }
 
@@ -960,11 +965,11 @@ public class Indicators extends Module {
         int maxZ = MathHelper.floor_double(waterCheckBox.maxZ + 1.0D);
 
         if (!mc.world.isAreaLoaded(new BlockPos(minX, minY, minZ), new BlockPos(maxX, maxY, maxZ), true)) {
-            return new FluidState(false, new Vec3d(0.0D, 0.0D, 0.0D));
+            return new FluidState(false, new Vec3(0.0D, 0.0D, 0.0D));
         }
 
         boolean inWater = false;
-        Vec3d flowDirection = new Vec3d(0.0D, 0.0D, 0.0D);
+        Vec3 flowDirection = new Vec3(0.0D, 0.0D, 0.0D);
         BlockPos.Mutable mutablePos = new BlockPos.Mutable();
 
         for (int x = minX; x < maxX; ++x) {
@@ -978,7 +983,7 @@ public class Indicators extends Module {
                     }
 
                     double liquidSurfaceY = (double) ((float) (y + 1)
-                            - LiquidBlock.getLiquidHeightPercent((Integer) blockState.getValue(LiquidBlock.LEVEL)));
+                            - BlockLiquid.getLiquidHeightPercent((Integer) blockState.getValue(BlockLiquid.LEVEL)));
                     if ((double) maxY >= liquidSurfaceY) {
                         inWater = true;
                         flowDirection = blockState.getBlock().modifyAcceleration(mc.world, mutablePos, projectile, flowDirection);
@@ -999,19 +1004,19 @@ public class Indicators extends Module {
             return;
         }
 
-        motion[0] += fluidState.flowDirection.x * WATER_FLOW_ACCELERATION;
-        motion[1] += fluidState.flowDirection.y * WATER_FLOW_ACCELERATION;
-        motion[2] += fluidState.flowDirection.z * WATER_FLOW_ACCELERATION;
+        motion[0] += fluidState.flowDirection.xCoord * WATER_FLOW_ACCELERATION;
+        motion[1] += fluidState.flowDirection.yCoord * WATER_FLOW_ACCELERATION;
+        motion[2] += fluidState.flowDirection.zCoord * WATER_FLOW_ACCELERATION;
     }
 
-    private Box getBlockSweepBounds(Vec3d start, Vec3d end) {
+    private Box getBlockSweepBounds(Vec3 start, Vec3 end) {
         return new Box(
-                Math.min(start.x, end.x),
-                Math.min(start.y, end.y),
-                Math.min(start.z, end.z),
-                Math.max(start.x, end.x),
-                Math.max(start.y, end.y),
-                Math.max(start.z, end.z)
+                Math.min(start.xCoord, end.xCoord),
+                Math.min(start.yCoord, end.yCoord),
+                Math.min(start.zCoord, end.zCoord),
+                Math.max(start.xCoord, end.xCoord),
+                Math.max(start.yCoord, end.yCoord),
+                Math.max(start.zCoord, end.zCoord)
         );
     }
 
@@ -1035,7 +1040,7 @@ public class Indicators extends Module {
         return new Box(minX, minY, minZ, maxX, maxY, maxZ);
     }
 
-    private BlockCollisionResult rayTraceBlockCollisionBoxes(Vec3d start, Vec3d end, ProjectileTrajectoryProps props) {
+    private BlockCollisionResult rayTraceBlockCollisionBoxes(Vec3 start, Vec3 end, ProjectileTrajectoryProps props) {
         Box sweepBounds = getBlockSweepBounds(start, end);
         int minX = MathHelper.floor_double(sweepBounds.minX);
         int maxX = MathHelper.floor_double(sweepBounds.maxX + 1.0D);
@@ -1050,7 +1055,7 @@ public class Indicators extends Module {
 
         List<Box> collisionBoxes = new ArrayList<>();
         BlockPos.Mutable mutablePos = new BlockPos.Mutable();
-        HitResult bestHit = null;
+        MovingObjectPosition bestHit = null;
         double bestDistanceSq = Double.MAX_VALUE;
 
         for (int x = minX; x < maxX; ++x) {
@@ -1073,7 +1078,7 @@ public class Indicators extends Module {
                                 continue;
                             }
 
-                            HitResult hit = projectileCollisionBox.calculateIntercept(start, end);
+                            MovingObjectPosition hit = projectileCollisionBox.calculateIntercept(start, end);
                             if (hit == null) {
                                 continue;
                             }
@@ -1092,8 +1097,8 @@ public class Indicators extends Module {
         return new BlockCollisionResult(bestHit, bestDistanceSq);
     }
 
-    private BlockCollisionResult getNearestBlockCollision(Vec3d start, Vec3d end, ProjectileTrajectoryProps props) {
-        HitResult vanillaHit = mc.world.rayTraceBlocks(start, end, false, props.ignoreBlockWithoutBoundingBox, false);
+    private BlockCollisionResult getNearestBlockCollision(Vec3 start, Vec3 end, ProjectileTrajectoryProps props) {
+        MovingObjectPosition vanillaHit = mc.world.rayTraceBlocks(start, end, false, props.ignoreBlockWithoutBoundingBox, false);
         double vanillaDistanceSq = vanillaHit != null ? start.squareDistanceTo(vanillaHit.hitVec) : Double.MAX_VALUE;
 
         BlockCollisionResult collisionBoxHit = rayTraceBlockCollisionBoxes(start, end, props);

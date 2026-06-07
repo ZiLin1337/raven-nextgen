@@ -348,7 +348,7 @@ public class ColorComponent extends Component {
 
     private void markUnsaved() {
         if (Raven.currentProfile != null) {
-            Raven.currentProfile.saved = false;
+            Raven.currentProfile.getModule().saved = false;
         }
     }
 }

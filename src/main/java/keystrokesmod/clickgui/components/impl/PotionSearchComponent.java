@@ -20,7 +20,7 @@ public class PotionSearchComponent extends AbstractSearchListComponent {
     @Override protected int getSelectedEntryCount() { return setting.getPotions().size(); }
     @Override protected int getDropdownRowCount() { return cachedResults.size(); }
     @Override public boolean isBaseVisible() { return setting.visible; }
-    @Override public String getGroupName() { return null /* group disabled */ != null ? null /* group disabled */.getName() : ""; }
+    @Override public String getGroupName() { return setting.group != null ? setting.group.getName() : ""; }
 
     @Override
     protected void renderDropdownRows(Layout layout, float offsetPx, int firstRow, int end, int rowUnderMouse) {

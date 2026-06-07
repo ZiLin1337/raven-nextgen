@@ -1,12 +1,10 @@
 package keystrokesmod.module.impl.combat;
-import keystrokesmod.event.SendPacketEvent;
-import keystrokesmod.event.GameTickEvent;
 
 import keystrokesmod.Raven;
 import keystrokesmod.event.ClientRotationEvent;
-
+import keystrokesmod.event.GameTickEvent;
 import keystrokesmod.event.PostPlayerInputEvent;
-
+import keystrokesmod.event.SendPacketEvent;
 import keystrokesmod.helper.RotationHelper;
 import keystrokesmod.lag.api.EnumLagDirection;
 import keystrokesmod.lag.api.LagRequest;
@@ -23,13 +21,15 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
 
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
@@ -80,12 +80,12 @@ public class Displace extends Module {
     private boolean releaseBlinkNextGameTick = false;
     private Float dynamicVoidYaw = null;
     private Float renderDisplaceYaw = null;
-    private PlayerEntity renderTarget = null;
+    private EntityPlayer renderTarget = null;
     private Float fadingDisplaceYaw = null;
-    private PlayerEntity fadingTarget = null;
+    private EntityPlayer fadingTarget = null;
     private long arrowFadeStartMs = 0L;
     private Float lastRenderedDisplaceYaw = null;
-    private PlayerEntity lastRenderedTarget = null;
+    private EntityPlayer lastRenderedTarget = null;
     private long lastRenderedArrowMs = 0L;
     private int tickCounter;
     private final Map<Integer, Integer> targetWindowStartTicks = new HashMap<Integer, Integer>();
@@ -172,17 +172,17 @@ public class Displace extends Module {
     }
 
     private boolean anyMovementKey() {
-        return mc.options.keyBindForward.isKeyDown()
-                || mc.options.keyBindBack.isKeyDown()
-                || mc.options.keyBindLeft.isKeyDown()
-                || mc.options.keyBindRight.isKeyDown();
+        return mc.gameSettings.keyBindForward.isKeyDown()
+                || mc.gameSettings.keyBindBack.isKeyDown()
+                || mc.gameSettings.keyBindLeft.isKeyDown()
+                || mc.gameSettings.keyBindRight.isKeyDown();
     }
 
     private boolean isDynamicAngle() {
         return dynamicAngle.getInput() == 1;
     }
 
-    private Float findStaticVoidYaw(PlayerEntity target) {
+    private Float findStaticVoidYaw(EntityPlayer target) {
         if (target == null || mc.player == null || mc.world == null) {
             return null;
         }
@@ -235,11 +235,11 @@ public class Displace extends Module {
         double aimRadius = Math.min(dist, Math.max(0.35D, (double) target.width * 0.5D + 0.15D));
         double aimX = target.posX + dx / dist * aimRadius;
         double aimZ = target.posZ + dz / dist * aimRadius;
-        Vec3d eyes = mc.player.getPositionEyes(1.0F);
+        Vec3 eyes = mc.player.getPositionEyes(1.0F);
         return RotationUtils.getRotationsFromEye(eyes, aimX, target.posY + (double) target.getEyeHeight() * 0.5D, aimZ)[0];
     }
 
-    private Float findDynamicVoidYaw(PlayerEntity target) {
+    private Float findDynamicVoidYaw(EntityPlayer target) {
         if (target == null || mc.player == null || mc.world == null) {
             return null;
         }
@@ -272,13 +272,13 @@ public class Displace extends Module {
         return (float) (Math.toDegrees(Math.atan2(forwardZ, forwardX)) - 90.0D);
     }
 
-    private double scoreVoidPath(PlayerEntity target, double forwardX, double forwardZ) {
+    private double scoreVoidPath(EntityPlayer target, double forwardX, double forwardZ) {
         double sideX = -forwardZ;
         double sideZ = forwardX;
         double score = 0.0D;
         double checkedForward = 0.0D;
         int consecutiveCenterVoid = 0;
-        Box baseCollisionBox = target.getBoundingBox().contract(DYNAMIC_COLLISION_INSET, 0.0D, DYNAMIC_COLLISION_INSET);
+        Box baseCollisionBox = target.getEntityBoundingBox().contract(DYNAMIC_COLLISION_INSET, 0.0D, DYNAMIC_COLLISION_INSET);
 
         for (int step = 1; step <= (int) (DYNAMIC_SCAN_DISTANCE / DYNAMIC_SCAN_STEP); step++) {
             double forward = (double) step * DYNAMIC_SCAN_STEP;
@@ -311,7 +311,7 @@ public class Displace extends Module {
         return score;
     }
 
-    private boolean isDynamicPathClear(PlayerEntity target, Box baseCollisionBox, double forwardX, double forwardZ, double fromForward, double toForward) {
+    private boolean isDynamicPathClear(EntityPlayer target, Box baseCollisionBox, double forwardX, double forwardZ, double fromForward, double toForward) {
         for (double forward = fromForward + DYNAMIC_WALL_CHECK_STEP; forward <= toForward + 1.0E-4D; forward += DYNAMIC_WALL_CHECK_STEP) {
             Box checkBox = baseCollisionBox.offset(forwardX * forward, 0.0D, forwardZ * forward);
             if (hasBlockCollision(target, checkBox)) {
@@ -321,7 +321,7 @@ public class Displace extends Module {
         return true;
     }
 
-    private boolean hasBlockCollision(PlayerEntity target, Box box) {
+    private boolean hasBlockCollision(EntityPlayer target, Box box) {
         int minX = MathHelper.floor_double(box.minX);
         int maxX = MathHelper.floor_double(box.maxX + 1.0D);
         int minY = MathHelper.floor_double(box.minY);
@@ -368,7 +368,7 @@ public class Displace extends Module {
         return true;
     }
 
-    private void updateDisplaceSide(PlayerEntity target, double voidX, double voidZ) {
+    private void updateDisplaceSide(EntityPlayer target, double voidX, double voidZ) {
         double targetDx = target.posX - mc.player.getX();
         double targetDz = target.posZ - mc.player.getZ();
         double voidDx = voidX - mc.player.getX();
@@ -378,7 +378,7 @@ public class Displace extends Module {
     }
 
     private float getFixedDisplaceYaw() {
-        float baseYaw = RotationUtils.serverRotations != null ? RotationUtils.serverRotations[0] : mc.player.getYaw();
+        float baseYaw = RotationUtils.serverRotations != null ? RotationUtils.serverRotations[0] : mc.player.rotationYaw;
         float offset = (float) yawOffset.getInput();
         return displaceLeft ? baseYaw - offset : baseYaw + offset;
     }
@@ -409,7 +409,7 @@ public class Displace extends Module {
 
     private void startArrowFade() {
         long nowMs = System.currentTimeMillis();
-        if (lastRenderedDisplaceYaw != null && lastRenderedTarget != null && !lastRenderedTarget.isRemoved()
+        if (lastRenderedDisplaceYaw != null && lastRenderedTarget != null && !lastRenderedTarget.isDead
                 && nowMs - lastRenderedArrowMs <= ARROW_FADE_MS) {
             fadingDisplaceYaw = lastRenderedDisplaceYaw;
             fadingTarget = lastRenderedTarget;
@@ -430,18 +430,18 @@ public class Displace extends Module {
         while (iterator.hasNext()) {
             Map.Entry<Integer, Integer> entry = iterator.next();
             Entity entity = mc.world.getEntityByID(entry.getKey());
-            if (!(entity instanceof PlayerEntity) || entity.isRemoved() || ((PlayerEntity) entity).deathTime != 0) {
+            if (!(entity instanceof EntityPlayer) || entity.isDead || ((EntityPlayer) entity).deathTime != 0) {
                 iterator.remove();
             }
         }
     }
 
-    private boolean shouldDisplaceInCurrentWindow(PlayerEntity target, int currentTick) {
+    private boolean shouldDisplaceInCurrentWindow(EntityPlayer target, int currentTick) {
         if (target == null) {
             return true;
         }
 
-        int targetId = target.getId();
+        int targetId = target.getEntityId();
         Integer windowStartTick = targetWindowStartTicks.get(targetId);
         if (windowStartTick == null || currentTick - windowStartTick >= DISPLACE_WINDOW_TICKS) {
             targetWindowStartTicks.put(targetId, currentTick);
@@ -463,7 +463,9 @@ public class Displace extends Module {
             outboundBlink = null;
         }
     }
-public void onGameTick(GameTickEvent e) {
+
+    (priority = EST)
+    public void onGameTick(GameTickEvent e) {
         if (releaseBlinkNextGameTick) {
             releaseBlink();
             releaseBlinkNextGameTick = false;
@@ -471,22 +473,22 @@ public void onGameTick(GameTickEvent e) {
     }
 
     
-    public void onRenderWorld(Object e) {
+    public void onRenderWorld(RenderWorldLastEvent e) {
         if (!Utils.nullCheck() || !showDirection.isToggled()) {
             clearArrowState();
             return;
         }
 
         long nowMs = System.currentTimeMillis();
-        boolean activeArrow = active && renderDisplaceYaw != null && renderTarget != null && !renderTarget.isRemoved();
+        boolean activeArrow = active && renderDisplaceYaw != null && renderTarget != null && !renderTarget.isDead;
         Float arrowYaw = renderDisplaceYaw;
-        PlayerEntity arrowTarget = renderTarget;
+        EntityPlayer arrowTarget = renderTarget;
         float alpha = 1.0F;
 
         if (activeArrow) {
             clearFadingArrow();
         } else {
-            if (fadingDisplaceYaw == null || fadingTarget == null || fadingTarget.isRemoved()) {
+            if (fadingDisplaceYaw == null || fadingTarget == null || fadingTarget.isDead) {
                 clearFadingArrow();
                 return;
             }
@@ -580,7 +582,10 @@ public void onGameTick(GameTickEvent e) {
                 y + verticalOffset - viewerY,
                 z - viewerZ
         );
-    }public void onPostInput(PostPlayerInputEvent e) {
+    }
+
+    (priority = )
+    public void onPostInput(PostPlayerInputEvent e) {
         if (!active) {
             compensateNextTick = false;
             return;
@@ -601,7 +606,10 @@ public void onGameTick(GameTickEvent e) {
 
         mc.player.movementInput.moveForward = 1;
         compensateNextTick = true;
-    }public void onSendPacket(SendPacketEvent e) {
+    }
+
+    (priority = )
+    public void onSendPacket(SendPacketEvent e) {
         if (!blink.isToggled() || !active || !displaceThisTick || releaseBlinkNextGameTick) {
             return;
         }
@@ -615,7 +623,10 @@ public void onGameTick(GameTickEvent e) {
         outboundBlink = new LagRequest(EnumLagDirection.ONLY_OUTBOUND, new ModuleBackedTimeout(this));
         Raven.lagHandler.requestLag(outboundBlink);
         releaseBlinkNextGameTick = true;
-    }public void onClientRotation(ClientRotationEvent e) {
+    }
+
+    (priority = )
+    public void onClientRotation(ClientRotationEvent e) {
         if (!Utils.nullCheck()) {
             clearActiveState();
             return;
@@ -628,7 +639,7 @@ public void onGameTick(GameTickEvent e) {
         boolean passesItemCondition = true;
         if (hasKnockback.isToggled() || itemWhitelistToggle.isToggled()) {
             boolean kbPass = !hasKnockback.isToggled() || EnchantmentHelper.getKnockbackModifier(mc.player) > 0;
-            boolean wlPass = !itemWhitelistToggle.isToggled() || itemWhitelist.matches(mc.player.getMainHandStack());
+            boolean wlPass = !itemWhitelistToggle.isToggled() || itemWhitelist.matches(mc.player.getHeldItem());
             passesItemCondition = kbPass || wlPass;
         }
         if (!passesItemCondition) {
@@ -636,8 +647,8 @@ public void onGameTick(GameTickEvent e) {
             return;
         }
 
-        PlayerEntity target = null;
-        boolean attacking = mc.options.keyBindAttack.isKeyDown()
+        EntityPlayer target = null;
+        boolean attacking = mc.gameSettings.keyBindAttack.isKeyDown()
                 || (ModuleManager.killAura != null && ModuleManager.killAura.isEnabled() && KillAura.target != null);
         if (attacking) {
             target = CombatTargeting.findClosestTarget(9.0, ignoreTeammates.isToggled());
@@ -677,7 +688,7 @@ public void onGameTick(GameTickEvent e) {
         }
 
         if (!displaceThisTick && wasDisplacingLastTick) {
-            int key = mc.options.attackKey.getDefaultKey().getCode();
+            int key = mc.gameSettings.keyBindAttack.getKeyCode();
             if (key != 0) {
                 KeyBinding.onTick(key);
             }

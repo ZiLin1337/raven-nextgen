@@ -9,8 +9,11 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+
+
+
 
 import java.util.ArrayList;
 
@@ -34,26 +37,26 @@ public class Tracers extends Module {
 
     @Override
     public void onEnable() {
-        this.viewBobbingEnabled = mc.options.viewBobbing;
+        this.viewBobbingEnabled = mc.gameSettings.viewBobbing;
         if (this.viewBobbingEnabled) {
-            mc.options.viewBobbing = false;
+            mc.gameSettings.viewBobbing = false;
         }
     }
 
     @Override
     public void onDisable() {
-        mc.options.viewBobbing = this.viewBobbingEnabled;
+        mc.gameSettings.viewBobbing = this.viewBobbingEnabled;
     }
 
     @Override
     public void onUpdate() {
-        if (mc.options.viewBobbing) {
-            mc.options.viewBobbing = false;
+        if (mc.gameSettings.viewBobbing) {
+            mc.gameSettings.viewBobbing = false;
         }
     }
 
     
-    public void onClientTick(Object event) {
+    public void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase != TickEvent.Phase.END) {
             return;
         }
@@ -61,7 +64,7 @@ public class Tracers extends Module {
     }
 
     
-    public void onRenderWorldLast(Object e) {
+    public void onRenderWorldLast(RenderWorldLastEvent e) {
         if (!Utils.nullCheck() || trackedEntityCount == 0) {
             return;
         }
@@ -82,15 +85,15 @@ public class Tracers extends Module {
         }
 
         if (Raven.DEBUG) {
-            for (Entity entity : mc.world.world.getEntities()) {
-                if (entity instanceof LivingEntity && entity != mc.player) {
+            for (Entity entity : mc.world.loadedEntityList) {
+                if (entity instanceof EntityLivingBase && entity != mc.player) {
                     addTrackedEntity(entity);
                 }
             }
             return;
         }
 
-        for (PlayerEntity player : mc.world.world.getPlayers()) {
+        for (EntityPlayer player : mc.world.playerEntities) {
             if (player == mc.player) {
                 continue;
             }

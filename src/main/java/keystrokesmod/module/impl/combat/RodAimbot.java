@@ -1,5 +1,4 @@
 package keystrokesmod.module.impl.combat;
-import keystrokesmod.event.MouseEvent;
 
 import keystrokesmod.event.PreMotionEvent;
 import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
@@ -9,8 +8,9 @@ import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.FishingRodItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemFishingRod;
+import net.minecraftforge.client.event.MouseEvent;
 
 public class RodAimbot extends Module {
     private SliderSetting fov;
@@ -20,7 +20,7 @@ public class RodAimbot extends Module {
     private ButtonSetting ignoreTeammates;
     public boolean rotate;
     private boolean rightClick;
-    private PlayerEntity entity;
+    private EntityPlayer entity;
 
     public RodAimbot() {
         super("RodAimbot", Module.category.combat, 0);
@@ -42,7 +42,7 @@ public class RodAimbot extends Module {
         if (mouseEvent.button != 1 || !mouseEvent.buttonstate || !Utils.nullCheck() || mc.currentScreen != null) {
             return;
         }
-        if (mc.player.getCurrentEquippedItem() == null || !(mc.player.getCurrentEquippedItem().getItem() instanceof FishingRodItem) || mc.player.fishEntity != null) {
+        if (mc.player.getCurrentEquippedItem() == null || !(mc.player.getCurrentEquippedItem().getItem() instanceof ItemFishingRod) || mc.player.fishEntity != null) {
             return;
         }
         entity = this.getEntity();
@@ -60,7 +60,7 @@ public class RodAimbot extends Module {
             return;
         }
         if (rightClick || rotate) {
-            if (mc.player.getCurrentEquippedItem() == null || !(mc.player.getCurrentEquippedItem().getItem() instanceof FishingRodItem)) {
+            if (mc.player.getCurrentEquippedItem() == null || !(mc.player.getCurrentEquippedItem().getItem() instanceof ItemFishingRod)) {
                 return;
             }
             float[] rotations = RotationUtils.getRotationsPredicated(entity, (int)predicatedTicks.getInput());
@@ -79,8 +79,8 @@ public class RodAimbot extends Module {
         }
     }
 
-    private PlayerEntity getEntity() {
-        for (final PlayerEntity entityPlayer : mc.world.world.getPlayers()) {
+    private EntityPlayer getEntity() {
+        for (final EntityPlayer entityPlayer : mc.world.playerEntities) {
             if (entityPlayer != mc.player) {
                 if (entityPlayer.deathTime != 0) {
                     continue;

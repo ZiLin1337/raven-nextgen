@@ -1,7 +1,7 @@
 package keystrokesmod.module.impl.player;
-import keystrokesmod.event.SendPacketEvent;
-import keystrokesmod.event.RightClickDelayTickEvent;
 
+import keystrokesmod.event.RightClickDelayTickEvent;
+import keystrokesmod.event.SendPacketEvent;
 import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.BlockListSetting;
@@ -11,11 +11,11 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import keystrokesmod.utility.Utils;
-
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-
+import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.MovingObjectPosition;
 
 public class FastPlace extends Module {
     public SliderSetting tickDelay;
@@ -53,7 +53,7 @@ public class FastPlace extends Module {
 
     
     public void onRightClickDelayTick(RightClickDelayTickEvent e) {
-        if (!Utils.nullCheck() || !mc.isWindowFocused()) {
+        if (!Utils.nullCheck() || !mc.inGameHasFocus) {
             rightClickStartTime = 0L;
             return;
         }
@@ -88,11 +88,11 @@ public class FastPlace extends Module {
 
     
     public void onSendPacket(SendPacketEvent e) {
-        if (!Utils.nullCheck() || !(e.getPacket() instanceof PlayerInteractBlockC2SPacket)) {
+        if (!Utils.nullCheck() || !(e.getPacket() instanceof C08PacketPlayerBlockPlacement)) {
             return;
         }
 
-        PlayerInteractBlockC2SPacket packet = (PlayerInteractBlockC2SPacket) e.getPacket();
+        C08PacketPlayerBlockPlacement packet = (C08PacketPlayerBlockPlacement) e.getPacket();
         if (packet.getPlacedBlockDirection() != 255) {
             return;
         }
@@ -112,11 +112,11 @@ public class FastPlace extends Module {
     }
 
     private boolean isBlockedHoverBlock() {
-        if (!blockBlacklistToggle.isToggled() || mc.crosshairTarget == null || mc.crosshairTarget.typeOfHit != HitResult.MovingObjectType.BLOCK) {
+        if (!blockBlacklistToggle.isToggled() || mc.objectMouseOver == null || mc.objectMouseOver.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) {
             return false;
         }
 
-        BlockPos hoveredPos = mc.crosshairTarget.getBlockPos();
+        BlockPos hoveredPos = mc.objectMouseOver.getBlockPos();
         if (hoveredPos == null) {
             return false;
         }
@@ -134,20 +134,20 @@ public class FastPlace extends Module {
     }
 
     private boolean isRightClickActive() {
-        return Utils.isBindDown(mc.options.keyBindUseItem) || mc.player.isUsingItem();
+        return Utils.isBindDown(mc.gameSettings.keyBindUseItem) || mc.player.isUsingItem();
     }
 
     private boolean canFastPlace(long now, boolean requireActivationDelay) {
         if (blocksOnly.isToggled()) {
-            ItemStack item = mc.player.getMainHandStack();
+            ItemStack item = mc.player.getHeldItem();
             if (item == null || !(item.getItem() instanceof ItemBlock)) {
                 return false;
             }
         }
-        if (pitchCheck.isToggled() && mc.player.getPitch() < 70.0f) {
+        if (pitchCheck.isToggled() && mc.player.rotationPitch < 70.0f) {
             return false;
         }
-        if (ignoredHeldItemsToggle.isToggled() && ignoredHeldItems.matches(mc.player.getMainHandStack())) {
+        if (ignoredHeldItemsToggle.isToggled() && ignoredHeldItems.matches(mc.player.getHeldItem())) {
             return false;
         }
         if (isBlockedHoverBlock()) {

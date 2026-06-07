@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ClientPlayerInteractionManager.class)
-public class MixinClientPlayerInteractionManager {
+public class MixinPlayerControllerMP {
     @Shadow private int blockBreakCooldown;
 
     @Inject(method = "attackEntity", at = @At("HEAD"), cancellable = true)
@@ -37,8 +37,8 @@ public class MixinClientPlayerInteractionManager {
     @Unique
     private void raven$fastMineApplyBreakDelay() {
         BedAura bedAura = ModuleManager.bedAura;
-        if (bedAura != null && false) {
-            int delay = 0;
+        if (bedAura != null && bedAura.shouldOverrideFastMine()) {
+            int delay = bedAura.getBreakDelayTicks();
             if (delay < 5) {
                 this.blockBreakCooldown = delay;
             }
@@ -46,7 +46,7 @@ public class MixinClientPlayerInteractionManager {
         }
         FastMine fm = ModuleManager.fastMine;
         if (fm == null) return;
-        int o = 0;
+        int o = fm.getBlockHitDelayOverrideOrMinusOne();
         if (o >= 0) {
             this.blockBreakCooldown = o;
         }
@@ -71,11 +71,11 @@ public class MixinClientPlayerInteractionManager {
     private float fastMineScaleHardness(BlockState state, PlayerEntity player, Object world, BlockPos pos) {
         float hardness = state.calcBlockBreakingDelta(player, player.getWorld(), pos);
         BedAura bedAura = ModuleManager.bedAura;
-        if (bedAura != null && false) {
-            return hardness * 1.0f;
+        if (bedAura != null && bedAura.shouldOverrideFastMine()) {
+            return hardness * bedAura.getBreakSpeedMultiplier();
         }
         FastMine fm = ModuleManager.fastMine;
         if (fm == null) return hardness;
-        return hardness * 1.0f;
+        return hardness * fm.getBreakSpeedMultiplier();
     }
 }

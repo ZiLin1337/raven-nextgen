@@ -10,16 +10,21 @@ import keystrokesmod.utility.BlockUtils;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.BedBlock;
-import net.minecraft.block.Blocks;
+import net.minecraft.block.BlockObsidian;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.EntityList;
+import net.minecraft.entity.monster.EntityIronGolem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Items;
+import net.minecraft.item.ItemEnderPearl;
+import net.minecraft.item.ItemFireball;
+import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.packet.s2c.play.BlockUpdateS2CPacket;
+import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.Vec3;
 
 import java.awt.*;
 import java.util.*;
@@ -56,7 +61,9 @@ public class BedWars extends Module {
         entitySpawnQueue.clear();
         spawnedMobs.clear();
     }
-public void onRenderWorld(Object e) {
+
+    (priority = EST)
+    public void onRenderWorld(RenderWorldLastEvent e) {
         if (Utils.nullCheck() && obsidian.isToggled()) {
             if (this.obsidianPos.isEmpty()) {
                 return;
@@ -81,7 +88,7 @@ public void onRenderWorld(Object e) {
     }
 
     
-    public void onWorldJoin(Object e) {
+    public void onWorldJoin(EntityJoinWorldEvent e) {
         if (e.entity == mc.player) {
             armoredPlayer.clear();
             lastHeldMap.clear();
@@ -90,19 +97,19 @@ public void onRenderWorld(Object e) {
             spawnedMobs.clear();
         }
         else {
-            if (e.entity != null && e.entity instanceof IronGolemEntity) {
+            if (e.entity != null && e.entity instanceof EntityIronGolem) {
                 if (Utils.getBedwarsStatus() != 2) {
                     return;
                 }
-                Vec3d spawnPosition = new Vec3d(e.entity.posX, e.entity.posY, e.entity.posZ);
+                Vec3 spawnPosition = new Vec3(e.entity.posX, e.entity.posY, e.entity.posZ);
                 for (SkyWars.SpawnEggInfo eggInfo : entitySpawnQueue) {
-                    if (eggInfo.spawnPos.distanceTo(spawnPosition) > 3 || Utils.timeBetween(mc.player.age, eggInfo.tickSpawned) > 60) { // 3 seconds or not at spawn point then not own mob
+                    if (eggInfo.spawnPos.distanceTo(spawnPosition) > 3 || Utils.timeBetween(mc.player.ticksExisted, eggInfo.tickSpawned) > 60) { // 3 seconds or not at spawn point then not own mob
                         return;
                     }
                     if (!entitySpawnQueue.remove(eggInfo)) {
                         return;
                     }
-                    spawnedMobs.add(e.entity.getId());
+                    spawnedMobs.add(e.entity.getEntityId());
                 }
             }
         }
@@ -112,7 +119,7 @@ public void onRenderWorld(Object e) {
     public void onUpdate() {
         if (Utils.getBedwarsStatus() == 2) {
             if (diamondArmor.isToggled() || enderPearl.isToggled() || obsidian.isToggled()) {
-                for (PlayerEntity p : mc.world.world.getPlayers()) {
+                for (EntityPlayer p : mc.world.playerEntities) {
                     if (p == null) {
                         continue;
                     }
@@ -123,12 +130,12 @@ public void onRenderWorld(Object e) {
                         continue;
                     }
                     String name = p.getName();
-                    ItemStack item = p.getMainHandStack();
+                    ItemStack item = p.getHeldItem();
                     if (diamondArmor.isToggled()) {
                         ItemStack leggings = p.inventory.armorInventory[1];
                         if (!armoredPlayer.contains(name) && p.inventory != null && leggings != null && leggings.getItem() != null && leggings.getItem() == Items.diamond_leggings) {
                             armoredPlayer.add(name);
-                            Utils.sendMessage("&eAlert: &r" + p.getDisplayName().getString() + " &7has purchased &bDiamond Armor");
+                            Utils.sendMessage("&eAlert: &r" + p.getDisplayName().getFormattedText() + " &7has purchased &bDiamond Armor");
                             ping();
                         }
                     }
@@ -136,8 +143,8 @@ public void onRenderWorld(Object e) {
                         String itemType = getItemType(item);
                         if (itemType != null) {
                             lastHeldMap.put(name, itemType);
-                            double distance = Math.round(mc.player.distanceTo(p));
-                            handleAlert(itemType, p.getDisplayName().getString(), Utils.asWholeNum(distance));
+                            double distance = Math.round(mc.player.getDistanceToEntity(p));
+                            handleAlert(itemType, p.getDisplayName().getFormattedText(), Utils.asWholeNum(distance));
                         }
                     } else if (lastHeldMap.containsKey(name)) {
                         String itemType = lastHeldMap.get(name);
@@ -152,16 +159,16 @@ public void onRenderWorld(Object e) {
 
     
     public void onSendPacket(SendPacketEvent e) {
-        if (e.getPacket() instanceof PlayerInteractBlockC2SPacket) {
-            PlayerInteractBlockC2SPacket p = (PlayerInteractBlockC2SPacket) e.getPacket();
+        if (e.getPacket() instanceof C08PacketPlayerBlockPlacement) {
+            C08PacketPlayerBlockPlacement p = (C08PacketPlayerBlockPlacement) e.getPacket();
             if (p.getPlacedBlockDirection() != 255 && p.getStack() != null && p.getStack().getItem() != null) {
                 if (p.getStack().getItem() instanceof ItemMonsterPlacer) {
                     Class<? extends Entity> oclass = EntityList.stringToClassMapping.get(ItemMonsterPlacer.getEntityName(p.getStack()));
                     if (oclass == null) {
                         return;
                     }
-                    if (oclass.getSimpleName().equals("IronGolemEntity")) {
-                        entitySpawnQueue.add(new SkyWars.SpawnEggInfo(p.getPosition(), mc.player.age));
+                    if (oclass.getSimpleName().equals("EntityIronGolem")) {
+                        entitySpawnQueue.add(new SkyWars.SpawnEggInfo(p.getPosition(), mc.player.ticksExisted));
                     }
                 }
             }

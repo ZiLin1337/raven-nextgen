@@ -2,12 +2,12 @@ package keystrokesmod.utility;
 
 import keystrokesmod.module.setting.impl.BlockListSetting;
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Identifier;
+import net.minecraft.util.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,7 +24,7 @@ public final class BlockSearchIndex {
     private static final Map<Block, Item> BLOCK_TO_ITEM_FALLBACK = new HashMap<Block, Item>();
 
     static {
-        BLOCK_TO_ITEM_FALLBACK.put(Blocks.RED_BED, Items.RED_BED);
+        BLOCK_TO_ITEM_FALLBACK.put(Blocks.bed, Items.bed);
     }
 
     public static final class BlockEntry {
@@ -47,8 +47,8 @@ public final class BlockSearchIndex {
         }
 
         public ItemStack toItemStack() {
-            if (displayItem != null) return new ItemStack(displayItem, 1);
-            return new ItemStack(block);
+            if (displayItem != null) return new ItemStack(displayItem, 1, meta);
+            return new ItemStack(block, 1, meta);
         }
     }
 
@@ -194,34 +194,34 @@ public final class BlockSearchIndex {
         if (block == null) return null;
         int meta = isWildcard(storageId) ? 0 : getMetaFromStorageId(storageId);
         Item fallback = BLOCK_TO_ITEM_FALLBACK.get(block);
-        if (fallback != null) return new ItemStack(fallback, 1);
-        return new ItemStack(block);
+        if (fallback != null) return new ItemStack(fallback, 1, meta);
+        return new ItemStack(block, 1, meta);
     }
 
     public static String getDisplayName(String storageId) {
         if (isWildcard(storageId)) {
             ItemStack stack = getItemStack(getRegistryId(storageId));
-            return stack != null ? stack.getName().getString() + " (All)" : storageId;
+            return stack != null ? stack.getDisplayName() + " (All)" : storageId;
         }
         ItemStack stack = getItemStack(storageId);
-        return stack != null ? stack.getName().getString() : storageId;
+        return stack != null ? stack.getDisplayName() : storageId;
     }
 
     private static void ensureBlockList() {
         if (allBlockEntries != null) return;
         allBlockEntries = new ArrayList<>();
         Map<String, List<BlockEntry>> variantMap = new HashMap<>();
-        for (Object obj : Registries.BLOCK) {
+        for (Object obj : Block.blockRegistry) {
             Block block = (Block) obj;
-            String registryId = Registries.BLOCK.getNameForObject(block) != null ? Registries.BLOCK.getNameForObject(block).toString() : null;
+            String registryId = Block.blockRegistry.getNameForObject(block) != null ? Block.blockRegistry.getNameForObject(block).toString() : null;
             if (registryId == null) continue;
 
-            Item item = null /* getItemFromBlock disabled */;
+            Item item = Item.getItemFromBlock(block);
             if (item == null) {
                 Item fallback = BLOCK_TO_ITEM_FALLBACK.get(block);
                 if (fallback != null) {
-                    ItemStack displayStack = new ItemStack(fallback, 1);
-                    String displayName = displayStack.getName().getString();
+                    ItemStack displayStack = new ItemStack(fallback, 1, 0);
+                    String displayName = displayStack.getDisplayName();
                     if (displayName != null && !displayName.isEmpty()) {
                         BlockEntry entry = new BlockEntry(block, 0, displayName, registryId, fallback);
                         allBlockEntries.add(entry);
@@ -232,13 +232,13 @@ public final class BlockSearchIndex {
             }
 
             List<ItemStack> sub = new ArrayList<>();
-            block.getSubBlocks(item, ItemGroup.BUILDING_BLOCKS, sub);
-            if (sub.isEmpty()) sub.add(new ItemStack(block, 1));
+            block.getSubBlocks(item, CreativeTabs.tabBlock, sub);
+            if (sub.isEmpty()) sub.add(new ItemStack(block, 1, 0));
             List<BlockEntry> group = new ArrayList<>();
             for (ItemStack stack : sub) {
-                String displayName = stack.getName().getString();
+                String displayName = stack.getDisplayName();
                 if (displayName == null || displayName.isEmpty()) continue;
-                int meta = 0 /* getMetadata disabled */;
+                int meta = stack.getMetadata();
                 String storageId = meta != 0 ? registryId + ":" + meta : registryId;
                 BlockEntry entry = new BlockEntry(block, meta, displayName, storageId);
                 allBlockEntries.add(entry);
@@ -272,7 +272,7 @@ public final class BlockSearchIndex {
         String registryId = parseRegistryId(name);
         if (registryId == null) return null;
         try {
-            return (Block) Registries.BLOCK.getObject(Identifier.of(registryId));
+            return (Block) Block.blockRegistry.getObject(new ResourceLocation(registryId));
         } catch (Exception e) {
             return null;
         }

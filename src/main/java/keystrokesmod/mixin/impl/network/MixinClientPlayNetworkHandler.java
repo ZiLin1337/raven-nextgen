@@ -18,14 +18,14 @@ public class MixinClientPlayNetworkHandler {
     @Inject(method = "onPlayerPositionLook", at = @At("HEAD"))
     private void onPlayerPosLookPre(PlayerPositionLookS2CPacket packet, CallbackInfo ci) {
         if (ModuleManager.noRotate != null) {
-            // handlePlayerPosLookPre disabled
+            ModuleManager.noRotate.handlePlayerPosLookPre();
         }
     }
 
     @Inject(method = "onPlayerPositionLook", at = @At("RETURN"))
     private void onPlayerPosLook(PlayerPositionLookS2CPacket packet, CallbackInfo ci) {
         if (ModuleManager.noRotate != null) {
-            // handlePlayerPosLook disabled
+            ModuleManager.noRotate.handlePlayerPosLook(packet);
         }
     }
 
@@ -42,7 +42,7 @@ public class MixinClientPlayNetworkHandler {
 
     @Inject(method = "onExplosion", at = @At("HEAD"), cancellable = true)
     private void onExplosion(ExplosionS2CPacket packet, CallbackInfo ci) {
-        PreExplosionPacketEvent event = new PreExplosionPacketEvent(null);
+        PreExplosionPacketEvent event = new PreExplosionPacketEvent();
         Raven.EVENT_BUS.post(event);
         if (event.isCancelled()) {
             ci.cancel();

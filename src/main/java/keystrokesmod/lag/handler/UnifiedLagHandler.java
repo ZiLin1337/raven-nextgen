@@ -1,5 +1,5 @@
 package keystrokesmod.lag.handler;
-import net.minecraft.network.packet.Packet;
+
 import keystrokesmod.event.GameTickEvent;
 import keystrokesmod.event.ReceivePacketEvent;
 import keystrokesmod.event.SendPacketEvent;
@@ -7,8 +7,9 @@ import keystrokesmod.lag.api.EnumLagDirection;
 import keystrokesmod.lag.api.LagRequest;
 import keystrokesmod.lag.queue.BiTrackLagNodeQueue;
 import net.minecraft.client.MinecraftClient;
-
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.util.Vec3;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -22,10 +23,10 @@ public final class UnifiedLagHandler extends AbstractFastTrackProvider {
 
     private final @NotNull BiTrackLagNodeQueue queue = new BiTrackLagNodeQueue(this);
 
-    private final @NotNull Set<Object> packetFastTrack = Collections.newSetFromMap(
+    private final @NotNull Set<Packet<?>> packetFastTrack = Collections.newSetFromMap(
             Collections.synchronizedMap(new IdentityHashMap<Packet<?>, Boolean>())
     );
-    private volatile @Nullable Vec3d serverPosition;
+    private volatile @Nullable Vec3 serverPosition;
 
     public void requestLag(final @NotNull LagRequest request) {
         queue.requestLag(request);
@@ -35,10 +36,13 @@ public final class UnifiedLagHandler extends AbstractFastTrackProvider {
         queue.releaseExpiredPackets(direction, maxAgeMs);
     }
 
-    public @Nullable Vec3d getLastReleasedServerPosition() {
+    public @Nullable Vec3 getLastReleasedServerPosition() {
         return serverPosition;
-    }public void onSendPacket(final @NotNull SendPacketEvent event) {
-        if (mc.getNetworkHandler() == null) {
+    }
+
+    (priority = )
+    public void onSendPacket(final @NotNull SendPacketEvent event) {
+        if (MinecraftClient.getInstance().getNetHandler() == null) {
             queue.clear();
             clearServerPositions();
             return;
@@ -66,7 +70,7 @@ public final class UnifiedLagHandler extends AbstractFastTrackProvider {
 
     
     public void onReceivePacket(final @NotNull ReceivePacketEvent event) {
-        if (mc.getNetworkHandler() == null) {
+        if (MinecraftClient.getInstance().getNetHandler() == null) {
             queue.clear();
             clearServerPositions();
             return;
@@ -90,7 +94,7 @@ public final class UnifiedLagHandler extends AbstractFastTrackProvider {
 
     
     public void onGameTick(final @NotNull GameTickEvent event) {
-        if (mc.getNetworkHandler() == null) {
+        if (MinecraftClient.getInstance().getNetHandler() == null) {
             queue.clear();
             clearServerPositions();
             return;
@@ -100,15 +104,15 @@ public final class UnifiedLagHandler extends AbstractFastTrackProvider {
     }
 
     @Override
-    public void forPacket(final Object packet) {
+    public void forPacket(final @NotNull Packet<?> packet) {
         packetFastTrack.add(packet);
     }
 
-    private boolean consumeFastTrack(final Object packet) {
+    private boolean consumeFastTrack(final @NotNull Packet<?> packet) {
         return packetFastTrack.remove(packet);
     }
 
-    private void updateServerPosition(final Object packet) {
+    private void updateServerPosition(final @NotNull Packet<?> packet) {
         if (!(packet instanceof C03PacketPlayer)) {
             return;
         }
@@ -118,7 +122,7 @@ public final class UnifiedLagHandler extends AbstractFastTrackProvider {
             return;
         }
 
-        serverPosition = new Vec3d(
+        serverPosition = new Vec3(
                 movementPacket.getPositionX(),
                 movementPacket.getPositionY(),
                 movementPacket.getPositionZ()

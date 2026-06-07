@@ -1,7 +1,6 @@
 package keystrokesmod.module.impl.render;
-import keystrokesmod.event.RenderLivingEvent;
 
-// import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
+import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.impl.world.AntiBot;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -13,16 +12,23 @@ import keystrokesmod.utility.font.FontManager;
 import keystrokesmod.utility.font.RavenFontRenderer;
 import net.minecraft.client.font.TextRenderer;
 
+import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.BufferBuilder;
+
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.EntityPlayer;
 
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.BowItem;
+import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.SwordItem;
+import net.minecraft.item.ItemSword;
+import net.minecraft.item.ItemTool;
+import net.minecraftforge.client.event.RenderLivingEvent;
+
+
+
 
 import org.lwjgl.opengl.GL11;
 
@@ -63,7 +69,7 @@ public class Nametags extends Module {
     private int renderStateCount = 0;
 
     private static class NametagRenderState {
-        private PlayerEntity player;
+        private EntityPlayer player;
         private String displayName;
         private int stringHalfWidth;
         private int teamColor;
@@ -80,7 +86,7 @@ public class Nametags extends Module {
         private ItemStack helmet;
         private int totalItems;
 
-        private void set(PlayerEntity player, String displayName, int stringHalfWidth, int teamColor, int relationshipColor,
+        private void set(EntityPlayer player, String displayName, int stringHalfWidth, int teamColor, int relationshipColor,
                          int playerNameStart, int playerNameEnd,
                          double distanceSq, float baseScale, float yOffset,
                          ItemStack heldItem, ItemStack boots, ItemStack leggings, ItemStack chestplate, ItemStack helmet,
@@ -136,7 +142,7 @@ public class Nametags extends Module {
     }
 
     
-    public void onClientTick(Object event) {
+    public void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase != TickEvent.Phase.END) {
             return;
         }
@@ -147,7 +153,10 @@ public class Nametags extends Module {
         }
 
         updateRenderStates();
-    }public void onRenderWorldLast(Object event) {
+    }
+
+    (priority = )
+    public void onRenderWorldLast(RenderWorldLastEvent event) {
         if (!Utils.nullCheck()) {
             return;
         }
@@ -161,8 +170,8 @@ public class Nametags extends Module {
             return;
         }
 
-        if (event.entity instanceof PlayerEntity) {
-            PlayerEntity player = (PlayerEntity) event.entity;
+        if (event.entity instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) event.entity;
             if (shouldRenderNametag(player)) {
                 event.setCanceled(true);
             }
@@ -170,8 +179,8 @@ public class Nametags extends Module {
     }
 
     private void updateRenderStates() {
-        RavenFontRenderer fontRenderer = getNametagTextRenderer();
-        Entity viewer = mc.getCameraEntity();
+        RavenTextRenderer fontRenderer = getNametagFontRenderer();
+        Entity viewer = mc.getRenderViewEntity();
         if (viewer == null) {
             renderStateCount = 0;
             return;
@@ -182,7 +191,7 @@ public class Nametags extends Module {
         float baseScale = computeBaseScaleValue();
         renderStateCount = 0;
 
-        for (PlayerEntity player : mc.world.world.getPlayers()) {
+        for (EntityPlayer player : mc.world.playerEntities) {
             if (!shouldRenderNametag(player)) {
                 continue;
             }
@@ -248,21 +257,21 @@ public class Nametags extends Module {
     }
 
     private void renderNametags(float partialTicks) {
-        Object renderManager = mc.getEntityRenderDispatcher();
-        TextRenderer itemTextRenderer = MinecraftClient.getInstance().textRenderer;
-        RavenFontRenderer textRenderer = getNametagTextRenderer();
-        if (renderManager == null || itemTextRenderer == null || renderStateCount == 0) {
+        EntityRenderDispatcher renderManager = mc.getEntityRenderDispatcher();
+        FontRenderer itemFontRenderer = mc.textRenderer;
+        RavenFontRenderer textRenderer = getNametagFontRenderer();
+        if (renderManager == null || itemFontRenderer == null || renderStateCount == 0) {
             return;
         }
 
-        ((IAccessorEntityRenderer) mc.gameRenderer).callSetupCameraTransform(partialTicks, 0);
+        ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(partialTicks, 0);
 
         for (int i = 0; i < renderStateCount; i++) {
             NametagRenderState renderState = renderStates.get(i);
             if (renderState.player == null || !RenderUtils.isInViewFrustum(renderState.player)) {
                 continue;
             }
-            renderCustomName(renderState, partialTicks, renderManager, textRenderer, itemTextRenderer);
+            renderCustomName(renderState, partialTicks, renderManager, textRenderer, itemFontRenderer);
         }
 
         RenderSystem.enableDepth();
@@ -276,26 +285,26 @@ public class Nametags extends Module {
         RenderSystem.color(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
-    private boolean shouldRenderNametag(PlayerEntity player) {
+    private boolean shouldRenderNametag(EntityPlayer player) {
         if (player == null) return false;
         if (player == mc.player) {
-            return showYourself.isToggled() && mc.options.getPerspective().ordinal() != 0;
+            return showYourself.isToggled() && mc.gameSettings.thirdPersonView != 0;
         }
-        if (player.isRemoved() || player.deathTime > 0) return false;
+        if (player.isDead || player.deathTime > 0) return false;
         if (!showInvis.isToggled() && player.isInvisible()) return false;
         return !AntiBot.isBot(player);
     }
 
-    private String buildDisplayName(PlayerEntity entity, boolean showDist, float distance) {
+    private String buildDisplayName(EntityPlayer entity, boolean showDist, float distance) {
         String name;
 
         if (onlyRenderName.isToggled()) {
-            String formatted = Utils.getFirstColorCode(entity.getDisplayName().getString());
+            String formatted = Utils.getFirstColorCode(entity.getDisplayName().getFormattedText());
             String color = (formatted.length() >= 2 && formatted.charAt(0) == '\u00a7') ? formatted : "";
             name = color + entity.getName();
         }
         else {
-            name = entity.getDisplayName().getString();
+            name = entity.getDisplayName().getFormattedText();
         }
 
         if (showHealth.isToggled()) {
@@ -311,7 +320,7 @@ public class Nametags extends Module {
         return name;
     }
 
-    private int resolveRelationshipColor(PlayerEntity entity) {
+    private int resolveRelationshipColor(EntityPlayer entity) {
         if (Utils.isFriended(entity)) {
             return friendColor.getColor();
         }
@@ -336,9 +345,9 @@ public class Nametags extends Module {
         return Math.max(scaleValue, scaledValue);
     }
 
-    private void renderCustomName(NametagRenderState state, float partialTicks, Object renderManager, RavenFontRenderer textRenderer, TextRenderer itemTextRenderer) {
-        PlayerEntity entity = state.player;
-        if (entity == null || entity.isRemoved() || entity.deathTime > 0) {
+    private void renderCustomName(NametagRenderState state, float partialTicks, EntityRenderDispatcher renderManager, RavenFontRenderer textRenderer, FontRenderer itemFontRenderer) {
+        EntityPlayer entity = state.player;
+        if (entity == null || entity.isDead || entity.deathTime > 0) {
             return;
         }
 
@@ -376,23 +385,23 @@ public class Nametags extends Module {
             int iconY = -20;
 
             if (state.heldItem != null) {
-                renderItemStack(state.heldItem, iconX, iconY, itemTextRenderer);
+                renderItemStack(state.heldItem, iconX, iconY, itemFontRenderer);
                 iconX += ITEM_SPACING;
             }
             if (state.helmet != null) {
-                renderItemStack(state.helmet, iconX, iconY, itemTextRenderer);
+                renderItemStack(state.helmet, iconX, iconY, itemFontRenderer);
                 iconX += ITEM_SPACING;
             }
             if (state.chestplate != null) {
-                renderItemStack(state.chestplate, iconX, iconY, itemTextRenderer);
+                renderItemStack(state.chestplate, iconX, iconY, itemFontRenderer);
                 iconX += ITEM_SPACING;
             }
             if (state.leggings != null) {
-                renderItemStack(state.leggings, iconX, iconY, itemTextRenderer);
+                renderItemStack(state.leggings, iconX, iconY, itemFontRenderer);
                 iconX += ITEM_SPACING;
             }
             if (state.boots != null) {
-                renderItemStack(state.boots, iconX, iconY, itemTextRenderer);
+                renderItemStack(state.boots, iconX, iconY, itemFontRenderer);
             }
         }
 
@@ -434,7 +443,7 @@ public class Nametags extends Module {
         }, textShadow.isToggled());
     }
 
-    private void renderBackground(int stringWidth, float textY, int teamColor, int relationshipColor, RavenFontRenderer fontRenderer) {
+    private void renderBackground(int stringWidth, float textY, int teamColor, int relationshipColor, RavenTextRenderer fontRenderer) {
         RenderSystem.disableTexture2D();
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder worldRenderer = tessellator.getWorldRenderer();
@@ -535,11 +544,11 @@ public class Nametags extends Module {
         return font.getOptions()[index];
     }
 
-    private RavenFontRenderer getNametagTextRenderer() {
+    private RavenFontRenderer getNametagFontRenderer() {
         return FontManager.getNametagRenderer(getSelectedFontName());
     }
 
-    private String appendHealth(String name, PlayerEntity entity) {
+    private String appendHealth(String name, EntityPlayer entity) {
         float health = Math.max(0.0f, entity.getHealth());
         float maxHealth = entity.getMaxHealth();
         if (maxHealth <= 0.0f) maxHealth = 20.0f;

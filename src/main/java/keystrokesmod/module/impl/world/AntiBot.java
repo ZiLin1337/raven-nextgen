@@ -7,16 +7,16 @@ import keystrokesmod.module.impl.player.Freecam;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.Utils;
-import net.minecraft.client.network.PlayerListEntry;
+import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class AntiBot extends Module {
-    private static final HashMap<PlayerEntity, Long> entities = new HashMap();
+    private static final HashMap<EntityPlayer, Long> entities = new HashMap();
     private static SliderSetting delay;
     private static SliderSetting pitSpawn;
     private static ButtonSetting tablist;
@@ -32,13 +32,13 @@ public class AntiBot extends Module {
     }
 
     
-    public void onEntityJoin(Object e) {
-        if ((e.entity instanceof PlayerEntity || Raven.DEBUG) && e.entity != mc.player) {
-            if (delay.getInput() != -1 && e.entity instanceof PlayerEntity) {
-                entities.put((PlayerEntity) e.entity, System.currentTimeMillis());
+    public void onEntityJoin(EntityJoinWorldEvent e) {
+        if ((e.entity instanceof EntityPlayer || Raven.DEBUG) && e.entity != mc.player) {
+            if (delay.getInput() != -1 && e.entity instanceof EntityPlayer) {
+                entities.put((EntityPlayer) e.entity, System.currentTimeMillis());
             }
             if (printWorldJoin.isToggled()) {
-                Utils.sendMessage("&7Entity &b" + e.entity.getId() + " &7joined: &r" + e.entity.getDisplayName().getString());
+                Utils.sendMessage("&7Entity &b" + e.entity.getEntityId() + " &7joined: &r" + e.entity.getDisplayName().getFormattedText());
             }
         }
     }
@@ -62,14 +62,14 @@ public class AntiBot extends Module {
         if (Freecam.freeEntity != null && Freecam.freeEntity == entity) {
             return true;
         }
-        if (entity == null || !(entity instanceof PlayerEntity)) {
+        if (entity == null || !(entity instanceof EntityPlayer)) {
             return true;
         }
-        final PlayerEntity entityPlayer = (PlayerEntity) entity;
+        final EntityPlayer entityPlayer = (EntityPlayer) entity;
         if (delay.getInput() != -1 && !entities.isEmpty() && entities.containsKey(entityPlayer)) {
             return true;
         }
-        if (entityPlayer.isRemoved()) {
+        if (entityPlayer.isDead) {
             return true;
         }
         if (entityPlayer.getName().isEmpty()) {
@@ -91,7 +91,7 @@ public class AntiBot extends Module {
         }
         if (entityPlayer.maxHurtTime == 0) {
             if (entityPlayer.getHealth() == 20.0f) {
-                String unformattedText = entityPlayer.getDisplayName().getString();
+                String unformattedText = entityPlayer.getDisplayName().getUnformattedText();
                 if (unformattedText.length() == 10 && unformattedText.charAt(0) != '§') {
                     return true;
                 }
@@ -105,7 +105,7 @@ public class AntiBot extends Module {
                     return true;
                 }
             } else if (entityPlayer.isInvisible()) {
-                String unformattedText = entityPlayer.getDisplayName().getString();
+                String unformattedText = entityPlayer.getDisplayName().getUnformattedText();
                 if (unformattedText.length() >= 3 && unformattedText.charAt(0) == '§' && unformattedText.charAt(1) == 'c') {
                     return true;
                 }
@@ -116,7 +116,7 @@ public class AntiBot extends Module {
 
     private static List<String> getTablist() {
         List<String> tab = new ArrayList<>();
-        for (PlayerListEntry networkPlayerInfo : Utils.getTablist(true)) {
+        for (NetworkPlayerInfo networkPlayerInfo : Utils.getTablist(true)) {
             if (networkPlayerInfo == null) {
                 continue;
             }

@@ -1,58 +1,131 @@
 package keystrokesmod.module.impl.combat;
 
-import keystrokesmod.Raven;
 import keystrokesmod.event.ReceivePacketEvent;
 import keystrokesmod.module.Module;
+import keystrokesmod.module.ModuleManager;
+import keystrokesmod.module.impl.movement.LongJump;
+import keystrokesmod.module.setting.impl.ButtonSetting;
+import keystrokesmod.module.setting.impl.DescriptionSetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.Entity;
-import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
-import net.minecraft.network.packet.s2c.play.ExplosionS2CPacket;
-import net.minecraft.util.math.Vec3d;
+import keystrokesmod.utility.Utils;
+import net.minecraft.network.play.server.S12PacketEntityVelocity;
+import net.minecraft.network.play.server.S27PacketExplosion;
+
+import org.lwjgl.input.Mouse;
 
 public class AntiKnockback extends Module {
-    private final MinecraftClient mc = MinecraftClient.getInstance();
-    private final SliderSetting horizontal = new SliderSetting("Horizontal", "", 100.0, 0.0, 100.0, 1.0);
-    private final SliderSetting vertical = new SliderSetting("Vertical", "", 100.0, 0.0, 100.0, 1.0);
-    private final boolean cancelBurning = true;
-    private final boolean boostWithLMB = false;
-    public boolean disable = false;
+    private SliderSetting horizontal;
+    private SliderSetting vertical;
+    private ButtonSetting disableInLobby;
+    private ButtonSetting cancelBurning;
+    private ButtonSetting cancelExplosion;
+    private ButtonSetting cancelWhileFalling;
+    private ButtonSetting cancelOffGround;
+    private SliderSetting boostMultiplier;
+    private ButtonSetting boostWithLMB;
+
+    public boolean disable;
 
     public AntiKnockback() {
-        super("Anti-Knockback", Module.category.combat);
-        this.registerSetting(horizontal);
-        this.registerSetting(vertical);
+        super("AntiKnockback", category.combat);
+        this.registerSetting(new DescriptionSetting("Overrides Velocity."));
+        this.registerSetting(horizontal = new SliderSetting("Horizontal", 0.0, 0.0, 100.0, 1.0));
+        this.registerSetting(vertical = new SliderSetting("Vertical", 0.0, 0.0, 100.0, 1.0));
+        this.registerSetting(disableInLobby = new ButtonSetting("Disable in lobby", false));
+        this.registerSetting(cancelBurning = new ButtonSetting("Cancel burning", true));
+        this.registerSetting(cancelExplosion = new ButtonSetting("Cancel explosion", true));
+        this.registerSetting(cancelWhileFalling = new ButtonSetting("Cancel while falling", true));
+        this.registerSetting(cancelOffGround = new ButtonSetting("Cancel off ground", true));
+        this.registerSetting(boostMultiplier = new SliderSetting("Damage boost", "x", 1, 0.5, 2.5, 0.01));
+        this.registerSetting(boostWithLMB = new ButtonSetting("Boost with LMB", false));
     }
 
-    @Override
-    public void onEnable() {
-        this.disable = false;
-    }
-
-    @Override
-    public void onDisable() {
-        this.disable = false;
-    }
-
+    
     public void onReceivePacket(ReceivePacketEvent e) {
-        if (mc.player == null) return;
-        
-        if (e.getPacket() instanceof EntityVelocityUpdateS2CPacket velocityPacket) {
-            if (velocityPacket.getEntityId() == mc.player.getId() && !disable) {
-                // 在1.21.4中，velocity字段是private，我们需要通过反射或使用getVelocity()方法
-                // 但getVelocity()方法可能不存在，所以我们简化处理
-                e.setCancelled(true);
+        if (!Utils.nullCheck() || LongJump.stopVelocity || e.isCanceled()) {
+            return;
+        }
+        if (e.getPacket() instanceof S12PacketEntityVelocity) {
+            if (((S12PacketEntityVelocity) e.getPacket()).getEntityID() == mc.player.getEntityId() && !disable) {
+                if (!cancelBurning.isToggled() && mc.player.isBurning()) {
+                    return;
+                }
+                if (disableInLobby.isToggled() && Utils.isLobby()) {
+                    return;
+                }
+                e.setCanceled(true);
+                if (cancel()) {
+                    return;
+                }
+                if (cancelConditions()) {
+                    return;
+                }
+                S12PacketEntityVelocity s12PacketEntityVelocity = (S12PacketEntityVelocity) e.getPacket();
+                if (horizontal.getInput() == 0 && vertical.getInput() > 0) {
+                    mc.player.motionY = ((double) s12PacketEntityVelocity.getMotionY() / 8000) * vertical.getInput() / 100.0;
+                }
+                else if (horizontal.getInput() > 0 && vertical.getInput() == 0) {
+                    mc.player.motionX = ((double) s12PacketEntityVelocity.getMotionX() / 8000) * horizontal.getInput() / 100.0;
+                    mc.player.motionZ = ((double) s12PacketEntityVelocity.getMotionZ() / 8000) * horizontal.getInput() / 100.0;
+                }
+                else {
+                    mc.player.motionX = ((double) s12PacketEntityVelocity.getMotionX() / 8000) * horizontal.getInput() / 100.0;
+                    mc.player.motionY = ((double) s12PacketEntityVelocity.getMotionY() / 8000) * vertical.getInput() / 100.0;
+                    mc.player.motionZ = ((double) s12PacketEntityVelocity.getMotionZ() / 8000) * horizontal.getInput() / 100.0;
+                }
+                if (boostMultiplier.getInput() != 1) {
+                    if (boostWithLMB.isToggled() && !Mouse.isButtonDown(0)) {
+                        return;
+                    }
+                    Utils.setSpeed(Utils.getHorizontalSpeed() * boostMultiplier.getInput());
+                }
             }
         }
-        
-        if (e.getPacket() instanceof ExplosionS2CPacket explosionPacket) {
-            // 简化爆炸反击退
-            Vec3d currentVelocity = mc.player.getVelocity();
-            mc.player.setVelocity(new Vec3d(
-                currentVelocity.x * horizontal.getInput() / 100.0,
-                currentVelocity.y * vertical.getInput() / 100.0,
-                currentVelocity.z * horizontal.getInput() / 100.0
-            ));
+        else if (e.getPacket() instanceof S27PacketExplosion && !disable) {
+            if (disableInLobby.isToggled() && Utils.isLobby()) {
+                return;
+            }
+            e.setCanceled(true);
+            if (cancelExplosion.isToggled() || cancel()) {
+                return;
+            }
+            if (cancelConditions()) {
+                return;
+            }
+            S27PacketExplosion s27PacketExplosion = (S27PacketExplosion) e.getPacket();
+            if (horizontal.getInput() == 0 && vertical.getInput() > 0) {
+                mc.player.motionY += s27PacketExplosion.func_149144_d() * vertical.getInput() / 100.0;
+            }
+            else if (horizontal.getInput() > 0 && vertical.getInput() == 0) {
+                mc.player.motionX += s27PacketExplosion.func_149149_c() * horizontal.getInput() / 100.0;
+                mc.player.motionZ += s27PacketExplosion.func_149147_e() * horizontal.getInput() / 100.0;
+            }
+            else {
+                mc.player.motionX += s27PacketExplosion.func_149149_c() * horizontal.getInput() / 100.0;
+                mc.player.motionY += s27PacketExplosion.func_149144_d() * vertical.getInput() / 100.0;
+                mc.player.motionZ += s27PacketExplosion.func_149147_e() * horizontal.getInput() / 100.0;
+            }
         }
+    }
+
+    private boolean cancel() {
+        return (vertical.getInput() == 0 && horizontal.getInput() == 0);
+    }
+
+    @Override
+    public String getInfo() {
+        return (int) horizontal.getInput() + "%" + " " + (int) vertical.getInput() + "%";
+    }
+
+    private boolean cancelConditions() {
+        if (mc.player != null) {
+            if (cancelWhileFalling.isToggled() && mc.player.fallDistance > 0) {
+                return true;
+            }
+            if (cancelOffGround.isToggled() && !mc.player.onGround) {
+                return true;
+            }
+        }
+        return false;
     }
 }

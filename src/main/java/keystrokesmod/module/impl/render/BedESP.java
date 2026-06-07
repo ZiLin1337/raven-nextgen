@@ -12,11 +12,12 @@ import keystrokesmod.utility.Utils;
 import java.awt.Color;
 import net.minecraft.block.Block;
 import net.minecraft.block.BedBlock;
-import net.minecraft.item.Item;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.client.font.TextRenderer;
 
+
+import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.BufferBuilder;
 
 import net.minecraft.client.texture.Sprite;
@@ -30,6 +31,9 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+
+
+
 
 import org.lwjgl.opengl.GL11;
 
@@ -238,7 +242,10 @@ public class BedESP extends Module {
     public String getInfo() {
         int n = SharedBlockHighlightCache.get().totalBedFeet();
         return n > 0 ? String.valueOf(n) : "";
-    }public void onRenderWorld(float partialTicks) {
+    }
+
+    (priority = )
+    public void onRenderWorld(float partialTicks) {
         if (!Utils.nullCheck()) {
             return;
         }
@@ -473,8 +480,8 @@ public class BedESP extends Module {
             return;
         }
 
-        Object renderManager = mc.getEntityRenderDispatcher();
-        TextRenderer fontRenderer = MinecraftClient.getInstance().textRenderer;
+        EntityRenderDispatcher renderManager = mc.getEntityRenderDispatcher();
+        TextRenderer fontRenderer = mc.textRenderer;
         if (renderManager == null || fontRenderer == null) {
             return;
         }

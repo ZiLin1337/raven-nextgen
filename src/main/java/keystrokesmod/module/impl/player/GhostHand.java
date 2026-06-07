@@ -1,8 +1,7 @@
 package keystrokesmod.module.impl.player;
-import net.minecraft.util.hit.HitResult;
 
 import com.google.common.base.Predicates;
-// import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
+import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.impl.world.AntiBot;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -11,11 +10,13 @@ import keystrokesmod.utility.BlockUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BedBlock;
+import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.*;
 import net.minecraft.util.*;
+import org.lwjgl.input.Mouse;
 
 import java.util.List;
 
@@ -77,22 +78,22 @@ public class GhostHand extends Module {
     public boolean shouldOverrideMouseOver() {
         if (!this.isEnabled()) return false;
         if (mc == null || mc.world == null || mc.player == null) return false;
-        if (mc.getCameraEntity() == null) return false;
+        if (mc.getRenderViewEntity() == null) return false;
         if (notSword.isToggled() && Utils.holdingSword()) return false;
-        if (requireLmb.isToggled() && !GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) return false;
-        if (requireRmb.isToggled() && !GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS) return false;
+        if (requireLmb.isToggled() && !Mouse.isButtonDown(0)) return false;
+        if (requireRmb.isToggled() && !Mouse.isButtonDown(1)) return false;
         return heldItemAllowed();
     }
 
     public void modifyMouseOverFromGetMouseOver(float partialTicks) {
         if (!shouldOverrideMouseOver()) return;
 
-        Entity viewEntity = mc.getCameraEntity();
+        Entity viewEntity = mc.getRenderViewEntity();
 
-        double reach = mc.interactionManager.getBlockReachDistance();
-        if (mc.interactionManager.extendedReach()) reach = 6.0;
+        double reach = mc.playerController.getBlockReachDistance();
+        if (mc.playerController.extendedReach()) reach = 6.0;
 
-        HitResult blockHit = findPrioritizedBlock(viewEntity, reach, partialTicks);
+        MovingObjectPosition blockHit = findPrioritizedBlock(viewEntity, reach, partialTicks);
         if (blockHit == null) return;
 
         BlockPos hitPos = blockHit.getBlockPos();
@@ -105,17 +106,17 @@ public class GhostHand extends Module {
         if (!priorityEverything.isToggled() && !priorityOverride) return;
 
         if (!priorityOverride) {
-            Vec3d eyes = viewEntity.getPositionEyes(partialTicks);
-            Vec3d blockHitVec = blockHit.hitVec;
+            Vec3 eyes = viewEntity.getPositionEyes(partialTicks);
+            Vec3 blockHitVec = blockHit.hitVec;
             double blockDist = eyes.distanceTo(blockHitVec);
 
             Box scanBox = new Box(
-                    Math.min(eyes.x, blockHitVec.x) - 1.0,
-                    Math.min(eyes.y, blockHitVec.y) - 1.0,
-                    Math.min(eyes.z, blockHitVec.z) - 1.0,
-                    Math.max(eyes.x, blockHitVec.x) + 1.0,
-                    Math.max(eyes.y, blockHitVec.y) + 1.0,
-                    Math.max(eyes.z, blockHitVec.z) + 1.0);
+                    Math.min(eyes.xCoord, blockHitVec.xCoord) - 1.0,
+                    Math.min(eyes.yCoord, blockHitVec.yCoord) - 1.0,
+                    Math.min(eyes.zCoord, blockHitVec.zCoord) - 1.0,
+                    Math.max(eyes.xCoord, blockHitVec.xCoord) + 1.0,
+                    Math.max(eyes.yCoord, blockHitVec.yCoord) + 1.0,
+                    Math.max(eyes.zCoord, blockHitVec.zCoord) + 1.0);
 
             List<Entity> candidates = mc.world.getEntitiesInAABBexcluding(
                     viewEntity, scanBox, Predicates.and(EntitySelectors.NOT_SPECTATING, Entity::canBeCollidedWith));
@@ -126,8 +127,8 @@ public class GhostHand extends Module {
             for (Entity e : candidates) {
                 if (e == viewEntity) continue;
                 float cb = e.getCollisionBorderSize();
-                Box bb = e.getBoundingBox().expand(cb, cb, cb);
-                HitResult intercept = bb.calculateIntercept(eyes, blockHitVec);
+                Box bb = e.getEntityBoundingBox().expand(cb, cb, cb);
+                MovingObjectPosition intercept = bb.calculateIntercept(eyes, blockHitVec);
                 boolean inside = bb.isVecInside(eyes);
                 if (!inside && intercept == null) continue;
                 double dist = inside ? 0.0 : eyes.distanceTo(intercept.hitVec);
@@ -142,24 +143,24 @@ public class GhostHand extends Module {
             if (closest == null || !obstructionAllowed(closest)) return;
         }
 
-        mc.crosshairTarget = blockHit;
-        mc.crosshairTarget != null ? mc.crosshairTarget.getEntity() : null = null;
+        mc.objectMouseOver = blockHit;
+        mc.pointedEntity = null;
 
-        EntityRenderer renderer = mc.gameRenderer;
+        EntityRenderer renderer = mc.entityRenderer;
         if (renderer instanceof IAccessorEntityRenderer) {
             ((IAccessorEntityRenderer) renderer).setPointedEntity(null);
         }
     }
 
-    private HitResult findPrioritizedBlock(Entity viewEntity, double reach, float partialTicks) {
-        Vec3d eyes = viewEntity.getPositionEyes(partialTicks);
-        Vec3d look = viewEntity.getLook(partialTicks);
-        Vec3d rayEnd = eyes.addVector(look.x * reach, look.y * reach, look.z * reach);
+    private MovingObjectPosition findPrioritizedBlock(Entity viewEntity, double reach, float partialTicks) {
+        Vec3 eyes = viewEntity.getPositionEyes(partialTicks);
+        Vec3 look = viewEntity.getLook(partialTicks);
+        Vec3 rayEnd = eyes.addVector(look.xCoord * reach, look.yCoord * reach, look.zCoord * reach);
         return BlockUtils.traverseBlocksAlongRay(eyes, rayEnd, priorityBed.isToggled(), priorityBedAdjacent.isToggled());
     }
 
     private boolean heldItemAllowed() {
-        ItemStack held = mc.player.getMainHandStack();
+        ItemStack held = mc.player.getHeldItem();
         switch (classify(held)) {
             case SWORD: return useSword.isToggled();
             case TOOL: return useTool.isToggled();
@@ -172,8 +173,8 @@ public class GhostHand extends Module {
     }
 
     private boolean obstructionAllowed(Entity e) {
-        if (!(e instanceof PlayerEntity)) return throughNonPlayer.isToggled();
-        PlayerEntity player = (PlayerEntity) e;
+        if (!(e instanceof EntityPlayer)) return throughNonPlayer.isToggled();
+        EntityPlayer player = (EntityPlayer) e;
         if (AntiBot.isBot(player)) return throughBots.isToggled();
         if (Utils.isFriended(player) || Utils.isTeammate(player)) return throughFriendlies.isToggled();
         return throughEnemies.isToggled();

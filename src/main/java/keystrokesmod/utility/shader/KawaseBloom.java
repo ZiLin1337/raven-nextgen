@@ -2,8 +2,9 @@ package keystrokesmod.utility.shader;
 
 import keystrokesmod.utility.IMinecraftInstance;
 import keystrokesmod.utility.RenderUtils;
-import net.minecraft.client.MinecraftClient;
-import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.shader.Framebuffer;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL14;
@@ -16,22 +17,22 @@ import static org.lwjgl.opengl.GL11.*;
 public class KawaseBloom implements IMinecraftInstance {
     public static ShaderUtils kawaseDown = new ShaderUtils("kawaseDownBloom");
     public static ShaderUtils kawaseUp = new ShaderUtils("kawaseUpBloom");
-    public static net.minecraft.client.gl.Framebuffer framebuffer = new net.minecraft.client.gl.Framebuffer(1, 1, false);
+    public static Framebuffer framebuffer = new Framebuffer(1, 1, false);
     private static int currentIterations;
 
-    private static final List<net.minecraft.client.gl.Framebuffer> framebufferList = new ArrayList<>();
+    private static final List<Framebuffer> framebufferList = new ArrayList<>();
 
     private static void initFramebuffers(float iterations) {
-        for (net.minecraft.client.gl.Framebuffer framebuffer : framebufferList) {
-            framebuffer.deletenet.minecraft.client.gl.Framebuffer();
+        for (Framebuffer framebuffer : framebufferList) {
+            framebuffer.deleteFramebuffer();
         }
         framebufferList.clear();
 
         framebufferList.add(framebuffer = RenderUtils.createFrameBuffer(null, false));
 
         for (int i = 1; i <= iterations; i++) {
-            net.minecraft.client.gl.Framebuffer currentBuffer = new net.minecraft.client.gl.Framebuffer((int) (mc.displayWidth / Math.pow(2, i)), (int) (mc.displayHeight / Math.pow(2, i)), false);
-            currentBuffer.setnet.minecraft.client.gl.FramebufferFilter(GL_LINEAR);
+            Framebuffer currentBuffer = new Framebuffer((int) (mc.displayWidth / Math.pow(2, i)), (int) (mc.displayHeight / Math.pow(2, i)), false);
+            currentBuffer.setFramebufferFilter(GL_LINEAR);
 
             GlStateManager.bindTexture(currentBuffer.framebufferTexture);
             GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL14.GL_MIRRORED_REPEAT);
@@ -41,6 +42,7 @@ public class KawaseBloom implements IMinecraftInstance {
             framebufferList.add(currentBuffer);
         }
     }
+
 
     public static void renderBlur(int framebufferTexture, int iterations, float offset) {
         if (currentIterations != iterations || (framebuffer.framebufferWidth != mc.displayWidth || framebuffer.framebufferHeight != mc.displayHeight)) {
@@ -67,9 +69,9 @@ public class KawaseBloom implements IMinecraftInstance {
             renderFBO(framebufferList.get(i - 1), framebufferList.get(i).framebufferTexture, kawaseUp, currentOffset);
         }
 
-        net.minecraft.client.gl.Framebuffer lastBuffer = framebufferList.get(0);
+        Framebuffer lastBuffer = framebufferList.get(0);
         lastBuffer.framebufferClear();
-        lastBuffer.bindnet.minecraft.client.gl.Framebuffer(false);
+        lastBuffer.bindFramebuffer(false);
         kawaseUp.init();
         kawaseUp.setUniformf("offset", offset, offset);
         kawaseUp.setUniformi("inTexture", 0);
@@ -84,8 +86,9 @@ public class KawaseBloom implements IMinecraftInstance {
         ShaderUtils.drawQuads();
         kawaseUp.unload();
 
+
         GlStateManager.clearColor(0, 0, 0, 0);
-        mc.getnet.minecraft.client.gl.Framebuffer().bindnet.minecraft.client.gl.Framebuffer(false);
+        mc.getFramebuffer().bindFramebuffer(false);
         RenderUtils.bindTexture(framebufferList.get(0).framebufferTexture);
         RenderUtils.setAlphaLimit(0);
         GlStateManager.enableBlend();
@@ -99,9 +102,9 @@ public class KawaseBloom implements IMinecraftInstance {
         GlStateManager.blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
 
-    private static void renderFBO(net.minecraft.client.gl.Framebuffer framebuffer, int framebufferTexture, ShaderUtils shader, float offset) {
+    private static void renderFBO(Framebuffer framebuffer, int framebufferTexture, ShaderUtils shader, float offset) {
         framebuffer.framebufferClear();
-        framebuffer.bindnet.minecraft.client.gl.Framebuffer(false);
+        framebuffer.bindFramebuffer(false);
         shader.init();
         RenderUtils.bindTexture(framebufferTexture);
         shader.setUniformf("offset", offset, offset);

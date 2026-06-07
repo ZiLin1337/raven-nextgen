@@ -7,7 +7,8 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.ProfileUtils;
 import keystrokesmod.utility.NetworkUtils;
 import keystrokesmod.utility.Utils;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,12 +51,12 @@ public class DuelsStats extends Module {
     @Override
     public void onUpdate() {
         if (this.id() && this.en.isEmpty()) {
-            List<PlayerEntity> players = mc.world.world.getPlayers();
+            List<EntityPlayer> players = mc.world.playerEntities;
             players.remove(mc.player);
 
-            for (PlayerEntity player : players) {
+            for (EntityPlayer player : players) {
                 String name = player.getName();
-                if (!name.equals(this.ign) && !name.equals(nick) && !this.q.contains(name) && player.getDisplayName().getString().contains("§k")) {
+                if (!name.equals(this.ign) && !name.equals(nick) && !this.q.contains(name) && player.getDisplayName().getUnformattedText().contains("§k")) {
                     this.ef(name);
                     break;
                 }
@@ -65,9 +66,9 @@ public class DuelsStats extends Module {
     }
 
     
-    public void onMessageReceived(Object e) {
+    public void onMessageReceived(ClientChatReceivedEvent e) {
         if (Utils.nullCheck() && this.id()) {
-            String s = Utils.stripColor(e.message.getString());
+            String s = Utils.stripColor(e.message.getUnformattedText());
             if (s.contains(" ")) {
                 String[] sp = s.split(" ");
                 String n;
@@ -91,7 +92,7 @@ public class DuelsStats extends Module {
     }
 
     
-    public void onEntityJoin(Object e) {
+    public void onEntityJoin(EntityJoinWorldEvent e) {
         if (e.entity == mc.player) {
             this.en = "";
             this.q.clear();

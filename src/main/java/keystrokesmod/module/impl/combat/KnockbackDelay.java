@@ -63,7 +63,7 @@ public class KnockbackDelay extends Module {
         whitelistedItems.setVisible(onlyWhitelistedItem.isToggled(), this);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onReceivePacket(ReceivePacketEvent e) {
         if (!isEnabled() || e.isCanceled()) return;
 
@@ -77,7 +77,7 @@ public class KnockbackDelay extends Module {
         if (!Utils.nullCheck() || mc.player == null || mc.world == null) return;
 
         EntityVelocityUpdateS2CPacket packet = (EntityVelocityUpdateS2CPacket) e.getPacket();
-        if (packet.getId() != mc.player.getId()) return;
+        if (packet.getEntityId() != mc.player.getId()) return;
 
         String failReason = conditionsFailureReason();
         if (failReason != null) return;
@@ -135,7 +135,7 @@ public class KnockbackDelay extends Module {
             return "not looking at player";
         }
 
-        if (requireLeftMouse.isToggled() && !mc.mouseHelper.isLeftButtonPressed()) {
+        if (requireLeftMouse.isToggled() && !mc.mouse.isLeftButtonPressed()) {
             return "LMB not held";
         }
 

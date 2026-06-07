@@ -3,7 +3,7 @@ package keystrokesmod.utility;
 import keystrokesmod.module.impl.world.AntiBot;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.MovingObjectPosition;
 
 public final class CombatTargeting implements IMinecraftInstance {
     private CombatTargeting() {
@@ -34,7 +34,7 @@ public final class CombatTargeting implements IMinecraftInstance {
         PlayerEntity closest = null;
         double closestDistanceSq = Double.MAX_VALUE;
 
-        for (PlayerEntity player : mc.world.world.getPlayers()) {
+        for (PlayerEntity player : mc.world.playerEntities) {
             if (!isValidPlayer(player, maxDistanceSq, ignoreTeammates)) {
                 continue;
             }
@@ -54,11 +54,11 @@ public final class CombatTargeting implements IMinecraftInstance {
     }
 
     public static PlayerEntity getMouseOverTarget(double maxDistanceSq, boolean ignoreTeammates) {
-        if (mc == null || mc.crosshairTarget == null) {
+        if (mc == null || mc.objectMouseOver == null) {
             return null;
         }
 
-        HitResult objectMouseOver = mc.crosshairTarget;
+        MovingObjectPosition objectMouseOver = mc.objectMouseOver;
         return asValidPlayer(objectMouseOver.entityHit, maxDistanceSq, ignoreTeammates);
     }
 
@@ -88,7 +88,7 @@ public final class CombatTargeting implements IMinecraftInstance {
     }
 
     public static boolean isTrackablePlayer(PlayerEntity player, boolean ignoreTeammates) {
-        if (!Utils.nullCheck() || player == null || player == mc.player || player.isRemoved() || player.deathTime != 0) {
+        if (!Utils.nullCheck() || player == null || player == mc.player || player.isDead || player.deathTime != 0) {
             return false;
         }
 

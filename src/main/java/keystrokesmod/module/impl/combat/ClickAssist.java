@@ -1,5 +1,4 @@
 package keystrokesmod.module.impl.combat;
-import keystrokesmod.event.MouseEvent;
 
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -8,7 +7,11 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.helper.MouseHelper;
 import keystrokesmod.utility.Utils;
 
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.event.MouseEvent;
+
+import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 
@@ -50,8 +53,11 @@ public class ClickAssist extends Module {
         this.ignNL = false;
         this.ignNR = false;
         this.bot = null;
-    }public void onMouseUpdate(MouseEvent ev) {
-        if (disableInCreative.isToggled() && mc.player.getAbilities().creativeMode) {
+    }
+
+    (priority = )
+    public void onMouseUpdate(MouseEvent ev) {
+        if (disableInCreative.isToggled() && mc.player.capabilities.isCreativeMode) {
             return;
         }
         if (ev.button >= 0 && ev.buttonstate && Utils.nullCheck()) {
@@ -68,7 +74,7 @@ public class ClickAssist extends Module {
                         if (weaponOnly.isToggled() && !Utils.holdingWeapon()) {
                             return;
                         }
-                        if (onlyWhileTargeting.isToggled() && (mc.crosshairTarget == null || mc.crosshairTarget.entityHit == null)) {
+                        if (onlyWhileTargeting.isToggled() && (mc.objectMouseOver == null || mc.objectMouseOver.entityHit == null)) {
                             return;
                         }
                         if (chanceLeft.getInput() != 100.0D) {
@@ -93,7 +99,7 @@ public class ClickAssist extends Module {
                             return;
                         }
                         if (blocksOnly.isToggled()) {
-                            ItemStack item = mc.player.getMainHandStack();
+                            ItemStack item = mc.player.getHeldItem();
                             if (item == null || !(item.getItem() instanceof ItemBlock)) {
                                 this.fix(1);
                                 return;
@@ -126,11 +132,11 @@ public class ClickAssist extends Module {
 
     private void fix(int t) {
         if (t == 0) {
-            if (this.ignNL && !GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) {
+            if (this.ignNL && !Mouse.isButtonDown(0)) {
                 this.bot.mouseRelease(16);
             }
         }
-        else if (t == 1 && this.ignNR && !GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS) {
+        else if (t == 1 && this.ignNR && !Mouse.isButtonDown(1)) {
             this.bot.mouseRelease(4);
         }
     }

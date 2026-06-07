@@ -10,15 +10,15 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.BowItem;
+import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.MathHelper;
 
 import org.lwjgl.opengl.GL11;
 
@@ -35,8 +35,8 @@ public class MurderMystery extends Module {
     private final ButtonSetting highlightDead;
     private final ButtonSetting goldEsp;
 
-    private final List<PlayerEntity> murderers = new ArrayList<PlayerEntity>();
-    private final List<PlayerEntity> hasBow = new ArrayList<PlayerEntity>();
+    private final List<EntityPlayer> murderers = new ArrayList<EntityPlayer>();
+    private final List<EntityPlayer> hasBow = new ArrayList<EntityPlayer>();
 
     private boolean override;
 
@@ -92,27 +92,27 @@ public class MurderMystery extends Module {
     }
 
     
-    public void onRenderWordLast(Object e) {
+    public void onRenderWordLast(RenderWorldLastEvent e) {
         if (Utils.nullCheck()) {
             if (!this.isMurderMystery()) {
                 this.clear();
             }
             else {
                 override = false;
-                for (PlayerEntity en : mc.world.world.getPlayers()) {
+                for (EntityPlayer en : mc.world.playerEntities) {
                     if (en != mc.player && !en.isInvisible()) {
                         if (AntiBot.isBot(en) && !highlightDead.isToggled()) {
                             continue;
                         }
-                        if (en.getMainHandStack() != null) {
-                            ItemStack heldStack = en.getMainHandStack();
+                        if (en.getHeldItem() != null) {
+                            ItemStack heldStack = en.getHeldItem();
                             Item heldItem = heldStack.getItem();
                             if (murderWeapons.matches(heldStack)) {
                                 if (!murderers.contains(en)) {
                                     murderers.add(en);
                                     if (alert.isToggled()) {
                                         mc.player.playSound("note.pling", 1.0F, 1.0F);
-                                        Utils.sendMessage("&eAlert: &b" + en.getName() + " &7is the &cmurderer&7! (&d" + (int) mc.player.distanceTo(en) + "m&7)");
+                                        Utils.sendMessage("&eAlert: &b" + en.getName() + " &7is the &cmurderer&7! (&d" + (int) mc.player.getDistanceToEntity(en) + "m&7)");
                                     }
                                 }
                             }
@@ -142,9 +142,9 @@ public class MurderMystery extends Module {
                 }
                 float renderPartialTicks = ((IAccessorMinecraft) mc).getTimer().renderPartialTicks;
                 int n4 = -331703;
-                for (Entity entity : mc.world.world.getEntities()) {
+                for (Entity entity : mc.world.loadedEntityList) {
                     if (entity instanceof EntityItem) {
-                        if (entity.age < 3) {
+                        if (entity.ticksExisted < 3) {
                             continue;
                         }
                         EntityItem entityItem = (EntityItem) entity;
@@ -229,7 +229,7 @@ public class MurderMystery extends Module {
     }
 
     private double getBoundingBoxVolume(Entity entity) {
-        Box boundingBox = entity.getBoundingBox();
+        Box boundingBox = entity.getEntityBoundingBox();
 
         if (boundingBox == null) {
             return 0;

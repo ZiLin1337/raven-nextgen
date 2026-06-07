@@ -15,8 +15,8 @@ public final class BlockHighlightSharedHandler {
     }
 
     
-    public void onClientTick(Object e) {
-        if (e.phase.END || !Utils.nullCheck()) {
+    public void onClientTick(TickEvent.ClientTickEvent e) {
+        if (e.phase != TickEvent.Phase.END || !Utils.nullCheck()) {
             return;
         }
         SharedBlockHighlightCache cache = SharedBlockHighlightCache.get();
@@ -36,7 +36,7 @@ public final class BlockHighlightSharedHandler {
     }
 
     
-    public void onEntityJoinWorld(Object e) {
+    public void onEntityJoinWorld(EntityJoinWorldEvent e) {
         if (e.entity != mc.player) {
             return;
         }

@@ -22,7 +22,7 @@ public class SimulatedPlayer {
         this.z = mc.player.getZ();
         this.yaw = mc.player.getYaw();
         this.pitch = mc.player.getPitch();
-        this.isOnGround() = mc.player.isOnGround();
+        this.onGround = mc.player.isOnGround();
         this.isSneaking = mc.player.isSneaking();
         this.isSprinting = mc.player.isSprinting();
     }
@@ -33,7 +33,7 @@ public class SimulatedPlayer {
         this.z = z;
         this.yaw = yaw;
         this.pitch = pitch;
-        this.isOnGround() = onGround;
+        this.onGround = onGround;
     }
 
     public void sendPacket() {

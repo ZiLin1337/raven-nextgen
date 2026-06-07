@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ClientPlayerEntity.class)
-public class MixinPlayerEntitySP {
+public class MixinEntityPlayerSP {
     @Inject(method = "sendMovementPackets", at = @At("HEAD"))
     private void onSendMovementPackets(CallbackInfo ci) {
         // 发送PreMotionEvent事件

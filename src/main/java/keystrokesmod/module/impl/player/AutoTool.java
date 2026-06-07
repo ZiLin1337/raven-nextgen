@@ -3,8 +3,8 @@ package keystrokesmod.module.impl.player;
 import keystrokesmod.event.PrePlayerInteractEvent;
 import keystrokesmod.event.PreSlotScrollEvent;
 import keystrokesmod.event.SlotUpdateEvent;
-
-// import IMixinItemRenderer removed
+import keystrokesmod.mixin.impl.accessor.IAccessorPlayerControllerMP;
+import keystrokesmod.mixin.interfaces.IMixinItemRenderer;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.BlockListSetting;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -17,7 +17,9 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.MovingObjectPosition;
+
+import org.lwjgl.input.Mouse;
 
 public class AutoTool extends Module {
     private final GroupSetting timingGroup;
@@ -97,7 +99,7 @@ public class AutoTool extends Module {
         }
         if (overrideSwapBack.isToggled()) {
             int slot = Integer.compare(e.slot, 0);
-            previousSlot = Math.floorMod(mc.player.getInventory().selectedSlot - slot, 9);
+            previousSlot = Math.floorMod(mc.player.inventory.currentItem - slot, 9);
         }
         e.setCanceled(true);
     }
@@ -120,27 +122,27 @@ public class AutoTool extends Module {
             return;
         }
 
-        if (spoofItem.isToggled() && previousSlot != mc.player.getInventory().selectedSlot && previousSlot != -1) {
+        if (spoofItem.isToggled() && previousSlot != mc.player.inventory.currentItem && previousSlot != -1) {
             ((IMixinItemRenderer) mc.getItemRenderer()).setCancelUpdate(true);
             ((IMixinItemRenderer) mc.getItemRenderer()).setCancelReset(true);
         }
 
         int currentTick = ++tickCounter;
-        boolean leftMouseDown = GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS;
+        boolean leftMouseDown = Mouse.isButtonDown(0);
         updateLeftMouseState(leftMouseDown, currentTick);
 
-        if (!mc.isWindowFocused() || mc.currentScreen != null || mc.player.isRemoved() || !mc.player.getAbilities().allowFlying) {
+        if (!mc.inGameHasFocus || mc.currentScreen != null || mc.player.isDead || !mc.player.capabilities.allowEdit) {
             resetState(true);
             return;
         }
 
-        HitResult hoverResult = RotationUtils.rayTraceBlockIfNoEntityInFront(
-            mc.interactionManager.getBlockReachDistance(),
-            mc.player.getYaw(),
-            mc.player.getPitch()
+        MovingObjectPosition hoverResult = RotationUtils.rayTraceBlockIfNoEntityInFront(
+            mc.playerController.getBlockReachDistance(),
+            mc.player.rotationYaw,
+            mc.player.rotationPitch
         );
         BlockPos hoverPos = hoverResult != null
-            && hoverResult.typeOfHit == HitResult.MovingObjectType.BLOCK
+            && hoverResult.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK
             ? hoverResult.getBlockPos()
             : null;
         updateHoverState(hoverPos, currentTick);
@@ -186,9 +188,9 @@ public class AutoTool extends Module {
             return;
         }
 
-        HitResult swapResult = mc.crosshairTarget;
+        MovingObjectPosition swapResult = mc.objectMouseOver;
         BlockPos swapPos = swapResult != null
-            && swapResult.typeOfHit == HitResult.MovingObjectType.BLOCK
+            && swapResult.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK
             ? swapResult.getBlockPos()
             : null;
         if (swapPos == null) {
@@ -201,8 +203,8 @@ public class AutoTool extends Module {
             return;
         }
 
-        if (previousSlot == -1 && slot != mc.player.getInventory().selectedSlot) {
-            previousSlot = mc.player.getInventory().selectedSlot;
+        if (previousSlot == -1 && slot != mc.player.inventory.currentItem) {
+            previousSlot = mc.player.inventory.currentItem;
         }
 
         if (!hasSwapped) {
@@ -210,7 +212,7 @@ public class AutoTool extends Module {
             return;
         }
 
-        if (slot != mc.player.getInventory().selectedSlot) {
+        if (slot != mc.player.inventory.currentItem) {
             setSlot(slot);
         }
     }
@@ -238,8 +240,8 @@ public class AutoTool extends Module {
     }
 
     private boolean isUseBlocked() {
-        boolean useActive = Utils.isBindDown(mc.options.keyBindUseItem) || mc.player.isUsingItem();
-        if (ignoredHeldItemsToggle.isToggled() && ignoredHeldItems.matches(mc.player.getMainHandStack())) {
+        boolean useActive = Utils.isBindDown(mc.gameSettings.keyBindUseItem) || mc.player.isUsingItem();
+        if (ignoredHeldItemsToggle.isToggled() && ignoredHeldItems.matches(mc.player.getHeldItem())) {
             return true;
         }
         return useActive;
@@ -305,11 +307,11 @@ public class AutoTool extends Module {
     }
 
     private void setSlot(int currentItem) {
-        if (currentItem == -1 || currentItem == mc.player.getInventory().selectedSlot) {
+        if (currentItem == -1 || currentItem == mc.player.inventory.currentItem) {
             return;
         }
-        mc.player.getInventory().selectedSlot = currentItem;
+        mc.player.inventory.currentItem = currentItem;
         hasSwapped = true;
-        ((IAccessorClientPlayerInteractionManager) mc.interactionManager).callSyncCurrentPlayItem();
+        ((IAccessorPlayerControllerMP) mc.playerController).callSyncCurrentPlayItem();
     }
 }

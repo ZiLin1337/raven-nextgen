@@ -22,7 +22,7 @@ public class KeyStrokeKeyRenderer {
         int textColor = pressed ? 0xFFFFFFFF : 0xFFAAAAAA;
 
         context.fill(x, y, x + 14, y + 14, bgColor);
-        context.drawText(MinecraftClient.getInstance().textRenderer, key, x + 3, y + 3, textColor, true);
+        context.drawText(mc.textRenderer, key, x + 3, y + 3, textColor, true);
     }
 
     public int getX() { return x; }

@@ -6,19 +6,23 @@ import keystrokesmod.module.setting.impl.DescriptionSetting;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.text.Text;
-import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.util.math.MatrixStack;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.decoration.ArmorStandEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.item.EntityArmorStand;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.block.Blocks;
-
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.BlockItem;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
+
+import net.minecraftforge.fml.client.config.GuiButtonExt;
+
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 
 import java.awt.*;
 import java.io.IOException;
@@ -52,7 +56,7 @@ public class BridgeInfo extends Module {
         super("Bridge Info", category.minigames, 0);
         this.registerSetting(new DescriptionSetting(new String("Only for solos.")));
         this.registerSetting(new ButtonSetting("Edit position", () -> {
-            mc.setScreen(new EditScreen());
+            mc.displayGuiScreen(new EditScreen());
         }));
     }
 
@@ -64,16 +68,16 @@ public class BridgeInfo extends Module {
     @Override
     public void onUpdate() {
         if (!this.enemyName.isEmpty() && this.isBridge()) {
-            PlayerEntity enem = null;
-            Iterator var2 = mc.world.world.getEntities().iterator();
+            EntityPlayer enem = null;
+            Iterator var2 = mc.world.loadedEntityList.iterator();
 
             while (var2.hasNext()) {
                 Entity e = (Entity) var2.next();
-                if (e instanceof PlayerEntity) {
+                if (e instanceof EntityPlayer) {
                     if (e.getName().equals(this.enemyName)) {
-                        enem = (PlayerEntity) e;
+                        enem = (EntityPlayer) e;
                     }
-                } else if (e instanceof ArmorStandEntity) {
+                } else if (e instanceof EntityArmorStand) {
                     if (e.getName().contains(this.start)) {
                         this.g1p = e.getPosition();
                     }
@@ -99,7 +103,7 @@ public class BridgeInfo extends Module {
 
             for (int i = 0; i < 9; ++i) {
                 ItemStack stack = mc.player.inventory.getStackInSlot(i);
-                if (stack != null && stack.getItem() instanceof BlockItem && ((BlockItem) stack.getItem()).getBlock().equals(Blocks.TERRACOTTA)) {
+                if (stack != null && stack.getItem() instanceof ItemBlock && ((ItemBlock) stack.getItem()).block.equals(Blocks.stained_hardened_clay)) {
                     blc2 += stack.stackSize;
                 }
             }
@@ -109,24 +113,24 @@ public class BridgeInfo extends Module {
     }
 
     
-    public void onRenderTick(Object ev) {
+    public void onRenderTick(RenderTickEvent ev) {
         if (ev.phase == Phase.END && Utils.nullCheck() && this.isBridge()) {
-            if (mc.currentScreen != null || mc.options.showDebugInfo) {
+            if (mc.currentScreen != null || mc.gameSettings.showDebugInfo) {
                 return;
             }
 
-            MinecraftClient.getInstance().textRenderer.drawString(this.enemyText + this.enemyName, (float) hudX, (float) hudY, textRGB, true);
-            MinecraftClient.getInstance().textRenderer.drawString(this.distance + this.d1, (float) hudX, (float) (hudY + 11), textRGB, true);
-            MinecraftClient.getInstance().textRenderer.drawString(this.enemyDistance + this.d2, (float) hudX, (float) (hudY + 22), textRGB, true);
-            MinecraftClient.getInstance().textRenderer.drawString(this.blocks + this.blc, (float) hudX, (float) (hudY + 33), textRGB, true);
+            mc.textRenderer.drawString(this.enemyText + this.enemyName, (float) hudX, (float) hudY, textRGB, true);
+            mc.textRenderer.drawString(this.distance + this.d1, (float) hudX, (float) (hudY + 11), textRGB, true);
+            mc.textRenderer.drawString(this.enemyDistance + this.d2, (float) hudX, (float) (hudY + 22), textRGB, true);
+            mc.textRenderer.drawString(this.blocks + this.blc, (float) hudX, (float) (hudY + 33), textRGB, true);
         }
 
     }
 
     
-    public void onChat(Object c) {
+    public void onChat(ClientChatReceivedEvent c) {
         if (Utils.nullCheck()) {
-            String s = Utils.stripColor(c.message.getString());
+            String s = Utils.stripColor(c.message.getUnformattedText());
             if (s.startsWith(" ")) {
                 if (s.contains(this.qt)) {
                     this.q = true;
@@ -145,7 +149,7 @@ public class BridgeInfo extends Module {
     }
 
     
-    public void onWorldJoin(Object e) {
+    public void onWorldJoin(EntityJoinWorldEvent e) {
         if (e.entity == mc.player) {
             this.reset();
         }
@@ -176,96 +180,102 @@ public class BridgeInfo extends Module {
         this.blc = 0;
     }
 
-    private class EditScreen extends Screen {
-        String example = "Enemy: Player123-Distance to goal: 17.2-Enemy distance to goal: 16.3-Blocks: 98";
-        ButtonWidget resetPosition;
-        boolean dragging = false;
-        int minX = 0;
-        int minY = 0;
-        int maxX = 0;
-        int maxY = 0;
-        int anchorX = 5;
-        int anchorY = 70;
-        int lastAnchorX = 0;
-        int lastAnchorY = 0;
-        int lastMouseX = 0;
-        int lastMouseY = 0;
+    private class EditScreen extends GuiScreen {
+        String example = new String("Enemy: Player123-Distance to goal: 17.2-Enemy distance to goal: 16.3-Blocks: 98");
+        GuiButtonExt resetPosition;
+        boolean d = false;
+        int miX = 0;
+        int miY = 0;
+        int maX = 0;
+        int maY = 0;
+        int aX = 5;
+        int aY = 70;
+        int laX = 0;
+        int laY = 0;
+        int lmX = 0;
+        int lmY = 0;
 
-        public EditScreen() {
-            super(Text.literal("Bridge Info Editor"));
+        public void initGui() {
+            super.initGui();
+            this.buttonList.add(this.resetPosition = new GuiButtonExt(1, this.width - 90, 5, 85, 20, new String("Reset position")));
+            this.aX = BridgeInfo.hudX;
+            this.aY = BridgeInfo.hudY;
         }
 
-        @Override
-        protected void init() {
-            super.init();
-            this.resetPosition = ButtonWidget.builder(Text.literal("Reset position"), button -> {
-                this.anchorX = BridgeInfo.hudX = 5;
-                this.anchorY = BridgeInfo.hudY = 70;
-            }).dimensions(this.width - 90, 5, 85, 20).build();
-            this.addDrawableChild(this.resetPosition);
-            this.anchorX = BridgeInfo.hudX;
-            this.anchorY = BridgeInfo.hudY;
-        }
+        public void drawScreen(int mX, int mY, float pt) {
+            drawRect(0, 0, this.width, this.height, -1308622848);
+            int miX = this.aX;
+            int miY = this.aY;
+            int maX = miX + 140;
+            int maY = miY + 41;
+            this.d(this.mc.textRenderer, this.example);
+            this.miX = miX;
+            this.miY = miY;
+            this.maX = maX;
+            this.maY = maY;
+            BridgeInfo.hudX = miX;
+            BridgeInfo.hudY = miY;
+            ScaledResolution res = new ScaledResolution(this.mc);
+            int x = res.getScaledWidth() / 2 - 84;
+            int y = res.getScaledHeight() / 2 - 20;
+            RenderUtils.drawColoredString("Edit the HUD position by dragging.", '-', x, y, 2L, 0L, true, this.mc.textRenderer);
 
-        @Override
-        public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-            this.renderBackground(matrices);
-            int minX = this.anchorX;
-            int minY = this.anchorY;
-            int maxX = minX + 140;
-            int maxY = minY + 41;
-            this.renderExample(this.textRenderer, this.example);
-            this.minX = minX;
-            this.minY = minY;
-            this.maxX = maxX;
-            this.maxY = maxY;
-            BridgeInfo.hudX = minX;
-            BridgeInfo.hudY = minY;
-            
-            int x = this.width / 2 - 84;
-            int y = this.height / 2 - 20;
-            drawCenteredTextWithShadow(matrices, this.textRenderer, "Edit the HUD position by dragging.", x, y, 0xFFFFFF);
-            
-            super.render(matrices, mouseX, mouseY, delta);
-        }
-
-        private void renderExample(TextRenderer textRenderer, String text) {
-            int x = this.minX;
-            int y = this.minY;
-            String[] lines = text.split("-");
-            for (String line : lines) {
-                textRenderer.drawStringWithShadow(line, (float) x, (float) y, textRGB);
-                y += textRenderer.fontHeight + 2;
+            try {
+                this.handleInput();
+            } catch (IOException var12) {
             }
+
+            super.drawScreen(mX, mY, pt);
         }
 
-        @Override
-        public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-            if (button == 0) {
-                if (this.dragging) {
-                    this.anchorX = this.lastAnchorX + (int)(mouseX - this.lastMouseX);
-                    this.anchorY = this.lastAnchorY + (int)(mouseY - this.lastMouseY);
-                } else if (mouseX > this.minX && mouseX < this.maxX && mouseY > this.minY && mouseY < this.maxY) {
-                    this.dragging = true;
-                    this.lastMouseX = (int) mouseX;
-                    this.lastMouseY = (int) mouseY;
-                    this.lastAnchorX = this.anchorX;
-                    this.lastAnchorY = this.anchorY;
+        private void d(TextRenderer fr, String t) {
+            int x = this.miX;
+            int y = this.miY;
+            String[] var5 = t.split("-");
+            int var6 = var5.length;
+
+            for (int var7 = 0; var7 < var6; ++var7) {
+                String s = var5[var7];
+                fr.drawString(s, (float) x, (float) y, textRGB, true);
+                y += fr.FONT_HEIGHT + 2;
+            }
+
+        }
+
+        protected void mouseClickMove(int mX, int mY, int b, long t) {
+            super.mouseClickMove(mX, mY, b, t);
+            if (b == 0) {
+                if (this.d) {
+                    this.aX = this.laX + (mX - this.lmX);
+                    this.aY = this.laY + (mY - this.lmY);
+                } else if (mX > this.miX && mX < this.maX && mY > this.miY && mY < this.maY) {
+                    this.d = true;
+                    this.lmX = mX;
+                    this.lmY = mY;
+                    this.laX = this.aX;
+                    this.laY = this.aY;
                 }
+
             }
-            return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
         }
 
-        @Override
-        public boolean mouseReleased(double mouseX, double mouseY, int button) {
-            if (button == 0) {
-                this.dragging = false;
+        protected void mouseReleased(int mX, int mY, int s) {
+            super.mouseReleased(mX, mY, s);
+            if (s == 0) {
+                this.d = false;
             }
-            return super.mouseReleased(mouseX, mouseY, button);
+
         }
 
-        @Override
-        public boolean shouldPause() {
+        public void actionPerformed(GuiButton b) {
+            if (b == this.resetPosition) {
+                this.aX = BridgeInfo.hudX = 5;
+                this.aY = BridgeInfo.hudY = 70;
+            }
+
+        }
+
+        public boolean doesGuiPauseGame() {
             return false;
         }
     }

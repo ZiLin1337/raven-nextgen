@@ -1,21 +1,22 @@
 package keystrokesmod.utility;
 
 import net.minecraft.block.*;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.block.Blocks;
-import net.minecraft.util.DyeColor;
-
+import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 
 public class BlockUtils implements IMinecraftInstance {
     public static boolean isSamePos(BlockPos blockPos, BlockPos blockPos2) {
@@ -38,7 +39,7 @@ public class BlockUtils implements IMinecraftInstance {
         return pos1 == pos2 || (pos1.getX() == pos2.getX() && pos1.getY() == pos2.getY() && pos1.getZ() == pos2.getZ());
     }
 
-    public static BlockPos offsetPos(HitResult mop) {
+    public static BlockPos offsetPos(MovingObjectPosition mop) {
         return mop.getBlockPos().offset(mop.sideHit);
     }
 
@@ -50,11 +51,11 @@ public class BlockUtils implements IMinecraftInstance {
         return block instanceof BlockTrapDoor || block instanceof BlockDoor || block instanceof BlockContainer || block instanceof BlockJukebox || block instanceof BlockFenceGate || block instanceof BlockChest || block instanceof BlockEnderChest || block instanceof BlockEnchantmentTable || block instanceof BlockBrewingStand || block instanceof BedBlock || block instanceof BlockDropper || block instanceof BlockDispenser || block instanceof BlockHopper || block instanceof BlockAnvil || block instanceof BlockNote || block instanceof BlockWorkbench;
     }
 
-    public static boolean isInteractable(HitResult mv) {
-        if (mv == null || mv.typeOfHit != HitResult.MovingObjectType.BLOCK || mv.getBlockPos() == null) {
+    public static boolean isInteractable(MovingObjectPosition mv) {
+        if (mv == null || mv.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK || mv.getBlockPos() == null) {
             return false;
         }
-        if (!mc.player.isSneaking() || mc.player.getMainHandStack() == null) {
+        if (!mc.player.isSneaking() || mc.player.getHeldItem() == null) {
             return isInteractable(BlockUtils.getBlock(mv.getBlockPos()));
         }
         return false;
@@ -120,7 +121,7 @@ public class BlockUtils implements IMinecraftInstance {
             if (mc.player.isInsideOfMaterial(Material.water) && !EnchantmentHelper.getAquaAffinityModifier(mc.player)) {
                 n /= 5.0f;
             }
-            if (!mc.player.isOnGround() && !ignoreGround) {
+            if (!mc.player.onGround && !ignoreGround) {
                 n /= 5.0f;
             }
         }
@@ -135,8 +136,8 @@ public class BlockUtils implements IMinecraftInstance {
         return getBlockState(new BlockPos(x, y, z)).getBlock();
     }
 
-    public static Block getBlock(Vec3d position) {
-        return getBlockState(new BlockPos(position.x, position.y, position.z)).getBlock();
+    public static Block getBlock(Vec3 position) {
+        return getBlockState(new BlockPos(position.xCoord, position.yCoord, position.zCoord)).getBlock();
     }
 
     public static BlockState getBlockState(BlockPos blockPos) {
@@ -195,10 +196,10 @@ public class BlockUtils implements IMinecraftInstance {
         return ua.union(ub);
     }
 
-    public static Direction facingFromBlockCenterToPoint(BlockPos pos, Vec3d hit) {
-        double px = hit.x - (pos.getX() + 0.5);
-        double py = hit.y - (pos.getY() + 0.5);
-        double pz = hit.z - (pos.getZ() + 0.5);
+    public static Direction facingFromBlockCenterToPoint(BlockPos pos, Vec3 hit) {
+        double px = hit.xCoord - (pos.getX() + 0.5);
+        double py = hit.yCoord - (pos.getY() + 0.5);
+        double pz = hit.zCoord - (pos.getZ() + 0.5);
         double ax = Math.abs(px);
         double ay = Math.abs(py);
         double az = Math.abs(pz);
@@ -222,12 +223,12 @@ public class BlockUtils implements IMinecraftInstance {
         return getBlock(blockPos).isReplaceable(mc.world, blockPos);
     }
 
-    public static boolean canSeeVecBlock(final BlockPos pos, final Vec3d vecPlayer, final Vec3d vecBlockPoint) {
-        final HitResult mop = mc.world.rayTraceBlocks(vecPlayer, vecBlockPoint, false, false, false);
+    public static boolean canSeeVecBlock(final BlockPos pos, final Vec3 vecPlayer, final Vec3 vecBlockPoint) {
+        final MovingObjectPosition mop = mc.world.rayTraceBlocks(vecPlayer, vecBlockPoint, false, false, false);
         if (mop == null) {
             return true;
         }
-        if (mop.typeOfHit == HitResult.MovingObjectType.BLOCK) {
+        if (mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
             final BlockPos mopPos = mop.getBlockPos();
             if (mopPos.getX() == pos.getX() && mopPos.getY() == pos.getY() && mopPos.getZ() == pos.getZ()) {
                 return true;
@@ -237,22 +238,22 @@ public class BlockUtils implements IMinecraftInstance {
     }
 
     public static boolean canBlockBeSeen(final BlockPos pos) {
-        final Vec3d vecPlayer = new Vec3d(mc.player.getX(), mc.player.getY() + mc.player.getEyeHeight(), mc.player.getZ());
+        final Vec3 vecPlayer = new Vec3(mc.player.getX(), mc.player.getY() + mc.player.getEyeHeight(), mc.player.getZ());
         for (double offsetY = 0.0; offsetY <= 0.5; offsetY += 0.5) {
             final double y = pos.getY() + offsetY;
-            Vec3d vecBlockPoint = new Vec3d(pos.getX() + 1, y, pos.getZ() + 0.5);
+            Vec3 vecBlockPoint = new Vec3(pos.getX() + 1, y, pos.getZ() + 0.5);
             if (canSeeVecBlock(pos, vecPlayer, vecBlockPoint)) {
                 return true;
             }
-            vecBlockPoint = new Vec3d(pos.getX(), y, pos.getZ() + 0.5);
+            vecBlockPoint = new Vec3(pos.getX(), y, pos.getZ() + 0.5);
             if (canSeeVecBlock(pos, vecPlayer, vecBlockPoint)) {
                 return true;
             }
-            vecBlockPoint = new Vec3d(pos.getX() + 0.5, y, (double)(pos.getZ() + 1));
+            vecBlockPoint = new Vec3(pos.getX() + 0.5, y, (double)(pos.getZ() + 1));
             if (canSeeVecBlock(pos, vecPlayer, vecBlockPoint)) {
                 return true;
             }
-            vecBlockPoint = new Vec3d(pos.getX() + 0.5, y, (double)pos.getZ());
+            vecBlockPoint = new Vec3(pos.getX() + 0.5, y, (double)pos.getZ());
             if (canSeeVecBlock(pos, vecPlayer, vecBlockPoint)) {
                 return true;
             }
@@ -260,16 +261,16 @@ public class BlockUtils implements IMinecraftInstance {
         return false;
     }
 
-    public static DyeColor getWoolColor(final BlockState state) {
-        return (DyeColor)state.getProperties().get(BlockColored.COLOR);
+    public static EnumDyeColor getWoolColor(final BlockState state) {
+        return (EnumDyeColor)state.getProperties().get(BlockColored.COLOR);
     }
 
-    public static Direction[] getVisibleFaces(Vec3d eye, BlockPos block) {
-        Direction yFace = Math.abs(eye.y - (block.getY() + 1)) < Math.abs(eye.y - block.getY())
+    public static Direction[] getVisibleFaces(Vec3 eye, BlockPos block) {
+        Direction yFace = Math.abs(eye.yCoord - (block.getY() + 1)) < Math.abs(eye.yCoord - block.getY())
                 ? Direction.UP : Direction.DOWN;
-        Direction zFace = Math.abs(eye.z - (block.getZ() + 1)) < Math.abs(eye.z - block.getZ())
+        Direction zFace = Math.abs(eye.zCoord - (block.getZ() + 1)) < Math.abs(eye.zCoord - block.getZ())
                 ? Direction.SOUTH : Direction.NORTH;
-        Direction xFace = Math.abs(eye.x - (block.getX() + 1)) < Math.abs(eye.x - block.getX())
+        Direction xFace = Math.abs(eye.xCoord - (block.getX() + 1)) < Math.abs(eye.xCoord - block.getX())
                 ? Direction.EAST : Direction.WEST;
         return new Direction[]{yFace, zFace, xFace};
     }
@@ -279,27 +280,27 @@ public class BlockUtils implements IMinecraftInstance {
         return false;
     }
 
-    public static Vec3d getFaceCenter(BlockPos block, Direction face) {
+    public static Vec3 getFaceCenter(BlockPos block, Direction face) {
         double eps = 1e-3;
         double cx = block.getX() + 0.5;
         double cy = block.getY() + 0.5;
         double cz = block.getZ() + 0.5;
         switch (face) {
-            case UP:    return new Vec3d(cx, block.getY() + 1 - eps, cz);
-            case DOWN:  return new Vec3d(cx, block.getY() + eps, cz);
-            case NORTH: return new Vec3d(cx, cy, block.getZ() + eps);
-            case SOUTH: return new Vec3d(cx, cy, block.getZ() + 1 - eps);
-            case EAST:  return new Vec3d(block.getX() + 1 - eps, cy, cz);
-            case WEST:  return new Vec3d(block.getX() + eps, cy, cz);
-            default:    return new Vec3d(cx, cy, cz);
+            case UP:    return new Vec3(cx, block.getY() + 1 - eps, cz);
+            case DOWN:  return new Vec3(cx, block.getY() + eps, cz);
+            case NORTH: return new Vec3(cx, cy, block.getZ() + eps);
+            case SOUTH: return new Vec3(cx, cy, block.getZ() + 1 - eps);
+            case EAST:  return new Vec3(block.getX() + 1 - eps, cy, cz);
+            case WEST:  return new Vec3(block.getX() + eps, cy, cz);
+            default:    return new Vec3(cx, cy, cz);
         }
     }
 
-    public static double dist2PointAABB(Vec3d p, BlockPos b) {
-        double cx = Math.max(b.getX(), Math.min(b.getX() + 1, p.x));
-        double cy = Math.max(b.getY(), Math.min(b.getY() + 1, p.y));
-        double cz = Math.max(b.getZ(), Math.min(b.getZ() + 1, p.z));
-        double dx = p.x - cx, dy = p.y - cy, dz = p.z - cz;
+    public static double dist2PointAABB(Vec3 p, BlockPos b) {
+        double cx = Math.max(b.getX(), Math.min(b.getX() + 1, p.xCoord));
+        double cy = Math.max(b.getY(), Math.min(b.getY() + 1, p.yCoord));
+        double cz = Math.max(b.getZ(), Math.min(b.getZ() + 1, p.zCoord));
+        double dx = p.xCoord - cx, dy = p.yCoord - cy, dz = p.zCoord - cz;
         return dx * dx + dy * dy + dz * dz;
     }
 
@@ -336,32 +337,32 @@ public class BlockUtils implements IMinecraftInstance {
         return false;
     }
 
-    public static HitResult traverseBlocksAlongRay(Vec3d start, Vec3d end,
+    public static MovingObjectPosition traverseBlocksAlongRay(Vec3 start, Vec3 end,
             boolean wantBed, boolean wantAdjacent) {
         if (mc.world == null) return null;
-        if (Double.isNaN(start.x) || Double.isNaN(start.y) || Double.isNaN(start.z)) return null;
-        if (Double.isNaN(end.x) || Double.isNaN(end.y) || Double.isNaN(end.z)) return null;
+        if (Double.isNaN(start.xCoord) || Double.isNaN(start.yCoord) || Double.isNaN(start.zCoord)) return null;
+        if (Double.isNaN(end.xCoord) || Double.isNaN(end.yCoord) || Double.isNaN(end.zCoord)) return null;
 
-        int destX = MathHelper.floor_double(end.x);
-        int destY = MathHelper.floor_double(end.y);
-        int destZ = MathHelper.floor_double(end.z);
-        int curX = MathHelper.floor_double(start.x);
-        int curY = MathHelper.floor_double(start.y);
-        int curZ = MathHelper.floor_double(start.z);
+        int destX = MathHelper.floor_double(end.xCoord);
+        int destY = MathHelper.floor_double(end.yCoord);
+        int destZ = MathHelper.floor_double(end.zCoord);
+        int curX = MathHelper.floor_double(start.xCoord);
+        int curY = MathHelper.floor_double(start.yCoord);
+        int curZ = MathHelper.floor_double(start.zCoord);
 
-        HitResult firstHit = null;
+        MovingObjectPosition firstHit = null;
 
-        HitResult candidate = getBlockCollisionHit(curX, curY, curZ, start, end);
+        MovingObjectPosition candidate = getBlockCollisionHit(curX, curY, curZ, start, end);
         if (candidate != null) {
             if (isBedOrAdjacentMatch(candidate.getBlockPos(), wantBed, wantAdjacent)) return candidate;
             firstHit = candidate;
         }
 
-        Vec3d tracePos = start;
+        Vec3 tracePos = start;
         int remaining = 200;
 
         while (remaining-- >= 0) {
-            if (Double.isNaN(tracePos.x) || Double.isNaN(tracePos.y) || Double.isNaN(tracePos.z))
+            if (Double.isNaN(tracePos.xCoord) || Double.isNaN(tracePos.yCoord) || Double.isNaN(tracePos.zCoord))
                 return firstHit;
             if (curX == destX && curY == destY && curZ == destZ)
                 return firstHit;
@@ -378,13 +379,13 @@ public class BlockUtils implements IMinecraftInstance {
             else if (destZ < curZ) boundZ = (double) curZ;
             else crossZ = false;
 
-            double dx = end.x - tracePos.x;
-            double dy = end.y - tracePos.y;
-            double dz = end.z - tracePos.z;
+            double dx = end.xCoord - tracePos.xCoord;
+            double dy = end.yCoord - tracePos.yCoord;
+            double dz = end.zCoord - tracePos.zCoord;
             double tX = 999.0, tY = 999.0, tZ = 999.0;
-            if (crossX) tX = (boundX - tracePos.x) / dx;
-            if (crossY) tY = (boundY - tracePos.y) / dy;
-            if (crossZ) tZ = (boundZ - tracePos.z) / dz;
+            if (crossX) tX = (boundX - tracePos.xCoord) / dx;
+            if (crossY) tY = (boundY - tracePos.yCoord) / dy;
+            if (crossZ) tZ = (boundZ - tracePos.zCoord) / dz;
             if (tX == -0.0) tX = -1.0E-4;
             if (tY == -0.0) tY = -1.0E-4;
             if (tZ == -0.0) tZ = -1.0E-4;
@@ -392,18 +393,18 @@ public class BlockUtils implements IMinecraftInstance {
             Direction face;
             if (tX < tY && tX < tZ) {
                 face = destX > curX ? Direction.WEST : Direction.EAST;
-                tracePos = new Vec3d(boundX, tracePos.y + dy * tX, tracePos.z + dz * tX);
+                tracePos = new Vec3(boundX, tracePos.yCoord + dy * tX, tracePos.zCoord + dz * tX);
             } else if (tY < tZ) {
                 face = destY > curY ? Direction.DOWN : Direction.UP;
-                tracePos = new Vec3d(tracePos.x + dx * tY, boundY, tracePos.z + dz * tY);
+                tracePos = new Vec3(tracePos.xCoord + dx * tY, boundY, tracePos.zCoord + dz * tY);
             } else {
                 face = destZ > curZ ? Direction.NORTH : Direction.SOUTH;
-                tracePos = new Vec3d(tracePos.x + dx * tZ, tracePos.y + dy * tZ, boundZ);
+                tracePos = new Vec3(tracePos.xCoord + dx * tZ, tracePos.yCoord + dy * tZ, boundZ);
             }
 
-            curX = MathHelper.floor_double(tracePos.x) - (face == Direction.EAST ? 1 : 0);
-            curY = MathHelper.floor_double(tracePos.y) - (face == Direction.UP ? 1 : 0);
-            curZ = MathHelper.floor_double(tracePos.z) - (face == Direction.SOUTH ? 1 : 0);
+            curX = MathHelper.floor_double(tracePos.xCoord) - (face == Direction.EAST ? 1 : 0);
+            curY = MathHelper.floor_double(tracePos.yCoord) - (face == Direction.UP ? 1 : 0);
+            curZ = MathHelper.floor_double(tracePos.zCoord) - (face == Direction.SOUTH ? 1 : 0);
 
             candidate = getBlockCollisionHit(curX, curY, curZ, start, end);
             if (candidate != null) {
@@ -414,7 +415,7 @@ public class BlockUtils implements IMinecraftInstance {
         return firstHit;
     }
 
-    private static HitResult getBlockCollisionHit(int x, int y, int z, Vec3d start, Vec3d end) {
+    private static MovingObjectPosition getBlockCollisionHit(int x, int y, int z, Vec3 start, Vec3 end) {
         BlockPos pos = new BlockPos(x, y, z);
         BlockState state = mc.world.getBlockState(pos);
         Block block = state.getBlock();

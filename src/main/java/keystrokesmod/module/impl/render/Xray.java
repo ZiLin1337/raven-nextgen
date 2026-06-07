@@ -11,6 +11,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 
+
+
+
 import java.awt.*;
 import java.util.Iterator;
 import java.util.Set;
@@ -87,14 +90,14 @@ public class Xray extends Module {
     }
 
     
-    public void onEntityJoin(Object e) {
+    public void onEntityJoin(EntityJoinWorldEvent e) {
         if (e.entity == mc.player) {
             this.blocks.clear();
         }
     }
 
     
-    public void onRenderWorld(Object ev) {
+    public void onRenderWorld(RenderWorldLastEvent ev) {
         if (!Utils.nullCheck()) {
             return;
         }

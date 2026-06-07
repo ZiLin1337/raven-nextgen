@@ -1,12 +1,25 @@
 package keystrokesmod.event;
 
-/**
- * Base event class for 1.21.4
- */
-public abstract class Event {
-    private boolean cancelled = false;
+import meteordevelopment.orbit.ICancellable;
+
+public class Event implements ICancellable {
+    private boolean canceled;
+
+    @Override
+    public void setCancelled(boolean cancelled) {
+        this.canceled = cancelled;
+    }
+
+    @Override
+    public boolean isCancelled() {
+        return canceled;
+    }
+
+    public void setCanceled(boolean canceled) {
+        this.canceled = canceled;
+    }
     
-    public boolean isCancelled() { return cancelled; }
-    public void setCancelled(boolean cancelled) { this.cancelled = cancelled; }
-    public void cancel() { this.cancelled = true; }
+    public boolean isCanceled() {
+        return canceled;
+    }
 }

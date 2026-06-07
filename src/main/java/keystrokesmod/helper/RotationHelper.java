@@ -81,7 +81,7 @@ public class RotationHelper {
         if (this.serverPitch != mc.player.getPitch()) this.setRotations = true;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPreUpdate(PreUpdateEvent e) {
         updateServerRotations();
     }
@@ -191,7 +191,7 @@ public class RotationHelper {
 
     // ----- Movement Fix -----
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPostInput(PostPlayerInputEvent event) {
         if (!fixMovement()) return;
         if (this.serverRelativeMovementInputs) return;

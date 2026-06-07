@@ -10,7 +10,9 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.EntityPlayer;
+
+import org.lwjgl.input.Mouse;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -77,7 +79,10 @@ public class AimAssist extends Module {
     @Override
     public void onDisable() {
         miningStartTime = -1;
-    }public void onClientRotation(ClientRotationEvent e) {
+    }
+
+    (priority = )
+    public void onClientRotation(ClientRotationEvent e) {
         if (ModuleManager.bedAura != null && ModuleManager.bedAura.shouldOverrideMouseOver()) {
             return;
         }
@@ -121,13 +126,13 @@ public class AimAssist extends Module {
         boolean useBackup = ignoreBehindWalls.isToggled() || ignoreBehindEntities.isToggled();
         float[] rot = RotationHelper.get().getRotationsToTarget(en, speedVal, multipointH, multipointV, randomizationPercent, useBackup, range.getInput(), !ignoreBehindWalls.isToggled(), !ignoreBehindEntities.isToggled());
         if (rot == null) return;
-        mc.player.setYaw(rot[0]);
-        mc.player.setPitch(rot[1]);
+        mc.player.rotationYaw = rot[0];
+        mc.player.rotationPitch = rot[1];
     }
 
     private Entity getEnemy(boolean silentMode) {
         final int fovVal = (int) this.fov.getInput();
-        float viewYaw = mc.player.getYaw();
+        float viewYaw = mc.player.rotationYaw;
         if (silentMode) {
             Float serverYaw = RotationHelper.get().getServerYaw();
             if (serverYaw != null) {
@@ -135,8 +140,8 @@ public class AimAssist extends Module {
             }
         }
 
-        List<PlayerEntity> candidates = new ArrayList<>();
-        for (PlayerEntity entityPlayer : mc.world.world.getPlayers()) {
+        List<EntityPlayer> candidates = new ArrayList<>();
+        for (EntityPlayer entityPlayer : mc.world.playerEntities) {
             if (entityPlayer == mc.player || entityPlayer.deathTime != 0) {
                 continue;
             }
@@ -168,7 +173,7 @@ public class AimAssist extends Module {
             return null;
         }
 
-        Comparator<PlayerEntity> primary;
+        Comparator<EntityPlayer> primary;
         switch ((int) sortMode.getInput()) {
             case 0: // Health (lower first)
                 primary = Comparator.comparingDouble(p -> p.getHealth() + p.getAbsorptionAmount());
@@ -181,7 +186,7 @@ public class AimAssist extends Module {
                 });
                 break;
             case 2: // Hurt time (lower first)
-                primary = Comparator.<PlayerEntity>comparingInt(p -> p.hurtTime);
+                primary = Comparator.<EntityPlayer>comparingInt(p -> p.hurtTime);
                 break;
             case 3: // Distance (closer first)
                 primary = Comparator.comparingDouble(p -> mc.player.getDistanceSqToEntity(p));
@@ -201,7 +206,7 @@ public class AimAssist extends Module {
             double rangeVal = range.getInput();
             boolean allowThroughBlocks = !ignoreBehindWalls.isToggled();
             boolean allowThroughEntities = !ignoreBehindEntities.isToggled();
-            for (PlayerEntity candidate : candidates) {
+            for (EntityPlayer candidate : candidates) {
                 if (RotationUtils.hasValidAimPoint(candidate, multipointH, multipointV, rangeVal, allowThroughBlocks, allowThroughEntities)) {
                     return candidate;
                 }
@@ -213,13 +218,13 @@ public class AimAssist extends Module {
     }
 
     private boolean conditionsMet() {
-        if (mc.currentScreen != null || !mc.isWindowFocused()) {
+        if (mc.currentScreen != null || !mc.inGameHasFocus) {
             return false;
         }
         if (weaponOnly.isToggled() && !Utils.holdingWeapon()) {
             return false;
         }
-        if (clickAim.isToggled() && !GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) {
+        if (clickAim.isToggled() && !Mouse.isButtonDown(0)) {
             return false;
         }
         if (stopWhenBreaking.isToggled() && Utils.isMining()) {

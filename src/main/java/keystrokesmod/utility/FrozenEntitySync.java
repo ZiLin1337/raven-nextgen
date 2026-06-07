@@ -1,12 +1,10 @@
 package keystrokesmod.utility;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.client.network.ClientPlayerEntity;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.entity.PlayerEntitySP;
 import net.minecraft.entity.Entity;
-
-// TODO: Remove Forge packet imports
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.*;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -105,14 +103,14 @@ public class FrozenEntitySync {
      * and prevRotation == rotation. This prevents the changing renderPartialTicks
      * from shifting the player's rendered position/rotation between frames.
      */
-    private void snapLocalPlayerInterpolation(ClientPlayerEntity player) {
+    private void snapLocalPlayerInterpolation(PlayerEntitySP player) {
         player.lastTickPosX = player.posX;
         player.lastTickPosY = player.posY;
         player.lastTickPosZ = player.posZ;
-        player.prevRotationYaw = player.getYaw();
-        player.prevRotationPitch = player.getPitch();
-        player.prevYawHead = player.yawHead;
-        player.prevRenderYawOffset = player.bodyYaw;
+        player.prevRotationYaw = player.rotationYaw;
+        player.prevRotationPitch = player.rotationPitch;
+        player.prevRotationYawHead = player.rotationYawHead;
+        player.prevRenderYawOffset = player.renderYawOffset;
         player.prevLimbSwingAmount = player.limbSwingAmount;
         player.prevSwingProgress = player.swingProgress;
         player.prevCameraPitch = player.cameraPitch;
@@ -138,23 +136,23 @@ public class FrozenEntitySync {
     }
 
     private void tickNonLocalEntities(MinecraftClient mc) {
-        ClientPlayerEntity local = mc.player;
+        PlayerEntitySP local = mc.player;
 
         for (int i = 0; i < mc.world.weatherEffects.size(); i++) {
             Entity entity = mc.world.weatherEffects.get(i);
             try {
-                ++entity.age;
+                ++entity.ticksExisted;
                 entity.onUpdate();
             } catch (Throwable ignored) {}
-            if (entity.isRemoved()) {
+            if (entity.isDead) {
                 mc.world.weatherEffects.remove(i--);
             }
         }
 
-        for (Entity entity : mc.world.world.getEntities()) {
-            if (entity == null || entity.isRemoved() || entity == local) continue;
+        for (Entity entity : mc.world.loadedEntityList) {
+            if (entity == null || entity.isDead || entity == local) continue;
             if (entity.ridingEntity != null) {
-                if (!entity.ridingEntity.isRemoved() && entity.ridingEntity.riddenByEntity == entity) {
+                if (!entity.ridingEntity.isDead && entity.ridingEntity.riddenByEntity == entity) {
                     continue;
                 }
                 entity.ridingEntity.riddenByEntity = null;
@@ -173,7 +171,7 @@ public class FrozenEntitySync {
             || packet instanceof S10PacketSpawnPainting
             || packet instanceof S11PacketSpawnExperienceOrb
             || packet instanceof S2CPacketSpawnGlobalEntity
-            || packet instanceof EntityVelocityUpdateS2CPacket
+            || packet instanceof S12PacketEntityVelocity
             || packet instanceof S13PacketDestroyEntities
             || packet instanceof S14PacketEntity
             || packet instanceof S18PacketEntityTeleport

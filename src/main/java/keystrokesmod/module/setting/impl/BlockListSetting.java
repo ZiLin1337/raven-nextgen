@@ -18,7 +18,7 @@ public class BlockListSetting extends Setting {
         super(name);
         this.legacyProfileKeys = legacyProfileKeys != null ? legacyProfileKeys : new String[0];
     }
-    public BlockListSetting(GroupSetting group, String name) { super(name); this.group = group; }
+    public BlockListSetting(GroupSetting group, String name) { this(group, name); }
     public BlockListSetting(GroupSetting group, String name, String... legacyProfileKeys) {
         super(name);
         this.group = group;

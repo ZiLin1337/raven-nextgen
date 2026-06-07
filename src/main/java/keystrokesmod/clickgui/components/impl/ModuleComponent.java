@@ -256,10 +256,10 @@ public class ModuleComponent extends Component {
                     8, Utils.mergeAlpha(HOVER_COLOR, (int) hoverAlpha));
         }
         int button_rgb = this.mod.isEnabled() ? ENABLED_COLOR : DISABLED_COLOR;
-        if (this.mod.script != null && false /* script.error not available */) button_rgb = INVALID_COLOR;
+        if (this.mod.script != null && this.mod.script.error) button_rgb = INVALID_COLOR;
         if (this.mod.moduleCategory() == Module.category.profiles && !(this.mod instanceof Manager)
                 && !((ProfileModule) this.mod).saved && Raven.currentProfile != null
-                && false /* TODO: profile not implemented */) button_rgb = UNSAVED_COLOR;
+                && Raven.currentProfile.getModule() == this.mod) button_rgb = UNSAVED_COLOR;
         boolean scissorRequired = smoothTimer != null;
         RavenFontRenderer titleRenderer = Gui.getClickGuiHeaderFontRenderer();
         if (hasModuleHeader()) {
@@ -332,14 +332,14 @@ public class ModuleComponent extends Component {
         if (hasModuleHeader() && this.overModuleName(x, y) && mouse == 0 && this.mod.canBeEnabled()) {
             this.mod.toggle();
             if (this.mod.moduleCategory() != Module.category.profiles && Raven.currentProfile != null)
-                /* TODO: profile not implemented */;
+                Raven.currentProfile.getModule().saved = false;
             return true;
         }
         if (hasModuleHeader() && this.overModuleName(x, y) && mouse == 1) {
             float currentHeight = smoothTimer != null ? smoothingY : (isOpened ? getHeightF() : 16f);
             this.animationStartY = currentHeight;
             this.isOpened = !this.isOpened;
-            float targetHeight = this.isOpened ? (float)(getCollapsedHeight() + settings.stream().mapToDouble(c -> getAnimatedComponentHeightF(c)).sum()) : (float)getCollapsedHeight();
+            float targetHeight = this.isOpened ? (getCollapsedHeight() + settings.stream().mapToDouble(c -> getAnimatedComponentHeightF(c)).sum()) : getCollapsedHeight();
             this.animationTargetY = (float) targetHeight;
             (this.smoothTimer = new Timer(250)).start();
             return true;
@@ -493,7 +493,7 @@ public class ModuleComponent extends Component {
         int[] saved = scissorStack[scissorDepth++];
         if (wasEnabled) {
             SCISSOR_BOX.clear();
-            // GL11.glGetInteger removed - not supported in 1.21.4
+            GL11.glGetInteger(GL11.GL_SCISSOR_BOX, SCISSOR_BOX);
             saved[0] = 1;
             saved[1] = SCISSOR_BOX.get(0);
             saved[2] = SCISSOR_BOX.get(1);

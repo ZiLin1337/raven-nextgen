@@ -2,9 +2,9 @@ package keystrokesmod.lag.api;
 
 import keystrokesmod.utility.IMinecraftInstance;
 import keystrokesmod.utility.Utils;
-
-import net.minecraft.network.packet.Packet;
-// TODO: Remove Forge net handler import
+import net.minecraft.network.Packet;
+import net.minecraft.network.ThreadQuickExitException;
+import net.minecraft.network.play.INetHandlerPlayClient;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.EnumSet;
@@ -16,7 +16,7 @@ public enum EnumLagDirection implements IMinecraftInstance {
     INBOUND(
             packet -> {
                 try {
-                    ((Packet<INetHandlerPlayClient>) packet).processPacket(mc.getNetworkHandler());
+                    ((Packet<INetHandlerPlayClient>) packet).processPacket(mc.getNetHandler());
                 } catch (final @NotNull ThreadQuickExitException ignored) {
                     // minecraft uses an exception to indicate something getting scheduled... why?
                 } catch (final @NotNull Exception e) {
@@ -26,7 +26,7 @@ public enum EnumLagDirection implements IMinecraftInstance {
     ),
     OUTBOUND(
             packet -> {
-                mc.getNetworkHandler().networkHandler.sendPacket(packet);
+                mc.getNetHandler().addToSendQueue(packet);
             }
     );
 
@@ -34,15 +34,15 @@ public enum EnumLagDirection implements IMinecraftInstance {
     public static final @NotNull Set<EnumLagDirection> ONLY_OUTBOUND = EnumSet.of(OUTBOUND);
     public static final @NotNull Set<EnumLagDirection> BIDIRECTIONAL = EnumSet.allOf(EnumLagDirection.class);
 
-    private final @NotNull Object channel;
+    private final @NotNull Consumer<Packet<?>> channel;
 
     EnumLagDirection(
-            final @NotNull Object channel
+            final @NotNull Consumer<Packet<?>> channel
     ) {
         this.channel = channel;
     }
 
-    public void passThroughChannel(final Object packet) {
+    public void passThroughChannel(final @NotNull Packet<?> packet) {
         channel.accept(packet);
     }
 

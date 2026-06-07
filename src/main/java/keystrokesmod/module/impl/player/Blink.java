@@ -1,8 +1,7 @@
 package keystrokesmod.module.impl.player;
-import keystrokesmod.event.SendPacketEvent;
 
 import keystrokesmod.event.PreMotionEvent;
-
+import keystrokesmod.event.SendPacketEvent;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.DescriptionSetting;
@@ -63,7 +62,7 @@ public class Blink extends Module {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onSendPacket(SendPacketEvent event) {
         if (!isEnabled() || !Utils.nullCheck()) return;
         Packet<?> packet = event.getPacket();

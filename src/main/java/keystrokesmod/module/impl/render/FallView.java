@@ -9,11 +9,14 @@ import keystrokesmod.utility.Utils;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraft.block.material.Material;
 import net.minecraft.potion.Potion;
-
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.MathHelper;
+
+
 
 import java.awt.*;
 import java.util.HashMap;
@@ -67,7 +70,7 @@ public class FallView extends Module {
     }
 
     
-    public void onClientTick(Object ev) {
+    public void onClientTick(TickEvent.ClientTickEvent ev) {
         if (ev.phase != TickEvent.Phase.END) {
             return;
         }
@@ -76,17 +79,17 @@ public class FallView extends Module {
         if (mc.currentScreen != null) {
             return;
         }
-        if (!Utils.nullCheck() || mc.player.getAbilities().creativeMode) {
+        if (!Utils.nullCheck() || mc.player.capabilities.isCreativeMode) {
             return;
         }
-        if (disableWhileFlying.isToggled() && mc.player.getAbilities().allowFlying) {
+        if (disableWhileFlying.isToggled() && mc.player.capabilities.allowFlying) {
             return;
         }
         if (onlyWhileSneaking.isToggled() && !mc.player.isSneaking()) {
             return;
         }
 
-        boolean onGround = mc.player.isOnGround();
+        boolean onGround = mc.player.onGround;
         if (onGround) {
             fallStartY = -1;
             groundY = -1;
@@ -210,7 +213,7 @@ public class FallView extends Module {
     }
 
     
-    public void onRenderTick(Object ev) {
+    public void onRenderTick(TickEvent.RenderTickEvent ev) {
         if (ev.phase != TickEvent.Phase.END || mc.currentScreen != null || !Utils.nullCheck()) {
             return;
         }
@@ -218,20 +221,20 @@ public class FallView extends Module {
             return;
         }
 
-         scaledResolution = null; // int removed for 1.21.4
+         scaledResolution = new (mc);
         if (showDamageText && damageText != null) {
-            MinecraftClient.getInstance().textRenderer.drawStringWithShadow(
+            mc.textRenderer.drawStringWithShadow(
                     damageText,
-                    scaledResolution.getScaledWidth() / 2 - MinecraftClient.getInstance().textRenderer.getStringWidth(damageText) / 2,
+                    scaledResolution.getScaledWidth() / 2 - mc.textRenderer.getStringWidth(damageText) / 2,
                     scaledResolution.getScaledHeight() / 2 - 15,
                     Color.WHITE.getRGB()
             );
         }
 
         if (showDistanceText && distanceText != null) {
-            MinecraftClient.getInstance().textRenderer.drawStringWithShadow(
+            mc.textRenderer.drawStringWithShadow(
                     distanceText,
-                    scaledResolution.getScaledWidth() / 2 - MinecraftClient.getInstance().textRenderer.getStringWidth(distanceText) / 2,
+                    scaledResolution.getScaledWidth() / 2 - mc.textRenderer.getStringWidth(distanceText) / 2,
                     scaledResolution.getScaledHeight() / 2 + 6,
                     distanceTextColor
             );

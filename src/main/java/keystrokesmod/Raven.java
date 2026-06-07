@@ -1,51 +1,52 @@
 package keystrokesmod;
 
-import net.fabricmc.api.ModInitializer;
+import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
-import keystrokesmod.event.EventBus;
-import keystrokesmod.module.core.ModuleManager;
-import keystrokesmod.module.impl.combat.KillAura;
-import keystrokesmod.module.impl.movement.Sprint;
-import keystrokesmod.module.impl.render ESP;
-import keystrokesmod.module.impl.render.Fullbright;
-import keystrokesmod.module.impl.client.ClickGui;
+import keystrokesmod.clickgui.ClickGui;
+import keystrokesmod.module.ModuleManager;
+import meteordevelopment.orbit.EventBus;
+import meteordevelopment.orbit.IEventBus;
 
-/**
- * Raven NextGen - 1.21.4 Fabric Client
- * Based on raven-bS, rewritten for 1.21.4
- */
-public class Raven implements ModInitializer {
-    public static final String MOD_ID = "raven-nextgen";
-    private static Raven INSTANCE;
-    private final ModuleManager moduleManager = ModuleManager.getINSTANCE();
+public class Raven implements ClientModInitializer {
+    public static boolean DEBUG = false;
+    public static String clientName = "Raven bS";
+    public static MinecraftClient mc = MinecraftClient.getInstance();
+    public static ModuleManager moduleManager;
+    public static ClickGui clickGui;
+    public static CommandManager commandManager;
+    public static final IEventBus EVENT_BUS = new EventBus();
     
     @Override
-    public void onInitialize() {
-        INSTANCE = this;
-        System.out.println("[Raven] Initializing for 1.21.4...");
-        
-        // Register modules
-        registerModules();
-        
-        System.out.println("[Raven] Initialized with " + moduleManager.getModules().size() + " modules");
+    public void onInitializeClient() {
+        moduleManager = new ModuleManager();
+        clickGui = new ClickGui();
+        commandManager = new CommandManager();
+        EVENT_BUS.subscribe(this);
+        ClientTickEvents.END_CLIENT_TICK.register(this::onTick);
     }
     
-    private void registerModules() {
-        // Combat
-        moduleManager.register(new KillAura());
-        
-        // Movement
-        moduleManager.register(new Sprint());
-        
-        // Render
-        moduleManager.register(new ESP());
-        moduleManager.register(new Fullbright());
-        
-        // Client
-        moduleManager.register(new ClickGui());
+    private void onTick(MinecraftClient client) {
+        if (mc.player == null || mc.world == null) return;
+        for (Module m : moduleManager.getModules()) {
+            if (m.isEnabled()) m.onUpdate();
+        }
+    }
+
+    @EventHandler
+    public void onSendPacket(SendPacketEvent e) {
+        if (e.getPacket() instanceof ChatMessageC2SPacket chat) {
+            if (commandManager.execute(chat.chatMessage())) e.setCanceled(true);
+        }
+    }
+
+    @EventHandler
+    public void onKeyPress(KeyPressEvent e) {
+        if (mc.currentScreen != null) return;
+        for (Module m : moduleManager.getModules()) {
+            if (m.getKeycode() == e.getKeyCode()) m.toggle();
+        }
     }
     
-    public static Raven getINSTANCE() { return INSTANCE; }
-    public ModuleManager getModuleManager() { return moduleManager; }
-    public static MinecraftClient mc() { return MinecraftClient.getInstance(); }
+    public static ModuleManager getModuleManager() { return moduleManager; }
 }

@@ -1,9 +1,9 @@
 package keystrokesmod.utility;
 
-// import IMixinItemRenderer removed
+import keystrokesmod.mixin.interfaces.IMixinItemRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
-// EnumAction removed
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 
 public final class BlockAnimationUtils {
@@ -14,7 +14,7 @@ public final class BlockAnimationUtils {
     }
 
     public static void beginRender(PlayerEntity player) {
-        if (player == mc.thePlayer) {
+        if (player == MinecraftClient.getInstance().thePlayer) {
             if (renderingDepth++ == 0) {
                 renderingPlayer = player;
             }

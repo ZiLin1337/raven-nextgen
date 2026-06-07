@@ -1,4 +1,5 @@
 package keystrokesmod.script.model;
+
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;

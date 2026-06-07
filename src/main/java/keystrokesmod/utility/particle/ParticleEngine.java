@@ -1,6 +1,6 @@
 package keystrokesmod.utility.particle;
 
-import keystrokesmod.utility.math.Vec3d;
+import keystrokesmod.utility.math.Vec3;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -43,12 +43,12 @@ public class ParticleEngine {
     /**
      * Spawn a burst of particles at a position with random velocities.
      */
-    public void burst(Vec3d position, int count, float speed, int lifetime, float size, int color) {
+    public void burst(Vec3 position, int count, float speed, int lifetime, float size, int color) {
         for (int i = 0; i < count; i++) {
             double vx = (random.nextDouble() - 0.5) * speed;
             double vy = random.nextDouble() * speed;
             double vz = (random.nextDouble() - 0.5) * speed;
-            Vec3d velocity = new Vec3d(vx, vy, vz);
+            Vec3 velocity = new Vec3(vx, vy, vz);
             int lt = lifetime + random.nextInt(lifetime / 2);
             float sz = size * (0.5f + random.nextFloat());
             spawn(new Particle(position, velocity, lt, sz, color));
@@ -58,9 +58,9 @@ public class ParticleEngine {
     /**
      * Spawn a spray of particles in a direction.
      */
-    public void spray(Vec3d position, Vec3d direction, int count, float spread, float speed, int lifetime, float size, int color) {
+    public void spray(Vec3 position, Vec3 direction, int count, float spread, float speed, int lifetime, float size, int color) {
         for (int i = 0; i < count; i++) {
-            Vec3d vel = new Vec3d(
+            Vec3 vel = new Vec3(
                 direction.x + (random.nextDouble() - 0.5) * spread,
                 direction.y + (random.nextDouble() - 0.5) * spread,
                 direction.z + (random.nextDouble() - 0.5) * spread
@@ -78,7 +78,7 @@ public class ParticleEngine {
         while (it.hasNext()) {
             Particle p = it.next();
             p.update();
-            if (p.isRemoved()) {
+            if (p.isDead()) {
                 it.remove();
             }
         }

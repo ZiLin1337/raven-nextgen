@@ -5,6 +5,8 @@ import keystrokesmod.module.setting.impl.KeySetting;
 import keystrokesmod.utility.Utils;
 import net.minecraft.entity.Entity;
 
+
+
 public class Holdlook extends Module {
     private final KeySetting rearCamKey;
     private final KeySetting frontCamKey;
@@ -20,8 +22,8 @@ public class Holdlook extends Module {
     }
 
     
-    public void onClientTick(Object e) {
-        if (e.phase.START || !Utils.nullCheck()) return;
+    public void onClientTick(TickEvent.ClientTickEvent e) {
+        if (e.phase != TickEvent.Phase.START || !Utils.nullCheck()) return;
 
         if (mc.currentScreen != null) {
             if (rearActive || frontActive) {
@@ -36,7 +38,7 @@ public class Holdlook extends Module {
         boolean frontDown = frontCamKey.isPressed();
 
         if (rearDown && !rearActive) {
-            savedPerspective = mc.options.getPerspective().ordinal();
+            savedPerspective = mc.gameSettings.thirdPersonView;
             applyThirdPersonView(1);
             rearActive = true;
         } else if (!rearDown && rearActive) {
@@ -46,7 +48,7 @@ public class Holdlook extends Module {
 
         if (frontDown && !frontActive) {
             if (!rearActive) {
-                savedPerspective = mc.options.getPerspective().ordinal();
+                savedPerspective = mc.gameSettings.thirdPersonView;
             }
             applyThirdPersonView(2);
             frontActive = true;
@@ -72,16 +74,16 @@ public class Holdlook extends Module {
             view = 2;
         }
 
-        mc.options.getPerspective().ordinal() = view;
-        if (mc.gameRenderer != null) {
+        mc.gameSettings.thirdPersonView = view;
+        if (mc.entityRenderer != null) {
             if (view == 0) {
-                mc.gameRenderer.loadEntityShader(mc.getCameraEntity());
+                mc.entityRenderer.loadEntityShader(mc.getRenderViewEntity());
             } else if (view == 1) {
-                mc.gameRenderer.loadEntityShader((Entity) null);
+                mc.entityRenderer.loadEntityShader((Entity) null);
             }
         }
-        if (mc.worldRenderer != null) {
-            mc.worldRenderer.setDisplayListEntitiesDirty();
+        if (mc.renderGlobal != null) {
+            mc.renderGlobal.setDisplayListEntitiesDirty();
         }
     }
 }

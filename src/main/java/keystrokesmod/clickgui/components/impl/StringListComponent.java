@@ -1,12 +1,11 @@
 package keystrokesmod.clickgui.components.impl;
 
-import org.lwjgl.glfw.GLFW;
 import keystrokesmod.clickgui.animation.ScrollOffsetAnimation;
 import keystrokesmod.utility.Theme;
 import keystrokesmod.module.setting.impl.StringListSetting;
 import keystrokesmod.utility.RenderUtils;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.util.ResourceLocation;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;
@@ -27,7 +26,7 @@ public class StringListComponent extends AbstractTextInputComponent {
     private float lastMouseY;
 
     public StringListComponent(StringListSetting setting, ModuleComponent moduleComponent, float o) {
-        super(moduleComponent, o, "", 48);
+        super(moduleComponent, o, setting.getPlaceholder(), setting.getMaxLength());
         this.setting = setting;
     }
 
@@ -60,8 +59,8 @@ public class StringListComponent extends AbstractTextInputComponent {
     @Override
     public void keyTyped(char typedChar, int keyCode) {
         if (!moduleComponent.isOpened || !isTextFieldFocused()) return;
-        if (keyCode == GLFW.GLFW_KEY_ESCAPE) { getTextField().setText(""); setTextFieldFocused(false); return; }
-        if (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER) { submitText(); setTextFieldFocused(false); return; }
+        if (keyCode == Keyboard.KEY_ESCAPE) { getTextField().setText(""); setTextFieldFocused(false); return; }
+        if (keyCode == Keyboard.KEY_RETURN || keyCode == Keyboard.KEY_NUMPADENTER) { submitText(); setTextFieldFocused(false); return; }
         getTextField().textboxKeyTyped(typedChar, keyCode);
     }
 
@@ -69,7 +68,7 @@ public class StringListComponent extends AbstractTextInputComponent {
     public void onScroll(int scroll) {
         if (!moduleComponent.isOpened || !moduleComponent.isVisible(this)) return;
         if (!capturesCategoryScroll(lastMouseX, lastMouseY)) return;
-        float delta = (float) 0 * (scroll / 120f);
+        float delta = (float) keystrokesmod.module.impl.client.Gui.scrollSpeed.getInput() * (scroll / 120f);
         if (delta != 0f) selectedScrollAnim.extend(-delta);
         clampSelectedScroll();
     }
@@ -79,7 +78,7 @@ public class StringListComponent extends AbstractTextInputComponent {
 
     @Override
     public float getHeightF() {
-        int c = new java.util.ArrayList<>().size();
+        int c = setting.getEntries().size();
         float h = c == 0 ? 0f : SELECTED_LIST_GAP + Math.min(MAX_VISIBLE_SELECTED, c) * ROW_HEIGHT;
         return (2f * ROW_HEIGHT) + h;
     }
@@ -88,20 +87,20 @@ public class StringListComponent extends AbstractTextInputComponent {
     public boolean isBaseVisible() { return setting.visible; }
     @Override
     public String getGroupName() { return setting.group != null ? setting.group.getName() : ""; }
-    public boolean capturesCategoryScroll(float x, float y) { return new java.util.ArrayList<>().size() > MAX_VISIBLE_SELECTED && isMouseOverSelectedList(x, y); }
+    public boolean capturesCategoryScroll(float x, float y) { return setting.getEntries().size() > MAX_VISIBLE_SELECTED && isMouseOverSelectedList(x, y); }
     @Override
     public boolean containsClick(int x, int y) { Layout l = layout(true); return isTextFieldClicked(x, y, l) || isMouseOverSelectedList(x, y); }
 
     private void submitText() {
         String typed = getTextField().getText();
         if (typed == null || typed.trim().isEmpty()) return;
-        if (false) getTextField().setText("");
+        if (setting.addEntry(typed)) getTextField().setText("");
         moduleComponent.updateSettingPositions();
         clampSelectedScroll();
     }
 
     private void renderSelectedEntries(Layout layout) {
-        List<String> entries = new java.util.ArrayList<>();
+        List<String> entries = setting.getEntries();
         if (entries.isEmpty()) return;
         float selectedTop = getSelectedTop(layout);
         float selectedHeight = getSelectedVisibleHeight(entries.size());
@@ -126,12 +125,12 @@ public class StringListComponent extends AbstractTextInputComponent {
     }
 
     private boolean handleSelectedEntryClick(int mouseX, int mouseY, Layout layout) {
-        List<String> entries = new java.util.ArrayList<>();
+        List<String> entries = setting.getEntries();
         float offsetPx = selectedScrollAnim.getValue();
         for (int i = 0; i < entries.size(); i++) {
             float rowTop = getSelectedTop(layout) - offsetPx + i * ROW_HEIGHT;
             if (isOverClose(mouseX, mouseY, rowTop, layout.right)) {
-                /* removeEntry disabled */
+                setting.removeEntry(entries.get(i));
                 moduleComponent.updateSettingPositions();
                 clampSelectedScroll();
                 return true;
@@ -140,10 +139,10 @@ public class StringListComponent extends AbstractTextInputComponent {
         return false;
     }
 
-    private void clampSelectedScroll() { int c = new java.util.ArrayList<>().size(); float max = Math.max(0f, (c - MAX_VISIBLE_SELECTED) * ROW_HEIGHT); selectedScrollAnim.clampTarget(0f, max); if (selectedScrollAnim.getValue() > max) selectedScrollAnim.reset(max); }
-    private boolean isMouseOverSelectedList(float mx, float my) { List<String> e = new java.util.ArrayList<>(); if (e.isEmpty()) return false; Layout l = layout(true); float top = getSelectedTop(l); float h = getSelectedVisibleHeight(e.size()); return mx >= l.left && mx <= l.right && my >= top && my < top + h; }
+    private void clampSelectedScroll() { int c = setting.getEntries().size(); float max = Math.max(0f, (c - MAX_VISIBLE_SELECTED) * ROW_HEIGHT); selectedScrollAnim.clampTarget(0f, max); if (selectedScrollAnim.getValue() > max) selectedScrollAnim.reset(max); }
+    private boolean isMouseOverSelectedList(float mx, float my) { List<String> e = setting.getEntries(); if (e.isEmpty()) return false; Layout l = layout(true); float top = getSelectedTop(l); float h = getSelectedVisibleHeight(e.size()); return mx >= l.left && mx <= l.right && my >= top && my < top + h; }
     private float getSelectedTop(Layout l) { return l.contentTop + SELECTED_LIST_GAP; }
     private float getSelectedVisibleHeight(int c) { return Math.min(MAX_VISIBLE_SELECTED, c) * ROW_HEIGHT; }
-    private void renderCloseIcon(float right, float rowTop) { Identifier close = RenderUtils.getIcon(CLOSE_ICON_PATH); if (close == null) return; float cx = right - CLOSE_SIZE - CLOSE_PAD; float cy = rowTop + (LIST_ROW_VISUAL_HEIGHT - CLOSE_SIZE) / 2f; RenderUtils.drawIcon(close, cx, cy, CLOSE_SIZE, Theme.getGradient(Theme.hiddenBind[0], Theme.hiddenBind[1], 0)); }
+    private void renderCloseIcon(float right, float rowTop) { ResourceLocation close = RenderUtils.getIcon(CLOSE_ICON_PATH); if (close == null) return; float cx = right - CLOSE_SIZE - CLOSE_PAD; float cy = rowTop + (LIST_ROW_VISUAL_HEIGHT - CLOSE_SIZE) / 2f; RenderUtils.drawIcon(close, cx, cy, CLOSE_SIZE, Theme.getGradient(Theme.hiddenBind[0], Theme.hiddenBind[1], 0)); }
     private boolean isOverClose(float mx, float my, float rowTop, float right) { float cx = right - CLOSE_SIZE - CLOSE_PAD; float cy = rowTop + (LIST_ROW_VISUAL_HEIGHT - CLOSE_SIZE) / 2f; return mx >= cx && mx <= cx + CLOSE_SIZE && my >= cy && my <= cy + CLOSE_SIZE; }
 }

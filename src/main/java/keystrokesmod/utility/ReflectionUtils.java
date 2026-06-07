@@ -1,9 +1,17 @@
 package keystrokesmod.utility;
 
-// import IMixinItemRenderer removed
+import keystrokesmod.mixin.interfaces.IMixinItemRenderer;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.GuiEnchantment;
+import net.minecraft.client.gui.inventory.GuiBrewingStand;
+import net.minecraft.client.gui.inventory.GuiDispenser;
+import net.minecraft.client.gui.inventory.GuiFurnace;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.inventory.*;
+import net.minecraftforge.client.event.MouseEvent;
+
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import org.lwjgl.input.Mouse;
 
 import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
@@ -14,7 +22,7 @@ public class ReflectionUtils {
     public static Field buttonstate;
     public static Field buttons;
 
-    public static HashMap<Class, Field> containerPlayerInventory = new HashMap<>();
+    public static HashMap<Class, Field> containerInventoryPlayer = new HashMap<>();
 
     private static List<Class> containerClasses = Arrays.asList(GuiFurnace.class, GuiBrewingStand.class, GuiEnchantment.class, ContainerHopper.class, GuiDispenser.class, ContainerWorkbench.class, ContainerMerchant.class, ContainerHorseInventory.class);
 
@@ -41,7 +49,7 @@ public class ReflectionUtils {
     }
 
     public static void setKeyBindings() {
-        for (KeyBinding keyBind : mc.gameSettings.keyBindings) {
+        for (KeyBinding keyBind : MinecraftClient.getInstance().gameSettings.keyBindings) {
             String keyName = keyBind.getKeyDescription().replaceFirst("key\\.", "");
             keybinds.put(keyName, keyBind);
         }
@@ -75,7 +83,7 @@ public class ReflectionUtils {
             return;
         }
         field.setAccessible(true);
-        containerPlayerInventory.put(clazz, field);
+        containerInventoryPlayer.put(clazz, field);
     }
 
     public static boolean setItemInUse(boolean blocking) {

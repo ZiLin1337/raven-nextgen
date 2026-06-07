@@ -1,5 +1,4 @@
 package keystrokesmod.module.impl.render;
-import keystrokesmod.event.AttackEntityEvent;
 
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -8,13 +7,16 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.ArrowEntity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
+
+
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -113,10 +115,10 @@ public class HitParticles extends Module {
         if (!isEnabled() || !onMelee.isToggled() || !Utils.nullCheck()) {
             return;
         }
-        if (event.entityPlayer != mc.player || !(event.target instanceof LivingEntity)) {
+        if (event.entityPlayer != mc.player || !(event.target instanceof EntityLivingBase)) {
             return;
         }
-        LivingEntity target = (LivingEntity) event.target;
+        EntityLivingBase target = (EntityLivingBase) event.target;
         if (target.hurtTime > 5 || target.hurtResistantTime > 0) {
             return;
         }
@@ -125,27 +127,27 @@ public class HitParticles extends Module {
     }
 
     
-    public void onClientTick(Object event) {
+    public void onClientTick(TickEvent.ClientTickEvent event) {
         if (!isEnabled() || !onRanged.isToggled() || event.phase != TickEvent.Phase.END || !Utils.nullCheck()) {
             return;
         }
 
         pruneArrowDedupeMap();
 
-        Box scan = mc.player.getBoundingBox().expand(ARROW_SCAN_EXPAND, ARROW_SCAN_EXPAND, ARROW_SCAN_EXPAND);
+        Box scan = mc.player.getEntityBoundingBox().expand(ARROW_SCAN_EXPAND, ARROW_SCAN_EXPAND, ARROW_SCAN_EXPAND);
         @SuppressWarnings("unchecked")
         List<EntityArrow> arrows = mc.world.getEntitiesWithinAABB(EntityArrow.class, scan);
         for (int i = 0, n = arrows.size(); i < n; i++) {
-            ArrowEntity arrow = arrows.get(i);
+            EntityArrow arrow = arrows.get(i);
             if (arrow.shootingEntity != mc.player) {
                 continue;
             }
-            LivingEntity target = getCollisionEntity(arrow);
+            EntityLivingBase target = getCollisionEntity(arrow);
             if (target == null || target.hurtTime > 0) {
                 continue;
             }
-            int aid = arrow.getId();
-            int tid = target.getId();
+            int aid = arrow.getEntityId();
+            int tid = target.getEntityId();
             Integer prev = rangedSpawnForArrow.get(aid);
             if (prev != null && prev == tid) {
                 continue;
@@ -187,44 +189,44 @@ public class HitParticles extends Module {
             double zOffset = RANDOM.nextFloat() * (offset * 2.0f) - offset;
             if (ignoreDistance || xOffset * xOffset + yOffset * yOffset + zOffset * zOffset <= 1.0) {
                 double x = entity.posX + xOffset * entity.width / 4.0;
-                double y = entity.getBoundingBox().minY + entity.height / 2.0f + yOffset * entity.height / 4.0;
+                double y = entity.getEntityBoundingBox().minY + entity.height / 2.0f + yOffset * entity.height / 4.0;
                 double z = entity.posZ + zOffset * entity.width / 4.0;
                 mc.effectRenderer.spawnEffectParticle(id, x, y, z, xOffset, yOffset, zOffset, args);
             }
         }
     }
 
-    private static LivingEntity getCollisionEntity(ArrowEntity arrow) {
+    private static EntityLivingBase getCollisionEntity(EntityArrow arrow) {
         World world = arrow.worldObj;
-        Vec3d pos = new Vec3d(arrow.posX, arrow.posY, arrow.posZ);
-        Vec3d motionEnd = new Vec3d(arrow.posX + arrow.getVelocity().x, arrow.posY + arrow.getVelocity().y, arrow.posZ + arrow.getVelocity().z);
-        HitResult rayTrace = world.rayTraceBlocks(pos, motionEnd, false, true, false);
-        Vec3d traceEnd = motionEnd;
+        Vec3 pos = new Vec3(arrow.posX, arrow.posY, arrow.posZ);
+        Vec3 motionEnd = new Vec3(arrow.posX + arrow.motionX, arrow.posY + arrow.motionY, arrow.posZ + arrow.motionZ);
+        MovingObjectPosition rayTrace = world.rayTraceBlocks(pos, motionEnd, false, true, false);
+        Vec3 traceEnd = motionEnd;
         if (rayTrace != null) {
             traceEnd = rayTrace.hitVec;
         }
 
-        LivingEntity target = null;
+        EntityLivingBase target = null;
         double closestSq = 0.0;
-        Box search = arrow.getBoundingBox()
-                .addCoord(arrow.getVelocity().x, arrow.getVelocity().y, arrow.getVelocity().z)
+        Box search = arrow.getEntityBoundingBox()
+                .addCoord(arrow.motionX, arrow.motionY, arrow.motionZ)
                 .expand(1.0, 1.0, 1.0);
         @SuppressWarnings("unchecked")
         List<Entity> entities = world.getEntitiesWithinAABBExcludingEntity(arrow, search);
 
         for (Entity entity : entities) {
-            if (!(entity instanceof LivingEntity)) {
+            if (!(entity instanceof EntityLivingBase)) {
                 continue;
             }
-            LivingEntity living = (LivingEntity) entity;
+            EntityLivingBase living = (EntityLivingBase) entity;
             if (!living.canBeCollidedWith()) {
                 continue;
             }
             if (living == arrow.shootingEntity) {
                 continue;
             }
-            Box collisionBox = entity.getBoundingBox().expand(0.3, 0.3, 0.3);
-            HitResult collision = collisionBox.calculateIntercept(pos, traceEnd);
+            Box collisionBox = entity.getEntityBoundingBox().expand(0.3, 0.3, 0.3);
+            MovingObjectPosition collision = collisionBox.calculateIntercept(pos, traceEnd);
             if (collision == null) {
                 continue;
             }

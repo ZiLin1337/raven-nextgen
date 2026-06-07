@@ -1,5 +1,4 @@
 package keystrokesmod.module.impl.client;
-import keystrokesmod.utility.font.RavenFontRenderer;
 
 import keystrokesmod.Raven;
 import keystrokesmod.module.Module;
@@ -19,14 +18,5 @@ public class Gui extends Module {
     public static double getGuiScale() {
         Gui gui = (Gui) keystrokesmod.module.ModuleManager.moduleManager.getModule("Gui");
         return (gui != null && gui.isEnabled()) ? guiScale.getInput() / 100.0 : 1.0;
-    }
-    
-    // Stub methods for ClickGui compatibility
-    public static RavenFontRenderer getClickGuiHeaderFontRenderer() {
-        return new RavenFontRenderer();
-    }
-    
-    public static RavenFontRenderer getClickGuiSettingFontRenderer() {
-        return new RavenFontRenderer();
     }
 }

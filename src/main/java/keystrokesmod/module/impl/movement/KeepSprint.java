@@ -2,7 +2,6 @@ package keystrokesmod.module.impl.movement;
 
 import keystrokesmod.Raven;
 import keystrokesmod.event.PreMotionEvent;
-import keystrokesmod.module.impl.combat.KillAura;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.Utils;
@@ -18,7 +17,7 @@ public class KeepSprint extends Module {
 
     @EventHandler
     public void onPreMotion(PreMotionEvent e) {
-        if (mc.player != null && false /* KillAura.target not available */ && mc.player.hurtTime > 0) {
+        if (mc.player != null && KillAura.target != null && mc.player.hurtTime > 0) {
             mc.player.setVelocity(mc.player.getVelocity().x * motion.getInput(), mc.player.getVelocity().y, mc.player.getVelocity().z * motion.getInput());
         }
     }

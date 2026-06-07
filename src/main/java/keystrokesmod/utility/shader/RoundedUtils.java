@@ -1,8 +1,9 @@
 package keystrokesmod.utility.shader;
 
 import keystrokesmod.utility.RenderUtils;
-import net.minecraft.client.MinecraftClient;
-import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 
@@ -16,6 +17,7 @@ public class RoundedUtils {
     private static final ShaderUtils roundedTexturedShader = new ShaderUtils("roundRectTexture");
     private static final ShaderUtils roundedGradientShader = new ShaderUtils("roundedRectGradient");
     private static final ShaderUtils roundedRectRiseShader = new ShaderUtils("roundedRectRise");
+
 
     public static void drawRound(float x, float y, float width, float height, float radius, Color color) {
         drawRound(x, y, width, height, radius, false, color);
@@ -112,6 +114,7 @@ public class RoundedUtils {
         GlStateManager.disableBlend();
     }
 
+
     public static void drawRoundOutline(float x, float y, float width, float height, float radius, float outlineThickness, Color color, Color outlineColor) {
         RenderUtils.resetColor();
         GlStateManager.enableBlend();
@@ -119,15 +122,19 @@ public class RoundedUtils {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         RenderUtils.setAlphaLimit(0);
         roundedOutlineShader.init();
-setupRoundedRectUniforms(x, y, width, height, radius, roundedOutlineShader);
-        roundedOutlineShader.setUniformf("outlineThickness", outlineThickness * mc.getWindow().getScaleFactor());
+
+        ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+        setupRoundedRectUniforms(x, y, width, height, radius, roundedOutlineShader);
+        roundedOutlineShader.setUniformf("outlineThickness", outlineThickness * sr.getScaleFactor());
         roundedOutlineShader.setUniformf("color", color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
         roundedOutlineShader.setUniformf("outlineColor", outlineColor.getRed() / 255f, outlineColor.getGreen() / 255f, outlineColor.getBlue() / 255f, outlineColor.getAlpha() / 255f);
+
 
         ShaderUtils.drawQuads(x - (2 + outlineThickness), y - (2 + outlineThickness), width + (4 + outlineThickness * 2), height + (4 + outlineThickness * 2));
         roundedOutlineShader.unload();
         GlStateManager.disableBlend();
     }
+
 
     public static void drawRoundTextured(float x, float y, float width, float height, float radius, float alpha) {
         RenderUtils.resetColor();
@@ -144,10 +151,11 @@ setupRoundedRectUniforms(x, y, width, height, radius, roundedOutlineShader);
     }
 
     private static void setupRoundedRectUniforms(float x, float y, float width, float height, float radius, ShaderUtils roundedTexturedShader) {
-roundedTexturedShader.setUniformf("location", x * mc.getWindow().getScaleFactor(),
-                (mc.displayHeight - (height * mc.getWindow().getScaleFactor())) - (y * mc.getWindow().getScaleFactor()));
-        roundedTexturedShader.setUniformf("rectSize", width * mc.getWindow().getScaleFactor(), height * mc.getWindow().getScaleFactor());
-        roundedTexturedShader.setUniformf("radius", radius * mc.getWindow().getScaleFactor());
+        ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+        roundedTexturedShader.setUniformf("location", x * sr.getScaleFactor(),
+                (Minecraft.getMinecraft().displayHeight - (height * sr.getScaleFactor())) - (y * sr.getScaleFactor()));
+        roundedTexturedShader.setUniformf("rectSize", width * sr.getScaleFactor(), height * sr.getScaleFactor());
+        roundedTexturedShader.setUniformf("radius", radius * sr.getScaleFactor());
     }
 
     public static void drawRoundedRectRise(final float x, final float y, final float width, final float height, final float radius, final int color, boolean leftTop, boolean rightTop, boolean rightBottom, boolean leftBottom) {

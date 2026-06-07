@@ -6,7 +6,7 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.Utils;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.render.GameRenderer;
-
+import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexFormat;
 import net.minecraft.client.render.VertexFormats;
@@ -46,7 +46,7 @@ public class TNTTimer extends Module {
         if (!Utils.nullCheck() || trackedTntCount == 0) return;
 
         Vec3d camPos = mc.gameRenderer.getCamera().getPos();
-        TextRenderer fr = MinecraftClient.getInstance().textRenderer;
+        TextRenderer fr = mc.textRenderer;
 
         for (int i = 0; i < trackedTntCount; i++) {
             TntEntity tnt = trackedTnt.get(i);

@@ -12,7 +12,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
 import java.awt.Color;
 
-public class PlayerHUD extends Module {
+public class HUD extends Module {
     private static final MinecraftClient mc = MinecraftClient.getInstance();
     private static final String[] COLOR_MODES = {"Static", "Gradient", "Rainbow"};
     private static final String[] OUTLINE_MODES = {"None", "Full", "Side"};
@@ -32,7 +32,7 @@ public class PlayerHUD extends Module {
     public static float posX = 5.0f;
     public static float posY = 70.0f;
 
-    public PlayerHUD() {
+    public HUD() {
         super("HUD", Module.category.render);
         this.registerSetting(colorMode = new SliderSetting("Color mode", 0, COLOR_MODES));
         this.registerSetting(hudColor = new ColorSetting("Color", 255, 255, 255));
@@ -68,7 +68,7 @@ public class PlayerHUD extends Module {
             if (!module.isEnabled() || module.isHidden() || shouldSkipModule(module, removeVelocity)) continue;
 
             String name = getHudRenderText(module);
-            int width = MinecraftClient.getInstance().textRenderer.getWidth(name);
+            int width = mc.textRenderer.getWidth(name);
             float x = alignRight.isToggled() ? posX - width : posX;
 
             int color = getHudColor((int) (yPos * 2));
@@ -83,7 +83,7 @@ public class PlayerHUD extends Module {
                 }
             }
 
-            context.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, name, (int) x, (int) yPos, color);
+            context.drawTextWithShadow(mc.textRenderer, name, (int) x, (int) yPos, color);
             yPos += 11;
         }
     }
@@ -97,7 +97,7 @@ public class PlayerHUD extends Module {
         int length = 0;
         for (Module module : ModuleManager.organizedModules) {
             if (module.isEnabled() && !module.isHidden()) {
-                length = Math.max(length, MinecraftClient.getInstance().textRenderer.getWidth(getHudRenderText(module)));
+                length = Math.max(length, mc.textRenderer.getWidth(getHudRenderText(module)));
             }
         }
         return length;

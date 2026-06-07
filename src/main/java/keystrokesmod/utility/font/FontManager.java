@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
 public final class FontManager {
-    private static final String MINECRAFT = "MinecraftClient";
+    private static final String MINECRAFT = "Minecraft";
     private static final String RESOURCE_ROOT = "/assets/keystrokesmod/fonts/";
     /** Large enough that HUD font-size drags + clickgui + nametags do not evict active renderers every frame. */
     private static final int MAX_CACHED_RENDERERS = 512;
@@ -133,10 +133,10 @@ public final class FontManager {
 
     private static RavenFontRenderer getMinecraftRenderer(float fontSize) {
         MinecraftClient mc = MinecraftClient.getInstance();
-        float vanillaHeight = Math.max(1.0f, MinecraftClient.getInstance().textRenderer.fontHeight);
+        float vanillaHeight = Math.max(1.0f, mc.textRenderer.fontHeight);
         float scale = Math.max(0.5f, Math.min(2.0f, fontSize / vanillaHeight));
         String key = MINECRAFT + "#" + quantizeForCacheKey(scale);
-        return getCachedRenderer(key, () -> new MinecraftFontAdapter(MinecraftClient.getInstance().textRenderer));
+        return getCachedRenderer(key, () -> new MinecraftFontAdapter(mc.textRenderer));
     }
 
     public static boolean isMinecraftFont(String family) {
@@ -185,7 +185,7 @@ public final class FontManager {
 
     private static int getUiScale() {
         try {
-            return Math.max(1, mc.options.getGuiScale().getValue());
+            return Math.max(1, MinecraftClient.getInstance().options.getGuiScale().getValue());
         }
         catch (Exception ignored) {
             return 1;

@@ -9,16 +9,20 @@ import keystrokesmod.utility.Utils;
 import keystrokesmod.utility.font.FontManager;
 import keystrokesmod.utility.font.RavenFontRenderer;
 
+import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.BufferBuilder;
 
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 
+import net.minecraft.entity.DataWatcher;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityArmorStand;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.play.server.S1CPacketEntityMetadata;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+
 
 import org.lwjgl.opengl.GL11;
 
@@ -174,11 +178,11 @@ public class DamageTags extends Module {
             return;
         }
 
-        pendingUpdates.offer(new QueuedMetadataUpdate(packet.getId(), hasHealth, health, hasAbsorption, absorption));
+        pendingUpdates.offer(new QueuedMetadataUpdate(packet.getEntityId(), hasHealth, health, hasAbsorption, absorption));
     }
 
     
-    public void onRenderWorldLast(Object e) {
+    public void onRenderWorldLast(RenderWorldLastEvent e) {
         if (!Utils.nullCheck()) {
             return;
         }
@@ -197,8 +201,8 @@ public class DamageTags extends Module {
             return;
         }
 
-        RavenFontRenderer fontRenderer = getDamageTagFontRenderer();
-        Object renderManager = mc.getEntityRenderDispatcher();
+        RavenTextRenderer fontRenderer = getDamageTagFontRenderer();
+        EntityRenderDispatcher renderManager = mc.getEntityRenderDispatcher();
         if (fontRenderer == null || renderManager == null) {
             return;
         }
@@ -242,12 +246,12 @@ public class DamageTags extends Module {
         QueuedMetadataUpdate update;
         while ((update = pendingUpdates.poll()) != null) {
             Entity entity = mc.world.getEntityByID(update.entityId);
-            if (!(entity instanceof LivingEntity) || entity instanceof ArmorStandEntity || entity == mc.player) {
+            if (!(entity instanceof EntityLivingBase) || entity instanceof EntityArmorStand || entity == mc.player) {
                 trackedStates.remove(update.entityId);
                 continue;
             }
 
-            LivingEntity living = (LivingEntity) entity;
+            EntityLivingBase living = (EntityLivingBase) entity;
             HealthSnapshot previous = trackedStates.get(update.entityId);
 
             float newHealth = update.hasHealth ? update.health : getHealth(living);
@@ -278,18 +282,18 @@ public class DamageTags extends Module {
 
         trackedStates.entrySet().removeIf(entry -> {
             Entity entity = mc.world.getEntityByID(entry.getKey());
-            return !(entity instanceof LivingEntity) || entity instanceof ArmorStandEntity || entity == mc.player;
+            return !(entity instanceof EntityLivingBase) || entity instanceof EntityArmorStand || entity == mc.player;
         });
 
-        List<Entity> loaded = mc.world.world.getEntities();
+        List<Entity> loaded = mc.world.loadedEntityList;
         for (int i = 0, n = loaded.size(); i < n; i++) {
             Entity entity = loaded.get(i);
-            if (!(entity instanceof LivingEntity) || entity instanceof ArmorStandEntity || entity == mc.player) {
+            if (!(entity instanceof EntityLivingBase) || entity instanceof EntityArmorStand || entity == mc.player) {
                 continue;
             }
 
-            LivingEntity living = (LivingEntity) entity;
-            trackedStates.put(entity.getId(), new HealthSnapshot(getHealth(living), getAbsorption(living)));
+            EntityLivingBase living = (EntityLivingBase) entity;
+            trackedStates.put(entity.getEntityId(), new HealthSnapshot(getHealth(living), getAbsorption(living)));
         }
     }
 
@@ -303,7 +307,7 @@ public class DamageTags extends Module {
         }
     }
 
-    private void spawnTag(LivingEntity living, float delta, float partialTicks, long nowMillis) {
+    private void spawnTag(EntityLivingBase living, float delta, float partialTicks, long nowMillis) {
         double x = interpolate(living.lastTickPosX, living.posX, partialTicks);
         double y = interpolate(living.lastTickPosY, living.posY, partialTicks) + living.height + 0.5D;
         double z = interpolate(living.lastTickPosZ, living.posZ, partialTicks);
@@ -321,7 +325,7 @@ public class DamageTags extends Module {
         }
     }
 
-    private void renderTag(DamageTag tag, long now, Object renderManager, RavenFontRenderer fontRenderer,
+    private void renderTag(DamageTag tag, long now, EntityRenderDispatcher renderManager, RavenTextRenderer fontRenderer,
                            double viewerX, double viewerY, double viewerZ,
                            int depthOrdinal, float scaleMul,
                            boolean bgEnabled, float bgOpacitySlider) {
@@ -346,7 +350,7 @@ public class DamageTags extends Module {
         RenderSystem.translate((float) x, (float) y, (float) z);
         GL11.glNormal3f(0.0F, 1.0F, 0.0F);
         RenderSystem.rotate(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-        RenderSystem.rotate(renderManager.playerViewX * (mc.options.getPerspective().ordinal() == 2 ? -1 : 1), 1.0F, 0.0F, 0.0F);
+        RenderSystem.rotate(renderManager.playerViewX * (mc.gameSettings.thirdPersonView == 2 ? -1 : 1), 1.0F, 0.0F, 0.0F);
         RenderSystem.scale(-renderScale, -renderScale, renderScale);
 
         RenderSystem.disableLighting();
@@ -374,7 +378,7 @@ public class DamageTags extends Module {
         RenderSystem.popMatrix();
     }
 
-    private void renderVanillaDepthTag(RavenFontRenderer fontRenderer, DamageTag tag, int halfWidth, float alpha,
+    private void renderVanillaDepthTag(RavenTextRenderer fontRenderer, DamageTag tag, int halfWidth, float alpha,
                                        boolean bgEnabled, float bgOpacitySlider) {
         RenderSystem.depthMask(false);
         RenderSystem.disableDepth();
@@ -385,7 +389,7 @@ public class DamageTags extends Module {
         fontRenderer.drawString(tag.text, -halfWidth, 0, applyFontAlpha(tag.color, alpha), textShadow.isToggled());
     }
 
-    private void renderVisibleTag(RavenFontRenderer fontRenderer, DamageTag tag, int halfWidth, float alpha,
+    private void renderVisibleTag(RavenTextRenderer fontRenderer, DamageTag tag, int halfWidth, float alpha,
                                   boolean bgEnabled, float bgOpacitySlider) {
         RenderSystem.depthMask(false);
         RenderSystem.enableDepth();
@@ -393,7 +397,7 @@ public class DamageTags extends Module {
         fontRenderer.drawString(tag.text, -halfWidth, 0, applyFontAlpha(tag.color, alpha), textShadow.isToggled());
     }
 
-    private void renderThroughWallsTag(RavenFontRenderer fontRenderer, DamageTag tag, int halfWidth, float alpha,
+    private void renderThroughWallsTag(RavenTextRenderer fontRenderer, DamageTag tag, int halfWidth, float alpha,
                                        boolean bgEnabled, float bgOpacitySlider) {
         RenderSystem.depthMask(false);
         RenderSystem.disableDepth();
@@ -452,13 +456,13 @@ public class DamageTags extends Module {
         return overlaps * 0.15D;
     }
 
-    private float getHealth(LivingEntity living) {
+    private float getHealth(EntityLivingBase living) {
         return Math.max(0.0F, living.getHealth());
     }
 
-    private float getAbsorption(LivingEntity living) {
-        if (living instanceof PlayerEntity) {
-            return Math.max(0.0F, ((PlayerEntity) living).getAbsorptionAmount());
+    private float getAbsorption(EntityLivingBase living) {
+        if (living instanceof EntityPlayer) {
+            return Math.max(0.0F, ((EntityPlayer) living).getAbsorptionAmount());
         }
         return 0.0F;
     }

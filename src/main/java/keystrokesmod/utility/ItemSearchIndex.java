@@ -1,18 +1,19 @@
 package keystrokesmod.utility;
 
 import keystrokesmod.module.setting.impl.ItemListSetting;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.AxeItem;
-import net.minecraft.item.BowItem;
-import net.minecraft.item.HoeItem;
-import net.minecraft.item.PickaxeItem;
-import net.minecraft.item.ShearsItem;
-import net.minecraft.item.ShovelItem;
+import net.minecraft.item.ItemAxe;
+import net.minecraft.item.ItemBow;
+import net.minecraft.item.ItemHoe;
+import net.minecraft.item.ItemPickaxe;
+import net.minecraft.item.ItemShears;
+import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.SwordItem;
-import net.minecraft.util.Identifier;
+import net.minecraft.item.ItemSword;
+import net.minecraft.item.ItemTool;
+import net.minecraft.util.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,7 +38,7 @@ public final class ItemSearchIndex {
         private final ItemStack previewStack;
 
         ItemEntry(Item item, int meta, String displayName, String storageId) {
-            this(item, meta, displayName, storageId, item != null ? new ItemStack(item, 1) : null);
+            this(item, meta, displayName, storageId, item != null ? new ItemStack(item, 1, meta) : null);
         }
 
         ItemEntry(Item item, int meta, String displayName, String storageId, ItemStack previewStack) {
@@ -110,49 +111,49 @@ public final class ItemSearchIndex {
         SWORD("@category:sword", "Sword", new ItemStack(Items.DIAMOND_SWORD)) {
             @Override
             boolean matches(ItemStack stack) {
-                return stack != null && stack.getItem() instanceof SwordItem;
+                return stack != null && stack.getItem() instanceof ItemSword;
             }
         },
-        BOW("@category:bow", "Bow", new ItemStack(Items.BOW)) {
+        BOW("@category:bow", "Bow", new ItemStack(Items.bow)) {
             @Override
             boolean matches(ItemStack stack) {
-                return stack != null && stack.getItem() instanceof BowItem;
+                return stack != null && stack.getItem() instanceof ItemBow;
             }
         },
-        TOOL("@category:tool", "Tool", new ItemStack(Items.DIAMOND_PICKAXE)) {
+        TOOL("@category:tool", "Tool", new ItemStack(Items.diamond_pickaxe)) {
             @Override
             boolean matches(ItemStack stack) {
                 return stack != null && isToolLike(stack.getItem());
             }
         },
-        AXE("@category:axe", "Axe", new ItemStack(Items.DIAMOND_AXE)) {
+        AXE("@category:axe", "Axe", new ItemStack(Items.diamond_axe)) {
             @Override
             boolean matches(ItemStack stack) {
-                return stack != null && stack.getItem() instanceof AxeItem;
+                return stack != null && stack.getItem() instanceof ItemAxe;
             }
         },
-        PICKAXE("@category:pickaxe", "Pickaxe", new ItemStack(Items.DIAMOND_PICKAXE)) {
+        PICKAXE("@category:pickaxe", "Pickaxe", new ItemStack(Items.diamond_pickaxe)) {
             @Override
             boolean matches(ItemStack stack) {
-                return stack != null && stack.getItem() instanceof PickaxeItem;
+                return stack != null && stack.getItem() instanceof ItemPickaxe;
             }
         },
-        SHOVEL("@category:shovel", "Shovel", new ItemStack(Items.DIAMOND_SHOVEL)) {
+        SHOVEL("@category:shovel", "Shovel", new ItemStack(Items.diamond_shovel)) {
             @Override
             boolean matches(ItemStack stack) {
-                return stack != null && stack.getItem() instanceof ShovelItem;
+                return stack != null && stack.getItem() instanceof ItemSpade;
             }
         },
-        HOE("@category:hoe", "Hoe", new ItemStack(Items.DIAMOND_HOE)) {
+        HOE("@category:hoe", "Hoe", new ItemStack(Items.diamond_hoe)) {
             @Override
             boolean matches(ItemStack stack) {
-                return stack != null && stack.getItem() instanceof HoeItem;
+                return stack != null && stack.getItem() instanceof ItemHoe;
             }
         },
-        SHEARS("@category:shears", "Shears", new ItemStack(Items.SHEARS)) {
+        SHEARS("@category:shears", "Shears", new ItemStack(Items.shears)) {
             @Override
             boolean matches(ItemStack stack) {
-                return stack != null && stack.getItem() instanceof ShearsItem;
+                return stack != null && stack.getItem() instanceof ItemShears;
             }
         };
 
@@ -320,17 +321,17 @@ public final class ItemSearchIndex {
         }
 
         if (shouldStoreMeta(stack.getItem())) {
-            int meta = 0; /* .getMetadata() removed */
+            int meta = stack.getMetadata();
             return meta != 0 ? registryId + ":" + meta : registryId;
         }
         return registryId;
     }
 
     public static String getRegistryId(Item item) {
-        if (item == null || net.minecraft.registry.Registries.ITEM.getKey(item) == null) {
+        if (item == null || Item.itemRegistry.getNameForObject(item) == null) {
             return null;
         }
-        return net.minecraft.registry.Registries.ITEM.getKey(item).toString();
+        return Item.itemRegistry.getNameForObject(item).toString();
     }
 
     public static boolean hasMultipleVariants(Item item) {
@@ -495,7 +496,7 @@ public final class ItemSearchIndex {
             return null;
         }
 
-        return new ItemStack(item, 1);
+        return new ItemStack(item, 1, getMetaFromStorageId(storageId));
     }
 
     public static String getDisplayName(String storageId) {
@@ -511,7 +512,7 @@ public final class ItemSearchIndex {
         }
 
         ItemStack stack = getItemStack(storageId);
-        return stack != null ? stack.getName().getString() : storageId;
+        return stack != null ? stack.getDisplayName() : storageId;
     }
 
     private static void ensureItemList() {
@@ -522,7 +523,7 @@ public final class ItemSearchIndex {
         List<ItemEntry> regularEntries = new ArrayList<ItemEntry>();
         Map<String, List<ItemEntry>> variantMap = new HashMap<String, List<ItemEntry>>();
 
-        for (Object obj : net.minecraft.registry.Registries.ITEM) {
+        for (Object obj : Item.itemRegistry) {
             Item item = (Item) obj;
             String registryId = getRegistryId(item);
             if (registryId == null) {
@@ -532,7 +533,7 @@ public final class ItemSearchIndex {
             List<ItemStack> subItems = new ArrayList<ItemStack>();
             collectSubItems(item, subItems);
             if (subItems.isEmpty()) {
-                subItems.add(new ItemStack(item, 1));
+                subItems.add(new ItemStack(item, 1, 0));
             }
 
             Map<String, ItemEntry> dedupedEntries = new LinkedHashMap<String, ItemEntry>();
@@ -546,12 +547,12 @@ public final class ItemSearchIndex {
                     continue;
                 }
 
-                String displayName = stack.getName().getString();
+                String displayName = stack.getDisplayName();
                 if (displayName == null || displayName.isEmpty()) {
                     continue;
                 }
 
-                int meta = 0; /* .getMetadata() removed */
+                int meta = shouldStoreMeta(item) ? stack.getMetadata() : 0;
                 dedupedEntries.put(storageId, new ItemEntry(item, meta, displayName, storageId, stack));
             }
 
@@ -627,7 +628,7 @@ public final class ItemSearchIndex {
 
     private static void collectSubItems(Item item, List<ItemStack> subItems) {
         try {
-            item.getSubItems(item, ItemGroup.SEARCH, subItems);
+            item.getSubItems(item, CreativeTabs.tabAllSearch, subItems);
         }
         catch (Exception ignored) {
         }
@@ -636,13 +637,13 @@ public final class ItemSearchIndex {
             return;
         }
 
-        ItemGroup creativeTab = null /* getGroup disabled */;
+        CreativeTabs creativeTab = item.getCreativeTab();
         if (creativeTab == null) {
             return;
         }
 
         try {
-            // getSubItems disabled;
+            item.getSubItems(item, creativeTab, subItems);
         }
         catch (Exception ignored) {
         }
@@ -667,7 +668,7 @@ public final class ItemSearchIndex {
 
     private static Item getItemForName(String registryId) {
         try {
-            return (Item) net.minecraft.registry.Registries.ITEM.get(Identifier.of(registryId));
+            return (Item) Item.itemRegistry.getObject(new ResourceLocation(registryId));
         }
         catch (Exception ignored) {
             return null;
@@ -675,10 +676,10 @@ public final class ItemSearchIndex {
     }
 
     private static boolean shouldStoreMeta(Item item) {
-        return item != null && item.getMaxCount() == 1 && false;
+        return item != null && item.getHasSubtypes() && !item.isDamageable();
     }
 
     private static boolean isToolLike(Item item) {
-        return false /* ToolItem disabled */ || item instanceof HoeItem || item instanceof ShearsItem;
+        return item instanceof ItemTool || item instanceof ItemHoe || item instanceof ItemShears;
     }
 }

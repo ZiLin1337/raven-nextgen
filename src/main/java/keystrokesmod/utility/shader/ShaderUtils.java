@@ -1,8 +1,9 @@
 package keystrokesmod.utility.shader;
 
 import keystrokesmod.utility.Utils;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL20;
 
 import java.io.ByteArrayInputStream;
@@ -16,7 +17,7 @@ import static org.lwjgl.opengl.GL20.*;
 
 public class ShaderUtils {
 
-    private MinecraftClient mc = MinecraftClient.getInstance();
+    private Minecraft mc = Minecraft.getMinecraft();
     public final int programID;
     private final Map<String, Integer> uniformLocations = new HashMap<String, Integer>();
     private final String kawaseUpGlow = "#version 120\n" +
@@ -396,12 +397,12 @@ public class ShaderUtils {
                     fragmentShaderID = createShader(new ByteArrayInputStream(roundedRectRise.getBytes()), GL_FRAGMENT_SHADER);
                     break;
                 default:
-                    fragmentShaderID = createShader(mc.getResourceManager().getResource(new Identifier(fragmentShaderLoc)).getInputStream(), GL_FRAGMENT_SHADER);
+                    fragmentShaderID = createShader(mc.getResourceManager().getResource(new ResourceLocation(fragmentShaderLoc)).getInputStream(), GL_FRAGMENT_SHADER);
                     break;
             }
             glAttachShader(program, fragmentShaderID);
 
-            int vertexShaderID = createShader(mc.getResourceManager().getResource(new Identifier(vertexShaderLoc)).getInputStream(), GL_VERTEX_SHADER);
+            int vertexShaderID = createShader(mc.getResourceManager().getResource(new ResourceLocation(vertexShaderLoc)).getInputStream(), GL_VERTEX_SHADER);
             glAttachShader(program, vertexShaderID);
         }
         catch (IOException e) {
@@ -422,7 +423,8 @@ public class ShaderUtils {
     }
 
     public static void drawQuads() {
-float width = (float) sr.getScaledWidth_double();
+        ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+        float width = (float) sr.getScaledWidth_double();
         float height = (float) sr.getScaledHeight_double();
         glBegin(GL_QUADS);
         glTexCoord2f(0, 1);

@@ -1,16 +1,20 @@
 package keystrokesmod.utility;
 
-import net.minecraft.client.render.VertexConsumer;
 import keystrokesmod.clickgui.ClickGui;
 import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
 import keystrokesmod.module.impl.player.Freecam;
 
+import net.minecraft.block.BlockStairs;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 
-import net.minecraft.client.render.*;
+import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.culling.Frustum;
 
+import net.minecraft.client.resources.model.IBakedModel;
+import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,15 +22,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.Vec3;
 import org.lwjgl.BufferUtils;
-
+import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.glu.GLU;
 
 import keystrokesmod.Raven;
 import keystrokesmod.utility.StairsUtils;
-
-import net.minecraft.util.Identifier;
+import net.minecraft.client.renderer.texture.DynamicTexture;
+import net.minecraft.util.ResourceLocation;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -123,7 +128,9 @@ public class RenderUtils implements IMinecraftInstance {
         y *= guiScale;
         width *= guiScale;
         height *= guiScale;
-int scale = mc.getWindow().getScaleFactor();
+
+        ScaledResolution sr = new ScaledResolution(mc);
+        int scale = sr.getScaleFactor();
         double screenH = sr.getScaledHeight();
 
         int left = (int) Math.floor(x * scale);
@@ -153,7 +160,9 @@ int scale = mc.getWindow().getScaleFactor();
         y *= guiScale;
         width *= guiScale;
         height *= guiScale;
-int scale = mc.getWindow().getScaleFactor();
+
+        ScaledResolution sr = new ScaledResolution(mc);
+        int scale = sr.getScaleFactor();
         double screenH = sr.getScaledHeight();
         int left = (int) Math.floor(x * scale);
         int right = (int) Math.ceil((x + width) * scale);
@@ -196,12 +205,12 @@ int scale = mc.getWindow().getScaleFactor();
 
     public static boolean isInViewFrustum(final Entity entity) {
         if (entity == null) return false;
-        return isInViewFrustum(entity.getBoundingBox()) || entity.ignoreFrustumCheck;
+        return isInViewFrustum(entity.getEntityBoundingBox()) || entity.ignoreFrustumCheck;
     }
 
     public static boolean isInViewFrustum(final Box bb) {
         if (bb == null) return false;
-        Entity view = mc.getCameraEntity();
+        Entity view = mc.getRenderViewEntity();
         if (view == null) return true;
         frustum.setPosition(view.posX, view.posY, view.posZ);
         return frustum.isBoundingBoxInFrustum(bb);
@@ -209,14 +218,14 @@ int scale = mc.getWindow().getScaleFactor();
 
     public static boolean isWithinDistanceSqToRenderView(final Entity entity, final double maxDistSq) {
         if (entity == null) return false;
-        Entity view = mc.getCameraEntity();
+        Entity view = mc.getRenderViewEntity();
         if (view == null) return false;
         return entity.getDistanceSqToEntity(view) <= maxDistSq;
     }
 
     public static boolean isBlockPosWithinDistanceSqToView(final BlockPos pos, final double maxDistSq) {
         if (pos == null) return false;
-        Entity view = mc.getCameraEntity();
+        Entity view = mc.getRenderViewEntity();
         if (view == null) return false;
         double dx = pos.getX() + 0.5 - view.posX;
         double dy = pos.getY() + 0.5 - view.posY;
@@ -248,12 +257,12 @@ int scale = mc.getWindow().getScaleFactor();
         RenderSystem.popMatrix();
     }
 
-    public static void drawPlayerBoundingBox(Vec3d pos, int color) {
+    public static void drawPlayerBoundingBox(Vec3 pos, int color) {
         RenderSystem.pushMatrix();
-        double x = pos.x - mc.getEntityRenderDispatcher().viewerPosX;
-        double y = pos.y - mc.getEntityRenderDispatcher().viewerPosY;
-        double z = pos.z - mc.getEntityRenderDispatcher().viewerPosZ;
-        Box bbox = mc.player.getBoundingBox().expand(0.1D, 0.1, 0.1);
+        double x = pos.xCoord - mc.getEntityRenderDispatcher().viewerPosX;
+        double y = pos.yCoord - mc.getEntityRenderDispatcher().viewerPosY;
+        double z = pos.zCoord - mc.getEntityRenderDispatcher().viewerPosZ;
+        Box bbox = mc.player.getEntityBoundingBox().expand(0.1D, 0.1, 0.1);
         Box axis = new Box(bbox.minX - mc.player.getX() + x, bbox.minY - mc.player.getY() + y, bbox.minZ - mc.player.getZ() + z, bbox.maxX - mc.player.getX() + x, bbox.maxY - mc.player.getY() + y, bbox.maxZ - mc.player.getZ() + z);
         float a = (float) (color >> 24 & 255) / 255.0F;
         float r = (float) (color >> 16 & 255) / 255.0F;
@@ -529,7 +538,7 @@ int scale = mc.getWindow().getScaleFactor();
         GL11.glDisable(2929);
         GL11.glDepthMask(false);
 
-        if (state.getBlock() instanceof StairsBlock) {
+        if (state.getBlock() instanceof BlockStairs) {
             StairsUtils.drawStairs(pos, state, box, null, vx, vy, vz, overlayColor, outlineColor, outlineColor, outlineColor, shade, outline, (b, face, os, oe, ls, le, ov, ol) -> drawBoxFace(b, face, overlayColor, outlineColor, ov, ol));
         } else {
             Box renderBox = box.offset(-vx, -vy, -vz);
@@ -546,7 +555,8 @@ int scale = mc.getWindow().getScaleFactor();
     }
 
     public static void renderBPS(final boolean b, final boolean b2) {
-String s = "";
+        final ScaledResolution scaledResolution = new ScaledResolution(mc);
+        String s = "";
         int n = -1;
         if (b) {
             final double t = Utils.gbps((Freecam.freeEntity == null) ? mc.player : Freecam.freeEntity, 2);
@@ -574,7 +584,7 @@ String s = "";
             }
             s += Utils.round(h, 3);
         }
-        MinecraftClient.getInstance().textRenderer.drawString(s, (float)(scaledResolution.getScaledWidth() / 2 - MinecraftClient.getInstance().textRenderer.getStringWidth(s) / 2), (float)(scaledResolution.getScaledHeight() / 2 + 15), n, false);
+        mc.textRenderer.drawString(s, (float)(scaledResolution.getScaledWidth() / 2 - mc.textRenderer.getStringWidth(s) / 2), (float)(scaledResolution.getScaledHeight() / 2 + 15), n, false);
     }
 
     public static void renderEntity(Entity e, int type, double expand, double shift, int color, boolean damage) {
@@ -645,7 +655,7 @@ String s = "";
                     float r = (float) (color >> 16 & 255) / 255.0F;
                     float g = (float) (color >> 8 & 255) / 255.0F;
                     float b = (float) (color & 255) / 255.0F;
-                    Box bbox = e.getBoundingBox().expand(0.1D + expand, 0.1D + expand, 0.1D + expand);
+                    Box bbox = e.getEntityBoundingBox().expand(0.1D + expand, 0.1D + expand, 0.1D + expand);
                     Box axis = new Box(bbox.minX - e.posX + x, bbox.minY - e.posY + y, bbox.minZ - e.posZ + z, bbox.maxX - e.posX + x, bbox.maxY - e.posY + y, bbox.maxZ - e.posZ + z);
                     GL11.glBlendFunc(770, 771);
                     glEnable(3042);
@@ -810,7 +820,7 @@ String s = "";
         RenderSystem.popMatrix();
     }
 
-    private static void renderModelColoredQuads(Object model, float r, float g, float b, float a) {
+    private static void renderModelColoredQuads(IBakedModel model, float r, float g, float b, float a) {
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer wr = tessellator.getWorldRenderer();
         for (Direction face : Direction.values()) {
@@ -823,7 +833,7 @@ String s = "";
         }
     }
 
-    private static void drawColoredQuad(Object wr, Object quad, float r, float g, float b, float a, Tessellator tessellator) {
+    private static void drawColoredQuad(WorldRenderer wr, BakedQuad quad, float r, float g, float b, float a, Tessellator tessellator) {
         int[] vertexData = quad.getVertexData();
         final int vertexCount = 4;
         final int intsPerVertex = vertexData.length / vertexCount;
@@ -845,7 +855,7 @@ String s = "";
             return;
         }
 
-        Entity viewEntity = mc.getCameraEntity();
+        Entity viewEntity = mc.getRenderViewEntity();
         if (viewEntity == null) {
             viewEntity = mc.player;
         }
@@ -861,9 +871,9 @@ String s = "";
         double startX = 0.0D;
         double startY = viewEntity.getEyeHeight();
         double startZ = 0.0D;
-        if (viewEntity == mc.player && mc.options.getPerspective().ordinal() == 0) {
-            float yaw = viewEntity.getYaw();
-            float pitch = viewEntity.getPitch();
+        if (viewEntity == mc.player && mc.gameSettings.thirdPersonView == 0) {
+            float yaw = viewEntity.rotationYaw;
+            float pitch = viewEntity.rotationPitch;
             double dirX = -Math.sin(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch));
             double dirY = -Math.sin(Math.toRadians(pitch));
             double dirZ = Math.cos(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch));
@@ -975,7 +985,7 @@ String s = "";
         float r = (float) (color >> 16 & 255) / 255.0F;
         float g = (float) (color >> 8 & 255) / 255.0F;
         float b = (float) (color & 255) / 255.0F;
-        mc.gameRenderer.disableLightmap();
+        mc.entityRenderer.disableLightmap();
         GL11.glDisable(3553);
         glEnable(3042);
         GL11.glBlendFunc(770, 771);
@@ -1020,7 +1030,7 @@ String s = "";
         glEnable(2929);
         GL11.glDisable(3042);
         glEnable(3553);
-        mc.gameRenderer.enableLightmap();
+        mc.entityRenderer.enableLightmap();
     }
 
     public static void drawCaret(float x, float y, int color, double width, double length) {
@@ -1173,27 +1183,28 @@ String s = "";
         RenderSystem.disableBlend();
     }
 
-    public static net.minecraft.client.gl.Framebuffer createFrameBuffer(net.minecraft.client.gl.Framebuffer framebuffer) {
+    public static Framebuffer createFrameBuffer(Framebuffer framebuffer) {
         return createFrameBuffer(framebuffer, false);
     }
 
-    public static net.minecraft.client.gl.Framebuffer createFrameBuffer(net.minecraft.client.gl.Framebuffer framebuffer, boolean depth) {
+    public static Framebuffer createFrameBuffer(Framebuffer framebuffer, boolean depth) {
         if (needsNewFramebuffer(framebuffer)) {
             if (framebuffer != null) {
-                framebuffer.deletenet.minecraft.client.gl.Framebuffer();
+                framebuffer.deleteFramebuffer();
             }
-            return new net.minecraft.client.gl.Framebuffer(mc.displayWidth, mc.displayHeight, depth);
+            return new Framebuffer(mc.displayWidth, mc.displayHeight, depth);
         }
         return framebuffer;
     }
 
-    public static boolean needsNewFramebuffer(net.minecraft.client.gl.Framebuffer framebuffer) {
+    public static boolean needsNewFramebuffer(Framebuffer framebuffer) {
         return framebuffer == null || framebuffer.framebufferWidth != mc.displayWidth || framebuffer.framebufferHeight != mc.displayHeight;
     }
 
-    public static void drawFramebufferFullscreen(net.minecraft.client.gl.Framebuffer framebuffer) {
+    public static void drawFramebufferFullscreen(Framebuffer framebuffer) {
         if (framebuffer == null) return;
-RenderSystem.bindTexture(framebuffer.framebufferTexture);
+        ScaledResolution sr = new ScaledResolution(mc);
+        RenderSystem.bindTexture(framebuffer.framebufferTexture);
         GL11.glBegin(GL11.GL_QUADS);
         GL11.glTexCoord2d(0.0, 1.0);
         GL11.glVertex2d(0.0, 0.0);
@@ -1235,7 +1246,7 @@ RenderSystem.bindTexture(framebuffer.framebufferTexture);
         RenderSystem.color(1, 1, 1, 1);
     }
 
-    public static Vec3d convertTo2D(int scaleFactor, double x, double y, double z) {
+    public static Vec3 convertTo2D(int scaleFactor, double x, double y, double z) {
         GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, MODELVIEW);
         GL11.glGetFloat(GL11.GL_PROJECTION_MATRIX, PROJECTION);
         GL11.glGetInteger(GL11.GL_VIEWPORT, VIEWPORT);
@@ -1251,7 +1262,7 @@ RenderSystem.bindTexture(framebuffer.framebufferTexture);
         );
 
         if (result) {
-            return new Vec3d(SCREEN_COORDS.get(0) / scaleFactor, (Display.getHeight() - SCREEN_COORDS.get(1)) / scaleFactor, SCREEN_COORDS.get(2));
+            return new Vec3(SCREEN_COORDS.get(0) / scaleFactor, (Display.getHeight() - SCREEN_COORDS.get(1)) / scaleFactor, SCREEN_COORDS.get(2));
         }
 
         return null;
@@ -1711,7 +1722,7 @@ RenderSystem.bindTexture(framebuffer.framebufferTexture);
         }
     }
 
-    public static Identifier buildWhiteMaskedTexture(String resourcePath, String registryName, Identifier fallback) {
+    public static ResourceLocation buildWhiteMaskedTexture(String resourcePath, String registryName, ResourceLocation fallback) {
         try (InputStream stream = Raven.class.getResourceAsStream(resourcePath)) {
             if (stream == null) return fallback;
             BufferedImage src = ImageIO.read(stream);
@@ -1730,19 +1741,19 @@ RenderSystem.bindTexture(framebuffer.framebufferTexture);
         }
     }
 
-    private static final java.util.Map<String, Identifier> iconCache = new java.util.HashMap<>();
+    private static final java.util.Map<String, ResourceLocation> iconCache = new java.util.HashMap<>();
 
     /**
      * Returns a cached white-masked icon texture, loading it on first access.
      * The resource path should start with "/" (e.g. "/assets/keystrokesmod/textures/gui/close.png").
      */
-    public static Identifier getIcon(String resourcePath) {
-        Identifier cached = iconCache.get(resourcePath);
+    public static ResourceLocation getIcon(String resourcePath) {
+        ResourceLocation cached = iconCache.get(resourcePath);
         if (cached != null) {
             return cached;
         }
         String registryName = "raven_icon_" + resourcePath.hashCode();
-        Identifier icon = buildWhiteMaskedTexture(resourcePath, registryName, null);
+        ResourceLocation icon = buildWhiteMaskedTexture(resourcePath, registryName, null);
         if (icon != null) {
             iconCache.put(resourcePath, icon);
         }
@@ -1753,7 +1764,7 @@ RenderSystem.bindTexture(framebuffer.framebufferTexture);
      * Draws a tinted icon texture at the given position with full GL state management.
      * Saves and restores depth/blend state automatically.
      */
-    public static void drawIcon(Identifier texture, float x, float y, int size, int argbColor) {
+    public static void drawIcon(ResourceLocation texture, float x, float y, int size, int argbColor) {
         if (texture == null) {
             return;
         }

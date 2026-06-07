@@ -50,18 +50,18 @@ public class Fly extends Module {
 
     @Override
     public void onEnable() {
-        this.canFly = mc.player.getAbilities().allowFlying;
-        this.maxY = (int) mc.player.getPos().getY();
+        this.canFly = mc.player.capabilities.isFlying;
+        this.maxY = mc.player.getPosition().getY();
     }
 
     
     public void onCollision(CollisionEvent e) {
-        if (mode.getInput() != 3 || Utils.isBindDown(mc.options.sneakKey)) {
-            this.maxY = (int) mc.player.getPos().getY();
+        if (mode.getInput() != 3 || Utils.isBindDown(mc.gameSettings.keyBindSneak)) {
+            this.maxY = mc.player.getPosition().getY();
             return;
         }
-        if (0 /* TODO: blockPos not available */ < (this.keepY.isToggled() ? maxY : mc.player.getY())) {
-            e.boundingBox = FULL_ABB.offset(0, 0 /* TODO: blockPos not available */, 0);
+        if (e.blockPos.getY() < (this.keepY.isToggled() ? maxY : mc.player.getY())) {
+            e.boundingBox = FULL_ABB.offset(e.blockPos.getX(), e.blockPos.getY(), e.blockPos.getZ());
         }
     }
 
@@ -72,74 +72,73 @@ public class Fly extends Module {
         }
         switch ((int) mode.getInput()) {
             case 0:
-                vec3d_y = 0.0;
-                mc.player.getAbilities().setFlySpeed((float)(0.05000000074505806 * horizontalSpeed.getInput()));
-                mc.player.getAbilities().allowFlying = true;
+                mc.player.motionY = 0.0;
+                mc.player.capabilities.setFlySpeed((float)(0.05000000074505806 * horizontalSpeed.getInput()));
+                mc.player.capabilities.isFlying = true;
                 break;
             case 1:
-                // mc.player.setOnGround(true); // TODO: not assignable
+                mc.player.onGround = true;
                 if (mc.currentScreen == null) {
                     if (Utils.jumpDown()) {
-                        vec3d_y = 0.3 * verticalSpeed.getInput();
+                        mc.player.motionY = 0.3 * verticalSpeed.getInput();
                     }
                     else if (Utils.jumpDown()) {
-                        vec3d_y = -0.3 * verticalSpeed.getInput();
+                        mc.player.motionY = -0.3 * verticalSpeed.getInput();
                     }
                     else {
-                        vec3d_y = 0.0;
+                        mc.player.motionY = 0.0;
                     }
                 }
                 else {
-                    vec3d_y = 0.0;
+                    mc.player.motionY = 0.0;
                 }
-                mc.player.getAbilities().setFlySpeed(0.2f);
-                mc.player.getAbilities().allowFlying = true;
+                mc.player.capabilities.setFlySpeed(0.2f);
+                mc.player.capabilities.isFlying = true;
                 setSpeed(0.85 * horizontalSpeed.getInput());
                 break;
             case 2:
                 double nextDouble = RandomUtils.nextDouble(1.0E-7, 1.2E-7);
-                if (mc.player.age % 2 == 0) {
+                if (mc.player.ticksExisted % 2 == 0) {
                     nextDouble = -nextDouble;
                 }
-                if (!mc.player.isOnGround()) {
+                if (!mc.player.onGround) {
                     mc.player.setPosition(mc.player.getX(), mc.player.getY() + nextDouble, mc.player.getZ());
                 }
-                vec3d_y = 0.0;
+                mc.player.motionY = 0.0;
                 setSpeed(0.4 * horizontalSpeed.getInput());
                 break;
         }
 
     }
 
-    private double vec3d_x, vec3d_y, vec3d_z;
-
+    @Override
     public void onDisable() {
-        if (mc.player.getAbilities().allowFlying) {
-            mc.player.getAbilities().allowFlying = this.canFly;
+        if (mc.player.capabilities.allowFlying) {
+            mc.player.capabilities.isFlying = this.canFly;
         }
         else {
-            mc.player.getAbilities().allowFlying = false;
+            mc.player.capabilities.isFlying = false;
         }
         this.canFly = false;
         switch ((int) mode.getInput()) {
             case 0:
             case 1:
-                mc.player.getAbilities().setFlySpeed(0.05F);
+                mc.player.capabilities.setFlySpeed(0.05F);
                 break;
         }
         if (stopMotion.isToggled()) {
-            vec3d_z = 0;
-            vec3d_y = 0;
-            vec3d_x = 0;
+            mc.player.motionZ = 0;
+            mc.player.motionY = 0;
+            mc.player.motionX = 0;
         }
     }
 
     
-    public void onRenderTick(Object e) {
-        if (!showBPS.isToggled() || !Utils.nullCheck()) {
+    public void onRenderTick(TickEvent.RenderTickEvent e) {
+        if (!showBPS.isToggled() || e.phase != TickEvent.Phase.END || !Utils.nullCheck()) {
             return;
         }
-        if (mc.currentScreen != null || false) {
+        if (mc.currentScreen != null || mc.gameSettings.showDebugInfo) {
             return;
         }
         RenderUtils.renderBPS(true, false);
@@ -147,16 +146,16 @@ public class Fly extends Module {
 
     private void setSpeed(double speed) {
         if (speed == 0.0) {
-            vec3d_z = 0;
-            vec3d_x = 0;
+            mc.player.motionZ = 0;
+            mc.player.motionX = 0;
             return;
         }
-        double moveForward = mc.player.input.movementForward;
-        double moveStrafe = mc.player.input.movementSideways;
-        float yaw = mc.player.getYaw();
+        double moveForward = mc.player.movementInput.moveForward;
+        double moveStrafe = mc.player.movementInput.moveStrafe;
+        float yaw = mc.player.rotationYaw;
         if (moveForward == 0.0 && moveStrafe == 0.0) {
-            vec3d_z = 0;
-            vec3d_x = 0;
+            mc.player.motionZ = 0;
+            mc.player.motionX = 0;
         }
         else {
             if (moveForward != 0.0) {
@@ -177,8 +176,8 @@ public class Fly extends Module {
             double radians = Math.toRadians(yaw + 90.0f);
             double sin = Math.sin(radians);
             double cos = Math.cos(radians);
-            vec3d_x = moveForward * speed * cos + moveStrafe * speed * sin;
-            vec3d_z = moveForward * speed * sin - moveStrafe * speed * cos;
+            mc.player.motionX = moveForward * speed * cos + moveStrafe * speed * sin;
+            mc.player.motionZ = moveForward * speed * sin - moveStrafe * speed * cos;
         }
     }
 }

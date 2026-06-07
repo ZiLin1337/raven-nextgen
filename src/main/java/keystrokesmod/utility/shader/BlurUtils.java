@@ -10,14 +10,14 @@ public class BlurUtils {
 
     public static void load() {
         if (blurProcessor == null) {
-            blurProcessor = new PostEffectProcessor(mc.getTextureManager(), mc.getResourceManager(), mc.getnet.minecraft.client.gl.Framebuffer(), Identifier.of("shaders/post/blur.json"));
+            blurProcessor = new PostEffectProcessor(mc.getTextureManager(), mc.getResourceManager(), mc.getFramebuffer(), Identifier.of("shaders/post/blur.json"));
         }
     }
 
     public static void blur(float strength) {
         load();
         if (blurProcessor != null) {
-            blurProcessor.setupDimensions(mc.getWindow().getnet.minecraft.client.gl.FramebufferWidth(), mc.getWindow().getnet.minecraft.client.gl.FramebufferHeight());
+            blurProcessor.setupDimensions(mc.getWindow().getFramebufferWidth(), mc.getWindow().getFramebufferHeight());
             blurProcessor.render(mc.getTickDelta());
         }
     }

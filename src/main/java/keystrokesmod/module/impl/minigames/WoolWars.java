@@ -12,17 +12,22 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.block.BlockAir;
+import net.minecraft.block.BlockStairs;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.block.Blocks;
-import net.minecraft.util.DyeColor;
-
+import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-
-import net.minecraft.scoreboard.ScoreboardObjective;
+import net.minecraft.network.play.client.C07PacketPlayerDigging;
+import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraftforge.client.event.MouseEvent;
+
+import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -42,7 +47,7 @@ public class WoolWars extends Module {
 
     private BlockPos middlePos;
     private BlockPos miningPos;
-    private HitResult placeMop;
+    private MovingObjectPosition placeMop;
 
     private float curBlockDamageMP;
     private int delay;
@@ -88,13 +93,13 @@ public class WoolWars extends Module {
         if (middlePos == null) {
             middlePos = getMiddlePos();
         }
-        else if (!mc.player.getAbilities().allowFlying && mc.player.getDistanceSq(middlePos) < rangeSq && isActiveRound() && (!onlyMiddleClick.isToggled() || /* Mouse.isButtonDown */(2))) {
+        else if (!mc.player.capabilities.allowFlying && mc.player.getDistanceSq(middlePos) < rangeSq && isActiveRound() && (!onlyMiddleClick.isToggled() || Mouse.isButtonDown(2))) {
             if (swapBack == -1) {
-                swapBack = mc.player.getInventory().selectedSlot;
+                swapBack = mc.player.inventory.currentItem;
             }
             if (delay > 0 && --delay > 0) {
                 if (fakeSwing) {
-                    mc.player.swingHand(Hand.MAIN_HAND);
+                    mc.player.swingItem();
                 }
                 return;
             }
@@ -113,12 +118,12 @@ public class WoolWars extends Module {
                         Utils.switchSlot(blockSlot, true);
                         search:
                         for (int i = 0; i < 360; i += 10) {
-                            float yaw = (float) (mc.player.getYaw() + i + randomRotationOffset());
+                            float yaw = (float) (mc.player.rotationYaw + i + randomRotationOffset());
                             int j = 20;
                             while (j < 90) {
                                 float pitch = RotationUtils.clampPitch((float) (j + randomRotationOffset()));
-                                HitResult mop = Utils.getTarget(lastRange, yaw, pitch);
-                                if (mop != null && mop.typeOfHit == HitResult.MovingObjectType.BLOCK && BlockUtils.isBlockPosEqual(BlockUtils.offsetPos(mop), closestPos)) {
+                                MovingObjectPosition mop = Utils.getTarget(lastRange, yaw, pitch);
+                                if (mop != null && mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && BlockUtils.isBlockPosEqual(BlockUtils.offsetPos(mop), closestPos)) {
                                     placeMop = mop;
                                     placingYaw = yaw;
                                     placingPitch = pitch;
@@ -145,7 +150,7 @@ public class WoolWars extends Module {
                 miningPos = closestPos;
                 switchToSlot(Utils.getTool(BlockUtils.getBlock(closestPos)));
                 miningPos = closestPos;
-                mc.player.swingHand(Hand.MAIN_HAND);
+                mc.player.swingItem();
                 startBreak(miningPos);
             }
             else if (!Utils.isPossibleToReach(miningPos, lastRange)) {
@@ -154,20 +159,20 @@ public class WoolWars extends Module {
                 curBlockDamageMP = (delay = 0);
                 return;
             }
-            curBlockDamageMP += BlockUtils.getBlockHardness(BlockUtils.getBlock(miningPos), mc.player.getMainHandStack(), false, false);
+            curBlockDamageMP += BlockUtils.getBlockHardness(BlockUtils.getBlock(miningPos), mc.player.getHeldItem(), false, false);
             if (curBlockDamageMP < breakSpeed.getInput()) {
                 curBlockDamageMP = (float) breakSpeed.getInput();
             }
             if (curBlockDamageMP >= 1.0f) {
                 stopBreak(miningPos);
-                mc.interactionManager.onPlayerDestroyBlock(miningPos, Direction.UP);
+                mc.playerController.onPlayerDestroyBlock(miningPos, Direction.UP);
                 miningPos = null;
                 curBlockDamageMP = 0.0f;
                 delay = (int) breakDelay.getInput();
                 fakeSwing = true;
             }
-            mc.world.sendBlockBreakProgress(mc.player.getId(), miningPos, (int) (curBlockDamageMP * 10.0f) - 1);
-            mc.player.swingHand(Hand.MAIN_HAND);
+            mc.world.sendBlockBreakProgress(mc.player.getEntityId(), miningPos, (int) (curBlockDamageMP * 10.0f) - 1);
+            mc.player.swingItem();
         }
         else if (miningPos != null) {
             abortBreak(miningPos);
@@ -188,7 +193,7 @@ public class WoolWars extends Module {
         if (slot == -1) {
             return false;
         }
-        mc.player.getInventory().selectedSlot = slot;
+        mc.player.inventory.currentItem = slot;
         return true;
     }
 
@@ -198,7 +203,7 @@ public class WoolWars extends Module {
         int startY;
         for (startY = (y = (int) Math.floor(mc.player.getY() + 20.0)); y > -1; --y) {
             BlockPos pos = BlockUtils.pos(0.0, y, 0.0);
-            if (BlockUtils.getBlock(pos.add(0, 0, 2)) instanceof StairsBlock || isControlPointBlock(pos, false)) {
+            if (BlockUtils.getBlock(pos.add(0, 0, 2)) instanceof BlockStairs || isControlPointBlock(pos, false)) {
                 middlePos = pos;
                 break;
             }
@@ -206,7 +211,7 @@ public class WoolWars extends Module {
         if (middlePos == null) {
             for (y = startY; y > -1; --y) {
                 BlockPos pos = BlockUtils.pos(0.0, y, 6.0);
-                if (BlockUtils.getBlock(pos.add(0, 0, 2)) instanceof StairsBlock || isControlPointBlock(pos, false)) {
+                if (BlockUtils.getBlock(pos.add(0, 0, 2)) instanceof BlockStairs || isControlPointBlock(pos, false)) {
                     middlePos = pos;
                     break;
                 }
@@ -262,7 +267,7 @@ public class WoolWars extends Module {
             return true;
         }
         EnumDyeColor teamColor = null;
-        for (int i = 0; i < PlayerInventory.getHotbarSize(); ++i) {
+        for (int i = 0; i < InventoryPlayer.getHotbarSize(); ++i) {
             ItemStack stack = mc.player.inventory.getStackInSlot(i);
             if (stack != null && stack.getItem() instanceof ItemBlock && ((ItemBlock) stack.getItem()).getBlock() == Blocks.wool) {
                 teamColor = EnumDyeColor.byMetadata(stack.getMetadata());
@@ -283,7 +288,7 @@ public class WoolWars extends Module {
     }
 
     public int getBlockSlot() {
-        for (int slot = 0; slot < PlayerInventory.getHotbarSize(); ++slot) {
+        for (int slot = 0; slot < InventoryPlayer.getHotbarSize(); ++slot) {
             ItemStack stack = mc.player.inventory.getStackInSlot(slot);
             if (stack != null) {
                 if (stack.getItem() instanceof ItemBlock) {
@@ -304,8 +309,8 @@ public class WoolWars extends Module {
         }
         if (placeMop != null) {
             if (placingPitch > 90.0f) {
-                if (mc.interactionManager.onPlayerRightClick(mc.player, mc.world, mc.player.getMainHandStack(), placeMop.getBlockPos(), placeMop.sideHit, placeMop.hitVec)) {
-                    mc.player.swingHand(Hand.MAIN_HAND);
+                if (mc.playerController.onPlayerRightClick(mc.player, mc.world, mc.player.getHeldItem(), placeMop.getBlockPos(), placeMop.sideHit, placeMop.hitVec)) {
+                    mc.player.swingItem();
                     mc.getItemRenderer().resetEquippedProgress();
                     delay = (int) placeDelay.getInput();
                     fakeSwing = false;
@@ -326,7 +331,7 @@ public class WoolWars extends Module {
                 e.setPitch(rotations[1]);
             }
         }
-        if (delay > 0 && (!onlyMiddleClick.isToggled() || /* Mouse.isButtonDown */(2))) {
+        if (delay > 0 && (!onlyMiddleClick.isToggled() || Mouse.isButtonDown(2))) {
             List<BlockPos> posList = getPossiblePos(middlePos, true);
             BlockPos closestPos = null;
             if (!posList.isEmpty()) {
@@ -354,13 +359,13 @@ public class WoolWars extends Module {
         if (scoreboard == null) {
             return false;
         }
-        ScoreboardObjective objective = scoreboard.getObjectiveInDisplaySlot(1);
+        ScoreObjective objective = scoreboard.getObjectiveInDisplaySlot(1);
         return objective != null && Utils.stripString(objective.getDisplayName()).contains("WOOL WARS");
     }
 
     private void swapBack() {
         if (swapBack != -1) {
-            mc.player.getInventory().selectedSlot = swapBack;
+            mc.player.inventory.currentItem = swapBack;
             swapBack = -1;
         }
     }
@@ -373,7 +378,7 @@ public class WoolWars extends Module {
     }
 
     
-    public void onRender(Object e) {
+    public void onRender(RenderWorldLastEvent e) {
         if (!Utils.nullCheck()) {
             return;
         }
@@ -391,8 +396,7 @@ public class WoolWars extends Module {
     }
 
     
-    // TODO: Replace MouseEvent
-    public void onMouse(Object e) {
+    public void onMouse(MouseEvent e) {
         if (e.button == 0) {
             if (e.buttonstate && (miningPos != null || placeMop != null)) {
                 e.setCanceled(true);
@@ -404,21 +408,21 @@ public class WoolWars extends Module {
     }
 
     
-    public void onWorldJoin(Object e) {
+    public void onWorldJoin(EntityJoinWorldEvent e) {
         if (e.entity == mc.player) {
             reset();
         }
     }
 
     public static void startBreak(BlockPos pos) {
-        mc.player.sendQueue.networkHandler.sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, pos, Direction.UP));
+        mc.player.sendQueue.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, pos, Direction.UP));
     }
 
     public static void stopBreak(BlockPos pos) {
-        mc.player.sendQueue.networkHandler.sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, pos, Direction.UP));
+        mc.player.sendQueue.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, pos, Direction.UP));
     }
 
     public static void abortBreak(final BlockPos pos) {
-        mc.player.sendQueue.networkHandler.sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.ABORT_DESTROY_BLOCK, pos, Direction.DOWN));
+        mc.player.sendQueue.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.ABORT_DESTROY_BLOCK, pos, Direction.DOWN));
     }
 }

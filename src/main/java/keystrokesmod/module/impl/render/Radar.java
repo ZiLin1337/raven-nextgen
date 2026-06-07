@@ -6,8 +6,10 @@ import keystrokesmod.module.impl.world.AntiBot;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
+import net.minecraft.client.gui.Gui;
 
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.EntityPlayer;
+
 
 import org.lwjgl.opengl.GL11;
 
@@ -27,18 +29,18 @@ public class Radar extends Module {
 
     @Override
     public void onUpdate() {
-        this.scale = mc.getWindow().getScaleFactor();
+        this.scale = new (mc).getScaleFactor();
     }
 
     
-    public void onRenderTick(Object e) {
-        if (e.phase.END || !Utils.nullCheck()) {
+    public void onRenderTick(TickEvent.RenderTickEvent e) {
+        if (e.phase != TickEvent.Phase.END || !Utils.nullCheck()) {
             return;
         }
         if (mc.currentScreen instanceof ClickGui) {
             return;
         }
-        if (mc.currentScreen != null || mc.options.showDebugInfo) {
+        if (mc.currentScreen != null || mc.gameSettings.showDebugInfo) {
             return;
         }
         int x = 5;
@@ -56,7 +58,7 @@ public class Radar extends Module {
         GL11.glPushMatrix();
         GL11.glEnable(GL11.GL_SCISSOR_TEST);
         GL11.glScissor(x * this.scale, mc.displayHeight - this.scale * 170, rightX * this.scale - this.scale * 5, this.scale * 100);
-        for (PlayerEntity player : mc.world.world.getPlayers()) {
+        for (EntityPlayer player : mc.world.playerEntities) {
             if (player != mc.player && player.deathTime == 0) {
                 if (AntiBot.isBot(player)) {
                     continue;
@@ -65,7 +67,7 @@ public class Radar extends Module {
                 if (distanceSquared > 360.0) {
                     continue;
                 }
-                double playerAngle = (mc.player.getYaw() + Math.atan2(player.posX - mc.player.getX(), player.posZ - mc.player.getZ()) * 57.295780181884766) % 360.0;
+                double playerAngle = (mc.player.rotationYaw + Math.atan2(player.posX - mc.player.getX(), player.posZ - mc.player.getZ()) * 57.295780181884766) % 360.0;
                 double scaledDistance = distanceSquared / 5.0;
                 double xOffset = scaledDistance * Math.sin(Math.toRadians(playerAngle));
                 double zOffset = scaledDistance * Math.cos(Math.toRadians(playerAngle));

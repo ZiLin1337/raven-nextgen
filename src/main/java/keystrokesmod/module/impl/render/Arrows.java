@@ -1,6 +1,6 @@
 package keystrokesmod.module.impl.render;
 
-// import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
+import keystrokesmod.mixin.impl.accessor.IAccessorEntityRenderer;
 import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.impl.world.AntiBot;
@@ -11,8 +11,10 @@ import keystrokesmod.utility.Utils;
 import keystrokesmod.utility.font.FontManager;
 import keystrokesmod.utility.font.RavenFontRenderer;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.Vec3d;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.Vec3;
+
 
 import org.lwjgl.opengl.GL11;
 
@@ -53,7 +55,7 @@ public class Arrows extends Module {
     }
 
     
-    public void onClientTick(Object event) {
+    public void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase != TickEvent.Phase.END) {
             return;
         }
@@ -61,7 +63,7 @@ public class Arrows extends Module {
     }
 
     
-    public void onRenderTick(Object event) {
+    public void onRenderTick(TickEvent.RenderTickEvent event) {
         if (event.phase != TickEvent.Phase.END) {
             return;
         }
@@ -86,7 +88,7 @@ public class Arrows extends Module {
             return;
         }
 
-        for (PlayerEntity en : mc.world.world.getPlayers()) {
+        for (EntityPlayer en : mc.world.playerEntities) {
             if (en == null || en == mc.player) {
                 continue;
             }
@@ -115,7 +117,7 @@ public class Arrows extends Module {
         }
     }
 
-    private void renderIndicatorFor(PlayerEntity en, int color, float partialTicks) {
+    private void renderIndicatorFor(EntityPlayer en, int color, float partialTicks) {
         if (renderOnlyOffScreen.isToggled() && RenderUtils.isInViewFrustum(en)) {
             return;
         }
@@ -124,18 +126,18 @@ public class Arrows extends Module {
         double y = en.lastTickPosY + (en.posY - en.lastTickPosY) * partialTicks - mc.getEntityRenderDispatcher().viewerPosY + en.height / 2;
         double z = en.lastTickPosZ + (en.posZ - en.lastTickPosZ) * partialTicks - mc.getEntityRenderDispatcher().viewerPosZ;
 
-        ((IAccessorEntityRenderer) mc.gameRenderer).callSetupCameraTransform(((IAccessorMinecraft) mc).getTimer().renderPartialTicks, 0);
+        ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(((IAccessorMinecraft) mc).getTimer().renderPartialTicks, 0);
 
-         scaledResolution = null; // int removed for 1.21.4
-        Vec3d vec = RenderUtils.convertTo2D(mc.getWindow().getScaleFactor(), x, y, z);
+         scaledResolution = new (mc);
+        Vec3 vec = RenderUtils.convertTo2D(scaledResolution.getScaleFactor(), x, y, z);
 
         if (vec != null) {
-            mc.gameRenderer.setupOverlayRendering();
-             res = null; // int removed for 1.21.4
+            mc.entityRenderer.setupOverlayRendering();
+             res = new (mc);
 
-            double dx = vec.x - res.getScaledWidth() / 2.0;
-            double dy = vec.y - res.getScaledHeight() / 2.0;
-            boolean inFrustum = vec.z < 1.0003684;
+            double dx = vec.xCoord - res.getScaledWidth() / 2.0;
+            double dy = vec.yCoord - res.getScaledHeight() / 2.0;
+            boolean inFrustum = vec.zCoord < 1.0003684;
 
             if (!inFrustum) {
                 dx *= -1.0;
@@ -215,7 +217,7 @@ public class Arrows extends Module {
             RenderSystem.scale(0.8, 0.8, 0.8);
 
             if (renderDistance.isToggled()) {
-                String text = (int) mc.player.distanceTo(en) + "m";
+                String text = (int) mc.player.getDistanceToEntity(en) + "m";
                 RavenFontRenderer fr = getArrowFontRenderer();
                 fr.drawString(text, (float) (-fr.getStringWidth(text) / 2), -4.0f, -1, true);
             }
@@ -237,10 +239,10 @@ public class Arrows extends Module {
     }
 
     private static final class ArrowRenderState {
-        private PlayerEntity player;
+        private EntityPlayer player;
         private int color;
 
-        private void set(PlayerEntity player, int color) {
+        private void set(EntityPlayer player, int color) {
             this.player = player;
             this.color = color;
         }

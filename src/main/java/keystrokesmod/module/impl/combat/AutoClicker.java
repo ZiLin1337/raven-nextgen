@@ -1,13 +1,6 @@
 package keystrokesmod.module.impl.combat;
 
 import keystrokesmod.event.PrePlayerInteractEvent;
-import org.lwjgl.glfw.GLFW;
-import net.minecraft.client.MinecraftClient;
-// import net.minecraft.util.InputUtil; // removed in 1.21.4
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.hit.BlockHitResult;
-// import net.minecraft.block.LiquidBlock; // use Block with fluid check
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -15,11 +8,17 @@ import keystrokesmod.utility.ReflectionUtils;
 import keystrokesmod.module.setting.impl.DescriptionSetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.Utils;
+
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLiquid;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.screen.slot.Slot;
+
+import org.lwjgl.input.Mouse;
+
+import net.minecraft.inventory.Slot;
 
 import java.lang.reflect.Field;
 import java.util.Random;
@@ -78,8 +77,8 @@ public class AutoClicker extends Module {
     }
 
     
-    public void onRenderTick(Object e) {
-        if (true /* TODO: phase.END not available */) {
+    public void onRenderTick(TickEvent.RenderTickEvent e) {
+        if (e.phase != TickEvent.Phase.END) {
             return;
         }
         if (!inventory.isToggled()) {
@@ -88,11 +87,11 @@ public class AutoClicker extends Module {
         if (!Utils.nullCheck()) {
             return;
         }
-        if (!(mc.currentScreen instanceof Screen)) {
+        if (!(mc.currentScreen instanceof GuiContainer)) {
             inventoryNextClickTime = 0L;
             return;
         }
-        if (GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) {
+        if (!Mouse.isButtonDown(0)) {
             inventoryNextClickTime = 0L;
             return;
         }
@@ -116,32 +115,32 @@ public class AutoClicker extends Module {
             return;
         }
 
-        Screen gui = (Screen) mc.currentScreen;
+        GuiContainer gui = (GuiContainer) mc.currentScreen;
         Slot slot = getHoveredSlot(gui);
-        if (slot == null || slot.getIndex() < 0) {
+        if (slot == null || slot.slotNumber < 0) {
             return;
         }
 
-        int windowId = 0 /* TODO: windowId not available */;
-        int slotId = slot.getIndex();
-        int mode = net.minecraft.client.gui.screen.Screen.hasShiftDown() ? 1 : 0;
+        int windowId = gui.inventorySlots.windowId;
+        int slotId = slot.slotNumber;
+        int mode = net.minecraft.client.gui.GuiScreen.isShiftKeyDown() ? 1 : 0;
 
-        if (mc.interactionManager == null || mc.player == null) {
+        if (mc.playerController == null || mc.player == null) {
             return;
         }
 
         for (int i = 0; i < clicks; i++) {
-            mc.interactionManager.clickSlot(windowId, slotId, mode, net.minecraft.screen.slot.SlotActionType.PICKUP, mc.player);
+            mc.playerController.windowClick(windowId, slotId, 0, mode, mc.player);
         }
     }
 
     
     public void onPrePlayerInteract(PrePlayerInteractEvent e) {
         if (!Utils.nullCheck()) return;
-        if (ModuleManager.killAura != null && ModuleManager.killAura.isEnabled() && false /* TODO: KillAura.target not available */) return;
+        if (ModuleManager.killAura != null && ModuleManager.killAura.isEnabled() && KillAura.target != null) return;
 
-        int key = mc.options.attackKey.getDefaultKey().getCode();
-        if (GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) {
+        int key = mc.gameSettings.keyBindAttack.getKeyCode();
+        if (Mouse.isButtonDown(0)) {
             long now = System.currentTimeMillis();
             if (nextClickTime == 0) {
                 nextClickTime = now + nextDelay();
@@ -154,32 +153,32 @@ public class AutoClicker extends Module {
             }
 
             if (notUsingItem.isToggled() && mc.player.isUsingItem()) return;
-            if (disableCreative.isToggled() && mc.player.getAbilities().creativeMode) return;
-            if (mc.currentScreen != null || !mc.isWindowFocused()) return;
+            if (disableCreative.isToggled() && mc.player.capabilities.isCreativeMode) return;
+            if (mc.currentScreen != null || !mc.inGameHasFocus) return;
             if (weaponOnly.isToggled() && !Utils.holdingWeapon()) return;
 
             if (breakBlocks.isToggled()) {
-                if (!mc.player.getAbilities().allowFlying) {
+                if (!mc.player.capabilities.allowEdit) {
                     if (this.isHoldingBlockBreak) {
-mc.options.attackKey.setPressed(false);
+                        KeyBinding.setKeyBindState(key, false);
                         ReflectionUtils.setButton(0, false);
                         this.isHoldingBlockBreak = false;
                     }
                 }
-                else if (mc.crosshairTarget != null) {
-                BlockPos pos = ((BlockHitResult)mc.crosshairTarget).getBlockPos();
+                else if (mc.objectMouseOver != null) {
+                BlockPos pos = mc.objectMouseOver.getBlockPos();
                 if (pos != null) {
                     Block block = mc.world.getBlockState(pos).getBlock();
-                    if (block != Blocks.AIR && block.getDefaultState().getFluidState().isEmpty()) {
+                    if (block != Blocks.AIR && !(block instanceof BlockLiquid)) {
                         if (!this.isHoldingBlockBreak) {
-mc.options.attackKey.setPressed(false);
+                            KeyBinding.setKeyBindState(key, true);
                             ReflectionUtils.setButton(0, true);
                             this.isHoldingBlockBreak = true;
                         }
                         return;
                     }
                     if (this.isHoldingBlockBreak) {
-mc.options.attackKey.setPressed(false);
+                        KeyBinding.setKeyBindState(key, false);
                         ReflectionUtils.setButton(0, false);
                         this.isHoldingBlockBreak = false;
                         return;
@@ -191,13 +190,13 @@ mc.options.attackKey.setPressed(false);
             }
 
             for (int i = 0; i < clicks; i++) {
-                // KeyBinding.onTick(key); // removed in 1.21.4
+                KeyBinding.onTick(key);
                 ReflectionUtils.setButton(0, true);
             }
         } else {
             this.nextClickTime = 0L;
             this.isHoldingBlockBreak = false;
-mc.options.attackKey.setPressed(false);
+            KeyBinding.setKeyBindState(key, false);
             ReflectionUtils.setButton(0, false);
         }
     }
@@ -240,11 +239,11 @@ mc.options.attackKey.setPressed(false);
             return;
         }
         try {
-            hoveredSlotField = Screen.class.getDeclaredField("theSlot");
+            hoveredSlotField = GuiContainer.class.getDeclaredField("theSlot");
             hoveredSlotField.setAccessible(true);
         } catch (NoSuchFieldException e) {
             try {
-                hoveredSlotField = Screen.class.getDeclaredField("field_147006_u");
+                hoveredSlotField = GuiContainer.class.getDeclaredField("field_147006_u");
                 hoveredSlotField.setAccessible(true);
             } catch (NoSuchFieldException ignored) {
                 hoveredSlotField = null;
@@ -252,7 +251,7 @@ mc.options.attackKey.setPressed(false);
         }
     }
 
-    private static Slot getHoveredSlot(Screen gui) {
+    private static Slot getHoveredSlot(GuiContainer gui) {
         if (hoveredSlotField == null || gui == null) {
             return null;
         }

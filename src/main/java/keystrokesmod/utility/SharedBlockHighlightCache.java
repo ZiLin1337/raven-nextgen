@@ -4,11 +4,11 @@ import keystrokesmod.event.ReceivePacketEvent;
 import keystrokesmod.module.setting.impl.BlockListSetting;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
+
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.chunk.Chunk;
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.Map;
+import net.minecraft.world.chunk.EmptyChunk;
+import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -126,7 +126,7 @@ public final class SharedBlockHighlightCache {
         if (mc.world == null || mc.player == null) {
             return;
         }
-        int rd = mc.options.renderDistanceChunks;
+        int rd = mc.gameSettings.renderDistanceChunks;
         int pcx = (int) mc.player.getX() >> 4;
         int pcz = (int) mc.player.getZ() >> 4;
         for (int cx = pcx - rd; cx <= pcx + rd; cx++) {

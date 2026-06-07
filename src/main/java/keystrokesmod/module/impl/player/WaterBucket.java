@@ -7,13 +7,13 @@ import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.utility.Utils;
-import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-
+import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.MovingObjectPosition;
 
 public class WaterBucket extends Module {
     public ButtonSetting pickupWater;
@@ -42,25 +42,25 @@ public class WaterBucket extends Module {
     }
 
     
-    public void onRenderWorld(Object e) {
-        if (!Utils.nullCheck() || mc.isGamePaused() || mc.player.getAbilities().isFlying || mc.player.getAbilities().creativeMode) {
+    public void onRenderWorld(RenderWorldLastEvent e) {
+        if (!Utils.nullCheck() || mc.isGamePaused() || mc.player.capabilities.isFlying || mc.player.capabilities.isCreativeMode) {
             return;
         }
         if (!fallCheck()) {
             return;
         }
-        HitResult mop = Utils.getTarget(mc.interactionManager.getBlockReachDistance(), mc.player.getYaw(), silentAim.isToggled() ? 90.0f : mc.player.getPitch());
-        if (mop == null || mop.typeOfHit != HitResult.MovingObjectType.BLOCK || mop.sideHit != Direction.UP) {
+        MovingObjectPosition mop = Utils.getTarget(mc.playerController.getBlockReachDistance(), mc.player.rotationYaw, silentAim.isToggled() ? 90.0f : mc.player.rotationPitch);
+        if (mop == null || mop.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK || mop.sideHit != Direction.UP) {
             return;
         }
         long now = System.currentTimeMillis();
         if (Utils.timeBetween(lastPlace, now) < PLACE_DELAY) {
             return;
         }
-        if (!isItem(mc.player.getMainHandStack(), Items.water_bucket) && switchToItem.isToggled()) {
+        if (!isItem(mc.player.getHeldItem(), Items.water_bucket) && switchToItem.isToggled()) {
             this.attemptSwitch();
         }
-        if (!silentAim.isToggled() && mc.player.getPitch() < 80.0f) {
+        if (!silentAim.isToggled() && mc.player.rotationPitch < 80.0f) {
             return;
         }
         lastPlace = now;
@@ -69,7 +69,7 @@ public class WaterBucket extends Module {
             this.lastSlot = -1;
         }
         if (Raven.DEBUG) {
-            Utils.sendModuleMessage(this, "&7Placed with motionY &d" + Utils.round(mc.player.getVelocity().y, 2) + " &7and fall distance &d" + Utils.round(mc.player.fallDistance, 2));
+            Utils.sendModuleMessage(this, "&7Placed with motionY &d" + Utils.round(mc.player.motionY, 2) + " &7and fall distance &d" + Utils.round(mc.player.fallDistance, 2));
         }
     }
 
@@ -78,7 +78,7 @@ public class WaterBucket extends Module {
         if (mc.isGamePaused()) {
             return;
         }
-        if (shouldPickup && Utils.timeBetween(lastPlace, System.currentTimeMillis()) > PICKUP_WAIT && isItem(mc.player.getMainHandStack(), Items.bucket)) {
+        if (shouldPickup && Utils.timeBetween(lastPlace, System.currentTimeMillis()) > PICKUP_WAIT && isItem(mc.player.getHeldItem(), Items.bucket)) {
             shouldPickup = false;
             this.useCurrentItem();
             if (this.lastSlot != -1) {
@@ -94,7 +94,7 @@ public class WaterBucket extends Module {
             return;
         }
         if (silentAim.isToggled() && (fallCheck() || Utils.timeBetween(lastPlace, System.currentTimeMillis()) < PLACE_DELAY) && getWaterBucketSlot() != -1) {
-            e.setYaw(mc.player.getYaw());
+            e.setYaw(mc.player.rotationYaw);
             e.setPitch(90.0f);
         }
     }
@@ -102,13 +102,13 @@ public class WaterBucket extends Module {
     private void attemptSwitch() {
         int slot = getWaterBucketSlot();
         if (slot != -1) {
-            this.lastSlot = mc.player.getInventory().selectedSlot;
+            this.lastSlot = mc.player.inventory.currentItem;
             Utils.switchSlot(slot, true);
         }
     }
 
     private int getWaterBucketSlot() {
-        for (int slot = 0; slot < PlayerInventory.getHotbarSize(); ++slot) {
+        for (int slot = 0; slot < InventoryPlayer.getHotbarSize(); ++slot) {
             if (isItem(mc.player.inventory.getStackInSlot(slot), Items.water_bucket)) {
                 return slot;
             }
@@ -117,7 +117,7 @@ public class WaterBucket extends Module {
     }
 
     private void useCurrentItem() {
-        mc.getNetworkHandler().networkHandler.sendPacket(new PlayerInteractBlockC2SPacket(mc.player.getMainHandStack()));
+        mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.player.getHeldItem()));
     }
 
     private boolean isItem(ItemStack itemStack, Item item) {
@@ -125,6 +125,6 @@ public class WaterBucket extends Module {
     }
 
     private boolean fallCheck() {
-        return !mc.player.isOnGround() && mc.player.fallDistance >= 3.3;
+        return !mc.player.onGround && mc.player.fallDistance >= 3.3;
     }
 }
