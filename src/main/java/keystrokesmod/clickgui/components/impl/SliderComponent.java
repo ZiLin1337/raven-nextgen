@@ -6,7 +6,7 @@ import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.impl.client.Gui;
 import keystrokesmod.module.impl.render.HUD;
-import keystrokesmod.module.setting.impl.Setting;
+import keystrokesmod.module.setting.Setting;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import keystrokesmod.utility.font.FontManager;
