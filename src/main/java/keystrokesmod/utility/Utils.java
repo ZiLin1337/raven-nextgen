@@ -1209,7 +1209,7 @@ public class Utils implements IMinecraftInstance {
             int openBraces = 0;
             int closeBraces = 0;
             for (char ch : lineWithoutStrings.toCharArray()) {
-                if (ch == ') {') {
+                if (ch == '{') {
                     openBraces++;
                 }
                 else if (ch == '}') {
