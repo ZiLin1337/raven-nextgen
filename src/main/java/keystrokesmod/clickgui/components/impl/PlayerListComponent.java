@@ -126,8 +126,8 @@ public class PlayerListComponent extends AbstractTextInputComponent {
             RenderUtils.prepareGuiTextureRenderState();
             mc.getTextureManager().bindTexture(skin);
             // RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
-            net.minecraft.client.gui.hud.InGameHud.// drawTexture((int) x, (int) y, 8f, 8f, 8, 8, (int) HEAD_SIZE, (int) HEAD_SIZE, 64f, 64f);
-            net.minecraft.client.gui.hud.InGameHud.// drawTexture((int) x, (int) y, 40f, 8f, 8, 8, (int) HEAD_SIZE, (int) HEAD_SIZE, 64f, 64f);
+            net.minecraft.client.gui.hud.InGameHud.// drawTexture disabled((int) x, (int) y, 8f, 8f, 8, 8, (int) HEAD_SIZE, (int) HEAD_SIZE, 64f, 64f);
+            net.minecraft.client.gui.hud.InGameHud.// drawTexture disabled((int) x, (int) y, 40f, 8f, 8, 8, (int) HEAD_SIZE, (int) HEAD_SIZE, 64f, 64f);
         } finally { RenderUtils.restoreGuiRenderState(depth, blend, depthMask); }
     }
 

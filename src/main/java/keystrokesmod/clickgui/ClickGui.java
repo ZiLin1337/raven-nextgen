@@ -1,46 +1,28 @@
 package keystrokesmod.clickgui;
 
-import keystrokesmod.Raven;
 import keystrokesmod.clickgui.components.Component;
 import keystrokesmod.clickgui.components.FocusableTextComponent;
 import keystrokesmod.clickgui.components.impl.BindComponent;
 import keystrokesmod.clickgui.components.impl.CategoryComponent;
 import keystrokesmod.clickgui.components.impl.ModuleComponent;
 import keystrokesmod.module.Module;
-import keystrokesmod.module.impl.client.CommandLine;
-import keystrokesmod.module.impl.client.Gui;
-import keystrokesmod.utility.CommandHandler;
-import keystrokesmod.utility.Timer;
 import keystrokesmod.utility.Utils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
 public class ClickGui extends Screen {
-    private ScheduledFuture<?> sf;
-    private Timer logoSmoothWidth;
-    private Timer logoSmoothLength;
-    private Timer smoothEntity;
-    private Timer backgroundFade;
-    private Timer blurSmooth;
-    private TextFieldWidget commandLineInput;
     public static ArrayList<CategoryComponent> categories;
-    private int actualScreenWidth;
-    private int actualScreenHeight;
-    private double previousScale;
+    private CategoryComponent draggedCategory;
     private static boolean isNotFirstOpen;
     private boolean pendingScaleRefresh;
-    private CategoryComponent draggedCategory;
 
     public ClickGui() {
         super(Text.literal("Raven ClickGUI"));
@@ -56,38 +38,17 @@ public class ClickGui extends Screen {
 
     public void initMain() {
         // Logo animation disabled - scheduledExecutor not available
-    }, 650L, TimeUnit.MILLISECONDS);
     }
 
     @Override
     protected void init() {
         super.init();
-        double configuredScale = getConfiguredGuiScale();
-        if (!isNotFirstOpen) {
-            isNotFirstOpen = true;
-            this.previousScale = configuredScale;
-        }
         for (CategoryComponent categoryComponent : categories) {
             categoryComponent.setScreenSize(this.width, this.height);
         }
-        if (Double.compare(this.previousScale, configuredScale) != 0) {
-            for (CategoryComponent categoryComponent : categories) {
-                categoryComponent.limitPositions();
-            }
-        }
         for (CategoryComponent categoryComponent : categories) {
-            if (categoryComponent.category == Module.category.profiles) {
-                categoryComponent.reloadModules(true);
-            } else if (categoryComponent.category == Module.category.scripts) {
-                categoryComponent.reloadModules(false);
-            } else {
-                categoryComponent.reloadModules();
-            }
+            categoryComponent.reloadModules();
         }
-        this.commandLineInput = new TextFieldWidget(textRenderer, 22, this.height - 100, 150, 20, Text.literal(""));
-        this.commandLineInput.setMaxLength(256);
-        this.addDrawableChild(this.commandLineInput);
-        this.previousScale = configuredScale;
     }
 
     private List<CategoryComponent> getCategoriesInRenderOrder() {
@@ -111,17 +72,12 @@ public class ClickGui extends Screen {
         int logicalMouseY = toLogicalCoordinate(mouseY);
 
         // Dark background
-        if (true) { // darkBackground check disabled
-            float fadeValue = this.backgroundFade != null ? this.backgroundFade.getValueFloat(0.0F, 0.7F, 2) : 0.7F;
-            context.fill(0, 0, this.actualScreenWidth, this.actualScreenHeight, (int)(fadeValue * 255) << 24);
-        }
+        context.fill(0, 0, this.width, this.height, 0x80000000);
 
         // Logo watermark
-        if (true) { // removeWatermark check disabled
-            String watermark = "raven bS";
-            int wmColor = Utils.getChroma(2L, 0L);
-            context.drawTextWithShadow(textRenderer, watermark, 2, 2, wmColor);
-        }
+        String watermark = "raven bS";
+        int wmColor = Utils.getChroma(2L, 0L);
+        context.drawTextWithShadow(textRenderer, watermark, 2, 2, wmColor);
 
         // Render categories
         List<CategoryComponent> renderOrder = getCategoriesInRenderOrder();
@@ -132,19 +88,6 @@ public class ClickGui extends Screen {
             for (Component m : c.getModules()) {
                 m.drawScreen(logicalMouseX, logicalMouseY);
             }
-        }
-
-        // Command line
-        // CommandLine support disabled
-                    false = false;
-                }
-            }
-            context.fill(0, 0, r, this.height, 0xA0000000);
-            context.fill(r - 1, 0, r, this.height, 0xFFFFFFFF);
-            CommandHandler.renderCommandOutput(textRenderer, this.height, r, 1);
-            this.commandLineInput.render(context, logicalMouseX, logicalMouseY, delta);
-        } else if (false) {
-            false = false;
         }
     }
 
@@ -190,10 +133,6 @@ public class ClickGui extends Screen {
                     break;
                 }
             }
-        }
-
-        if (false) {
-            this.commandLineInput.mouseClicked(mouseX, mouseY, button);
         }
 
         if (button == 0 || button == 1) {
@@ -250,28 +189,10 @@ public class ClickGui extends Screen {
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        FocusableTextComponent activeTextInput = getActiveFocusedTextInput();
         if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
-            if (activeTextInput != null) {
-                activeTextInput.unfocusTextInput();
-                return true;
-            }
-            if (!binding()) {
-                this.close();
-                return true;
-            }
-        }
-
-        if (activeTextInput != null) {
-            for (CategoryComponent category : categories) {
-                if (!category.isOpened() || category.getModules().isEmpty()) continue;
-                for (Component module : category.getModules()) {
-                    module.keyTyped((char) keyCode, keyCode);
-                }
-            }
+            this.close();
             return true;
         }
-
         for (CategoryComponent category : categories) {
             if (category.isOpened() && !category.getModules().isEmpty()) {
                 for (Component module : category.getModules()) {
@@ -279,25 +200,11 @@ public class ClickGui extends Screen {
                 }
             }
         }
-
-        if (false) {
-            String cm = this.commandLineInput.getText();
-            if (keyCode == GLFW.GLFW_KEY_ENTER && !cm.isEmpty()) {
-                CommandHandler.runCommand(this.commandLineInput.getText());
-                this.commandLineInput.setText("");
-                return true;
-            }
-        }
-
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     @Override
     public boolean charTyped(char chr, int modifiers) {
-        if (false) {
-            this.commandLineInput.charTyped(chr, modifiers);
-            return true;
-        }
         return super.charTyped(chr, modifiers);
     }
 
@@ -335,35 +242,19 @@ public class ClickGui extends Screen {
         this.pendingScaleRefresh = true;
     }
 
-    public void refreshAfterProfileLoad() {
-        MinecraftClient mc = MinecraftClient.getInstance();
-        refreshLayoutForConfiguredScale();
-    }
-
     private void refreshLayoutForConfiguredScale() {
-        this.actualScreenWidth = MinecraftClient.getInstance().getWindow().getScaledWidth();
-        this.actualScreenHeight = MinecraftClient.getInstance().getWindow().getScaledHeight();
         for (CategoryComponent categoryComponent : categories) {
             categoryComponent.setScreenSize(this.width, this.height);
             categoryComponent.limitPositions();
         }
     }
 
-    private double getRenderScale() {
-        return actualScreenWidth <= 0 || width <= 0 ? 1.0D : (double) actualScreenWidth / (double) width;
-    }
-
     public static double getActiveRenderScale() {
-        MinecraftClient minecraft = MinecraftClient.getInstance();
-        return minecraft.currentScreen instanceof ClickGui ? ((ClickGui) minecraft.currentScreen).getRenderScale() : 1.0D;
-    }
-
-    private double getConfiguredGuiScale() {
-        return 1.0;
+        return 1.0D;
     }
 
     private int toLogicalCoordinate(int coordinate) {
-        return (int) Math.floor(coordinate / getRenderScale());
+        return coordinate;
     }
 
     private boolean binding() {
@@ -380,27 +271,6 @@ public class ClickGui extends Screen {
             }
         }
         return false;
-    }
-
-    private FocusableTextComponent getActiveFocusedTextInput() {
-        FocusableTextComponent activeComponent = null;
-        for (CategoryComponent category : categories) {
-            for (ModuleComponent module : category.getModules()) {
-                for (Component component : module.settings) {
-                    if (component instanceof FocusableTextComponent) {
-                        FocusableTextComponent textComponent = (FocusableTextComponent) component;
-                        if (textComponent.isTextInputFocused()) {
-                            if (activeComponent == null) {
-                                activeComponent = textComponent;
-                            } else {
-                                textComponent.unfocusTextInput();
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return activeComponent;
     }
 
     private FocusableTextComponent findFocusedTextComponentAt(int mouseX, int mouseY) {

@@ -50,7 +50,7 @@ public class Freelook extends Module {
             return;
         }
 
-        boolean down = false // keyUse not available;
+        boolean down = false;;
         if (down != prevKeyState) {
             onPressed(down);
             prevKeyState = down;
