@@ -104,7 +104,7 @@ public final class BlockSearchIndex {
             else {
                 String[] tokens = locLower.split("\\s+");
                 for (String t : tokens) {
-                    if (t.startsWith(lq) { score = 600; break; }
+                    if (t.startsWith(lq)) { score = 600; break; }
                 }
                 if (score == 0 && locLower.contains(lq)) score = 500;
                 else if (score == 0 && regPath.contains(lq)) score = 400;
@@ -138,7 +138,7 @@ public final class BlockSearchIndex {
             else {
                 String[] tokens = locLower.split("\\s+");
                 for (String t : tokens) {
-                    if (t.startsWith(lq) { score = 600; break; }
+                    if (t.startsWith(lq)) { score = 600; break; }
                 }
                 if (score == 0 && locLower.contains(lq)) score = 500;
                 else if (score == 0 && regPath.contains(lq)) score = 400;
