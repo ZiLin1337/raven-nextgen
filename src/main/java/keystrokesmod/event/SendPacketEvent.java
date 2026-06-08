@@ -1,4 +1,3 @@
-package keystrokesmod.event;
 
 import net.minecraft.network.packet.Packet;
 
