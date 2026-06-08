@@ -16,7 +16,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3dd;
+import net.minecraft.util.math.Vec3d;
 
 public class Scaffold extends Module {
     private SliderSetting extend;
@@ -74,14 +74,14 @@ public class Scaffold extends Module {
         if (targetBlock == null) return;
 
         // Rotate toward block
-        Vec3dd center = Vec3dd.ofCenter(targetBlock);
+        Vec3d center = Vec3d.ofCenter(targetBlock);
         float[] rots = RotationUtils.getRotationsTo(center.x, center.y, center.z);
         e.setYaw(rots[0]);
         e.setPitch(rots[1]);
 
         // Place block
         mc.interactionManager.interactBlock(mc.player, Hand.MAIN_HAND, 
-            new BlockHitResult(Vec3dd.ofCenter(targetBlock), targetFace, targetBlock, false));
+            new BlockHitResult(Vec3d.ofCenter(targetBlock), targetFace, targetBlock, false));
         mc.player.swingHand(Hand.MAIN_HAND);
     }
 

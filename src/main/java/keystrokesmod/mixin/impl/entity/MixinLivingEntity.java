@@ -102,8 +102,8 @@ public abstract class MixinLivingEntity {
     }
 
     // ===== travel (PrePlayerMovementInputEvent) =====
-    @Redirect(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;travel(Lnet/minecraft/util/math/Vec3dd;)V"))
-    private void onTravelRedirect(LivingEntity self, Vec3dd movementInput) {
+    @Redirect(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;travel(Lnet/minecraft/util/math/Vec3d;)V"))
+    private void onTravelRedirect(LivingEntity self, Vec3d movementInput) {
         if (self instanceof ClientPlayerEntity) {
             PrePlayerMovementInputEvent event = new PrePlayerMovementInputEvent(
                     (float) movementInput.z, // forward is on z
@@ -112,7 +112,7 @@ public abstract class MixinLivingEntity {
             Raven.EVENT_BUS.post(event);
 
             // Apply modified input
-            self.travel(new Vec3dd(event.strafe, 0, event.forward));
+            self.travel(new Vec3d(event.strafe, 0, event.forward));
         } else {
             self.travel(movementInput);
         }

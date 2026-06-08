@@ -21,7 +21,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Vec3dd;
+import net.minecraft.util.math.Vec3d;
 
 import org.lwjgl.opengl.GL11;
 
@@ -359,15 +359,15 @@ public class MobESP extends Module {
                 bbox.maxZ - en.getZ() + playerZ
         );
 
-        Vec3dd[] corners = new Vec3dd[8];
-        corners[0] = new Vec3dd(axis.minX, axis.minY, axis.minZ);
-        corners[1] = new Vec3dd(axis.minX, axis.minY, axis.maxZ);
-        corners[2] = new Vec3dd(axis.minX, axis.maxY, axis.minZ);
-        corners[3] = new Vec3dd(axis.minX, axis.maxY, axis.maxZ);
-        corners[4] = new Vec3dd(axis.maxX, axis.minY, axis.minZ);
-        corners[5] = new Vec3dd(axis.maxX, axis.minY, axis.maxZ);
-        corners[6] = new Vec3dd(axis.maxX, axis.maxY, axis.minZ);
-        corners[7] = new Vec3dd(axis.maxX, axis.maxY, axis.maxZ);
+        Vec3d[] corners = new Vec3d[8];
+        corners[0] = new Vec3d(axis.minX, axis.minY, axis.minZ);
+        corners[1] = new Vec3d(axis.minX, axis.minY, axis.maxZ);
+        corners[2] = new Vec3d(axis.minX, axis.maxY, axis.minZ);
+        corners[3] = new Vec3d(axis.minX, axis.maxY, axis.maxZ);
+        corners[4] = new Vec3d(axis.maxX, axis.minY, axis.minZ);
+        corners[5] = new Vec3d(axis.maxX, axis.minY, axis.maxZ);
+        corners[6] = new Vec3d(axis.maxX, axis.maxY, axis.minZ);
+        corners[7] = new Vec3d(axis.maxX, axis.maxY, axis.maxZ);
 
         double minX = Double.MAX_VALUE;
         double minY = Double.MAX_VALUE;
@@ -377,8 +377,8 @@ public class MobESP extends Module {
         boolean isInView = false;
          // ScaledResolution removed; use window directly
 
-        for (Vec3dd corner : corners) {
-            Vec3dd screenVec = RenderUtils.convertTo2D((int)mc.getWindow().getScaleFactor(), corner.x, corner.y, corner.z);
+        for (Vec3d corner : corners) {
+            Vec3d screenVec = RenderUtils.convertTo2D((int)mc.getWindow().getScaleFactor(), corner.x, corner.y, corner.z);
             if (screenVec != null) {
                 if (screenVec.z >= 1.0003684 || screenVec.z <= 0) {
                     continue;

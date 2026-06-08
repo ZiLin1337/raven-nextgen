@@ -23,7 +23,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Vec3dd;
+import net.minecraft.util.math.Vec3d;
 // Removed Forge event
 
 import org.lwjgl.glfw.GLFW;

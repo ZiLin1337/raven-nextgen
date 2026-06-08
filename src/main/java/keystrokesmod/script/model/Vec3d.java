@@ -1,7 +1,7 @@
 package keystrokesmod.script.model;
 
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3dd;
+import net.minecraft.util.math.Vec3d;
 
 public class Vec3d {
     public double x, y, z;
@@ -12,7 +12,7 @@ public class Vec3d {
         this.z = z;
     }
 
-    public Vec3d(net.minecraft.util.math.Vec3dd minecraftVec3d) {
+    public Vec3d(net.minecraft.util.math.Vec3d minecraftVec3d) {
         this(minecraftVec3d.x, minecraftVec3d.y, minecraftVec3d.z);
     }
 
@@ -40,7 +40,7 @@ public class Vec3d {
         return new Vec3d(blockPos.getX(), blockPos.getY(), blockPos.getZ());
     }
 
-    public static Vec3d convert(Vec3dd vec3d) {
+    public static Vec3d convert(Vec3d vec3d) {
         return new Vec3d(vec3d.x, vec3d.y, vec3d.z);
     }
 
@@ -48,8 +48,8 @@ public class Vec3d {
         return BlockPos.ofFloored(blockPos.x, blockPos.y, blockPos.z);
     }
 
-    public static Vec3dd getVec3d(Vec3d vec3) {
-        return new Vec3dd(vec3.x, vec3.y, vec3.z);
+    public static Vec3d getVec3d(Vec3d vec3) {
+        return new Vec3d(vec3.x, vec3.y, vec3.z);
     }
 
     @Override

@@ -14,7 +14,7 @@ import net.minecraft.entity.item.ItemEntityFrame;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.Vec3dd;
+import net.minecraft.util.math.Vec3d;
 // Removed Forge event
 
 import org.lwjgl.opengl.GL11;

@@ -17,7 +17,7 @@ import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3dd;
+import net.minecraft.util.math.Vec3d;
 // Removed Forge event
 
 import java.awt.*;

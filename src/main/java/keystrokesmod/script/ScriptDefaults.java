@@ -50,7 +50,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3dd;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
@@ -415,11 +415,11 @@ public class ScriptDefaults {
 
         // --- Raycast helpers ---
 
-        private static Vec3dd getLookVec(float yaw, float pitch) {
+        private static Vec3d getLookVec(float yaw, float pitch) {
             float radYaw = (float) Math.toRadians(yaw);
             float radPitch = (float) Math.toRadians(pitch);
             float cosPitch = (float) Math.cos(radPitch);
-            return new Vec3dd(-Math.sin(radYaw) * cosPitch, -Math.sin(radPitch), Math.cos(radYaw) * cosPitch);
+            return new Vec3d(-Math.sin(radYaw) * cosPitch, -Math.sin(radPitch), Math.cos(radYaw) * cosPitch);
         }
 
         public static Object[] raycastBlock(final double distance) {
@@ -429,9 +429,9 @@ public class ScriptDefaults {
 
         public static Object[] raycastBlock(final double distance, final float yaw, final float pitch) {
             if (mc.world == null || mc.player == null) return null;
-            Vec3dd eyeVec = mc.player.getCameraPosVec(1.0f);
-            Vec3dd lookVec = getLookVec(yaw, pitch);
-            Vec3dd sumVec = eyeVec.add(lookVec.multiply(distance));
+            Vec3d eyeVec = mc.player.getCameraPosVec(1.0f);
+            Vec3d lookVec = getLookVec(yaw, pitch);
+            Vec3d sumVec = eyeVec.add(lookVec.multiply(distance));
             BlockHitResult hit = mc.world.raycast(new RaycastContext(eyeVec, sumVec, RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, mc.player));
             if (hit == null || hit.getType() != HitResult.Type.BLOCK) return null;
             BlockPos pos = hit.getBlockPos();
@@ -448,9 +448,9 @@ public class ScriptDefaults {
         public static Object[] raycastEntity(final double distance, final float yaw, final float pitch) {
             if (mc.world == null || mc.player == null) return null;
             net.minecraft.entity.Entity pointedEntity = null;
-            Vec3dd eyeVec = mc.player.getCameraPosVec(1.0f);
-            Vec3dd lookVec = getLookVec(yaw, pitch);
-            Vec3dd reachVec = eyeVec.add(lookVec.multiply(distance));
+            Vec3d eyeVec = mc.player.getCameraPosVec(1.0f);
+            Vec3d lookVec = getLookVec(yaw, pitch);
+            Vec3d reachVec = eyeVec.add(lookVec.multiply(distance));
             EntityHitResult mop = ProjectileUtil.raycast(mc.player, eyeVec, reachVec, mc.player.getBoundingBox().stretch(lookVec.multiply(distance)).expand(1.0), (entity) -> !entity.isSpectator() && entity.canHit(), distance);
             if (mop != null && mop.getEntity() != null) {
                 Vec3d offset = new Vec3d(mop.getPos().x - mop.getEntity().getX(), mop.getPos().y - mop.getEntity().getY(), mop.getPos().z - mop.getEntity().getZ());
@@ -459,10 +459,10 @@ public class ScriptDefaults {
             // fallback: manual entity search
             net.minecraft.entity.Entity best = null;
             double bestDist = distance;
-            Vec3dd bestHit = null;
+            Vec3d bestHit = null;
             for (net.minecraft.entity.Entity e : mc.world.getEntities()) {
                 if (e.isSpectator() || e == mc.player || !e.canHit()) continue;
-                Vec3dd rel = e.getBoundingBox().raycast(eyeVec, reachVec).orElse(null);
+                Vec3d rel = e.getBoundingBox().raycast(eyeVec, reachVec).orElse(null);
                 if (rel != null) {
                     double d = eyeVec.distanceTo(rel);
                     if (d < bestDist) {
@@ -492,7 +492,7 @@ public class ScriptDefaults {
             Direction dir = Direction.byName(side);
             if (dir == null) dir = Direction.UP;
             BlockPos pos = new BlockPos((int) targetPos.x, (int) targetPos.y, (int) targetPos.z);
-            Vec3dd hit = new Vec3dd(hitVec.x, hitVec.y, hitVec.z);
+            Vec3d hit = new Vec3d(hitVec.x, hitVec.y, hitVec.z);
             return mc.interactionManager.interactBlock(mc.player, mc.player.getActiveHand(), pos, dir, hit) == net.minecraft.util.ActionResult.SUCCESS;
         }
 

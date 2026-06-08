@@ -9,7 +9,7 @@ import keystrokesmod.lag.queue.BiTrackLagNodeQueue;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.play.client.PlayerMoveC2SPacket;
-import net.minecraft.util.math.Vec3dd;
+import net.minecraft.util.math.Vec3d;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

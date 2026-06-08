@@ -14,7 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3dd;
+import net.minecraft.util.math.Vec3d;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
 
@@ -170,11 +170,11 @@ public class RenderUtils1214 {
     }
     
     // Convert world coordinates to screen coordinates
-    public static Vec3dd worldToScreen(Vec3dd worldPos) {
+    public static Vec3d worldToScreen(Vec3d worldPos) {
         if (mc.entityRenderDispatcher == null || mc.player == null) return null;
         
         // Get camera position
-        Vec3dd cameraPos = mc.entityRenderDispatcher.camera.getPos();
+        Vec3d cameraPos = mc.entityRenderDispatcher.camera.getPos();
         
         // Translate to camera-relative coordinates
         double x = worldPos.x - cameraPos.x;
@@ -203,7 +203,7 @@ public class RenderUtils1214 {
         double screenX = (ndcX + 1.0f) / 2.0f * screenWidth;
         double screenY = (1.0f - ndcY) / 2.0f * screenHeight;
         
-        return new Vec3dd(screenX, screenY, pos.z());
+        return new Vec3d(screenX, screenY, pos.z());
     }
     
     // Get Identifier for texture

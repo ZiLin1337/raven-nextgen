@@ -12,7 +12,7 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.Vec3dd;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 

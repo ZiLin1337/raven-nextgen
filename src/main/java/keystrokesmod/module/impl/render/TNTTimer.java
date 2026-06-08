@@ -15,7 +15,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.TntEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Vec3dd;
+import net.minecraft.util.math.Vec3d;
 import com.mojang.blaze3d.systems.RenderSystem;
 import org.joml.Matrix4f;
 import java.text.DecimalFormat;
@@ -45,7 +45,7 @@ public class TNTTimer extends Module {
     public void onRenderWorld(MatrixStack matrices) {
         if (!Utils.nullCheck() || trackedTntCount == 0) return;
 
-        Vec3dd camPos = mc.gameRenderer.getCamera().getPos();
+        Vec3d camPos = mc.gameRenderer.getCamera().getPos();
         TextRenderer fr = mc.textRenderer;
 
         for (int i = 0; i < trackedTntCount; i++) {
@@ -55,7 +55,7 @@ public class TNTTimer extends Module {
             int fuse = trackedBedwars ? (tnt.getFuse() - BEDWARS_FUSE_OFFSET) : tnt.getFuse();
             if (fuse < 1) continue;
 
-            Vec3dd pos = tnt.getPos();
+            Vec3d pos = tnt.getPos();
             double x = pos.x - camPos.x;
             double y = pos.y + tnt.getHeight() + 0.5 - camPos.y;
             double z = pos.z - camPos.z;

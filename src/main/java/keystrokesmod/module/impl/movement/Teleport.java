@@ -8,7 +8,7 @@ import keystrokesmod.utility.Utils;
 // Removed 1.8.9 packet import
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.Vec3dd;
+import net.minecraft.util.math.Vec3d;
 // Removed Forge event
 
 import java.awt.*;
