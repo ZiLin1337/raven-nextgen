@@ -156,8 +156,8 @@ public final class ItemSearchIndex {
                 return stack != null && stack.getItem() instanceof ItemShears;
             }
         };
-
         private final String storageId;
+
         private final String displayName;
         private final ItemStack previewStack;
 

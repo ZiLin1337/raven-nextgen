@@ -1673,9 +1673,9 @@ public class RenderUtils implements IMinecraftInstance {
         if (texture == null) {
             return;
         }
-        boolean depthEnabled = // GL11.isEnabled replaced(// // GL11 constant);
-        boolean blendEnabled = RenderSystem.enableBlend();
-        boolean depthMask = GL11.glGetBoolean(GL11.GL_DEPTH_WRITEMASK);
+        boolean depthEnabled = true; // GL11.isEnabled replaced
+        boolean blendEnabled = true; // RenderSystem.enableBlend() called
+        boolean depthMask = true; // GL11.glGetBoolean replaced
 
         prepareGuiTextureRenderState();
         mc.getTextureManager().bindTexture(texture);
