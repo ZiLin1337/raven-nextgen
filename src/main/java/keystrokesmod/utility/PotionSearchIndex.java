@@ -2,11 +2,11 @@ package keystrokesmod.utility;
 
 import keystrokesmod.module.setting.impl.PotionListSetting;
 import net.minecraft.item.Items;
-import net.minecraft.item.ItemPotion;
+import net.minecraft.item.PotionItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.util.StatCollector;
+import net.minecraft.text.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -166,7 +166,7 @@ public final class PotionSearchIndex {
                 continue;
             }
 
-            String displayName = StatCollector.translateToLocal(potionKey);
+            String displayName = Text.translatable(potionKey);
             if (displayName == null || displayName.isEmpty() || displayName.equals(potionKey)) {
                 displayName = getSimpleKey(potionKey);
             }
@@ -184,11 +184,11 @@ public final class PotionSearchIndex {
     }
 
     private static ItemStack resolvePotionItemStack(int potionId) {
-        if (!(Items.POTION instanceof ItemPotion)) {
+        if (!(Items.POTION instanceof PotionItem)) {
             return null;
         }
 
-        ItemPotion potionItem = (ItemPotion) Items.POTION;
+        PotionItem potionItem = (PotionItem) Items.POTION;
         ItemStack bestStack = null;
         int bestScore = Integer.MIN_VALUE;
 
@@ -220,7 +220,7 @@ public final class PotionSearchIndex {
             if (effects.size() == 1) {
                 score += 50;
             }
-            if (!ItemPotion.isSplash(metadata)) {
+            if (!PotionItem.isSplash(metadata)) {
                 score += 25;
             }
 

@@ -31,7 +31,7 @@ public final class FontManager {
     private static final String[] HUD_FONT_OPTIONS = buildHudFontOptions();
     private static final Map<String, BundledFont> BUNDLED_FONT_MAP = buildBundledFontMap();
     private static final Map<String, Font> BASE_FONT_CACHE = new ConcurrentHashMap<String, Font>();
-    private static final Map<String, RavenFontRenderer> FONT_CACHE = new LinkedHashMap<String, RavenFontRenderer>(16, 0.75f, true);
+    private static final Map<String, RavenTextRenderer> FONT_CACHE = new LinkedHashMap<String, RavenTextRenderer>(16, 0.75f, true);
 
     private FontManager() {
     }
@@ -40,24 +40,24 @@ public final class FontManager {
         return HUD_FONT_OPTIONS.clone();
     }
 
-    public static RavenFontRenderer getHudRenderer(String family, float scale) {
+    public static RavenTextRenderer getHudRenderer(String family, float scale) {
         float safeScale = Math.max(0.5f, Math.min(2.0f, scale));
         return getRenderer(family, DEFAULT_HUD_FONT_SIZE * safeScale);
     }
 
-    public static RavenFontRenderer getClickGuiHeaderRenderer(String family) {
+    public static RavenTextRenderer getClickGuiHeaderRenderer(String family) {
         return getRendererForPixelHeight(family, DEFAULT_CLICK_GUI_HEADER_HEIGHT);
     }
 
-    public static RavenFontRenderer getClickGuiSettingRenderer(String family) {
+    public static RavenTextRenderer getClickGuiSettingRenderer(String family) {
         return getRendererForPixelHeight(family, DEFAULT_CLICK_GUI_SETTING_HEIGHT);
     }
 
-    public static RavenFontRenderer getNametagRenderer(String family) {
+    public static RavenTextRenderer getNametagRenderer(String family) {
         return getRenderer(family, DEFAULT_NAMETAG_FONT_SIZE);
     }
 
-    private static RavenFontRenderer getRenderer(String family, float fontSize) {
+    private static RavenTextRenderer getRenderer(String family, float fontSize) {
         float safeFontSize = Math.max(1.0f, fontSize);
         BundledFont bundledFont;
 
@@ -71,20 +71,20 @@ public final class FontManager {
         }
 
         String key = family + "#" + quantizeForCacheKey(safeFontSize) + "#" + getUiScale();
-        return getCachedRenderer(key, new Supplier<RavenFontRenderer>() {
+        return getCachedRenderer(key, new Supplier<RavenTextRenderer>() {
             @Override
-            public RavenFontRenderer get() {
+            public RavenTextRenderer get() {
             Font baseFont = BASE_FONT_CACHE.computeIfAbsent(bundledFont.fileName, FontManager::loadBaseFont);
             if (baseFont == null) {
                 return getMinecraftRenderer(safeFontSize);
             }
 
-            return new GlyphFontRenderer(baseFont.deriveFont(safeFontSize), true);
+            return new GlyphTextRenderer(baseFont.deriveFont(safeFontSize), true);
             }
         });
     }
 
-    private static RavenFontRenderer getRendererForPixelHeight(String family, float targetHeight) {
+    private static RavenTextRenderer getRendererForPixelHeight(String family, float targetHeight) {
         float safeTargetHeight = Math.max(1.0f, targetHeight);
         BundledFont bundledFont;
 
@@ -98,9 +98,9 @@ public final class FontManager {
         }
 
         String key = family + "#height#" + quantizeForCacheKey(safeTargetHeight) + "#" + getUiScale();
-        return getCachedRenderer(key, new Supplier<RavenFontRenderer>() {
+        return getCachedRenderer(key, new Supplier<RavenTextRenderer>() {
             @Override
-            public RavenFontRenderer get() {
+            public RavenTextRenderer get() {
             Font baseFont = BASE_FONT_CACHE.computeIfAbsent(bundledFont.fileName, FontManager::loadBaseFont);
             if (baseFont == null) {
                 return getMinecraftRenderer(safeTargetHeight);
@@ -111,9 +111,9 @@ public final class FontManager {
         });
     }
 
-    private static RavenFontRenderer createHeightMatchedRenderer(Font baseFont, float targetHeight) {
+    private static RavenTextRenderer createHeightMatchedRenderer(Font baseFont, float targetHeight) {
         float derivedSize = targetHeight;
-        GlyphFontRenderer renderer = new GlyphFontRenderer(baseFont.deriveFont(derivedSize), true);
+        GlyphTextRenderer renderer = new GlyphTextRenderer(baseFont.deriveFont(derivedSize), true);
 
         for (int i = 0; i < 2; i++) {
             float measuredHeight = Math.max(1.0f, renderer.getFontHeight());
@@ -122,16 +122,16 @@ public final class FontManager {
                 break;
             }
 
-            GlyphFontRenderer previousRenderer = renderer;
+            GlyphTextRenderer previousRenderer = renderer;
             derivedSize = Math.max(1.0f, derivedSize * (targetHeight / measuredHeight));
-            renderer = new GlyphFontRenderer(baseFont.deriveFont(derivedSize), true);
+            renderer = new GlyphTextRenderer(baseFont.deriveFont(derivedSize), true);
             previousRenderer.destroy();
         }
 
         return renderer;
     }
 
-    private static RavenFontRenderer getMinecraftRenderer(float fontSize) {
+    private static RavenTextRenderer getMinecraftRenderer(float fontSize) {
         MinecraftClient mc = MinecraftClient.getInstance();
         float vanillaHeight = Math.max(1.0f, mc.textRenderer.fontHeight);
         float scale = Math.max(0.5f, Math.min(2.0f, fontSize / vanillaHeight));
@@ -218,8 +218,8 @@ public final class FontManager {
         }
     }
 
-    private static synchronized RavenFontRenderer getCachedRenderer(String key, Supplier<RavenFontRenderer> rendererSupplier) {
-        RavenFontRenderer renderer = FONT_CACHE.get(key);
+    private static synchronized RavenTextRenderer getCachedRenderer(String key, Supplier<RavenTextRenderer> rendererSupplier) {
+        RavenTextRenderer renderer = FONT_CACHE.get(key);
         if (renderer != null) {
             return renderer;
         }
@@ -232,12 +232,12 @@ public final class FontManager {
 
     private static void trimFontCache() {
         while (FONT_CACHE.size() > MAX_CACHED_RENDERERS) {
-            Iterator<Map.Entry<String, RavenFontRenderer>> iterator = FONT_CACHE.entrySet().iterator();
+            Iterator<Map.Entry<String, RavenTextRenderer>> iterator = FONT_CACHE.entrySet().iterator();
             if (!iterator.hasNext()) {
                 return;
             }
 
-            Map.Entry<String, RavenFontRenderer> eldestEntry = iterator.next();
+            Map.Entry<String, RavenTextRenderer> eldestEntry = iterator.next();
             iterator.remove();
             if (eldestEntry.getValue() != null) {
                 eldestEntry.getValue().destroy();

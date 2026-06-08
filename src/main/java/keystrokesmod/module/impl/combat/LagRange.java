@@ -19,7 +19,7 @@ import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemPotion;
+import net.minecraft.item.PotionItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -193,7 +193,7 @@ public class LagRange extends Module {
 
                 if (usedSplashPotion.isToggled() && mc.player.isUsingItem()) {
                     ItemStack held = mc.player.getHeldItem();
-                    if (held != null && held.getItem() instanceof ItemPotion && ItemPotion.isSplash(held.getMetadata())) {
+                    if (held != null && held.getItem() instanceof PotionItem && PotionItem.isSplash(held.getMetadata())) {
                         flushLag();
                         lastDistSq = distSq;
                         lastTargetHurtTime = currentTarget.hurtTime;

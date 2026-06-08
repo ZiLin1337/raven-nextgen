@@ -186,7 +186,7 @@ public class PlayerESP extends Module {
         RenderSystem.pushMatrix();
         RenderSystem.pushAttrib();
         outlineFramebuffer.bindFramebuffer(false);
-        ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(partialTicks, 0);
+        ((IAccessorGameRendererr) mc.entityRenderer).callSetupCameraTransform(partialTicks, 0);
         boolean shadows = mc.options.entityShadows;
         mc.options.entityShadows = false;
         renderingOutlinePass = true;
@@ -340,7 +340,7 @@ public class PlayerESP extends Module {
         }
 
          scaledResolution = /* ScaledResolution removed in 1.21.4 */ null;
-        ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(partialTicks, 0);
+        ((IAccessorGameRendererr) mc.entityRenderer).callSetupCameraTransform(partialTicks, 0);
         projectionContext = RenderUtils.captureProjectionContext(projectionContext, scaledResolution.getScaleFactor());
         mc.entityRenderer.setupOverlayRendering();
 

@@ -4,7 +4,7 @@ import keystrokesmod.clickgui.components.Component;
 import keystrokesmod.module.impl.client.Gui;
 import keystrokesmod.module.setting.impl.DescriptionSetting;
 import keystrokesmod.utility.Theme;
-import keystrokesmod.utility.font.RavenFontRenderer;
+import keystrokesmod.utility.font.RavenTextRenderer;
 import org.lwjgl.opengl.GL11;
 
 public class DescriptionComponent extends Component {
@@ -23,7 +23,7 @@ public class DescriptionComponent extends Component {
     }
 
     public void render() {
-        RavenFontRenderer renderer = Gui.getClickGuiSettingFontRenderer();
+        RavenTextRenderer renderer = Gui.getClickGuiSettingTextRenderer();
         RenderSystem.getModelViewStack().pushMatrix();
         GL11.glScaled(0.5D, 0.5D, 0.5D);
         renderer.drawString(this.desc.getDesc(), (float) ((this.p.categoryComponent.getX() + 4) * 2), (float) ((this.p.categoryComponent.getY() + this.o + 4) * 2), Theme.getGradient(Theme.descriptor[0], Theme.descriptor[1], 0), true);

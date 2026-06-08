@@ -116,7 +116,7 @@ public class AutoClicker extends Module {
             return;
         }
 
-        HandledScreen gui = (GuiContainer) mc.currentScreen;
+        HandledScreen gui = (HandledScreenr) mc.currentScreen;
         Slot slot = getHoveredSlot(gui);
         if (slot == null || slot.slotNumber < 0) {
             return;
@@ -166,8 +166,8 @@ public class AutoClicker extends Module {
                         this.isHoldingBlockBreak = false;
                     }
                 }
-                else if (mc.objectMouseOver != null) {
-                BlockPos pos = mc.objectMouseOver.getBlockPos();
+                else if (mc.crosshairTargetr != null) {
+                BlockPos pos = mc.crosshairTargetr.getBlockPos();
                 if (pos != null) {
                     Block block = mc.world.getBlockState(pos).getBlock();
                     if (block != Blocks.AIR && !(block instanceof FluidBlock)) {
@@ -240,11 +240,11 @@ public class AutoClicker extends Module {
             return;
         }
         try {
-            hoveredSlotField = GuiContainer.class.getDeclaredField("theSlot");
+            hoveredSlotField = HandledScreenr.class.getDeclaredField("theSlot");
             hoveredSlotField.setAccessible(true);
         } catch (NoSuchFieldException e) {
             try {
-                hoveredSlotField = GuiContainer.class.getDeclaredField("field_147006_u");
+                hoveredSlotField = HandledScreenr.class.getDeclaredField("field_147006_u");
                 hoveredSlotField.setAccessible(true);
             } catch (NoSuchFieldException ignored) {
                 hoveredSlotField = null;
@@ -252,7 +252,7 @@ public class AutoClicker extends Module {
         }
     }
 
-    private static Slot getHoveredSlot(GuiContainer gui) {
+    private static Slot getHoveredSlot(HandledScreenr gui) {
         if (hoveredSlotField == null || gui == null) {
             return null;
         }

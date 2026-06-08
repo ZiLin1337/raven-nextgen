@@ -9,7 +9,7 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import keystrokesmod.utility.font.FontManager;
-import keystrokesmod.utility.font.RavenFontRenderer;
+import keystrokesmod.utility.font.RavenTextRenderer;
 import net.minecraft.client.font.TextRenderer;
 
 import net.minecraft.client.render.Tessellator;
@@ -24,7 +24,7 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
-import net.minecraft.item.ItemTool;
+import net.minecraft.item.ToolItem;
 import net.minecraftforge.client.event.RenderLivingEvent;
 
 
@@ -179,7 +179,7 @@ public class Nametags extends Module {
     }
 
     private void updateRenderStates() {
-        RavenTextRenderer fontRenderer = getNametagFontRenderer();
+        RavenTextRenderer fontRenderer = getNametagTextRenderer();
         Entity viewer = mc.getRenderViewEntity();
         if (viewer == null) {
             renderStateCount = 0;
@@ -258,20 +258,20 @@ public class Nametags extends Module {
 
     private void renderNametags(float partialTicks) {
         EntityRenderDispatcher renderManager = mc.getEntityRenderDispatcher();
-        FontRenderer itemFontRenderer = mc.textRenderer;
-        RavenFontRenderer textRenderer = getNametagFontRenderer();
-        if (renderManager == null || itemFontRenderer == null || renderStateCount == 0) {
+        TextRenderer itemTextRenderer = mc.textRenderer;
+        RavenTextRenderer textRenderer = getNametagTextRenderer();
+        if (renderManager == null || itemTextRenderer == null || renderStateCount == 0) {
             return;
         }
 
-        ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(partialTicks, 0);
+        ((IAccessorGameRendererr) mc.entityRenderer).callSetupCameraTransform(partialTicks, 0);
 
         for (int i = 0; i < renderStateCount; i++) {
             NametagRenderState renderState = renderStates.get(i);
             if (renderState.player == null || !RenderUtils.isInViewFrustum(renderState.player)) {
                 continue;
             }
-            renderCustomName(renderState, partialTicks, renderManager, textRenderer, itemFontRenderer);
+            renderCustomName(renderState, partialTicks, renderManager, textRenderer, itemTextRenderer);
         }
 
         RenderSystem.enableDepth();
@@ -345,7 +345,7 @@ public class Nametags extends Module {
         return Math.max(scaleValue, scaledValue);
     }
 
-    private void renderCustomName(NametagRenderState state, float partialTicks, EntityRenderDispatcher renderManager, RavenFontRenderer textRenderer, FontRenderer itemFontRenderer) {
+    private void renderCustomName(NametagRenderState state, float partialTicks, EntityRenderDispatcher renderManager, RavenTextRenderer textRenderer, TextRenderer itemTextRenderer) {
         PlayerEntity entity = state.player;
         if (entity == null || entity.isDead || entity.deathTime > 0) {
             return;
@@ -385,23 +385,23 @@ public class Nametags extends Module {
             int iconY = -20;
 
             if (state.heldItem != null) {
-                renderItemStack(state.heldItem, iconX, iconY, itemFontRenderer);
+                renderItemStack(state.heldItem, iconX, iconY, itemTextRenderer);
                 iconX += ITEM_SPACING;
             }
             if (state.helmet != null) {
-                renderItemStack(state.helmet, iconX, iconY, itemFontRenderer);
+                renderItemStack(state.helmet, iconX, iconY, itemTextRenderer);
                 iconX += ITEM_SPACING;
             }
             if (state.chestplate != null) {
-                renderItemStack(state.chestplate, iconX, iconY, itemFontRenderer);
+                renderItemStack(state.chestplate, iconX, iconY, itemTextRenderer);
                 iconX += ITEM_SPACING;
             }
             if (state.leggings != null) {
-                renderItemStack(state.leggings, iconX, iconY, itemFontRenderer);
+                renderItemStack(state.leggings, iconX, iconY, itemTextRenderer);
                 iconX += ITEM_SPACING;
             }
             if (state.boots != null) {
-                renderItemStack(state.boots, iconX, iconY, itemFontRenderer);
+                renderItemStack(state.boots, iconX, iconY, itemTextRenderer);
             }
         }
 
@@ -427,7 +427,7 @@ public class Nametags extends Module {
         RenderSystem.color(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
-    private void drawDisplayName(NametagRenderState state, RavenFontRenderer textRenderer) {
+    private void drawDisplayName(NametagRenderState state, RavenTextRenderer textRenderer) {
         if (state.relationshipColor == -1 || state.playerNameStart < 0 || state.playerNameEnd <= state.playerNameStart) {
             textRenderer.drawString(state.displayName, -state.stringHalfWidth, 0.0f, 0xFFFFFFFF, textShadow.isToggled());
             return;
@@ -544,7 +544,7 @@ public class Nametags extends Module {
         return font.getOptions()[index];
     }
 
-    private RavenFontRenderer getNametagFontRenderer() {
+    private RavenTextRenderer getNametagTextRenderer() {
         return FontManager.getNametagRenderer(getSelectedFontName());
     }
 
@@ -644,7 +644,7 @@ public class Nametags extends Module {
             ids = BOW_ENCHANT_IDS;
             abbreviations = BOW_ENCHANT_ABBR;
         }
-        else if (item instanceof ItemTool) {
+        else if (item instanceof ToolItem) {
             ids = TOOL_ENCHANT_IDS;
             abbreviations = TOOL_ENCHANT_ABBR;
         }

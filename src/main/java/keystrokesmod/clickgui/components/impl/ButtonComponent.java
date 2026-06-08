@@ -5,7 +5,7 @@ import keystrokesmod.clickgui.components.Component;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.impl.client.Gui;
 import keystrokesmod.module.setting.impl.ButtonSetting;
-import keystrokesmod.utility.font.RavenFontRenderer;
+import keystrokesmod.utility.font.RavenTextRenderer;
 import keystrokesmod.utility.profile.ProfileModule;
 import net.minecraft.client.MinecraftClient;
 import org.lwjgl.opengl.GL11;
@@ -34,7 +34,7 @@ public class ButtonComponent extends Component {
     }
 
     public void render() {
-        RavenFontRenderer renderer = Gui.getClickGuiSettingFontRenderer();
+        RavenTextRenderer renderer = Gui.getClickGuiSettingTextRenderer();
         RenderSystem.getModelViewStack().pushMatrix();
         GL11.glScaled(0.5D, 0.5D, 0.5D);
         renderer.drawString((this.buttonSetting.isMethodButton ? "[=]  " : (this.buttonSetting.isToggled() ? "[+]  " : "[-]  ")) + this.buttonSetting.getName(), (float) ((this.moduleComponent.categoryComponent.getX() + 4) * 2) + xOffset, (float) ((this.moduleComponent.categoryComponent.getY() + this.o + 4) * 2), this.buttonSetting.isToggled() ? ENABLED_COLOR : -1, false);

@@ -10,10 +10,10 @@ import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityTypet;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemEnderPearl;
-import net.minecraft.item.ItemMonsterPlacer;
+import net.minecraft.item.EnderPearlItem;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
 import net.minecraft.util.math.BlockPos;
@@ -180,10 +180,10 @@ public class SkyWars extends Module {
         if (e.getPacket() instanceof PlayerInteractBlockC2SPacket) {
             PlayerInteractBlockC2SPacket p = (PlayerInteractBlockC2SPacket) e.getPacket();
             if (p.getPlacedBlockDirection() != 255 && p.getStack() != null && p.getStack().getItem() != null) {
-                if (!(p.getStack().getItem() instanceof ItemMonsterPlacer)) {
+                if (!(p.getStack().getItem() instanceof SpawnEggItem)) {
                     return;
                 }
-                Class<? extends Entity> oclass = EntityList.stringToClassMapping.get(ItemMonsterPlacer.getEntityName(p.getStack()));
+                Class<? extends Entity> oclass = EntityTypet.stringToClassMapping.get(SpawnEggItem.getEntityName(p.getStack()));
                 if (oclass == null) {
                     return;
                 }
@@ -194,7 +194,7 @@ public class SkyWars extends Module {
 
     
     public void onUseItem(UseItemEvent e) {
-        if (e.usedItemStack != null && e.usedItemStack.getItem() instanceof ItemEnderPearl && Utils.getSkyWarsStatus() == 2) {
+        if (e.usedItemStack != null && e.usedItemStack.getItem() instanceof EnderPearlItem && Utils.getSkyWarsStatus() == 2) {
             ItemStack stack = e.usedItemStack;
             if (Utils.stripString(stack.getDisplayName()).equals("Time Warp Pearl")) {
                 thrownPearl = true;

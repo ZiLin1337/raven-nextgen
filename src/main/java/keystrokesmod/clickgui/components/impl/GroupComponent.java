@@ -4,7 +4,7 @@ import keystrokesmod.clickgui.components.Component;
 import keystrokesmod.module.impl.client.Gui;
 import keystrokesmod.module.setting.impl.GroupSetting;
 import keystrokesmod.utility.Timer;
-import keystrokesmod.utility.font.RavenFontRenderer;
+import keystrokesmod.utility.font.RavenTextRenderer;
 import org.lwjgl.opengl.GL11;
 
 public class GroupComponent extends Component {
@@ -57,7 +57,7 @@ public class GroupComponent extends Component {
 
     public void render() {
         float progress = getAnimationProgress();
-        RavenFontRenderer renderer = Gui.getClickGuiSettingFontRenderer();
+        RavenTextRenderer renderer = Gui.getClickGuiSettingTextRenderer();
         RenderSystem.getModelViewStack().pushMatrix();
         GL11.glScaled(0.5D, 0.5D, 0.5D);
         float strX = ((this.component.categoryComponent.getX() + 4) * 2) + 1;
@@ -126,7 +126,7 @@ public class GroupComponent extends Component {
         return x > this.x && x < this.x + this.component.categoryComponent.getWidth() && y > this.y && y < this.y + 11;
     }
 
-    private void drawString(RavenFontRenderer renderer, String text, float x, float y) {
+    private void drawString(RavenTextRenderer renderer, String text, float x, float y) {
         renderer.drawString(text, x, y, -1, false);
     }
 }

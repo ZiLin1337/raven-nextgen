@@ -8,7 +8,7 @@ import keystrokesmod.lag.api.LagRequest;
 import keystrokesmod.lag.queue.BiTrackLagNodeQueue;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.play.client.PlayerMoveC2SPacket;
+import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.Vec3d;
 
 import org.jetbrains.annotations.NotNull;
@@ -42,7 +42,7 @@ public final class UnifiedLagHandler extends AbstractFastTrackProvider {
 
     
     public void onSendPacket(final @NotNull SendPacketEvent event) {
-        if (MinecraftClient.getInstance().getNetHandler() == null) {
+        if (MinecraftClient.getInstance().getNetworkHandler() == null) {
             queue.clear();
             clearServerPositions();
             return;
@@ -70,7 +70,7 @@ public final class UnifiedLagHandler extends AbstractFastTrackProvider {
 
     
     public void onReceivePacket(final @NotNull ReceivePacketEvent event) {
-        if (MinecraftClient.getInstance().getNetHandler() == null) {
+        if (MinecraftClient.getInstance().getNetworkHandler() == null) {
             queue.clear();
             clearServerPositions();
             return;
@@ -94,7 +94,7 @@ public final class UnifiedLagHandler extends AbstractFastTrackProvider {
 
     
     public void onGameTick(final @NotNull GameTickEvent event) {
-        if (MinecraftClient.getInstance().getNetHandler() == null) {
+        if (MinecraftClient.getInstance().getNetworkHandler() == null) {
             queue.clear();
             clearServerPositions();
             return;

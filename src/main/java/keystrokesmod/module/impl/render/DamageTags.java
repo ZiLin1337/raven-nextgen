@@ -7,7 +7,7 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import keystrokesmod.utility.font.FontManager;
-import keystrokesmod.utility.font.RavenFontRenderer;
+import keystrokesmod.utility.font.RavenTextRenderer;
 
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.BufferBuilder;
@@ -18,7 +18,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.play.server.S1CPacketEntityMetadata;
+import net.minecraft.network.packet.s2c.play.S1CPacketEntityMetadata;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -201,7 +201,7 @@ public class DamageTags extends Module {
             return;
         }
 
-        RavenTextRenderer fontRenderer = getDamageTagFontRenderer();
+        RavenTextRenderer fontRenderer = getDamageTagTextRenderer();
         EntityRenderDispatcher renderManager = mc.getEntityRenderDispatcher();
         if (fontRenderer == null || renderManager == null) {
             return;
@@ -316,7 +316,7 @@ public class DamageTags extends Module {
         long durationMs = Math.max(1L, Math.round(duration.getInput()));
         String text = (delta > 0.0F ? "+" : "-") + fastOneDecimal(Math.abs(delta));
         int color = delta > 0.0F ? 0xFF55FF55 : 0xFFFF5555;
-        RavenFontRenderer fr = getDamageTagFontRenderer();
+        RavenTextRenderer fr = getDamageTagTextRenderer();
         int halfW = fr != null ? fr.getStringWidth(text) >> 1 : 0;
 
         activeTags.add(new DamageTag(text, color, x, y, z, nowMillis, durationMs, halfW));
@@ -507,7 +507,7 @@ public class DamageTags extends Module {
         return font.getOptions()[index];
     }
 
-    private RavenFontRenderer getDamageTagFontRenderer() {
+    private RavenTextRenderer getDamageTagTextRenderer() {
         return FontManager.getNametagRenderer(getSelectedFontName());
     }
 

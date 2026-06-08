@@ -7,13 +7,13 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import keystrokesmod.utility.font.FontManager;
-import keystrokesmod.utility.font.RavenFontRenderer;
+import keystrokesmod.utility.font.RavenTextRenderer;
 import net.minecraft.client.gui.ButtonWidget;
 import net.minecraft.client.gui.Screen;
 
 import net.minecraft.potion.Potion;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.util.StatCollector;
+import net.minecraft.text.Text;
 import net.minecraftforge.fml.client.config.ButtonWidgetExt;
 
 
@@ -137,7 +137,7 @@ public class PotionHUD extends Module {
     }
 
     private RenderState buildRenderState(boolean includePlaceholder) {
-        RavenFontRenderer renderer = getFontRenderer();
+        RavenTextRenderer renderer = getTextRenderer();
         LayoutMetrics metrics = LayoutMetrics.from(renderer, getSelectedScale());
         ArrayList<PotionEntry> entries = new ArrayList<PotionEntry>();
         Collection<StatusEffectInstance> activeEffects = mc.player.getActivePotionEffects();
@@ -165,7 +165,7 @@ public class PotionHUD extends Module {
         return new RenderState(renderer, metrics, entries, maxWidth);
     }
 
-    private PotionEntry buildEntry(PotionEffect effect, RavenFontRenderer renderer) {
+    private PotionEntry buildEntry(PotionEffect effect, RavenTextRenderer renderer) {
         if (effect == null) {
             return null;
         }
@@ -302,7 +302,7 @@ public class PotionHUD extends Module {
         relativePosY = absoluteY / scaledHeight;
     }
 
-    private RavenFontRenderer getFontRenderer() {
+    private RavenTextRenderer getTextRenderer() {
         return FontManager.getHudRenderer(getSelectedFontName(), getSelectedScale());
     }
 
@@ -316,11 +316,11 @@ public class PotionHUD extends Module {
     }
 
     private String getPotionLabel(PotionEffect effect, Potion potion) {
-        String label = StatCollector.translateToLocal(effect.getEffectName());
+        String label = Text.translatable(effect.getEffectName());
         if (effect.getAmplifier() >= 1) {
             label += " " + toRomanNumeral(effect.getAmplifier() + 1);
         }
-        return label.isEmpty() ? StatCollector.translateToLocal(potion.getName()) : label;
+        return label.isEmpty() ? Text.translatable(potion.getName()) : label;
     }
 
     private String formatDuration(int durationTicks) {
@@ -360,7 +360,7 @@ public class PotionHUD extends Module {
             this.color = color;
         }
 
-        private static PotionEntry placeholder(RavenFontRenderer renderer) {
+        private static PotionEntry placeholder(RavenTextRenderer renderer) {
             String text = PLACEHOLDER_TEXT;
             return new PotionEntry(text, "", renderer.getStringWidth(text), 0, 0, 0, 0xFFFFFFFF);
         }
@@ -379,7 +379,7 @@ public class PotionHUD extends Module {
             this.rowHeight = rowHeight;
         }
 
-        private static LayoutMetrics from(RavenFontRenderer renderer, float fontScale) {
+        private static LayoutMetrics from(RavenTextRenderer renderer, float fontScale) {
             int textTopOffset = renderer.getTextTopOffset();
             int textBottomOffset = renderer.getTextBottomOffset();
             int textTopPadding = getScaledHudPixels(2.0f, fontScale);
@@ -392,12 +392,12 @@ public class PotionHUD extends Module {
     }
 
     private static final class RenderState {
-        private final RavenFontRenderer renderer;
+        private final RavenTextRenderer renderer;
         private final LayoutMetrics metrics;
         private final List<PotionEntry> entries;
         private final int maxWidth;
 
-        private RenderState(RavenFontRenderer renderer, LayoutMetrics metrics, List<PotionEntry> entries, int maxWidth) {
+        private RenderState(RavenTextRenderer renderer, LayoutMetrics metrics, List<PotionEntry> entries, int maxWidth) {
             this.renderer = renderer;
             this.metrics = metrics;
             this.entries = entries;
@@ -491,7 +491,7 @@ public class PotionHUD extends Module {
             this.actualY = posY;
 
             String message = "Edit the HUD position by dragging.";
-            int textX = resolution.getScaledWidth() / 2 - this.fontRendererObj.getStringWidth(message) / 2;
+            int textX = resolution.getScaledWidth() / 2 - this.textRendererj.getStringWidth(message) / 2;
             int textY = resolution.getScaledHeight() / 2 - 20;
             RenderUtils.drawColoredString(message, '-', textX, textY, 2L, 0L, true, this.mc.textRenderer);
 

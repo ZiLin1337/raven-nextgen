@@ -112,11 +112,11 @@ public class FastPlace extends Module {
     }
 
     private boolean isBlockedHoverBlock() {
-        if (!blockBlacklistToggle.isToggled() || mc.objectMouseOver == null || mc.objectMouseOver.typeOfHit != HitResult.MovingObjectType.BLOCK) {
+        if (!blockBlacklistToggle.isToggled() || mc.crosshairTargetr == null || mc.crosshairTargetr.typeOfHit != HitResult.MovingObjectType.BLOCK) {
             return false;
         }
 
-        BlockPos hoveredPos = mc.objectMouseOver.getBlockPos();
+        BlockPos hoveredPos = mc.crosshairTargetr.getBlockPos();
         if (hoveredPos == null) {
             return false;
         }

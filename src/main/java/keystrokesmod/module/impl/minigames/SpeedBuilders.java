@@ -17,7 +17,7 @@ import net.minecraft.item.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.server.PlayerPositionLookS2CPacket;
+import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
 import net.minecraft.util.*;
 // Removed Forge event
 // Removed Forge event
@@ -422,11 +422,11 @@ public class SpeedBuilders extends Module {
     }
 
     public HitResult getLookInfo() {
-        HitResult movingObjectPosition = mc.objectMouseOver;
+        HitResult movingObjectPosition = mc.crosshairTargetr;
         if (movingObjectPosition == null || movingObjectPosition.typeOfHit != HitResult.MovingObjectType.BLOCK || movingObjectPosition.getBlockPos() == null) {
             return null;
         }
-        return mc.objectMouseOver;
+        return mc.crosshairTargetr;
     }
 
     private int getSlot(Block block, int meta) {

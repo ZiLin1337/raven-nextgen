@@ -13,7 +13,7 @@ import keystrokesmod.utility.FireballSimulator;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import keystrokesmod.utility.font.FontManager;
-import keystrokesmod.utility.font.RavenFontRenderer;
+import keystrokesmod.utility.font.RavenTextRenderer;
 import net.minecraft.block.Block;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.block.material.Material;
@@ -350,7 +350,7 @@ public class Indicators extends Module {
         double y = en.lastTickPosY + (en.posY - en.lastTickPosY) * partialTicks - mc.getEntityRenderDispatcher().viewerPosY + en.height / 2;
         double z = en.lastTickPosZ + (en.posZ - en.lastTickPosZ) * partialTicks - mc.getEntityRenderDispatcher().viewerPosZ;
 
-        ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(((IAccessorMinecraft) mc).getTimer().renderPartialTicks, 0);
+        ((IAccessorGameRendererr) mc.entityRenderer).callSetupCameraTransform(((IAccessorMinecraft) mc).getTimer().renderPartialTicks, 0);
 
          scaledResolution = /* ScaledResolution removed in 1.21.4 */ null;
         Vec3d vec = RenderUtils.convertTo2D(scaledResolution.getScaleFactor(), x, y, z);
@@ -424,7 +424,7 @@ public class Indicators extends Module {
             else if (arrowInput == 1) {
                 RenderSystem.rotate(-90.0f, 0.0f, 0.0f, 1.0f);
                 RenderSystem.scale(1.5, 1.5, 1.5);
-                RavenFontRenderer fr = getIndicatorFontRenderer();
+                RavenTextRenderer fr = getIndicatorTextRenderer();
                 fr.drawString(">", -2.0f, -4.0f, color, false);
             }
             else if (arrowInput == 2) {
@@ -442,7 +442,7 @@ public class Indicators extends Module {
 
             if (renderDistance.isToggled()) {
                 String text = (int) mc.player.getDistanceToEntity(en) + "m";
-                RavenFontRenderer fr = getIndicatorFontRenderer();
+                RavenTextRenderer fr = getIndicatorTextRenderer();
                 fr.drawString(text, (float) (-fr.getStringWidth(text) / 2), -4.0f, -1, true);
             }
 
@@ -456,14 +456,14 @@ public class Indicators extends Module {
                     RenderSystem.translate(renderX, renderY, 0.0);
                     RenderSystem.scale(1.0f, 1.0f, 1.0f);
                     RenderSystem.rotate((float) angle2 - 45.0f, 0.0f, 0.0f, 1.0f);
-                    mc.getRenderItem().renderItemIntoGUI(itemStack, -12, -4);
+                    mc.getItemRendererm().renderItemIntoGUI(itemStack, -12, -4);
                 }
                 else {
                     renderX = baseX + (radiusInput - 29.0) * sinAng;
                     renderY = baseY + (radiusInput - 29.0) * cosAng;
                     RenderSystem.translate(renderX, renderY, 0.0);
                     RenderSystem.scale(1.0f, 1.0f, 1.0f);
-                    mc.getRenderItem().renderItemIntoGUI(itemStack, -8, -9);
+                    mc.getItemRendererm().renderItemIntoGUI(itemStack, -8, -9);
                 }
                 RenderSystem.popMatrix();
             }
@@ -1117,7 +1117,7 @@ public class Indicators extends Module {
         return font.getOptions()[index];
     }
 
-    private RavenFontRenderer getIndicatorFontRenderer() {
+    private RavenTextRenderer getIndicatorTextRenderer() {
         return FontManager.getNametagRenderer(getSelectedFontName());
     }
 }

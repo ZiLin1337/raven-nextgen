@@ -8,7 +8,7 @@ import keystrokesmod.module.impl.client.Gui;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import keystrokesmod.utility.Timer;
-import keystrokesmod.utility.font.RavenFontRenderer;
+import keystrokesmod.utility.font.RavenTextRenderer;
 import keystrokesmod.utility.profile.Manager;
 import keystrokesmod.utility.profile.Profile;
 import net.minecraft.client.MinecraftClient;
@@ -233,7 +233,7 @@ public class CategoryComponent {
 
     public void render() {
         this.width = 92;
-        RavenFontRenderer titleRenderer = Gui.getClickGuiHeaderFontRenderer();
+        RavenTextRenderer titleRenderer = Gui.getClickGuiHeaderTextRenderer();
         if (smoothTimer != null && System.currentTimeMillis() - smoothTimer.last >= 280) smoothTimer = null;
         if (textTimer != null && System.currentTimeMillis() - textTimer.last >= 280) textTimer = null;
         for (ModuleComponent c : this.modules) c.updateAnimationState();
@@ -333,7 +333,7 @@ public class CategoryComponent {
 
     private float getCurrentAnimatedNamePos() {
         if (textTimer != null) return lastNamePos;
-        float mp = this.x + this.width / 2 - Gui.getClickGuiHeaderFontRenderer().getStringWidth(this.category.name()) / 2.0f;
+        float mp = this.x + this.width / 2 - Gui.getClickGuiHeaderTextRenderer().getStringWidth(this.category.name()) / 2.0f;
         return this.opened ? mp : (this.x + 12);
     }
 

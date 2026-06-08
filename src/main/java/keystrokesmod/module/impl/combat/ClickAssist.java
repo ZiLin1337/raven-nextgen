@@ -74,7 +74,7 @@ public class ClickAssist extends Module {
                         if (weaponOnly.isToggled() && !Utils.holdingWeapon()) {
                             return;
                         }
-                        if (onlyWhileTargeting.isToggled() && (mc.objectMouseOver == null || mc.objectMouseOver.entityHit == null)) {
+                        if (onlyWhileTargeting.isToggled() && (mc.crosshairTargetr == null || mc.crosshairTargetr.entityHit == null)) {
                             return;
                         }
                         if (chanceLeft.getInput() != 100.0D) {

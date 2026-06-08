@@ -6,15 +6,15 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(InGameHud.class)
 public interface ISaturationRenderer {
-    @Accessor("visibleHeldItemTooltips")
-    void setVisibleHeldItemTooltips(boolean visible);
+    @Accessor("visibleHeldToolItemtips")
+    void setVisibleHeldToolItemtips(boolean visible);
     
-    @Accessor("visibleHeldItemTooltips")
-    boolean getVisibleHeldItemTooltips();
+    @Accessor("visibleHeldToolItemtips")
+    boolean getVisibleHeldToolItemtips();
 
-    @Accessor("heldItemTooltipFade")
-    void setHeldItemTooltipFade(int fade);
+    @Accessor("heldToolItemtipFade")
+    void setHeldToolItemtipFade(int fade);
     
-    @Accessor("heldItemTooltipFade")
-    int getHeldItemTooltipFade();
+    @Accessor("heldToolItemtipFade")
+    int getHeldToolItemtipFade();
 }

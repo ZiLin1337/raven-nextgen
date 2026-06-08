@@ -6,10 +6,10 @@ import keystrokesmod.module.impl.combat.Velocity;
 import keystrokesmod.module.impl.movement.LongJump;
 import keystrokesmod.module.impl.render.HUD;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockAir;
+import net.minecraft.block.Blocks.AIRr;
 import keystrokesmod.module.ModuleManager;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.play.client.*;
+import net.minecraft.network.packet.c2s.play.*;
 
 import net.minecraft.util.math.BlockPos;
 
@@ -103,7 +103,7 @@ public class ModuleUtils implements IMinecraftInstance {
         if (!Utils.nullCheck()) {
             return;
         }
-        if (packet instanceof PlayerInteractBlockC2SPacket && Utils.holdingSword() && !BlockUtils.isInteractable(mc.objectMouseOver) && !isBlocked) {
+        if (packet instanceof PlayerInteractBlockC2SPacket && Utils.holdingSword() && !BlockUtils.isInteractable(mc.crosshairTargetr) && !isBlocked) {
             isBlocked = true;
         }
         else if (packet instanceof PlayerActionC2SPacket && isBlocked) {
@@ -216,7 +216,7 @@ public class ModuleUtils implements IMinecraftInstance {
 
             if ((!ModuleUtils.damage || Velocity.vertical.getInput() == 0) && !mc.player.isCollidedHorizontally) {
 
-                if (!(block instanceof BlockAir) || (blockBelow instanceof BlockAir && blockBelow2 instanceof BlockAir)) {
+                if (!(block instanceof Blocks.AIRr) || (blockBelow instanceof Blocks.AIRr && blockBelow2 instanceof Blocks.AIRr)) {
                     resetLowhop();
                 }
                 switch ((int) ModuleManager.bHop.mode.getInput()) {

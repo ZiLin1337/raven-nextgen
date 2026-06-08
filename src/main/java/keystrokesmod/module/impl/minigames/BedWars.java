@@ -10,18 +10,18 @@ import keystrokesmod.utility.BlockUtils;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.BedBlock;
-import net.minecraft.block.BlockObsidian;
+import net.minecraft.block.Blocks.OBSIDIANn;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityTypet;
 import net.minecraft.entity.mob.IronGolemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
-import net.minecraft.item.ItemEnderPearl;
-import net.minecraft.item.ItemFireball;
-import net.minecraft.item.ItemMonsterPlacer;
+import net.minecraft.item.EnderPearlItem;
+import net.minecraft.item.FireballItem;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
-import net.minecraft.network.play.server.S23PacketBlockChange;
+import net.minecraft.network.packet.s2c.play.S23PacketBlockChange;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
@@ -75,7 +75,7 @@ public class BedWars extends Module {
                     BlockPos blockPos = entry.getKey();
                     Long receivedMs = entry.getValue();
 
-                    if (!(mc.world.getBlockState(blockPos).getBlock() instanceof BlockObsidian) && Utils.timeBetween(System.currentTimeMillis(), receivedMs) >= 500) {
+                    if (!(mc.world.getBlockState(blockPos).getBlock() instanceof Blocks.OBSIDIANn) && Utils.timeBetween(System.currentTimeMillis(), receivedMs) >= 500) {
                         iterator.remove();
                         continue;
                     }
@@ -162,8 +162,8 @@ public class BedWars extends Module {
         if (e.getPacket() instanceof PlayerInteractBlockC2SPacket) {
             PlayerInteractBlockC2SPacket p = (PlayerInteractBlockC2SPacket) e.getPacket();
             if (p.getPlacedBlockDirection() != 255 && p.getStack() != null && p.getStack().getItem() != null) {
-                if (p.getStack().getItem() instanceof ItemMonsterPlacer) {
-                    Class<? extends Entity> oclass = EntityList.stringToClassMapping.get(ItemMonsterPlacer.getEntityName(p.getStack()));
+                if (p.getStack().getItem() instanceof SpawnEggItem) {
+                    Class<? extends Entity> oclass = EntityTypet.stringToClassMapping.get(SpawnEggItem.getEntityName(p.getStack()));
                     if (oclass == null) {
                         return;
                     }
@@ -179,7 +179,7 @@ public class BedWars extends Module {
     public void onReceivePacket(ReceivePacketEvent e) {
         if (e.getPacket() instanceof S23PacketBlockChange) {
             S23PacketBlockChange p = (S23PacketBlockChange) e.getPacket();
-            if (p.getBlockState() != null && p.getBlock() instanceof BlockObsidian && isNextToBed(p.getBlockPosition())) {
+            if (p.getBlockState() != null && p.getBlock() instanceof Blocks.OBSIDIANn && isNextToBed(p.getBlockPosition())) {
                 this.obsidianPos.put(p.getBlockPosition(), System.currentTimeMillis());
             }
         }
@@ -200,13 +200,13 @@ public class BedWars extends Module {
             return null;
         }
         String unlocalizedName = item.getItem().getUnlocalizedName();
-        if (item.getItem() instanceof ItemEnderPearl && enderPearl.isToggled()) {
+        if (item.getItem() instanceof EnderPearlItem && enderPearl.isToggled()) {
             return "&7an §3Ender Pearl";
         }
         else if (unlocalizedName.contains("tile.obsidian") && obsidian.isToggled()) {
             return "§dObsidian";
         }
-        else if (item.getItem() instanceof ItemFireball && fireball.isToggled()) {
+        else if (item.getItem() instanceof FireballItem && fireball.isToggled()) {
             return "&7a §6Fireball";
         }
         return null;

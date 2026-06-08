@@ -4,7 +4,7 @@ import keystrokesmod.utility.IMinecraftInstance;
 import keystrokesmod.utility.Utils;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.ThreadQuickExitException;
-import net.minecraft.network.play.ClientPlayNetworkHandler;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.EnumSet;
@@ -15,7 +15,7 @@ import java.util.function.Consumer;
 public enum EnumLagDirection implements IMinecraftInstance {
     INBOUND(packet -> {
                 try {
-                    ((Packet<ClientPlayNetworkHandler>) packet).processPacket(mc.getNetHandler());
+                    ((Packet<ClientPlayNetworkHandler>) packet).processPacket(mc.getNetworkHandler());
                 } catch (final @NotNull ThreadQuickExitException ignored) {
                     // minecraft uses an exception to indicate something getting scheduled... why?
                 } catch (final @NotNull Exception e) {
@@ -23,7 +23,7 @@ public enum EnumLagDirection implements IMinecraftInstance {
                 }
             }),
     OUTBOUND(packet -> {
-                mc.getNetHandler().addToSendQueue(packet);
+                mc.getNetworkHandler().addToSendQueue(packet);
             });
 
     public static final @NotNull Set<EnumLagDirection> ONLY_INBOUND = EnumSet.of(INBOUND);

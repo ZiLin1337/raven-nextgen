@@ -64,7 +64,7 @@ public class HitBox extends Module {
         else if (playersOnly.isToggled()) {
             return;
         }
-        mc.objectMouseOver = mv;
+        mc.crosshairTargetr = mv;
     }
 
     

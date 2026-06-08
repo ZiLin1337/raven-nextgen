@@ -117,7 +117,7 @@ public class WaterBucket extends Module {
     }
 
     private void useCurrentItem() {
-        mc.getNetHandler().addToSendQueue(new PlayerInteractBlockC2SPacket(mc.player.getHeldItem()));
+        mc.getNetworkHandler().addToSendQueue(new PlayerInteractBlockC2SPacket(mc.player.getHeldItem()));
     }
 
     private boolean isItem(ItemStack itemStack, Item item) {

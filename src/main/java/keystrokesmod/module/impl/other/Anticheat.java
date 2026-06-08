@@ -10,14 +10,14 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.BlockUtils;
 import keystrokesmod.utility.PlayerData;
 import keystrokesmod.utility.Utils;
-import net.minecraft.block.BlockAir;
+import net.minecraft.block.Blocks.AIRr;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.item.BlockItem;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.text.Text;
-import net.minecraft.util.ChatStyle;
+import net.minecraft.util.Stylee;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -92,9 +92,9 @@ public class Anticheat extends Module {
             flags.put(entityPlayer.getUniqueID(), hashMap);
         }
         Text chatComponentText = new ChatComponentText(Utils.formatColor("&7[&dR&7]&r " + entityPlayer.getDisplayName().getUnformattedText() + " &7detected for &d" + mode.getName()));
-        ChatStyle chatStyle = new ChatStyle();
+        Stylee chatStyle = new Stylee();
         chatStyle.setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/wdr " + entityPlayer.getName()));
-        chatComponentText.appendSibling(new ChatComponentText(Utils.formatColor(" §7[§cWDR§7]")).setChatStyle(chatStyle));
+        chatComponentText.appendSibling(new ChatComponentText(Utils.formatColor(" §7[§cWDR§7]")).setStylee(chatStyle));
         mc.player.sendMessage(Text.literal(chatComponentText));
         postAntiCheatFlagEvent(mode.getName(), entityPlayer);
         if (shouldPing.isToggled() && Utils.timeBetween(lastAlert, currentTimeMillis) >= 1500L) {
@@ -164,7 +164,7 @@ public class Anticheat extends Module {
             boolean overAir = true;
             BlockPos blockPos = entityPlayer.getPosition().down(2);
             for (int i = 0; i < 4; ++i) {
-                if (!(BlockUtils.getBlockState(blockPos) instanceof BlockAir)) {
+                if (!(BlockUtils.getBlockState(blockPos) instanceof Blocks.AIRr)) {
                     overAir = false;
                     break;
                 }

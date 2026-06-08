@@ -25,7 +25,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.glu.GLU;
 
 import keystrokesmod.Raven;
 import keystrokesmod.utility.StairsUtils;
@@ -1495,11 +1494,11 @@ public class RenderUtils implements IMinecraftInstance {
         RenderSystem.clear(16640, false);
         RenderSystem.getModelViewStack().pushMatrix();
         RenderSystem.scale(1.0f, 1.0f, -0.01f);
-        mc.getRenderItem().zLevel = -150.0f;
-        mc.getRenderItem().renderItemAndEffectIntoGUI(stack, xPos, yPos);
-        mc.getRenderItem().zLevel = 0.0f;
+        mc.getItemRendererm().zLevel = -150.0f;
+        mc.getItemRendererm().renderItemAndEffectIntoGUI(stack, xPos, yPos);
+        mc.getItemRendererm().zLevel = 0.0f;
         RenderSystem.getModelViewStack().popMatrix();
-        RenderHelper.disableStandardItemLighting();
+        RenderSystemr.disableStandardItemLighting();
         prepareGuiTextureRenderState();
         RenderSystem.disableBlend();
         RenderSystem.getModelViewStack().popMatrix();
@@ -1509,11 +1508,11 @@ public class RenderUtils implements IMinecraftInstance {
         if (stack == null) return;
 
         prepareGuiItemRenderState();
-        mc.getRenderItem().zLevel = -150.0F;
+        mc.getItemRendererm().zLevel = -150.0F;
         RenderSystem.enableDepth();
-        RenderHelper.enableGUIStandardItemLighting();
-        mc.getRenderItem().renderItemAndEffectIntoGUI(stack, xPos, yPos - 8);
-        mc.getRenderItem().zLevel = 0.0F;
+        RenderSystemr.enableGUIStandardItemLighting();
+        mc.getItemRendererm().renderItemAndEffectIntoGUI(stack, xPos, yPos - 8);
+        mc.getItemRendererm().zLevel = 0.0F;
         RenderSystem.disableDepth();
         prepareGuiTextureRenderState();
         RenderSystem.disableBlend();

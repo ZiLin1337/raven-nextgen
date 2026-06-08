@@ -13,7 +13,7 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.ReflectionUtils;
 import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
-import net.minecraft.client.render.EntityRenderer;
+import net.minecraft.client.render.GameRendererr;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.PathAwareEntity;
@@ -521,12 +521,12 @@ public class KillAura extends Module {
             return;
         }
 
-        mc.objectMouseOver = new HitResult(attackingEntity, hitVec);
+        mc.crosshairTargetr = new HitResult(attackingEntity, hitVec);
         mc.pointedEntity = attackingEntity;
 
-        EntityRenderer renderer = mc.entityRenderer;
-        if (renderer instanceof IAccessorEntityRenderer) {
-            ((IAccessorEntityRenderer) renderer).setPointedEntity(attackingEntity);
+        GameRendererr renderer = mc.entityRenderer;
+        if (renderer instanceof IAccessorGameRendererr) {
+            ((IAccessorGameRendererr) renderer).setPointedEntity(attackingEntity);
         }
     }
 

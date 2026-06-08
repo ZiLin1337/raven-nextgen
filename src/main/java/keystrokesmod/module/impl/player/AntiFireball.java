@@ -138,7 +138,7 @@ public class AntiFireball extends Module {
         if (onGround.isToggled() && !mc.player.onGround) return;
         if (fireball == null) return;
 
-        HitResult mop = mc.objectMouseOver;
+        HitResult mop = mc.crosshairTargetr;
         if (mop == null || mop.typeOfHit != HitResult.MovingObjectType.ENTITY || mop.entityHit != fireball) {
             nextClickTime = 0;
             ReflectionUtils.setButton(0, false);

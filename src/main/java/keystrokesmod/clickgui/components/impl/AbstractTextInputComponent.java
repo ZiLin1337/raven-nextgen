@@ -3,7 +3,7 @@ package keystrokesmod.clickgui.components.impl;
 import keystrokesmod.clickgui.components.Component;
 import keystrokesmod.clickgui.components.FocusableTextComponent;
 import keystrokesmod.utility.Theme;
-import keystrokesmod.utility.font.RavenFontRenderer;
+import keystrokesmod.utility.font.RavenTextRenderer;
 import org.lwjgl.opengl.GL11;
 
 public abstract class AbstractTextInputComponent extends Component implements FocusableTextComponent {
@@ -143,7 +143,7 @@ public abstract class AbstractTextInputComponent extends Component implements Fo
     }
 
     protected static float centeredScaledTextY(float top, float height, float scale) {
-        RavenFontRenderer renderer = keystrokesmod.module.impl.client.Gui.getClickGuiSettingFontRenderer();
+        RavenTextRenderer renderer = keystrokesmod.module.impl.client.Gui.getClickGuiSettingTextRenderer();
         float textBoxHeight = Math.max(1f, (renderer.getTextBottomOffset() - renderer.getTextTopOffset()) * scale);
         return top + (height - textBoxHeight) / 2f - renderer.getTextTopOffset() * scale;
     }
@@ -153,7 +153,7 @@ public abstract class AbstractTextInputComponent extends Component implements Fo
     }
 
     protected static void drawScaledText(String text, float x, float y, int color, float scale) {
-        RavenFontRenderer renderer = keystrokesmod.module.impl.client.Gui.getClickGuiSettingFontRenderer();
+        RavenTextRenderer renderer = keystrokesmod.module.impl.client.Gui.getClickGuiSettingTextRenderer();
         RenderSystem.getModelViewStack().pushMatrix();
         GL11.glScaled(scale, scale, scale);
         renderer.drawString(text, x / scale, y / scale, color, false);

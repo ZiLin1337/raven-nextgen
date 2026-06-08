@@ -1,19 +1,19 @@
 package keystrokesmod.utility.font;
 
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.render.GlStateManager;
+import net.minecraft.client.gui.TextRenderer;
+import net.minecraft.client.render.RenderSystem;
 
-public final class MinecraftFontAdapter implements RavenFontRenderer {
+public final class MinecraftFontAdapter implements RavenTextRenderer {
     private static final String COLOR_CODES = "0123456789abcdef";
     private static final char SECTION_SIGN = '\u00a7';
-    private final FontRenderer fontRenderer;
+    private final TextRenderer fontRenderer;
     private final float scale;
 
-    public MinecraftFontAdapter(FontRenderer fontRenderer) {
+    public MinecraftFontAdapter(TextRenderer fontRenderer) {
         this(fontRenderer, 1.0f);
     }
 
-    public MinecraftFontAdapter(FontRenderer fontRenderer, float scale) {
+    public MinecraftFontAdapter(TextRenderer fontRenderer, float scale) {
         this.fontRenderer = fontRenderer;
         this.scale = Math.max(0.5f, Math.min(2.0f, scale));
     }

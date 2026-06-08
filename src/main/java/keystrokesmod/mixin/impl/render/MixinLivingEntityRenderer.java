@@ -9,7 +9,7 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
-import net.minecraft.client.render.entity.LivingEntityRenderer;
+import net.minecraft.client.render.entity.LivingGameRendererr;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.scoreboard.AbstractTeam;
@@ -26,8 +26,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.awt.*;
 
-@Mixin(LivingEntityRenderer.class)
-public abstract class MixinLivingEntityRenderer<T extends LivingEntity> {
+@Mixin(LivingGameRendererr.class)
+public abstract class MixinLivingGameRendererr<T extends LivingEntity> {
     @Shadow protected boolean renderOutlines;
     @Shadow protected abstract float getAnimationCounter(T entity, float tickDelta);
 

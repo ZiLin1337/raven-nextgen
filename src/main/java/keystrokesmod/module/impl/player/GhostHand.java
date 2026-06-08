@@ -10,7 +10,7 @@ import keystrokesmod.utility.BlockUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BedBlock;
-import net.minecraft.client.render.EntityRenderer;
+import net.minecraft.client.render.GameRendererr;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.block.Blocks;
@@ -143,12 +143,12 @@ public class GhostHand extends Module {
             if (closest == null || !obstructionAllowed(closest)) return;
         }
 
-        mc.objectMouseOver = blockHit;
+        mc.crosshairTargetr = blockHit;
         mc.pointedEntity = null;
 
-        EntityRenderer renderer = mc.entityRenderer;
-        if (renderer instanceof IAccessorEntityRenderer) {
-            ((IAccessorEntityRenderer) renderer).setPointedEntity(null);
+        GameRendererr renderer = mc.entityRenderer;
+        if (renderer instanceof IAccessorGameRendererr) {
+            ((IAccessorGameRendererr) renderer).setPointedEntity(null);
         }
     }
 
@@ -186,7 +186,7 @@ public class GhostHand extends Module {
         if (held == null) return HeldCategory.FISTS;
         Item item = held.getItem();
         if (item instanceof SwordItem) return HeldCategory.SWORD;
-        if (item instanceof ItemTool || item instanceof HoeItem || item instanceof ItemShears) return HeldCategory.TOOL;
+        if (item instanceof ToolItem || item instanceof HoeItem || item instanceof ShearsItem) return HeldCategory.TOOL;
         if (item instanceof ItemBucket) return HeldCategory.BUCKET;
         if (item instanceof ItemFlintAndSteel) return HeldCategory.FLINT_STEEL;
         if (item instanceof BlockItem && ((BlockItem) item).getBlock() == Blocks.web) return HeldCategory.COBWEB;

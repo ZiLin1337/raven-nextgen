@@ -2,7 +2,7 @@ package keystrokesmod.utility.font;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.Window;
-import net.minecraft.client.render.GlStateManager;
+import net.minecraft.client.render.RenderSystem;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
@@ -19,7 +19,7 @@ import java.nio.ByteBuffer;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public final class GlyphFontRenderer implements RavenFontRenderer {
+public final class GlyphTextRenderer implements RavenTextRenderer {
     private static final int FIRST_GLYPH = 0;
     private static final int LAST_GLYPH = 255;
     private static final int CHANNEL_MASK = 0xFF;
@@ -42,7 +42,7 @@ public final class GlyphFontRenderer implements RavenFontRenderer {
     private final float lineHeight;
     private boolean destroyed;
 
-    public GlyphFontRenderer(Font sourceFont, boolean antiAlias) {
+    public GlyphTextRenderer(Font sourceFont, boolean antiAlias) {
         float renderScale = resolveRenderScale();
         this.drawScale = 1.0f / renderScale;
         this.rawScale = renderScale;

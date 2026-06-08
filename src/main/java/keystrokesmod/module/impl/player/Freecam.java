@@ -7,8 +7,8 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.client.entity.OtherClientPlayerEntity;
-import net.minecraft.network.play.client.C02PacketUseEntity;
-import net.minecraft.network.play.client.PlayerActionC2SPacket;
+import net.minecraft.network.packet.c2s.play.C02PacketUseEntity;
+import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
 import net.minecraft.util.hit.HitResult;
 // Removed Forge event
@@ -165,11 +165,11 @@ public class Freecam extends Module {
         if (!Utils.nullCheck()) {
             return;
         }
-        if ((e.button == 0 && !allowDigging.isToggled() || e.button == 1 && !allowPlacing.isToggled()) && mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == HitResult.MovingObjectType.BLOCK) {
+        if ((e.button == 0 && !allowDigging.isToggled() || e.button == 1 && !allowPlacing.isToggled()) && mc.crosshairTargetr != null && mc.crosshairTargetr.typeOfHit == HitResult.MovingObjectType.BLOCK) {
             e.setCanceled(true);
         }
         if (!allowInteracting.isToggled()) {
-            if ((e.button == 1 || e.button == 0) && mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == HitResult.MovingObjectType.ENTITY) {
+            if ((e.button == 1 || e.button == 0) && mc.crosshairTargetr != null && mc.crosshairTargetr.typeOfHit == HitResult.MovingObjectType.ENTITY) {
                 e.setCanceled(true);
             }
         }

@@ -11,7 +11,7 @@ import keystrokesmod.module.impl.client.Gui;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Timer;
 import keystrokesmod.utility.Utils;
-import keystrokesmod.utility.font.RavenFontRenderer;
+import keystrokesmod.utility.font.RavenTextRenderer;
 import keystrokesmod.utility.profile.Manager;
 import keystrokesmod.utility.profile.ProfileModule;
 import net.minecraft.client.MinecraftClient;
@@ -261,7 +261,7 @@ public class ModuleComponent extends Component {
                 && !((ProfileModule) this.mod).saved && Raven.currentProfile != null
                 && Raven.currentProfile.getModule() == this.mod) button_rgb = UNSAVED_COLOR;
         boolean scissorRequired = smoothTimer != null;
-        RavenFontRenderer titleRenderer = Gui.getClickGuiHeaderFontRenderer();
+        RavenTextRenderer titleRenderer = Gui.getClickGuiHeaderTextRenderer();
         if (hasModuleHeader()) {
             float textX = this.categoryComponent.getX() + this.categoryComponent.getWidth() / 2.0f - titleRenderer.getStringWidth(this.mod.getName()) / 2.0f;
             float textY = this.categoryComponent.getY() + this.yPos + 4;

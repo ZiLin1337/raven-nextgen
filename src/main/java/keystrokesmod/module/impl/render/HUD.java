@@ -11,8 +11,8 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Theme;
 import keystrokesmod.utility.Utils;
 import keystrokesmod.utility.font.FontManager;
-import keystrokesmod.utility.font.RavenFontRenderer;
-import keystrokesmod.client.event.impl.Render2DEvent;
+import keystrokesmod.utility.font.RavenTextRenderer;
+import keystrokesmod.event.Render2DEvent;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -170,7 +170,7 @@ public class HUD extends Module {
         }
         Module.sort = false;
 
-        RavenFontRenderer hudFont = getHudFontRenderer();
+        RavenTextRenderer hudFont = getHudTextRenderer();
         int textTopOffset = 2;
         int textBottomOffset = 2;
         int horizontalTextPadding = getHudHorizontalTextPadding();
@@ -282,7 +282,7 @@ public class HUD extends Module {
     }
 
     public static int getLongestModule() {
-        RavenFontRenderer hudFont = getHudFontRenderer();
+        RavenTextRenderer hudFont = getHudTextRenderer();
         int length = 0;
 
         for (Module module : ModuleManager.organizedModules) {
@@ -396,7 +396,7 @@ public class HUD extends Module {
         }
 
         private float[] getPreviewBounds(String text) {
-            RavenFontRenderer hudFont = HUD.getHudFontRenderer();
+            RavenTextRenderer hudFont = HUD.getHudTextRenderer();
 
             if (empty()) {
                 float x = this.minX;
@@ -580,7 +580,7 @@ public class HUD extends Module {
         }
     }
 
-    public static RavenFontRenderer getHudFontRenderer() {
+    public static RavenTextRenderer getHudTextRenderer() {
         return FontManager.getHudRenderer(getSelectedFontName(), getSelectedFontScale());
     }
 
@@ -705,7 +705,7 @@ public class HUD extends Module {
         return rowCenterX * (HUD_WAVE_HORIZONTAL_X_SCALE / getWaveLengthMultiplier()) * getHorizontalWaveDirectionSign();
     }
 
-    private static void drawHudText(RavenFontRenderer hudFont, String moduleName, float xPos, float textY, int fallbackColor) {
+    private static void drawHudText(RavenTextRenderer hudFont, String moduleName, float xPos, float textY, int fallbackColor) {
         if (!shouldUseHorizontalWaveText()) {
             hudFont.drawString(moduleName, xPos, textY, fallbackColor, shouldDrawTextShadow());
             return;

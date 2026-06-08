@@ -208,7 +208,7 @@ public class ChestESP extends Module {
             }
         }
 
-        for (TileEntity tileEntity : mc.world.loadedTileEntityList) {
+        for (TileEntity tileEntity : mc.world.loadedTileEntityTypet) {
             ChestKind chestKind = getChestKind(tileEntity);
             ChestVisualSettings settings = getChestSettings(chestKind);
             if (settings == null || !settings.hasWorldOverlayEnabled() || shouldSkipOpened(settings, tileEntity)) {

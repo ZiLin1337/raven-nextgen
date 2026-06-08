@@ -10,7 +10,7 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.entity.Entity;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.play.client.*;
+import net.minecraft.network.packet.c2s.play.*;
 import net.minecraft.util.*;
 
 public class ViewPackets extends Module {
@@ -54,9 +54,9 @@ public class ViewPackets extends Module {
         String s = b ? ("&a" + packet.getClass().getSimpleName()) : applyInfo(packet);
         String string = ((compactC03.isToggled() && packet instanceof PlayerMoveC2SPacket) ? "&6" : "&d") + packet.getClass().getSimpleName();
         Text chatComponentText = new ChatComponentText(Utils.formatColor("&7[&dR&7]&r &7" + (b ? "Received" : "Sent") + " packet (t:&b" + tick + "&7): "));
-        ChatStyle chatStyle = new ChatStyle();
+        Stylee chatStyle = new Stylee();
         chatStyle.setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ChatComponentText(Utils.formatColor(s))));
-        chatComponentText.appendSibling(new ChatComponentText(Utils.formatColor(string)).setChatStyle(chatStyle));
+        chatComponentText.appendSibling(new ChatComponentText(Utils.formatColor(string)).setStylee(chatStyle));
         mc.player.sendMessage(Text.literal(chatComponentText));
     }
 

@@ -5,7 +5,7 @@ import keystrokesmod.event.SendPacketEvent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.play.client.C09PacketHeldItemChange;
+import net.minecraft.network.packet.c2s.play.C09PacketHeldItemChange;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -37,9 +37,9 @@ public class PacketsHandler implements IMinecraftInstance {
                 serverSlot.set(index);
             }
         }
-        else if (e.getPacket() instanceof S0CPacketSpawnPlayer && MinecraftClient.getInstance().thePlayer != null && handleSlots) {
+        else if (e.getPacket() instanceof S0CPacketSpawnPlayer && MinecraftClient.getInstance().playerr != null && handleSlots) {
             S0CPacketSpawnPlayer packet = (S0CPacketSpawnPlayer) e.getPacket();
-            if (packet.getEntityID() != MinecraftClient.getInstance().thePlayer.getEntityId()) {
+            if (packet.getEntityID() != MinecraftClient.getInstance().playerr.getEntityId()) {
                 return;
             }
             playerSlot.set(-1);

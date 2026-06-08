@@ -6,7 +6,7 @@ import keystrokesmod.module.impl.client.Gui;
 import keystrokesmod.module.setting.impl.ColorSetting;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Timer;
-import keystrokesmod.utility.font.RavenFontRenderer;
+import keystrokesmod.utility.font.RavenTextRenderer;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.Color;
@@ -99,7 +99,7 @@ public class ColorComponent extends Component {
                 boxX + PREVIEW_BOX_SIZE, boxY + PREVIEW_BOX_SIZE,
                 colorSetting.getColor());
 
-        RavenFontRenderer renderer = Gui.getClickGuiSettingFontRenderer();
+        RavenTextRenderer renderer = Gui.getClickGuiSettingTextRenderer();
         RenderSystem.getModelViewStack().pushMatrix();
         GL11.glScaled(0.5, 0.5, 0.5);
         float textOffset = renderer.getStringWidth("[+]  ");

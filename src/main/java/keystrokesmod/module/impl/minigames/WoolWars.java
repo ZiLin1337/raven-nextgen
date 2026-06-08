@@ -12,14 +12,14 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockAir;
+import net.minecraft.block.Blocks.AIRr;
 import net.minecraft.block.StairsBlock;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.PlayerActionC2SPacket;
+import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.math.BlockPos;
@@ -226,7 +226,7 @@ public class WoolWars extends Module {
             for (int xOffset = -1; xOffset <= 1; ++xOffset) {
                 BlockPos pos = new BlockPos(middlePos.getX() + xOffset, middlePos.getY(), middlePos.getZ() + zOffset);
                 if (airOnly) {
-                    if (!(BlockUtils.getBlockState(pos) instanceof BlockAir)) {
+                    if (!(BlockUtils.getBlockState(pos) instanceof Blocks.AIRr)) {
                         continue;
                     }
                 } else if (!isControlPointBlock(pos, true)) {

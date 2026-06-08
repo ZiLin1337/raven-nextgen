@@ -37,7 +37,7 @@ public class PacketUtils implements IMinecraftInstance {
 
     public static void receivePacketNoEvent(Packet packet) {
         try {
-            packet.processPacket(Raven.mc.getNetHandler());
+            packet.processPacket(Raven.mc.getNetworkHandler());
         }
         catch (Exception e) {
             e.printStackTrace();

@@ -4,7 +4,7 @@ import keystrokesmod.module.impl.client.Gui;
 import keystrokesmod.module.setting.impl.InventoryItemListSetting;
 import keystrokesmod.utility.ItemSearchIndex;
 import keystrokesmod.utility.RenderUtils;
-import keystrokesmod.utility.font.RavenFontRenderer;
+import keystrokesmod.utility.font.RavenTextRenderer;
 import net.minecraft.client.MinecraftClient;
 import org.lwjgl.glfw.GLFW;
 
@@ -93,7 +93,7 @@ public class InventoryItemSearchComponent extends AbstractItemSearchComponent<In
             RenderUtils.DrawContextHelper.drawRect(slotLeft, pillTop, slotRight, pillBottom, 0xFF11141C);
             RenderUtils.DrawContextHelper.drawRect(slotLeft + 1f, pillTop + 1f, slotRight - 1f, pillBottom - 1f, fill);
             String label = listening ? "..." : Integer.toString(row.assignedSlot != null ? row.assignedSlot : 1);
-            RavenFontRenderer rend = Gui.getClickGuiSettingFontRenderer();
+            RavenTextRenderer rend = Gui.getClickGuiSettingTextRenderer();
             float tw = rend.getStringWidth(label) * TEXT_SCALE;
             float tx = slotLeft + ((slotRight - slotLeft) - tw) / 2f;
             float ty = centeredScaledTextY(pillTop, pillBottom - pillTop) + SLOT_PILL_TEXT_Y_OFFSET;
@@ -162,7 +162,7 @@ public class InventoryItemSearchComponent extends AbstractItemSearchComponent<In
     }
 
     private float getSlotPillWidth(String sid) {
-        RavenFontRenderer r = Gui.getClickGuiSettingFontRenderer();
+        RavenTextRenderer r = Gui.getClickGuiSettingTextRenderer();
         return Math.max(SLOT_PILL_MIN_WIDTH, r.getStringWidth(getSlotPillLabel(sid)) * TEXT_SCALE + SLOT_PILL_HORIZONTAL_PAD * 2f);
     }
 

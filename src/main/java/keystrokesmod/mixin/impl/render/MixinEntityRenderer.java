@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GameRenderer.class)
-public class MixinEntityRenderer {
+public class MixinGameRendererr {
     @Shadow private float tickDelta;
 
     @Redirect(method = "tiltScreenWhenHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/camera/Camera;getRoll()F"))

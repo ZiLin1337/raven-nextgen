@@ -8,11 +8,11 @@ import net.minecraft.item.AxeItem;
 import net.minecraft.item.BowItem;
 import net.minecraft.item.HoeItem;
 import net.minecraft.item.PickaxeItem;
-import net.minecraft.item.ItemShears;
+import net.minecraft.item.ShearsItem;
 import net.minecraft.item.ShovelItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
-import net.minecraft.item.ItemTool;
+import net.minecraft.item.ToolItem;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
@@ -153,7 +153,7 @@ public final class ItemSearchIndex {
         SHEARS("@category:shears", "Shears", new ItemStack(Items.shears)) {
             @Override
             boolean matches(ItemStack stack) {
-                return stack != null && stack.getItem() instanceof ItemShears;
+                return stack != null && stack.getItem() instanceof ShearsItem;
             }
         };
         private final String storageId;
@@ -680,6 +680,6 @@ public final class ItemSearchIndex {
     }
 
     private static boolean isToolLike(Item item) {
-        return item instanceof ItemTool || item instanceof HoeItem || item instanceof ItemShears;
+        return item instanceof ToolItem || item instanceof HoeItem || item instanceof ShearsItem;
     }
 }

@@ -94,7 +94,7 @@ public class BreakProgress extends Module {
                 return;
             }
         }
-        if (!manual.isToggled() || mc.objectMouseOver == null || mc.objectMouseOver.typeOfHit != HitResult.MovingObjectType.BLOCK) {
+        if (!manual.isToggled() || mc.crosshairTargetr == null || mc.crosshairTargetr.typeOfHit != HitResult.MovingObjectType.BLOCK) {
             this.resetVariables();
             return;
         }
@@ -103,7 +103,7 @@ public class BreakProgress extends Module {
             this.resetVariables();
             return;
         }
-        this.block = mc.objectMouseOver.getBlockPos();
+        this.block = mc.crosshairTargetr.getBlockPos();
         this.setProgress();
     }
 

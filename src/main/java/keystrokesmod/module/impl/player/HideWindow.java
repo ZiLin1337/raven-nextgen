@@ -12,9 +12,9 @@ import net.minecraft.client.gui.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.gui.inventory.GuiInventory;
+import net.minecraft.client.gui.inventory.InventoryScreeny;
 import net.minecraft.inventory.ContainerChest;
-import net.minecraft.network.play.server.CloseHandledScreenS2CPacket;
+import net.minecraft.network.packet.s2c.play.CloseHandledScreenS2CPacket;
 import net.minecraft.util.Identifier;
 // Removed Forge event
 // Removed Forge event
@@ -77,13 +77,13 @@ public class HideWindow extends Module {
             return;
         }
 
-        if (event.gui instanceof HandledScreen && !(event.gui instanceof GuiInventory)) {
+        if (event.gui instanceof HandledScreen && !(event.gui instanceof InventoryScreeny)) {
             if (mc.currentScreen instanceof HandledScreen) {
                 hiddenGui = null;
                 return;
             }
 
-            HandledScreen gui = (GuiContainer) event.gui;
+            HandledScreen gui = (HandledScreenr) event.gui;
             if (onlyWhileCrouching.isToggled() && !mc.player.isSneaking()) {
                 return;
             }
@@ -97,7 +97,7 @@ public class HideWindow extends Module {
             return;
         }
 
-        if (event.gui instanceof GuiInventory && hiddenGui != null) {
+        if (event.gui instanceof InventoryScreeny && hiddenGui != null) {
             event.gui = hiddenGui;
             hiddenGui = null;
         }
@@ -215,7 +215,7 @@ public class HideWindow extends Module {
         relativePosY = absoluteY / h;
     }
 
-    private boolean matchesWhitelist(GuiContainer gui) {
+    private boolean matchesWhitelist(HandledScreenr gui) {
         java.util.List<String> entries = whitelistEntries.getEntries();
         if (entries.isEmpty()) {
             return false;
@@ -233,7 +233,7 @@ public class HideWindow extends Module {
         return false;
     }
 
-    private static String getContainerTitle(GuiContainer gui) {
+    private static String getContainerTitle(HandledScreenr gui) {
         if (gui.inventorySlots instanceof ContainerChest) {
             return ((ContainerChest) gui.inventorySlots)
                     .getLowerChestInventory()

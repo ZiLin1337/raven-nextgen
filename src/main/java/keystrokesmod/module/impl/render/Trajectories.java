@@ -21,8 +21,8 @@ import net.minecraft.item.Items;
 
 import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemEgg;
-import net.minecraft.item.ItemEnderPearl;
-import net.minecraft.item.ItemPotion;
+import net.minecraft.item.EnderPearlItem;
+import net.minecraft.item.PotionItem;
 import net.minecraft.item.ItemSnowball;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
@@ -486,7 +486,7 @@ public class Trajectories extends Module {
             return held;
         }
         if (item == Items.POTION) {
-            if (ItemPotion.isSplash(held.getMetadata())) {
+            if (PotionItem.isSplash(held.getMetadata())) {
                 return held;
             }
             return null;

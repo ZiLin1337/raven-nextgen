@@ -10,7 +10,7 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import keystrokesmod.utility.font.FontManager;
-import keystrokesmod.utility.font.RavenFontRenderer;
+import keystrokesmod.utility.font.RavenTextRenderer;
 import net.minecraft.client.MinecraftClient;
 import org.lwjgl.opengl.GL11;
 
@@ -108,7 +108,7 @@ public class SliderComponent extends Component {
             drawFontPreview(labelX, labelY, valueText, suffix);
         }
         else {
-            Gui.getClickGuiSettingFontRenderer().drawString(
+            Gui.getClickGuiSettingTextRenderer().drawString(
                 this.sliderSetting.getName() + ": " + (this.sliderSetting.isString ? "\u00a7e" : "\u00a7b") + valueText + suffix,
                 labelX,
                 labelY,
@@ -252,7 +252,7 @@ public class SliderComponent extends Component {
         Minecraft mc = MinecraftClient.getInstance();
         mc.textRenderer.drawStringWithShadow(prefix, labelX, labelY, -1);
 
-        RavenFontRenderer previewRenderer = FontManager.getClickGuiSettingRenderer(valueText);
+        RavenTextRenderer previewRenderer = FontManager.getClickGuiSettingRenderer(valueText);
         float valueX = labelX + mc.textRenderer.getStringWidth(prefix);
         float valueY = labelY - (previewRenderer.getFontHeight() - mc.textRenderer.FONT_HEIGHT) / 2.0f;
         previewRenderer.drawString(valueText + suffix, valueX, valueY, 0xFFFFFF, true);

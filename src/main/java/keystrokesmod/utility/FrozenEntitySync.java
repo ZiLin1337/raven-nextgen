@@ -4,7 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.entity.PlayerEntitySP;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.play.server.*;
+import net.minecraft.network.packet.s2c.play.*;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;

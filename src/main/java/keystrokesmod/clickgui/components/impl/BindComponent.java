@@ -7,7 +7,7 @@ import keystrokesmod.module.impl.client.Gui;
 import keystrokesmod.module.setting.impl.KeySetting;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Theme;
-import keystrokesmod.utility.font.RavenFontRenderer;
+import keystrokesmod.utility.font.RavenTextRenderer;
 import keystrokesmod.utility.profile.ProfileModule;
 import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
@@ -49,7 +49,7 @@ public class BindComponent extends Component {
     @Override public boolean isBaseVisible() { return keySetting == null || keySetting.visible; }
 
     public void render() {
-        RavenFontRenderer renderer = Gui.getClickGuiSettingFontRenderer();
+        RavenTextRenderer renderer = Gui.getClickGuiSettingTextRenderer();
         RenderSystem.getModelViewStack().pushMatrix();
         GL11.glScaled(0.5D, 0.5D, 0.5D);
         if (keySetting == null) {
@@ -63,7 +63,7 @@ public class BindComponent extends Component {
         if (keySetting == null && moduleComponent.mod.moduleCategory() != Module.category.profiles) {
             int iconSize = getEyeIconSize();
             float iconX = getEyeIconX(iconSize);
-            float textHeight = Gui.getClickGuiSettingFontRenderer().getFontHeight() * 0.5f;
+            float textHeight = Gui.getClickGuiSettingTextRenderer().getFontHeight() * 0.5f;
             float iconY = getRenderTextY() + (textHeight - iconSize) / 2f;
 
             int themeColor = !moduleComponent.mod.hidden
@@ -128,7 +128,7 @@ public class BindComponent extends Component {
 
     private boolean overBindText(int mouseX, int mouseY) {
         String text = getBindDisplayString();
-        RavenFontRenderer renderer = Gui.getClickGuiSettingFontRenderer();
+        RavenTextRenderer renderer = Gui.getClickGuiSettingTextRenderer();
 
         float left = getBindTextX();
         float top = getBindTextY();
@@ -140,7 +140,7 @@ public class BindComponent extends Component {
     }
 
     private int getEyeIconSize() {
-        int fontH = Math.round(Gui.getClickGuiSettingFontRenderer().getFontHeight() * 0.5f);
+        int fontH = Math.round(Gui.getClickGuiSettingTextRenderer().getFontHeight() * 0.5f);
         return Math.max(6, fontH - 1);
     }
 
@@ -150,7 +150,7 @@ public class BindComponent extends Component {
 
     private float getEyeIconY(int iconSize) {
         float textY = getBindTextY();
-        float textHeight = Gui.getClickGuiSettingFontRenderer().getFontHeight() * 0.5f;
+        float textHeight = Gui.getClickGuiSettingTextRenderer().getFontHeight() * 0.5f;
         return textY + (textHeight - iconSize) / 2f;
     }
 
@@ -197,7 +197,7 @@ public class BindComponent extends Component {
     @Override public float getHeightF() { return keySetting != null ? 0f : 16f; }
     @Override public int getHeight() { return Math.round(getHeightF()); }
 
-    private void drawString(RavenFontRenderer renderer, String s) {
+    private void drawString(RavenTextRenderer renderer, String s) {
         renderer.drawString(s, (float) ((this.moduleComponent.categoryComponent.getX() + 4) * 2) + xOffset, (float) ((this.moduleComponent.categoryComponent.getY() + this.o + (this.keySetting == null ? 3 : 4)) * 2), Theme.getGradient(Theme.descriptor[0], Theme.descriptor[1], 0), true);
     }
 

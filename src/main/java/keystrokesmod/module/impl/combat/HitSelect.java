@@ -115,7 +115,7 @@ public class HitSelect extends Module {
         }
 
         int currentTick = tickCounter;
-        ClickType clickType = classifyClick(event.objectMouseOver);
+        ClickType clickType = classifyClick(event.crosshairTargetr);
 
         if (clickType == ClickType.BLOCK_INTERACTION) {
             return;
@@ -128,7 +128,7 @@ public class HitSelect extends Module {
             return;
         }
 
-        PlayerEntity clickedTarget = CombatTargeting.asValidPlayer(event.objectMouseOver == null ? null : event.objectMouseOver.entityHit, HIT_RANGE_SQ);
+        PlayerEntity clickedTarget = CombatTargeting.asValidPlayer(event.crosshairTargetr == null ? null : event.crosshairTargetr.entityHit, HIT_RANGE_SQ);
         if (clickedTarget == null) {
             return;
         }

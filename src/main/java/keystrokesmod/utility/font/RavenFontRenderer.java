@@ -7,7 +7,7 @@ import net.minecraft.client.gui.DrawContext;
 /**
  * Font renderer interface for HUD rendering with support for glyph coloring.
  */
-public interface RavenFontRenderer {
+public interface RavenTextRenderer {
     @FunctionalInterface
     interface GlyphColorProvider {
         int colorForGlyph(char character, float xOffset, float width, Integer formattingColor);
@@ -62,5 +62,5 @@ public interface RavenFontRenderer {
 }
 
 /**
- * Implementation of RavenFontRenderer using Minecraft's built-in TextRenderer.
+ * Implementation of RavenTextRenderer using Minecraft's built-in TextRenderer.
  */

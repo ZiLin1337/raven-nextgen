@@ -51,8 +51,8 @@ public class Piercing extends Module {
             return false;
         }
         return ignoreBlocks.isToggled()
-                || mc.objectMouseOver == null
-                || mc.objectMouseOver.typeOfHit != HitResult.MovingObjectType.BLOCK;
+                || mc.crosshairTargetr == null
+                || mc.crosshairTargetr.typeOfHit != HitResult.MovingObjectType.BLOCK;
     }
 
     public void modifyMouseOverFromGetMouseOver(float partialTicks) {
@@ -149,14 +149,14 @@ public class Piercing extends Module {
         }
 
         if (best != null && reach > 3.0 && bestDist > 3.0 && !mc.interactionManager.extendedReach()) {
-            mc.objectMouseOver = new HitResult(
+            mc.crosshairTargetr = new HitResult(
                     HitResult.MovingObjectType.MISS, bestHit, null, new BlockPos(bestHit)
             );
             return;
         }
 
         if (best != null) {
-            mc.objectMouseOver = new HitResult(best, bestHit);
+            mc.crosshairTargetr = new HitResult(best, bestHit);
             if (best instanceof LivingEntity || best instanceof ItemEntityFrame) {
                 mc.pointedEntity = best;
             }

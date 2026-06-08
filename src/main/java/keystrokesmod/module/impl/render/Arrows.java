@@ -9,7 +9,7 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import keystrokesmod.utility.font.FontManager;
-import keystrokesmod.utility.font.RavenFontRenderer;
+import keystrokesmod.utility.font.RavenTextRenderer;
 
 
 import net.minecraft.entity.player.PlayerEntity;
@@ -126,7 +126,7 @@ public class Arrows extends Module {
         double y = en.lastTickPosY + (en.posY - en.lastTickPosY) * partialTicks - mc.getEntityRenderDispatcher().viewerPosY + en.height / 2;
         double z = en.lastTickPosZ + (en.posZ - en.lastTickPosZ) * partialTicks - mc.getEntityRenderDispatcher().viewerPosZ;
 
-        ((IAccessorEntityRenderer) mc.entityRenderer).callSetupCameraTransform(((IAccessorMinecraft) mc).getTimer().renderPartialTicks, 0);
+        ((IAccessorGameRendererr) mc.entityRenderer).callSetupCameraTransform(((IAccessorMinecraft) mc).getTimer().renderPartialTicks, 0);
 
          scaledResolution = /* ScaledResolution removed in 1.21.4 */ null;
         Vec3d vec = RenderUtils.convertTo2D(scaledResolution.getScaleFactor(), x, y, z);
@@ -200,7 +200,7 @@ public class Arrows extends Module {
             else if (arrowInput == 1) {
                 RenderSystem.rotate(-90.0f, 0.0f, 0.0f, 1.0f);
                 RenderSystem.scale(1.5, 1.5, 1.5);
-                RavenFontRenderer fr = getArrowFontRenderer();
+                RavenTextRenderer fr = getArrowTextRenderer();
                 fr.drawString(">", -2.0f, -4.0f, color, false);
             }
             else if (arrowInput == 2) {
@@ -218,7 +218,7 @@ public class Arrows extends Module {
 
             if (renderDistance.isToggled()) {
                 String text = (int) mc.player.getDistanceToEntity(en) + "m";
-                RavenFontRenderer fr = getArrowFontRenderer();
+                RavenTextRenderer fr = getArrowTextRenderer();
                 fr.drawString(text, (float) (-fr.getStringWidth(text) / 2), -4.0f, -1, true);
             }
 
@@ -234,7 +234,7 @@ public class Arrows extends Module {
         return font.getOptions()[index];
     }
 
-    private RavenFontRenderer getArrowFontRenderer() {
+    private RavenTextRenderer getArrowTextRenderer() {
         return FontManager.getNametagRenderer(getSelectedFontName());
     }
 

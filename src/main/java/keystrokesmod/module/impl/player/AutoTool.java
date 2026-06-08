@@ -188,7 +188,7 @@ public class AutoTool extends Module {
             return;
         }
 
-        HitResult swapResult = mc.objectMouseOver;
+        HitResult swapResult = mc.crosshairTargetr;
         BlockPos swapPos = swapResult != null
             && swapResult.typeOfHit == HitResult.MovingObjectType.BLOCK
             ? swapResult.getBlockPos()

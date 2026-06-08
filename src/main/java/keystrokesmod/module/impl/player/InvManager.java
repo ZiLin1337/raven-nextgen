@@ -12,7 +12,7 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.ItemSearchIndex;
 import keystrokesmod.utility.Utils;
 import net.minecraft.client.gui.inventory.GuiChest;
-import net.minecraft.client.gui.inventory.GuiInventory;
+import net.minecraft.client.gui.inventory.InventoryScreeny;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.block.Blocks;
@@ -26,9 +26,9 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemEgg;
-import net.minecraft.item.ItemEnderPearl;
+import net.minecraft.item.EnderPearlItem;
 import net.minecraft.item.PickaxeItem;
-import net.minecraft.item.ItemPotion;
+import net.minecraft.item.PotionItem;
 import net.minecraft.item.ItemSnowball;
 import net.minecraft.item.ShovelItem;
 import net.minecraft.item.ItemStack;
@@ -210,14 +210,14 @@ public class InvManager extends Module {
             return;
         }
 
-        if (closeInventory.isToggled() && closeInventoryGui && mc.currentScreen instanceof GuiInventory) {
+        if (closeInventory.isToggled() && closeInventoryGui && mc.currentScreen instanceof InventoryScreeny) {
             closeInventoryGui = false;
             closeSession();
             mc.player.closeScreen();
             return;
         }
 
-        if (mc.currentScreen instanceof GuiInventory) {
+        if (mc.currentScreen instanceof InventoryScreeny) {
             handleInventoryScreen();
             return;
         }
@@ -454,7 +454,7 @@ public class InvManager extends Module {
                 return true;
             }
 
-            if (item instanceof ItemPotion) {
+            if (item instanceof PotionItem) {
                 if (!isBadPotion(itemStack)) {
                     continue;
                 }
@@ -589,13 +589,13 @@ public class InvManager extends Module {
                 || item instanceof ItemAppleGold
                 || item instanceof ItemSnowball
                 || item instanceof ItemEgg
-                || item instanceof ItemEnderPearl
+                || item instanceof EnderPearlItem
                 || item == Items.ARROW;
     }
 
     private boolean canMergeChestStackIntoInventory(ItemStack chestStack, InventoryData playerData) {
         Item chestItem = chestStack.getItem();
-        if (!isProtectedInventoryItem(chestStack) && !(chestItem instanceof ItemPotion && !isBadPotion(chestStack))) {
+        if (!isProtectedInventoryItem(chestStack) && !(chestItem instanceof PotionItem && !isBadPotion(chestStack))) {
             return false;
         }
 
@@ -630,11 +630,11 @@ public class InvManager extends Module {
     }
 
     private boolean isSpeedPotion(ItemStack itemStack) {
-        if (itemStack == null || !(itemStack.getItem() instanceof ItemPotion)) {
+        if (itemStack == null || !(itemStack.getItem() instanceof PotionItem)) {
             return false;
         }
 
-        List<StatusEffectInstance> effects = ((ItemPotion)itemStack.getItem()).getEffects(itemStack);
+        List<StatusEffectInstance> effects = ((PotionItem)itemStack.getItem()).getEffects(itemStack);
         if (effects == null) {
             return false;
         }
@@ -648,11 +648,11 @@ public class InvManager extends Module {
     }
 
     private boolean isBadPotion(ItemStack itemStack) {
-        if (itemStack == null || !(itemStack.getItem() instanceof ItemPotion)) {
+        if (itemStack == null || !(itemStack.getItem() instanceof PotionItem)) {
             return false;
         }
 
-        List<StatusEffectInstance> effects = ((ItemPotion)itemStack.getItem()).getEffects(itemStack);
+        List<StatusEffectInstance> effects = ((PotionItem)itemStack.getItem()).getEffects(itemStack);
         if (effects == null || effects.isEmpty()) {
             return true;
         }
@@ -675,7 +675,7 @@ public class InvManager extends Module {
         if (items.matches(stack)) {
             return false;
         }
-        if (item instanceof ItemPotion && isBadPotion(stack)) {
+        if (item instanceof PotionItem && isBadPotion(stack)) {
             return true;
         }
         if (item == Items.spawn_egg) {
@@ -694,7 +694,7 @@ public class InvManager extends Module {
             return playerData.bestShovel >= 0 && efficiency <= playerData.bestShovel;
         }
 
-        if (isProtectedInventoryItem(stack) || (item instanceof ItemPotion && !isBadPotion(stack))) {
+        if (isProtectedInventoryItem(stack) || (item instanceof PotionItem && !isBadPotion(stack))) {
             return false;
         }
 
@@ -1807,7 +1807,7 @@ public class InvManager extends Module {
 
     private boolean isManagedInventoryOpen() {
         return Utils.nullCheck()
-                && mc.currentScreen instanceof GuiInventory
+                && mc.currentScreen instanceof InventoryScreeny
                 && mc.player.openContainer instanceof ContainerPlayer
                 && Utils.inInventory();
     }

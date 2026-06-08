@@ -20,7 +20,7 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.color.ColorConstants;
 import net.minecraft.block.*;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.inventory.GuiInventory;
+import net.minecraft.client.gui.inventory.InventoryScreeny;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.render.ActiveRenderInfo;
 import net.minecraft.client.option.KeyBinding;
@@ -33,7 +33,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Items;
 import net.minecraft.inventory.ContainerPlayer;
 import net.minecraft.item.*;
-import net.minecraft.network.play.client.PlayerMoveC2SPacket.PlayerMoveC2SPacket;
+import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket.PlayerMoveC2SPacket;
 
 import net.minecraft.potion.Potion;
 import net.minecraft.scoreboard.Score;
@@ -161,19 +161,19 @@ public class Utils implements IMinecraftInstance {
             PlayerEntity p = (PlayerEntity)ent;
             UUID uuid = p.getUniqueID();
             sendMessage("&7uuid: &d" + uuid.toString() + " &b" + uuid.variant() + " " + uuid.version());
-            PlayerListEntry clientPlayer = mc.getNetHandler().getPlayerInfo(p.getUniqueID());
+            PlayerListEntry clientPlayer = mc.getNetworkHandler().getPlayerInfo(p.getUniqueID());
             sendMessage("&7ping: &d" + ((clientPlayer == null) ? "&cnot found" : clientPlayer.getResponseTime()));
             sendMessage("&7teammate: &r" + isTeammate(p));
             sendMessage("&7tablist: &r" + isInTabList(p));
             if (p.getTeam() != null) {
-                ScorePlayerTeam scoreTeam = (ScorePlayerTeam)p.getTeam();
+                Teamm scoreTeam = (Teamm)p.getTeam();
                 sendMessage("&7team name: &r" + scoreTeam.getTeamName());
                 sendMessage("&7team prefix: &r" + scoreTeam.getColorPrefix());
                 sendMessage("&7team suffix: &r" + scoreTeam.getColorSuffix());
             }
         }
         sendMessage("&7display unformatted: &r" + (hasDisplayName ? displayName.getUnformattedText() : "&cnull"));
-        sendMessage("&7insertion: &r" + (hasDisplayName ? displayName.getChatStyle().getInsertion() : "&cnull"));
+        sendMessage("&7insertion: &r" + (hasDisplayName ? displayName.getStylee().getInsertion() : "&cnull"));
         sendMessage("&7health: &r" + ent.getHealth());
         sendMessage("&7ht: &d" + ent.hurtTime + " &7mht: &d" + ent.maxHurtTime);
         sendMessage("&7ticks existed: &r" + ent.ticksExisted);
@@ -225,7 +225,7 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static boolean isInTabList(PlayerEntity p) {
-        for (PlayerListEntry playerInfo : mc.getNetHandler().getPlayerInfoMap()) {
+        for (PlayerListEntry playerInfo : mc.getNetworkHandler().getPlayerInfoMap()) {
             if (playerInfo.getGameProfile().equals(p.getGameProfile())) {
                 return true;
             }
@@ -258,7 +258,7 @@ public class Utils implements IMinecraftInstance {
         }
 
         if (entity instanceof PlayerEntity) {
-            ScorePlayerTeam scoreplayerteam = (ScorePlayerTeam) ((LivingEntity) entity).getTeam();
+            Teamm scoreplayerteam = (Teamm) ((LivingEntity) entity).getTeam();
             if (scoreplayerteam != null) {
                 String s = TextRenderer.getFormatFromString(scoreplayerteam.getColorPrefix());
                 if (s.length() >= 2) {
@@ -324,7 +324,7 @@ public class Utils implements IMinecraftInstance {
 
     public static boolean overVoid(double posX, double posY, double posZ) {
         for (int i = (int) posY; i > -1; i--) {
-            if (!(mc.world.getBlockState(new BlockPos(posX, i, posZ)).getBlock() instanceof BlockAir)) {
+            if (!(mc.world.getBlockState(new BlockPos(posX, i, posZ)).getBlock() instanceof Blocks.AIRr)) {
                 return false;
             }
         }
@@ -366,7 +366,7 @@ public class Utils implements IMinecraftInstance {
         if (mc.player.getHeldItem() == null) {
             return false;
         }
-        return mc.player.getHeldItem().getItem() instanceof ItemFireball;
+        return mc.player.getHeldItem().getItem() instanceof FireballItem;
     }
 
     public static boolean canSeeVec(Vec3d vecPlayer, Vec3d vecTarget) {
@@ -375,10 +375,10 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static List<PlayerListEntry> getTablist(boolean removeSelf) {
-        ArrayList<PlayerListEntry> list = new ArrayList<>(mc.getNetHandler().getPlayerInfoMap());
+        ArrayList<PlayerListEntry> list = new ArrayList<>(mc.getNetworkHandler().getPlayerInfoMap());
         removeDuplicates(list);
         if (removeSelf) {
-            list.remove(mc.getNetHandler().getPlayerInfo(mc.player.getUniqueID()));
+            list.remove(mc.getNetworkHandler().getPlayerInfo(mc.player.getUniqueID()));
         }
         return list;
     }
@@ -815,8 +815,8 @@ public class Utils implements IMinecraftInstance {
 
     public static String getNetworkDisplayName() {
         try {
-            PlayerListEntry playerInfo = mc.getNetHandler().getPlayerInfo(mc.player.getUniqueID());
-            return ScorePlayerTeam.formatPlayerName(playerInfo.getPlayerTeam(), playerInfo.getGameProfile().getName());
+            PlayerListEntry playerInfo = mc.getNetworkHandler().getPlayerInfo(mc.player.getUniqueID());
+            return Teamm.formatPlayerName(playerInfo.getPlayerTeam(), playerInfo.getGameProfile().getName());
         }
         catch (Exception ignored) {}
         return "";
@@ -854,7 +854,7 @@ public class Utils implements IMinecraftInstance {
         if (!nullCheck()) {
             return false;
         }
-        return (mc.currentScreen != null) && (mc.player.inventoryContainer != null) && (mc.player.inventoryContainer instanceof ContainerPlayer) && (mc.currentScreen instanceof GuiInventory);
+        return (mc.currentScreen != null) && (mc.player.inventoryContainer != null) && (mc.player.inventoryContainer instanceof ContainerPlayer) && (mc.currentScreen instanceof InventoryScreeny);
     }
 
     public static int getSkyWarsStatus() {
@@ -955,8 +955,8 @@ public class Utils implements IMinecraftInstance {
         int index = 0;
         for (final Score score : scores) {
             ++index;
-            final ScorePlayerTeam team = scoreboard.getPlayersTeam(score.getPlayerName());
-            lines.add(ScorePlayerTeam.formatPlayerName(team, score.getPlayerName()));
+            final Teamm team = scoreboard.getPlayersTeam(score.getPlayerName());
+            lines.add(Teamm.formatPlayerName(team, score.getPlayerName()));
             if (index == scores.size()) {
                 lines.add(objective.getDisplayName());
             }
@@ -980,7 +980,7 @@ public class Utils implements IMinecraftInstance {
                 float y = t[0];
                 float p = t[1] + 4.0F + offset;
                 if (sendPacket) {
-                    mc.getNetHandler().addToSendQueue(new PlayerMoveC2SPacket(y, p, mc.player.onGround));
+                    mc.getNetworkHandler().addToSendQueue(new PlayerMoveC2SPacket(y, p, mc.player.onGround));
                 }
                 else {
                     mc.player.rotationYaw = y;
@@ -1253,7 +1253,7 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static boolean blockAbove() {
-        return !(BlockUtils.getBlockState(new BlockPos(mc.player.getX(), mc.player.getY() + 2, mc.player.getZ())) instanceof BlockAir);
+        return !(BlockUtils.getBlockState(new BlockPos(mc.player.getX(), mc.player.getY() + 2, mc.player.getZ())) instanceof Blocks.AIRr);
     }
 
     public static boolean onEdge() {
@@ -1265,7 +1265,7 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static boolean lookingAtBlock() {
-        return mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == HitResult.MovingObjectType.BLOCK && mc.objectMouseOver.getBlockPos() != null;
+        return mc.crosshairTargetr != null && mc.crosshairTargetr.typeOfHit == HitResult.MovingObjectType.BLOCK && mc.crosshairTargetr.getBlockPos() != null;
     }
 
     public static boolean isDiagonal(boolean strict) {
@@ -1458,8 +1458,8 @@ public class Utils implements IMinecraftInstance {
 
                     while (var5.hasNext()) {
                         score = (Score) var5.next();
-                        ScorePlayerTeam team = scoreboard.getPlayersTeam(score.getPlayerName());
-                        lines.add(ScorePlayerTeam.formatPlayerName(team, score.getPlayerName()));
+                        Teamm team = scoreboard.getPlayersTeam(score.getPlayerName());
+                        lines.add(Teamm.formatPlayerName(team, score.getPlayerName()));
                     }
 
                     return lines;
@@ -1632,7 +1632,7 @@ public class Utils implements IMinecraftInstance {
         double bestDist = maxDistSq;
         for (PlayerEntity player : mc.world.getPlayers()) {
             if (player == mc.player) continue;
-            if (mc.getNetHandler() == null || mc.getNetHandler().getPlayerInfo(player.getUniqueID()) == null)
+            if (mc.getNetworkHandler() == null || mc.getNetworkHandler().getPlayerInfo(player.getUniqueID()) == null)
                 continue;
             double dx = player.posX - mc.player.getX();
             double dy = player.posY - mc.player.getY();

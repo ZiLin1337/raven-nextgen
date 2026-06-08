@@ -120,7 +120,7 @@ public class BlockOverlay extends Module {
         boolean showOutline = outlineVisible.isToggled();
         if (!showOverlay && !showOutline) return;
 
-        Direction side = (mode == 2) ? mc.objectMouseOver.sideHit : null;
+        Direction side = (mode == 2) ? mc.crosshairTargetr.sideHit : null;
         renderCustomBlockOverlay(pos, side, showOverlay, showOutline);
     }
 
@@ -170,7 +170,7 @@ public class BlockOverlay extends Module {
 
     public static void renderBlockOutline(BlockPos pos, int outlineArgbStart, int outlineArgbEnd, float lineWidth, boolean depthless) {
         Minecraft m = MinecraftClient.getInstance();
-        if (m.theWorld == null || pos == null) {
+        if (m.worldd == null || pos == null) {
             return;
         }
         Box box = BlockUtils.getBlockSelectionBox(pos);
@@ -226,8 +226,8 @@ public class BlockOverlay extends Module {
     }
 
     private BlockPos getFocusedBlock() {
-        if (mc.objectMouseOver == null || mc.objectMouseOver.typeOfHit != HitResult.MovingObjectType.BLOCK) return null;
-        BlockPos pos = mc.objectMouseOver.getBlockPos();
+        if (mc.crosshairTargetr == null || mc.crosshairTargetr.typeOfHit != HitResult.MovingObjectType.BLOCK) return null;
+        BlockPos pos = mc.crosshairTargetr.getBlockPos();
         if (pos == null) return null;
         Block block = mc.world.getBlockState(pos).getBlock();
         if (block == Blocks.AIR) return null;
