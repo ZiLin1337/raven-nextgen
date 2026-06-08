@@ -1,5 +1,7 @@
 package keystrokesmod.module.impl.render;
 
+import keystrokesmod.event.TickEvent;
+import keystrokesmod.event.RenderWorldLastEvent;
 import keystrokesmod.Raven;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.impl.world.AntiBot;

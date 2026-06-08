@@ -1,5 +1,6 @@
 package keystrokesmod.module.impl.player;
 
+import keystrokesmod.event.GuiOpenEvent;
 import keystrokesmod.event.PreUpdateEvent;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;

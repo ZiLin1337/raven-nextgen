@@ -1,5 +1,7 @@
 package keystrokesmod.module.impl.render;
 
+import keystrokesmod.event.RenderWorldLastEvent;
+import keystrokesmod.event.TickEvent;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.impl.player.Freecam;
 import keystrokesmod.module.setting.impl.ButtonSetting;

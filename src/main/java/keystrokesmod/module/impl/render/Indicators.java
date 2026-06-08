@@ -27,7 +27,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.Math;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityEnderPearl;
+import net.minecraft.entity.EntityEnderPearl;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.*;
 import net.minecraft.item.Items;

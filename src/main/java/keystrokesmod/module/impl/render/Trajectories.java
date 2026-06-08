@@ -181,7 +181,7 @@ public class Trajectories extends Module {
         if (!Utils.isHypixel() || mc.world == null) return false;
         net.minecraft.scoreboard.Scoreboard sb = mc.world.getScoreboard();
         if (sb == null) return false;
-        net.minecraft.scoreboard.ScoreObjective objective = sb.getObjectiveInDisplaySlot(1);
+        net.minecraft.scoreboard.ScoreboardObjective objective = sb.getObjectiveInDisplaySlot(1);
         return objective != null && Utils.stripString(objective.getDisplayName()).contains("BED WARS");
     }
 

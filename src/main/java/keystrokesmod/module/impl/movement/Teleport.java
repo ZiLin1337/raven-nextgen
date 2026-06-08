@@ -1,5 +1,7 @@
 package keystrokesmod.module.impl.movement;
 
+import keystrokesmod.event.RenderWorldLastEvent;
+import keystrokesmod.event.MouseEvent;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.utility.RenderUtils;

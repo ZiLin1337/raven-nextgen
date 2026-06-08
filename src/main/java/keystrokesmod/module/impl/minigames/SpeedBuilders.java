@@ -1,5 +1,10 @@
 package keystrokesmod.module.impl.minigames;
 
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Direction;
+import keystrokesmod.event.TickEvent;
+import net.minecraft.util.hit.HitResult;
 import keystrokesmod.event.PreUpdateEvent;
 import keystrokesmod.event.ReceivePacketEvent;
 import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
@@ -464,7 +469,7 @@ public class SpeedBuilders extends Module {
     }
 
     private boolean removeMeta(Block block) {
-        return (block instanceof StairsBlock || block instanceof BlockDoublePlant || block instanceof BlockFlower || block instanceof BlockSkull || block instanceof BlockLadder || block instanceof BlockPumpkin || block instanceof BlockCauldron || block instanceof BlockRail || block instanceof BlockRailBase || block instanceof BlockTripWireHook || block instanceof BlockTripWire || block instanceof BlockDispenser || block instanceof BlockDropper || block instanceof BlockHopper || block instanceof BlockTorch || block instanceof BlockButton || block instanceof BlockLever || block instanceof BlockTrapDoor || block instanceof BlockSlab);
+        return (block instanceof StairsBlock || block instanceof DoublePlantBlock || block instanceof FlowerBlock || block instanceof BlockSkull || block instanceof BlockLadder || block instanceof BlockPumpkin || block instanceof BlockCauldron || block instanceof BlockRail || block instanceof BlockRailBase || block instanceof BlockTripWireHook || block instanceof BlockTripWire || block instanceof BlockDispenser || block instanceof BlockDropper || block instanceof BlockHopper || block instanceof BlockTorch || block instanceof BlockButton || block instanceof BlockLever || block instanceof BlockTrapDoor || block instanceof BlockSlab);
     }
 
     private boolean correctPlaceState(BlockState requiredState, BlockPos blockPos, Direction enumFacing, Vec3d hitVec, ItemStack heldItem) {

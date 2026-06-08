@@ -1,5 +1,6 @@
 package keystrokesmod.module.impl.world;
 
+import keystrokesmod.event.EntityJoinWorldEvent;
 import keystrokesmod.Raven;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;

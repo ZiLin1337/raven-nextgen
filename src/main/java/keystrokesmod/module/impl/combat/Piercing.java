@@ -8,7 +8,7 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.Utils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.item.ItemEntityFrame;
+import net.minecraft.entity.ItemEntityFrame;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.*;
 

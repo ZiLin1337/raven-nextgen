@@ -1,5 +1,6 @@
 package keystrokesmod.module.impl.minigames;
 
+import net.minecraft.block.Blocks;
 import keystrokesmod.event.ReceivePacketEvent;
 import keystrokesmod.event.SendPacketEvent;
 import keystrokesmod.module.Module;

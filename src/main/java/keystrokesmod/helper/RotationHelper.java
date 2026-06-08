@@ -10,7 +10,7 @@ import meteordevelopment.orbit.EventPriority;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.Math;
+// Removed Math import
 import net.minecraft.util.math.Vec3d;
 
 /**

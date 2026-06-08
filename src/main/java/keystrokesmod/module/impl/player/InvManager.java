@@ -22,7 +22,7 @@ import net.minecraft.inventory.ContainerPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemAppleGold;
-import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemEgg;
@@ -394,7 +394,7 @@ public class InvManager extends Module {
             }
 
             if (isArmor(itemStack)) {
-                ItemArmor armor = (ItemArmor)item;
+                ArmorItem armor = (ArmorItem)item;
                 int armorSlot = 3 - armor.armorType;
                 int defenceLevel = getDefenceLevel(itemStack);
                 int bestLevel = bestArmorLevels[armorSlot];
@@ -614,11 +614,11 @@ public class InvManager extends Module {
     }
 
     private boolean isArmor(ItemStack itemStack) {
-        return itemStack != null && itemStack.getItem() instanceof ItemArmor;
+        return itemStack != null && itemStack.getItem() instanceof ArmorItem;
     }
 
     private int getDefenceLevel(ItemStack itemStack) {
-        return ((ItemArmor)itemStack.getItem()).damageReduceAmount
+        return ((ArmorItem)itemStack.getItem()).damageReduceAmount
                 + EnchantmentHelper.getEnchantmentModifierDamage(new ItemStack[] { itemStack }, DamageSource.generic);
     }
 
@@ -1918,7 +1918,7 @@ public class InvManager extends Module {
                 }
 
                 if (isArmor(itemStack)) {
-                    ItemArmor armor = (ItemArmor)itemStack.getItem();
+                    ArmorItem armor = (ArmorItem)itemStack.getItem();
                     int slot = 3 - armor.armorType;
                     int defenceLevel = getDefenceLevel(itemStack);
                     if (defenceLevel > armorData[1][slot]) {

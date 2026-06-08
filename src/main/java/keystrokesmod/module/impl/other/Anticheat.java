@@ -1,5 +1,7 @@
 package keystrokesmod.module.impl.other;
 
+import net.minecraft.block.Blocks;
+import net.minecraft.text.Style;
 import keystrokesmod.event.AntiCheatFlagEvent;
 import keystrokesmod.event.ReceivePacketEvent;
 import keystrokesmod.module.Module;

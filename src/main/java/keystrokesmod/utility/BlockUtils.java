@@ -7,7 +7,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.block.Blocks;
-import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.DyeColor;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
@@ -24,7 +24,7 @@ public class BlockUtils implements IMinecraftInstance {
     }
 
     public static boolean notFull(Block block) {
-        return block instanceof BlockFenceGate || block instanceof BlockLadder || block instanceof BlockFlowerPot || block instanceof BlockBasePressurePlate || isFluid(block) || block instanceof BlockFence || block instanceof BlockAnvil || block instanceof BlockEnchantmentTable || block instanceof BlockChest;
+        return block instanceof BlockFenceGate || block instanceof BlockLadder || block instanceof FlowerBlockPot || block instanceof BlockBasePressurePlate || isFluid(block) || block instanceof BlockFence || block instanceof BlockAnvil || block instanceof BlockEnchantmentTable || block instanceof BlockChest;
     }
 
     public static boolean isNormalBlock(final Block block) {
@@ -261,8 +261,8 @@ public class BlockUtils implements IMinecraftInstance {
         return false;
     }
 
-    public static EnumDyeColor getWoolColor(final BlockState state) {
-        return (EnumDyeColor)state.getProperties().get(BlockColored.COLOR);
+    public static DyeColor getWoolColor(final BlockState state) {
+        return (DyeColor)state.getProperties().get(BlockColored.COLOR);
     }
 
     public static Direction[] getVisibleFaces(Vec3d eye, BlockPos block) {

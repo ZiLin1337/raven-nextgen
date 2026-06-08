@@ -37,7 +37,7 @@ import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket.PlayerMoveC2SPa
 
 import net.minecraft.potion.Potion;
 import net.minecraft.scoreboard.Score;
-import net.minecraft.scoreboard.ScoreObjective;
+import net.minecraft.scoreboard.ScoreboardObjective;
 
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.*;
@@ -731,8 +731,8 @@ public class Utils implements IMinecraftInstance {
         for (int i = 0; i < 4; ++i) {
             final ItemStack stack = target.inventory.armorItemInSlot(i);
             if (stack != null) {
-                if (stack.getItem() instanceof ItemArmor) {
-                    armorProtPercentage += ((ItemArmor)stack.getItem()).damageReduceAmount * 0.04;
+                if (stack.getItem() instanceof ArmorItem) {
+                    armorProtPercentage += ((ArmorItem)stack.getItem()).damageReduceAmount * 0.04;
                     final int protLevel = EnchantmentHelper.getEnchantmentLevel(Enchantment.protection.effectId, stack);
                     if (protLevel != 0) {
                         final double epf = Math.floor(0.75 * (6 + protLevel * protLevel) / 3.0);
@@ -894,7 +894,7 @@ public class Utils implements IMinecraftInstance {
         if (scoreboard == null) {
             return -1;
         }
-        final ScoreObjective objective = scoreboard.getObjectiveInDisplaySlot(1);
+        final ScoreboardObjective objective = scoreboard.getObjectiveInDisplaySlot(1);
         if (objective == null || !stripString(objective.getDisplayName()).contains("BED WARS")) {
             return -1;
         }
@@ -936,7 +936,7 @@ public class Utils implements IMinecraftInstance {
         if (scoreboard == null) {
             return lines;
         }
-        final ScoreObjective objective = scoreboard.getObjectiveInDisplaySlot(1);
+        final ScoreboardObjective objective = scoreboard.getObjectiveInDisplaySlot(1);
         if (objective == null) {
             return lines;
         }
@@ -1432,7 +1432,7 @@ public class Utils implements IMinecraftInstance {
             if (scoreboard == null) {
                 return lines;
             } else {
-                ScoreObjective objective = scoreboard.getObjectiveInDisplaySlot(1);
+                ScoreboardObjective objective = scoreboard.getObjectiveInDisplaySlot(1);
                 if (objective == null) {
                     return lines;
                 } else {
@@ -1543,7 +1543,7 @@ public class Utils implements IMinecraftInstance {
         if (block == null) {
             return false;
         }
-        if (BlockUtils.isInteractable(block) || block instanceof BlockSnow || block instanceof BlockWeb || block instanceof BlockSapling || block instanceof BlockDaylightDetector || block instanceof BlockBeacon || block instanceof BlockBanner || block instanceof BlockEndPortalFrame || block instanceof BlockEndPortal || block instanceof BlockLever || block instanceof BlockButton || block instanceof BlockSkull || block instanceof FluidBlock || block instanceof BlockCactus || block instanceof BlockDoublePlant || block instanceof BlockLilyPad || block instanceof BlockCarpet || block instanceof BlockTripWire || block instanceof BlockTripWireHook || block instanceof BlockTallGrass || block instanceof BlockFlower || block instanceof BlockFlowerPot || block instanceof BlockSign || block instanceof BlockLadder || block instanceof BlockTorch || block instanceof BlockRedstoneTorch || block instanceof StairsBlock || block instanceof BlockSlab || block instanceof BlockFence || block instanceof BlockPane || block instanceof BlockStainedGlassPane || block instanceof BlockGravel || block instanceof BlockClay || block instanceof BlockSand || block instanceof BlockSoulSand || block instanceof BlockRailBase) {
+        if (BlockUtils.isInteractable(block) || block instanceof BlockSnow || block instanceof BlockWeb || block instanceof BlockSapling || block instanceof BlockDaylightDetector || block instanceof BlockBeacon || block instanceof BlockBanner || block instanceof BlockEndPortalFrame || block instanceof BlockEndPortal || block instanceof BlockLever || block instanceof BlockButton || block instanceof BlockSkull || block instanceof FluidBlock || block instanceof BlockCactus || block instanceof DoublePlantBlock || block instanceof BlockLilyPad || block instanceof BlockCarpet || block instanceof BlockTripWire || block instanceof BlockTripWireHook || block instanceof TallGrassBlock || block instanceof FlowerBlock || block instanceof FlowerBlockPot || block instanceof BlockSign || block instanceof BlockLadder || block instanceof BlockTorch || block instanceof BlockRedstoneTorch || block instanceof StairsBlock || block instanceof BlockSlab || block instanceof BlockFence || block instanceof BlockPane || block instanceof BlockStainedGlassPane || block instanceof BlockGravel || block instanceof BlockClay || block instanceof BlockSand || block instanceof BlockSoulSand || block instanceof BlockRailBase) {
             return false;
         }
         return true;
@@ -1613,7 +1613,7 @@ public class Utils implements IMinecraftInstance {
             if (scoreboard == null) {
                 return false;
             }
-            final ScoreObjective objective = scoreboard.getObjectiveInDisplaySlot(1);
+            final ScoreboardObjective objective = scoreboard.getObjectiveInDisplaySlot(1);
             if (objective == null) {
                 return false;
             }

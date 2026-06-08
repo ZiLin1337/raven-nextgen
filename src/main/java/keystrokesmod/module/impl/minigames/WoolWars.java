@@ -1,5 +1,10 @@
 package keystrokesmod.module.impl.minigames;
 
+import net.minecraft.util.DyeColor;
+import net.minecraft.scoreboard.ScoreboardObjective;
+import keystrokesmod.event.RenderWorldLastEvent;
+import keystrokesmod.event.MouseEvent;
+import keystrokesmod.event.EntityJoinWorldEvent;
 import keystrokesmod.event.ClientRotationEvent;
 import keystrokesmod.event.PreUpdateEvent;
 import keystrokesmod.module.Module;
@@ -16,11 +21,11 @@ import net.minecraft.block.Blocks.AIR;
 import net.minecraft.block.StairsBlock;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.block.Blocks;
-import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.DyeColor;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
-import net.minecraft.scoreboard.ScoreObjective;
+import net.minecraft.scoreboard.ScoreboardObjective;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -266,11 +271,11 @@ public class WoolWars extends Module {
         if (!verifyWoolColor) {
             return true;
         }
-        EnumDyeColor teamColor = null;
+        DyeColor teamColor = null;
         for (int i = 0; i < InventoryPlayer.getHotbarSize(); ++i) {
             ItemStack stack = mc.player.inventory.getStackInSlot(i);
             if (stack != null && stack.getItem() instanceof BlockItem && ((BlockItem) stack.getItem()).getBlock() == Blocks.WHITE_WOOL) {
-                teamColor = EnumDyeColor.byMetadata(stack.getMetadata());
+                teamColor = DyeColor.byMetadata(stack.getMetadata());
                 break;
             }
         }
@@ -359,7 +364,7 @@ public class WoolWars extends Module {
         if (scoreboard == null) {
             return false;
         }
-        ScoreObjective objective = scoreboard.getObjectiveInDisplaySlot(1);
+        ScoreboardObjective objective = scoreboard.getObjectiveInDisplaySlot(1);
         return objective != null && Utils.stripString(objective.getDisplayName()).contains("WOOL WARS");
     }
 

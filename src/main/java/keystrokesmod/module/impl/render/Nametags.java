@@ -1,6 +1,10 @@
 package keystrokesmod.module.impl.render;
 
 // Removed accessor
+import net.minecraft.item.ArmorItem;
+import keystrokesmod.event.RenderWorldLastEvent;
+import keystrokesmod.event.TickEvent;
+import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.impl.world.AntiBot;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -20,7 +24,6 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
@@ -165,7 +168,7 @@ public class Nametags extends Module {
     }
 
     
-    public void onRenderLiving(RenderLivingEvent.Specials.Pre event) {
+    public void onRenderLiving(/* RenderLivingEvent.Specials.Pre */ event) {
         if (!hideVanilla.isToggled()) {
             return;
         }
@@ -632,7 +635,7 @@ public class Nametags extends Module {
         String[] abbreviations;
         Item item = stack.getItem();
 
-        if (item instanceof ItemArmor) {
+        if (item instanceof ArmorItem) {
             ids = ARMOR_ENCHANT_IDS;
             abbreviations = ARMOR_ENCHANT_ABBR;
         }

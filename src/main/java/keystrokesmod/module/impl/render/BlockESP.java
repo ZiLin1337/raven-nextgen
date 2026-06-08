@@ -1,6 +1,5 @@
 package keystrokesmod.module.impl.render;
 
-import keystrokesmod.event.Render3DEvent;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.*;
 import keystrokesmod.utility.Utils;
@@ -43,7 +42,7 @@ public class BlockESP extends Module {
     }
 
     @EventHandler
-    public void onRender3D(Render3DEvent e) {
+    public void onRender3D(RenderWorldLastEvent e) {
         if (!Utils.nullCheck() || mc.player == null || mc.world == null) return;
         int rangeInt = (int) range.getInput();
         BlockPos playerPos = mc.player.getBlockPos();

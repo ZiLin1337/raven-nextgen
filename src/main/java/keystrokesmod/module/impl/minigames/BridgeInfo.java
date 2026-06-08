@@ -1,5 +1,8 @@
 package keystrokesmod.module.impl.minigames;
 
+import keystrokesmod.event.RenderTickEvent;
+import keystrokesmod.event.ClientChatReceivedEvent;
+import keystrokesmod.event.EntityJoinWorldEvent;
 import keystrokesmod.module.Module;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.screen.Screen;
