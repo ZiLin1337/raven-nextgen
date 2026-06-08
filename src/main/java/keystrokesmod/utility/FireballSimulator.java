@@ -5,7 +5,7 @@ import net.minecraft.block.FluidBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.EntityLargeFireball;
+import net.minecraft.entity.projectile.LargeFireballEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -41,11 +41,11 @@ public final class FireballSimulator {
         }
     }
 
-    public static Result simulate(EntityLargeFireball fireball) {
+    public static Result simulate(LargeFireballEntity fireball) {
         return simulate(fireball, DEFAULT_MAX_TICKS);
     }
 
-    public static Result simulate(EntityLargeFireball fireball, int maxTicks) {
+    public static Result simulate(LargeFireballEntity fireball, int maxTicks) {
         if (fireball == null) {
             throw new IllegalArgumentException("fireball cannot be null");
         }

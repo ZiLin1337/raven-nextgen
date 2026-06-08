@@ -1,6 +1,7 @@
 package keystrokesmod.module.impl.render;
 
 // Removed accessor
+import keystrokesmod.event.RenderWorldLastEvent;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.module.setting.impl.ButtonSetting;

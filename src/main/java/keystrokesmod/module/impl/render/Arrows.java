@@ -1,6 +1,7 @@
 package keystrokesmod.module.impl.render;
 
 // Removed accessor
+import keystrokesmod.event.TickEvent;
 import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.impl.world.AntiBot;
@@ -128,12 +129,12 @@ public class Arrows extends Module {
 
         ((IAccessorGameRenderer) mc.entityRenderer).callSetupCameraTransform(((IAccessorMinecraft) mc).getTimer().renderPartialTicks, 0);
 
-         scaledResolution = /* ScaledResolution removed in 1.21.4 */ null;
+         scaledResolution = /* Window removed in 1.21.4 */ null;
         Vec3d vec = RenderUtils.convertTo2D(scaledResolution.getScaleFactor(), x, y, z);
 
         if (vec != null) {
             mc.entityRenderer.setupOverlayRendering();
-             res = /* ScaledResolution removed in 1.21.4 */ null;
+             res = /* Window removed in 1.21.4 */ null;
 
             double dx = vec.xCoord - res.getScaledWidth() / 2.0;
             double dy = vec.yCoord - res.getScaledHeight() / 2.0;

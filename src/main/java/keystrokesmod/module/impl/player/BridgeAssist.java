@@ -1,5 +1,8 @@
 package keystrokesmod.module.impl.player;
 
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.BlockPos;
 import keystrokesmod.event.ClientRotationEvent;
 import keystrokesmod.event.PrePlayerInputEvent;
 import keystrokesmod.event.SendPacketEvent;

@@ -9,7 +9,7 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemFishingRod;
+import net.minecraft.item.FishingRodItem;
 // Removed Forge event
 
 public class RodAimbot extends Module {
@@ -42,7 +42,7 @@ public class RodAimbot extends Module {
         if (mouseEvent.button != 1 || !mouseEvent.buttonstate || !Utils.nullCheck() || mc.currentScreen != null) {
             return;
         }
-        if (mc.player.getCurrentEquippedItem() == null || !(mc.player.getCurrentEquippedItem().getItem() instanceof ItemFishingRod) || mc.player.fishEntity != null) {
+        if (mc.player.getCurrentEquippedItem() == null || !(mc.player.getCurrentEquippedItem().getItem() instanceof FishingRodItem) || mc.player.fishEntity != null) {
             return;
         }
         entity = this.getEntity();
@@ -60,7 +60,7 @@ public class RodAimbot extends Module {
             return;
         }
         if (rightClick || rotate) {
-            if (mc.player.getCurrentEquippedItem() == null || !(mc.player.getCurrentEquippedItem().getItem() instanceof ItemFishingRod)) {
+            if (mc.player.getCurrentEquippedItem() == null || !(mc.player.getCurrentEquippedItem().getItem() instanceof FishingRodItem)) {
                 return;
             }
             float[] rotations = RotationUtils.getRotationsPredicated(entity, (int)predicatedTicks.getInput());

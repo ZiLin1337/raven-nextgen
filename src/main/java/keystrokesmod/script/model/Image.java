@@ -43,7 +43,7 @@ public class Image {
     }
 
     public float[] getDimensions() {
-        final int scaleFactor = new ScaledResolution(MinecraftClient.getInstance()).getScaleFactor();
+        final int scaleFactor = new Window(MinecraftClient.getInstance()).getScaleFactor();
         return new float[] { this.width / scaleFactor, this.height / scaleFactor };
     }
 

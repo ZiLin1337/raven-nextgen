@@ -1,5 +1,6 @@
 package keystrokesmod.module.impl.combat;
 
+import net.minecraft.entity.decoration.ItemFrameEntity;
 import com.google.common.base.Predicates;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.impl.world.AntiBot;
@@ -8,7 +9,7 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.Utils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ItemEntityFrame;
+import net.minecraft.entity.ItemFrameEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.*;
 
@@ -157,7 +158,7 @@ public class Piercing extends Module {
 
         if (best != null) {
             mc.crosshairTargetr = new HitResult(best, bestHit);
-            if (best instanceof LivingEntity || best instanceof ItemEntityFrame) {
+            if (best instanceof LivingEntity || best instanceof ItemFrameEntity) {
                 mc.pointedEntity = best;
             }
         }

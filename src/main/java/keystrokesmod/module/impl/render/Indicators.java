@@ -1,5 +1,8 @@
 package keystrokesmod.module.impl.render;
 
+import net.minecraft.entity.projectile.thrown.EnderPearlEntity;
+import net.minecraft.entity.projectile.thrown.LargeFireballEntity;
+import keystrokesmod.event.RenderWorldLastEvent;
 import keystrokesmod.mixin.impl.accessor.IAccessorArrowEntity;
 // Removed accessor
 import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
@@ -26,7 +29,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.Math;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityEnderPearl;
+import net.minecraft.entity.EnderPearlEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.*;
 import net.minecraft.item.Items;
@@ -273,15 +276,15 @@ public class Indicators extends Module {
                     continue;
                 }
 
-                if (entity instanceof EntityLargeFireball && drawFireballTrajectory.isToggled()) {
-                    renderFireballTrajectory((EntityLargeFireball) entity, event.partialTicks);
+                if (entity instanceof LargeFireballEntity && drawFireballTrajectory.isToggled()) {
+                    renderFireballTrajectory((LargeFireballEntity) entity, event.partialTicks);
                 }
                 else if (entity instanceof ArrowEntity && drawArrowTrajectory.isToggled()
                         && !((IAccessorArrowEntity) entity).getInGround()) {
                     renderArrowTrajectory((ArrowEntity) entity, event.partialTicks);
                 }
-                else if (entity instanceof EntityEnderPearl && drawPearlTrajectory.isToggled()) {
-                    renderPearlTrajectory((EntityEnderPearl) entity, event.partialTicks);
+                else if (entity instanceof EnderPearlEntity && drawPearlTrajectory.isToggled()) {
+                    renderPearlTrajectory((EnderPearlEntity) entity, event.partialTicks);
                 }
             }
         }
@@ -301,7 +304,7 @@ public class Indicators extends Module {
         if (en instanceof ExplosiveProjectileEntity) {
             return new ItemStack(Items.fire_charge);
         }
-        if (en instanceof EntityEnderPearl) {
+        if (en instanceof EnderPearlEntity) {
             return new ItemStack(Items.ender_pearl);
         }
         if (en instanceof EntityEgg) {
@@ -317,10 +320,10 @@ public class Indicators extends Module {
         if (entity instanceof ArrowEntity && !((IAccessorArrowEntity) entity).getInGround() && renderArrows.isToggled()) {
             return true;
         }
-        else if (entity instanceof EntityLargeFireball && renderFireballs.isToggled()) {
+        else if (entity instanceof LargeFireballEntity && renderFireballs.isToggled()) {
             return true;
         }
-        else if (entity instanceof EntityEnderPearl && renderPearls.isToggled()) {
+        else if (entity instanceof EnderPearlEntity && renderPearls.isToggled()) {
             return true;
         }
         else if (entity instanceof EntityEgg && renderEggs.isToggled()) {
@@ -351,12 +354,12 @@ public class Indicators extends Module {
 
         ((IAccessorGameRenderer) mc.entityRenderer).callSetupCameraTransform(((IAccessorMinecraft) mc).getTimer().renderPartialTicks, 0);
 
-         scaledResolution = /* ScaledResolution removed in 1.21.4 */ null;
+         scaledResolution = /* Window removed in 1.21.4 */ null;
         Vec3d vec = RenderUtils.convertTo2D(scaledResolution.getScaleFactor(), x, y, z);
 
         if (vec != null) {
             mc.entityRenderer.setupOverlayRendering();
-             res = /* ScaledResolution removed in 1.21.4 */ null;
+             res = /* Window removed in 1.21.4 */ null;
 
             double dx = vec.xCoord - res.getScaledWidth() / 2.0;
             double dy = vec.yCoord - res.getScaledHeight() / 2.0;
@@ -509,7 +512,7 @@ public class Indicators extends Module {
         }
     }
 
-    private void renderFireballTrajectory(EntityLargeFireball fireball, float partialTicks) {
+    private void renderFireballTrajectory(LargeFireballEntity fireball, float partialTicks) {
         FireballSimulator.Result result = FireballSimulator.simulate(fireball);
         Vec3d impactPosition = result.getImpactPosition();
 
@@ -577,7 +580,7 @@ public class Indicators extends Module {
         );
     }
 
-    private void renderPearlTrajectory(EntityEnderPearl pearlEntity, float partialTicks) {
+    private void renderPearlTrajectory(EnderPearlEntity pearlEntity, float partialTicks) {
         ProjectileTrajectoryProps props = new ProjectileTrajectoryProps(
                 THROWABLE_GRAVITY,
                 PROJECTILE_DRAG,
@@ -932,7 +935,7 @@ public class Indicators extends Module {
         );
     }
 
-    private Box getImpactBox(EntityLargeFireball fireball, Vec3d impactPosition) {
+    private Box getImpactBox(LargeFireballEntity fireball, Vec3d impactPosition) {
         double halfWidth = fireball.width * 0.5D;
         return new Box(
                 impactPosition.xCoord - halfWidth,

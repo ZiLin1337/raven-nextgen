@@ -1,5 +1,6 @@
 package keystrokesmod.module.impl.combat;
 
+import keystrokesmod.event.RenderWorldLastEvent;
 import keystrokesmod.Raven;
 import keystrokesmod.event.ClientRotationEvent;
 import keystrokesmod.event.GameTickEvent;

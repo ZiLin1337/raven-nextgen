@@ -341,7 +341,7 @@ public class PlayerESP extends Module {
             return;
         }
 
-         scaledResolution = /* ScaledResolution removed in 1.21.4 */ null;
+         scaledResolution = /* Window removed in 1.21.4 */ null;
         ((IAccessorGameRenderer) mc.entityRenderer).callSetupCameraTransform(partialTicks, 0);
         projectionContext = RenderUtils.captureProjectionContext(projectionContext, scaledResolution.getScaleFactor());
         mc.entityRenderer.setupOverlayRendering();

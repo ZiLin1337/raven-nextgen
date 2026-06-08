@@ -1,12 +1,14 @@
 package keystrokesmod.module.impl.combat;
 
+import net.minecraft.client.util.InputUtil;
+import net.minecraft.client.util.InputUtil.Key;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.DescriptionSetting;
 import keystrokesmod.utility.Utils;
-import net.java.games.input.Controller;
-import net.java.games.input.ControllerEnvironment;
-import net.java.games.input.Mouse;
-import net.minecraft.util.MouseHelper;
+// Removed LWJGL input packageController;
+// Removed LWJGL input packageControllerEnvironment;
+// Removed LWJGL input packageMouse;
+import net.minecraft.util.InputUtil;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
@@ -15,8 +17,8 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class RawInput extends Module {
-    private MouseHelper originalHelper;
-    private RawMouseHelper rawHelper;
+    private InputUtil originalHelper;
+    private RawInputUtil rawHelper;
     private RawMouseThread pollThread;
 
     public RawInput() {
@@ -35,7 +37,7 @@ public class RawInput extends Module {
         originalHelper = mc.mouseHelper;
         pollThread = new RawMouseThread();
         pollThread.start();
-        rawHelper = new RawMouseHelper(pollThread);
+        rawHelper = new RawInputUtil(pollThread);
         mc.mouseHelper = rawHelper;
     }
 
@@ -144,11 +146,11 @@ public class RawInput extends Module {
         }
     }
 
-    static class RawMouseHelper extends MouseHelper {
+    static class RawInputUtil extends InputUtil {
         private final RawMouseThread thread;
         private int fails;
 
-        RawMouseHelper(RawMouseThread thread) {
+        RawInputUtil(RawMouseThread thread) {
             this.thread = thread;
         }
 

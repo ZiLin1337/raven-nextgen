@@ -123,7 +123,7 @@ public class RoundedUtils {
         RenderUtils.setAlphaLimit(0);
         roundedOutlineShader.init();
 
-        ScaledResolution sr = new ScaledResolution(MinecraftClient.getInstance());
+        Window sr = new Window(MinecraftClient.getInstance());
         setupRoundedRectUniforms(x, y, width, height, radius, roundedOutlineShader);
         roundedOutlineShader.setUniformf("outlineThickness", outlineThickness * sr.getScaleFactor());
         roundedOutlineShader.setUniformf("color", color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
@@ -151,7 +151,7 @@ public class RoundedUtils {
     }
 
     private static void setupRoundedRectUniforms(float x, float y, float width, float height, float radius, ShaderUtils roundedTexturedShader) {
-        ScaledResolution sr = new ScaledResolution(MinecraftClient.getInstance());
+        Window sr = new Window(MinecraftClient.getInstance());
         roundedTexturedShader.setUniformf("location", x * sr.getScaleFactor(),
                 ((MinecraftClient.getInstance().getWindow().getFramebufferHeight() - (height * sr.getScaleFactor())) - (y * sr.getScaleFactor())));
         roundedTexturedShader.setUniformf("rectSize", width * sr.getScaleFactor(), height * sr.getScaleFactor());

@@ -423,7 +423,7 @@ public class ShaderUtils {
     }
 
     public static void drawQuads() {
-        ScaledResolution sr = new ScaledResolution(MinecraftClient.getInstance());
+        Window sr = new Window(MinecraftClient.getInstance());
         float width = (float) sr.getScaledWidth_double();
         float height = (float) sr.getScaledHeight_double();
         glBegin(GL_QUADS);

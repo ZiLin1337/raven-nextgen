@@ -17,7 +17,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Items;
-import net.minecraft.inventory.ContainerChest;
+import net.minecraft.inventory.GenericContainerScreenHandler;
 import net.minecraft.inventory.ContainerPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -472,7 +472,7 @@ public class InvManager extends Module {
     }
 
     private void handleChestScreen() {
-        if (chestStealer.getInput() == -1 || !(mc.player.openContainer instanceof ContainerChest)) {
+        if (chestStealer.getInput() == -1 || !(mc.player.openContainer instanceof GenericContainerScreenHandler)) {
             return;
         }
 
@@ -480,7 +480,7 @@ public class InvManager extends Module {
             return;
         }
 
-        IInventory chestInventory = ((ContainerChest)mc.player.openContainer).getLowerChestInventory();
+        IInventory chestInventory = ((GenericContainerScreenHandler)mc.player.openContainer).getLowerChestInventory();
         if (!stealFromCustomChests.isToggled() && !chestInventory.getName().contains("Chest")) {
             return;
         }

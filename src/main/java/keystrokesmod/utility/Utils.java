@@ -3,7 +3,7 @@ package keystrokesmod.utility;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
-import keystrokesmod.helper.MouseHelper;
+import keystrokesmod.helper.InputUtil;
 import keystrokesmod.mixin.impl.accessor.IAccessorGuiIngame;
 import keystrokesmod.mixin.impl.accessor.IAccessorItemFood;
 import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
@@ -1302,7 +1302,7 @@ public class Utils implements IMinecraftInstance {
             return Mouse.isButtonDown(0);
         }
         else {
-            return MouseHelper.f() > 1 && System.currentTimeMillis() - MouseHelper.LL < 300L;
+            return InputUtil.f() > 1 && System.currentTimeMillis() - InputUtil.LL < 300L;
         }
     }
 
@@ -1498,7 +1498,7 @@ public class Utils implements IMinecraftInstance {
             return false;
         }
         Item getItem = entityLivingBase.getHeldItem().getItem();
-        return getItem instanceof SwordItem || (Settings.weaponAxe.isToggled() && getItem instanceof AxeItem) || (Settings.weaponRod.isToggled() && getItem instanceof ItemFishingRod) || (Settings.weaponStick.isToggled() && getItem == Items.stick) || (Settings.weaponHoe.isToggled() && getItem instanceof HoeItem) || (Settings.weaponShovel.isToggled() && getItem instanceof ShovelItem);
+        return getItem instanceof SwordItem || (Settings.weaponAxe.isToggled() && getItem instanceof AxeItem) || (Settings.weaponRod.isToggled() && getItem instanceof FishingRodItem) || (Settings.weaponStick.isToggled() && getItem == Items.stick) || (Settings.weaponHoe.isToggled() && getItem instanceof HoeItem) || (Settings.weaponShovel.isToggled() && getItem instanceof ShovelItem);
     }
 
     public static boolean holdingSword() {
@@ -1543,7 +1543,7 @@ public class Utils implements IMinecraftInstance {
         if (block == null) {
             return false;
         }
-        if (BlockUtils.isInteractable(block) || block instanceof BlockSnow || block instanceof BlockWeb || block instanceof BlockSapling || block instanceof BlockDaylightDetector || block instanceof BlockBeacon || block instanceof BlockBanner || block instanceof BlockEndPortalFrame || block instanceof BlockEndPortal || block instanceof BlockLever || block instanceof BlockButton || block instanceof BlockSkull || block instanceof FluidBlock || block instanceof BlockCactus || block instanceof DoublePlantBlock || block instanceof BlockLilyPad || block instanceof BlockCarpet || block instanceof BlockTripWire || block instanceof BlockTripWireHook || block instanceof TallGrassBlock || block instanceof FlowerBlock || block instanceof FlowerBlockPot || block instanceof BlockSign || block instanceof BlockLadder || block instanceof BlockTorch || block instanceof BlockRedstoneTorch || block instanceof StairsBlock || block instanceof BlockSlab || block instanceof BlockFence || block instanceof BlockPane || block instanceof BlockStainedGlassPane || block instanceof BlockGravel || block instanceof BlockClay || block instanceof BlockSand || block instanceof BlockSoulSand || block instanceof BlockRailBase) {
+        if (BlockUtils.isInteractable(block) || block instanceof BlockSnow || block instanceof BlockWeb || block instanceof BlockSapling || block instanceof BlockDaylightDetector || block instanceof BlockBeacon || block instanceof BlockBanner || block instanceof BlockEndPortalFrame || block instanceof BlockEndPortal || block instanceof BlockLever || block instanceof BlockButton || block instanceof BlockSkull || block instanceof FluidBlock || block instanceof BlockCactus || block instanceof DoublePlantBlock || block instanceof BlockLilyPad || block instanceof BlockCarpet || block instanceof BlockTripWire || block instanceof BlockTripWireHook || block instanceof TallGrassBlock || block instanceof FlowerBlock || block instanceof FlowerBlockPot || block instanceof BlockSign || block instanceof BlockLadder || block instanceof BlockTorch || block instanceof BlockRedstoneTorch || block instanceof StairsBlock || block instanceof BlockSlab || block instanceof FenceBlock || block instanceof BlockPane || block instanceof BlockStainedGlassPane || block instanceof BlockGravel || block instanceof BlockClay || block instanceof BlockSand || block instanceof BlockSoulSand || block instanceof BlockRailBase) {
             return false;
         }
         return true;

@@ -1,5 +1,7 @@
 package keystrokesmod.module.impl.combat;
 
+import keystrokesmod.event.MouseEvent;
+import keystrokesmod.event.RenderWorldLastEvent;
 import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.ModuleManager;
@@ -10,7 +12,7 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
-import net.minecraft.entity.ItemEntityFrame;
+import net.minecraft.entity.ItemFrameEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.hit.HitResult;
@@ -134,7 +136,7 @@ public class HitBox extends Module {
 
             if (pointedEntity != null && (d3 < d2 || mv == null)) {
                 mv = new HitResult(pointedEntity, vec6);
-                if (pointedEntity instanceof LivingEntity || pointedEntity instanceof ItemEntityFrame) {
+                if (pointedEntity instanceof LivingEntity || pointedEntity instanceof ItemFrameEntity) {
                     return pointedEntity;
                 }
             }

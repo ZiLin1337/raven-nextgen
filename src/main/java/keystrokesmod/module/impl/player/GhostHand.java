@@ -1,5 +1,6 @@
 package keystrokesmod.module.impl.player;
 
+import net.minecraft.util.hit.HitResult;
 import com.google.common.base.Predicates;
 // Removed accessor
 import keystrokesmod.module.Module;

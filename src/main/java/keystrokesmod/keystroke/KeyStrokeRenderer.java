@@ -1,7 +1,7 @@
 package keystrokesmod.keystroke;
 
 import keystrokesmod.Raven;
-import keystrokesmod.helper.MouseHelper;
+import keystrokesmod.helper.InputUtil;
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.utility.Utils;
 import net.minecraft.client.MinecraftClient;
@@ -32,11 +32,11 @@ public class KeyStrokeRenderer {
         context.drawText(mc.textRenderer, "D", x + 12, yOff + 2, 0xFFFFFFFF, true);
         yOff += 18;
 
-        int cps = MouseHelper.getLeftCPS();
+        int cps = InputUtil.getLeftCPS();
         context.fill(x, yOff, x + 14, yOff + 14, 0x80000000);
         context.drawText(mc.textRenderer, String.valueOf(cps), x + 2, yOff + 2, 0xFF00FF00, true);
         context.fill(x + 16, yOff, x + 30, yOff + 14, 0x80000000);
-        int rcps = MouseHelper.getRightCPS();
+        int rcps = InputUtil.getRightCPS();
         context.drawText(mc.textRenderer, String.valueOf(rcps), x + 18, yOff + 2, 0xFF00FF00, true);
     }
 }

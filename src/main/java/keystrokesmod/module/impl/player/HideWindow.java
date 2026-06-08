@@ -1,5 +1,9 @@
 package keystrokesmod.module.impl.player;
 
+import keystrokesmod.event.GuiOpenEvent;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.screen.GenericContainerScreenHandler;
 import keystrokesmod.event.ReceivePacketEvent;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -13,7 +17,7 @@ import net.minecraft.client.util.math.MatrixStack;
 
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
-import net.minecraft.inventory.ContainerChest;
+import net.minecraft.inventory.GenericContainerScreenHandler;
 import net.minecraft.network.packet.s2c.play.CloseHandledScreenS2CPacket;
 import net.minecraft.util.Identifier;
 // Removed Forge event
@@ -110,7 +114,7 @@ public class HideWindow extends Module {
     }
 
     
-    public void onWorldLoad(WorldEvent.Load event) {
+    public void onWorldLoad(keystrokesmod.event.WorldEvent event) {
         hiddenGui = null;
     }
 
@@ -152,7 +156,7 @@ public class HideWindow extends Module {
     }
 
     public void setAbsolutePosition(float absoluteX, float absoluteY) {
-        setAbsolutePosition(absoluteX, absoluteY, new ScaledResolution(mc));
+        setAbsolutePosition(absoluteX, absoluteY, new Window(mc));
     }
 
     public void resetPosition() {
@@ -186,10 +190,10 @@ public class HideWindow extends Module {
     }
 
     private void syncPosition() {
-        syncPosition(new ScaledResolution(mc));
+        syncPosition(new Window(mc));
     }
 
-    private void syncPosition(ScaledResolution resolution) {
+    private void syncPosition(Window resolution) {
         int w = Math.max(1, resolution.getScaledWidth());
         int h = Math.max(1, resolution.getScaledHeight());
         if (Float.isNaN(relativePosX) || Float.isNaN(relativePosY)) {
@@ -205,7 +209,7 @@ public class HideWindow extends Module {
         posY = relativePosY * h;
     }
 
-    private void setAbsolutePosition(float absoluteX, float absoluteY, ScaledResolution resolution) {
+    private void setAbsolutePosition(float absoluteX, float absoluteY, Window resolution) {
         posX = absoluteX;
         posY = absoluteY;
         int w = Math.max(1, resolution.getScaledWidth());
@@ -233,8 +237,8 @@ public class HideWindow extends Module {
     }
 
     private static String getContainerTitle(HandledScreen gui) {
-        if (gui.inventorySlots instanceof ContainerChest) {
-            return ((ContainerChest) gui.inventorySlots)
+        if (gui.inventorySlots instanceof GenericContainerScreenHandler) {
+            return ((GenericContainerScreenHandler) gui.inventorySlots)
                     .getLowerChestInventory()
                     .getDisplayName()
                     .getUnformattedText();
@@ -253,14 +257,14 @@ public class HideWindow extends Module {
         public void initGui() {
             super.initGui();
             buttonList.add(resetBtn = new ButtonWidget(1, width - 90, height - 25, 85, 20, "Reset position"));
-            syncPosition(new ScaledResolution(mc));
+            syncPosition(new Window(mc));
             actualX = posX;
             actualY = posY;
         }
 
         @Override
         public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-            ScaledResolution resolution = new ScaledResolution(mc);
+            Window resolution = new Window(mc);
             if (!dragging) {
                 syncPosition(resolution);
                 actualX = posX;

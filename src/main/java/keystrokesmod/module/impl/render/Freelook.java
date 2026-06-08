@@ -75,7 +75,7 @@ public class Freelook extends Module {
     }
 
     
-    public void onWorldLoad(WorldEvent.Load e) {
+    public void onWorldLoad(keystrokesmod.event.WorldEvent e) {
         if (perspectiveToggled) {
             resetPerspective();
         }
@@ -131,8 +131,8 @@ public class Freelook extends Module {
         float mult = sens * sens * sens * 8.0f;
         Freelook fl = ModuleManager.freelook;
         if (fl != null) {
-            int dx = ((IAccessorMouseHelper) mc.mouseHelper).getDeltaX();
-            int dy = ((IAccessorMouseHelper) mc.mouseHelper).getDeltaY();
+            int dx = ((IAccessorInputUtil) mc.mouseHelper).getDeltaX();
+            int dy = ((IAccessorInputUtil) mc.mouseHelper).getDeltaY();
             float fdx = dx * mult;
             float fdy = dy * mult;
             cameraYaw += fdx * 0.15f;

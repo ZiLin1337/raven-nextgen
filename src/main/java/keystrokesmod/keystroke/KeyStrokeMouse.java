@@ -1,6 +1,6 @@
 package keystrokesmod.keystroke;
 
-import keystrokesmod.helper.MouseHelper;
+import keystrokesmod.helper.InputUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 
@@ -14,8 +14,8 @@ public class KeyStrokeMouse {
     }
 
     public void render(DrawContext context) {
-        int lcps = MouseHelper.getLeftCPS();
-        int rcps = MouseHelper.getRightCPS();
+        int lcps = InputUtil.getLeftCPS();
+        int rcps = InputUtil.getRightCPS();
 
         context.fill(x, y, x + 28, y + 14, 0x80000000);
         context.drawText(mc.textRenderer, "L" + lcps, x + 2, y + 2, 0xFF00FF00, true);

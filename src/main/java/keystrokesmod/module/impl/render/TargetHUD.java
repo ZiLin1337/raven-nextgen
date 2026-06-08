@@ -115,7 +115,7 @@ public class TargetHUD extends Module {
         if (showStatus.isToggled()) {
             string = string + " " + ((health <= Utils.getTotalHealth(mc.player) / mc.player.getMaxHealth()) ? "§aW" : "§cL");
         }
-        final int scaledResolution = /* ScaledResolution removed in 1.21.4 */ null;
+        final int scaledResolution = /* Window removed in 1.21.4 */ null;
         final int padding = 8;
         final int targetStrWithPadding = mc.textRenderer.getStringWidth(string) + padding;
         final int x = (scaledResolution.getScaledWidth() / 2 - targetStrWithPadding / 2) + posX;
@@ -226,7 +226,7 @@ public class TargetHUD extends Module {
         }
 
         public void drawScreen(int mX, int mY, float pt) {
-             res = /* ScaledResolution removed in 1.21.4 */ null;
+             res = /* Window removed in 1.21.4 */ null;
             DrawContextHelper.drawRect(0, 0, this.width, this.height, -1308622848);
             int miX = this.aX;
             int miY = this.aY;

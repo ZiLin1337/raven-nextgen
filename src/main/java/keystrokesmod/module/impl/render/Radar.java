@@ -31,7 +31,7 @@ public class Radar extends Module {
 
     @Override
     public void onUpdate() {
-        this.scale = /* ScaledResolution removed in 1.21.4 */ null.getScaleFactor();
+        this.scale = /* Window removed in 1.21.4 */ null.getScaleFactor();
     }
 
     

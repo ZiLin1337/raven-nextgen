@@ -1,5 +1,7 @@
 package keystrokesmod.module.impl.player;
 
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.BlockPos;
 import keystrokesmod.event.ClientRotationEvent;
 import keystrokesmod.event.PreUpdateEvent;
 import keystrokesmod.helper.RotationHelper;
@@ -14,8 +16,8 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFence;
-import net.minecraft.block.BlockWall;
+import net.minecraft.block.FenceBlock;
+import net.minecraft.block.WallBlock;
 import net.minecraft.client.util.math.MatrixStack;
 
 import net.minecraft.client.option.KeyBinding;
@@ -236,7 +238,7 @@ public class BlockIn extends Module {
             circleProgress = animTargetProgress;
         }
 
-        ScaledResolution sr = new ScaledResolution(mc);
+        Window sr = new Window(mc);
         float cx = sr.getScaledWidth() / 2f - 1f;
         float cy = sr.getScaledHeight() / 2f;
         float radius = 10f;
@@ -380,7 +382,7 @@ public class BlockIn extends Module {
                     BlockPos bp = new BlockPos(x, y, z);
                     if (BlockUtils.replaceable(bp)) continue;
                     Block block = BlockUtils.getBlockState(bp);
-                    if (BlockUtils.isInteractable(block) || block instanceof BlockFence || block instanceof BlockWall) continue;
+                    if (BlockUtils.isInteractable(block) || block instanceof FenceBlock || block instanceof WallBlock) continue;
 
                     double d2 = BlockUtils.dist2PointAABB(eye, bp);
                     if (d2 > r2) continue;

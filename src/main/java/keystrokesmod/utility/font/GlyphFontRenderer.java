@@ -450,7 +450,7 @@ public final class GlyphFontRenderer implements RavenTextRenderer {
         int uiScale = 1;
 
         try {
-            uiScale = Math.max(1, new ScaledResolution(mc).getScaleFactor());
+            uiScale = Math.max(1, new Window(mc).getScaleFactor());
         }
         catch (Exception ignored) {
         }

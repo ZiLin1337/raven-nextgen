@@ -1,5 +1,6 @@
 package keystrokesmod.module.impl.player;
 
+import keystrokesmod.event.TickEvent;
 import java.util.Set;
 
 import keystrokesmod.Raven;

@@ -23,7 +23,7 @@ public class BlockUtils implements IMinecraftInstance {
     }
 
     public static boolean notFull(Block block) {
-        return block instanceof BlockFenceGate || block instanceof BlockLadder || block instanceof FlowerBlockPot || block instanceof BlockBasePressurePlate || isFluid(block) || block instanceof BlockFence || block instanceof BlockAnvil || block instanceof BlockEnchantmentTable || block instanceof BlockChest;
+        return block instanceof FenceBlockGate || block instanceof BlockLadder || block instanceof FlowerBlockPot || block instanceof BlockBasePressurePlate || isFluid(block) || block instanceof FenceBlock || block instanceof BlockAnvil || block instanceof BlockEnchantmentTable || block instanceof BlockChest;
     }
 
     public static boolean isNormalBlock(final Block block) {
@@ -47,7 +47,7 @@ public class BlockUtils implements IMinecraftInstance {
     }
 
     public static boolean isInteractable(Block block) {
-        return block instanceof BlockTrapDoor || block instanceof BlockDoor || block instanceof BlockContainer || block instanceof BlockJukebox || block instanceof BlockFenceGate || block instanceof BlockChest || block instanceof BlockEnderChest || block instanceof BlockEnchantmentTable || block instanceof BlockBrewingStand || block instanceof BedBlock || block instanceof BlockDropper || block instanceof BlockDispenser || block instanceof BlockHopper || block instanceof BlockAnvil || block instanceof BlockNote || block instanceof BlockWorkbench;
+        return block instanceof BlockTrapDoor || block instanceof BlockDoor || block instanceof BlockContainer || block instanceof BlockJukebox || block instanceof FenceBlockGate || block instanceof BlockChest || block instanceof BlockEnderChest || block instanceof BlockEnchantmentTable || block instanceof BlockBrewingStand || block instanceof BedBlock || block instanceof BlockDropper || block instanceof BlockDispenser || block instanceof BlockHopper || block instanceof BlockAnvil || block instanceof BlockNote || block instanceof BlockWorkbench;
     }
 
     public static boolean isInteractable(HitResult mv) {

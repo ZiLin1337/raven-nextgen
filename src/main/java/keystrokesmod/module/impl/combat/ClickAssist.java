@@ -1,10 +1,11 @@
 package keystrokesmod.module.impl.combat;
 
+import keystrokesmod.event.MouseEvent;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.DescriptionSetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
-import keystrokesmod.helper.MouseHelper;
+import keystrokesmod.helper.InputUtil;
 import keystrokesmod.utility.Utils;
 
 import net.minecraft.item.BlockItem;
@@ -106,7 +107,7 @@ public class ClickAssist extends Module {
                             }
                         }
 
-                        if (aboveCPS.isToggled() && MouseHelper.i() <= 5) {
+                        if (aboveCPS.isToggled() && InputUtil.i() <= 5) {
                             this.fix(1);
                             return;
                         }

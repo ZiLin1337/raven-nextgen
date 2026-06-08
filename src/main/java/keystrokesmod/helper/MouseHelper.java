@@ -2,7 +2,7 @@ package keystrokesmod.helper;
 
 import net.minecraft.client.MinecraftClient;
 
-public class MouseHelper {
+public class InputUtil {
     private static MinecraftClient mc = MinecraftClient.getInstance();
 
     public static boolean isButtonDown(int button) {
