@@ -1,4 +1,5 @@
 package keystrokesmod.module.impl.other;
+import keystrokesmod.event.TickEvent;
 
 import keystrokesmod.event.NoEventPacketEvent;
 import keystrokesmod.event.ReceivePacketEvent;

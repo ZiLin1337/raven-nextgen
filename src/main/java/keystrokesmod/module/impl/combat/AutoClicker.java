@@ -1,4 +1,5 @@
 package keystrokesmod.module.impl.combat;
+import keystrokesmod.event.TickEvent;
 
 import keystrokesmod.event.PrePlayerInteractEvent;
 import keystrokesmod.module.Module;

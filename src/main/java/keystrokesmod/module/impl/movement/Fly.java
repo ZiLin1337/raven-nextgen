@@ -1,4 +1,5 @@
 package keystrokesmod.module.impl.movement;
+import keystrokesmod.event.TickEvent;
 
 import keystrokesmod.event.CollisionEvent;
 import keystrokesmod.module.Module;

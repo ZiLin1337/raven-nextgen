@@ -1,4 +1,5 @@
 package keystrokesmod.module.impl.render;
+import keystrokesmod.event.WorldEvent;
 
 // Removed accessor
 import keystrokesmod.module.Module;
