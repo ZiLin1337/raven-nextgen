@@ -24,7 +24,6 @@ import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.s2c.play.EntityTrackerUpdateS2CPacket;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.Math;
 import net.minecraft.world.World;
 
 

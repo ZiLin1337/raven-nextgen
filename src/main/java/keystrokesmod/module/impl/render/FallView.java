@@ -15,7 +15,6 @@ import net.minecraft.potion.Potion;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.Math;
 
 
 

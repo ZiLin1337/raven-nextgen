@@ -20,7 +20,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.Math;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;

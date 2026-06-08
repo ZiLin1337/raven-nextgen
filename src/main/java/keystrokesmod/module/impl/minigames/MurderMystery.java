@@ -19,7 +19,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.Math;
 
 import org.lwjgl.opengl.GL11;
 
