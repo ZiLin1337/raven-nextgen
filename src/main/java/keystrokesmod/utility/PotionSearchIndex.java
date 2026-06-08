@@ -200,7 +200,7 @@ public final class PotionSearchIndex {
 
             int score = 0;
             boolean matchesPotion = false;
-            for (PotionEffect listedEffect : effects) {
+            for (StatusEffectInstance listedEffect : effects) {
                 if (listedEffect.getPotionID() == potionId) {
                     matchesPotion = true;
                     score += 100;

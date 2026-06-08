@@ -1,5 +1,13 @@
 package keystrokesmod.module.impl.render;
 
+import net.minecraft.entity.projectile.thrown.EggEntity;
+import net.minecraft.entity.projectile.thrown.SnowballEntity;
+import net.minecraft.item.Item;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.hit.HitResult;
+import keystrokesmod.event.RenderWorldLastEvent;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.impl.world.AntiBot;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -10,7 +18,7 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.FluidBlock;
-import net.minecraft.block.material.Material;
+Material;
 import net.minecraft.block.BlockState;
 
 import net.minecraft.entity.Entity;
@@ -20,10 +28,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 
 import net.minecraft.item.BowItem;
-import net.minecraft.item.ItemEgg;
 import net.minecraft.item.EnderPearlItem;
 import net.minecraft.item.PotionItem;
-import net.minecraft.item.ItemSnowball;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
 

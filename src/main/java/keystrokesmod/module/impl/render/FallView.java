@@ -1,5 +1,7 @@
 package keystrokesmod.module.impl.render;
 
+import net.minecraft.entity.damage.DamageSource;
+import keystrokesmod.event.TickEvent;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.impl.client.Settings;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -9,7 +11,7 @@ import keystrokesmod.utility.Utils;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.block.material.Material;
+Material;
 import net.minecraft.potion.Potion;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.util.math.BlockPos;
@@ -112,11 +114,11 @@ public class FallView extends Module {
             return;
         }
 
-        StatusEffectInstance jumpEffect = mc.player.getActivePotionEffect(Potion.jump);
+        StatusEffectInstance jumpEffect = mc.player.getActiveStatusEffectInstance(Potion.jump);
         float jumpAmplifier = jumpEffect != null ? (float) (jumpEffect.getAmplifier() + 1) : 0.0f;
         int jumpBoostLevel = jumpEffect != null ? jumpEffect.getAmplifier() + 1 : 0;
 
-        StatusEffectInstance resistanceEffect = mc.player.getActivePotionEffect(Potion.resistance);
+        StatusEffectInstance resistanceEffect = mc.player.getActiveStatusEffectInstance(Potion.resistance);
         boolean hasResistance = resistanceEffect != null;
         int resistanceLevel = hasResistance ? resistanceEffect.getAmplifier() + 1 : 0;
 

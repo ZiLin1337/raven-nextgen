@@ -184,7 +184,7 @@ public class BridgeInfo extends Module {
 
     private class EditScreen extends Screen {
         String example = new String("Enemy: Player123-Distance to goal: 17.2-Enemy distance to goal: 16.3-Blocks: 98");
-        ButtonWidgetExt resetPosition;
+        ButtonWidget resetPosition;
         boolean d = false;
         int miX = 0;
         int miY = 0;
@@ -199,7 +199,7 @@ public class BridgeInfo extends Module {
 
         public void initGui() {
             super.initGui();
-            this.buttonList.add(this.resetPosition = new ButtonWidgetExt(1, this.width - 90, 5, 85, 20, new String("Reset position")));
+            this.buttonList.add(this.resetPosition = new ButtonWidget(1, this.width - 90, 5, 85, 20, new String("Reset position")));
             this.aX = BridgeInfo.hudX;
             this.aY = BridgeInfo.hudY;
         }

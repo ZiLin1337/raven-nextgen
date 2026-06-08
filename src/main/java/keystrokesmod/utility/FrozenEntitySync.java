@@ -179,7 +179,7 @@ public class FrozenEntitySync {
             || packet instanceof S0BPacketAnimation
             || packet instanceof S0APacketUseBed
             || packet instanceof S1BPacketEntityAttach
-            || packet instanceof S1CPacketEntityMetadata
+            || packet instanceof EntityTrackerUpdateS2CPacket
             || packet instanceof S04PacketEntityEquipment
             || packet instanceof S1DPacketEntityEffect
             || packet instanceof S1EPacketRemoveEntityEffect

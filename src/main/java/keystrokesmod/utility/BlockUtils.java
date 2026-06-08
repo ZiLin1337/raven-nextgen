@@ -1,7 +1,7 @@
 package keystrokesmod.utility;
 
 import net.minecraft.block.*;
-import net.minecraft.block.material.Material;
+Material;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -93,12 +93,12 @@ public class BlockUtils implements IMinecraftInstance {
             }
         }
         if (mc.player.isPotionActive(Potion.digSpeed)) {
-            n *= 1.0f + (mc.player.getActivePotionEffect(Potion.digSpeed).getAmplifier() + 1) * 0.2f;
+            n *= 1.0f + (mc.player.getActiveStatusEffectInstance(Potion.digSpeed).getAmplifier() + 1) * 0.2f;
         }
         if (!ignoreSlow) {
             if (mc.player.isPotionActive(Potion.digSlowdown)) {
                 float n2;
-                switch (mc.player.getActivePotionEffect(Potion.digSlowdown).getAmplifier()) {
+                switch (mc.player.getActiveStatusEffectInstance(Potion.digSlowdown).getAmplifier()) {
                     case 0: {
                         n2 = 0.3f;
                         break;

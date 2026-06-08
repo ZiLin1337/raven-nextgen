@@ -1,5 +1,7 @@
 package keystrokesmod.module.impl.render;
 
+import net.minecraft.entity.projectile.ArrowEntity;
+import keystrokesmod.event.RenderWorldLastEvent;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.DescriptionSetting;
@@ -8,13 +10,12 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.event.entity.player.AttackEntityEvent;
+EntityAttackEvent;
 
 
 
@@ -111,7 +112,7 @@ public class HitParticles extends Module {
     }
 
     
-    public void onAttackEntity(AttackEntityEvent event) {
+    public void onAttackEntity(EntityAttackEvent event) {
         if (!isEnabled() || !onMelee.isToggled() || !Utils.nullCheck()) {
             return;
         }
@@ -136,9 +137,9 @@ public class HitParticles extends Module {
 
         Box scan = mc.player.getEntityBoundingBox().expand(ARROW_SCAN_EXPAND, ARROW_SCAN_EXPAND, ARROW_SCAN_EXPAND);
         @SuppressWarnings("unchecked")
-        List<EntityArrow> arrows = mc.world.getEntitiesWithinAABB(EntityArrow.class, scan);
+        List<ArrowEntity> arrows = mc.world.getEntitiesWithinAABB(ArrowEntity.class, scan);
         for (int i = 0, n = arrows.size(); i < n; i++) {
-            EntityArrow arrow = arrows.get(i);
+            ArrowEntity arrow = arrows.get(i);
             if (arrow.shootingEntity != mc.player) {
                 continue;
             }
@@ -196,7 +197,7 @@ public class HitParticles extends Module {
         }
     }
 
-    private static LivingEntity getCollisionEntity(EntityArrow arrow) {
+    private static LivingEntity getCollisionEntity(ArrowEntity arrow) {
         World world = arrow.worldObj;
         Vec3d pos = new Vec3d(arrow.posX, arrow.posY, arrow.posZ);
         Vec3d motionEnd = new Vec3d(arrow.posX + arrow.motionX, arrow.posY + arrow.motionY, arrow.posZ + arrow.motionZ);

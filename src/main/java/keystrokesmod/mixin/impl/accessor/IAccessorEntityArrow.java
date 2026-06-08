@@ -5,7 +5,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(ArrowEntity.class)
-public interface IAccessorEntityArrow {
+public interface IAccessorArrowEntity {
     @Accessor("life")
     int getLife();
     @Accessor("life")

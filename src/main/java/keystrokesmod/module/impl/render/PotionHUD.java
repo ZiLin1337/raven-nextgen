@@ -1,5 +1,8 @@
 package keystrokesmod.module.impl.render;
 
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.screen.Screen;
+import keystrokesmod.event.TickEvent;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.PotionListSetting;
@@ -139,10 +142,10 @@ public class PotionHUD extends Module {
         RavenTextRenderer renderer = getTextRenderer();
         LayoutMetrics metrics = LayoutMetrics.from(renderer, getSelectedScale());
         ArrayList<PotionEntry> entries = new ArrayList<PotionEntry>();
-        Collection<StatusEffectInstance> activeEffects = mc.player.getActivePotionEffects();
+        Collection<StatusEffectInstance> activeEffects = mc.player.getActiveStatusEffectInstances();
 
         if (activeEffects != null) {
-            for (PotionEffect effect : activeEffects) {
+            for (StatusEffectInstance effect : activeEffects) {
                 PotionEntry entry = buildEntry(effect, renderer);
                 if (entry != null) {
                     entries.add(entry);
@@ -164,7 +167,7 @@ public class PotionHUD extends Module {
         return new RenderState(renderer, metrics, entries, maxWidth);
     }
 
-    private PotionEntry buildEntry(PotionEffect effect, RavenTextRenderer renderer) {
+    private PotionEntry buildEntry(StatusEffectInstance effect, RavenTextRenderer renderer) {
         if (effect == null) {
             return null;
         }
@@ -314,7 +317,7 @@ public class PotionHUD extends Module {
         return (float) scale.getInput();
     }
 
-    private String getPotionLabel(PotionEffect effect, Potion potion) {
+    private String getPotionLabel(StatusEffectInstance effect, Potion potion) {
         String label = Text.translatable(effect.getEffectName());
         if (effect.getAmplifier() >= 1) {
             label += " " + toRomanNumeral(effect.getAmplifier() + 1);
@@ -443,7 +446,7 @@ public class PotionHUD extends Module {
     }
 
     private class EditScreen extends Screen {
-        private ButtonWidgetExt resetPosition;
+        private ButtonWidget resetPosition;
         private boolean dragging;
         private float minX;
         private float minY;
@@ -459,7 +462,7 @@ public class PotionHUD extends Module {
         @Override
         public void initGui() {
             super.initGui();
-            this.buttonList.add(this.resetPosition = new ButtonWidgetExt(1, this.width - 90, this.height - 25, 85, 20, "Reset position"));
+            this.buttonList.add(this.resetPosition = new ButtonWidget(1, this.width - 90, this.height - 25, 85, 20, "Reset position"));
             syncPositionToResolution(/* ScaledResolution removed in 1.21.4 */ null);
             this.actualX = posX;
             this.actualY = posY;

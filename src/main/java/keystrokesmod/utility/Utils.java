@@ -1469,7 +1469,7 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static void setSwinging() {
-        int armSwingEnd = mc.player.isPotionActive(Potion.digSpeed) ? 6 - (1 + mc.player.getActivePotionEffect(Potion.digSpeed).getAmplifier()) : (mc.player.isPotionActive(Potion.digSlowdown) ? 6 + (1 + mc.player.getActivePotionEffect(Potion.digSlowdown).getAmplifier()) * 2 : 6);
+        int armSwingEnd = mc.player.isPotionActive(Potion.digSpeed) ? 6 - (1 + mc.player.getActiveStatusEffectInstance(Potion.digSpeed).getAmplifier()) : (mc.player.isPotionActive(Potion.digSlowdown) ? 6 + (1 + mc.player.getActiveStatusEffectInstance(Potion.digSlowdown).getAmplifier()) * 2 : 6);
         if (!mc.player.isSwingInProgress || mc.player.swingProgressInt >= armSwingEnd / 2 || mc.player.swingProgressInt < 0) {
             mc.player.swingProgressInt = -1;
             mc.player.isSwingInProgress = true;
@@ -1560,7 +1560,7 @@ public class Utils implements IMinecraftInstance {
 
     public static int getSpeedAmplifier() {
         if (mc.player.isPotionActive(Potion.moveSpeed)) {
-            return 1 + mc.player.getActivePotionEffect(Potion.moveSpeed).getAmplifier();
+            return 1 + mc.player.getActiveStatusEffectInstance(Potion.moveSpeed).getAmplifier();
         }
         return 0;
     }

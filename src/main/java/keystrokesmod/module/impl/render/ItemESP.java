@@ -1,5 +1,6 @@
 package keystrokesmod.module.impl.render;
 
+import net.minecraft.item.Item;
 import keystrokesmod.event.RenderWorldLastEvent;
 import keystrokesmod.event.TickEvent;
 import keystrokesmod.module.Module;

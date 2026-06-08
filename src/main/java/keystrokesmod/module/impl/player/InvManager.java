@@ -25,11 +25,9 @@ import net.minecraft.item.ItemAppleGold;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemEgg;
 import net.minecraft.item.EnderPearlItem;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.item.PotionItem;
-import net.minecraft.item.ItemSnowball;
 import net.minecraft.item.ShovelItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
@@ -587,8 +585,8 @@ public class InvManager extends Module {
         return items.matches(itemStack)
                 || item instanceof BlockItem
                 || item instanceof ItemAppleGold
-                || item instanceof ItemSnowball
-                || item instanceof ItemEgg
+                || item instanceof SnowballEntity
+                || item instanceof EggEntity
                 || item instanceof EnderPearlItem
                 || item == Items.ARROW;
     }
@@ -639,7 +637,7 @@ public class InvManager extends Module {
             return false;
         }
 
-        for (PotionEffect effect : effects) {
+        for (StatusEffectInstance effect : effects) {
             if (effect.toString().contains("moveSpeed")) {
                 return true;
             }
@@ -657,7 +655,7 @@ public class InvManager extends Module {
             return true;
         }
 
-        for (PotionEffect effect : effects) {
+        for (StatusEffectInstance effect : effects) {
             String desc = effect.toString();
             if (desc.contains("poison")
                     || desc.contains("moveSlowdown")

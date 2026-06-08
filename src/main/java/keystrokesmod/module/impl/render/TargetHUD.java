@@ -1,5 +1,8 @@
 package keystrokesmod.module.impl.render;
 
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.screen.Screen;
+import keystrokesmod.event.RenderWorldLastEvent;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.impl.combat.KillAura;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -201,7 +204,7 @@ public class TargetHUD extends Module {
     }
 
     class EditScreen extends Screen {
-        ButtonWidgetExt resetPosition;
+        ButtonWidget resetPosition;
         boolean d = false;
         int miX = 0;
         int miY = 0;
@@ -217,7 +220,7 @@ public class TargetHUD extends Module {
 
         public void initGui() {
             super.initGui();
-            this.buttonList.add(this.resetPosition = new ButtonWidgetExt(1, this.width - 90, this.height - 25, 85, 20, "Reset position"));
+            this.buttonList.add(this.resetPosition = new ButtonWidget(1, this.width - 90, this.height - 25, 85, 20, "Reset position"));
             this.aX = posX;
             this.aY = posY;
         }

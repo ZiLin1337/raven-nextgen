@@ -1,5 +1,6 @@
 package keystrokesmod.module.impl.client;
 
+import net.minecraft.client.gui.screen.ChatScreen;
 import keystrokesmod.Raven;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.ButtonSetting;

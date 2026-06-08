@@ -86,7 +86,7 @@ public class ScriptDefaults {
             return mc.player != null && mc.player.getAbilities().allowFlying;
         }
 
-        public static void removePotionEffect(int id) {
+        public static void removeStatusEffectInstance(int id) {
             if (mc.player == null) return;
             mc.player.removeStatusEffect(net.minecraft.entity.effect.StatusEffect.byRawId(id));
         }
@@ -635,11 +635,11 @@ public class ScriptDefaults {
             return teams;
         }
 
-        public static List<TileEntity> getTileEntities() {
-            List<TileEntity> list = new ArrayList<>();
+        public static List<BlockEntity> getTileEntities() {
+            List<BlockEntity> list = new ArrayList<>();
             if (mc.world == null) return list;
             for (var be : mc.world.blockEntities) {
-                list.add(new TileEntity(be));
+                list.add(new BlockEntity(be));
             }
             return list;
         }

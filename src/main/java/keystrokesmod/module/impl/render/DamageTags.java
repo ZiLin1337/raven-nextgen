@@ -1,5 +1,9 @@
 package keystrokesmod.module.impl.render;
 
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.util.math.Vec3d;
+import keystrokesmod.event.RenderWorldLastEvent;
+import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import keystrokesmod.event.ReceivePacketEvent;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -13,12 +17,12 @@ import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.BufferBuilder;
 
 
-import net.minecraft.entity.DataWatcher;
+import net.minecraft.entity.DataTracker;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.packet.s2c.play.S1CPacketEntityMetadata;
+import net.minecraft.network.packet.s2c.play.EntityTrackerUpdateS2CPacket;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.Math;
 import net.minecraft.world.World;
@@ -143,12 +147,12 @@ public class DamageTags extends Module {
 
     
     public void onReceivePacket(ReceivePacketEvent e) {
-        if (!(e.getPacket() instanceof S1CPacketEntityMetadata) || mc.world == null) {
+        if (!(e.getPacket() instanceof EntityTrackerUpdateS2CPacket) || mc.world == null) {
             return;
         }
 
-        S1CPacketEntityMetadata packet = (S1CPacketEntityMetadata) e.getPacket();
-        List<DataWatcher.WatchableObject> watchedObjects = packet.func_149376_c();
+        EntityTrackerUpdateS2CPacket packet = (EntityTrackerUpdateS2CPacket) e.getPacket();
+        List<DataTracker.WatchableObject> watchedObjects = packet.func_149376_c();
         if (watchedObjects == null || watchedObjects.isEmpty()) {
             return;
         }
@@ -158,7 +162,7 @@ public class DamageTags extends Module {
         boolean hasAbsorption = false;
         float absorption = 0.0F;
 
-        for (DataWatcher.WatchableObject watchedObject : watchedObjects) {
+        for (DataTracker.WatchableObject watchedObject : watchedObjects) {
             if (watchedObject == null || watchedObject.getObject() == null) {
                 continue;
             }

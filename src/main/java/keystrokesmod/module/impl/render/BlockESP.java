@@ -1,5 +1,6 @@
 package keystrokesmod.module.impl.render;
 
+import keystrokesmod.event.RenderWorldLastEvent;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.*;
 import keystrokesmod.utility.Utils;

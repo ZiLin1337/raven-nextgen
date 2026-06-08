@@ -1,6 +1,6 @@
 package keystrokesmod.module.impl.render;
 
-import keystrokesmod.mixin.impl.accessor.IAccessorEntityArrow;
+import keystrokesmod.mixin.impl.accessor.IAccessorArrowEntity;
 // Removed accessor
 import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
 import keystrokesmod.module.Module;
@@ -16,7 +16,7 @@ import keystrokesmod.utility.font.FontManager;
 import keystrokesmod.utility.font.RavenTextRenderer;
 import net.minecraft.block.Block;
 import net.minecraft.block.FluidBlock;
-import net.minecraft.block.material.Material;
+Material;
 import net.minecraft.block.BlockState;
 
 
@@ -277,9 +277,9 @@ public class Indicators extends Module {
                 if (entity instanceof EntityLargeFireball && drawFireballTrajectory.isToggled()) {
                     renderFireballTrajectory((EntityLargeFireball) entity, event.partialTicks);
                 }
-                else if (entity instanceof EntityArrow && drawArrowTrajectory.isToggled()
-                        && !((IAccessorEntityArrow) entity).getInGround()) {
-                    renderArrowTrajectory((EntityArrow) entity, event.partialTicks);
+                else if (entity instanceof ArrowEntity && drawArrowTrajectory.isToggled()
+                        && !((IAccessorArrowEntity) entity).getInGround()) {
+                    renderArrowTrajectory((ArrowEntity) entity, event.partialTicks);
                 }
                 else if (entity instanceof EntityEnderPearl && drawPearlTrajectory.isToggled()) {
                     renderPearlTrajectory((EntityEnderPearl) entity, event.partialTicks);
@@ -293,8 +293,8 @@ public class Indicators extends Module {
         if (en == null) {
             return null;
         }
-        if (en instanceof EntityArrow) {
-            if (((IAccessorEntityArrow) en).getInGround()) {
+        if (en instanceof ArrowEntity) {
+            if (((IAccessorArrowEntity) en).getInGround()) {
                 return null;
             }
             return new ItemStack(Items.ARROW);
@@ -315,7 +315,7 @@ public class Indicators extends Module {
     }
 
     private boolean canRender(Entity entity) {
-        if (entity instanceof EntityArrow && !((IAccessorEntityArrow) entity).getInGround() && renderArrows.isToggled()) {
+        if (entity instanceof ArrowEntity && !((IAccessorArrowEntity) entity).getInGround() && renderArrows.isToggled()) {
             return true;
         }
         else if (entity instanceof EntityLargeFireball && renderFireballs.isToggled()) {
@@ -559,7 +559,7 @@ public class Indicators extends Module {
         RenderSystem.getModelViewStack().popMatrix();
     }
 
-    private void renderArrowTrajectory(EntityArrow arrowEntity, float partialTicks) {
+    private void renderArrowTrajectory(ArrowEntity arrowEntity, float partialTicks) {
         ProjectileTrajectoryProps props = new ProjectileTrajectoryProps(
                 ARROW_GRAVITY,
                 PROJECTILE_DRAG,
@@ -779,7 +779,7 @@ public class Indicators extends Module {
             RenderUtils.drawBoundingBox(impactBox.offset(-viewerX, -viewerY, -viewerZ), red, green, blue, FIREBALL_TRAJECTORY_SHADE_ALPHA);
         }
 
-        if (projectile instanceof EntityArrow) {
+        if (projectile instanceof ArrowEntity) {
             renderArrowTrajectoryStartMarker(prediction, projectile, partialTicks, startX, startY, startZ, viewerX, viewerY, viewerZ, red, green, blue);
         }
 
@@ -898,7 +898,7 @@ public class Indicators extends Module {
     }
 
     private Box getPredictedImpactBox(Entity projectile, TrajectoryPrediction prediction) {
-        if (projectile instanceof EntityArrow) {
+        if (projectile instanceof ArrowEntity) {
             return getProjectileImpactBox(prediction);
         }
 

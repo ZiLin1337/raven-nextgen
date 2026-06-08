@@ -12,7 +12,7 @@ import keystrokesmod.utility.BlockUtils;
 import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
+Material;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockItem;

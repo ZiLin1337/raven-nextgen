@@ -1,5 +1,6 @@
 package keystrokesmod.mixin.impl.entity;
 
+import net.minecraft.util.math.Vec3d;
 import keystrokesmod.Raven;
 import keystrokesmod.event.JumpEvent;
 import keystrokesmod.event.PreMotionEvent;
