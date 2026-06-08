@@ -42,7 +42,7 @@ public final class GlyphFontRenderer implements RavenTextRenderer {
     private final float lineHeight;
     private boolean destroyed;
 
-    public GlyphTextRenderer(Font sourceFont, boolean antiAlias) {
+    public GlyphFontRenderer(Font sourceFont, boolean antiAlias) {
         float renderScale = resolveRenderScale();
         this.drawScale = 1.0f / renderScale;
         this.rawScale = renderScale;
