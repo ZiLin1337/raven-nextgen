@@ -2,7 +2,7 @@ package keystrokesmod.mixin.impl.render;
 
 import keystrokesmod.module.ModuleManager;
 import keystrokesmod.utility.Utils;
-import net.minecraft.client.network.AbstractClientPlayerEntityEntity;
+import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.item.HeldItemRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;

@@ -698,9 +698,6 @@ public class RenderUtils implements IMinecraftInstance {
         // drawSelectionBoundingBox moved: renderBox);
     }
 
-    public static void drawBoundingBox(Box abb) {
-        drawBoundingBox(abb);
-    }
 
     public static void drawBoundingBox(Box abb) {
         Tessellator ts = Tessellator.getInstance();
