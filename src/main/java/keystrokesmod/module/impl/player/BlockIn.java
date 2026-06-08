@@ -201,9 +201,9 @@ public class BlockIn extends Module {
         fillCount = 0;
         if (selectKeybind.isPressed() && mc.currentScreen == null) {
             BlockPos feet = new BlockPos(
-                    MathHelper.floor_double(mc.player.getX()),
-                    MathHelper.floor_double(mc.player.getY()),
-                    MathHelper.floor_double(mc.player.getZ())
+                    Math.floor_double(mc.player.getX()),
+                    Math.floor_double(mc.player.getY()),
+                    Math.floor_double(mc.player.getZ())
             );
 
             if (!BlockUtils.replaceable(feet.up().up())) fillCount++;
@@ -348,9 +348,9 @@ public class BlockIn extends Module {
     private AimResult roofAim() {
         Vec3d pos = new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ());
         BlockPos aboveHead = new BlockPos(
-                MathHelper.floor_double(pos.xCoord),
-                MathHelper.floor_double(pos.yCoord) + 2,
-                MathHelper.floor_double(pos.zCoord)
+                Math.floor_double(pos.xCoord),
+                Math.floor_double(pos.yCoord) + 2,
+                Math.floor_double(pos.zCoord)
         );
         if (!BlockUtils.replaceable(aboveHead)) return null;
 
@@ -361,12 +361,12 @@ public class BlockIn extends Module {
         double r2 = r * r;
         double rp12 = (r + 1) * (r + 1);
 
-        int minY = MathHelper.floor_double(eye.yCoord) + 1;
-        int maxY = MathHelper.floor_double(eye.yCoord + r);
-        int minX = MathHelper.floor_double(eye.xCoord - r);
-        int maxX = MathHelper.floor_double(eye.xCoord + r);
-        int minZ = MathHelper.floor_double(eye.zCoord - r);
-        int maxZ = MathHelper.floor_double(eye.zCoord + r);
+        int minY = Math.floor_double(eye.yCoord) + 1;
+        int maxY = Math.floor_double(eye.yCoord + r);
+        int minX = Math.floor_double(eye.xCoord - r);
+        int maxX = Math.floor_double(eye.xCoord + r);
+        int minZ = Math.floor_double(eye.zCoord - r);
+        int maxZ = Math.floor_double(eye.zCoord + r);
 
         ArrayList<BlockCandidate> cands = new ArrayList<>();
         for (int y = minY; y <= maxY; y++) {
@@ -421,19 +421,19 @@ public class BlockIn extends Module {
                 float[] rY = RotationUtils.getRotationsFromEye(eye,
                         bx + u, faceUp ? by + 1 - GRID_INSET : by + GRID_INSET, bz + v);
                 cands.add(new RotationCandidate(
-                        Math.abs(MathHelper.wrapAngleTo180_float(rY[0] - baseYaw)) + Math.abs(rY[1] - basePitch),
+                        Math.abs(Math.wrapAngleTo180_float(rY[0] - baseYaw)) + Math.abs(rY[1] - basePitch),
                         rY[0], rY[1]));
 
                 float[] rZ = RotationUtils.getRotationsFromEye(eye,
                         bx + u, by + v, faceSouth ? bz + 1 - GRID_INSET : bz + GRID_INSET);
                 cands.add(new RotationCandidate(
-                        Math.abs(MathHelper.wrapAngleTo180_float(rZ[0] - baseYaw)) + Math.abs(rZ[1] - basePitch),
+                        Math.abs(Math.wrapAngleTo180_float(rZ[0] - baseYaw)) + Math.abs(rZ[1] - basePitch),
                         rZ[0], rZ[1]));
 
                 float[] rX = RotationUtils.getRotationsFromEye(eye,
                         faceEast ? bx + 1 - GRID_INSET : bx + GRID_INSET, by + v, bz + u);
                 cands.add(new RotationCandidate(
-                        Math.abs(MathHelper.wrapAngleTo180_float(rX[0] - baseYaw)) + Math.abs(rX[1] - basePitch),
+                        Math.abs(Math.wrapAngleTo180_float(rX[0] - baseYaw)) + Math.abs(rX[1] - basePitch),
                         rX[0], rX[1]));
             }
         }
@@ -457,9 +457,9 @@ public class BlockIn extends Module {
 
     private AimResult sidesAim() {
         BlockPos feet = new BlockPos(
-                MathHelper.floor_double(mc.player.getX()),
-                MathHelper.floor_double(mc.player.getY()),
-                MathHelper.floor_double(mc.player.getZ())
+                Math.floor_double(mc.player.getX()),
+                Math.floor_double(mc.player.getY()),
+                Math.floor_double(mc.player.getZ())
         );
         BlockPos head = feet.up();
         double r = REACH;
@@ -586,7 +586,7 @@ public class BlockIn extends Module {
                         }
 
                         float[] rot = RotationUtils.getRotationsFromEye(eye, px, py, pz);
-                        float dYaw = Math.abs(MathHelper.wrapAngleTo180_float(rot[0] - curYaw));
+                        float dYaw = Math.abs(Math.wrapAngleTo180_float(rot[0] - curYaw));
                         float dPit = Math.abs(rot[1] - curPitch);
                         if (dYaw < 0.1f && dPit < 0.1f) continue;
 
@@ -621,9 +621,9 @@ public class BlockIn extends Module {
 
     private boolean isDirectAdjacentPlacement(BlockPos p) {
         BlockPos feet = new BlockPos(
-                MathHelper.floor_double(mc.player.getX()),
-                MathHelper.floor_double(mc.player.getY()),
-                MathHelper.floor_double(mc.player.getZ())
+                Math.floor_double(mc.player.getX()),
+                Math.floor_double(mc.player.getY()),
+                Math.floor_double(mc.player.getZ())
         );
         int dx = p.getX() - feet.getX();
         int dy = p.getY() - feet.getY();

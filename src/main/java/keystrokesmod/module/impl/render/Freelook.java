@@ -11,6 +11,8 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.Utils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
+import keystrokesmod.event.TickEvent;
+import keystrokesmod.event.GuiOpenEvent;
 // Removed Forge event
 
 
@@ -117,7 +119,7 @@ public class Freelook extends Module {
         }
     }
 
-    public static boolean overrideMouse(Minecraft mc) {
+    public static boolean overrideMouse(MinecraftClient mc) {
         if (!mc.inGameHasFocus) {
             return false;
         }

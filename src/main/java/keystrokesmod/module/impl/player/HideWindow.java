@@ -12,13 +12,13 @@ import net.minecraft.client.gui.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.gui.inventory.InventoryScreeny;
+import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.network.packet.s2c.play.CloseHandledScreenS2CPacket;
 import net.minecraft.util.Identifier;
 // Removed Forge event
 // Removed Forge event
-import net.minecraftforge.fml.client.config.ButtonWidgetExt;
+import ButtonWidgetExt;
 
 import java.io.IOException;
 
@@ -77,7 +77,7 @@ public class HideWindow extends Module {
             return;
         }
 
-        if (event.gui instanceof HandledScreen && !(event.gui instanceof InventoryScreeny)) {
+        if (event.gui instanceof HandledScreen && !(event.gui instanceof InventoryScreen)) {
             if (mc.currentScreen instanceof HandledScreen) {
                 hiddenGui = null;
                 return;
@@ -97,7 +97,7 @@ public class HideWindow extends Module {
             return;
         }
 
-        if (event.gui instanceof InventoryScreeny && hiddenGui != null) {
+        if (event.gui instanceof InventoryScreen && hiddenGui != null) {
             event.gui = hiddenGui;
             hiddenGui = null;
         }

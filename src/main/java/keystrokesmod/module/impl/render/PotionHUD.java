@@ -14,7 +14,7 @@ import net.minecraft.client.gui.Screen;
 import net.minecraft.potion.Potion;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.text.Text;
-import net.minecraftforge.fml.client.config.ButtonWidgetExt;
+import ButtonWidgetExt;
 
 
 

@@ -6,7 +6,7 @@ import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.DescriptionSetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import net.minecraft.client.gui.ChatScreen;
-import net.minecraft.client.gui.inventory.InventoryScreeny;
+import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.texture.DynamicTexture;
 import net.minecraft.util.Identifier;
 
@@ -94,7 +94,7 @@ public class Settings extends Module {
     }
 
     public static boolean inInventory() {
-        if (mc.currentScreen instanceof InventoryScreeny) {
+        if (mc.currentScreen instanceof InventoryScreen) {
             return true;
         }
         if (mc.currentScreen instanceof ChatScreen && setChatAsInventory.isToggled()) {

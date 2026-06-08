@@ -1,8 +1,8 @@
 package keystrokesmod.script.model;
 
 import keystrokesmod.utility.Utils;
-import net.minecraft.event.ClickEvent;
-import net.minecraft.event.HoverEvent;
+import net.minecraft.text.ClickEvent;
+import net.minecraft.text.HoverEvent;
 import net.minecraft.text.Text;
 import net.minecraft.util.Style;
 import net.minecraft.text.Text;

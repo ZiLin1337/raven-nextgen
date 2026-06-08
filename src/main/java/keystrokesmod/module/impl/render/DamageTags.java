@@ -20,7 +20,7 @@ import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.s2c.play.S1CPacketEntityMetadata;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.Math;
 import net.minecraft.world.World;
 
 
@@ -428,7 +428,7 @@ public class DamageTags extends Module {
     }
 
     private float getProgress(DamageTag tag, long now) {
-        return MathHelper.clamp_float((float) (now - tag.createdAt) / (float) tag.durationMs, 0.0F, 1.0F);
+        return Math.clamp_float((float) (now - tag.createdAt) / (float) tag.durationMs, 0.0F, 1.0F);
     }
 
     private float getAlpha(float progress) {
@@ -436,7 +436,7 @@ public class DamageTags extends Module {
             return 1.0F;
         }
 
-        float fadeProgress = MathHelper.clamp_float((progress - FADE_START) / (1.0F - FADE_START), 0.0F, 1.0F);
+        float fadeProgress = Math.clamp_float((progress - FADE_START) / (1.0F - FADE_START), 0.0F, 1.0F);
         return 1.0F - fadeProgress;
     }
 
@@ -472,7 +472,7 @@ public class DamageTags extends Module {
     }
 
     private int applyFontAlpha(int color, float alpha) {
-        int alphaChannel = MathHelper.clamp_int(Math.round(alpha * 255.0F), 0, 255);
+        int alphaChannel = Math.clamp_int(Math.round(alpha * 255.0F), 0, 255);
         if (alpha > 0.0F && alphaChannel < MIN_FONT_ALPHA) {
             alphaChannel = MIN_FONT_ALPHA;
         }

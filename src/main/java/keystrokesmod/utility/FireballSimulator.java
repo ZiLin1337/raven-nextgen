@@ -214,12 +214,12 @@ public final class FireballSimulator {
                                                           Box sweepBounds,
                                                           double halfWidth,
                                                           double projectileHeight) {
-        int minX = MathHelper.floor_double(sweepBounds.minX);
-        int maxX = MathHelper.floor_double(sweepBounds.maxX + 1.0D);
-        int minY = MathHelper.floor_double(sweepBounds.minY);
-        int maxY = MathHelper.floor_double(sweepBounds.maxY + 1.0D);
-        int minZ = MathHelper.floor_double(sweepBounds.minZ);
-        int maxZ = MathHelper.floor_double(sweepBounds.maxZ + 1.0D);
+        int minX = Math.floor_double(sweepBounds.minX);
+        int maxX = Math.floor_double(sweepBounds.maxX + 1.0D);
+        int minY = Math.floor_double(sweepBounds.minY);
+        int maxY = Math.floor_double(sweepBounds.maxY + 1.0D);
+        int minZ = Math.floor_double(sweepBounds.minZ);
+        int maxZ = Math.floor_double(sweepBounds.maxZ + 1.0D);
 
         if (!world.isAreaLoaded(new BlockPos(minX, minY, minZ), new BlockPos(maxX, maxY, maxZ), true)) {
             return new BlockCollisionResult(null, null, Double.MAX_VALUE);
@@ -277,12 +277,12 @@ public final class FireballSimulator {
                 .expand(0.0D, WATER_CHECK_EXPAND_Y, 0.0D)
                 .contract(WATER_CHECK_CONTRACT, WATER_CHECK_CONTRACT, WATER_CHECK_CONTRACT);
 
-        int minX = MathHelper.floor_double(waterCheckBox.minX);
-        int maxX = MathHelper.floor_double(waterCheckBox.maxX + 1.0D);
-        int minY = MathHelper.floor_double(waterCheckBox.minY);
-        int maxY = MathHelper.floor_double(waterCheckBox.maxY + 1.0D);
-        int minZ = MathHelper.floor_double(waterCheckBox.minZ);
-        int maxZ = MathHelper.floor_double(waterCheckBox.maxZ + 1.0D);
+        int minX = Math.floor_double(waterCheckBox.minX);
+        int maxX = Math.floor_double(waterCheckBox.maxX + 1.0D);
+        int minY = Math.floor_double(waterCheckBox.minY);
+        int maxY = Math.floor_double(waterCheckBox.maxY + 1.0D);
+        int minZ = Math.floor_double(waterCheckBox.minZ);
+        int maxZ = Math.floor_double(waterCheckBox.maxZ + 1.0D);
 
         if (!world.isAreaLoaded(new BlockPos(minX, minY, minZ), new BlockPos(maxX, maxY, maxZ), true)) {
             return new WaterState(false, new Vec3d(0.0D, 0.0D, 0.0D));

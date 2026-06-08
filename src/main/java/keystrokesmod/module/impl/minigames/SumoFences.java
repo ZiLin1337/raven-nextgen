@@ -1,6 +1,7 @@
 package keystrokesmod.module.impl.minigames;
 
 import keystrokesmod.module.Module;
+import keystrokesmod.event.MouseEvent;
 import keystrokesmod.module.setting.impl.DescriptionSetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.Utils;

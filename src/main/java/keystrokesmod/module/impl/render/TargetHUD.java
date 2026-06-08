@@ -16,7 +16,7 @@ import net.minecraft.client.gui.Screen;
 
 import net.minecraft.entity.LivingEntity;
 
-import net.minecraftforge.fml.client.config.ButtonWidgetExt;
+import ButtonWidgetExt;
 
 
 

@@ -1,6 +1,7 @@
 package keystrokesmod.module.impl.minigames;
 
 import keystrokesmod.module.Module;
+import keystrokesmod.event.ClientChatReceivedEvent;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.DescriptionSetting;
 import keystrokesmod.utility.Utils;

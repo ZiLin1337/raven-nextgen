@@ -26,7 +26,7 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.Math;
 import net.minecraft.util.math.Vec3d;
 
 import org.lwjgl.glfw.GLFW;
@@ -322,12 +322,12 @@ public class Displace extends Module {
     }
 
     private boolean hasBlockCollision(PlayerEntity target, Box box) {
-        int minX = MathHelper.floor_double(box.minX);
-        int maxX = MathHelper.floor_double(box.maxX + 1.0D);
-        int minY = MathHelper.floor_double(box.minY);
-        int maxY = MathHelper.floor_double(box.maxY + 1.0D);
-        int minZ = MathHelper.floor_double(box.minZ);
-        int maxZ = MathHelper.floor_double(box.maxZ + 1.0D);
+        int minX = Math.floor_double(box.minX);
+        int maxX = Math.floor_double(box.maxX + 1.0D);
+        int minY = Math.floor_double(box.minY);
+        int maxY = Math.floor_double(box.maxY + 1.0D);
+        int minZ = Math.floor_double(box.minZ);
+        int maxZ = Math.floor_double(box.maxZ + 1.0D);
 
         List<Box> collisions = new ArrayList<Box>();
         BlockPos.Mutable blockPos = new BlockPos.Mutable();
@@ -355,9 +355,9 @@ public class Displace extends Module {
     }
 
     private boolean isVoidColumn(double x, double y, double z) {
-        int blockX = MathHelper.floor_double(x);
-        int blockZ = MathHelper.floor_double(z);
-        int startY = MathHelper.floor_double(y) - 1;
+        int blockX = Math.floor_double(x);
+        int blockZ = Math.floor_double(z);
+        int startY = Math.floor_double(y) - 1;
         int endY = Math.max(0, startY - VOID_SCAN_DEPTH);
 
         for (int blockY = startY; blockY >= endY; blockY--) {

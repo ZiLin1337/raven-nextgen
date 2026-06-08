@@ -24,7 +24,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.Math;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityEnderPearl;
@@ -957,12 +957,12 @@ public class Indicators extends Module {
         Box waterCheckBox = entityBox.expand(0.0D, WATER_CHECK_EXPAND_Y, 0.0D)
                 .contract(WATER_CHECK_CONTRACT, WATER_CHECK_CONTRACT, WATER_CHECK_CONTRACT);
 
-        int minX = MathHelper.floor_double(waterCheckBox.minX);
-        int maxX = MathHelper.floor_double(waterCheckBox.maxX + 1.0D);
-        int minY = MathHelper.floor_double(waterCheckBox.minY);
-        int maxY = MathHelper.floor_double(waterCheckBox.maxY + 1.0D);
-        int minZ = MathHelper.floor_double(waterCheckBox.minZ);
-        int maxZ = MathHelper.floor_double(waterCheckBox.maxZ + 1.0D);
+        int minX = Math.floor_double(waterCheckBox.minX);
+        int maxX = Math.floor_double(waterCheckBox.maxX + 1.0D);
+        int minY = Math.floor_double(waterCheckBox.minY);
+        int maxY = Math.floor_double(waterCheckBox.maxY + 1.0D);
+        int minZ = Math.floor_double(waterCheckBox.minZ);
+        int maxZ = Math.floor_double(waterCheckBox.maxZ + 1.0D);
 
         if (!mc.world.isAreaLoaded(new BlockPos(minX, minY, minZ), new BlockPos(maxX, maxY, maxZ), true)) {
             return new FluidState(false, new Vec3d(0.0D, 0.0D, 0.0D));
@@ -1042,12 +1042,12 @@ public class Indicators extends Module {
 
     private BlockCollisionResult rayTraceBlockCollisionBoxes(Vec3d start, Vec3d end, ProjectileTrajectoryProps props) {
         Box sweepBounds = getBlockSweepBounds(start, end);
-        int minX = MathHelper.floor_double(sweepBounds.minX);
-        int maxX = MathHelper.floor_double(sweepBounds.maxX + 1.0D);
-        int minY = MathHelper.floor_double(sweepBounds.minY);
-        int maxY = MathHelper.floor_double(sweepBounds.maxY + 1.0D);
-        int minZ = MathHelper.floor_double(sweepBounds.minZ);
-        int maxZ = MathHelper.floor_double(sweepBounds.maxZ + 1.0D);
+        int minX = Math.floor_double(sweepBounds.minX);
+        int maxX = Math.floor_double(sweepBounds.maxX + 1.0D);
+        int minY = Math.floor_double(sweepBounds.minY);
+        int maxY = Math.floor_double(sweepBounds.maxY + 1.0D);
+        int minZ = Math.floor_double(sweepBounds.minZ);
+        int maxZ = Math.floor_double(sweepBounds.maxZ + 1.0D);
 
         if (!mc.world.isAreaLoaded(new BlockPos(minX, minY, minZ), new BlockPos(maxX, maxY, maxZ), true)) {
             return new BlockCollisionResult(null, Double.MAX_VALUE);

@@ -8,12 +8,12 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 
 import net.minecraft.util.math.Box;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.Math;
 
 
 
@@ -77,7 +77,7 @@ public class ItemESP extends Module {
             double diffX = self.lastTickPosX + (self.posX - self.lastTickPosX) * partialTicks - interpolatedX;
             double diffY = self.lastTickPosY + (self.posY - self.lastTickPosY) * partialTicks - interpolatedY;
             double diffZ = self.lastTickPosZ + (self.posZ - self.lastTickPosZ) * partialTicks - interpolatedZ;
-            double dist = MathHelper.sqrt_double(diffX * diffX + diffY * diffY + diffZ * diffZ);
+            double dist = Math.sqrt_double(diffX * diffX + diffY * diffY + diffZ * diffZ);
 
             RenderSystem.pushMatrix();
             drawBox(renderState.boxColor, renderState.textColor, stackCount, interpolatedX, interpolatedY, interpolatedZ, dist);

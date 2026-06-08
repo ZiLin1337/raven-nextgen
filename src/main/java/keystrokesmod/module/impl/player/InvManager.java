@@ -11,8 +11,8 @@ import keystrokesmod.module.setting.impl.KeySetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.ItemSearchIndex;
 import keystrokesmod.utility.Utils;
-import net.minecraft.client.gui.inventory.GuiChest;
-import net.minecraft.client.gui.inventory.InventoryScreeny;
+import net.minecraft.client.gui.screen.ingame.GuiChest;
+import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.block.Blocks;
@@ -210,14 +210,14 @@ public class InvManager extends Module {
             return;
         }
 
-        if (closeInventory.isToggled() && closeInventoryGui && mc.currentScreen instanceof InventoryScreeny) {
+        if (closeInventory.isToggled() && closeInventoryGui && mc.currentScreen instanceof InventoryScreen) {
             closeInventoryGui = false;
             closeSession();
             mc.player.closeScreen();
             return;
         }
 
-        if (mc.currentScreen instanceof InventoryScreeny) {
+        if (mc.currentScreen instanceof InventoryScreen) {
             handleInventoryScreen();
             return;
         }
@@ -1807,7 +1807,7 @@ public class InvManager extends Module {
 
     private boolean isManagedInventoryOpen() {
         return Utils.nullCheck()
-                && mc.currentScreen instanceof InventoryScreeny
+                && mc.currentScreen instanceof InventoryScreen
                 && mc.player.openContainer instanceof ContainerPlayer
                 && Utils.inInventory();
     }

@@ -20,7 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.Math;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
@@ -141,7 +141,7 @@ public class Clutch extends Module {
             aimYaw = mc.player.rotationYaw;
             aimPitch = mc.player.rotationPitch;
             float[] smoothed = getRotationsSmoothed(baseYaw, basePitch, aimYaw, aimPitch, true);
-            if (Math.abs(MathHelper.wrapAngleTo180_float(smoothed[0] - aimYaw)) < 0.5f && Math.abs(smoothed[1] - aimPitch) < 0.5f) {
+            if (Math.abs(Math.wrapAngleTo180_float(smoothed[0] - aimYaw)) < 0.5f && Math.abs(smoothed[1] - aimPitch) < 0.5f) {
                 resetting = false;
                 restoreInputsAndAutoClicker();
                 return;
@@ -162,7 +162,7 @@ public class Clutch extends Module {
                 int maxBlocks = (int) maxDistance.getInput();
                 if (maxBlocks == 0 || clutchBlocksPlaced < maxBlocks) {
                     double tolerance = rotationTolerance.getInput();
-                    if (Math.abs(MathHelper.wrapAngleTo180_float(smoothed[0] - RotationUtils.serverRotations[0])) <= tolerance
+                    if (Math.abs(Math.wrapAngleTo180_float(smoothed[0] - RotationUtils.serverRotations[0])) <= tolerance
                             && Math.abs(smoothed[1] - RotationUtils.serverRotations[1]) <= tolerance) {
                         placeAtBlock = mop.getBlockPos();
                         hitSide = mop.sideHit;
@@ -212,9 +212,9 @@ public class Clutch extends Module {
         }
 
         BlockPos below = new BlockPos(
-                MathHelper.floor_double(mc.player.getX()),
-                MathHelper.floor_double(mc.player.getY()) - 1,
-                MathHelper.floor_double(mc.player.getZ())
+                Math.floor_double(mc.player.getX()),
+                Math.floor_double(mc.player.getY()) - 1,
+                Math.floor_double(mc.player.getZ())
         );
         if (!canPlaceThrough(below)) {
             disablePlacing(false);
@@ -393,9 +393,9 @@ public class Clutch extends Module {
             futurePos = prediction.getPos();
         }
 
-        int feetX = MathHelper.floor_double(playerPos.xCoord);
-        int feetZ = MathHelper.floor_double(playerPos.zCoord);
-        int feetY = MathHelper.floor_double(playerPos.yCoord);
+        int feetX = Math.floor_double(playerPos.xCoord);
+        int feetZ = Math.floor_double(playerPos.zCoord);
+        int feetY = Math.floor_double(playerPos.yCoord);
         int minX = feetX - 5;
         int maxX = feetX + 4;
         int minZ = feetZ - 5;
@@ -432,10 +432,10 @@ public class Clutch extends Module {
     }
 
     private boolean isBlockUnderPlayer(BlockPos blockPos, Vec3d pos) {
-        if (blockPos.getY() >= MathHelper.floor_double(pos.yCoord)) return false;
+        if (blockPos.getY() >= Math.floor_double(pos.yCoord)) return false;
         for (double[] corner : CORNERS) {
-            int cx = MathHelper.floor_double(pos.xCoord + corner[0]);
-            int cz = MathHelper.floor_double(pos.zCoord + corner[1]);
+            int cx = Math.floor_double(pos.xCoord + corner[0]);
+            int cz = Math.floor_double(pos.zCoord + corner[1]);
             if (blockPos.getX() == cx && blockPos.getZ() == cz) return true;
         }
         return false;
@@ -545,7 +545,7 @@ public class Clutch extends Module {
     private float[] getRotationsSmoothed(float currentYaw, float currentPitch, float targetYaw, float targetPitch, boolean snapback) {
         float curYaw = currentYaw;
         float curPitch = currentPitch;
-        float deltaYaw = MathHelper.wrapAngleTo180_float(targetYaw - curYaw);
+        float deltaYaw = Math.wrapAngleTo180_float(targetYaw - curYaw);
         float deltaPitch = targetPitch - curPitch;
 
         if (Math.abs(deltaYaw) < 0.1f) curYaw = targetYaw;
@@ -591,11 +591,11 @@ public class Clutch extends Module {
     }
 
     private static float wrapYawDelta(float base, float target) {
-        return MathHelper.wrapAngleTo180_float(target - base);
+        return Math.wrapAngleTo180_float(target - base);
     }
 
     private static float unwrapYaw(float yaw, float prevYaw) {
-        return prevYaw + MathHelper.wrapAngleTo180_float(yaw - prevYaw);
+        return prevYaw + Math.wrapAngleTo180_float(yaw - prevYaw);
     }
 
     private static float[] getRotationsWrapped(Vec3d eye, double tx, double ty, double tz) {

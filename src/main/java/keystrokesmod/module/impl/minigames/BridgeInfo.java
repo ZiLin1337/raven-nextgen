@@ -1,13 +1,11 @@
 package keystrokesmod.module.impl.minigames;
 
 import keystrokesmod.module.Module;
-import keystrokesmod.module.setting.impl.ButtonSetting;
-import keystrokesmod.module.setting.impl.DescriptionSetting;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.screen.Screen;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.ButtonWidget;
-import net.minecraft.client.gui.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 
 import net.minecraft.entity.Entity;
@@ -19,7 +17,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 // Removed Forge event
 
-import net.minecraftforge.fml.client.config.ButtonWidgetExt;
 
 // Removed Forge event
 // Removed Forge event

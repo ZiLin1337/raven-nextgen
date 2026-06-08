@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Math;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -75,10 +75,10 @@ public abstract class MixinPlayerEntity {
                     if (attacked) {
                         if (knockback > 0) {
                             target.addVelocity(
-                                    (double) (-MathHelper.sin(self.getYaw() * (float) Math.PI / 180.0F)
+                                    (double) (-Math.sin(self.getYaw() * (float) Math.PI / 180.0F)
                                             * (float) knockback * 0.5F),
                                     0.1,
-                                    (double) (MathHelper.cos(self.getYaw() * (float) Math.PI / 180.0F)
+                                    (double) (Math.cos(self.getYaw() * (float) Math.PI / 180.0F)
                                             * (float) knockback * 0.5F));
 
                             if (ModuleManager.reduce != null && ModuleManager.reduce.isEnabled()) {

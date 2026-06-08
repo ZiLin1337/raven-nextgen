@@ -10,7 +10,7 @@ import meteordevelopment.orbit.EventPriority;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Math;
 import net.minecraft.util.math.Vec3d;
 
 /**
@@ -97,7 +97,7 @@ public class RotationHelper {
     public void onGameTick(GameTickEvent e) {
         if (this.setRotations && this.serverYaw != null && mc.player != null) {
             float serverYawVal = RotationUtils.serverRotations[0];
-            float unwrapped = unwrapYaw(MathHelper.wrapDegrees(mc.player.getYaw()), serverYawVal);
+            float unwrapped = unwrapYaw(Math.wrapDegrees(mc.player.getYaw()), serverYawVal);
             mc.player.setYaw(unwrapped);
             mc.player.prevYaw = unwrapped;
         }
@@ -142,7 +142,7 @@ public class RotationHelper {
         float[] rot = RotationUtils.getRotations(target, baseYaw, basePitch);
         if (rot == null) return null;
         float factor = Math.max(1f, smoothingFactor);
-        float yaw = baseYaw + MathHelper.wrapDegrees(rot[0] - baseYaw) / factor;
+        float yaw = baseYaw + Math.wrapDegrees(rot[0] - baseYaw) / factor;
         float pitch = basePitch + (rot[1] - basePitch) / factor;
         return new float[]{yaw, pitch};
     }
@@ -154,7 +154,7 @@ public class RotationHelper {
         float[] rot = RotationUtils.getRotations(target, baseYaw, basePitch);
         if (rot == null) return null;
         float factor = Math.max(1f, smoothingFactor);
-        float yaw = baseYaw + MathHelper.wrapDegrees(rot[0] - baseYaw) / factor;
+        float yaw = baseYaw + Math.wrapDegrees(rot[0] - baseYaw) / factor;
         float pitch = basePitch + (rot[1] - basePitch) / factor;
         return new float[]{yaw, pitch};
     }
@@ -204,7 +204,7 @@ public class RotationHelper {
 
         if (forward == 0 && strafe == 0) return;
 
-        double angle = MathHelper.wrapDegrees(Math.toDegrees(getDirection(mc.player.getYaw(), forward, strafe)));
+        double angle = Math.wrapDegrees(Math.toDegrees(getDirection(mc.player.getYaw(), forward, strafe)));
 
         float closestForward = 0, closestStrafe = 0, closestDiff = Float.MAX_VALUE;
         for (float pfRaw = -1F; pfRaw <= 1F; pfRaw += 1F) {
@@ -212,7 +212,7 @@ public class RotationHelper {
                 if (pfRaw == 0 && psRaw == 0) continue;
                 float predictedForward = pfRaw * sneakMultiplier;
                 float predictedStrafe = psRaw * sneakMultiplier;
-                double predictedAngle = MathHelper.wrapDegrees(Math.toDegrees(getDirection(yaw, predictedForward, predictedStrafe)));
+                double predictedAngle = Math.wrapDegrees(Math.toDegrees(getDirection(yaw, predictedForward, predictedStrafe)));
                 double diff = Math.abs(angle - predictedAngle);
                 if (diff < closestDiff) {
                     closestDiff = (float) diff;

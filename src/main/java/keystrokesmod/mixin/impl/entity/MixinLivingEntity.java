@@ -14,7 +14,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.registry.Registries;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Math;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -52,9 +52,9 @@ public abstract class MixinLivingEntity {
             this.headYaw = RotationUtils.renderYaw;
         }
 
-        float f = MathHelper.wrapDegrees(yawOffset - this.bodyYaw);
+        float f = Math.wrapDegrees(yawOffset - this.bodyYaw);
         this.bodyYaw += f * 0.3F;
-        float f1 = MathHelper.wrapDegrees(rotationYaw - this.bodyYaw);
+        float f1 = Math.wrapDegrees(rotationYaw - this.bodyYaw);
         boolean flag = f1 < -90.0F || f1 >= 90.0F;
 
         if (f1 < -75.0F) f1 = -75.0F;
@@ -82,7 +82,7 @@ public abstract class MixinLivingEntity {
 
         if (jumpEvent.applySprint()) {
             float f = jumpEvent.getYaw() * 0.017453292F;
-            self.addVelocity(-MathHelper.sin(f) * 0.2F, 0, MathHelper.cos(f) * 0.2F);
+            self.addVelocity(-Math.sin(f) * 0.2F, 0, Math.cos(f) * 0.2F);
         }
     }
 

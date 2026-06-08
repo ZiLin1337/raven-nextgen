@@ -13,7 +13,7 @@ import net.minecraft.client.render.*;
 import net.minecraft.client.render.model.BakedQuad;
 import net.minecraft.client.render.Frustum;
 
-// removed IBakedModel
+import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -769,7 +769,7 @@ public class RenderUtils implements IMinecraftInstance {
     public static void renderBlockModel(BlockState blockState, double x, double y, double z, int color) {
         MinecraftClient mc = MinecraftClient.getInstance();
         BlockRendererDispatcher dispatcher = mc.getBlockRendererDispatcher();
-        IBakedModel model = dispatcher.getModelFromBlockState(blockState, mc.world, new BlockPos(x, y, z));
+        BakedModel model = dispatcher.getModelFromBlockState(blockState, mc.world, new BlockPos(x, y, z));
 
         double xPos = x - mc.getEntityRenderDispatcher().camera.getPos().x;
         double yPos = y - mc.getEntityRenderDispatcher().camera.getPos().y;
@@ -801,7 +801,7 @@ public class RenderUtils implements IMinecraftInstance {
         RenderSystem.getModelViewStack().popMatrix();
     }
 
-    private static void renderModelColoredQuads(IBakedModel model, float r, float g, float b, float a) {
+    private static void renderModelColoredQuads(BakedModel model, float r, float g, float b, float a) {
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder wr = Tessellator.getInstance().getBuffer();
         for (Direction face : Direction.values()) {

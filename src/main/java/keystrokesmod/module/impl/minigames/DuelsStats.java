@@ -2,6 +2,8 @@ package keystrokesmod.module.impl.minigames;
 
 import keystrokesmod.Raven;
 import keystrokesmod.module.Module;
+import keystrokesmod.event.ClientChatReceivedEvent;
+import keystrokesmod.event.EntityJoinWorldEvent;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.ProfileUtils;

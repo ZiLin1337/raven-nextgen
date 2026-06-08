@@ -20,7 +20,7 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.color.ColorConstants;
 import net.minecraft.block.*;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.inventory.InventoryScreeny;
+import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.render.ActiveRenderInfo;
 import net.minecraft.client.option.KeyBinding;
@@ -115,9 +115,9 @@ public class Utils implements IMinecraftInstance {
         float cameraYaw = getCameraYaw();
         float cameraPitch = getCameraPitch();
 
-        double offsetX = -MathHelper.sin(cameraYaw / 180.0F * (float) Math.PI) * MathHelper.cos(cameraPitch / 180.0F * (float) Math.PI) * adjustedDistance;
-        double offsetZ =  MathHelper.cos(cameraYaw / 180.0F * (float) Math.PI) * MathHelper.cos(cameraPitch / 180.0F * (float) Math.PI) * adjustedDistance;
-        double offsetY = -MathHelper.sin(cameraPitch / 180.0F * (float) Math.PI) * adjustedDistance;
+        double offsetX = -Math.sin(cameraYaw / 180.0F * (float) Math.PI) * Math.cos(cameraPitch / 180.0F * (float) Math.PI) * adjustedDistance;
+        double offsetZ =  Math.cos(cameraYaw / 180.0F * (float) Math.PI) * Math.cos(cameraPitch / 180.0F * (float) Math.PI) * adjustedDistance;
+        double offsetY = -Math.sin(cameraPitch / 180.0F * (float) Math.PI) * adjustedDistance;
 
         if (ModuleManager.noCameraClip == null || !ModuleManager.noCameraClip.isEnabled()) {
             for (int i = 0; i < 8; i++) {
@@ -194,10 +194,10 @@ public class Utils implements IMinecraftInstance {
             yaw = mc.player.rotationYaw;
             pitch = mc.player.rotationPitch;
         }
-        float ff = MathHelper.cos(-yaw * 0.017453292f - 3.1415927f);
-        float ff2 = MathHelper.sin(-yaw * 0.017453292f - 3.1415927f);
-        float ff3 = -MathHelper.cos(-pitch * 0.017453292f);
-        float ff4 = MathHelper.sin(-pitch * 0.017453292f);
+        float ff = Math.cos(-yaw * 0.017453292f - 3.1415927f);
+        float ff2 = Math.sin(-yaw * 0.017453292f - 3.1415927f);
+        float ff3 = -Math.cos(-pitch * 0.017453292f);
+        float ff4 = Math.sin(-pitch * 0.017453292f);
         Vec3d lookVec = new Vec3d((double)(ff2 * ff3), (double)ff4, (double)(ff * ff3));
         double lookVecX = lookVec.xCoord * max_reach;
         double lookVecY = lookVec.yCoord * max_reach;
@@ -458,7 +458,7 @@ public class Utils implements IMinecraftInstance {
 
     public static boolean inFov(Entity viewPoint, float fov, final double posX, final double posZ) {
         fov *= 0.5;
-        final double wrapAngleTo180_double = MathHelper.wrapAngleTo180_double((viewPoint.rotationYaw - RotationUtils.angle(posX, posZ)) % 360.0f);
+        final double wrapAngleTo180_double = Math.wrapAngleTo180_double((viewPoint.rotationYaw - RotationUtils.angle(posX, posZ)) % 360.0f);
         if (wrapAngleTo180_double > 0.0) {
             if (wrapAngleTo180_double < fov) {
                 return true;
@@ -472,7 +472,7 @@ public class Utils implements IMinecraftInstance {
 
     public static boolean inFov(float origin, float fov, float targetYaw) {
         fov *= 0.5F;
-        final double wrapAngleTo180_double = MathHelper.wrapAngleTo180_double((origin - targetYaw) % 360.0f);
+        final double wrapAngleTo180_double = Math.wrapAngleTo180_double((origin - targetYaw) % 360.0f);
         if (wrapAngleTo180_double > 0.0) {
             return wrapAngleTo180_double < fov;
         }
@@ -480,10 +480,10 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static Vec3d getLookVec(float yaw, float pitch) {
-        float f = MathHelper.cos(-yaw * ((float)Math.PI / 180F) - (float)Math.PI);
-        float f1 = MathHelper.sin(-yaw * ((float)Math.PI / 180F) - (float)Math.PI);
-        float f2 = -MathHelper.cos(-pitch * ((float)Math.PI / 180F));
-        float f3 = MathHelper.sin(-pitch * ((float)Math.PI / 180F));
+        float f = Math.cos(-yaw * ((float)Math.PI / 180F) - (float)Math.PI);
+        float f1 = Math.sin(-yaw * ((float)Math.PI / 180F) - (float)Math.PI);
+        float f2 = -Math.cos(-pitch * ((float)Math.PI / 180F));
+        float f3 = Math.sin(-pitch * ((float)Math.PI / 180F));
         return new Vec3d(f1 * f2, f3, f * f2);
     }
 
@@ -586,9 +586,9 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static boolean onLadder(Entity entity) {
-        int posX = MathHelper.floor_double(entity.posX);
-        int posY = MathHelper.floor_double(entity.posY - 0.20000000298023224D);
-        int posZ = MathHelper.floor_double(entity.posZ);
+        int posX = Math.floor_double(entity.posX);
+        int posY = Math.floor_double(entity.posY - 0.20000000298023224D);
+        int posZ = Math.floor_double(entity.posZ);
         BlockPos blockpos = new BlockPos(posX, posY, posZ);
         Block block1 = mc.world.getBlockState(blockpos).getBlock();
         return block1 instanceof BlockLadder && !entity.onGround;
@@ -854,7 +854,7 @@ public class Utils implements IMinecraftInstance {
         if (!nullCheck()) {
             return false;
         }
-        return (mc.currentScreen != null) && (mc.player.inventoryContainer != null) && (mc.player.inventoryContainer instanceof ContainerPlayer) && (mc.currentScreen instanceof InventoryScreeny);
+        return (mc.currentScreen != null) && (mc.player.inventoryContainer != null) && (mc.player.inventoryContainer instanceof ContainerPlayer) && (mc.currentScreen instanceof InventoryScreen);
     }
 
     public static int getSkyWarsStatus() {
@@ -1006,10 +1006,10 @@ public class Utils implements IMinecraftInstance {
             }
 
             double diffZ = q.posZ - mc.player.getZ();
-            double dist = MathHelper.sqrt_double(diffX * diffX + diffZ * diffZ);
+            double dist = Math.sqrt_double(diffX * diffX + diffZ * diffZ);
             float yaw = (float) (Math.atan2(diffZ, diffX) * 180.0D / 3.141592653589793D) - 90.0F;
             float pitch = (float) (-(Math.atan2(diffY, dist) * 180.0D / 3.141592653589793D));
-            return new float[] { mc.player.rotationYaw + MathHelper.wrapAngleTo180_float(yaw - mc.player.rotationYaw) , mc.player.rotationPitch + MathHelper.wrapAngleTo180_float(pitch - mc.player.rotationPitch)};
+            return new float[] { mc.player.rotationYaw + Math.wrapAngleTo180_float(yaw - mc.player.rotationYaw) , mc.player.rotationPitch + Math.wrapAngleTo180_float(pitch - mc.player.rotationPitch)};
         }
     }
 
@@ -1047,10 +1047,10 @@ public class Utils implements IMinecraftInstance {
         Vec3d eyeVec = mc.player.getPositionEyes(1.0f);
         float y = -yaw * 0.017453292f;
         float p = -pitch * 0.017453292f;
-        float f = MathHelper.cos(y - 3.1415927f);
-        float f2 = MathHelper.sin(y - 3.1415927f);
-        float f3 = -MathHelper.cos(p);
-        float f4 = MathHelper.sin(p);
+        float f = Math.cos(y - 3.1415927f);
+        float f2 = Math.sin(y - 3.1415927f);
+        float f3 = -Math.cos(p);
+        float f4 = Math.sin(p);
         Vec3d lookVec = new Vec3d(f2 * f3, f4, f * f3);
         Vec3d sumVec = eyeVec.addVector(lookVec.xCoord * reach, lookVec.yCoord * reach, lookVec.zCoord * reach);
         return mc.world.rayTraceBlocks(eyeVec, sumVec, false, false, false);
@@ -1061,10 +1061,10 @@ public class Utils implements IMinecraftInstance {
         final Vec3d eyeVec = mc.player.getPositionEyes(1.0f);
         final float y = -rot[0] * 0.017453292f;
         final float p = -rot[1] * 0.017453292f;
-        final float f = MathHelper.cos(y - 3.1415927f);
-        final float f2 = MathHelper.sin(y - 3.1415927f);
-        final float f3 = -MathHelper.cos(p);
-        final float f4 = MathHelper.sin(p);
+        final float f = Math.cos(y - 3.1415927f);
+        final float f2 = Math.sin(y - 3.1415927f);
+        final float f3 = -Math.cos(p);
+        final float f4 = Math.sin(p);
         final Vec3d lookVec = new Vec3d(f2 * f3, f4, f * f3);
         final Vec3d sumVec = eyeVec.addVector(lookVec.xCoord * reach, lookVec.yCoord * reach, lookVec.zCoord * reach);
         final Box axis = BlockUtils.getBlockState(pos).getCollisionShape(mc.world, pos, BlockUtils.getBlockState(pos));
@@ -1346,10 +1346,10 @@ public class Utils implements IMinecraftInstance {
         final Vec3d getPositionEyes = self.getPositionEyes(1.0f);
         final float rotationYaw = self.rotationYaw;
         final float rotationPitch = self.rotationPitch;
-        final float cos = MathHelper.cos(-rotationYaw * 0.017453292f - 3.1415927f);
-        final float sin = MathHelper.sin(-rotationYaw * 0.017453292f - 3.1415927f);
-        final float n2 = -MathHelper.cos(-rotationPitch * 0.017453292f);
-        final Vec3d vec3 = new Vec3d((double)(sin * n2), (double)MathHelper.sin(-rotationPitch * 0.017453292f), cos * n2);
+        final float cos = Math.cos(-rotationYaw * 0.017453292f - 3.1415927f);
+        final float sin = Math.sin(-rotationYaw * 0.017453292f - 3.1415927f);
+        final float n2 = -Math.cos(-rotationPitch * 0.017453292f);
+        final Vec3d vec3 = new Vec3d((double)(sin * n2), (double)Math.sin(-rotationPitch * 0.017453292f), cos * n2);
         final Vec3d addVector = getPositionEyes.addVector(vec3.xCoord * (double)range, vec3.yCoord * (double)range, vec3.zCoord * (double)range);
         Vec3d vec4 = null;
         final List getEntitiesWithinAABBExcludingEntity = mc.world.getEntitiesWithinAABBExcludingEntity(mc.getRenderViewEntity(), mc.getRenderViewEntity().getEntityBoundingBox().addCoord(vec3.xCoord * (double)range, vec3.yCoord * (double)range, vec3.zCoord * (double)range).expand(1.0, 1.0, 1.0));

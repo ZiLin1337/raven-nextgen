@@ -280,11 +280,11 @@ public class BridgeAssist extends Module {
         float yaw = mc.player.rotationYaw;
 
         Box bbox = mc.player.getEntityBoundingBox();
-        int standY = MathHelper.floor_double(bbox.minY) - 1;
-        int minX = MathHelper.floor_double(bbox.minX);
-        int maxX = MathHelper.floor_double(bbox.maxX);
-        int minZ = MathHelper.floor_double(bbox.minZ);
-        int maxZ = MathHelper.floor_double(bbox.maxZ);
+        int standY = Math.floor_double(bbox.minY) - 1;
+        int minX = Math.floor_double(bbox.minX);
+        int maxX = Math.floor_double(bbox.maxX);
+        int minZ = Math.floor_double(bbox.minZ);
+        int maxZ = Math.floor_double(bbox.maxZ);
 
         ArrayList<FaceTarget> targets = new ArrayList<>();
         for (int x = minX; x <= maxX; x++) {

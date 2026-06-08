@@ -433,7 +433,7 @@ public class BedAura extends Module {
         }
         to = new Vec3d(to.xCoord / len, to.yCoord / len, to.zCoord / len);
         double dot = look.xCoord * to.xCoord + look.yCoord * to.yCoord + look.zCoord * to.zCoord;
-        double ang = Math.acos(MathHelper.clamp_double(dot, -1.0, 1.0)) * (180.0 / Math.PI);
+        double ang = Math.acos(Math.clamp_double(dot, -1.0, 1.0)) * (180.0 / Math.PI);
         return ang <= fovDeg * 0.5;
     }
 

@@ -16,6 +16,8 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import keystrokesmod.utility.shader.GlowShader;
 import keystrokesmod.utility.shader.OutlineShader;
+import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.render.model.BakedModel;
 
 
 

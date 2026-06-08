@@ -343,12 +343,12 @@ public class BlockUtils implements IMinecraftInstance {
         if (Double.isNaN(start.xCoord) || Double.isNaN(start.yCoord) || Double.isNaN(start.zCoord)) return null;
         if (Double.isNaN(end.xCoord) || Double.isNaN(end.yCoord) || Double.isNaN(end.zCoord)) return null;
 
-        int destX = MathHelper.floor_double(end.xCoord);
-        int destY = MathHelper.floor_double(end.yCoord);
-        int destZ = MathHelper.floor_double(end.zCoord);
-        int curX = MathHelper.floor_double(start.xCoord);
-        int curY = MathHelper.floor_double(start.yCoord);
-        int curZ = MathHelper.floor_double(start.zCoord);
+        int destX = Math.floor_double(end.xCoord);
+        int destY = Math.floor_double(end.yCoord);
+        int destZ = Math.floor_double(end.zCoord);
+        int curX = Math.floor_double(start.xCoord);
+        int curY = Math.floor_double(start.yCoord);
+        int curZ = Math.floor_double(start.zCoord);
 
         HitResult firstHit = null;
 
@@ -402,9 +402,9 @@ public class BlockUtils implements IMinecraftInstance {
                 tracePos = new Vec3d(tracePos.xCoord + dx * tZ, tracePos.yCoord + dy * tZ, boundZ);
             }
 
-            curX = MathHelper.floor_double(tracePos.xCoord) - (face == Direction.EAST ? 1 : 0);
-            curY = MathHelper.floor_double(tracePos.yCoord) - (face == Direction.UP ? 1 : 0);
-            curZ = MathHelper.floor_double(tracePos.zCoord) - (face == Direction.SOUTH ? 1 : 0);
+            curX = Math.floor_double(tracePos.xCoord) - (face == Direction.EAST ? 1 : 0);
+            curY = Math.floor_double(tracePos.yCoord) - (face == Direction.UP ? 1 : 0);
+            curZ = Math.floor_double(tracePos.zCoord) - (face == Direction.SOUTH ? 1 : 0);
 
             candidate = getBlockCollisionHit(curX, curY, curZ, start, end);
             if (candidate != null) {

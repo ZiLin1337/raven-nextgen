@@ -4,7 +4,7 @@ import keystrokesmod.module.impl.client.Gui;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.font.RavenTextRenderer;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.TextFieldWidget;
+import net.minecraft.client.gui.widget.TextFieldWidget;
 // Removed: ReflectionHelper not in Fabric
 import org.lwjgl.opengl.GL11;
 

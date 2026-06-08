@@ -11,7 +11,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MovementType;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Math;
 import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -63,7 +63,7 @@ public abstract class MixinEntity {
 
         float f = strafe * strafe + forward * forward;
         if (f >= 1.0E-4F) {
-            f = MathHelper.sqrt(f);
+            f = Math.sqrt(f);
             if (f < 1.0F) {
                 f = 1.0F;
             }
@@ -71,8 +71,8 @@ public abstract class MixinEntity {
             strafe *= f;
             forward *= f;
 
-            float sinYaw = MathHelper.sin(yaw * (float) Math.PI / 180.0F);
-            float cosYaw = MathHelper.cos(yaw * (float) Math.PI / 180.0F);
+            float sinYaw = Math.sin(yaw * (float) Math.PI / 180.0F);
+            float cosYaw = Math.cos(yaw * (float) Math.PI / 180.0F);
             this.velocityX += (double)(strafe * cosYaw - forward * sinYaw);
             this.velocityZ += (double)(forward * cosYaw + strafe * sinYaw);
         }
@@ -95,10 +95,10 @@ public abstract class MixinEntity {
         pitch = event.pitch;
         yaw = event.yaw;
 
-        float f = MathHelper.cos(-yaw * (float) (Math.PI / 180.0) - (float) Math.PI);
-        float f1 = MathHelper.sin(-yaw * (float) (Math.PI / 180.0) - (float) Math.PI);
-        float f2 = -MathHelper.cos(-pitch * (float) (Math.PI / 180.0));
-        float f3 = MathHelper.sin(-pitch * (float) (Math.PI / 180.0));
+        float f = Math.cos(-yaw * (float) (Math.PI / 180.0) - (float) Math.PI);
+        float f1 = Math.sin(-yaw * (float) (Math.PI / 180.0) - (float) Math.PI);
+        float f2 = -Math.cos(-pitch * (float) (Math.PI / 180.0));
+        float f3 = Math.sin(-pitch * (float) (Math.PI / 180.0));
 
         cir.setReturnValue(new Vec3d(f1 * f2, f3, f * f2));
     }

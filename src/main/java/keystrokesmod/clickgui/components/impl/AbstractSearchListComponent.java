@@ -9,7 +9,7 @@ import keystrokesmod.utility.Timer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderSystem;
 import net.minecraft.client.render.RenderSystem;
-import net.minecraft.client.render.entity.ItemRenderer;
+import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;

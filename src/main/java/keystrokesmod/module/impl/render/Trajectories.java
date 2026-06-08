@@ -197,12 +197,12 @@ public class Trajectories extends Module {
         Box waterCheckBox = entityBox.expand(0.0D, WATER_CHECK_EXPAND_Y, 0.0D)
                 .contract(WATER_CHECK_CONTRACT, WATER_CHECK_CONTRACT, WATER_CHECK_CONTRACT);
 
-        int minX = MathHelper.floor_double(waterCheckBox.minX);
-        int maxX = MathHelper.floor_double(waterCheckBox.maxX + 1.0D);
-        int minY = MathHelper.floor_double(waterCheckBox.minY);
-        int maxY = MathHelper.floor_double(waterCheckBox.maxY + 1.0D);
-        int minZ = MathHelper.floor_double(waterCheckBox.minZ);
-        int maxZ = MathHelper.floor_double(waterCheckBox.maxZ + 1.0D);
+        int minX = Math.floor_double(waterCheckBox.minX);
+        int maxX = Math.floor_double(waterCheckBox.maxX + 1.0D);
+        int minY = Math.floor_double(waterCheckBox.minY);
+        int maxY = Math.floor_double(waterCheckBox.maxY + 1.0D);
+        int minZ = Math.floor_double(waterCheckBox.minZ);
+        int maxZ = Math.floor_double(waterCheckBox.maxZ + 1.0D);
 
         if (!mc.world.isAreaLoaded(new BlockPos(minX, minY, minZ), new BlockPos(maxX, maxY, maxZ), true)) {
             return new FluidState(false, false, new Vec3d(0.0D, 0.0D, 0.0D));
@@ -365,12 +365,12 @@ public class Trajectories extends Module {
 
     private BlockCollisionResult rayTraceBlockCollisionBoxes(Vec3d start, Vec3d end, TrajectoryProps props) {
         Box sweepBounds = getBlockSweepBounds(start, end);
-        int minX = MathHelper.floor_double(sweepBounds.minX);
-        int maxX = MathHelper.floor_double(sweepBounds.maxX + 1.0D);
-        int minY = MathHelper.floor_double(sweepBounds.minY);
-        int maxY = MathHelper.floor_double(sweepBounds.maxY + 1.0D);
-        int minZ = MathHelper.floor_double(sweepBounds.minZ);
-        int maxZ = MathHelper.floor_double(sweepBounds.maxZ + 1.0D);
+        int minX = Math.floor_double(sweepBounds.minX);
+        int maxX = Math.floor_double(sweepBounds.maxX + 1.0D);
+        int minY = Math.floor_double(sweepBounds.minY);
+        int maxY = Math.floor_double(sweepBounds.maxY + 1.0D);
+        int minZ = Math.floor_double(sweepBounds.minZ);
+        int maxZ = Math.floor_double(sweepBounds.maxZ + 1.0D);
 
         if (!mc.world.isAreaLoaded(new BlockPos(minX, minY, minZ), new BlockPos(maxX, maxY, maxZ), true)) {
             return new BlockCollisionResult(null, Double.MAX_VALUE);
@@ -524,14 +524,14 @@ public class Trajectories extends Module {
 
         float yaw = (float) Math.toRadians(player.rotationYaw);
         float pitch = (float) Math.toRadians(player.rotationPitch);
-        double posX = player.lastTickPosX + (player.posX - player.lastTickPosX) * partialTicks - MathHelper.cos(yaw) * 0.16f;
+        double posX = player.lastTickPosX + (player.posX - player.lastTickPosX) * partialTicks - Math.cos(yaw) * 0.16f;
         double posY = player.lastTickPosY + (player.posY - player.lastTickPosY) * partialTicks + player.getEyeHeight() - 0.10;
-        double posZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * partialTicks - MathHelper.sin(yaw) * 0.16f;
+        double posZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * partialTicks - Math.sin(yaw) * 0.16f;
         double hiddenRenderDistance = mc.options.thirdPersonView == 0 ? FIRST_PERSON_RENDER_CLIP_DISTANCE : 0.0D;
 
-        double motX = -MathHelper.sin(yaw) * MathHelper.cos(pitch);
-        double motY = -MathHelper.sin(pitch);
-        double motZ = MathHelper.cos(yaw) * MathHelper.cos(pitch);
+        double motX = -Math.sin(yaw) * Math.cos(pitch);
+        double motY = -Math.sin(pitch);
+        double motZ = Math.cos(yaw) * Math.cos(pitch);
         double len = Math.sqrt(motX * motX + motY * motY + motZ * motZ);
         motX /= len;
         motY /= len;

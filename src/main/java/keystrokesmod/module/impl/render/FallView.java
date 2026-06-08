@@ -14,7 +14,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.Math;
 
 
 
@@ -166,7 +166,7 @@ public class FallView extends Module {
         }
         else {
             float damagePoints = fallDistance - 3.0f - jumpAmplifier;
-            double damage = Math.max(0, MathHelper.ceiling_double_int(damagePoints));
+            double damage = Math.max(0, Math.ceiling_double_int(damagePoints));
 
             if (hasResistance && damage > 0) {
                 int resistanceReduction = resistanceLevel * 5;
@@ -178,7 +178,7 @@ public class FallView extends Module {
                 damage = (25 - enchantmentModifier) * damage / 25.0;
             }
 
-            finalDamage = MathHelper.ceiling_double_int(damage);
+            finalDamage = Math.ceiling_double_int(damage);
             if (damageCache.size() >= MAX_CACHE_SIZE) {
                 damageCache.clear();
             }
@@ -274,7 +274,7 @@ public class FallView extends Module {
     private Color getDistanceColor(float distance) {
         float minDistance = 2.5f;
         float maxDistance = 20.0f;
-        float normalized = MathHelper.clamp_float((distance - minDistance) / (maxDistance - minDistance), 0.0f, 1.0f);
+        float normalized = Math.clamp_float((distance - minDistance) / (maxDistance - minDistance), 0.0f, 1.0f);
 
         int red = 255;
         int green = (int) (255 * (1.0f - normalized));
