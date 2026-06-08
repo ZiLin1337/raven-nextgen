@@ -28,7 +28,6 @@ import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolItem;
-import net.minecraftforge.client.event.RenderLivingEvent;
 
 
 
@@ -168,7 +167,7 @@ public class Nametags extends Module {
     }
 
     
-    public void onRenderLiving(/* RenderLivingEvent.Specials.Pre */ event) {
+    public void onRenderLiving(Object event) {
         if (!hideVanilla.isToggled()) {
             return;
         }

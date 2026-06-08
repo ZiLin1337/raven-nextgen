@@ -25,7 +25,6 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.hit.HitResult;
-import net.minecraftforge.client.event./* DrawBlockHighlightEvent */;
 
 
 import org.lwjgl.opengl.GL11;
@@ -102,7 +101,7 @@ public class BlockOverlay extends Module {
     }
 
     
-    public void onDrawBlockHighlight(/* DrawBlockHighlightEvent */ e) {
+    public void onDrawBlockHighlight(Object e) {
         int mode = (int) renderMode.getInput();
         if (mode == 0) {
             e.setCanceled(true);
