@@ -37,52 +37,9 @@ public class Manager extends Module {
         super("Manager", category.scripts);
         this.registerSetting(createScriptName = new TextSetting("Script name", "", "Type a script name...", 32, this::createScript));
         this.registerSetting(new ButtonSetting("Create script", this::createScript));
-        this.registerSetting(new ButtonSetting("Load scripts", () -> {
-            if (Raven.scriptManager.compiler == null) {
-                Utils.sendMessage("&cCompiler error, JDK not found");
-            }
-            else {
-                final long currentTimeMillis = System.currentTimeMillis();
-                if (Utils.timeBetween(this.lastLoad, currentTimeMillis) > 1500) {
-                    this.lastLoad = currentTimeMillis;
-                    Raven.scriptManager.loadScripts();
-                    if (Raven.scriptManager.scripts.isEmpty()) {
-                        Utils.sendMessage("&7No scripts found.");
-                    }
-                    else {
-                        double timeTaken = Utils.round((System.currentTimeMillis() - currentTimeMillis) / 1000.0, 1);
-                        Utils.sendMessage("&7Loaded &b" + Raven.scriptManager.scripts.size() + " &7script" + ((Raven.scriptManager.scripts.size() == 1) ? "" : "s") + " in &b" + Utils.asWholeNum(timeTaken) + "&7s.");
-                    }
-                    Entity.clearCache();
-                    NetworkPlayer.clearCache();
-                    Image.clearCache();
-                    ScriptDefaults.reloadModules();
-                    if (Raven.currentProfile != null && Raven.currentProfile.getModule() != null) {
-                        Raven.currentProfile.getModule().saved = false;
-                    }
-                }
-                else {
-                    Utils.sendMessage("&cYou are on cooldown.");
-                }
-            }
-        });
-        this.registerSetting(new ButtonSetting("Open folder", () -> {
-            try {
-                Desktop.getDesktop().open(Raven.scriptManager.directory);
-            }
-            catch (IOException ex) {
-                Raven.scriptManager.directory.mkdirs();
-                Utils.sendMessage("&cError locating folder, recreated.");
-            }
-        });
-        this.registerSetting(new ButtonSetting("View documentation", () -> {
-            try {
-                Desktop.getDesktop().browse(new URI(DOCUMENTATION_URL));
-            }
-            catch (Throwable t) {
-                Sys.openURL(DOCUMENTATION_URL);
-            }
-        });
+        this.registerSetting(new ButtonSetting("Load scripts", this::loadScriptsButton));
+        this.registerSetting(new ButtonSetting("Open folder", this::openScriptsFolder));
+        this.registerSetting(new ButtonSetting("View documentation", this::openDocumentation));
         this.registerSetting(new DescriptionSetting("Privacy"));
         this.registerSetting(enableHttpRequests = new ButtonSetting("Enable http requests", true));
         this.registerSetting(enableWebSockets = new ButtonSetting("Enable websockets", true));
@@ -90,6 +47,50 @@ public class Manager extends Module {
         this.ignoreOnSave = true;
 
         retrieveSettings();
+    }
+
+    private void loadScriptsButton() {
+        if (Raven.scriptManager.compiler == null) {
+            Utils.sendMessage("&cCompiler error, JDK not found");
+            return;
+        }
+        final long currentTimeMillis = System.currentTimeMillis();
+        if (Utils.timeBetween(this.lastLoad, currentTimeMillis) <= 1500) {
+            Utils.sendMessage("&cYou are on cooldown.");
+            return;
+        }
+        this.lastLoad = currentTimeMillis;
+        Raven.scriptManager.loadScripts();
+        if (Raven.scriptManager.scripts.isEmpty()) {
+            Utils.sendMessage("&7No scripts found.");
+        } else {
+            double timeTaken = Utils.round((System.currentTimeMillis() - currentTimeMillis) / 1000.0, 1);
+            Utils.sendMessage("&7Loaded &b" + Raven.scriptManager.scripts.size() + " &7script" + ((Raven.scriptManager.scripts.size() == 1) ? "" : "s") + " in &b" + Utils.asWholeNum(timeTaken) + "&7s.");
+        }
+        Entity.clearCache();
+        NetworkPlayer.clearCache();
+        Image.clearCache();
+        ScriptDefaults.reloadModules();
+        if (Raven.currentProfile != null && Raven.currentProfile.getModule() != null) {
+            Raven.currentProfile.getModule().saved = false;
+        }
+    }
+
+    private void openScriptsFolder() {
+        try {
+            Desktop.getDesktop().open(Raven.scriptManager.directory);
+        } catch (IOException ex) {
+            Raven.scriptManager.directory.mkdirs();
+            Utils.sendMessage("&cError locating folder, recreated.");
+        }
+    }
+
+    private void openDocumentation() {
+        try {
+            Desktop.getDesktop().browse(new URI(DOCUMENTATION_URL));
+        } catch (Throwable t) {
+            Sys.openURL(DOCUMENTATION_URL);
+        }
     }
 
     @Override
