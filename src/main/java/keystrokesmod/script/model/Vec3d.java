@@ -1,6 +1,5 @@
 package keystrokesmod.script.model;
-
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.BlockPos;
 
 public class Vec3d {
     public double x, y, z;
