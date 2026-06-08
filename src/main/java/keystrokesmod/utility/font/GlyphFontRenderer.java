@@ -19,7 +19,7 @@ import java.nio.ByteBuffer;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public final class GlyphTextRenderer implements RavenTextRenderer {
+public final class GlyphFontRenderer implements RavenTextRenderer {
     private static final int FIRST_GLYPH = 0;
     private static final int LAST_GLYPH = 255;
     private static final int CHANNEL_MASK = 0xFF;

@@ -10,7 +10,7 @@ import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityTypet;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.EnderPearlItem;
 import net.minecraft.item.SpawnEggItem;
@@ -183,7 +183,7 @@ public class SkyWars extends Module {
                 if (!(p.getStack().getItem() instanceof SpawnEggItem)) {
                     return;
                 }
-                Class<? extends Entity> oclass = EntityTypet.stringToClassMapping.get(SpawnEggItem.getEntityName(p.getStack()));
+                Class<? extends Entity> oclass = EntityType.stringToClassMapping.get(SpawnEggItem.getEntityName(p.getStack()));
                 if (oclass == null) {
                     return;
                 }

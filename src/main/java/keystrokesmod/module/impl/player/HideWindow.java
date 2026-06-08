@@ -83,7 +83,7 @@ public class HideWindow extends Module {
                 return;
             }
 
-            HandledScreen gui = (HandledScreenr) event.gui;
+            HandledScreen gui = (HandledScreen) event.gui;
             if (onlyWhileCrouching.isToggled() && !mc.player.isSneaking()) {
                 return;
             }
@@ -215,7 +215,7 @@ public class HideWindow extends Module {
         relativePosY = absoluteY / h;
     }
 
-    private boolean matchesWhitelist(HandledScreenr gui) {
+    private boolean matchesWhitelist(HandledScreen gui) {
         java.util.List<String> entries = whitelistEntries.getEntries();
         if (entries.isEmpty()) {
             return false;
@@ -233,7 +233,7 @@ public class HideWindow extends Module {
         return false;
     }
 
-    private static String getContainerTitle(HandledScreenr gui) {
+    private static String getContainerTitle(HandledScreen gui) {
         if (gui.inventorySlots instanceof ContainerChest) {
             return ((ContainerChest) gui.inventorySlots)
                     .getLowerChestInventory()

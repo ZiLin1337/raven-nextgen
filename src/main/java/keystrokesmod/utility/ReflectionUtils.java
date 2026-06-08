@@ -89,7 +89,7 @@ public class ReflectionUtils {
     public static boolean setItemInUse(boolean blocking) {
         MinecraftClient mc = MinecraftClient.getInstance();
         if (mc.getItemRenderer() != null) {
-            ((IMixinItemRenderer) mc.getItemRenderer()).setItemRenderermInUse(blocking);
+            ((IMixinItemRenderer) mc.getItemRenderer()).setItemRendererInUse(blocking);
         }
         return blocking;
     }

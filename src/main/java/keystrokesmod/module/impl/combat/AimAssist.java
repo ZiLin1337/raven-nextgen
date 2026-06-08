@@ -31,7 +31,7 @@ public class AimAssist extends Module {
 
     private ButtonSetting aimInvis;
     private ButtonSetting clickAim;
-    private ButtonSetting ignoreTeammates;
+    private ButtonSetting ignoreTeamates;
     private ButtonSetting ignoreBehindWalls;
     private ButtonSetting ignoreBehindEntities;
     private ButtonSetting stopWhenBreaking;
@@ -58,7 +58,7 @@ public class AimAssist extends Module {
         this.registerSetting(ignoreBehindEntities = new ButtonSetting("Ignore behind entities", false));
         this.registerSetting(aimInvis = new ButtonSetting("Aim invis", false));
         this.registerSetting(clickAim = new ButtonSetting("Require mouse", true));
-        this.registerSetting(ignoreTeammates = new ButtonSetting("Ignore teammates", true));
+        this.registerSetting(ignoreTeamates = new ButtonSetting("Ignore teammates", true));
         this.registerSetting(stopWhenBreaking = new ButtonSetting("Stop when breaking", false));
         this.registerSetting(keepMoveDirection = new ButtonSetting("Keep move direction", true));
         this.registerSetting(hoverDelay = new SliderSetting("Hover delay", " ms", 100, 0, 500, 10));
@@ -148,7 +148,7 @@ public class AimAssist extends Module {
             if (Utils.isFriended(entityPlayer)) {
                 continue;
             }
-            if (ignoreTeammates.isToggled() && Utils.isTeammate(entityPlayer)) {
+            if (ignoreTeamates.isToggled() && Utils.isTeamate(entityPlayer)) {
                 continue;
             }
             if (!aimInvis.isToggled() && entityPlayer.isInvisible()) {

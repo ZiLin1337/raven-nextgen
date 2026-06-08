@@ -1,7 +1,7 @@
 package keystrokesmod.utility;
 
 import keystrokesmod.module.setting.impl.ItemListSetting;
-import net.minecraft.creativetab.ItemGroup;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.AxeItem;

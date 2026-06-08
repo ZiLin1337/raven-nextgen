@@ -66,7 +66,7 @@ public class Displace extends Module {
     private final ButtonSetting showDirection;
     private final ButtonSetting findVoid;
     private final ButtonSetting blink;
-    private final ButtonSetting ignoreTeammates;
+    private final ButtonSetting ignoreTeamates;
     private final ButtonSetting hasKnockback;
     private final ButtonSetting itemWhitelistToggle;
     private final ItemListSetting itemWhitelist;
@@ -111,7 +111,7 @@ public class Displace extends Module {
         this.registerSetting(showDirection = new ButtonSetting("Show direction", true));
         this.registerSetting(findVoid = new ButtonSetting("Find void", false));
         this.registerSetting(blink = new ButtonSetting("Blink", false));
-        this.registerSetting(ignoreTeammates = new ButtonSetting("Ignore teammates", true));
+        this.registerSetting(ignoreTeamates = new ButtonSetting("Ignore teammates", true));
         this.registerSetting(new DescriptionSetting("Item conditions"));
         this.registerSetting(hasKnockback = new ButtonSetting("Has knockback", false));
         this.registerSetting(itemWhitelistToggle = new ButtonSetting("Item whitelist", false));
@@ -651,7 +651,7 @@ public class Displace extends Module {
         boolean attacking = mc.options.keyBindAttack.isKeyDown()
                 || (ModuleManager.killAura != null && ModuleManager.killAura.isEnabled() && KillAura.target != null);
         if (attacking) {
-            target = CombatTargeting.findClosestTarget(9.0, ignoreTeammates.isToggled());
+            target = CombatTargeting.findClosestTarget(9.0, ignoreTeamates.isToggled());
         }
 
         boolean hasKBEnchant = EnchantmentHelper.getKnockbackModifier(mc.player) > 0;

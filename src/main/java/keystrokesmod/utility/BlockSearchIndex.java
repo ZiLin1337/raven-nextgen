@@ -2,7 +2,7 @@ package keystrokesmod.utility;
 
 import keystrokesmod.module.setting.impl.BlockListSetting;
 import net.minecraft.block.Block;
-import net.minecraft.creativetab.ItemGroup;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Items;
 import net.minecraft.item.Item;

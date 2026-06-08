@@ -10,14 +10,14 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.BlockUtils;
 import keystrokesmod.utility.PlayerData;
 import keystrokesmod.utility.Utils;
-import net.minecraft.block.Blocks.AIRr;
+import net.minecraft.block.Blocks.AIR;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.item.BlockItem;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.text.Text;
-import net.minecraft.util.Stylee;
+import net.minecraft.util.Style;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -26,7 +26,7 @@ public class Anticheat extends Module {
     private SliderSetting interval;
     private ButtonSetting enemyAdd;
     private ButtonSetting autoReport;
-    private ButtonSetting ignoreTeammates;
+    private ButtonSetting ignoreTeamates;
     private ButtonSetting atlasSuspect;
     private ButtonSetting shouldPing;
     private ButtonSetting autoBlock;
@@ -47,7 +47,7 @@ public class Anticheat extends Module {
         this.registerSetting(interval = new SliderSetting("Flag interval", " second", 20.0, 0.0, 60.0, 1.0));
         this.registerSetting(enemyAdd = new ButtonSetting("Add cheaters as enemy", false));
         this.registerSetting(autoReport = new ButtonSetting("Auto report", false));
-        this.registerSetting(ignoreTeammates = new ButtonSetting("Ignore teammates", false));
+        this.registerSetting(ignoreTeamates = new ButtonSetting("Ignore teammates", false));
         this.registerSetting(atlasSuspect = new ButtonSetting("Only atlas suspect", false));
         this.registerSetting(shouldPing = new ButtonSetting("Should ping", true));
         this.registerSetting(new DescriptionSetting("Detected cheats"));
@@ -65,7 +65,7 @@ public class Anticheat extends Module {
     }
 
     private void alert(PlayerEntity entityPlayer, ButtonSetting mode) {
-        if (Utils.isFriended(entityPlayer) || (ignoreTeammates.isToggled() && Utils.isTeammate(entityPlayer))) {
+        if (Utils.isFriended(entityPlayer) || (ignoreTeamates.isToggled() && Utils.isTeamate(entityPlayer))) {
             return;
         }
         if (atlasSuspect.isToggled()) {
@@ -92,9 +92,9 @@ public class Anticheat extends Module {
             flags.put(entityPlayer.getUniqueID(), hashMap);
         }
         Text chatComponentText = new ChatComponentText(Utils.formatColor("&7[&dR&7]&r " + entityPlayer.getDisplayName().getUnformattedText() + " &7detected for &d" + mode.getName()));
-        Stylee chatStyle = new Stylee();
+        Style chatStyle = new Style();
         chatStyle.setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/wdr " + entityPlayer.getName()));
-        chatComponentText.appendSibling(new ChatComponentText(Utils.formatColor(" §7[§cWDR§7]")).setStylee(chatStyle));
+        chatComponentText.appendSibling(new ChatComponentText(Utils.formatColor(" §7[§cWDR§7]")).setStyle(chatStyle));
         mc.player.sendMessage(Text.literal(chatComponentText));
         postAntiCheatFlagEvent(mode.getName(), entityPlayer);
         if (shouldPing.isToggled() && Utils.timeBetween(lastAlert, currentTimeMillis) >= 1500L) {
@@ -164,7 +164,7 @@ public class Anticheat extends Module {
             boolean overAir = true;
             BlockPos blockPos = entityPlayer.getPosition().down(2);
             for (int i = 0; i < 4; ++i) {
-                if (!(BlockUtils.getBlockState(blockPos) instanceof Blocks.AIRr)) {
+                if (!(BlockUtils.getBlockState(blockPos) instanceof Blocks.AIR)) {
                     overAir = false;
                     break;
                 }

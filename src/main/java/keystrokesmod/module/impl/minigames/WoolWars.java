@@ -12,7 +12,7 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks.AIRr;
+import net.minecraft.block.Blocks.AIR;
 import net.minecraft.block.StairsBlock;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.block.Blocks;
@@ -226,7 +226,7 @@ public class WoolWars extends Module {
             for (int xOffset = -1; xOffset <= 1; ++xOffset) {
                 BlockPos pos = new BlockPos(middlePos.getX() + xOffset, middlePos.getY(), middlePos.getZ() + zOffset);
                 if (airOnly) {
-                    if (!(BlockUtils.getBlockState(pos) instanceof Blocks.AIRr)) {
+                    if (!(BlockUtils.getBlockState(pos) instanceof Blocks.AIR)) {
                         continue;
                     }
                 } else if (!isControlPointBlock(pos, true)) {

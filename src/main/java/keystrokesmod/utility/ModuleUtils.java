@@ -6,7 +6,7 @@ import keystrokesmod.module.impl.combat.Velocity;
 import keystrokesmod.module.impl.movement.LongJump;
 import keystrokesmod.module.impl.render.HUD;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks.AIRr;
+import net.minecraft.block.Blocks.AIR;
 import keystrokesmod.module.ModuleManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.c2s.play.*;
@@ -216,7 +216,7 @@ public class ModuleUtils implements IMinecraftInstance {
 
             if ((!ModuleUtils.damage || Velocity.vertical.getInput() == 0) && !mc.player.isCollidedHorizontally) {
 
-                if (!(block instanceof Blocks.AIRr) || (blockBelow instanceof Blocks.AIRr && blockBelow2 instanceof Blocks.AIRr)) {
+                if (!(block instanceof Blocks.AIR) || (blockBelow instanceof Blocks.AIR && blockBelow2 instanceof Blocks.AIR)) {
                     resetLowhop();
                 }
                 switch ((int) ModuleManager.bHop.mode.getInput()) {

@@ -5,7 +5,7 @@ import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.DescriptionSetting;
 import keystrokesmod.utility.Utils;
 import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.scoreboard.Teamm;
+import net.minecraft.scoreboard.Team;
 // Removed Forge event
 
 public class AutoWho extends Module {
@@ -81,7 +81,7 @@ public class AutoWho extends Module {
                 if (hideMessage.isToggled()) {
                     online = online + networkPlayerInfo.getGameProfile().getName() + ", ";
                 } else {
-                    online = online + Teamm.formatPlayerName(networkPlayerInfo.getPlayerTeam(), networkPlayerInfo.getGameProfile().getName()) + "�" + "7, ";
+                    online = online + Team.formatPlayerName(networkPlayerInfo.getPlayerTeam(), networkPlayerInfo.getGameProfile().getName()) + "�" + "7, ";
                 }
             }
             if (hideMessage.isToggled()) {

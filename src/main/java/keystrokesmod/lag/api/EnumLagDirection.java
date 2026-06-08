@@ -3,7 +3,6 @@ package keystrokesmod.lag.api;
 import keystrokesmod.utility.IMinecraftInstance;
 import keystrokesmod.utility.Utils;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.ThreadQuickExitException;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,7 +15,6 @@ public enum EnumLagDirection implements IMinecraftInstance {
     INBOUND(packet -> {
                 try {
                     ((Packet<ClientPlayNetworkHandler>) packet).processPacket(mc.getNetworkHandler());
-                } catch (final @NotNull ThreadQuickExitException ignored) {
                     // minecraft uses an exception to indicate something getting scheduled... why?
                 } catch (final @NotNull Exception e) {
                     Utils.sendDebugMessage("error while handling packet: " + packet.getClass().getSimpleName());

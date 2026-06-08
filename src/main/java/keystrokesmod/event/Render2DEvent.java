@@ -1,11 +1,11 @@
-package keystrokesmod.event.impl;
+package keystrokesmod.event;
 
 import net.minecraft.client.gui.DrawContext;
 
 /**
  * 1.21.4 compatible Render2D event
  */
-public class Render2DEvent {
+public class Render2DEvent extends Event {
     public final DrawContext drawContext;
     public final int screenWidth;
     public final int screenHeight;

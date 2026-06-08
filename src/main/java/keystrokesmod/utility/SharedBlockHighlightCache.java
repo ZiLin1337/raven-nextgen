@@ -245,8 +245,8 @@ public final class SharedBlockHighlightCache {
         if (!anyConsumerActive()) {
             return;
         }
-        if (e.getPacket() instanceof S23PacketBlockChange) {
-            S23PacketBlockChange pkt = (S23PacketBlockChange) e.getPacket();
+        if (e.getPacket() instanceof BlockUpdateS2CPacket) {
+            BlockUpdateS2CPacket pkt = (BlockUpdateS2CPacket) e.getPacket();
             onBlockChange(pkt.getBlockPosition(), pkt.getBlockState());
         } else if (e.getPacket() instanceof S22PacketMultiBlockChange) {
             S22PacketMultiBlockChange pkt = (S22PacketMultiBlockChange) e.getPacket();

@@ -10,7 +10,7 @@ import keystrokesmod.utility.BlockUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BedBlock;
-import net.minecraft.client.render.GameRendererr;
+import net.minecraft.client.render.GameRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.block.Blocks;
@@ -146,9 +146,9 @@ public class GhostHand extends Module {
         mc.crosshairTargetr = blockHit;
         mc.pointedEntity = null;
 
-        GameRendererr renderer = mc.entityRenderer;
-        if (renderer instanceof IAccessorGameRendererr) {
-            ((IAccessorGameRendererr) renderer).setPointedEntity(null);
+        GameRenderer renderer = mc.entityRenderer;
+        if (renderer instanceof IAccessorGameRenderer) {
+            ((IAccessorGameRenderer) renderer).setPointedEntity(null);
         }
     }
 
@@ -176,7 +176,7 @@ public class GhostHand extends Module {
         if (!(e instanceof PlayerEntity)) return throughNonPlayer.isToggled();
         PlayerEntity player = (PlayerEntity) e;
         if (AntiBot.isBot(player)) return throughBots.isToggled();
-        if (Utils.isFriended(player) || Utils.isTeammate(player)) return throughFriendlies.isToggled();
+        if (Utils.isFriended(player) || Utils.isTeamate(player)) return throughFriendlies.isToggled();
         return throughEnemies.isToggled();
     }
 

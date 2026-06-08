@@ -1494,11 +1494,11 @@ public class RenderUtils implements IMinecraftInstance {
         RenderSystem.clear(16640, false);
         RenderSystem.getModelViewStack().pushMatrix();
         RenderSystem.scale(1.0f, 1.0f, -0.01f);
-        mc.getItemRendererm().zLevel = -150.0f;
-        mc.getItemRendererm().renderItemAndEffectIntoGUI(stack, xPos, yPos);
-        mc.getItemRendererm().zLevel = 0.0f;
+        mc.getItemRenderer().zLevel = -150.0f;
+        mc.getItemRenderer().renderItemAndEffectIntoGUI(stack, xPos, yPos);
+        mc.getItemRenderer().zLevel = 0.0f;
         RenderSystem.getModelViewStack().popMatrix();
-        RenderSystemr.disableStandardItemLighting();
+        RenderSystem.disableStandardItemLighting();
         prepareGuiTextureRenderState();
         RenderSystem.disableBlend();
         RenderSystem.getModelViewStack().popMatrix();
@@ -1508,11 +1508,11 @@ public class RenderUtils implements IMinecraftInstance {
         if (stack == null) return;
 
         prepareGuiItemRenderState();
-        mc.getItemRendererm().zLevel = -150.0F;
+        mc.getItemRenderer().zLevel = -150.0F;
         RenderSystem.enableDepth();
-        RenderSystemr.enableGUIStandardItemLighting();
-        mc.getItemRendererm().renderItemAndEffectIntoGUI(stack, xPos, yPos - 8);
-        mc.getItemRendererm().zLevel = 0.0F;
+        RenderSystem.enableGUIStandardItemLighting();
+        mc.getItemRenderer().renderItemAndEffectIntoGUI(stack, xPos, yPos - 8);
+        mc.getItemRenderer().zLevel = 0.0F;
         RenderSystem.disableDepth();
         prepareGuiTextureRenderState();
         RenderSystem.disableBlend();

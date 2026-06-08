@@ -16,7 +16,7 @@ public class Piercing extends Module {
 
     private SliderSetting sortMode;
     private ButtonSetting ignoreBlocks;
-    private ButtonSetting ignoreTeammates;
+    private ButtonSetting ignoreTeamates;
     private ButtonSetting ignoreNonPlayer;
     private ButtonSetting weaponOnly;
     private ButtonSetting insideHitboxOnly;
@@ -30,7 +30,7 @@ public class Piercing extends Module {
         this.registerSetting(sortMode = new SliderSetting("Sort mode", 0, sortModes));
         this.registerSetting(ignoreBlocks = new ButtonSetting("Ignore blocks", false));
         this.registerSetting(ignoreNonPlayer = new ButtonSetting("Ignore non-players", true));
-        this.registerSetting(ignoreTeammates = new ButtonSetting("Ignore teammates", true));
+        this.registerSetting(ignoreTeamates = new ButtonSetting("Ignore teammates", true));
         this.registerSetting(weaponOnly = new ButtonSetting("Weapon only", false));
         this.registerSetting(insideHitboxOnly = new ButtonSetting("Inside hitbox only", false));
     }
@@ -86,7 +86,7 @@ public class Piercing extends Module {
                 viewEntity.getEntityBoundingBox()
                         .addCoord(look.xCoord * reach, look.yCoord * reach, look.zCoord * reach)
                         .expand(1.0, 1.0, 1.0), Predicates.and(EntitySelectors.NOT_SPECTATING, Entity::canBeCollidedWith))) {
-            if ((this.ignoreNonPlayer.isToggled() && !(e instanceof PlayerEntity)) || (this.ignoreTeammates.isToggled() && Utils.isTeammate(e))
+            if ((this.ignoreNonPlayer.isToggled() && !(e instanceof PlayerEntity)) || (this.ignoreTeamates.isToggled() && Utils.isTeamate(e))
                     || AntiBot.isBot(e) || (e instanceof PlayerEntity && Utils.isFriended((PlayerEntity) e))) {
                 continue;
             }

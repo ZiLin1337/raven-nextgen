@@ -22,7 +22,7 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BedBlock;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.render.GameRendererr;
+import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.block.Blocks;
@@ -253,9 +253,9 @@ public class BedAura extends Module {
         mc.crosshairTargetr = mop;
         mc.pointedEntity = null;
 
-        GameRendererr renderer = mc.entityRenderer;
-        if (renderer instanceof IAccessorGameRendererr) {
-            ((IAccessorGameRendererr) renderer).setPointedEntity(null);
+        GameRenderer renderer = mc.entityRenderer;
+        if (renderer instanceof IAccessorGameRenderer) {
+            ((IAccessorGameRenderer) renderer).setPointedEntity(null);
         }
     }
 

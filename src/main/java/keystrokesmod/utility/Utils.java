@@ -163,17 +163,17 @@ public class Utils implements IMinecraftInstance {
             sendMessage("&7uuid: &d" + uuid.toString() + " &b" + uuid.variant() + " " + uuid.version());
             PlayerListEntry clientPlayer = mc.getNetworkHandler().getPlayerInfo(p.getUniqueID());
             sendMessage("&7ping: &d" + ((clientPlayer == null) ? "&cnot found" : clientPlayer.getResponseTime()));
-            sendMessage("&7teammate: &r" + isTeammate(p));
+            sendMessage("&7teammate: &r" + isTeamate(p));
             sendMessage("&7tablist: &r" + isInTabList(p));
             if (p.getTeam() != null) {
-                Teamm scoreTeam = (Teamm)p.getTeam();
+                Team scoreTeam = (Team)p.getTeam();
                 sendMessage("&7team name: &r" + scoreTeam.getTeamName());
                 sendMessage("&7team prefix: &r" + scoreTeam.getColorPrefix());
                 sendMessage("&7team suffix: &r" + scoreTeam.getColorSuffix());
             }
         }
         sendMessage("&7display unformatted: &r" + (hasDisplayName ? displayName.getUnformattedText() : "&cnull"));
-        sendMessage("&7insertion: &r" + (hasDisplayName ? displayName.getStylee().getInsertion() : "&cnull"));
+        sendMessage("&7insertion: &r" + (hasDisplayName ? displayName.getStyle().getInsertion() : "&cnull"));
         sendMessage("&7health: &r" + ent.getHealth());
         sendMessage("&7ht: &d" + ent.hurtTime + " &7mht: &d" + ent.maxHurtTime);
         sendMessage("&7ticks existed: &r" + ent.ticksExisted);
@@ -258,7 +258,7 @@ public class Utils implements IMinecraftInstance {
         }
 
         if (entity instanceof PlayerEntity) {
-            Teamm scoreplayerteam = (Teamm) ((LivingEntity) entity).getTeam();
+            Team scoreplayerteam = (Team) ((LivingEntity) entity).getTeam();
             if (scoreplayerteam != null) {
                 String s = TextRenderer.getFormatFromString(scoreplayerteam.getColorPrefix());
                 if (s.length() >= 2) {
@@ -324,7 +324,7 @@ public class Utils implements IMinecraftInstance {
 
     public static boolean overVoid(double posX, double posY, double posZ) {
         for (int i = (int) posY; i > -1; i--) {
-            if (!(mc.world.getBlockState(new BlockPos(posX, i, posZ)).getBlock() instanceof Blocks.AIRr)) {
+            if (!(mc.world.getBlockState(new BlockPos(posX, i, posZ)).getBlock() instanceof Blocks.AIR)) {
                 return false;
             }
         }
@@ -802,7 +802,7 @@ public class Utils implements IMinecraftInstance {
         return darkenedColor;
     }
 
-    public static boolean isTeammate(Entity entity) {
+    public static boolean isTeamate(Entity entity) {
         try {
             Entity teamMate = entity;
             if (mc.player.isOnSameTeam((LivingEntity) entity) || mc.player.getDisplayName().getUnformattedText().startsWith(teamMate.getDisplayName().getUnformattedText().substring(0, 2)) || getNetworkDisplayName().startsWith(teamMate.getDisplayName().getUnformattedText().substring(0, 2))) {
@@ -816,7 +816,7 @@ public class Utils implements IMinecraftInstance {
     public static String getNetworkDisplayName() {
         try {
             PlayerListEntry playerInfo = mc.getNetworkHandler().getPlayerInfo(mc.player.getUniqueID());
-            return Teamm.formatPlayerName(playerInfo.getPlayerTeam(), playerInfo.getGameProfile().getName());
+            return Team.formatPlayerName(playerInfo.getPlayerTeam(), playerInfo.getGameProfile().getName());
         }
         catch (Exception ignored) {}
         return "";
@@ -955,8 +955,8 @@ public class Utils implements IMinecraftInstance {
         int index = 0;
         for (final Score score : scores) {
             ++index;
-            final Teamm team = scoreboard.getPlayersTeam(score.getPlayerName());
-            lines.add(Teamm.formatPlayerName(team, score.getPlayerName()));
+            final Team team = scoreboard.getPlayersTeam(score.getPlayerName());
+            lines.add(Team.formatPlayerName(team, score.getPlayerName()));
             if (index == scores.size()) {
                 lines.add(objective.getDisplayName());
             }
@@ -1253,7 +1253,7 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static boolean blockAbove() {
-        return !(BlockUtils.getBlockState(new BlockPos(mc.player.getX(), mc.player.getY() + 2, mc.player.getZ())) instanceof Blocks.AIRr);
+        return !(BlockUtils.getBlockState(new BlockPos(mc.player.getX(), mc.player.getY() + 2, mc.player.getZ())) instanceof Blocks.AIR);
     }
 
     public static boolean onEdge() {
@@ -1458,8 +1458,8 @@ public class Utils implements IMinecraftInstance {
 
                     while (var5.hasNext()) {
                         score = (Score) var5.next();
-                        Teamm team = scoreboard.getPlayersTeam(score.getPlayerName());
-                        lines.add(Teamm.formatPlayerName(team, score.getPlayerName()));
+                        Team team = scoreboard.getPlayersTeam(score.getPlayerName());
+                        lines.add(Team.formatPlayerName(team, score.getPlayerName()));
                     }
 
                     return lines;

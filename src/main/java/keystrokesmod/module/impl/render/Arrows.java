@@ -28,7 +28,7 @@ public class Arrows extends Module {
     private SliderSetting radius;
     private SliderSetting font;
     private ButtonSetting teamColor;
-    private ButtonSetting hideTeammates;
+    private ButtonSetting hideTeamates;
     private ButtonSetting renderFriends;
     private ButtonSetting renderEnemies;
     private ButtonSetting renderDistance;
@@ -47,7 +47,7 @@ public class Arrows extends Module {
         this.registerSetting(radius = new SliderSetting("Circle radius", 50, 30, 200, 5));
         this.registerSetting(font = new SliderSetting("Font", 0, FONT_OPTIONS));
         this.registerSetting(teamColor = new ButtonSetting("Team color", true));
-        this.registerSetting(hideTeammates = new ButtonSetting("Hide teammates", true));
+        this.registerSetting(hideTeamates = new ButtonSetting("Hide teammates", true));
         this.registerSetting(renderFriends = new ButtonSetting("Render friends (green)", true));
         this.registerSetting(renderEnemies = new ButtonSetting("Render enemies (red)", true));
         this.registerSetting(renderDistance = new ButtonSetting("Render distance", true));
@@ -95,7 +95,7 @@ public class Arrows extends Module {
             if (AntiBot.isBot(en)) {
                 continue;
             }
-            if (Utils.isTeammate(en) && hideTeammates.isToggled()) {
+            if (Utils.isTeamate(en) && hideTeamates.isToggled()) {
                 continue;
             }
 
@@ -126,7 +126,7 @@ public class Arrows extends Module {
         double y = en.lastTickPosY + (en.posY - en.lastTickPosY) * partialTicks - mc.getEntityRenderDispatcher().viewerPosY + en.height / 2;
         double z = en.lastTickPosZ + (en.posZ - en.lastTickPosZ) * partialTicks - mc.getEntityRenderDispatcher().viewerPosZ;
 
-        ((IAccessorGameRendererr) mc.entityRenderer).callSetupCameraTransform(((IAccessorMinecraft) mc).getTimer().renderPartialTicks, 0);
+        ((IAccessorGameRenderer) mc.entityRenderer).callSetupCameraTransform(((IAccessorMinecraft) mc).getTimer().renderPartialTicks, 0);
 
          scaledResolution = /* ScaledResolution removed in 1.21.4 */ null;
         Vec3d vec = RenderUtils.convertTo2D(scaledResolution.getScaleFactor(), x, y, z);

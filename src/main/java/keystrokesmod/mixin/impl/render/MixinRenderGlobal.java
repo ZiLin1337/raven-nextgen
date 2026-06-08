@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(BufferBuilder.class)
-public class MixinWorldRenderer {
+public class MixinRenderGlobal {
     @Redirect(method = "setupTerrain", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getYaw(F)F"))
     private float redirectSetupTerrainYaw(Entity entity, float tickDelta) {
         if (ModuleManager.freelook != null && ModuleManager.freelook.isEnabled()

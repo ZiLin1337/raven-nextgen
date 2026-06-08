@@ -8,8 +8,8 @@ import keystrokesmod.utility.Theme;
 import keystrokesmod.utility.Timer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderSystem;
-import net.minecraft.client.render.RenderSystemr;
-import net.minecraft.client.render.entity.ItemRendererm;
+import net.minecraft.client.render.RenderSystem;
+import net.minecraft.client.render.entity.ItemRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
@@ -192,18 +192,18 @@ public abstract class AbstractSearchListComponent extends AbstractTextInputCompo
 
     protected final void renderItemInRow(ItemStack stack, float x, float rowTop) {
         if (stack == null) return;
-        ItemRendererm renderItem = MinecraftClient.getInstance().getItemRendererm();
+        ItemRenderer renderItem = MinecraftClient.getInstance().getItemRenderer();
         double scale = 0.55;
         float px = (float) (x / scale);
         float py = (float) ((rowTop + (LIST_ROW_VISUAL_HEIGHT - (float)(16 * scale)) / 2f) / scale);
         RenderSystem.pushMatrix();
         RenderSystem.scale(scale, scale, scale);
         RenderSystem.translate(px, py, 0f);
-        RenderSystemr.enableGUIStandardItemLighting();
+        RenderSystem.enableGUIStandardItemLighting();
         RenderSystem.disableBlend();
         renderItem.renderItemAndEffectIntoGUI(stack, 0, 0);
         RenderSystem.enableBlend();
-        RenderSystemr.disableStandardItemLighting();
+        RenderSystem.disableStandardItemLighting();
         RenderSystem.popMatrix();
     }
 

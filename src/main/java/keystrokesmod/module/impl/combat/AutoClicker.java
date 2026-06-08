@@ -116,7 +116,7 @@ public class AutoClicker extends Module {
             return;
         }
 
-        HandledScreen gui = (HandledScreenr) mc.currentScreen;
+        HandledScreen gui = (HandledScreen) mc.currentScreen;
         Slot slot = getHoveredSlot(gui);
         if (slot == null || slot.slotNumber < 0) {
             return;
@@ -240,11 +240,11 @@ public class AutoClicker extends Module {
             return;
         }
         try {
-            hoveredSlotField = HandledScreenr.class.getDeclaredField("theSlot");
+            hoveredSlotField = HandledScreen.class.getDeclaredField("theSlot");
             hoveredSlotField.setAccessible(true);
         } catch (NoSuchFieldException e) {
             try {
-                hoveredSlotField = HandledScreenr.class.getDeclaredField("field_147006_u");
+                hoveredSlotField = HandledScreen.class.getDeclaredField("field_147006_u");
                 hoveredSlotField.setAccessible(true);
             } catch (NoSuchFieldException ignored) {
                 hoveredSlotField = null;
@@ -252,7 +252,7 @@ public class AutoClicker extends Module {
         }
     }
 
-    private static Slot getHoveredSlot(HandledScreenr gui) {
+    private static Slot getHoveredSlot(HandledScreen gui) {
         if (hoveredSlotField == null || gui == null) {
             return null;
         }

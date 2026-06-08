@@ -264,7 +264,7 @@ public class Nametags extends Module {
             return;
         }
 
-        ((IAccessorGameRendererr) mc.entityRenderer).callSetupCameraTransform(partialTicks, 0);
+        ((IAccessorGameRenderer) mc.entityRenderer).callSetupCameraTransform(partialTicks, 0);
 
         for (int i = 0; i < renderStateCount; i++) {
             NametagRenderState renderState = renderStates.get(i);

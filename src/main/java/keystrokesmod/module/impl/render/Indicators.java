@@ -350,7 +350,7 @@ public class Indicators extends Module {
         double y = en.lastTickPosY + (en.posY - en.lastTickPosY) * partialTicks - mc.getEntityRenderDispatcher().viewerPosY + en.height / 2;
         double z = en.lastTickPosZ + (en.posZ - en.lastTickPosZ) * partialTicks - mc.getEntityRenderDispatcher().viewerPosZ;
 
-        ((IAccessorGameRendererr) mc.entityRenderer).callSetupCameraTransform(((IAccessorMinecraft) mc).getTimer().renderPartialTicks, 0);
+        ((IAccessorGameRenderer) mc.entityRenderer).callSetupCameraTransform(((IAccessorMinecraft) mc).getTimer().renderPartialTicks, 0);
 
          scaledResolution = /* ScaledResolution removed in 1.21.4 */ null;
         Vec3d vec = RenderUtils.convertTo2D(scaledResolution.getScaleFactor(), x, y, z);
@@ -456,14 +456,14 @@ public class Indicators extends Module {
                     RenderSystem.translate(renderX, renderY, 0.0);
                     RenderSystem.scale(1.0f, 1.0f, 1.0f);
                     RenderSystem.rotate((float) angle2 - 45.0f, 0.0f, 0.0f, 1.0f);
-                    mc.getItemRendererm().renderItemIntoGUI(itemStack, -12, -4);
+                    mc.getItemRenderer().renderItemIntoGUI(itemStack, -12, -4);
                 }
                 else {
                     renderX = baseX + (radiusInput - 29.0) * sinAng;
                     renderY = baseY + (radiusInput - 29.0) * cosAng;
                     RenderSystem.translate(renderX, renderY, 0.0);
                     RenderSystem.scale(1.0f, 1.0f, 1.0f);
-                    mc.getItemRendererm().renderItemIntoGUI(itemStack, -8, -9);
+                    mc.getItemRenderer().renderItemIntoGUI(itemStack, -8, -9);
                 }
                 RenderSystem.popMatrix();
             }

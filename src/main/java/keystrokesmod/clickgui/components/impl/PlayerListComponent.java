@@ -94,7 +94,7 @@ public class PlayerListComponent extends AbstractTextInputComponent {
         float offsetPx = selectedScrollAnim.getValue();
         int firstRow = (int) (offsetPx / ROW_HEIGHT);
         int end = Math.min(firstRow + MAX_VISIBLE_SELECTED + 1, entries.size());
-        Map<String, NetworkPlayerInfo> playerInfoMap = getPlayerInfoMap();
+        Map<String, PlayerListEntry> playerInfoMap = getPlayerInfoMap();
         for (int i = firstRow; i < end; i++) {
             PlayerRelationsManager.PlayerEntry entry = entries.get(i);
             float rowTop = selectedTop - offsetPx + i * ROW_HEIGHT;
@@ -131,10 +131,10 @@ public class PlayerListComponent extends AbstractTextInputComponent {
         } finally { RenderUtils.restoreGuiRenderState(depth, blend, depthMask); }
     }
 
-    private Map<String, NetworkPlayerInfo> getPlayerInfoMap() {
-        Map<String, NetworkPlayerInfo> map = new HashMap<>();
+    private Map<String, PlayerListEntry> getPlayerInfoMap() {
+        Map<String, PlayerListEntry> map = new HashMap<>();
         if (MinecraftClient.getInstance().getNetworkHandler() == null) return map;
-        for (NetworkPlayerInfo info : MinecraftClient.getInstance().getNetworkHandler().getPlayerInfoMap()) {
+        for (PlayerListEntry info : MinecraftClient.getInstance().getNetworkHandler().getPlayerInfoMap()) {
             if (info == null) continue;
             GameProfile profile = info.getGameProfile();
             if (profile == null || profile.getName() == null) continue;

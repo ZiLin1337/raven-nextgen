@@ -13,7 +13,7 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.ReflectionUtils;
 import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
-import net.minecraft.client.render.GameRendererr;
+import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.PathAwareEntity;
@@ -51,7 +51,7 @@ public class KillAura extends Module {
     private ButtonSetting disableWhileMining;
     private ButtonSetting aimThroughBlocks;
     private ButtonSetting aimThroughEntities;
-    private ButtonSetting ignoreTeammates;
+    private ButtonSetting ignoreTeamates;
     private ButtonSetting prioritizeEnemies;
     private ButtonSetting notUsingItem;
     private ButtonSetting requireMouseDown;
@@ -93,7 +93,7 @@ public class KillAura extends Module {
         this.registerSetting(aimThroughEntities = new ButtonSetting("Hit through entities", false));
         this.registerSetting(disableInInventory = new ButtonSetting("Disable in inventory", true));
         this.registerSetting(disableWhileMining = new ButtonSetting("Disable while mining", false));
-        this.registerSetting(ignoreTeammates = new ButtonSetting("Ignore teammates", true));
+        this.registerSetting(ignoreTeamates = new ButtonSetting("Ignore teammates", true));
         this.registerSetting(notUsingItem = new ButtonSetting("Not using item", false));
         this.registerSetting(prioritizeEnemies = new ButtonSetting("Prioritize enemies", false));
         this.registerSetting(requireMouseDown = new ButtonSetting("Require mouse down", false));
@@ -298,7 +298,7 @@ public class KillAura extends Module {
             if (Utils.isFriended(player) || player.deathTime != 0) {
                 return null;
             }
-            if (AntiBot.isBot(entity) || (ignoreTeammates.isToggled() && Utils.isTeammate(entity))) {
+            if (AntiBot.isBot(entity) || (ignoreTeamates.isToggled() && Utils.isTeamate(entity))) {
                 return null;
             }
         } else if (entity instanceof PathAwareEntity && attackMobs.isToggled()) {
@@ -401,7 +401,7 @@ public class KillAura extends Module {
         } else if (entityCreature instanceof SilverfishEntity) {
             String teamColor = Utils.getFirstColorCode(entityCreature.getCustomNameTag());
             String teamColorSelf = Utils.getFirstColorCode(mc.player.getDisplayName().getFormattedText());
-            return teamColor.isEmpty() || (!teamColorSelf.equals(teamColor) && !Utils.isTeammate(entityCreature));
+            return teamColor.isEmpty() || (!teamColorSelf.equals(teamColor) && !Utils.isTeamate(entityCreature));
         } else if (entityCreature instanceof IronGolemEntity) {
             if (Utils.getBedwarsStatus() != 2) {
                 return true;
@@ -425,7 +425,7 @@ public class KillAura extends Module {
                 if (nearestArmorStand != null) {
                     String teamColor = Utils.getFirstColorCode(nearestArmorStand.getDisplayName().getFormattedText());
                     String teamColorSelf = Utils.getFirstColorCode(mc.player.getDisplayName().getFormattedText());
-                    boolean isTeam = !teamColor.isEmpty() && (teamColorSelf.equals(teamColor) || Utils.isTeammate(nearestArmorStand));
+                    boolean isTeam = !teamColor.isEmpty() && (teamColorSelf.equals(teamColor) || Utils.isTeamate(nearestArmorStand));
                     golems.put(entityCreature.getEntityId(), isTeam);
                     return !isTeam;
                 }
@@ -524,9 +524,9 @@ public class KillAura extends Module {
         mc.crosshairTargetr = new HitResult(attackingEntity, hitVec);
         mc.pointedEntity = attackingEntity;
 
-        GameRendererr renderer = mc.entityRenderer;
-        if (renderer instanceof IAccessorGameRendererr) {
-            ((IAccessorGameRendererr) renderer).setPointedEntity(attackingEntity);
+        GameRenderer renderer = mc.entityRenderer;
+        if (renderer instanceof IAccessorGameRenderer) {
+            ((IAccessorGameRenderer) renderer).setPointedEntity(attackingEntity);
         }
     }
 

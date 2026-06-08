@@ -17,7 +17,7 @@ public class RodAimbot extends Module {
     private SliderSetting predicatedTicks;
     private SliderSetting distance;
     private ButtonSetting aimInvis;
-    private ButtonSetting ignoreTeammates;
+    private ButtonSetting ignoreTeamates;
     public boolean rotate;
     private boolean rightClick;
     private PlayerEntity entity;
@@ -28,7 +28,7 @@ public class RodAimbot extends Module {
         this.registerSetting(predicatedTicks = new SliderSetting("Predicted ticks", 5.0, 0.0, 20.0, 1.0));
         this.registerSetting(distance = new SliderSetting("Distance", 6, 3, 30, 0.5));
         this.registerSetting(aimInvis = new ButtonSetting("Aim invis", false));
-        this.registerSetting(ignoreTeammates = new ButtonSetting("Ignore teammates", false));
+        this.registerSetting(ignoreTeamates = new ButtonSetting("Ignore teammates", false));
     }
 
     public void onDisable() {
@@ -101,7 +101,7 @@ public class RodAimbot extends Module {
                 if (AntiBot.isBot(entityPlayer)) {
                     continue;
                 }
-                if (ignoreTeammates.isToggled() && Utils.isTeammate(entityPlayer)) {
+                if (ignoreTeamates.isToggled() && Utils.isTeamate(entityPlayer)) {
                     continue;
                 }
                 return entityPlayer;

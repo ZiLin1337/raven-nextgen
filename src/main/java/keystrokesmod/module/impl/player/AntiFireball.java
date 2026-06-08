@@ -106,7 +106,7 @@ public class AntiFireball extends Module {
         for (PlayerEntity player : mc.world.getPlayers()) {
             if (player == mc.player || player.deathTime != 0) continue;
             if (Utils.isFriended(player)) continue;
-            if (Utils.isTeammate(player)) continue;
+            if (Utils.isTeamate(player)) continue;
             if (AntiBot.isBot(player)) continue;
             players.add(player);
         }

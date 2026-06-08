@@ -4,7 +4,7 @@ import keystrokesmod.utility.Utils;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.text.Text;
-import net.minecraft.util.Stylee;
+import net.minecraft.util.Style;
 import net.minecraft.text.Text;
 
 import java.util.ArrayList;
@@ -18,14 +18,14 @@ public class Message {
     }
 
     public void appendStyle(String style, String action, String styleMessage, String message) {
-        Stylee chatStyle = new Stylee();
+        Style chatStyle = new Style();
         if (style.equals("HOVER")) {
             chatStyle.setChatHoverEvent(new HoverEvent(Utils.getEnum(HoverEvent.Action.class, action), new ChatComponentText(styleMessage)));
         }
         else if (style.equals("CLICK")) {
             chatStyle.setChatClickEvent(new ClickEvent(Utils.getEnum(ClickEvent.Action.class, action), styleMessage));
         }
-        component.appendSibling(new ChatComponentText(message).setStylee(chatStyle));
+        component.appendSibling(new ChatComponentText(message).setStyle(chatStyle));
     }
 
     public void append(String append) {
@@ -41,7 +41,7 @@ public class Message {
     }
 
     public String getStyle() {
-        return this.component.getStylee().toString();
+        return this.component.getStyle().toString();
     }
 
     public String getText() {
@@ -50,6 +50,6 @@ public class Message {
 
     @Override
     public String toString() {
-        return "TextComponent{text='" + this.component.getUnformattedTextForChat() + '\'' + ", siblings=" + this.component.getSiblings() + ", style=" + this.component.getStylee() + '}';
+        return "TextComponent{text='" + this.component.getUnformattedTextForChat() + '\'' + ", siblings=" + this.component.getSiblings() + ", style=" + this.component.getStyle() + '}';
     }
 }
