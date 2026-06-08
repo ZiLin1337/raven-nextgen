@@ -18,7 +18,6 @@ import net.minecraft.network.packet.s2c.play.CloseHandledScreenS2CPacket;
 import net.minecraft.util.Identifier;
 // Removed Forge event
 // Removed Forge event
-import ButtonWidgetExt;
 
 import java.io.IOException;
 
