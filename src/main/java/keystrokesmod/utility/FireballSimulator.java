@@ -2,7 +2,6 @@ package keystrokesmod.utility;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.FluidBlock;
-Material;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;

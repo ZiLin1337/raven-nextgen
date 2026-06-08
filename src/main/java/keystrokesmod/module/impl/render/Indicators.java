@@ -16,7 +16,6 @@ import keystrokesmod.utility.font.FontManager;
 import keystrokesmod.utility.font.RavenTextRenderer;
 import net.minecraft.block.Block;
 import net.minecraft.block.FluidBlock;
-Material;
 import net.minecraft.block.BlockState;
 
 

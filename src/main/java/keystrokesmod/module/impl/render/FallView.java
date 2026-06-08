@@ -11,7 +11,6 @@ import keystrokesmod.utility.Utils;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
-Material;
 import net.minecraft.potion.Potion;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.util.math.BlockPos;

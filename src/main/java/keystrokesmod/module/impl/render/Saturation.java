@@ -4,9 +4,6 @@ import keystrokesmod.mixin.impl.accessor.IAccessorShaderGroup;
 import keystrokesmod.mixin.interfaces.ISaturationRenderer;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.SliderSetting;
-Shader;
-ShaderGroup;
-ShaderUniform;
 import net.minecraft.util.Identifier;
 
 import java.io.IOException;

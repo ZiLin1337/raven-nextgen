@@ -11,9 +11,6 @@ import keystrokesmod.module.setting.impl.GroupSetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
-BlockEntity;
-BlockEntityChest;
-BlockEntityEnderChest;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
 
