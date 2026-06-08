@@ -14,4 +14,12 @@ public class TickEvent extends Event {
             this.tickDelta = tickDelta;
         }
     }
+
+    public static class ClientTickEvent extends TickEvent {
+        public final Phase phase;
+
+        public ClientTickEvent(Phase phase) {
+            this.phase = phase;
+        }
+    }
 }
