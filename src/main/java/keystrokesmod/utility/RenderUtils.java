@@ -24,7 +24,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
@@ -1196,7 +1195,7 @@ public class RenderUtils implements IMinecraftInstance {
         );
 
         if (result) {
-            return new Vec3d(SCREEN_COORDS.get(0) / scaleFactor, (Display.getHeight() - SCREEN_COORDS.get(1)) / scaleFactor, SCREEN_COORDS.get(2));
+            return new Vec3d(SCREEN_COORDS.get(0) / scaleFactor, (MinecraftClient.getInstance().getWindow().getHeight() - SCREEN_COORDS.get(1)) / scaleFactor, SCREEN_COORDS.get(2));
         }
 
         return null;
@@ -1239,7 +1238,7 @@ public class RenderUtils implements IMinecraftInstance {
         }
 
         output[0] = context.screenCoords.get(0) / context.scaleFactor;
-        output[1] = (Display.getHeight() - context.screenCoords.get(1)) / context.scaleFactor;
+        output[1] = (MinecraftClient.getInstance().getWindow().getHeight() - context.screenCoords.get(1)) / context.scaleFactor;
         output[2] = context.screenCoords.get(2);
         return true;
     }
