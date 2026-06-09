@@ -15,6 +15,7 @@ import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.hit.HitResult;
 
+import keystrokesmod.event.RenderWorldLastEvent;
 public class WaterBucket extends Module {
     public ButtonSetting pickupWater;
     public ButtonSetting silentAim;
@@ -50,7 +51,7 @@ public class WaterBucket extends Module {
             return;
         }
         HitResult mop = Utils.getTarget(mc.interactionManager.getBlockReachDistance(), mc.player.rotationYaw, silentAim.isToggled() ? 90.0f : mc.player.rotationPitch);
-        if (mop == null || mop.typeOfHit != HitResult.MovingObjectType.BLOCK || mop.sideHit != Direction.UP) {
+        if (mop == null || mop.typeOfHit != HitResult.Type.BLOCK || mop.sideHit != Direction.UP) {
             return;
         }
         long now = System.currentTimeMillis();

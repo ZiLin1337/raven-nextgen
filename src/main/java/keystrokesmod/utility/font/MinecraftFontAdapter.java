@@ -1,7 +1,7 @@
 package keystrokesmod.utility.font;
 
 import net.minecraft.client.gui.TextRenderer;
-import net.minecraft.client.render.RenderSystem;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 public final class MinecraftFontAdapter implements RavenTextRenderer {
     private static final String COLOR_CODES = "0123456789abcdef";

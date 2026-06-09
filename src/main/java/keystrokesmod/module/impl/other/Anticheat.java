@@ -13,14 +13,14 @@ import keystrokesmod.utility.BlockUtils;
 import keystrokesmod.utility.PlayerData;
 import keystrokesmod.utility.Utils;
 import keystrokesmod.event.EntityJoinWorldEvent;
-import net.minecraft.block.Blocks.AIR;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.ClickEvent;
 import net.minecraft.item.BlockItem;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.text.Text;
-import net.minecraft.util.Style;
+import net.minecraft.text.Style;
 
 import java.util.HashMap;
 import java.util.UUID;

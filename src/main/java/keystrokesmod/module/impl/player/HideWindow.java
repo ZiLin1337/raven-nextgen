@@ -13,14 +13,14 @@ import keystrokesmod.module.setting.impl.ColorSetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.module.setting.impl.StringListSetting;
 import keystrokesmod.utility.RenderUtils;
-import net.minecraft.client.gui.ButtonWidget;
-import net.minecraft.client.gui.Screen;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
-import net.minecraft.inventory.GenericContainerScreenHandler;
-import net.minecraft.network.packet.s2c.play.CloseHandledScreenS2CPacket;
+import net.minecraft.screen.GenericContainerScreenHandler;
+import net.minecraft.network.packet.s2c.play.CloseScreenS2CPacket;
 import net.minecraft.util.Identifier;
 // Removed Forge event
 // Removed Forge event

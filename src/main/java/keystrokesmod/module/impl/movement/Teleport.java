@@ -93,7 +93,7 @@ public class Teleport extends Module {
             return;
         }
         HitResult rayCast = RotationUtils.rayCast(150.0, mc.player.rotationYaw, mc.player.rotationPitch, true);
-        if (rayCast == null || rayCast.typeOfHit != HitResult.MovingObjectType.BLOCK) {
+        if (rayCast == null || rayCast.typeOfHit != HitResult.Type.BLOCK) {
             return;
         }
         final BlockPos getBlockPos = rayCast.getBlockPos();
@@ -109,7 +109,7 @@ public class Teleport extends Module {
             return;
         }
         HitResult rayCast = RotationUtils.rayCast(150.0, mc.player.rotationYaw, mc.player.rotationPitch, true);
-        if (rayCast == null || rayCast.typeOfHit != HitResult.MovingObjectType.BLOCK) {
+        if (rayCast == null || rayCast.typeOfHit != HitResult.Type.BLOCK) {
             return;
         }
         teleport(rayCast.getBlockPos(), true);

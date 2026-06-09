@@ -9,7 +9,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.HitResult.MovingObjectType;
+import net.minecraft.util.hit.HitResult.Type;
 // Removed Forge event
 
 import org.lwjgl.glfw.GLFW;
@@ -65,7 +65,7 @@ public class SumoFences extends Module {
     public void onMouse(MouseEvent e) {
         if (e.buttonstate && (e.button == 0 || e.button == 1) && Utils.nullCheck() && this.isSumo()) {
             HitResult over = mc.crosshairTargetr;
-            if (over != null && over.typeOfHit == MovingObjectType.BLOCK) {
+            if (over != null && over.typeOfHit == Type.BLOCK) {
                 int x = over.getBlockPos().getX();
                 int z = over.getBlockPos().getZ();
 

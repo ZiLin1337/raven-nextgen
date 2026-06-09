@@ -15,8 +15,8 @@ import keystrokesmod.utility.Timer;
 import keystrokesmod.utility.Utils;
 import keystrokesmod.utility.shader.BlurUtils;
 import keystrokesmod.utility.shader.RoundedUtils;
-import net.minecraft.client.gui.ButtonWidget;
-import net.minecraft.client.gui.Screen;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.screen.Screen;
 
 import net.minecraft.entity.LivingEntity;
 

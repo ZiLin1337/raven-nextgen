@@ -2,7 +2,7 @@ package keystrokesmod.utility.font;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.Window;
-import net.minecraft.client.render.RenderSystem;
+import com.mojang.blaze3d.systems.RenderSystem;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 

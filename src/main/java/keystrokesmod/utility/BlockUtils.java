@@ -6,7 +6,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.block.Blocks;
-import net.minecraft.item.DyeColor;
+import net.minecraft.util.DyeColor;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
@@ -51,7 +51,7 @@ public class BlockUtils implements IMinecraftInstance {
     }
 
     public static boolean isInteractable(HitResult mv) {
-        if (mv == null || mv.typeOfHit != HitResult.MovingObjectType.BLOCK || mv.getBlockPos() == null) {
+        if (mv == null || mv.typeOfHit != HitResult.Type.BLOCK || mv.getBlockPos() == null) {
             return false;
         }
         if (!mc.player.isSneaking() || mc.player.getHeldItem() == null) {
@@ -227,7 +227,7 @@ public class BlockUtils implements IMinecraftInstance {
         if (mop == null) {
             return true;
         }
-        if (mop.typeOfHit == HitResult.MovingObjectType.BLOCK) {
+        if (mop.typeOfHit == HitResult.Type.BLOCK) {
             final BlockPos mopPos = mop.getBlockPos();
             if (mopPos.getX() == pos.getX() && mopPos.getY() == pos.getY() && mopPos.getZ() == pos.getZ()) {
                 return true;

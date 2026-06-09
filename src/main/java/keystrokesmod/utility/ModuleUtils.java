@@ -6,7 +6,7 @@ import keystrokesmod.module.impl.combat.Velocity;
 import keystrokesmod.module.impl.movement.LongJump;
 import keystrokesmod.module.impl.render.HUD;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks.AIR;
+
 import keystrokesmod.module.ModuleManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.c2s.play.*;

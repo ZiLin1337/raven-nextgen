@@ -11,17 +11,17 @@ import keystrokesmod.module.setting.impl.KeySetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.ItemSearchIndex;
 import keystrokesmod.utility.Utils;
-import net.minecraft.client.gui.screen.ingame.GuiChest;
+import net.minecraft.client.gui.screen.ingame.GenericContainerScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Items;
-import net.minecraft.inventory.GenericContainerScreenHandler;
-import net.minecraft.inventory.ContainerPlayer;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.screen.GenericContainerScreenHandler;
+
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemAppleGold;
+import net.minecraft.item.Items;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.BlockItem;
@@ -32,7 +32,7 @@ import net.minecraft.item.ShovelItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.util.DamageSource;
+import net.minecraft.entity.damage.DamageSource;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -221,7 +221,7 @@ public class InvManager extends Module {
         }
 
         closeSession();
-        if (mc.currentScreen instanceof GuiChest) {
+        if (mc.currentScreen instanceof GenericContainerScreen) {
             handleChestScreen();
         }
     }
@@ -480,7 +480,7 @@ public class InvManager extends Module {
             return;
         }
 
-        IInventory chestInventory = ((GenericContainerScreenHandler)mc.player.openContainer).getLowerChestInventory();
+        Inventory chestInventory = ((GenericContainerScreenHandler)mc.player.openContainer).getLowerChestInventory();
         if (!stealFromCustomChests.isToggled() && !chestInventory.getName().contains("Chest")) {
             return;
         }
@@ -584,7 +584,7 @@ public class InvManager extends Module {
         Item item = itemStack.getItem();
         return items.matches(itemStack)
                 || item instanceof BlockItem
-                || item instanceof ItemAppleGold
+                || item instanceof Items
                 || item instanceof SnowballEntity
                 || item instanceof EggEntity
                 || item instanceof EnderPearlItem
@@ -1595,7 +1595,7 @@ public class InvManager extends Module {
     }
 
     private void recoverCarriedStackImmediately(InventorySnapshot snapshot, boolean allowDrop) {
-        if (!(mc.player.openContainer instanceof ContainerPlayer) || snapshot.carried == null) {
+        if (!(mc.player.openContainer instanceof PlayerScreenHandler) || snapshot.carried == null) {
             currentAction = null;
             if (allowDrop) {
                 cursorRecoveryInventoryIndex = -1;
@@ -1806,7 +1806,7 @@ public class InvManager extends Module {
     private boolean isManagedInventoryOpen() {
         return Utils.nullCheck()
                 && mc.currentScreen instanceof InventoryScreen
-                && mc.player.openContainer instanceof ContainerPlayer
+                && mc.player.openContainer instanceof PlayerScreenHandler
                 && Utils.inInventory();
     }
 
@@ -1886,7 +1886,7 @@ public class InvManager extends Module {
     }
 
     private final class InventoryData {
-        final IInventory inventory;
+        final Inventory inventory;
         final int size;
         int filled;
         int emptyWithoutHotbar;
@@ -1898,7 +1898,7 @@ public class InvManager extends Module {
         double bestShovel = -1.0;
         final HashSet<Integer> uniqueSingles = new HashSet<Integer>();
 
-        InventoryData(IInventory inventory, boolean playerInventory, boolean armorOnly) {
+        InventoryData(Inventory inventory, boolean playerInventory, boolean armorOnly) {
             this.inventory = inventory;
             this.size = playerInventory ? inventory.getSizeInventory() - 4 : inventory.getSizeInventory();
 

@@ -75,7 +75,7 @@ public class ReflectionUtils {
     }
 
     private static void addToMap(Class clazz, Field field) {
-        if (field == null || field.getType() != IInventory.class) {
+        if (field == null || field.getType() != Inventory.class) {
             return;
         }
         field = ReflectionHelper.findField(clazz, field.getName());

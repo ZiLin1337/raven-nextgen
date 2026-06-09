@@ -20,6 +20,8 @@ import keystrokesmod.event.GuiOpenEvent;
 // Removed Forge event
 // Removed Forge event
 
+import keystrokesmod.event.RenderTickEvent;
+import keystrokesmod.event.TickEvent.Phase;
 public class Freelook extends Module {
     public static boolean perspectiveToggled;
     public static float cameraYaw;

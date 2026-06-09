@@ -6,8 +6,8 @@ import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
-import net.minecraft.client.entity.OtherClientPlayerEntity;
-import net.minecraft.network.packet.c2s.play.C02PacketUseEntity;
+import net.minecraft.client.network.OtherClientPlayerEntity;
+
 import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
 import net.minecraft.util.hit.HitResult;
@@ -17,6 +17,8 @@ import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 
+import keystrokesmod.event.RenderWorldLastEvent;
+import keystrokesmod.event.MouseEvent;
 public class Freecam extends Module {
     public SliderSetting speed;
     private ButtonSetting disableOnDamage;
@@ -165,11 +167,11 @@ public class Freecam extends Module {
         if (!Utils.nullCheck()) {
             return;
         }
-        if ((e.button == 0 && !allowDigging.isToggled() || e.button == 1 && !allowPlacing.isToggled()) && mc.crosshairTargetr != null && mc.crosshairTargetr.typeOfHit == HitResult.MovingObjectType.BLOCK) {
+        if ((e.button == 0 && !allowDigging.isToggled() || e.button == 1 && !allowPlacing.isToggled()) && mc.crosshairTargetr != null && mc.crosshairTargetr.typeOfHit == HitResult.Type.BLOCK) {
             e.setCanceled(true);
         }
         if (!allowInteracting.isToggled()) {
-            if ((e.button == 1 || e.button == 0) && mc.crosshairTargetr != null && mc.crosshairTargetr.typeOfHit == HitResult.MovingObjectType.ENTITY) {
+            if ((e.button == 1 || e.button == 0) && mc.crosshairTargetr != null && mc.crosshairTargetr.typeOfHit == HitResult.Type.ENTITY) {
                 e.setCanceled(true);
             }
         }

@@ -12,7 +12,6 @@ import net.minecraft.item.ShearsItem;
 import net.minecraft.item.ShovelItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
-import net.minecraft.item.ToolItem;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
@@ -680,6 +679,6 @@ public final class ItemSearchIndex {
     }
 
     private static boolean isToolLike(Item item) {
-        return item instanceof ToolItem || item instanceof HoeItem || item instanceof ShearsItem;
+        return item instanceof SwordItem || item instanceof PickaxeItem || item instanceof AxeItem || item instanceof ShovelItem || item instanceof HoeItem || item instanceof ShearsItem;
     }
 }

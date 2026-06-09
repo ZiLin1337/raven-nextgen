@@ -515,7 +515,7 @@ public class KillAura extends Module {
         Vec3d hitVec = inside ? (intercept == null ? eyes : intercept.hitVec) : intercept.hitVec;
         if (!aimThroughBlocks.isToggled()) {
             HitResult blockHit = mc.world.rayTraceBlocks(eyes, hitVec, false, false, true);
-            if (blockHit != null && blockHit.typeOfHit == HitResult.MovingObjectType.BLOCK) {
+            if (blockHit != null && blockHit.typeOfHit == HitResult.Type.BLOCK) {
                 return;
             }
         }

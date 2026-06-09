@@ -13,7 +13,7 @@ import keystrokesmod.utility.BlockUtils;
 import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.BedBlock;
-import net.minecraft.block.Blocks.OBSIDIAN;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.IronGolemEntity;

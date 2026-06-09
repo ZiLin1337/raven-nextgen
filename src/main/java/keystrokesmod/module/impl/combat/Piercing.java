@@ -9,7 +9,7 @@ import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.utility.Utils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ItemFrameEntity;
+import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.*;
 
@@ -53,7 +53,7 @@ public class Piercing extends Module {
         }
         return ignoreBlocks.isToggled()
                 || mc.crosshairTargetr == null
-                || mc.crosshairTargetr.typeOfHit != HitResult.MovingObjectType.BLOCK;
+                || mc.crosshairTargetr.typeOfHit != HitResult.Type.BLOCK;
     }
 
     public void modifyMouseOverFromGetMouseOver(float partialTicks) {
@@ -151,7 +151,7 @@ public class Piercing extends Module {
 
         if (best != null && reach > 3.0 && bestDist > 3.0 && !mc.interactionManager.extendedReach()) {
             mc.crosshairTargetr = new HitResult(
-                    HitResult.MovingObjectType.MISS, bestHit, null, new BlockPos(bestHit)
+                    HitResult.Type.MISS, bestHit, null, new BlockPos(bestHit)
             );
             return;
         }

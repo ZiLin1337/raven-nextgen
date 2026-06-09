@@ -432,7 +432,7 @@ public class SpeedBuilders extends Module {
 
     public HitResult getLookInfo() {
         HitResult movingObjectPosition = mc.crosshairTargetr;
-        if (movingObjectPosition == null || movingObjectPosition.typeOfHit != HitResult.MovingObjectType.BLOCK || movingObjectPosition.getBlockPos() == null) {
+        if (movingObjectPosition == null || movingObjectPosition.typeOfHit != HitResult.Type.BLOCK || movingObjectPosition.getBlockPos() == null) {
             return null;
         }
         return mc.crosshairTargetr;

@@ -11,8 +11,8 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.Utils;
 import keystrokesmod.utility.font.FontManager;
 import keystrokesmod.utility.font.RavenTextRenderer;
-import net.minecraft.client.gui.ButtonWidget;
-import net.minecraft.client.gui.Screen;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.screen.Screen;
 
 import net.minecraft.potion.Potion;
 import net.minecraft.entity.effect.StatusEffectInstance;

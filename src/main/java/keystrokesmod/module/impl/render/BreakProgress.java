@@ -95,7 +95,7 @@ public class BreakProgress extends Module {
                 return;
             }
         }
-        if (!manual.isToggled() || mc.crosshairTargetr == null || mc.crosshairTargetr.typeOfHit != HitResult.MovingObjectType.BLOCK) {
+        if (!manual.isToggled() || mc.crosshairTargetr == null || mc.crosshairTargetr.typeOfHit != HitResult.Type.BLOCK) {
             this.resetVariables();
             return;
         }

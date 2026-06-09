@@ -1,8 +1,8 @@
 package keystrokesmod.module.impl.render;
 
-import net.minecraft.block.DoublePlantBlock;
+import net.minecraft.block.TallPlantBlock;
 import net.minecraft.block.FlowerBlock;
-import net.minecraft.block.TallGrassBlock;
+import net.minecraft.block.TallPlantBlock;
 import net.minecraft.block.DeadBushBlock;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.ButtonSetting;
@@ -225,7 +225,7 @@ public class BlockOverlay extends Module {
     }
 
     private BlockPos getFocusedBlock() {
-        if (mc.crosshairTargetr == null || mc.crosshairTargetr.typeOfHit != HitResult.MovingObjectType.BLOCK) return null;
+        if (mc.crosshairTargetr == null || mc.crosshairTargetr.typeOfHit != HitResult.Type.BLOCK) return null;
         BlockPos pos = mc.crosshairTargetr.getBlockPos();
         if (pos == null) return null;
         Block block = mc.world.getBlockState(pos).getBlock();

@@ -15,6 +15,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.hit.HitResult;
 public class RotationUtils implements IMinecraftInstance {
     public static float renderPitch;
     public static float prevRenderPitch;
@@ -429,7 +434,7 @@ public class RotationUtils implements IMinecraftInstance {
         double entityDistSq = eye.squareDistanceTo(entityHit.hitVec);
         if (!allowThroughBlocks) {
             HitResult blockHit = mc.world.rayTraceBlocks(eye, end, false, false, false);
-            if (blockHit != null && blockHit.typeOfHit == HitResult.MovingObjectType.BLOCK) {
+            if (blockHit != null && blockHit.typeOfHit == HitResult.Type.BLOCK) {
                 double blockDistSq = eye.squareDistanceTo(blockHit.hitVec);
                 if (blockDistSq < entityDistSq) return false;
             }
@@ -695,7 +700,7 @@ public class RotationUtils implements IMinecraftInstance {
         Vec3d lookVec = Utils.getLookVec(yaw, pitch);
         Vec3d sumVec = eyeVec.addVector(lookVec.xCoord * distance, lookVec.yCoord * distance, lookVec.zCoord * distance);
         HitResult mop = mc.world.rayTraceBlocks(eyeVec, sumVec, false, false, false);
-        if (mop == null || mop.typeOfHit != HitResult.MovingObjectType.BLOCK) {
+        if (mop == null || mop.typeOfHit != HitResult.Type.BLOCK) {
             return null;
         }
         return mop;
@@ -716,7 +721,7 @@ public class RotationUtils implements IMinecraftInstance {
         HitResult blockHit = rayTraceCustom(reach, yaw, pitch);
         Vec3d eyes = mc.player.getPositionEyes(1.0F);
         double blockDist = reach;
-        if (blockHit != null && blockHit.typeOfHit == HitResult.MovingObjectType.BLOCK) {
+        if (blockHit != null && blockHit.typeOfHit == HitResult.Type.BLOCK) {
             blockDist = blockHit.hitVec.distanceTo(eyes);
         } else {
             return null;

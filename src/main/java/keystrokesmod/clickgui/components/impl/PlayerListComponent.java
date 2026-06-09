@@ -9,7 +9,7 @@ import keystrokesmod.utility.PlayerSkinCache;
 import keystrokesmod.utility.RenderUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.client.render.RenderSystem;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;

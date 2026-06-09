@@ -27,7 +27,10 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
-import net.minecraft.item.ToolItem;
+import net.minecraft.item.ShovelItem;
+import net.minecraft.item.PickaxeItem;
+import net.minecraft.item.HoeItem;
+import net.minecraft.item.AxeItem;
 
 
 
@@ -646,7 +649,7 @@ public class Nametags extends Module {
             ids = BOW_ENCHANT_IDS;
             abbreviations = BOW_ENCHANT_ABBR;
         }
-        else if (item instanceof ToolItem) {
+        else if (item instanceof SwordItem || item instanceof PickaxeItem || item instanceof AxeItem || item instanceof ShovelItem || item instanceof HoeItem) {
             ids = TOOL_ENCHANT_IDS;
             abbreviations = TOOL_ENCHANT_ABBR;
         }

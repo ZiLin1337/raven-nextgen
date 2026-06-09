@@ -31,7 +31,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Items;
-import net.minecraft.inventory.ContainerPlayer;
+
 import net.minecraft.item.*;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket.PlayerMoveC2SPacket;
 
@@ -371,7 +371,7 @@ public class Utils implements IMinecraftInstance {
 
     public static boolean canSeeVec(Vec3d vecPlayer, Vec3d vecTarget) {
         HitResult mop = mc.world.rayTraceBlocks(vecPlayer, vecTarget, false, false, false);
-        return mop == null || mop.typeOfHit != HitResult.MovingObjectType.BLOCK;
+        return mop == null || mop.typeOfHit != HitResult.Type.BLOCK;
     }
 
     public static List<PlayerListEntry> getTablist(boolean removeSelf) {
@@ -854,7 +854,7 @@ public class Utils implements IMinecraftInstance {
         if (!nullCheck()) {
             return false;
         }
-        return (mc.currentScreen != null) && (mc.player.inventoryContainer != null) && (mc.player.inventoryContainer instanceof ContainerPlayer) && (mc.currentScreen instanceof InventoryScreen);
+        return (mc.currentScreen != null) && (mc.player.inventoryContainer != null) && (mc.player.inventoryContainer instanceof PlayerScreenHandler) && (mc.currentScreen instanceof InventoryScreen);
     }
 
     public static int getSkyWarsStatus() {
@@ -1265,7 +1265,7 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static boolean lookingAtBlock() {
-        return mc.crosshairTargetr != null && mc.crosshairTargetr.typeOfHit == HitResult.MovingObjectType.BLOCK && mc.crosshairTargetr.getBlockPos() != null;
+        return mc.crosshairTargetr != null && mc.crosshairTargetr.typeOfHit == HitResult.Type.BLOCK && mc.crosshairTargetr.getBlockPos() != null;
     }
 
     public static boolean isDiagonal(boolean strict) {
@@ -1319,11 +1319,11 @@ public class Utils implements IMinecraftInstance {
         float yaw = mc.player.rotationYaw;
         float pitch = mc.player.rotationPitch;
         HitResult entityHit = RotationUtils.rayTrace(reach, 1.0f, new float[] { yaw, pitch }, null);
-        if (entityHit != null && entityHit.typeOfHit == HitResult.MovingObjectType.ENTITY) {
+        if (entityHit != null && entityHit.typeOfHit == HitResult.Type.ENTITY) {
             return false;
         }
         HitResult blockHit = RotationUtils.rayCastBlock(reach, yaw, pitch);
-        return blockHit != null && blockHit.typeOfHit == HitResult.MovingObjectType.BLOCK && blockHit.getBlockPos() != null;
+        return blockHit != null && blockHit.typeOfHit == HitResult.Type.BLOCK && blockHit.getBlockPos() != null;
     }
 
     public static boolean isEdgeOfBlock() {
@@ -1388,7 +1388,7 @@ public class Utils implements IMinecraftInstance {
         if (entity != null && (n3 < range || rayTrace == null)) {
             rayTrace = new HitResult(entity, vec4);
         }
-        if (rayTrace != null && rayTrace.typeOfHit == HitResult.MovingObjectType.ENTITY && rayTrace.entityHit instanceof LivingEntity) {
+        if (rayTrace != null && rayTrace.typeOfHit == HitResult.Type.ENTITY && rayTrace.entityHit instanceof LivingEntity) {
             return (LivingEntity)rayTrace.entityHit;
         }
         return null;

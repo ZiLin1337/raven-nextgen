@@ -157,11 +157,11 @@ public class HitSelect extends Module {
             return ClickType.MISSED_SWING;
         }
 
-        if (objectMouseOver.typeOfHit == HitResult.MovingObjectType.BLOCK) {
+        if (objectMouseOver.typeOfHit == HitResult.Type.BLOCK) {
             return ClickType.BLOCK_INTERACTION;
         }
 
-        if (objectMouseOver.typeOfHit == HitResult.MovingObjectType.ENTITY) {
+        if (objectMouseOver.typeOfHit == HitResult.Type.ENTITY) {
             Entity entityHit = objectMouseOver.entityHit;
             return CombatTargeting.asValidPlayer(entityHit, HIT_RANGE_SQ) != null ? ClickType.VALID_HIT : ClickType.MISSED_SWING;
         }

@@ -65,6 +65,7 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import keystrokesmod.script.model.BlockEntityWrapper;
 public class ScriptDefaults {
     private static ExecutorService cachedExecutor;
     private static final MinecraftClient mc = MinecraftClient.getInstance();
@@ -635,11 +636,11 @@ public class ScriptDefaults {
             return teams;
         }
 
-        public static List<BlockEntity> getTileEntities() {
+        public static List<BlockEntityWrapper> getTileEntities() {
             List<BlockEntity> list = new ArrayList<>();
             if (mc.world == null) return list;
             for (var be : mc.world.blockEntities) {
-                list.add(new BlockEntity(be));
+                list.add(new BlockEntityWrapper(be));
             }
             return list;
         }

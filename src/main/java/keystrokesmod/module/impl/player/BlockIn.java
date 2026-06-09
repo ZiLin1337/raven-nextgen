@@ -30,6 +30,9 @@ import org.lwjgl.glfw.GLFW;
 
 import java.util.*;
 
+import net.minecraft.util.math.Vec3d;
+import keystrokesmod.event.TickEvent;
+import keystrokesmod.event.MouseEvent;
 public class BlockIn extends Module {
 
     private static final Direction[] HORIZONTALS = {

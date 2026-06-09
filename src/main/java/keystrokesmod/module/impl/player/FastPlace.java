@@ -112,7 +112,7 @@ public class FastPlace extends Module {
     }
 
     private boolean isBlockedHoverBlock() {
-        if (!blockBlacklistToggle.isToggled() || mc.crosshairTargetr == null || mc.crosshairTargetr.typeOfHit != HitResult.MovingObjectType.BLOCK) {
+        if (!blockBlacklistToggle.isToggled() || mc.crosshairTargetr == null || mc.crosshairTargetr.typeOfHit != HitResult.Type.BLOCK) {
             return false;
         }
 

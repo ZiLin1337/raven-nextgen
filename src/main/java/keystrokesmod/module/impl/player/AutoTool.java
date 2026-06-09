@@ -142,7 +142,7 @@ public class AutoTool extends Module {
             mc.player.rotationPitch
         );
         BlockPos hoverPos = hoverResult != null
-            && hoverResult.typeOfHit == HitResult.MovingObjectType.BLOCK
+            && hoverResult.typeOfHit == HitResult.Type.BLOCK
             ? hoverResult.getBlockPos()
             : null;
         updateHoverState(hoverPos, currentTick);
@@ -190,7 +190,7 @@ public class AutoTool extends Module {
 
         HitResult swapResult = mc.crosshairTargetr;
         BlockPos swapPos = swapResult != null
-            && swapResult.typeOfHit == HitResult.MovingObjectType.BLOCK
+            && swapResult.typeOfHit == HitResult.Type.BLOCK
             ? swapResult.getBlockPos()
             : null;
         if (swapPos == null) {

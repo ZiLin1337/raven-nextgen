@@ -25,6 +25,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
+import keystrokesmod.event.EntityJoinWorldEvent;
 public class AntiFireball extends Module {
     private final SliderSetting fov;
     private final SliderSetting range;
@@ -139,7 +140,7 @@ public class AntiFireball extends Module {
         if (fireball == null) return;
 
         HitResult mop = mc.crosshairTargetr;
-        if (mop == null || mop.typeOfHit != HitResult.MovingObjectType.ENTITY || mop.entityHit != fireball) {
+        if (mop == null || mop.typeOfHit != HitResult.Type.ENTITY || mop.entityHit != fireball) {
             nextClickTime = 0;
             ReflectionUtils.setButton(0, false);
             return;

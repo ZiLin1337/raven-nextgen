@@ -8,7 +8,7 @@ import keystrokesmod.utility.Utils;
 // Removed LWJGL input packageController;
 // Removed LWJGL input packageControllerEnvironment;
 // Removed LWJGL input packageMouse;
-import net.minecraft.util.InputUtil;
+import net.minecraft.client.util.InputUtil;
 
 import java.io.File;
 import java.lang.reflect.Constructor;

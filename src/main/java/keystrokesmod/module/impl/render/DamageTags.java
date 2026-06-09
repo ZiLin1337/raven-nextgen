@@ -17,7 +17,7 @@ import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.BufferBuilder;
 
 
-import net.minecraft.entity.DataTracker;
+import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;

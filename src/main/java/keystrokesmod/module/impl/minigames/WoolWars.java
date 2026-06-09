@@ -17,11 +17,11 @@ import keystrokesmod.utility.RenderUtils;
 import keystrokesmod.utility.RotationUtils;
 import keystrokesmod.utility.Utils;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks.AIR;
+
 import net.minecraft.block.StairsBlock;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.block.Blocks;
-import net.minecraft.item.DyeColor;
+import net.minecraft.util.DyeColor;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
@@ -128,7 +128,7 @@ public class WoolWars extends Module {
                             while (j < 90) {
                                 float pitch = RotationUtils.clampPitch((float) (j + randomRotationOffset()));
                                 HitResult mop = Utils.getTarget(lastRange, yaw, pitch);
-                                if (mop != null && mop.typeOfHit == HitResult.MovingObjectType.BLOCK && BlockUtils.isBlockPosEqual(BlockUtils.offsetPos(mop), closestPos)) {
+                                if (mop != null && mop.typeOfHit == HitResult.Type.BLOCK && BlockUtils.isBlockPosEqual(BlockUtils.offsetPos(mop), closestPos)) {
                                     placeMop = mop;
                                     placingYaw = yaw;
                                     placingPitch = pitch;
