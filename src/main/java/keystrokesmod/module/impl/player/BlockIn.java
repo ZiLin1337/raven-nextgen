@@ -316,7 +316,7 @@ public class BlockIn extends Module {
 
     private int pickBlockSlot(boolean preferStrong) {
         int best = -1;
-        float bestScore = preferStrong ? -1 : Float.MAX_VALUE;
+        float bestScoreboardEntry = preferStrong ? -1 : Float.MAX_VALUE;
 
         for (int slot = 8; slot >= 0; --slot) {
             ItemStack s = mc.player.inventory.mainInventory[slot];
@@ -327,8 +327,8 @@ public class BlockIn extends Module {
             Block block = ((BlockItem) s.getItem()).getBlock();
             float score = BlockUtils.getFistBreakTicks(block);
 
-            if (preferStrong ? score > bestScore : score < bestScore) {
-                bestScore = score;
+            if (preferStrong ? score > bestScoreboardEntry : score < bestScore) {
+                bestScoreboardEntry = score;
                 best = slot;
             }
         }

@@ -1,6 +1,6 @@
 package keystrokesmod.utility.font;
 
-import net.minecraft.client.gui.TextRenderer;
+import net.minecraft.client.font.TextRenderer;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 public final class MinecraftFontAdapter implements RavenTextRenderer {

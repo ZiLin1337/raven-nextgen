@@ -168,7 +168,7 @@ public class BlockOverlay extends Module {
     }
 
     public static void renderBlockOutline(BlockPos pos, int outlineArgbStart, int outlineArgbEnd, float lineWidth, boolean depthless) {
-        Minecraft m = MinecraftClient.getInstance();
+        MinecraftClient m = MinecraftClient.getInstance();
         if (m.worldd == null || pos == null) {
             return;
         }
@@ -210,7 +210,7 @@ public class BlockOverlay extends Module {
         }
     }
 
-    private static void drawOverlayGeometry(Minecraft mc, BlockPos pos, Box paddedWorldBox, Direction side, double vx, double vy, double vz, int overlayStart, int overlayEnd, int outlineStart, int outlineEnd, boolean showOverlay, boolean showOutline) {
+    private static void drawOverlayGeometry(MinecraftClient mc, BlockPos pos, Box paddedWorldBox, Direction side, double vx, double vy, double vz, int overlayStart, int overlayEnd, int outlineStart, int outlineEnd, boolean showOverlay, boolean showOutline) {
         Box renderBox = paddedWorldBox.offset(-vx, -vy, -vz);
         BlockState state = mc.world.getBlockState(pos);
         if (state.getBlock() instanceof StairsBlock) {

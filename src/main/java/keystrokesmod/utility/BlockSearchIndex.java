@@ -160,7 +160,7 @@ public final class BlockSearchIndex {
             seen.add(rid);
             List<BlockEntry> variants = getVariants(rid);
             if (variants.isEmpty()) continue;
-            int groupScore = bestScoreByRegistry.containsKey(rid) ? bestScoreByRegistry.get(rid) : sb.score;
+            int groupScoreboardEntry = bestScoreByRegistry.containsKey(rid) ? bestScoreByRegistry.get(rid) : sb.score;
             results.add(new GroupedBlockResult(rid, variants, groupScore));
             if (results.size() >= MAX_SEARCH_RESULTS) break;
         }

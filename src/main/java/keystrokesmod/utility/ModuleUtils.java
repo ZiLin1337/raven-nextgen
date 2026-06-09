@@ -111,7 +111,7 @@ public class ModuleUtils implements IMinecraftInstance {
                 isBlocked = false;
             }
         }
-        else if (packet instanceof C09PacketHeldItemChange && isBlocked) {
+        else if (packet instanceof UpdateSelectedSlotC2SPacket && isBlocked) {
             isBlocked = false;
         }
         if (packet instanceof C02PacketUseEntity) {

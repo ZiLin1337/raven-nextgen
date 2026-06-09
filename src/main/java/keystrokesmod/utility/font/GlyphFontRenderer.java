@@ -446,7 +446,7 @@ public final class GlyphFontRenderer implements RavenTextRenderer {
     }
 
     private static float resolveRenderScale() {
-        Minecraft mc = MinecraftClient.getInstance();
+        MinecraftClient mc = MinecraftClient.getInstance();
         int uiScale = 1;
 
         try {

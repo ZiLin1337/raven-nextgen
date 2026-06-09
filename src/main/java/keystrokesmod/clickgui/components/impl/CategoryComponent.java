@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 public class CategoryComponent {
     private static long interactionSequence;
     private static final Map<Module.category, CategoryIconStacks> CATEGORY_ICON_STACKS = buildCategoryIconStacks();

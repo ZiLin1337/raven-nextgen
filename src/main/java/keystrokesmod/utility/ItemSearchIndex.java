@@ -282,7 +282,7 @@ public final class ItemSearchIndex {
                 continue;
             }
 
-            int groupScore = bestScoreByRegistry.containsKey(registryId) ? bestScoreByRegistry.get(registryId) : scoredItem.score;
+            int groupScoreboardEntry = bestScoreByRegistry.containsKey(registryId) ? bestScoreByRegistry.get(registryId) : scoredItem.score;
             results.add(new GroupedItemResult(
                 registryId,
                 variants,

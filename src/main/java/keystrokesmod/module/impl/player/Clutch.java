@@ -506,7 +506,7 @@ public class Clutch extends Module {
         }
 
         int best = -1;
-        int bestScore = Integer.MIN_VALUE;
+        int bestScoreboardEntry = Integer.MIN_VALUE;
 
         for (int slot = 8; slot >= 0; --slot) {
             ItemStack stack = mc.player.inventory.mainInventory[slot];
@@ -520,7 +520,7 @@ public class Clutch extends Module {
             if (score == null) continue;
 
             if (score > bestScore) {
-                bestScore = score;
+                bestScoreboardEntry = score;
                 best = slot;
             }
         }

@@ -5,7 +5,7 @@ import keystrokesmod.event.SendPacketEvent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.c2s.play.C09PacketHeldItemChange;
+import net.minecraft.network.packet.c2s.play.UpdateSelectedSlotC2SPacket;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -20,8 +20,8 @@ public class PacketsHandler implements IMinecraftInstance {
             return;
         }
         Packet<?> packet = e.getPacket();
-        if (packet instanceof C09PacketHeldItemChange && handleSlots) {
-            C09PacketHeldItemChange slotPacket = (C09PacketHeldItemChange) packet;
+        if (packet instanceof UpdateSelectedSlotC2SPacket && handleSlots) {
+            UpdateSelectedSlotC2SPacket slotPacket = (UpdateSelectedSlotC2SPacket) packet;
             int slotId = slotPacket.getSlotId();
             playerSlot.set(slotId);
             serverSlot.set(slotId);

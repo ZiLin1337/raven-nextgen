@@ -5,6 +5,8 @@ import keystrokesmod.module.ModuleManager;
 import keystrokesmod.utility.Utils;
 import net.minecraft.client.MinecraftClient;
 
+import keystrokesmod.event.TickEvent;
+import keystrokesmod.event.EntityJoinWorldEvent;
 public final class BlockHighlightSharedHandler {
 
     private static final MinecraftClient mc = MinecraftClient.getInstance();

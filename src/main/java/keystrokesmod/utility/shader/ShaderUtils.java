@@ -17,7 +17,7 @@ import static org.lwjgl.opengl.GL20.*;
 
 public class ShaderUtils {
 
-    private Minecraft mc = MinecraftClient.getInstance();
+    private MinecraftClient mc = MinecraftClient.getInstance();
     public final int programID;
     private final Map<String, Integer> uniformLocations = new HashMap<String, Integer>();
     private final String kawaseUpGlow = "#version 120\n" +

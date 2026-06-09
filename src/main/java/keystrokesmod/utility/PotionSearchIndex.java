@@ -190,7 +190,7 @@ public final class PotionSearchIndex {
 
         PotionItem potionItem = (PotionItem) Items.POTION;
         ItemStack bestStack = null;
-        int bestScore = Integer.MIN_VALUE;
+        int bestScoreboardEntry = Integer.MIN_VALUE;
 
         for (int metadata = 0; metadata <= MAX_POTION_META; metadata++) {
             List<StatusEffectInstance> effects = potionItem.getEffects(metadata);
@@ -225,7 +225,7 @@ public final class PotionSearchIndex {
             }
 
             if (score > bestScore) {
-                bestScore = score;
+                bestScoreboardEntry = score;
                 bestStack = new ItemStack(Items.POTION, 1, metadata);
             }
         }

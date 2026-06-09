@@ -10,7 +10,7 @@ import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import keystrokesmod.Raven;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.client.resources.DefaultPlayerSkin;
+import net.minecraft.client.util.DefaultSkinHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 
@@ -54,7 +54,7 @@ public class PlayerSkinCache {
     public static Identifier getSkin(String username, PlayerListEntry playerInfo) {
         String normalized = normalize(username);
         if (normalized.isEmpty()) {
-            return DefaultPlayerSkin.getDefaultSkin(PlayerEntity.getOfflineUUID("Steve"));
+            return DefaultSkinHelper.getDefaultSkin(PlayerEntity.getOfflineUUID("Steve"));
         }
 
         if (playerInfo != null && playerInfo.getGameProfile() != null) {
@@ -87,7 +87,7 @@ public class PlayerSkinCache {
             fallbackUuid = PlayerEntity.getOfflineUUID(username);
             UUIDS.put(normalized, fallbackUuid);
         }
-        return DefaultPlayerSkin.getDefaultSkin(fallbackUuid);
+        return DefaultSkinHelper.getDefaultSkin(fallbackUuid);
     }
 
     private static void requestSkin(final String normalized, final String username) {
@@ -129,7 +129,7 @@ public class PlayerSkinCache {
                         return;
                     }
 
-                    Minecraft minecraft = MinecraftClient.getInstance();
+                    MinecraftClient minecraft = MinecraftClient.getInstance();
                     GameProfile filledProfile = minecraft.getSessionService().fillProfileProperties(profile, false);
                     if (filledProfile == null) {
                         cacheProfile(normalized, null);
@@ -164,7 +164,7 @@ public class PlayerSkinCache {
             Raven.playerRelationsManager.refreshDisplayName(profile.getName());
         }
 
-        Minecraft minecraft = MinecraftClient.getInstance();
+        MinecraftClient minecraft = MinecraftClient.getInstance();
         Map<Type, MinecraftProfileTexture> textures = minecraft.getSkinManager().loadSkinFromCache(profile);
         final MinecraftProfileTexture skinTexture = textures == null ? null : textures.get(Type.SKIN);
         if (skinTexture == null) {

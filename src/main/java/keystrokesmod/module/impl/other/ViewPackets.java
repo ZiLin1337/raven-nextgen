@@ -125,8 +125,8 @@ public class ViewPackets extends Module {
             BlockPos getPosition = c07PacketPlayerDigging.getPosition();
             s = string + "\n&7Position: &b" + getPosition.getX() + "&7, &b" + getPosition.getY() + "&7, &b" + getPosition.getZ();
         }
-        else if (packet instanceof C09PacketHeldItemChange) {
-            s = s + "\n&7Swap to slot: &b" + ((C09PacketHeldItemChange)packet).getSlotId();
+        else if (packet instanceof UpdateSelectedSlotC2SPacket) {
+            s = s + "\n&7Swap to slot: &b" + ((UpdateSelectedSlotC2SPacket)packet).getSlotId();
         }
         else if (packet instanceof ClientCommandC2SPacket) {
             s = s + "\n&7Action: &b" + ((ClientCommandC2SPacket)packet).getAction().name() + "\n&7Aux data: &b" + ((ClientCommandC2SPacket)packet).getAuxData();

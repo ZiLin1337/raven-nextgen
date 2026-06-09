@@ -189,7 +189,7 @@ public class Displace extends Module {
 
         double bestX = 0.0D;
         double bestZ = 0.0D;
-        double bestScore = Double.MAX_VALUE;
+        double bestScoreboardEntry = Double.MAX_VALUE;
 
         for (int ring = 1; ring <= VOID_SCAN_RINGS; ring++) {
             double radius = (double) ring * VOID_SCAN_STEP;
@@ -207,7 +207,7 @@ public class Displace extends Module {
                 double playerDistSq = playerDx * playerDx + playerDz * playerDz;
                 double score = radius * radius * 1000.0D + playerDistSq;
                 if (score < bestScore) {
-                    bestScore = score;
+                    bestScoreboardEntry = score;
                     bestX = x;
                     bestZ = z;
                     foundInRing = true;
@@ -219,7 +219,7 @@ public class Displace extends Module {
             }
         }
 
-        if (bestScore == Double.MAX_VALUE) {
+        if (bestScoreboardEntry == Double.MAX_VALUE) {
             return null;
         }
 
@@ -246,7 +246,7 @@ public class Displace extends Module {
 
         double bestForwardX = 0.0D;
         double bestForwardZ = 0.0D;
-        double bestScore = 0.0D;
+        double bestScoreboardEntry = 0.0D;
 
         for (int i = 0; i < VOID_SCAN_DIRECTIONS; i++) {
             double forwardX = VOID_SCAN_X[i];
@@ -254,13 +254,13 @@ public class Displace extends Module {
             double score = scoreVoidPath(target, forwardX, forwardZ);
 
             if (score > bestScore) {
-                bestScore = score;
+                bestScoreboardEntry = score;
                 bestForwardX = forwardX;
                 bestForwardZ = forwardZ;
             }
         }
 
-        if (bestScore <= 0.0D) {
+        if (bestScoreboardEntry <= 0.0D) {
             return null;
         }
 

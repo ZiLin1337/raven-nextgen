@@ -513,8 +513,8 @@ public class SpeedBuilders extends Module {
         if (simulatedState.getBlock() instanceof StairsBlock && requiredState.getBlock() instanceof StairsBlock) {
             Direction simulatedFacing = simulatedState.getValue(StairsBlock.FACING);
             Direction requiredFacing = requiredState.getValue(StairsBlock.FACING);
-            StairsBlock.EnumHalf simulatedHalf = simulatedState.getValue(StairsBlock.HALF);
-            StairsBlock.EnumHalf requiredHalf = requiredState.getValue(StairsBlock.HALF);
+            BlockHalf simulatedHalf = simulatedState.getValue(StairsBlock.HALF);
+            BlockHalf requiredHalf = requiredState.getValue(StairsBlock.HALF);
 
             if (simulatedFacing != requiredFacing || simulatedHalf != requiredHalf) {
                 return false;

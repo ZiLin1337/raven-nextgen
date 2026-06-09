@@ -3,7 +3,7 @@ package keystrokesmod.utility;
 import keystrokesmod.mixin.interfaces.IMixinItemRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.EnumAction;
+import net.minecraft.item.consume.UseAction;
 import net.minecraft.item.ItemStack;
 
 public final class BlockAnimationUtils {
@@ -32,7 +32,7 @@ public final class BlockAnimationUtils {
     }
 
     public static boolean shouldForceBlockAnimation(PlayerEntity player, ItemStack stack) {
-        if (player == null || player != renderingPlayer || stack == null || stack.getItemUseAction() != EnumAction.BLOCK) {
+        if (player == null || player != renderingPlayer || stack == null || stack.getItemUseAction() != UseAction.BLOCK) {
             return false;
         }
 

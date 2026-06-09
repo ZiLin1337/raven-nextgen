@@ -27,6 +27,7 @@ import net.minecraft.util.Identifier;
 
 import java.io.IOException;
 
+import net.minecraft.client.util.Window;
 public class HideWindow extends Module {
     private static final String ICON_PATH = "/assets/keystrokesmod/textures/gui/tv_off.png";
     private static final int ICON_BASE_SIZE = 16;

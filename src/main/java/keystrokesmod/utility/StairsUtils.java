@@ -15,11 +15,11 @@ public final class StairsUtils {
 
     public static void drawStairs(BlockPos blockPos, BlockState blockState, Box box, Direction side, double viewerX, double viewerY, double viewerZ, int overlayStartColor, int overlayEndColor, int outlineStartColor, int outlineEndColor, boolean overlay, boolean outline, BlockFaceDrawer drawer) {
         Direction blockFacing = blockState.getValue(StairsBlock.FACING);
-        StairsBlock.EnumHalf blockHalf = blockState.getValue(StairsBlock.HALF);
+        BlockHalf blockHalf = blockState.getValue(StairsBlock.HALF);
         int blockX = blockPos.getX();
         int blockY = blockPos.getY();
         int blockZ = blockPos.getZ();
-        int angleX = (blockHalf == StairsBlock.EnumHalf.TOP) ? 270 : 0;
+        int angleX = (blockHalf == BlockHalf.TOP) ? 270 : 0;
         int angleY = 0;
         switch (blockFacing) {
             case NORTH: angleY = 180; break;
@@ -51,7 +51,7 @@ public final class StairsUtils {
         drawStairsWest(box, overlayStart, overlayEnd, outlineStart, outlineEnd, overlay, outline, drawer);
     }
 
-    private static void drawStairsSide(Box box, StairsBlock.EnumHalf blockHalf, Direction blockFacing, Direction side, int overlayStart, int overlayEnd, int outlineStart, int outlineEnd, boolean overlay, boolean outline, BlockFaceDrawer drawer) {
+    private static void drawStairsSide(Box box, BlockHalf blockHalf, Direction blockFacing, Direction side, int overlayStart, int overlayEnd, int outlineStart, int outlineEnd, boolean overlay, boolean outline, BlockFaceDrawer drawer) {
         Direction mapped = getSide(blockHalf, blockFacing, side);
         switch (mapped) {
             case UP: drawStairsTop(box, overlayStart, overlayEnd, outlineStart, outlineEnd, overlay, outline, drawer); break;
@@ -93,8 +93,8 @@ public final class StairsUtils {
         drawer.draw(box.contract(0.0, 0.25, 0.0).offset(0.0, -0.25, 0.0), Direction.WEST, os, oe, ls, le, overlay, outline);
     }
 
-    private static Direction getSide(StairsBlock.EnumHalf blockHalf, Direction blockFacing, Direction side) {
-        if (blockHalf == StairsBlock.EnumHalf.TOP) {
+    private static Direction getSide(BlockHalf blockHalf, Direction blockFacing, Direction side) {
+        if (blockHalf == BlockHalf.TOP) {
             switch (blockFacing) {
                 case NORTH:
                     side = side.rotateAround(Direction.Axis.X);

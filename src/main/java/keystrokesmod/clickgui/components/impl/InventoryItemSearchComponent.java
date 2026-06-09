@@ -173,7 +173,7 @@ public class InventoryItemSearchComponent extends AbstractItemSearchComponent<In
     }
 
     private int getHotbarSlotForKey(int keyCode) {
-        Minecraft mc = MinecraftClient.getInstance();
+        MinecraftClient mc = MinecraftClient.getInstance();
         for (int i = 0; i < mc.options.keyBindsHotbar.length; i++) {
             if (keyCode == mc.options.keyBindsHotbar[i].getKeyCode()) return i + 1;
         }

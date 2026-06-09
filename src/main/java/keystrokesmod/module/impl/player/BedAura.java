@@ -479,11 +479,11 @@ public class BedAura extends Module {
                 continue;
             }
             Choice best = null;
-            double bestScore = Double.POSITIVE_INFINITY;
+            double bestScoreboardEntry = Double.POSITIVE_INFINITY;
             for (Choice ch : candidates) {
                 double score = scoreChoice(ch, curProg, breaking);
                 if (score < bestScore) {
-                    bestScore = score;
+                    bestScoreboardEntry = score;
                     best = ch;
                 }
             }

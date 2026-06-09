@@ -77,13 +77,9 @@ public class Saturation extends Module {
         if (renderer == null) return;
         ShaderGroup shader = renderer.raven$getSaturationShader();
         if (shader == null) return;
-        List<Shader> shaders = ((IAccessorShaderGroup) shader).getListShaders();
+        List<Object> shaders = ((IAccessorShaderGroup) shader).getListShaders();
         if (shaders == null) return;
-        for (Shader s : shaders) {
-            ShaderUniform su = s.getShaderManager().getShaderUniform("Saturation");
-            if (su != null) {
-                su.set(lastSaturation);
-            }
+        for (Object shaderPass : shaders) {
         }
     }
 

@@ -22,7 +22,7 @@ import net.minecraft.block.*;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.client.render.ActiveRenderInfo;
+
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -33,10 +33,10 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Items;
 
 import net.minecraft.item.*;
-import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket.PlayerMoveC2SPacket;
+import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 
 import net.minecraft.potion.Potion;
-import net.minecraft.scoreboard.Score;
+import net.minecraft.scoreboard.ScoreboardEntry;
 import net.minecraft.scoreboard.ScoreboardObjective;
 
 import net.minecraft.scoreboard.Scoreboard;
@@ -55,6 +55,9 @@ import java.util.*;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.hit.HitResult;
 public class Utils implements IMinecraftInstance {
     private static final Random rand = new Random();
     private static final ThreadLocal<Integer> LOCAL_PLAYER_SUB_UPDATE_DEPTH = ThreadLocal.withInitial(() -> 0);
@@ -86,11 +89,11 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static float getCameraYaw() {
-        return (float) Math.toDegrees(Math.atan2(ActiveRenderInfo.getRotationZ(), ActiveRenderInfo.getRotationX()));
+        return mc.gameRenderer.getCamera().getYaw();
     }
 
     public static float getCameraPitch() {
-        return (float) Math.toDegrees(Math.acos(ActiveRenderInfo.getRotationXZ()));
+        return mc.gameRenderer.getCamera().getPitch();
     }
 
     public static Vec3d getCameraPos(double renderPartialTicks) {
@@ -570,14 +573,14 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static int getTool(Block block) {
-        double bestScore = 1.0D;
+        double bestScoreboardEntry = 1.0D;
         int bestSlot = -1;
         for (int i = 0; i < InventoryPlayer.getHotbarSize(); ++i) {
             final ItemStack getStackInSlot = mc.player.inventory.getStackInSlot(i);
             if (getStackInSlot != null) {
                 double score = ItemSortScoring.getBlockBreakingScore(getStackInSlot, block);
                 if (score > bestScore) {
-                    bestScore = score;
+                    bestScoreboardEntry = score;
                     bestSlot = i;
                 }
             }
@@ -942,7 +945,7 @@ public class Utils implements IMinecraftInstance {
         }
         Collection<Score> scores = scoreboard.getSortedScores(objective);
         final List<Score> list = new ArrayList<>();
-        for (final Score input : scores) {
+        for (final ScoreboardEntry input : scores) {
             if (input != null && input.getPlayerName() != null && !input.getPlayerName().startsWith("#")) {
                 list.add(input);
             }
@@ -953,7 +956,7 @@ public class Utils implements IMinecraftInstance {
             scores = list;
         }
         int index = 0;
-        for (final Score score : scores) {
+        for (final ScoreboardEntry score : scores) {
             ++index;
             final Team team = scoreboard.getPlayersTeam(score.getPlayerName());
             lines.add(Team.formatPlayerName(team, score.getPlayerName()));
@@ -1440,7 +1443,7 @@ public class Utils implements IMinecraftInstance {
                     List<Score> list = new ArrayList();
                     Iterator var5 = scores.iterator();
 
-                    Score score;
+                    ScoreboardEntry score;
                     while (var5.hasNext()) {
                         score = (Score) var5.next();
                         if (score != null && score.getPlayerName() != null && !score.getPlayerName().startsWith("#")) {
