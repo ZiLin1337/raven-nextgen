@@ -1,5 +1,6 @@
 package keystrokesmod.clickgui.components.impl;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import keystrokesmod.Raven;
 import keystrokesmod.clickgui.ClickGui;
 import keystrokesmod.clickgui.components.Component;
@@ -60,7 +61,7 @@ public class ModuleComponent extends Component {
         this.categoryComponent = p;
         this.yPos = yPos;
         this.settings = new ArrayList();
-        this.categoryManager = mod instanceof Manager || mod instanceof keystrokesmod.script.Manager;
+        this.categoryManager = mod instanceof keystrokesmod.script.Manager;
         this.isOpened = categoryManager;
         float collapsedHeight = getCollapsedHeight();
         this.smoothingY = collapsedHeight;
@@ -257,8 +258,7 @@ public class ModuleComponent extends Component {
         }
         int button_rgb = this.mod.isEnabled() ? ENABLED_COLOR : DISABLED_COLOR;
         if (this.mod.script != null && this.mod.script.error) button_rgb = INVALID_COLOR;
-        if (this.mod.moduleCategory() == Module.category.profiles && !(this.mod instanceof Manager)
-                && !((ProfileModule) this.mod).saved && Raven.currentProfile != null
+        if (this.mod.moduleCategory() == Module.category.profiles && !((ProfileModule) this.mod).saved && Raven.currentProfile != null
                 && Raven.currentProfile.getModule() == this.mod) button_rgb = UNSAVED_COLOR;
         boolean scissorRequired = smoothTimer != null;
         RavenTextRenderer titleRenderer = Gui.getClickGuiHeaderTextRenderer();
@@ -339,7 +339,7 @@ public class ModuleComponent extends Component {
             float currentHeight = smoothTimer != null ? smoothingY : (isOpened ? getHeightF() : 16f);
             this.animationStartY = currentHeight;
             this.isOpened = !this.isOpened;
-            float targetHeight = this.isOpened ? (getCollapsedHeight() + settings.stream().mapToDouble(c -> getAnimatedComponentHeightF(c)).sum()) : getCollapsedHeight();
+            float targetHeight = this.isOpened ? (float) (getCollapsedHeight() + settings.stream().mapToDouble(c -> getAnimatedComponentHeightF(c)).sum()) : getCollapsedHeight();
             this.animationTargetY = (float) targetHeight;
             (this.smoothTimer = new Timer(250)).start();
             return true;
@@ -383,8 +383,8 @@ public class ModuleComponent extends Component {
             return ((SliderComponent) component).sliderSetting.groupSetting.getName();
         if (component instanceof ButtonComponent && ((ButtonComponent) component).buttonSetting.group != null)
             return ((ButtonComponent) component).buttonSetting.group.getName();
-        if (component instanceof BindComponent && ((BindComponent) component).keySetting != null && ((BindComponent) component).keySetting.group != null)
-            return ((BindComponent) component).keySetting.group.getName();
+        if (component instanceof BindComponent && ((BindComponent) component).keySetting != null && ((BindComponent) component).keySetting.getGroup() != null)
+            return ((BindComponent) component).keySetting.getGroup().getName();
         if (component instanceof ColorComponent && ((ColorComponent) component).colorSetting.groupSetting != null)
             return ((ColorComponent) component).colorSetting.groupSetting.getName();
         if (component instanceof AbstractTextInputComponent)
@@ -493,7 +493,7 @@ public class ModuleComponent extends Component {
         int[] saved = scissorStack[scissorDepth++];
         if (wasEnabled) {
             SCISSOR_BOX.clear();
-            GL11.glGetInteger(GL11.GL_SCISSOR_BOX, SCISSOR_BOX);
+            SCISSOR_BOX.clear(); GL11.glGetIntegerv(GL11.GL_SCISSOR_BOX, SCISSOR_BOX);
             saved[0] = 1;
             saved[1] = SCISSOR_BOX.get(0);
             saved[2] = SCISSOR_BOX.get(1);
@@ -506,7 +506,7 @@ public class ModuleComponent extends Component {
             GL11.glScissor(ix, iy, iw, ih);
         } else {
             saved[0] = 0;
-            RenderSystem.enableBlend(GL11.GL_SCISSOR_TEST);
+            GL11.glEnable(GL11.GL_SCISSOR_TEST);
             GL11.glScissor(x, y, w, h);
         }
     }
@@ -514,7 +514,7 @@ public class ModuleComponent extends Component {
     private void popScissor() {
         int[] saved = scissorStack[--scissorDepth];
         if (saved[0] == 1) GL11.glScissor(saved[1], saved[2], saved[3], saved[4]);
-        else RenderSystem.disableBlend(GL11.GL_SCISSOR_TEST);
+        else GL11.glDisable(GL11.GL_SCISSOR_TEST);
     }
 
     private boolean isVisibleBase(Component component) { return component.isBaseVisible(); }

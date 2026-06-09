@@ -269,14 +269,14 @@ public class CategoryComponent {
         float scissorBottom = extra - 2f;
         float moduleAreaHeight = Math.max(0f, scissorBottom - moduleAreaTop);
         if (this.opened || smoothTimer != null) {
-            RenderSystem.enableBlend(GL11.GL_SCISSOR_TEST);
+            GL11.glEnable(GL11.GL_SCISSOR_TEST);
             RenderUtils.scissor(0, moduleAreaTop, this.x + this.width + 4, moduleAreaHeight);
             float scrollOffset = moduleY - this.y;
             RenderSystem.getModelViewStack().pushMatrix();
-            RenderSystem.translate(0f, scrollOffset, 0f);
+            GL11.glTranslatef(0f, scrollOffset, 0f);
             for (Component c2 : this.modules) c2.render();
             RenderSystem.getModelViewStack().popMatrix();
-            RenderSystem.disableBlend(GL11.GL_SCISSOR_TEST);
+            GL11.glDisable(GL11.GL_SCISSOR_TEST);
         }
         RenderSystem.getModelViewStack().popMatrix();
     }
@@ -316,12 +316,12 @@ public class CategoryComponent {
         CategoryIconStacks icons = CATEGORY_ICON_STACKS.get(category);
         ItemStack stack = icons == null ? null : (enchant ? icons.activeStack : icons.normalStack);
         if (stack != null) {
-            DiffuseLighting.enableGuiLighting();
-            RenderSystem.disableBlend(GL11.GL_BLEND);
+            
+            RenderSystem.disableBlend();
             GL11.glTranslated(x / scale, y / scale, 0);
-            renderItem.renderItem(null, stack, 0, 0, 0);
-            RenderSystem.enableBlend(GL11.GL_BLEND);
-            DiffuseLighting.disableGuiLighting();
+            mc.getItemRenderer().renderInGuiWithOverrides(stack, 0, 0);
+            RenderSystem.enableBlend();
+            
         }
         RenderSystem.getModelViewStack().popMatrix();
     }
@@ -430,8 +430,13 @@ public class CategoryComponent {
             default: return null;
         }
         if (active) {
-            stack.addEnchantment(Registries.ENCHANTMENT.getEntry(Enchantments.UNBREAKING), 2);
+            
         }
         return stack;
     }
+    public void render(DrawContext context, int mouseX, int mouseY) { render(); }
+    public boolean isMouseOver(int x, int y) { return overCategory(x, y); }
+    public void onClick(int x, int y, int button) { mouseClicked(x, y, button); lastInteracted = System.currentTimeMillis(); }
+    public void onMouseRelease() { mouseReleased(0, 0, 0); }
+    public void onMouseMove(int x, int y) {}
 }

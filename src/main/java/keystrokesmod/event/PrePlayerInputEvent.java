@@ -23,4 +23,6 @@ public class PrePlayerInputEvent extends Event {
     public void setSneak(boolean sneak) { this.sneak = sneak; }
     public double getSneakSlowDownMultiplier() { return sneakSlowDownMultiplier; }
     public void setSneakSlowDownMultiplier(double mult) { this.sneakSlowDownMultiplier = mult; }
+    public float getYaw() { return 0.0F; }
+    public float getPitch() { return 0.0F; }
 }

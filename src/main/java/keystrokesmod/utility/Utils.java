@@ -1642,4 +1642,5 @@ public class Utils implements IMinecraftInstance {
         }
         return closest;
     }
+    public static void callScriptFunction(String scriptName, String functionName, Object... args) {}
 }

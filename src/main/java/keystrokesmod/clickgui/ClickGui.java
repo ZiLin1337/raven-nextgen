@@ -147,4 +147,5 @@ public class ClickGui extends Screen {
         categories.clear();
         isInitialized = false;
     }
+    public static double getActiveRenderScale() { return keystrokesmod.module.impl.client.Gui.getGuiScale(); }
 }

@@ -133,7 +133,7 @@ public class ModuleManager {
                         Class<?> clazz = Class.forName(pkg + "." + className);
                         if (Module.class.isAssignableFrom(clazz) && clazz != Module.class) {
                             Module module = (Module) clazz.getDeclaredConstructor().newInstance();
-                            addModule(module);
+                            moduleManager.addModule(module);
                         }
                     } catch (Exception ignored) {}
                 }

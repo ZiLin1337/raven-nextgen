@@ -19,14 +19,19 @@ public class Raven implements ClientModInitializer {
     public static MinecraftClient mc = MinecraftClient.getInstance();
     public static ModuleManager moduleManager;
     public static ClickGui clickGui;
-    public static CommandManager commandManager;
+    public static keystrokesmod.command.CommandManager commandManager;
+    public static keystrokesmod.utility.profile.ProfileManager profileManager;
+    public static keystrokesmod.utility.profile.Profile currentProfile;
+    public static keystrokesmod.script.ScriptManager scriptManager;
     public static final IEventBus EVENT_BUS = new EventBus();
     
     @Override
     public void onInitializeClient() {
         moduleManager = new ModuleManager();
         clickGui = new ClickGui();
-        commandManager = new CommandManager();
+        commandManager = new keystrokesmod.command.CommandManager();
+        profileManager = new keystrokesmod.utility.profile.ProfileManager();
+        scriptManager = new keystrokesmod.script.ScriptManager();
         EVENT_BUS.subscribe(this);
         ClientTickEvents.END_CLIENT_TICK.register(this::onTick);
     }
@@ -52,4 +57,6 @@ public class Raven implements ClientModInitializer {
             if (m.getKeycode() == e.getKeyCode()) m.toggle();
         }
     }
+    public static ModuleManager getModuleManager() { return moduleManager; }
+    public static IEventBus getEventBus() { return EVENT_BUS; }
 }

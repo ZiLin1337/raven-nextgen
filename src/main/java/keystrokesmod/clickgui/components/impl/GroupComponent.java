@@ -1,5 +1,6 @@
 package keystrokesmod.clickgui.components.impl;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import keystrokesmod.clickgui.components.Component;
 import keystrokesmod.module.impl.client.Gui;
 import keystrokesmod.module.setting.impl.GroupSetting;
@@ -70,12 +71,12 @@ public class GroupComponent extends Component {
             int fontHeight = renderer.getFontHeight();
 
             RenderSystem.getModelViewStack().pushMatrix();
-            RenderSystem.translate(strX, strY, 0F);
+            GL11.glTranslatef(strX, strY, 0F);
 
             float arrowX = firstBracketWidth - 2;
-            RenderSystem.translate(arrowX + (arrowWidth / 2F), (fontHeight / 2F), 0F);
-            RenderSystem.rotate(90F * progress, 0F, 0F, 1F);
-            RenderSystem.translate(-(arrowWidth / 2F), -(fontHeight / 2F), 0F);
+            GL11.glTranslatef(arrowX + (arrowWidth / 2F), (fontHeight / 2F), 0F);
+            GL11.glRotatef(90F * progress, 0F, 0F, 1F);
+            GL11.glTranslatef(-(arrowWidth / 2F), -(fontHeight / 2F), 0F);
 
             drawString(renderer, ">", 0, 0);
             RenderSystem.getModelViewStack().popMatrix();

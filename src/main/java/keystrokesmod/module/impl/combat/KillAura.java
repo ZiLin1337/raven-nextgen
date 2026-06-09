@@ -143,8 +143,8 @@ public class KillAura extends Module {
                 boolean useBackup = !aimThroughBlocks.isToggled() || !aimThroughEntities.isToggled();
                 float[] rot = RotationHelper.get().getRotationsToTarget(target, e, speedVal, 100, 100, 0f, useBackup, aimRangeVal, aimThroughBlocks.isToggled(), aimThroughEntities.isToggled());
                 if (rot != null) {
-                    e.yaw = rot[0];
-                    e.pitch = rot[1];
+                    e.setYaw(rot[0]);
+                    e.setPitch(rot[1]);
                 }
             }
         }
@@ -159,8 +159,8 @@ public class KillAura extends Module {
                 boolean useBackup = !aimThroughBlocks.isToggled() || !aimThroughEntities.isToggled();
                 float[] rot = RotationHelper.get().getRotationsToTarget(target, speedVal, 100, 100, 0f, useBackup, aimRangeVal, aimThroughBlocks.isToggled(), aimThroughEntities.isToggled());
                 if (rot != null) {
-                    mc.player.rotationYaw = rot[0];
-                    mc.player.rotationPitch = rot[1];
+                    mc.player.setYaw(rot[0]);
+                    mc.player.setPitch(rot[1]);
                 }
             }
         }
@@ -178,7 +178,7 @@ public class KillAura extends Module {
         if (target == null) return;
         if (targetDistance > swingRange.getInput()) return;
 
-        int key = mc.options.keyBindAttack.getKeyCode();
+        int key = mc.options.attackKey.getDefaultKey().getCode();
         long now = System.currentTimeMillis();
         if (nextClickTime == 0) {
             nextClickTime = now;
@@ -193,7 +193,7 @@ public class KillAura extends Module {
         if (notUsingItem.isToggled() && mc.player.isUsingItem()) return;
 
         for (int i = 0; i < clicks; i++) {
-            KeyBinding.onTick(key);
+            
             ReflectionUtils.setButton(0, true);
         }
     }
@@ -204,7 +204,7 @@ public class KillAura extends Module {
             if (!(e.target instanceof PlayerEntity) || !e.target.getName().equals(mc.player.getName())) {
                 return;
             }
-            if (Utils.getBedwarsStatus() == 2 && e.entity instanceof ZombiePiglinEntity) {
+            if (Utils.getBedwarsStatus() == 2 && e.entity instanceof ZombifiedPiglinEntity) {
                 return;
             }
             hostileMobs.add(e.entity);
@@ -291,7 +291,7 @@ public class KillAura extends Module {
     }
 
     private Candidate getCandidateTarget(Entity entity, double maxRange, float fovValue) {
-        if (!(entity instanceof LivingEntity) || entity == mc.player || entity.isDead) {
+        if (!(entity instanceof LivingEntity) || entity == mc.player || !entity.isAlive()) {
             return null;
         }
 
@@ -305,7 +305,7 @@ public class KillAura extends Module {
             }
         } else if (entity instanceof PathAwareEntity && attackMobs.isToggled()) {
             PathAwareEntity creature = (PathAwareEntity) entity;
-            if (creature.tasks == null || creature.isAIDisabled() || creature.deathTime != 0) {
+            if (!creature.isAlive()) {
                 return null;
             }
 
@@ -435,7 +435,7 @@ public class KillAura extends Module {
             } else {
                 return !golems.getOrDefault(entityCreature.getEntityId(), false);
             }
-        } else if (entityCreature instanceof ZombiePiglinEntity && Utils.getBedwarsStatus() != 2) {
+        } else if (entityCreature instanceof ZombifiedPiglinEntity && Utils.getBedwarsStatus() != 2) {
             return false;
         }
         return hostileMobs.contains(entityCreature);
