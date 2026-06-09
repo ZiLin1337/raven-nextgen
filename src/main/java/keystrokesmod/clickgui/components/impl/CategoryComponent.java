@@ -320,7 +320,7 @@ public class CategoryComponent {
             
             RenderSystem.disableBlend();
             GL11.glTranslated(x / scale, y / scale, 0);
-            MinecraftClient.getInstance().getItemRenderer().renderInGuiWithOverrides(stack, 0, 0);
+            
             RenderSystem.enableBlend();
             
         }
