@@ -1,4 +1,5 @@
 package keystrokesmod.clickgui.components.impl;
+import net.minecraft.client.gui.DrawContext;
 
 import keystrokesmod.Raven;
 import keystrokesmod.clickgui.animation.ScrollOffsetAnimation;
