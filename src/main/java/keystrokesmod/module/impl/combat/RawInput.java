@@ -90,7 +90,7 @@ public class RawInput extends Module {
         final AtomicInteger dx = new AtomicInteger(0);
         final AtomicInteger dy = new AtomicInteger(0);
         volatile boolean running = true;
-        volatile List<Mouse> mice = new ArrayList<>();
+        volatile List<Object> mice = new ArrayList<>();
 
         RawMouseThread() {
             super("Raven Raw Mouse Input");
@@ -103,13 +103,16 @@ public class RawInput extends Module {
             while (running) {
                 try {
                     if (!mice.isEmpty()) {
-                        for (Mouse m : mice) {
-                            if (!m.poll()) {
+                        for (Object m : mice) {
+                            boolean polled = (Boolean) m.getClass().getMethod("poll").invoke(m);
+                            if (!polled) {
                                 rescan();
                                 break;
                             }
-                            dx.addAndGet((int) m.getX().getPollData());
-                            dy.addAndGet(-(int) m.getY().getPollData());
+                            Object x = m.getClass().getMethod("getX").invoke(m);
+                            Object y = m.getClass().getMethod("getY").invoke(m);
+                            dx.addAndGet((int) ((Number) x.getClass().getMethod("getPollData").invoke(x)).floatValue());
+                            dy.addAndGet(-(int) ((Number) y.getClass().getMethod("getPollData").invoke(y)).floatValue());
                         }
                         Thread.sleep(1);
                     } else {
@@ -129,11 +132,12 @@ public class RawInput extends Module {
                 if (envClass == null) return;
                 Constructor<?> ctor = Class.forName(envClass).getDeclaredConstructor();
                 ctor.setAccessible(true);
-                ControllerEnvironment env = (ControllerEnvironment) ctor.newInstance();
-                List<Mouse> found = new ArrayList<>();
-                for (Controller c : env.getControllers()) {
-                    if (c instanceof Mouse) {
-                        found.add((Mouse) c);
+                Object env = ctor.newInstance();
+                List<Object> found = new ArrayList<>();
+                Object[] controllers = (Object[]) env.getClass().getMethod("getControllers").invoke(env);
+                for (Object c : controllers) {
+                    if (c != null && c.getClass().getName().endsWith("Mouse")) {
+                        found.add(c);
                     }
                 }
                 this.mice = found;

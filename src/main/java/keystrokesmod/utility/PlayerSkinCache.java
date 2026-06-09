@@ -1,6 +1,5 @@
 package keystrokesmod.utility;
 
-import com.mojang.authlib.Agent;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.GameProfileRepository;
 import com.mojang.authlib.ProfileLookupCallback;
@@ -111,7 +110,7 @@ public class PlayerSkinCache {
             public void run() {
                 try {
                     final GameProfile[] holder = new GameProfile[1];
-                    PROFILE_REPOSITORY.findProfilesByNames(new String[] {username}, Agent.MINECRAFT, new ProfileLookupCallback() {
+                    PROFILE_REPOSITORY.findProfilesByNames(new String[] {username}, new ProfileLookupCallback() {
                         @Override
                         public void onProfileLookupSucceeded(GameProfile profile) {
                             holder[0] = profile;

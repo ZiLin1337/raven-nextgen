@@ -1,4 +1,6 @@
 package keystrokesmod;
+import meteordevelopment.orbit.EventHandler;
+import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;

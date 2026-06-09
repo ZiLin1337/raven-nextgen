@@ -165,15 +165,15 @@ public class ScriptDefaults {
         }
 
         public static String getTitle() {
-            return ((IAccessorGuiIngame) mc.inGameHud).getDisplayedTitle();
+            return "";
         }
 
         public static String getSubTitle() {
-            return ((IAccessorGuiIngame) mc.inGameHud).getDisplayedSubTitle();
+            return "";
         }
 
         public static String getRecordPlaying() {
-            return ((IAccessorGuiIngame) mc.inGameHud).getRecordPlaying();
+            return "";
         }
 
         public static boolean isFlying() {

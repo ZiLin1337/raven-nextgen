@@ -4,8 +4,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
 import keystrokesmod.helper.InputUtil;
-import keystrokesmod.mixin.impl.accessor.IAccessorGuiIngame;
-import keystrokesmod.mixin.impl.accessor.IAccessorItemFood;
 import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
 // Removed accessor
 import keystrokesmod.Raven;
@@ -1230,10 +1228,6 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static boolean holdingEdible(ItemStack stack) {
-        if (stack.getItem() instanceof ItemFood && mc.player.getFoodStats().getFoodLevel() == 20) {
-            ItemFood food = (ItemFood) stack.getItem();
-            return ((IAccessorItemFood) food).getAlwaysEdible();
-        }
         return true;
     }
 
@@ -1489,7 +1483,7 @@ public class Utils implements IMinecraftInstance {
     }
 
     public static boolean spectatorCheck() {
-        return mc.player.inventory.getStackInSlot(8) != null && mc.player.inventory.getStackInSlot(8).getDisplayName().contains("Return") || stripString(((IAccessorGuiIngame) mc.inGameHud).getDisplayedTitle()).contains("YOU DIED");
+        return mc.player.inventory.getStackInSlot(8) != null && mc.player.inventory.getStackInSlot(8).getDisplayName().contains("Return");
     }
 
     public static boolean holdingWeapon() {

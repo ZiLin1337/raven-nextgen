@@ -1,5 +1,6 @@
 package keystrokesmod.utility;
 
+import net.minecraft.block.enums.BlockHalf;
 import net.minecraft.block.StairsBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.Box;
