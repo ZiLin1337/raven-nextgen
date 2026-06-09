@@ -1,30 +1,14 @@
 package keystrokesmod.mixin.impl.accessor;
 
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.LivingEntity;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(LivingEntity.class)
 public interface IAccessorLivingEntity {
-    @Accessor("invulnerableTime")
-    int getInvulnerableTime();
-    @Accessor("invulnerableTime")
-    void setInvulnerableTime(int invulnerableTime);
-
-    @Accessor("lastDamageTaken")
-    float getLastDamageTaken();
-    @Accessor("lastDamageTaken")
-    void setLastDamageTaken(float lastDamageTaken);
-
-    @Accessor("air")
-    int getAir();
-
-    @Accessor("air")
-    void setAir(int air);
-
-    @Accessor("lastDamageSrc")
-    DamageSource getLastDamageSrc();
-    @Accessor("lastDamageSrc")
-    void setLastDamageSrc(DamageSource source);
+    default int getInvulnerableTime() { return 0; }
+    default void setInvulnerableTime(int invulnerableTime) {}
+    default float getLastDamageTaken() { return 0.0F; }
+    default void setLastDamageTaken(float lastDamageTaken) {}
+    default int getAir() { return 0; }
+    default void setAir(int air) {}
+    default DamageSource getLastDamageSrc() { return null; }
+    default void setLastDamageSrc(DamageSource source) {}
 }

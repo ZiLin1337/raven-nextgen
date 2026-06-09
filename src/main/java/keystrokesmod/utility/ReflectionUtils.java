@@ -4,7 +4,6 @@ import keystrokesmod.mixin.interfaces.IMixinItemRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.EnchantmentScreen;
 import net.minecraft.client.gui.screen.ingame.BrewingStandScreen;
-import net.minecraft.client.gui.screen.ingame.DispenserScreen;
 import net.minecraft.client.gui.screen.ingame.FurnaceScreen;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.inventory.*;
@@ -24,7 +23,7 @@ public class ReflectionUtils {
 
     public static HashMap<Class, Field> containerInventoryPlayer = new HashMap<>();
 
-    private static List<Class> containerClasses = Arrays.asList(FurnaceScreen.class, BrewingStandScreen.class, EnchantmentScreen.class, ContainerHopper.class, DispenserScreen.class, ContainerWorkbench.class, ContainerMerchant.class, ContainerHorseInventory.class);
+    private static List<Class> containerClasses = Arrays.asList(FurnaceScreen.class, BrewingStandScreen.class, EnchantmentScreen.class, ContainerHopper.class, ContainerWorkbench.class, ContainerMerchant.class, ContainerHorseInventory.class);
 
     public static boolean ERROR = false; // Set to true to alert the player when reflection fails
 

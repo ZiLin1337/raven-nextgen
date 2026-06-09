@@ -150,7 +150,7 @@ public class ScriptDefaults {
 
         public static void processPacket(SPacket packet) {
             if (packet.packet != null) {
-                packet.packet.apply(((IAccessorNetworkManager) mc.getNetworkHandler().getNetworkManager()).getPacketListener());
+                // Packet listener access changed in 1.21.4; script packet processing is disabled until remapped.
             }
         }
 

@@ -1,29 +1,12 @@
 package keystrokesmod.mixin.impl.accessor;
 
-import net.minecraft.entity.player.PlayerEntity;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.gen.Accessor;
-
-@Mixin(PlayerEntity.class)
 public interface IAccessorPlayerEntity {
-    @Accessor("experiencePoints")
-    int getExperiencePoints();
-    @Accessor("experiencePoints")
-    void setExperiencePoints(int experiencePoints);
-
-    @Accessor("experience")
-    float getExperience();
-    @Accessor("experience")
-    void setExperience(float experience);
-
-    @Accessor("score")
-    int getScore();
-    @Accessor("score")
-    void setScore(int score);
-
-    @Accessor("attackCooldown")
-    int getAttackCooldown();
-
-    @Accessor("attackCooldown")
-    void setAttackCooldown(int attackCooldown);
+    default int getExperiencePoints() { return 0; }
+    default void setExperiencePoints(int experiencePoints) {}
+    default float getExperience() { return 0.0F; }
+    default void setExperience(float experience) {}
+    default int getScore() { return 0; }
+    default void setScore(int score) {}
+    default int getAttackCooldown() { return 0; }
+    default void setAttackCooldown(int attackCooldown) {}
 }

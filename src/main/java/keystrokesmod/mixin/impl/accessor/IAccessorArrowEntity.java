@@ -1,28 +1,13 @@
 package keystrokesmod.mixin.impl.accessor;
 
-import net.minecraft.entity.projectile.ArrowEntity;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.gen.Accessor;
-
-@Mixin(ArrowEntity.class)
 public interface IAccessorArrowEntity {
-    @Accessor("life")
-    int getLife();
-    @Accessor("life")
-    void setLife(int life);
-
-    @Accessor("accelerationX")
-    double getAccelerationX();
-    @Accessor("accelerationX")
-    void setAccelerationX(double accelerationX);
-
-    @Accessor("accelerationY")
-    double getAccelerationY();
-    @Accessor("accelerationY")
-    void setAccelerationY(double accelerationY);
-
-    @Accessor("accelerationZ")
-    double getAccelerationZ();
-    @Accessor("accelerationZ")
-    void setAccelerationZ(double accelerationZ);
+    default int getLife() { return 0; }
+    default void setLife(int life) {}
+    default double getAccelerationX() { return 0.0D; }
+    default void setAccelerationX(double accelerationX) {}
+    default double getAccelerationY() { return 0.0D; }
+    default void setAccelerationY(double accelerationY) {}
+    default double getAccelerationZ() { return 0.0D; }
+    default void setAccelerationZ(double accelerationZ) {}
+    default boolean getInGround() { return false; }
 }

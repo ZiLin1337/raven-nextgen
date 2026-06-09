@@ -1,33 +1,14 @@
 package keystrokesmod.mixin.impl.accessor;
 
-import net.minecraft.entity.Entity;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.gen.Accessor;
-
-@Mixin(Entity.class)
 public interface IAccessorEntity {
-    @Accessor("fire")
-    int getFire();
-    @Accessor("fire")
-    void setFire(int fire);
-
-    @Accessor("nextStepDistance")
-    int getNextStepDistance();
-    @Accessor("nextStepDistance")
-    void setNextStepDistance(int nextStepDistance);
-
-    @Accessor("isInWeb")
-    boolean getIsInWeb();
-    @Accessor("isInWeb")
-    void setIsInWeb(boolean isInWeb);
-
-    @Accessor("air")
-    int getAir();
-    @Accessor("air")
-    void setAir(int air);
-
-    @Accessor("lateral")
-    boolean getLateral();
-    @Accessor("lateral")
-    void setLateral(boolean lateral);
+    default int getFire() { return 0; }
+    default void setFire(int fire) {}
+    default int getNextStepDistance() { return 0; }
+    default void setNextStepDistance(int nextStepDistance) {}
+    default boolean getIsInWeb() { return false; }
+    default void setIsInWeb(boolean isInWeb) {}
+    default int getAir() { return 0; }
+    default void setAir(int air) {}
+    default boolean getLateral() { return false; }
+    default void setLateral(boolean lateral) {}
 }

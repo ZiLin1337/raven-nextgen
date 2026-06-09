@@ -1,21 +1,16 @@
 package keystrokesmod.mixin.interfaces;
 
-import net.minecraft.client.render.item.HeldItemRenderer;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.gen.Accessor;
+import net.minecraft.item.ItemStack;
 
-@Mixin(HeldItemRenderer.class)
 public interface IMixinItemRenderer {
-    @Accessor("mainHand")
-    void setEquippedProgressMainHand(float progress);
-    @Accessor("mainHand")
-    float getEquippedProgressMainHand();
-    @Accessor("offHand")
-    void setEquippedProgressOffHand(float progress);
-    @Accessor("offHand")
-    float getEquippedProgressOffHand();
-    @Accessor("itemStackMainHand")
-    void setStackToRenderMainHand(net.minecraft.item.ItemStack stack);
-    @Accessor("itemStackOffHand")
-    void setStackToRenderOffHand(net.minecraft.item.ItemStack stack);
+    default void setEquippedProgressMainHand(float progress) {}
+    default float getEquippedProgressMainHand() { return 0.0F; }
+    default void setEquippedProgressOffHand(float progress) {}
+    default float getEquippedProgressOffHand() { return 0.0F; }
+    default void setStackToRenderMainHand(ItemStack stack) {}
+    default void setStackToRenderOffHand(ItemStack stack) {}
+    default void setCancelUpdate(boolean cancelUpdate) {}
+    default void setCancelReset(boolean cancelReset) {}
+    default boolean isItemRendererInUse() { return false; }
+    default void setItemRendererInUse(boolean inUse) {}
 }

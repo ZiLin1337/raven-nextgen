@@ -1,23 +1,9 @@
 package keystrokesmod.mixin.impl.accessor;
 
-import net.minecraft.client.network.ClientPlayerEntity;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.gen.Accessor;
-
-@Mixin(ClientPlayerEntity.class)
 public interface IAccessorClientPlayerEntity {
-    @Accessor("lastX")
-    double getLastX();
-
-    @Accessor("lastY")
-    double getLastY();
-
-    @Accessor("lastZ")
-    double getLastZ();
-
-    @Accessor("lastYaw")
-    float getLastYaw();
-
-    @Accessor("lastPitch")
-    float getLastPitch();
+    default double getLastX() { return 0.0D; }
+    default double getLastY() { return 0.0D; }
+    default double getLastZ() { return 0.0D; }
+    default float getLastYaw() { return 0.0F; }
+    default float getLastPitch() { return 0.0F; }
 }
