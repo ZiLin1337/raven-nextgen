@@ -1,5 +1,6 @@
 package keystrokesmod.module.impl.combat;
 
+import net.minecraft.entity.decoration.ItemFrameEntity;
 import keystrokesmod.event.MouseEvent;
 import keystrokesmod.event.RenderWorldLastEvent;
 import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;

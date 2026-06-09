@@ -1,5 +1,7 @@
 package keystrokesmod.module.impl.render;
 
+import keystrokesmod.event.AttackEvent;
+import keystrokesmod.event.TickEvent;
 import net.minecraft.entity.projectile.ArrowEntity;
 import keystrokesmod.event.RenderWorldLastEvent;
 import keystrokesmod.module.Module;
@@ -111,7 +113,7 @@ public class HitParticles extends Module {
     }
 
     
-    public void onAttackEntity(EntityAttackEvent event) {
+    public void onAttackEntity(AttackEvent event) {
         if (!isEnabled() || !onMelee.isToggled() || !Utils.nullCheck()) {
             return;
         }

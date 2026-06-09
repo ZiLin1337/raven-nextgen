@@ -1,5 +1,6 @@
 package keystrokesmod.module.impl.combat;
 
+import keystrokesmod.event.MouseEvent;
 import keystrokesmod.event.PreMotionEvent;
 import keystrokesmod.mixin.impl.accessor.IAccessorMinecraft;
 import keystrokesmod.module.Module;

@@ -1,5 +1,6 @@
 package keystrokesmod.module.impl.minigames;
 
+import keystrokesmod.event.TickEvent;
 import keystrokesmod.event.RenderTickEvent;
 import keystrokesmod.event.ClientChatReceivedEvent;
 import keystrokesmod.event.EntityJoinWorldEvent;

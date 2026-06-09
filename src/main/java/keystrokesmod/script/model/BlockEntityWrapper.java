@@ -1,14 +1,14 @@
 package keystrokesmod.script.model;
 
-import net.minecraft.block.entity.BlockEntityWrapper;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.util.math.BlockPos;
 
-public class BlockEntityWrapperWrapper {
+public class BlockEntityWrapper {
     public Vec3d position;
     public String type;
-    public BlockEntityWrapper tileEntity;
+    public BlockEntity tileEntity;
 
-    public BlockEntityWrapper(BlockEntityWrapper tileEntity) {
+    public BlockEntityWrapper(BlockEntity tileEntity) {
         this.tileEntity = tileEntity;
         this.position = Vec3d.convert(tileEntity.getPos());
         this.type = tileEntity.getType().getName().getString();

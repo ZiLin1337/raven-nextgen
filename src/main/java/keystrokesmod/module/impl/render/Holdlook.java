@@ -1,5 +1,6 @@
 package keystrokesmod.module.impl.render;
 
+import keystrokesmod.event.TickEvent;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.KeySetting;
 import keystrokesmod.utility.Utils;

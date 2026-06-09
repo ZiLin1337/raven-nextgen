@@ -1,5 +1,6 @@
 package keystrokesmod.module.impl.render;
 
+import net.minecraft.item.Item;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.ButtonSetting;
 import keystrokesmod.module.setting.impl.ColorSetting;
