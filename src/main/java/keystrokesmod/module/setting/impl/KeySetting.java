@@ -31,4 +31,5 @@ public class KeySetting extends Setting {
             try { keyCode = data.getAsJsonPrimitive(profileKey).getAsInt(); } catch (Exception e) {}
         }
     }
+    public GroupSetting getGroup() { return group; }
 }

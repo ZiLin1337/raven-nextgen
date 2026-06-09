@@ -57,7 +57,7 @@ public class ClickGui extends Screen {
         
         // Render categories (sorted by last interaction for Z-ordering)
         List<CategoryComponent> sorted = new ArrayList<>(categories);
-        sorted.sort(Comparator.comparingLong(c -> c.lastInteracted));
+        sorted.sort(Comparator.comparingLong(c -> c.lastInteractedTime));
         
         for (CategoryComponent category : sorted) {
             category.render(context, mouseX, mouseY);
@@ -71,7 +71,7 @@ public class ClickGui extends Screen {
         
         // Find topmost category under cursor
         List<CategoryComponent> sorted = new ArrayList<>(categories);
-        sorted.sort((a, b) -> Long.compare(b.lastInteracted, a.lastInteracted));
+        sorted.sort((a, b) -> Long.compare(b.lastInteractedTime, a.lastInteractedTime));
         
         for (CategoryComponent category : sorted) {
             if (category.isMouseOver(mx, my)) {

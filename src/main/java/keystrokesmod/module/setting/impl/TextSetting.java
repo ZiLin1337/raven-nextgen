@@ -8,11 +8,17 @@ public class TextSetting extends Setting {
     private String value = "";
     private final int maxLength;
 
+    public TextSetting(String name, String value, String placeholder, int maxLength, Runnable callback) {
+        this(name, maxLength);
+        this.value = value;
+    }
     public TextSetting(String name, int maxLength) {
         super(name);
         this.maxLength = maxLength;
     }
 
+    public String getText() { return value; }
+    public void setText(String value) { setValue(value); }
     public String getValue() {
         return value;
     }

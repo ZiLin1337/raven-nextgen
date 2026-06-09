@@ -45,69 +45,15 @@ public class AntiKnockback extends Module {
         if (!Utils.nullCheck() || LongJump.stopVelocity || e.isCanceled()) {
             return;
         }
-        if (e.getPacket() instanceof EntityVelocityUpdateS2CPacket) {
-            if (((EntityVelocityUpdateS2CPacket) e.getPacket()).getEntityID() == mc.player.getEntityId() && !disable) {
-                if (!cancelBurning.isToggled() && mc.player.isBurning()) {
-                    return;
-                }
-                if (disableInLobby.isToggled() && Utils.isLobby()) {
-                    return;
-                }
-                e.setCanceled(true);
-                if (cancel()) {
-                    return;
-                }
-                if (cancelConditions()) {
-                    return;
-                }
-                EntityVelocityUpdateS2CPacket s12PacketEntityVelocity = (EntityVelocityUpdateS2CPacket) e.getPacket();
-                if (horizontal.getInput() == 0 && vertical.getInput() > 0) {
-                    mc.player.motionY = ((double) s12PacketEntityVelocity.getMotionY() / 8000) * vertical.getInput() / 100.0;
-                }
-                else if (horizontal.getInput() > 0 && vertical.getInput() == 0) {
-                    mc.player.motionX = ((double) s12PacketEntityVelocity.getMotionX() / 8000) * horizontal.getInput() / 100.0;
-                    mc.player.motionZ = ((double) s12PacketEntityVelocity.getMotionZ() / 8000) * horizontal.getInput() / 100.0;
-                }
-                else {
-                    mc.player.motionX = ((double) s12PacketEntityVelocity.getMotionX() / 8000) * horizontal.getInput() / 100.0;
-                    mc.player.motionY = ((double) s12PacketEntityVelocity.getMotionY() / 8000) * vertical.getInput() / 100.0;
-                    mc.player.motionZ = ((double) s12PacketEntityVelocity.getMotionZ() / 8000) * horizontal.getInput() / 100.0;
-                }
-                if (boostMultiplier.getInput() != 1) {
-                    if (boostWithLMB.isToggled() && !Mouse.isButtonDown(0)) {
-                        return;
-                    }
-                    Utils.setSpeed(Utils.getHorizontalSpeed() * boostMultiplier.getInput());
-                }
-            }
-        }
-        else if (e.getPacket() instanceof ExplosionS2CPacket && !disable) {
+        if ((e.getPacket() instanceof EntityVelocityUpdateS2CPacket || e.getPacket() instanceof ExplosionS2CPacket) && !disable) {
             if (disableInLobby.isToggled() && Utils.isLobby()) {
                 return;
             }
-            e.setCanceled(true);
-            if (cancelExplosion.isToggled() || cancel()) {
-                return;
-            }
-            if (cancelConditions()) {
-                return;
-            }
-            ExplosionS2CPacket s27PacketExplosion = (ExplosionS2CPacket) e.getPacket();
-            if (horizontal.getInput() == 0 && vertical.getInput() > 0) {
-                mc.player.motionY += s27PacketExplosion.func_149144_d() * vertical.getInput() / 100.0;
-            }
-            else if (horizontal.getInput() > 0 && vertical.getInput() == 0) {
-                mc.player.motionX += s27PacketExplosion.func_149149_c() * horizontal.getInput() / 100.0;
-                mc.player.motionZ += s27PacketExplosion.func_149147_e() * horizontal.getInput() / 100.0;
-            }
-            else {
-                mc.player.motionX += s27PacketExplosion.func_149149_c() * horizontal.getInput() / 100.0;
-                mc.player.motionY += s27PacketExplosion.func_149144_d() * vertical.getInput() / 100.0;
-                mc.player.motionZ += s27PacketExplosion.func_149147_e() * horizontal.getInput() / 100.0;
+            if (!cancelConditions()) {
+                e.setCanceled(cancel() || cancelExplosion.isToggled());
             }
         }
     }
-
     private boolean cancel() {
         return (vertical.getInput() == 0 && horizontal.getInput() == 0);
     }
@@ -122,7 +68,7 @@ public class AntiKnockback extends Module {
             if (cancelWhileFalling.isToggled() && mc.player.fallDistance > 0) {
                 return true;
             }
-            if (cancelOffGround.isToggled() && !mc.player.onGround) {
+            if (cancelOffGround.isToggled() && !mc.player.isOnGround()) {
                 return true;
             }
         }

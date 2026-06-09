@@ -38,6 +38,7 @@ public class ProfileManager {
     }
 
     private String currentProfile = "default";
+    public java.util.List<Profile> profiles = new java.util.ArrayList<>();
 
     /**
      * Saves the current module configuration to the given profile name.
@@ -48,7 +49,7 @@ public class ProfileManager {
             Map<String, Object> settings = new LinkedHashMap<>();
             for (Setting setting : module.getSettings()) {
                 if (setting instanceof SliderSetting slider) {
-                    settings.put(setting.getName(), slider.getValue());
+                    settings.put(setting.getName(), slider.getInput());
                 } else if (setting instanceof ButtonSetting button) {
                     settings.put(setting.getName(), button.isToggled());
                 } else if (setting instanceof ColorSetting color) {
@@ -87,9 +88,9 @@ public class ProfileManager {
                     if (setting instanceof SliderSetting slider) {
                         if (value instanceof Number number) slider.setValue(number.intValue());
                     } else if (setting instanceof ButtonSetting button) {
-                        if (value instanceof Boolean bool) button.setState(bool);
+                        if (value instanceof Boolean bool) button.setEnabled(bool);
                     } else if (setting instanceof ColorSetting color) {
-                        if (value instanceof Number number) color.setColor(number.intValue());
+                        if (value instanceof Number number) color.setColor((number.intValue() >> 16) & 255, (number.intValue() >> 8) & 255, number.intValue() & 255, (number.intValue() >> 24) & 255);
                     }
                 }
                 Object enabled = settings.get("_enabled");
@@ -168,4 +169,9 @@ public class ProfileManager {
             java.nio.file.Files.copy(source.toPath(), destination.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
         }
     }
+    public void saveProfile(Profile profile) { if (profile != null) save(profile.getName()); }
+    public boolean deleteProfile(String profileName) { delete(profileName); return true; }
+    public void loadProfile(String profileName) { load(profileName); }
+    public void loadProfiles() {}
+    public boolean renameProfile(Profile profile, String name) { if (profile != null) profile.setName(name); return true; }
 }

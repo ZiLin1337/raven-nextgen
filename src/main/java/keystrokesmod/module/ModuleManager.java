@@ -16,6 +16,8 @@ public class ModuleManager {
 
     // Static module references
     public static keystrokesmod.module.impl.combat.KillAura killAura;
+    public static keystrokesmod.module.impl.minigames.BedWars bedwars;
+    public static keystrokesmod.module.impl.minigames.SkyWars skyWars;
     public static keystrokesmod.module.impl.combat.Velocity velocity;
     public static keystrokesmod.module.impl.combat.AntiDebuff antiDebuff;
     public static keystrokesmod.module.impl.combat.Reduce reduce;
@@ -133,7 +135,7 @@ public class ModuleManager {
                         Class<?> clazz = Class.forName(pkg + "." + className);
                         if (Module.class.isAssignableFrom(clazz) && clazz != Module.class) {
                             Module module = (Module) clazz.getDeclaredConstructor().newInstance();
-                            moduleManager.addModule(module);
+                            modules.add(module);
                         }
                     } catch (Exception ignored) {}
                 }

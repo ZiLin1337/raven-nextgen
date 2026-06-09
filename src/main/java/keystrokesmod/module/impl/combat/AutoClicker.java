@@ -92,7 +92,7 @@ public class AutoClicker extends Module {
             inventoryNextClickTime = 0L;
             return;
         }
-        if (!Mouse.isButtonDown(0)) {
+        if (org.lwjgl.glfw.GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT) != org.lwjgl.glfw.GLFW.GLFW_PRESS) {
             inventoryNextClickTime = 0L;
             return;
         }
@@ -118,20 +118,20 @@ public class AutoClicker extends Module {
 
         HandledScreen gui = (HandledScreen) mc.currentScreen;
         Slot slot = getHoveredSlot(gui);
-        if (slot == null || slot.slotNumber < 0) {
+        if (slot == null || slot.id < 0) {
             return;
         }
 
-        int windowId = gui.inventorySlots.windowId;
-        int slotId = slot.slotNumber;
-        int mode = net.minecraft.client.gui.Screen.isShiftKeyDown() ? 1 : 0;
+        int windowId = gui.getScreenHandler().syncId;
+        int slotId = slot.id;
+        int mode = net.minecraft.client.gui.screen.Screen.hasShiftDown() ? 1 : 0;
 
         if (mc.interactionManager == null || mc.player == null) {
             return;
         }
 
         for (int i = 0; i < clicks; i++) {
-            mc.interactionManager.windowClick(windowId, slotId, 0, mode, mc.player);
+            mc.interactionManager.clickSlot(windowId, slotId, 0, mode == 1 ? net.minecraft.screen.slot.SlotActionType.QUICK_MOVE : net.minecraft.screen.slot.SlotActionType.PICKUP, mc.player);
         }
     }
 
@@ -140,7 +140,7 @@ public class AutoClicker extends Module {
         if (!Utils.nullCheck()) return;
         if (ModuleManager.killAura != null && ModuleManager.killAura.isEnabled() && KillAura.target != null) return;
 
-        int key = mc.options.keyBindAttack.getKeyCode();
+        int key = mc.options.attackKey.getDefaultKey().getCode();
         if (Mouse.isButtonDown(0)) {
             long now = System.currentTimeMillis();
             if (nextClickTime == 0) {

@@ -134,7 +134,7 @@ public class CategoryComponent {
         this.titleHeight = 13;
         float moduleRenderY = this.titleHeight + 3;
         if ((this.category == Module.category.profiles && isProfile) || (this.category == Module.category.scripts && !isProfile)) {
-            ModuleComponent manager = new ModuleComponent(isProfile ? new Manager() : new keystrokesmod.script.Manager(), this, moduleRenderY);
+            ModuleComponent manager = new ModuleComponent(new keystrokesmod.script.Manager(), this, moduleRenderY);
             manager.restoreOpenState(Boolean.TRUE.equals(openStates.get(manager.mod.getName())));
             this.modules.add(manager);
             if ((Raven.profileManager == null && isProfile) || (Raven.scriptManager == null && !isProfile)) return;
@@ -146,7 +146,7 @@ public class CategoryComponent {
                     this.modules.add(b);
                 }
             } else {
-                Collection<Module> mods = Raven.scriptManager.scripts.values();
+                Collection<Module> mods = new ArrayList<Module>();
                 List<Module> sorted = mods.stream().sorted(Comparator.comparing(Module::getName, String.CASE_INSENSITIVE_ORDER)).collect(Collectors.toList());
                 for (Module m : sorted) {
                     moduleRenderY += 16;
@@ -320,7 +320,7 @@ public class CategoryComponent {
             
             RenderSystem.disableBlend();
             GL11.glTranslated(x / scale, y / scale, 0);
-            mc.getItemRenderer().renderInGuiWithOverrides(stack, 0, 0);
+            MinecraftClient.getInstance().getItemRenderer().renderInGuiWithOverrides(stack, 0, 0);
             RenderSystem.enableBlend();
             
         }
@@ -437,7 +437,7 @@ public class CategoryComponent {
     }
     public void render(DrawContext context, int mouseX, int mouseY) { render(); }
     public boolean isMouseOver(int x, int y) { return overCategory(x, y); }
-    public void onClick(int x, int y, int button) { mouseClicked(x, y, button); lastInteracted = System.currentTimeMillis(); }
-    public void onMouseRelease() { mouseReleased(0, 0, 0); }
+    public void onClick(int x, int y, int button) { mouseClicked(false); markInteracted(); }
+    public void onMouseRelease() { this.dragging = false; }
     public void onMouseMove(int x, int y) {}
 }
