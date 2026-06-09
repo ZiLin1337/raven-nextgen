@@ -2,41 +2,29 @@ package keystrokesmod.module.setting.impl;
 
 import com.google.gson.JsonObject;
 import keystrokesmod.module.setting.Setting;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class StringListSetting extends Setting {
-    private List<String> strings = new ArrayList<>();
-    private final int maxLength;
-    private final String placeholder;
+    public boolean visible = true;
+    public GroupSetting group;
 
-    public StringListSetting(String name, int maxLength, String placeholder) {
+    public StringListSetting(String name) {
         super(name);
-        this.maxLength = maxLength;
-        this.placeholder = placeholder;
     }
 
-    public List<String> getStrings() {
-        return strings;
+    public List<String> getEntries() {
+        return new ArrayList<>();
     }
 
-    public void setStrings(List<String> strings) {
-        this.strings = strings;
+    public boolean addEntry(String value) {
+        return false;
     }
 
-    public int getMaxLength() {
-        return maxLength;
-    }
-
-    public String getPlaceholder() {
-        return placeholder;
+    public void removeEntry(String value) {
     }
 
     @Override
     public void loadProfile(JsonObject data) {
-        if (data.has("strings")) {
-            // 简单实现
-        }
     }
 }
