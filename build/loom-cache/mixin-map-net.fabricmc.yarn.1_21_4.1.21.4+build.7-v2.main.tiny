@@ -1,0 +1,8 @@
+v1	named	intermediary
+FIELD	keystrokesmod/mixin/impl/client/MixinPlayerControllerMP	I	blockBreakCooldown	blockBreakCooldown
+FIELD	keystrokesmod/mixin/impl/render/MixinLivingEntityRenderer	Z	renderOutlines	renderOutlines
+FIELD	keystrokesmod/mixin/impl/render/MixinItemRenderer	Lnet/minecraft/item/ItemStack;	mainHand	field_4047
+FIELD	keystrokesmod/mixin/impl/render/MixinItemRenderer	F	equipProgressMainHand	field_4043
+FIELD	keystrokesmod/mixin/impl/render/MixinItemRenderer	F	prevEquipProgressMainHand	field_4053
+METHOD	keystrokesmod/mixin/impl/client/MixinGameSettings	(Lnet/minecraft/client/option/KeyBinding;)Z	isKeyPressed	isKeyPressed
+METHOD	keystrokesmod/mixin/impl/render/MixinLivingEntityRenderer	(Lnet/minecraft/entity/LivingEntity;F)F	getAnimationCounter	getAnimationCounter

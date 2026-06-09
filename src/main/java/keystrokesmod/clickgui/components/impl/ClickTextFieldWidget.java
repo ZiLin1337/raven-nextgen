@@ -2,6 +2,7 @@ package keystrokesmod.clickgui.components.impl;
 
 public class ClickTextFieldWidget {
     private String text = "";
+    private boolean focused;
 
     public ClickTextFieldWidget(String placeholder, int maxLength, float scale) {
     }
@@ -12,6 +13,14 @@ public class ClickTextFieldWidget {
 
     public void setText(String text) {
         this.text = text == null ? "" : text;
+    }
+
+    public void setFocused(boolean focused) {
+        this.focused = focused;
+    }
+
+    public boolean isFocused() {
+        return focused;
     }
 
     public boolean textboxKeyTyped(char typedChar, int keyCode) {

@@ -1,23 +1,19 @@
 package keystrokesmod.module.impl.render;
 
-import keystrokesmod.Raven;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.SliderSetting;
 
 public class NoHurtCam extends Module {
     public static NoHurtCam instance;
-    private SliderSetting multiplier;
+    public final SliderSetting multiplier = new SliderSetting("Multiplier", 0, 0, 100, 1);
 
     public NoHurtCam() {
         super("NoHurtCam", category.render);
         instance = this;
-        this.registerSetting(multiplier = new SliderSetting("Multiplier", 0, 0, 100, 1));
+        registerSetting(multiplier);
     }
 
-    public void onEnable() { instance = this; }
-    public void onDisable() { instance = null; }
-
     public static float getMultiplier() {
-        return (instance != null && instance.isEnabled()) ? (float) instance.multiplier.getInput() / 100f : 1.0f;
+        return instance == null ? 1.0F : (float) instance.multiplier.getInput() / 100.0F;
     }
 }

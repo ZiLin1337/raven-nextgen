@@ -1,22 +1,15 @@
 package keystrokesmod.keystroke;
 
-import keystrokesmod.Raven;
+import keystrokesmod.command.Command;
 import keystrokesmod.command.CommandInput;
-import keystrokesmod.command.impl.Toggle;
-import net.minecraft.client.MinecraftClient;
 
-public class KeyStrokeCommand {
-    private static MinecraftClient mc = MinecraftClient.getInstance();
+public class KeyStrokeCommand extends Command {
+    public KeyStrokeCommand() {
+        super("keystroke", "ks");
+    }
 
-    public static void execute(String cmd) {
-        if (cmd.startsWith("keystroke")) {
-            String[] parts = cmd.split(" ");
-            if (parts.length > 1 && parts[1].equals("gui")) {
-                mc.setScreen(new KeyStrokeConfigGui());
-            }
-        } else if (cmd.startsWith("toggle ")) {
-            String moduleName = cmd.substring(7);
-            Raven.moduleManager.getModule(moduleName).toggle();
-        }
+    @Override
+    public void execute(CommandInput input) {
+        reply("&7Keystroke command is temporarily unavailable in this migration build.");
     }
 }

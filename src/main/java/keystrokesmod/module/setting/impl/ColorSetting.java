@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import keystrokesmod.module.setting.Setting;
 
 public class ColorSetting extends Setting {
+    public GroupSetting groupSetting;
     private int red;
     private int green;
     private int blue;
@@ -38,6 +39,14 @@ public class ColorSetting extends Setting {
         return (alpha << 24) | (red << 16) | (green << 8) | blue;
     }
 
+    public int getRGB() {
+        return getColor();
+    }
+
+    public boolean hasAlpha() {
+        return alpha < 255;
+    }
+
     public int getRed() {
         return red;
     }
@@ -52,6 +61,25 @@ public class ColorSetting extends Setting {
 
     public int getAlpha() {
         return alpha;
+    }
+
+    public void setAlpha(int alpha) {
+        this.alpha = clamp(alpha);
+    }
+
+    public float getHue() {
+        return 0.0F;
+    }
+
+    public float getSaturation() {
+        return 0.0F;
+    }
+
+    public float getBrightness() {
+        return 0.0F;
+    }
+
+    public void setFromHSB(float hue, float saturation, float brightness) {
     }
 
     @Override
