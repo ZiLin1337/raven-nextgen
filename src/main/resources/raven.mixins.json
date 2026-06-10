@@ -26,7 +26,6 @@
     "accessor.IAccessorShaderGroup",
     "client.MixinGameSettings",
     "client.MixinItemStack",
-    "client.MixinKeyboardInput",
     "client.MixinMinecraft",
     "client.MixinMovementInputFromOptions",
     "client.MixinPlayerControllerMP",
