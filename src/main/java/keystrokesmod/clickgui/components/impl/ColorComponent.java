@@ -6,6 +6,7 @@ import keystrokesmod.module.setting.impl.ColorSetting;
 public class ColorComponent extends Component {
     public final ColorSetting colorSetting;
     public boolean expanded = false;
+    public float xOffset = 0;
 
     public ColorComponent(ColorSetting colorSetting, ModuleComponent p, float o) {
         this.colorSetting = colorSetting;

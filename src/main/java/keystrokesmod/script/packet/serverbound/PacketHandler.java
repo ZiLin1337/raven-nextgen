@@ -1,8 +1,9 @@
 package keystrokesmod.script.packet.serverbound;
 
-/**
- * Packet handler stub - disabled for 1.21.4 migration
- */
+import net.minecraft.network.packet.Packet;
+
 public class PacketHandler {
-    // Script system disabled for 1.21.4 migration
+    public static Packet<?> convertCPacket(CPacket packet) {
+        return null;
+    }
 }

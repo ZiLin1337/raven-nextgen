@@ -3,21 +3,14 @@ package keystrokesmod.script;
 import javax.tools.SimpleJavaFileObject;
 import java.net.URI;
 
-public class JavaSourceFromString extends SimpleJavaFileObject
-{
+public class JavaSourceFromString extends SimpleJavaFileObject {
     private final String code;
-    public final String name;
-    public int extraLines;
-
+    public JavaSourceFromString(String name, String code) {
+        super(URI.create("string:///" + name + Kind.SOURCE.extension), Kind.SOURCE);
+        this.code = code;
+    }
     @Override
     public CharSequence getCharContent(boolean ignoreEncodingErrors) {
-        return this.code;
-    }
-
-    public JavaSourceFromString(final String name, final String code, int extraLines) {
-        super(URI.create("string:///" + name + ".java"), Kind.SOURCE);
-        this.code = code;
-        this.name = name;
-        this.extraLines = extraLines;
+        return code;
     }
 }

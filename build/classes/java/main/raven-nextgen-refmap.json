@@ -35,10 +35,6 @@
       "resetEquipProgress": "Lnet/minecraft/class_759;method_3215(Lnet/minecraft/class_1268;)V",
       "updateHeldItems": "Lnet/minecraft/class_759;method_3220()V"
     },
-    "keystrokesmod/mixin/impl/render/MixinLivingEntityRenderer": {
-      "render": "Lnet/minecraft/class_922;method_4054(Lnet/minecraft/class_10042;Lnet/minecraft/class_4587;Lnet/minecraft/class_4597;I)V",
-      "render(Lnet/minecraft/entity/LivingEntity;DDDFF)V": "Lnet/minecraft/class_922;render(Lnet/minecraft/class_1309;DDDFF)V"
-    },
     "keystrokesmod/mixin/impl/render/MixinRenderGlobal": {
       "Lnet/minecraft/entity/Entity;getPitch(F)F": "Lnet/minecraft/class_1297;method_5695(F)F",
       "Lnet/minecraft/entity/Entity;getYaw(F)F": "Lnet/minecraft/class_1297;method_5705(F)F"
@@ -86,10 +82,6 @@
       "keystrokesmod/mixin/impl/render/MixinItemRenderer": {
         "resetEquipProgress": "Lnet/minecraft/class_759;method_3215(Lnet/minecraft/class_1268;)V",
         "updateHeldItems": "Lnet/minecraft/class_759;method_3220()V"
-      },
-      "keystrokesmod/mixin/impl/render/MixinLivingEntityRenderer": {
-        "render": "Lnet/minecraft/class_922;method_4054(Lnet/minecraft/class_10042;Lnet/minecraft/class_4587;Lnet/minecraft/class_4597;I)V",
-        "render(Lnet/minecraft/entity/LivingEntity;DDDFF)V": "Lnet/minecraft/class_922;render(Lnet/minecraft/class_1309;DDDFF)V"
       },
       "keystrokesmod/mixin/impl/render/MixinRenderGlobal": {
         "Lnet/minecraft/entity/Entity;getPitch(F)F": "Lnet/minecraft/class_1297;method_5695(F)F",

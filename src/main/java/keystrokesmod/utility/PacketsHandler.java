@@ -16,33 +16,9 @@ public class PacketsHandler implements IMinecraftInstance {
 
     
     public void onSendPacket(SendPacketEvent e) {
-        if (e.isCanceled()) {
-            return;
-        }
-        Packet<?> packet = e.getPacket();
-        if (packet instanceof UpdateSelectedSlotC2SPacket && handleSlots) {
-            UpdateSelectedSlotC2SPacket slotPacket = (UpdateSelectedSlotC2SPacket) packet;
-            int slotId = slotPacket.getSlotId();
-            playerSlot.set(slotId);
-            serverSlot.set(slotId);
-        }
     }
 
     
     public void onReceivePacket(ReceivePacketEvent e) {
-        if (e.getPacket() instanceof S09PacketHeldItemChange && handleSlots) {
-            S09PacketHeldItemChange packet = (S09PacketHeldItemChange) e.getPacket();
-            int index = packet.getHeldItemHotbarIndex();
-            if (index >= 0 && index < InventoryPlayer.getHotbarSize()) {
-                serverSlot.set(index);
-            }
-        }
-        else if (e.getPacket() instanceof S0CPacketSpawnPlayer && MinecraftClient.getInstance().playerr != null && handleSlots) {
-            S0CPacketSpawnPlayer packet = (S0CPacketSpawnPlayer) e.getPacket();
-            if (packet.getEntityID() != MinecraftClient.getInstance().playerr.getEntityId()) {
-                return;
-            }
-            playerSlot.set(-1);
-        }
     }
 }

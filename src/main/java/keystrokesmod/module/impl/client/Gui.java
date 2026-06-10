@@ -3,6 +3,7 @@ package keystrokesmod.module.impl.client;
 import keystrokesmod.module.Module;
 import keystrokesmod.module.setting.impl.SliderSetting;
 import keystrokesmod.module.setting.impl.ButtonSetting;
+import keystrokesmod.utility.font.RavenTextRenderer;
 
 public class Gui extends Module {
     public static SliderSetting scrollSpeed;
@@ -20,11 +21,11 @@ public class Gui extends Module {
         return 1.0;
     }
 
-    public static Object getClickGuiHeaderTextRenderer() {
+    public static RavenTextRenderer getClickGuiHeaderTextRenderer() {
         return null;
     }
 
-    public static Object getClickGuiSettingTextRenderer() {
+    public static RavenTextRenderer getClickGuiSettingTextRenderer() {
         return null;
     }
 }
