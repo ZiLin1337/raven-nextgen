@@ -1,11 +1,9 @@
 package keystrokesmod.mixin.impl.render;
 
-import net.minecraft.block.entity.ChestBlockEntity;
-import net.minecraft.client.render.block.entity.ChestBlockEntityRenderer;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.util.math.MatrixStack;
 import org.spongepowered.asm.mixin.Mixin;
 
-@Mixin(ChestBlockEntityRenderer.class)
+// 1.21.4中TileEntityEnderChestRenderer不存在
+// 此mixin在Fabric环境下为兼容桩
+@Mixin(net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher.class)
 public class MixinTileEntityChestRenderer {
 }

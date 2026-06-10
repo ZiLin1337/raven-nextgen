@@ -1,9 +1,17 @@
 package keystrokesmod.mixin.impl.render;
 
-import net.minecraft.client.world.ClientWorld;
+import keystrokesmod.module.ModuleManager;
+import net.minecraft.client.render.WorldRenderer;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-// 1.21.4没有OptiFine CustomSky，改用WorldRenderer渲染钩子
-@Mixin(ClientWorld.class)
+@Mixin(WorldRenderer.class)
 public class MixinCustomSky {
+
+    @Inject(method = "renderSky", at = @At("HEAD"))
+    private void onRenderSky(net.minecraft.client.util.math.MatrixStack matrices, net.minecraft.client.render.VertexConsumerProvider.Immediate buffer, float tickDelta, boolean skipFog, CallbackInfo ci) {
+        // Weather模块 - 自定义天空渲染钩子
+    }
 }
