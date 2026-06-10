@@ -1,6 +1,8 @@
 package keystrokesmod.mixin.impl.accessor;
-import java.util.List;
+
+import net.minecraft.client.gl.ShaderProgram;
+import org.spongepowered.asm.mixin.Mixin;
+
+@Mixin(ShaderProgram.class)
 public interface IAccessorShaderGroup {
-    List<Object> getListShaders();
-    void setShaders(List<Object> shaders);
 }

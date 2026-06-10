@@ -1,5 +1,4 @@
 v1	named	intermediary
-FIELD	keystrokesmod/mixin/impl/client/MixinPlayerControllerMP	I	blockBreakCooldown	blockBreakCooldown
 FIELD	keystrokesmod/mixin/impl/render/MixinItemRenderer	Lnet/minecraft/item/ItemStack;	mainHand	field_4047
 FIELD	keystrokesmod/mixin/impl/render/MixinItemRenderer	F	equipProgressMainHand	field_4043
 FIELD	keystrokesmod/mixin/impl/render/MixinItemRenderer	F	prevEquipProgressMainHand	field_4053
