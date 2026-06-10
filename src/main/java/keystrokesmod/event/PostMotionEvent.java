@@ -6,6 +6,7 @@ public class PostMotionEvent extends Event {
     private double posX, posY, posZ;
     private float yaw, pitch;
     private boolean onGround;
+    public PostMotionEvent() {}
     public PostMotionEvent(double posX, double posY, double posZ, float yaw, float pitch, boolean onGround) {
         this.posX = posX; this.posY = posY; this.posZ = posZ;
         this.yaw = yaw; this.pitch = pitch; this.onGround = onGround;
