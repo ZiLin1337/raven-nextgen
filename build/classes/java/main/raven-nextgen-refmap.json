@@ -16,12 +16,6 @@
     "keystrokesmod/mixin/impl/client/MixinPlayerControllerMP": {
       "attackEntity": "Lnet/minecraft/class_636;method_2918(Lnet/minecraft/class_1657;Lnet/minecraft/class_1297;)V"
     },
-    "keystrokesmod/mixin/impl/entity/MixinLivingEntity": {
-      "jump": "Lnet/minecraft/class_1309;method_6043()V"
-    },
-    "keystrokesmod/mixin/impl/entity/MixinPlayerEntity": {
-      "attack": "Lnet/minecraft/class_1657;method_7324(Lnet/minecraft/class_1297;)V"
-    },
     "keystrokesmod/mixin/impl/render/MixinActiveRenderInfo": {
       "update": "Lnet/minecraft/class_4184;method_19321(Lnet/minecraft/class_1922;Lnet/minecraft/class_1297;ZZF)V"
     },
@@ -61,12 +55,6 @@
       },
       "keystrokesmod/mixin/impl/client/MixinPlayerControllerMP": {
         "attackEntity": "Lnet/minecraft/class_636;method_2918(Lnet/minecraft/class_1657;Lnet/minecraft/class_1297;)V"
-      },
-      "keystrokesmod/mixin/impl/entity/MixinLivingEntity": {
-        "jump": "Lnet/minecraft/class_1309;method_6043()V"
-      },
-      "keystrokesmod/mixin/impl/entity/MixinPlayerEntity": {
-        "attack": "Lnet/minecraft/class_1657;method_7324(Lnet/minecraft/class_1297;)V"
       },
       "keystrokesmod/mixin/impl/render/MixinActiveRenderInfo": {
         "update": "Lnet/minecraft/class_4184;method_19321(Lnet/minecraft/class_1922;Lnet/minecraft/class_1297;ZZF)V"

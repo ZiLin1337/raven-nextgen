@@ -4,14 +4,11 @@ import keystrokesmod.Raven;
 import keystrokesmod.event.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.option.GameOptions;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.hit.HitResult;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MinecraftClient.class)
@@ -26,12 +23,14 @@ public class MixinMinecraft {
         Raven.EVENT_BUS.post(new PostMouseSelectionEvent());
     }
 
-    @Inject(method = "runTick", at = @At(value = "FIELD", opcode = Opcodes.GETFIELD, target = "Lnet/minecraft/client/option/GameOptions;chatVisibility:Lnet/minecraft/entity/player/PlayerEntity$EnumChatVisibility;"))
+    @Inject(method = "runTick", at = @At(value = "FIELD", opcode = Opcodes.GETFIELD,
+            target = "Lnet/minecraft/client/option/GameOptions;chatVisibility:Lnet/minecraft/entity/player/PlayerEntity$EnumChatVisibility;"))
     private void injectBeforeChatVisibility(CallbackInfo ci) {
         Raven.EVENT_BUS.post(new PrePlayerInteractEvent());
     }
 
-    @Inject(method = "runTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;swap(Ljava/lang/String;)V", ordinal = 2))
+    @Inject(method = "runTick", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/util/profiler/Profiler;swap(Ljava/lang/String;)V", ordinal = 2))
     private void onRunTick(CallbackInfo ci) {
         Raven.EVENT_BUS.post(new PreInputEvent());
     }
@@ -43,7 +42,6 @@ public class MixinMinecraft {
 
     @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)
     public void injectClickMouse(CallbackInfo ci) {
-        HitResult hit = mc.crosshairTarget;
         Raven.EVENT_BUS.post(new ClickMouseEvent());
     }
 
@@ -59,7 +57,9 @@ public class MixinMinecraft {
         Raven.EVENT_BUS.post(new GameTickEvent());
     }
 
-    @Inject(method = "runTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;startSection(Ljava/lang/String;)V", ordinal = 0, shift = At.Shift.BEFORE))
+    @Inject(method = "runTick", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/util/profiler/Profiler;startSection(Ljava/lang/String;)V",
+            ordinal = 0, shift = At.Shift.BEFORE))
     public void onRunTickAfterRightClickDelay(CallbackInfo ci) {
         Raven.EVENT_BUS.post(new RightClickDelayTickEvent());
     }
