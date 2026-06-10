@@ -23,12 +23,6 @@ public class MixinMinecraft {
         Raven.EVENT_BUS.post(new PostMouseSelectionEvent());
     }
 
-    @Inject(method = "runTick", at = @At(value = "FIELD", opcode = Opcodes.GETFIELD,
-            target = "Lnet/minecraft/client/option/GameOptions;chatVisibility:Lnet/minecraft/entity/player/PlayerEntity$EnumChatVisibility;"))
-    private void injectBeforeChatVisibility(CallbackInfo ci) {
-        Raven.EVENT_BUS.post(new PrePlayerInteractEvent());
-    }
-
     @Inject(method = "runTick", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/util/profiler/Profiler;swap(Ljava/lang/String;)V", ordinal = 2))
     private void onRunTick(CallbackInfo ci) {
