@@ -69,6 +69,9 @@
     "keystrokesmod/mixin/impl/render/MixinActiveRenderInfo": {
       "update": "Lnet/minecraft/class_4184;method_19321(Lnet/minecraft/class_1922;Lnet/minecraft/class_1297;ZZF)V"
     },
+    "keystrokesmod/mixin/impl/render/MixinBackgroundRenderer": {
+      "applyFog": "Lnet/minecraft/class_758;method_3211(Lnet/minecraft/class_4184;Lnet/minecraft/class_758$class_4596;Lorg/joml/Vector4f;FZF)Lnet/minecraft/class_9958;"
+    },
     "keystrokesmod/mixin/impl/render/MixinCamera": {
       "update": "Lnet/minecraft/class_4184;method_19321(Lnet/minecraft/class_1922;Lnet/minecraft/class_1297;ZZF)V"
     },
@@ -102,6 +105,9 @@
     },
     "keystrokesmod/mixin/impl/render/MixinGuiScreen": {
       "keyPressed": "Lnet/minecraft/class_437;method_25404(III)Z"
+    },
+    "keystrokesmod/mixin/impl/render/MixinInGameOverlayRenderer": {
+      "renderFireOverlay": "Lnet/minecraft/class_4603;method_23070(Lnet/minecraft/class_4587;Lnet/minecraft/class_4597;)V"
     },
     "keystrokesmod/mixin/impl/render/MixinItemRenderer": {
       "resetEquipProgress": "Lnet/minecraft/class_759;method_3215(Lnet/minecraft/class_1268;)V",
@@ -200,6 +206,9 @@
       "keystrokesmod/mixin/impl/render/MixinActiveRenderInfo": {
         "update": "Lnet/minecraft/class_4184;method_19321(Lnet/minecraft/class_1922;Lnet/minecraft/class_1297;ZZF)V"
       },
+      "keystrokesmod/mixin/impl/render/MixinBackgroundRenderer": {
+        "applyFog": "Lnet/minecraft/class_758;method_3211(Lnet/minecraft/class_4184;Lnet/minecraft/class_758$class_4596;Lorg/joml/Vector4f;FZF)Lnet/minecraft/class_9958;"
+      },
       "keystrokesmod/mixin/impl/render/MixinCamera": {
         "update": "Lnet/minecraft/class_4184;method_19321(Lnet/minecraft/class_1922;Lnet/minecraft/class_1297;ZZF)V"
       },
@@ -233,6 +242,9 @@
       },
       "keystrokesmod/mixin/impl/render/MixinGuiScreen": {
         "keyPressed": "Lnet/minecraft/class_437;method_25404(III)Z"
+      },
+      "keystrokesmod/mixin/impl/render/MixinInGameOverlayRenderer": {
+        "renderFireOverlay": "Lnet/minecraft/class_4603;method_23070(Lnet/minecraft/class_4587;Lnet/minecraft/class_4597;)V"
       },
       "keystrokesmod/mixin/impl/render/MixinItemRenderer": {
         "resetEquipProgress": "Lnet/minecraft/class_759;method_3215(Lnet/minecraft/class_1268;)V",
