@@ -20,9 +20,6 @@
     "keystrokesmod/mixin/impl/accessor/IAccessorPlayerControllerMP": {
       "blockBreakingCooldown": "field_3716:I"
     },
-    "keystrokesmod/mixin/impl/client/MixinGameSettings": {
-      "load": "Lnet/minecraft/class_315;method_1636()V"
-    },
     "keystrokesmod/mixin/impl/client/MixinMinecraft": {
       "Lnet/minecraft/client/render/GameRenderer;getMouseOver(F)V": "Lnet/minecraft/class_757;getMouseOver(F)V",
       "Lnet/minecraft/util/profiler/Profiler;startSection(Ljava/lang/String;)V": "Lnet/minecraft/class_3695;startSection(Ljava/lang/String;)V",
@@ -119,6 +116,9 @@
     "keystrokesmod/mixin/impl/render/MixinRendererLivingEntity": {
       "render(Lnet/minecraft/client/render/entity/state/LivingEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V": "Lnet/minecraft/class_922;method_4054(Lnet/minecraft/class_10042;Lnet/minecraft/class_4587;Lnet/minecraft/class_4597;I)V"
     },
+    "keystrokesmod/mixin/impl/render/MixinTileEntityChestRenderer": {
+      "render(Lnet/minecraft/client/render/block/entity/BlockEntityRenderer;Lnet/minecraft/block/entity/BlockEntity;FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;)V": "Lnet/minecraft/class_824;method_23079(Lnet/minecraft/class_827;Lnet/minecraft/class_2586;FLnet/minecraft/class_4587;Lnet/minecraft/class_4597;)V"
+    },
     "keystrokesmod/mixin/impl/world/MixinBlock": {
       "getSlipperiness": "Lnet/minecraft/class_2248;method_9499()F"
     }
@@ -144,9 +144,6 @@
       },
       "keystrokesmod/mixin/impl/accessor/IAccessorPlayerControllerMP": {
         "blockBreakingCooldown": "field_3716:I"
-      },
-      "keystrokesmod/mixin/impl/client/MixinGameSettings": {
-        "load": "Lnet/minecraft/class_315;method_1636()V"
       },
       "keystrokesmod/mixin/impl/client/MixinMinecraft": {
         "Lnet/minecraft/client/render/GameRenderer;getMouseOver(F)V": "Lnet/minecraft/class_757;getMouseOver(F)V",
@@ -243,6 +240,9 @@
       },
       "keystrokesmod/mixin/impl/render/MixinRendererLivingEntity": {
         "render(Lnet/minecraft/client/render/entity/state/LivingEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V": "Lnet/minecraft/class_922;method_4054(Lnet/minecraft/class_10042;Lnet/minecraft/class_4587;Lnet/minecraft/class_4597;I)V"
+      },
+      "keystrokesmod/mixin/impl/render/MixinTileEntityChestRenderer": {
+        "render(Lnet/minecraft/client/render/block/entity/BlockEntityRenderer;Lnet/minecraft/block/entity/BlockEntity;FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;)V": "Lnet/minecraft/class_824;method_23079(Lnet/minecraft/class_827;Lnet/minecraft/class_2586;FLnet/minecraft/class_4587;Lnet/minecraft/class_4597;)V"
       },
       "keystrokesmod/mixin/impl/world/MixinBlock": {
         "getSlipperiness": "Lnet/minecraft/class_2248;method_9499()F"
