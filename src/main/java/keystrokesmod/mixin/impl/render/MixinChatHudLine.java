@@ -1,9 +1,17 @@
 package keystrokesmod.mixin.impl.render;
 
+import keystrokesmod.Raven;
 import net.minecraft.client.gui.hud.ChatHudLine;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ChatHudLine.class)
 public class MixinChatHudLine {
-    // BetterChat - 聊天行
+    @Inject(method = "draw", at = @At("HEAD"))
+    private void onDraw(CallbackInfo ci) {
+        // 聊天行绘制
+        // 可用于BetterChat钩子
+    }
 }

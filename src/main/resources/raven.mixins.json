@@ -25,6 +25,9 @@
         "keystrokesmod.mixin.impl.block.MixinCobwebBlock",
         "keystrokesmod.mixin.impl.block.MixinPowderSnowBlock",
         "keystrokesmod.mixin.impl.block.MixinSlimeBlock",
+        "keystrokesmod.mixin.impl.client.MixinAbstractClientPlayerEntity",
+        "keystrokesmod.mixin.impl.client.MixinClientPlayerEntity",
+        "keystrokesmod.mixin.impl.client.MixinClientPlayerInteractionManager",
         "keystrokesmod.mixin.impl.client.MixinDisconnectedScreen",
         "keystrokesmod.mixin.impl.client.MixinDownloadingTerrainScreen",
         "keystrokesmod.mixin.impl.client.MixinGameSettings",
@@ -58,8 +61,6 @@
         "keystrokesmod.mixin.impl.network.MixinClientPlayNetworkHandler",
         "keystrokesmod.mixin.impl.network.MixinEntitiesDestroyS2CPacket",
         "keystrokesmod.mixin.impl.network.MixinHandshakeC2SPacket",
-        "keystrokesmod.mixin.impl.network.MixinLoginNetworkHandler",
-        "keystrokesmod.mixin.impl.network.MixinMessageHandler",
         "keystrokesmod.mixin.impl.network.MixinModList",
         "keystrokesmod.mixin.impl.network.MixinMultiplayerServerListPinger",
         "keystrokesmod.mixin.impl.network.MixinNetHandlerPlayClient",
@@ -84,8 +85,6 @@
         "keystrokesmod.mixin.impl.render.MixinDrawContext",
         "keystrokesmod.mixin.impl.render.MixinEnchantingTableBlockEntityRenderer",
         "keystrokesmod.mixin.impl.render.MixinEndCrystalEntityRenderer",
-        "keystrokesmod.mixin.impl.render.MixinEntityRenderDispatcher",
-        "keystrokesmod.mixin.impl.render.MixinEntityRenderState",
         "keystrokesmod.mixin.impl.render.MixinEntityRenderer",
         "keystrokesmod.mixin.impl.render.MixinEntryListWidget",
         "keystrokesmod.mixin.impl.render.MixinFeatureRenderer",
@@ -126,9 +125,8 @@
         "keystrokesmod.mixin.impl.render.MixinWorldBorderRendering",
         "keystrokesmod.mixin.impl.render.MixinWorldRenderer",
         "keystrokesmod.mixin.impl.world.MixinBlock",
-        "keystrokesmod.mixin.impl.world.MixinClientWorld",
         "keystrokesmod.mixin.impl.world.MixinWorld",
-        "keystrokesmod.mixin.impl.world.MixinWorldInfo"
+        "keystrokesmod.mixin.impl.world.MixinWorldRenderer"
     ],
     "injectors": {
         "defaultRequire": 1
