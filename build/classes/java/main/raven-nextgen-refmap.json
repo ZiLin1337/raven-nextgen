@@ -69,6 +69,9 @@
     "keystrokesmod/mixin/impl/render/MixinActiveRenderInfo": {
       "update": "Lnet/minecraft/class_4184;method_19321(Lnet/minecraft/class_1922;Lnet/minecraft/class_1297;ZZF)V"
     },
+    "keystrokesmod/mixin/impl/render/MixinCamera": {
+      "update": "Lnet/minecraft/class_4184;method_19321(Lnet/minecraft/class_1922;Lnet/minecraft/class_1297;ZZF)V"
+    },
     "keystrokesmod/mixin/impl/render/MixinCustomSky": {
       "renderSky": "Lnet/minecraft/class_761;method_62200(Lnet/minecraft/class_9909;Lnet/minecraft/class_4184;FLnet/minecraft/class_9958;)V"
     },
@@ -82,6 +85,9 @@
     "keystrokesmod/mixin/impl/render/MixinFontRenderer": {
       "drawLayer(Lnet/minecraft/text/OrderedText;FFIZLorg/joml/Matrix4f;Lnet/minecraft/client/font/TextRenderer$TextLayerType;II)F": "Lnet/minecraft/class_327;drawLayer(Lnet/minecraft/class_5481;FFIZLorg/joml/Matrix4f;Lnet/minecraft/class_327$class_6415;II)F",
       "getWidth": "Lnet/minecraft/class_327;method_1727(Ljava/lang/String;)I"
+    },
+    "keystrokesmod/mixin/impl/render/MixinGameRenderer": {
+      "render": "Lnet/minecraft/class_757;method_3192(Lnet/minecraft/class_9779;Z)V"
     },
     "keystrokesmod/mixin/impl/render/MixinGuiChat": {
       "sendMessage": "Lnet/minecraft/class_408;method_44056(Ljava/lang/String;Z)V"
@@ -194,6 +200,9 @@
       "keystrokesmod/mixin/impl/render/MixinActiveRenderInfo": {
         "update": "Lnet/minecraft/class_4184;method_19321(Lnet/minecraft/class_1922;Lnet/minecraft/class_1297;ZZF)V"
       },
+      "keystrokesmod/mixin/impl/render/MixinCamera": {
+        "update": "Lnet/minecraft/class_4184;method_19321(Lnet/minecraft/class_1922;Lnet/minecraft/class_1297;ZZF)V"
+      },
       "keystrokesmod/mixin/impl/render/MixinCustomSky": {
         "renderSky": "Lnet/minecraft/class_761;method_62200(Lnet/minecraft/class_9909;Lnet/minecraft/class_4184;FLnet/minecraft/class_9958;)V"
       },
@@ -207,6 +216,9 @@
       "keystrokesmod/mixin/impl/render/MixinFontRenderer": {
         "drawLayer(Lnet/minecraft/text/OrderedText;FFIZLorg/joml/Matrix4f;Lnet/minecraft/client/font/TextRenderer$TextLayerType;II)F": "Lnet/minecraft/class_327;drawLayer(Lnet/minecraft/class_5481;FFIZLorg/joml/Matrix4f;Lnet/minecraft/class_327$class_6415;II)F",
         "getWidth": "Lnet/minecraft/class_327;method_1727(Ljava/lang/String;)I"
+      },
+      "keystrokesmod/mixin/impl/render/MixinGameRenderer": {
+        "render": "Lnet/minecraft/class_757;method_3192(Lnet/minecraft/class_9779;Z)V"
       },
       "keystrokesmod/mixin/impl/render/MixinGuiChat": {
         "sendMessage": "Lnet/minecraft/class_408;method_44056(Ljava/lang/String;Z)V"

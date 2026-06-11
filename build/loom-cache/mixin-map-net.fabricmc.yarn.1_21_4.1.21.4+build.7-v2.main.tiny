@@ -6,9 +6,17 @@ FIELD	keystrokesmod/mixin/impl/render/MixinRenderGlobal	Lnet/minecraft/client/Mi
 FIELD	keystrokesmod/mixin/impl/render/MixinItemRenderer	Lnet/minecraft/item/ItemStack;	mainHand	field_4047
 FIELD	keystrokesmod/mixin/impl/render/MixinItemRenderer	F	equipProgressMainHand	field_4043
 FIELD	keystrokesmod/mixin/impl/render/MixinItemRenderer	F	prevEquipProgressMainHand	field_4053
+FIELD	keystrokesmod/mixin/impl/render/MixinCamera	Lnet/minecraft/util/math/Vec3d;	pos	field_18712
+FIELD	keystrokesmod/mixin/impl/render/MixinCamera	Z	thirdPerson	field_18719
+FIELD	keystrokesmod/mixin/impl/render/MixinCamera	F	yaw	field_18718
+FIELD	keystrokesmod/mixin/impl/render/MixinCamera	F	pitch	field_18717
 FIELD	keystrokesmod/mixin/impl/render/MixinRenderManager	F	cameraYaw	cameraYaw
 FIELD	keystrokesmod/mixin/impl/render/MixinRenderManager	F	cameraPitch	cameraPitch
 FIELD	keystrokesmod/mixin/impl/render/MixinGuiChat	Lnet/minecraft/client/gui/widget/TextFieldWidget;	chatField	field_2382
 FIELD	keystrokesmod/mixin/impl/entity/MixinEntity	F	stepHeight	stepHeight
 FIELD	keystrokesmod/mixin/impl/entity/MixinEntityPlayerSP	Lnet/minecraft/client/network/ClientPlayNetworkHandler;	networkHandler	field_3944
 FIELD	keystrokesmod/mixin/impl/entity/MixinEntityPlayerSP	Lnet/minecraft/client/input/Input;	input	field_3913
+METHOD	keystrokesmod/mixin/impl/render/MixinCamera	(FF)V	setRotation	method_19325
+METHOD	keystrokesmod/mixin/impl/render/MixinCamera	(F)F	clipToSpace	method_19318
+METHOD	keystrokesmod/mixin/impl/render/MixinCamera	(FFF)V	moveBy	method_19324
+METHOD	keystrokesmod/mixin/impl/render/MixinCamera	(Lnet/minecraft/util/math/Vec3d;)V	setPos	method_19322
