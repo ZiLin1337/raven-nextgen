@@ -5,4 +5,5 @@ import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(PacketByteBuf.class)
 public class MixinPacketByteBuf {
+    // 网络包缓冲区
 }

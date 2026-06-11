@@ -5,4 +5,5 @@ import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(ItemStack.class)
 public class MixinItemStack {
+    // ItemESP - 物品堆栈
 }

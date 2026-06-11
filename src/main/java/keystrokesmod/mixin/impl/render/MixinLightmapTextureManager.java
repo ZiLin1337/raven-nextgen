@@ -5,4 +5,5 @@ import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(LightmapTextureManager.class)
 public class MixinLightmapTextureManager {
+    // FullBright/NoRender - 光照贴图管理
 }

@@ -13,12 +13,25 @@
       "lastYaw": "field_3941:F",
       "lastZ": "field_3924:D"
     },
+    "keystrokesmod/mixin/impl/accessor/IAccessorGuiScreen": {
+      "textRenderer": "field_22793:Lnet/minecraft/class_327;"
+    },
     "keystrokesmod/mixin/impl/accessor/IAccessorMinecraft": {
       "attackCooldown": "field_1771:I",
       "itemUseCooldown": "field_1752:I"
     },
     "keystrokesmod/mixin/impl/accessor/IAccessorPlayerControllerMP": {
       "blockBreakingCooldown": "field_3716:I"
+    },
+    "keystrokesmod/mixin/impl/block/MixinCobwebBlock": {
+      "onEntityCollision": "Lnet/minecraft/class_2560;method_9548(Lnet/minecraft/class_2680;Lnet/minecraft/class_1937;Lnet/minecraft/class_2338;Lnet/minecraft/class_1297;)V"
+    },
+    "keystrokesmod/mixin/impl/block/MixinPowderSnowBlock": {
+      "onEntityCollision": "Lnet/minecraft/class_5635;method_9548(Lnet/minecraft/class_2680;Lnet/minecraft/class_1937;Lnet/minecraft/class_2338;Lnet/minecraft/class_1297;)V"
+    },
+    "keystrokesmod/mixin/impl/block/MixinSlimeBlock": {
+      "bounce": "Lnet/minecraft/class_2490;method_21847(Lnet/minecraft/class_1297;)V",
+      "onSteppedOn": "Lnet/minecraft/class_2490;method_9591(Lnet/minecraft/class_1937;Lnet/minecraft/class_2338;Lnet/minecraft/class_2680;Lnet/minecraft/class_1297;)V"
     },
     "keystrokesmod/mixin/impl/client/MixinMinecraft": {
       "Lnet/minecraft/client/render/GameRenderer;getMouseOver(F)V": "Lnet/minecraft/class_757;getMouseOver(F)V",
@@ -150,12 +163,25 @@
         "lastYaw": "field_3941:F",
         "lastZ": "field_3924:D"
       },
+      "keystrokesmod/mixin/impl/accessor/IAccessorGuiScreen": {
+        "textRenderer": "field_22793:Lnet/minecraft/class_327;"
+      },
       "keystrokesmod/mixin/impl/accessor/IAccessorMinecraft": {
         "attackCooldown": "field_1771:I",
         "itemUseCooldown": "field_1752:I"
       },
       "keystrokesmod/mixin/impl/accessor/IAccessorPlayerControllerMP": {
         "blockBreakingCooldown": "field_3716:I"
+      },
+      "keystrokesmod/mixin/impl/block/MixinCobwebBlock": {
+        "onEntityCollision": "Lnet/minecraft/class_2560;method_9548(Lnet/minecraft/class_2680;Lnet/minecraft/class_1937;Lnet/minecraft/class_2338;Lnet/minecraft/class_1297;)V"
+      },
+      "keystrokesmod/mixin/impl/block/MixinPowderSnowBlock": {
+        "onEntityCollision": "Lnet/minecraft/class_5635;method_9548(Lnet/minecraft/class_2680;Lnet/minecraft/class_1937;Lnet/minecraft/class_2338;Lnet/minecraft/class_1297;)V"
+      },
+      "keystrokesmod/mixin/impl/block/MixinSlimeBlock": {
+        "bounce": "Lnet/minecraft/class_2490;method_21847(Lnet/minecraft/class_1297;)V",
+        "onSteppedOn": "Lnet/minecraft/class_2490;method_9591(Lnet/minecraft/class_1937;Lnet/minecraft/class_2338;Lnet/minecraft/class_2680;Lnet/minecraft/class_1297;)V"
       },
       "keystrokesmod/mixin/impl/client/MixinMinecraft": {
         "Lnet/minecraft/client/render/GameRenderer;getMouseOver(F)V": "Lnet/minecraft/class_757;getMouseOver(F)V",

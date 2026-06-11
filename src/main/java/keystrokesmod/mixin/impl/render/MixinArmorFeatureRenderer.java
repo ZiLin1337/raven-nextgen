@@ -5,4 +5,5 @@ import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(ArmorFeatureRenderer.class)
 public class MixinArmorFeatureRenderer {
+    // Chams/ESP - 盔甲渲染钩子
 }
