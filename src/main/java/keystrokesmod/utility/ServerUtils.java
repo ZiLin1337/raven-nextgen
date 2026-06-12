@@ -1,32 +1,23 @@
 package keystrokesmod.utility;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.network.packet.s2c.play.ScoreboardScoreUpdateS2CPacket;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ServerUtils implements IMinecraftInstance {
     private static int grimTransactionCount = 0;
-    public static final Map<String, AtomicInteger> playerHealths = new HashMap<>();
+    private static final Map<String, Integer> scoreboardHealth = new ConcurrentHashMap<>();
     private static float lastHealth = 20f;
     private static int lastFood = 20;
     private static float lastSaturation = 5f;
     
     public static void onScoreboardScore(ScoreboardScoreUpdateS2CPacket packet) {
-        if (mc.player == null || mc.world == null) return;
         String objectiveName = packet.objectiveName();
-        String playerName = packet.scoreHolderName();
-        int score = packet.score();
-        if (!playerName.equals(mc.player.getName().getString())) {
-            if ("belowHealth".equals(objectiveName) || "health".equals(objectiveName)) {
-                if (!playerHealths.containsKey(playerName)) {
-                    playerHealths.put(playerName, new AtomicInteger());
-                }
-                playerHealths.get(playerName).set(score);
-            }
+        if (isHealthObjective(objectiveName)) {
+            scoreboardHealth.put(packet.scoreHolderName(), packet.score());
         }
     }
     
@@ -36,20 +27,31 @@ public class ServerUtils implements IMinecraftInstance {
         lastSaturation = saturation;
     }
     
-    public static float getPlayerHealth(String playerName) {
-        AtomicInteger health = playerHealths.get(playerName);
-        return health != null ? health.get() : -1;
-    }
-    
-    public static void setPlayerHealth(String playerName, float health) {
-        if (!playerHealths.containsKey(playerName)) {
-            playerHealths.put(playerName, new AtomicInteger());
+    public static float getHealth(LivingEntity entity) {
+        if (entity == null) return 0f;
+        String name = entity.getName().getString();
+        Integer scoreHealth = scoreboardHealth.get(name);
+        if (scoreHealth != null && scoreHealth > 0) {
+            return scoreHealth;
         }
-        playerHealths.get(playerName).set((int) health);
+        return entity.getHealth() + entity.getAbsorptionAmount();
     }
     
-    public static Map<String, AtomicInteger> getAllPlayerHealths() {
-        return playerHealths;
+    public static float getPlayerHealth(String playerName) {
+        Integer health = scoreboardHealth.get(playerName);
+        return health != null ? health : -1;
+    }
+    
+    public static void setPlayerHealth(String playerName, int health) {
+        scoreboardHealth.put(playerName, health);
+    }
+    
+    private static boolean isHealthObjective(String objectiveName) {
+        return "belowHealth".equalsIgnoreCase(objectiveName) || "health".equalsIgnoreCase(objectiveName);
+    }
+    
+    public static Map<String, Integer> getAllScoreboardHealth() {
+        return scoreboardHealth;
     }
     
     public static float getLastHealth() {
@@ -64,18 +66,8 @@ public class ServerUtils implements IMinecraftInstance {
         return lastSaturation;
     }
     
-    public static void updatePlayerHealths() {
-        if (mc.world == null) return;
-        for (var player : mc.world.getPlayers()) {
-            if (player != mc.player && playerHealths.containsKey(player.getName().getString())) {
-                int health = playerHealths.get(player.getName().getString()).get();
-                player.setHealth(Math.max(1, health));
-            }
-        }
-    }
-    
     public static void clearHealthData() {
-        playerHealths.clear();
+        scoreboardHealth.clear();
         grimTransactionCount = 0;
     }
     
