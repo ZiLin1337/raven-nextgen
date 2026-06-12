@@ -1,17 +1,17 @@
-package keystrokesmod.mixin.impl.render;
+package keystrokesmod.mixin.impl.gui;
 
 import keystrokesmod.Raven;
-import net.minecraft.client.gui.hud.BossBarHud;
+import net.minecraft.client.gui.screen.SplashOverlay;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(BossBarHud.class)
-public class MixinBossBarHud {
+@Mixin(SplashOverlay.class)
+public class MixinSplashOverlay {
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
     private void onRender(CallbackInfo ci) {
-        // Boss血条渲染
-        // 可用于NoRender模块
+        // 启动画面渲染
+        // 可用于NoLoading模块
     }
 }

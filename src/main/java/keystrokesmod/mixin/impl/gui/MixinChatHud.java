@@ -1,4 +1,4 @@
-package keystrokesmod.mixin.impl.render;
+package keystrokesmod.mixin.impl.gui;
 
 import keystrokesmod.Raven;
 import net.minecraft.client.gui.hud.ChatHud;

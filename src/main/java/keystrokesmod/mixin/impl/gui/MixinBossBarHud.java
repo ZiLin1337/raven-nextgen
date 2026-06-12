@@ -1,17 +1,17 @@
-package keystrokesmod.mixin.impl.render;
+package keystrokesmod.mixin.impl.gui;
 
 import keystrokesmod.Raven;
-import net.minecraft.client.gui.widget.EntryListWidget;
+import net.minecraft.client.gui.hud.BossBarHud;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(EntryListWidget.class)
-public class MixinEntryListWidget {
-    @Inject(method = "render", at = @At("HEAD"))
+@Mixin(BossBarHud.class)
+public class MixinBossBarHud {
+    @Inject(method = "render", at = @At("HEAD"), cancellable = true)
     private void onRender(CallbackInfo ci) {
-        // 列表渲染
-        // 可用于ClickGUI钩子
+        // Boss血条渲染
+        // 可用于NoRender模块
     }
 }
