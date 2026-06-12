@@ -153,7 +153,8 @@
       "send(Lnet/minecraft/network/packet/Packet;)V": "Lnet/minecraft/class_2535;method_10743(Lnet/minecraft/class_2596;)V"
     },
     "keystrokesmod/mixin/impl/network/MixinClientPlayNetworkHandler": {
-      "onGameMessage": "Lnet/minecraft/class_634;method_43596(Lnet/minecraft/class_7439;)V"
+      "onGameMessage": "Lnet/minecraft/class_634;method_43596(Lnet/minecraft/class_7439;)V",
+      "onHealthUpdate": "Lnet/minecraft/class_634;method_11122(Lnet/minecraft/class_2749;)V"
     },
     "keystrokesmod/mixin/impl/network/MixinEntitiesDestroyS2CPacket": {
       "getEntityIds": "Lnet/minecraft/class_2716;method_36548()Lit/unimi/dsi/fastutil/ints/IntList;"
@@ -454,7 +455,8 @@
         "send(Lnet/minecraft/network/packet/Packet;)V": "Lnet/minecraft/class_2535;method_10743(Lnet/minecraft/class_2596;)V"
       },
       "keystrokesmod/mixin/impl/network/MixinClientPlayNetworkHandler": {
-        "onGameMessage": "Lnet/minecraft/class_634;method_43596(Lnet/minecraft/class_7439;)V"
+        "onGameMessage": "Lnet/minecraft/class_634;method_43596(Lnet/minecraft/class_7439;)V",
+        "onHealthUpdate": "Lnet/minecraft/class_634;method_11122(Lnet/minecraft/class_2749;)V"
       },
       "keystrokesmod/mixin/impl/network/MixinEntitiesDestroyS2CPacket": {
         "getEntityIds": "Lnet/minecraft/class_2716;method_36548()Lit/unimi/dsi/fastutil/ints/IntList;"
