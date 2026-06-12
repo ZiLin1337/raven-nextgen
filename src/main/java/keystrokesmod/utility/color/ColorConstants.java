@@ -1,23 +1,48 @@
 package keystrokesmod.utility.color;
 
-public class ColorConstants {
-    public static final int GUI_BG = 0x80000000;
-    public static final int GUI_TITLE = 0xFF4444FF;
-    public static final int MODULE_ENABLED = 0x8000AA00;
-    public static final int MODULE_DISABLED = 0x80333333;
-    public static final int TEXT_WHITE = 0xFFFFFFFF;
-    public static final int TEXT_GRAY = 0xFFAAAAAA;
-    public static final int TEXT_GREEN = 0xFF00FF00;
-    public static final int TEXT_RED = 0xFFFF0000;
-    public static final int SLIDER_BG = 0x80222222;
-    public static final int SLIDER_FILL = 0xFF00AAFF;
-    public static final int BUTTON_ON = 0xFF00AA00;
-    public static final int BUTTON_OFF = 0xFF444444;
+import java.awt.Color;
 
-    public static int getHealthColor(float health, float maxHealth) {
-        float percent = health / maxHealth;
-        if (percent > 0.5f) return 0xFF00FF00;
-        if (percent > 0.25f) return 0xFFFFFF00;
-        return 0xFFFF0000;
+public class ColorConstants {
+    public static final int WHITE = Color.WHITE.getRGB();
+    public static final int BLACK = Color.BLACK.getRGB();
+    public static final int RED = Color.RED.getRGB();
+    public static final int GREEN = Color.GREEN.getRGB();
+    public static final int BLUE = Color.BLUE.getRGB();
+    public static final int YELLOW = Color.YELLOW.getRGB();
+    public static final int CYAN = Color.CYAN.getRGB();
+    public static final int MAGENTA = Color.MAGENTA.getRGB();
+    public static final int ORANGE = Color.ORANGE.getRGB();
+    public static final int PINK = Color.PINK.getRGB();
+    public static final int GRAY = Color.GRAY.getRGB();
+    public static final int DARK_GRAY = Color.DARK_GRAY.getRGB();
+    
+    public static int withAlpha(int color, int alpha) {
+        return (alpha << 24) | (color & 0x00FFFFFF);
+    }
+    
+    public static int getAlpha(int color) {
+        return (color >> 24) & 0xFF;
+    }
+    
+    public static int getRed(int color) {
+        return (color >> 16) & 0xFF;
+    }
+    
+    public static int getGreen(int color) {
+        return (color >> 8) & 0xFF;
+    }
+    
+    public static int getBlue(int color) {
+        return color & 0xFF;
+    }
+    
+    public static int lerp(int start, int end, float t) {
+        int a1 = (start >> 24) & 0xFF, r1 = (start >> 16) & 0xFF, g1 = (start >> 8) & 0xFF, b1 = start & 0xFF;
+        int a2 = (end >> 24) & 0xFF, r2 = (end >> 16) & 0xFF, g2 = (end >> 8) & 0xFF, b2 = end & 0xFF;
+        int a = (int) (a1 + (a2 - a1) * t);
+        int r = (int) (r1 + (r2 - r1) * t);
+        int g = (int) (g1 + (g2 - g1) * t);
+        int b = (int) (b1 + (b2 - b1) * t);
+        return (a << 24) | (r << 16) | (g << 8) | b;
     }
 }
