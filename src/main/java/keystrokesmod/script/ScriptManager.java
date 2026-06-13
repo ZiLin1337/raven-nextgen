@@ -49,13 +49,30 @@ public class ScriptManager {
     }
     
     public void loadScripts() {
+        // 禁用所有已加载的脚本
         for (Module module : scripts.values()) {
-            module.disable();
+            if (module.isEnabled()) {
+                module.disable();
+            }
         }
         scripts.clear();
         
         if (!directory.exists()) {
             directory.mkdirs();
+        }
+        
+        // 清理编译目录
+        if (deleteTempFiles) {
+            deleteTempFiles = false;
+            File tempDir = new File(COMPILED_DIR);
+            if (tempDir.exists() && tempDir.isDirectory()) {
+                File[] tempFiles = tempDir.listFiles();
+                if (tempFiles != null) {
+                    for (File tempFile : tempFiles) {
+                        tempFile.delete();
+                    }
+                }
+            }
         }
         
         File[] scriptFiles = directory.listFiles((dir, name) -> name.endsWith(".java"));
@@ -70,13 +87,47 @@ public class ScriptManager {
                 script.codeStr = code;
                 script.file = file;
                 
-                // Create a wrapper module for the script
-                Module module = new ScriptModule(script);
-                scripts.put(script, module);
+                if (script.run()) {
+                    Module module = createModuleFromScript(script);
+                    if (module != null) {
+                        scripts.put(script, module);
+                        Utils.sendMessage("&7Loaded script: &b" + script.name);
+                    }
+                }
             } catch (Exception e) {
                 Utils.sendMessage("&cFailed to load script: &b" + file.getName());
                 e.printStackTrace();
             }
+        }
+    }
+    
+    private Module createModuleFromScript(Script script) {
+        try {
+            // 尝试从脚本创建模块
+            Object instance = script.instance;
+            if (instance instanceof Module) {
+                return (Module) instance;
+            }
+            // 创建包装器模块
+            return new ScriptModule(script);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
+    public void onEnable(Script script) {
+        Module module = getModule(script);
+        if (module != null && !module.isEnabled()) {
+            module.enable();
+        }
+        script.invoke("onEnable");
+    }
+    
+    public void onDisable(Script script) {
+        script.invoke("onDisable");
+        Module module = getModule(script);
+        if (module != null && module.isEnabled()) {
+            module.disable();
         }
     }
     
@@ -97,6 +148,15 @@ public class ScriptManager {
         File file = new File(directory, name + ".java");
         if (file.exists()) {
             file.delete();
+        }
+        // 禁用并移除模块
+        for (Map.Entry<Script, Module> entry : scripts.entrySet()) {
+            if (entry.getKey().name.equals(name)) {
+                if (entry.getValue().isEnabled()) {
+                    entry.getValue().disable();
+                }
+                break;
+            }
         }
         scripts.entrySet().removeIf(entry -> entry.getKey().name.equals(name));
     }
@@ -147,11 +207,12 @@ public class ScriptManager {
                "\n" +
                "import keystrokesmod.script.api.*;\n" +
                "import keystrokesmod.script.api.events.*;\n" +
+               "import keystrokesmod.module.Module;\n" +
                "\n" +
-               "public class " + name + " extends ModuleScript {\n" +
+               "public class " + name + " extends Module {\n" +
                "    \n" +
                "    public " + name + "() {\n" +
-               "        super(\"" + name + "\", Category.MISC);\n" +
+               "        super(\"" + name + "\", Module.category.other);\n" +
                "    }\n" +
                "    \n" +
                "    @Override\n" +
@@ -165,7 +226,7 @@ public class ScriptManager {
                "    }\n" +
                "    \n" +
                "    @Override\n" +
-               "    public void onTick() {\n" +
+               "    public void onUpdate() {\n" +
                "        // Called every tick\n" +
                "    }\n" +
                "}\n";

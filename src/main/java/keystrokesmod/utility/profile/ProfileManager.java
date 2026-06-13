@@ -39,9 +39,6 @@ public class ProfileManager {
         }
     }
     
-    /**
-     * Save current configuration to profile
-     */
     public void save(String profileName) {
         Map<String, Map<String, Object>> profileData = new LinkedHashMap<>();
         
@@ -95,9 +92,6 @@ public class ProfileManager {
         }
     }
     
-    /**
-     * Load configuration from profile
-     */
     public void load(String profileName) {
         File file = new File(PROFILES_DIR, profileName + ".json");
         if (!file.exists()) return;
@@ -201,9 +195,6 @@ public class ProfileManager {
         }
     }
     
-    /**
-     * Create a new profile
-     */
     public Profile createProfile(String requestedName, int bind) {
         String profileName = normalizeProfileName(requestedName);
         String validationError = validateProfileName(profileName, null);
@@ -213,6 +204,8 @@ public class ProfileManager {
         Profile profile = new Profile(profileName, bind);
         saveProfile(profile);
         profiles.add(profile);
+        // 刷新GUI中的配置列表
+        refreshProfileModules();
         return profile;
     }
     
@@ -238,9 +231,6 @@ public class ProfileManager {
         return null;
     }
     
-    /**
-     * Get profile by name
-     */
     public Profile getProfile(String profileName) {
         for (Profile profile : profiles) {
             if (profile.getName().equalsIgnoreCase(profileName)) {
@@ -250,9 +240,6 @@ public class ProfileManager {
         return null;
     }
     
-    /**
-     * Save profile to file
-     */
     public void saveProfile(Profile profile) {
         if (profile != null) save(profile.getName());
     }
@@ -261,29 +248,21 @@ public class ProfileManager {
         save(profileName);
     }
     
-    /**
-     * Load profile from file
-     */
     public void loadProfile(String profileName) {
         load(profileName);
     }
     
-    /**
-     * Delete profile
-     */
     public boolean deleteProfile(String profileName) {
         File file = new File(PROFILES_DIR, profileName + ".json");
         if (file.exists()) {
             file.delete();
             profiles.removeIf(p -> p.getName().equalsIgnoreCase(profileName));
+            refreshProfileModules();
             return true;
         }
         return false;
     }
     
-    /**
-     * Rename profile
-     */
     public boolean renameProfile(Profile profile, String newName) {
         if (profile == null) return false;
         String oldName = profile.getName();
@@ -296,14 +275,12 @@ public class ProfileManager {
         if (oldFile.exists() && !newFile.exists()) {
             oldFile.renameTo(newFile);
             profile.setName(newName);
+            refreshProfileModules();
             return true;
         }
         return false;
     }
     
-    /**
-     * List all profiles
-     */
     public String[] list() {
         String[] files = PROFILES_DIR.list((dir, name) -> name.endsWith(".json"));
         if (files == null) return new String[0];
@@ -314,9 +291,6 @@ public class ProfileManager {
         return names;
     }
     
-    /**
-     * Load all profiles from disk
-     */
     public void loadProfiles() {
         profiles.clear();
         String[] profileNames = list();
@@ -324,11 +298,18 @@ public class ProfileManager {
             Profile profile = new Profile(name, 0);
             profiles.add(profile);
         }
+        refreshProfileModules();
     }
     
     /**
-     * Search profiles by name (autocomplete)
+     * 刷新GUI中的配置模块列表
      */
+    public void refreshProfileModules() {
+        if (Raven.clickGui != null) {
+            Raven.clickGui.reloadModules();
+        }
+    }
+    
     public List<String> suggestProfileNames(String query) {
         String loweredQuery = query == null ? "" : query.toLowerCase();
         List<String> profileNames = new ArrayList<>();
@@ -340,30 +321,18 @@ public class ProfileManager {
         return profileNames;
     }
     
-    /**
-     * Check if profile exists
-     */
     public boolean exists(String profileName) {
         return new File(PROFILES_DIR, profileName + ".json").exists();
     }
     
-    /**
-     * Get current profile name
-     */
     public String getCurrentProfile() {
         return currentProfile;
     }
     
-    /**
-     * Set current profile name
-     */
     public void setCurrentProfile(String profileName) {
         this.currentProfile = profileName;
     }
     
-    /**
-     * Import profile from external file
-     */
     public void importProfile(File sourceFile) throws IOException {
         String name = sourceFile.getName().replace(".json", "");
         File dest = new File(PROFILES_DIR, name + ".json");
@@ -371,9 +340,6 @@ public class ProfileManager {
         loadProfiles();
     }
     
-    /**
-     * Export profile to external file
-     */
     public void exportProfile(String profileName, File destination) throws IOException {
         File source = new File(PROFILES_DIR, profileName + ".json");
         if (source.exists()) {

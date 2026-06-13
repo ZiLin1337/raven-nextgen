@@ -1,6 +1,7 @@
 package keystrokesmod.script;
 
 import keystrokesmod.module.Module;
+import net.minecraft.client.gui.DrawContext;
 
 /**
  * Wrapper class that turns a Script into a Module for the GUI
@@ -15,17 +16,23 @@ public class ScriptModule extends Module {
     
     @Override
     public void onEnable() {
-        // Script enabled
+        if (script != null && script.clazz != null) {
+            script.invoke("onEnable");
+        }
     }
     
     @Override
     public void onDisable() {
-        // Script disabled
+        if (script != null && script.clazz != null) {
+            script.invoke("onDisable");
+        }
     }
     
     @Override
     public void onUpdate() {
-        // Script update
+        if (script != null && script.clazz != null) {
+            script.invoke("onUpdate");
+        }
     }
     
     public Script getScript() {

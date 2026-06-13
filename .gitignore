@@ -1,0 +1,22 @@
+# Build directories
+build/
+.gradle/
+out/
+
+# IDE files
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Gradle files
+*.lock
+*.bin
+
+# Compiled files
+*.class
+*.jar
+
+# OS files
+.DS_Store
+Thumbs.db
