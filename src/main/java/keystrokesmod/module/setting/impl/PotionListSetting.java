@@ -7,36 +7,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PotionListSetting extends Setting {
-    private List<String> potions = new ArrayList<>();
-    private final int maxLength;
-    private final String placeholder;
-
-    public PotionListSetting(String name, int maxLength, String placeholder) {
+    private final List<String> potions = new ArrayList<>();
+    public GroupSetting group;
+    
+    public PotionListSetting(String name) {
         super(name);
-        this.maxLength = maxLength;
-        this.placeholder = placeholder;
     }
-
+    
+    public PotionListSetting(GroupSetting group, String name) {
+        super(name);
+        this.group = group;
+    }
+    
+    public void addPotion(String potionName) {
+        if (!potions.contains(potionName)) {
+            potions.add(potionName);
+        }
+    }
+    
+    public void removePotion(String potionName) {
+        potions.remove(potionName);
+    }
+    
     public List<String> getPotions() {
         return potions;
     }
-
-    public void setPotions(List<String> potions) {
-        this.potions = potions;
+    
+    public List<String> getEnabledPotions() {
+        return new ArrayList<>(potions);
     }
-
-    public int getMaxLength() {
-        return maxLength;
+    
+    public void clearPotions() {
+        potions.clear();
     }
-
-    public String getPlaceholder() {
-        return placeholder;
+    
+    public boolean contains(String potionName) {
+        return potions.contains(potionName);
     }
-
+    
     @Override
     public void loadProfile(JsonObject data) {
-        if (data.has("potions")) {
-            // 简单实现
-        }
     }
 }

@@ -7,26 +7,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerListSetting extends Setting {
+    private final List<String> players = new ArrayList<>();
     public GroupSetting group;
-    public boolean visible = true;
-    public List<String> players = new ArrayList<>();
     
     public PlayerListSetting(String name) {
         super(name);
     }
     
-    public List<String> getEntries() {
+    public PlayerListSetting(GroupSetting group, String name) {
+        super(name);
+        this.group = group;
+    }
+    
+    public void addPlayer(String playerName) {
+        if (!players.contains(playerName)) {
+            players.add(playerName);
+        }
+    }
+    
+    public void removePlayer(String playerName) {
+        players.remove(playerName);
+    }
+    
+    public List<String> getPlayers() {
         return players;
     }
     
-    public boolean addPlayer(String name) {
-        return players.add(name);
+    public List<String> getEnabledPlayers() {
+        return new ArrayList<>(players);
     }
     
-    public void removePlayer(String name) {
-        players.remove(name);
+    public void clearPlayers() {
+        players.clear();
+    }
+    
+    public boolean contains(String playerName) {
+        return players.contains(playerName);
     }
     
     @Override
-    public void loadProfile(JsonObject data) {}
+    public void loadProfile(JsonObject data) {
+    }
 }
