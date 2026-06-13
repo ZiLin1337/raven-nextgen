@@ -41,6 +41,15 @@ public class ClickGui extends Screen {
                 y += 20;
             }
         }
+        
+        // Reload profiles and scripts categories
+        for (CategoryComponent categoryComponent : categories) {
+            if (categoryComponent.category == Module.category.profiles) {
+                categoryComponent.reloadModules(true);
+            } else if (categoryComponent.category == Module.category.scripts) {
+                categoryComponent.reloadModules(false);
+            }
+        }
     }
 
     @Override
@@ -111,7 +120,13 @@ public class ClickGui extends Screen {
     public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
         int mx = (int) mouseX;
         int my = (int) mouseY;
-        // TODO: Handle scroll for settings sliders
+        // Handle scroll for categories
+        for (CategoryComponent category : categories) {
+            if (category.isMouseOver(mx, my)) {
+                category.onScroll((int) verticalAmount);
+                break;
+            }
+        }
         return super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount);
     }
 
@@ -142,10 +157,31 @@ public class ClickGui extends Screen {
         return false;
     }
 
-    /** Reload modules in each category */
+    /**
+     * Reload modules in each category
+     */
     public void reloadModules() {
-        categories.clear();
+        if (categories != null) {
+            for (CategoryComponent category : categories) {
+                if (category.category == Module.category.profiles) {
+                    category.reloadModules(true);
+                } else if (category.category == Module.category.scripts) {
+                    category.reloadModules(false);
+                } else {
+                    category.reloadModules();
+                }
+            }
+        }
+    }
+
+    /**
+     * Force reinitialize GUI
+     */
+    public void forceReinit() {
         isInitialized = false;
     }
-    public static double getActiveRenderScale() { return keystrokesmod.module.impl.client.Gui.getGuiScale(); }
+
+    public static double getActiveRenderScale() {
+        return keystrokesmod.module.impl.client.Gui.getGuiScale();
+    }
 }
