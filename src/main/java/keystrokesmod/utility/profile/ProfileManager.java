@@ -20,6 +20,7 @@ public class ProfileManager {
     private static final MinecraftClient mc = MinecraftClient.getInstance();
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final File PROFILES_DIR;
+    private static final char[] INVALID_PROFILE_NAME_CHARS = new char[]{'\\', '/', ':', '*', '?', '"', '<', '>', '|'};
     
     static {
         File configDir = new File(mc.runDirectory, "config/raven");
@@ -31,6 +32,16 @@ public class ProfileManager {
     private String currentProfile = "default";
     public java.util.List<Profile> profiles = new java.util.ArrayList<>();
     
+    public ProfileManager() {
+        loadProfiles();
+        if (profiles.isEmpty()) {
+            createProfile("default", 0);
+        }
+    }
+    
+    /**
+     * Save current configuration to profile
+     */
     public void save(String profileName) {
         Map<String, Map<String, Object>> profileData = new LinkedHashMap<>();
         
@@ -43,6 +54,7 @@ public class ProfileManager {
             
             settings.put("_enabled", module.isEnabled());
             settings.put("_hidden", module.isHidden());
+            settings.put("_keybind", module.getKeycode());
             profileData.put(module.getName(), settings);
         }
         
@@ -83,6 +95,9 @@ public class ProfileManager {
         }
     }
     
+    /**
+     * Load configuration from profile
+     */
     public void load(String profileName) {
         File file = new File(PROFILES_DIR, profileName + ".json");
         if (!file.exists()) return;
@@ -109,6 +124,11 @@ public class ProfileManager {
                 Object hidden = settings.get("_hidden");
                 if (hidden instanceof Boolean bool) {
                     module.setHidden(bool);
+                }
+                
+                Object keybind = settings.get("_keybind");
+                if (keybind instanceof Number number) {
+                    module.setBind(number.intValue());
                 }
             }
             this.currentProfile = profileName;
@@ -181,11 +201,109 @@ public class ProfileManager {
         }
     }
     
-    public void delete(String profileName) {
-        File file = new File(PROFILES_DIR, profileName + ".json");
-        if (file.exists()) file.delete();
+    /**
+     * Create a new profile
+     */
+    public Profile createProfile(String requestedName, int bind) {
+        String profileName = normalizeProfileName(requestedName);
+        String validationError = validateProfileName(profileName, null);
+        if (validationError != null) {
+            return null;
+        }
+        Profile profile = new Profile(profileName, bind);
+        saveProfile(profile);
+        profiles.add(profile);
+        return profile;
     }
     
+    private String normalizeProfileName(String name) {
+        if (name == null) return "";
+        return name.trim();
+    }
+    
+    private String validateProfileName(String name, Profile excludeProfile) {
+        if (name == null || name.isEmpty()) {
+            return "Profile name cannot be empty";
+        }
+        for (char c : INVALID_PROFILE_NAME_CHARS) {
+            if (name.indexOf(c) != -1) {
+                return "Profile name contains invalid character: " + c;
+            }
+        }
+        for (Profile profile : profiles) {
+            if (profile != excludeProfile && profile.getName().equalsIgnoreCase(name)) {
+                return "Profile '" + name + "' already exists";
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Get profile by name
+     */
+    public Profile getProfile(String profileName) {
+        for (Profile profile : profiles) {
+            if (profile.getName().equalsIgnoreCase(profileName)) {
+                return profile;
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Save profile to file
+     */
+    public void saveProfile(Profile profile) {
+        if (profile != null) save(profile.getName());
+    }
+    
+    public void saveProfile(String profileName) {
+        save(profileName);
+    }
+    
+    /**
+     * Load profile from file
+     */
+    public void loadProfile(String profileName) {
+        load(profileName);
+    }
+    
+    /**
+     * Delete profile
+     */
+    public boolean deleteProfile(String profileName) {
+        File file = new File(PROFILES_DIR, profileName + ".json");
+        if (file.exists()) {
+            file.delete();
+            profiles.removeIf(p -> p.getName().equalsIgnoreCase(profileName));
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * Rename profile
+     */
+    public boolean renameProfile(Profile profile, String newName) {
+        if (profile == null) return false;
+        String oldName = profile.getName();
+        String validationError = validateProfileName(newName, profile);
+        if (validationError != null) {
+            return false;
+        }
+        File oldFile = new File(PROFILES_DIR, oldName + ".json");
+        File newFile = new File(PROFILES_DIR, newName + ".json");
+        if (oldFile.exists() && !newFile.exists()) {
+            oldFile.renameTo(newFile);
+            profile.setName(newName);
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * List all profiles
+     */
     public String[] list() {
         String[] files = PROFILES_DIR.list((dir, name) -> name.endsWith(".json"));
         if (files == null) return new String[0];
@@ -196,46 +314,11 @@ public class ProfileManager {
         return names;
     }
     
-    public String getCurrentProfile() {
-        return currentProfile;
-    }
-    
-    public void setCurrentProfile(String profileName) {
-        this.currentProfile = profileName;
-    }
-    
-    public boolean exists(String profileName) {
-        return new File(PROFILES_DIR, profileName + ".json").exists();
-    }
-    
-    public void importProfile(File sourceFile) throws IOException {
-        String name = sourceFile.getName().replace(".json", "");
-        File dest = new File(PROFILES_DIR, name + ".json");
-        java.nio.file.Files.copy(sourceFile.toPath(), dest.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-    }
-    
-    public void exportProfile(String profileName, File destination) throws IOException {
-        File source = new File(PROFILES_DIR, profileName + ".json");
-        if (source.exists()) {
-            java.nio.file.Files.copy(source.toPath(), destination.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-        }
-    }
-    
-    public void saveProfile(Profile profile) {
-        if (profile != null) save(profile.getName());
-    }
-    
-    public boolean deleteProfile(String profileName) {
-        delete(profileName);
-        return true;
-    }
-    
-    public void loadProfile(String profileName) {
-        load(profileName);
-    }
-    
+    /**
+     * Load all profiles from disk
+     */
     public void loadProfiles() {
-        // Load all profiles on startup
+        profiles.clear();
         String[] profileNames = list();
         for (String name : profileNames) {
             Profile profile = new Profile(name, 0);
@@ -243,16 +326,58 @@ public class ProfileManager {
         }
     }
     
-    public boolean renameProfile(Profile profile, String newName) {
-        if (profile == null) return false;
-        String oldName = profile.getName();
-        File oldFile = new File(PROFILES_DIR, oldName + ".json");
-        File newFile = new File(PROFILES_DIR, newName + ".json");
-        if (oldFile.exists() && !newFile.exists()) {
-            oldFile.renameTo(newFile);
-            profile.setName(newName);
-            return true;
+    /**
+     * Search profiles by name (autocomplete)
+     */
+    public List<String> suggestProfileNames(String query) {
+        String loweredQuery = query == null ? "" : query.toLowerCase();
+        List<String> profileNames = new ArrayList<>();
+        for (Profile profile : profiles) {
+            if (profile.getName().toLowerCase().startsWith(loweredQuery)) {
+                profileNames.add(profile.getName());
+            }
         }
-        return false;
+        return profileNames;
+    }
+    
+    /**
+     * Check if profile exists
+     */
+    public boolean exists(String profileName) {
+        return new File(PROFILES_DIR, profileName + ".json").exists();
+    }
+    
+    /**
+     * Get current profile name
+     */
+    public String getCurrentProfile() {
+        return currentProfile;
+    }
+    
+    /**
+     * Set current profile name
+     */
+    public void setCurrentProfile(String profileName) {
+        this.currentProfile = profileName;
+    }
+    
+    /**
+     * Import profile from external file
+     */
+    public void importProfile(File sourceFile) throws IOException {
+        String name = sourceFile.getName().replace(".json", "");
+        File dest = new File(PROFILES_DIR, name + ".json");
+        java.nio.file.Files.copy(sourceFile.toPath(), dest.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+        loadProfiles();
+    }
+    
+    /**
+     * Export profile to external file
+     */
+    public void exportProfile(String profileName, File destination) throws IOException {
+        File source = new File(PROFILES_DIR, profileName + ".json");
+        if (source.exists()) {
+            java.nio.file.Files.copy(source.toPath(), destination.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+        }
     }
 }
